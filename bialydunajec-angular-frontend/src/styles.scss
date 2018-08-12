@@ -1,1 +1,32 @@
 /* You can add global styles to this file, and also import other style files */
+$root-font-size: 14px;
+$root-font-family: 'IBM Plex Sans', sans-serif;
+
+html {
+  font-size: $root-font-size;
+  font-family: $root-font-family;
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+h2 {
+  font-size: 1.714rem;
+}
+
+h3 {
+  font-size: 1.286rem;
+}
+
+h4 {
+  font-size: 1.071rem;
+}
+
+h5 {
+  font-size: 1rem;
+}
+
+h6 {
+  font-size: 0.9286rem;
+}
