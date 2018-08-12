@@ -2,9 +2,15 @@
 $root-font-size: 14px;
 $root-font-family: 'IBM Plex Sans', sans-serif;
 
-html {
+html, body {
   font-size: $root-font-size;
   font-family: $root-font-family;
+  height: 100%;
+}
+
+body{
+  margin: 0;
+  background-color: #f6f6f6;
 }
 
 h1 {
@@ -30,3 +36,16 @@ h5 {
 h6 {
   font-size: 0.9286rem;
 }
+
+
+a{
+  font-size: 1rem;
+  color: black;
+  &:hover{
+    color: #ff9800;
+  }
+  &:active{
+    color: #ff9800;
+  }
+}
+
