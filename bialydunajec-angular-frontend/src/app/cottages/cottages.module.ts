@@ -4,13 +4,15 @@ import {AcademicMinistrySelectionComponent} from './academic-ministry-selection/
 import {AcademicMinistryNamesListComponent} from './academic-ministry-names-list/academic-ministry-names-list.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {AcademicMinistriesComponent} from './academic-ministries/academic-ministries.component';
+import {SharedModule} from '../shared/shared.module';
+import { AcademicMinistryCardComponent } from './academic-ministry-card/academic-ministry-card.component';
 
 @NgModule({
   imports: [
-    CommonModule,
+    SharedModule,
     FlexLayoutModule
   ],
-  declarations: [AcademicMinistrySelectionComponent, AcademicMinistryNamesListComponent, AcademicMinistriesComponent],
+  declarations: [AcademicMinistrySelectionComponent, AcademicMinistryNamesListComponent, AcademicMinistriesComponent, AcademicMinistryCardComponent],
   exports: [AcademicMinistriesComponent]
 })
 export class CottagesModule {

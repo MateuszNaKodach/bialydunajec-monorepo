@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {AcademicMinistryCard} from '../academic-ministry-card/academic-ministry-card.model';
 
 @Component({
   selector: 'bda-academic-ministry-selection',
@@ -7,7 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AcademicMinistrySelectionComponent implements OnInit {
 
-  constructor() { }
+  academicMinistries: AcademicMinistryCard[] = [
+    {id: '21', name: 'Redemptor', logoUrl: 'http://bialydunajec.org:3344/api/v1/academic-ministry/21/logo'},
+    {id: '21', name: 'Redemptor', logoUrl: 'http://bialydunajec.org:3344/api/v1/academic-ministry/21/logo'},
+    {id: '21', name: 'Redemptor', logoUrl: 'http://bialydunajec.org:3344/api/v1/academic-ministry/21/logo'},
+    {id: '21', name: 'Redemptor', logoUrl: 'http://bialydunajec.org:3344/api/v1/academic-ministry/21/logo'},
+    {id: '21', name: 'Redemptor', logoUrl: 'http://bialydunajec.org:3344/api/v1/academic-ministry/21/logo'},
+    {id: '21', name: 'Redemptor', logoUrl: 'http://bialydunajec.org:3344/api/v1/academic-ministry/21/logo'},
+    {id: '21', name: 'Redemptor', logoUrl: 'http://bialydunajec.org:3344/api/v1/academic-ministry/21/logo'},
+    {id: '21', name: 'Redemptor', logoUrl: 'http://bialydunajec.org:3344/api/v1/academic-ministry/21/logo'}
+  ];
+
+  constructor() {
+  }
 
   ngOnInit() {
   }

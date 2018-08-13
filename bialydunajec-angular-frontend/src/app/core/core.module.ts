@@ -1,8 +1,9 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import { HeaderComponent } from './header/header.component';
+import {HeaderComponent} from './header/header.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
-import { FooterComponent } from './footer/footer.component';
+import {FooterComponent} from './footer/footer.component';
+import {SharedModule} from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -10,7 +11,7 @@ import { FooterComponent } from './footer/footer.component';
     FooterComponent
   ],
   imports: [
-    CommonModule,
+    SharedModule,
     FlexLayoutModule
   ],
   exports: [
