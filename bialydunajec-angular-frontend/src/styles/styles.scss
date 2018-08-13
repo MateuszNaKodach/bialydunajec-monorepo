@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
-$root-font-size: 14px;
-$root-font-family: 'IBM Plex Sans', sans-serif;
+@import "variables/fonts";
+
 
 html, body {
   font-size: $root-font-size;
@@ -42,10 +42,10 @@ a{
   font-size: 1rem;
   color: black;
   &:hover{
-    color: #ff9800;
+    color: $a-active-font-color;
   }
   &:active{
-    color: #ff9800;
+    color: $a-active-font-color;
   }
 }
 

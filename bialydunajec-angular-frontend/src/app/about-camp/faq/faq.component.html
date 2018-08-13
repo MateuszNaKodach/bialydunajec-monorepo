@@ -1,28 +1,18 @@
 <section class="bda-faq" fxLayoutAlign="center">
-  <div fxFlex.lt-lg="80%" fxFlex="800px">
-    <bda-section-header
-      title="FAQ"
-      description="Tutaj znajdziesz najczęściej zadawane pytania."
-    ></bda-section-header>
-    <sui-accordion class="styled fluid">
-      <sui-accordion-panel [isOpen]="true">
-        <div title>
-          <i class="plus square icon"></i>
-          First Panel
-        </div>
-        <div content>
-          <p>Add classes to the <code>sui-accordion</code> element to apply styles.</p>
-        </div>
-      </sui-accordion-panel>
-      <sui-accordion-panel [isOpen]="true">
-        <div title>
-          <i class="plus square icon"></i>
-          First Panel
-        </div>
-        <div content>
-          <p>Add classes to the <code>sui-accordion</code> element to apply styles.</p>
-        </div>
-      </sui-accordion-panel>
-    </sui-accordion>
+  <div fxFlex.lt-lg="90%" fxFlex="750px">
+
+    <div fxLayoutAlign="space-between">
+      <bda-section-header
+        title="FAQ"
+        description="Tutaj znajdziesz najczęściej zadawane pytania."
+        [divider]="false"></bda-section-header>
+      <sui-search></sui-search>
+    </div>
+    <div class="ui divider"></div>
+
+    <bda-faq-category
+      *ngFor="let category of categories"
+      [category]="category"></bda-faq-category>
+
   </div>
 </section>
