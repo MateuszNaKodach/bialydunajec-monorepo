@@ -1,6 +1,9 @@
-<div>
-  <bda-academic-ministry-card
-    *ngFor="let academicMinistry of academicMinistries"
-    [academicMinistry]="academicMinistry"
-  ></bda-academic-ministry-card>
+<div fxLayout="column" fxLayoutAlign="center">
+  <div class="ui four column stackable grid">
+    <bda-academic-ministry-card
+      class="column"
+      *ngFor="let academicMinistry of academicMinistries"
+      [academicMinistry]="academicMinistry"
+    ></bda-academic-ministry-card>
+  </div>
 </div>
