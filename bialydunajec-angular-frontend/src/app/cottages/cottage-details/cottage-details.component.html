@@ -1,3 +1,14 @@
-<p>
-  cottage-details works!
-</p>
+<section fxLayoutAlign="center">
+  <div fxLayout="row">
+    <bda-cottages-names-list style="margin-top: 10px; width: 200px"></bda-cottages-names-list>
+    <div class="ui card raised" style="width:900px; height: 1000px; padding-top: 30px">
+      <div>
+        <img [src]="'http://bialydunajec.org:3344/api/v1/academic-ministry/21/logo'"
+             alt=" academic ministry logo.">
+      </div>
+      <bda-dual-toggle-button></bda-dual-toggle-button>
+      <div>menu</div>
+      <div>router</div>
+    </div>
+  </div>
+</section>

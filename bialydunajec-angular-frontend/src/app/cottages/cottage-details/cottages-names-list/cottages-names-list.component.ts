@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {Cottage} from './cottage.model';
 
 @Component({
   selector: 'bda-cottages-names-list',
@@ -7,7 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CottagesNamesListComponent implements OnInit {
 
-  constructor() { }
+  cottages: Cottage[] = [
+    {id: '1', shortName: 'Antoni'},
+    {id: '2', shortName: 'Dach'},
+    {id: '3', shortName: 'Dominik'},
+    {id: '4', shortName: 'Góra Św. Anny'},
+    {id: '5', shortName: 'Maciejówka'},
+    {id: '6', shortName: 'Most'},
+    {id: '21', shortName: 'Redemptor'},
+    {id: '23', shortName: 'Wawrzyny'}
+  ];
+
+  constructor() {
+  }
 
   ngOnInit() {
   }
