@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 @Component({
   selector: 'bda-dual-toggle-button',
@@ -7,9 +7,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DualToggleButtonComponent implements OnInit {
 
-  constructor() { }
+  @Input() selectionColor = 'orange';
+  @Input() selected;
+  @Input() options: { left: string, right: string };
+  @Output() optionSelected = new EventEmitter<string>();
+
+  constructor() {
+  }
 
   ngOnInit() {
+
+  }
+
+  onOptionSelected(option: string) {
+    this.selected = option;
+    this.optionSelected.emit(this.options[option]);
   }
 
 }

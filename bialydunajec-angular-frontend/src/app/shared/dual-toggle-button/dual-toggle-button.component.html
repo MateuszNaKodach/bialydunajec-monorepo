@@ -1,4 +1,14 @@
 <div class="ui large buttons">
-  <button class="ui orange button bda-dual-button"><i class="icon user"></i>Chatka</button>
-  <button class="ui button bda-dual-button"><i class="icon blind"></i>Duszpasterstwo</button>
+  <button
+    class="ui button bda-dual-button"
+    [ngClass]="{'orange':this.selected == 'left'}"
+    (click)="onOptionSelected('left')"
+  ><i class="icon user"></i>{{options.left}}
+  </button>
+  <button
+    class="ui button bda-dual-button"
+    [ngClass]="{'orange': this.selected == 'right'}"
+    (click)="onOptionSelected('right')"
+  ><i class="icon blind"></i>{{options.right}}
+  </button>
 </div>
