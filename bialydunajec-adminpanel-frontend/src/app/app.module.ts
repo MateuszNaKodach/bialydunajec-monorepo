@@ -7,6 +7,7 @@ import {CoreModule} from './core/core.module';
 import {SemanticUiModule} from './semantic-ui/semantic-ui.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {AboutCampModule} from './about-camp/about-camp.module';
+import {CottagesModule} from './cottages/cottages.module';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import {AboutCampModule} from './about-camp/about-camp.module';
     CoreModule,
     SemanticUiModule,
     FlexLayoutModule,
-    AboutCampModule
+    AboutCampModule,
+    CottagesModule
   ],
   providers: [],
   bootstrap: [AppComponent]
