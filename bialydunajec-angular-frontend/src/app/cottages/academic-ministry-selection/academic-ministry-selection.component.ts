@@ -16,6 +16,8 @@ export class AcademicMinistrySelectionComponent implements OnInit {
     {id: '21', name: 'Redemptor', logoUrl: 'http://bialydunajec.org:3344/api/v1/academic-ministry/21/logo'},
     {id: '21', name: 'Redemptor', logoUrl: 'http://bialydunajec.org:3344/api/v1/academic-ministry/21/logo'},
     {id: '21', name: 'Redemptor', logoUrl: 'http://bialydunajec.org:3344/api/v1/academic-ministry/21/logo'},
+    {id: '21', name: 'Redemptor', logoUrl: 'http://bialydunajec.org:3344/api/v1/academic-ministry/21/logo'},
+    {id: '21', name: 'Redemptor', logoUrl: 'http://bialydunajec.org:3344/api/v1/academic-ministry/21/logo'},
     {id: '21', name: 'Redemptor', logoUrl: 'http://bialydunajec.org:3344/api/v1/academic-ministry/21/logo'}
   ];
 
