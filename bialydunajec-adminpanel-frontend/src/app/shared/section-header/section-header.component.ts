@@ -8,7 +8,7 @@ import {Component, Input, OnInit} from '@angular/core';
 export class SectionHeaderComponent implements OnInit {
   @Input() title: string;
   @Input() description: string;
-  @Input() divider: boolean = true;
+  @Input() divider = true;
 
   constructor() {
   }
