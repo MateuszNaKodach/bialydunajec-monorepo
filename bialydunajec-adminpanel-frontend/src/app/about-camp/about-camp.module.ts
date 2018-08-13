@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FaqComponent } from './faq/faq.component';
 import {SharedModule} from '../shared/shared.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {SuiAccordionModule} from 'ng2-semantic-ui';
+import { FaqQuestionComponent } from './faq/faq-question/faq-question.component';
 
 @NgModule({
   imports: [
@@ -11,6 +11,6 @@ import {SuiAccordionModule} from 'ng2-semantic-ui';
     FlexLayoutModule,
     SuiAccordionModule
   ],
-  declarations: [FaqComponent]
+  declarations: [FaqComponent, FaqQuestionComponent]
 })
 export class AboutCampModule { }
