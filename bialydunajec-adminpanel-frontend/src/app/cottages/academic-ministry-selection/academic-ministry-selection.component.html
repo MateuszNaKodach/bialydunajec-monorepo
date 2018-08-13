@@ -1,3 +1,6 @@
-<p>
-  academic-ministry-selection works!
-</p>
+<div>
+  <bda-academic-ministry-card
+    *ngFor="let academicMinistry of academicMinistries"
+    [academicMinistry]="academicMinistry"
+  ></bda-academic-ministry-card>
+</div>
