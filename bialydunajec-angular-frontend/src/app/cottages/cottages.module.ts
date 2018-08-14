@@ -4,9 +4,11 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {AcademicMinistriesComponent} from './academic-ministries/academic-ministries.component';
 import {SharedModule} from '../shared/shared.module';
 import {AcademicMinistryCardComponent} from './academic-ministry-card/academic-ministry-card.component';
-import {CottageDetailsComponent} from './cottage-details/cottage-details.component';
-import {CottagesNamesListComponent} from './cottage-details/cottages-names-list/cottages-names-list.component';
+import {CottageComponent} from './cottage/cottage.component';
+import {CottagesNamesListComponent} from './cottage/cottages-names-list/cottages-names-list.component';
 import {CottagesRoutingModule} from './cottages-routing.module';
+import { CottageDetailsComponent } from './cottage/cottage-details/cottage-details.component';
+import { CottageMinistryDetailsComponent } from './cottage/cottage-ministry-details/cottage-ministry-details.component';
 
 @NgModule({
   imports: [
@@ -18,8 +20,10 @@ import {CottagesRoutingModule} from './cottages-routing.module';
     AcademicMinistrySelectionComponent,
     AcademicMinistriesComponent,
     AcademicMinistryCardComponent,
+    CottageComponent,
+    CottagesNamesListComponent,
     CottageDetailsComponent,
-    CottagesNamesListComponent
+    CottageMinistryDetailsComponent
   ],
   exports: [AcademicMinistriesComponent]
 })
