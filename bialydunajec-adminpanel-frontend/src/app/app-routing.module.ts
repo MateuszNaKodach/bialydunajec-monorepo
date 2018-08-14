@@ -1,16 +1,14 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
+import {Routes, RouterModule, PreloadAllModules} from '@angular/router';
 import {FaqComponent} from './about-camp/faq/faq.component';
-import {AcademicMinistriesComponent} from './cottages/academic-ministries/academic-ministries.component';
 
 const routes: Routes = [
-  {path: '', redirectTo: 'duszpasterstwa-i-chatki', pathMatch: 'full'},
   {path: 'o-obozie', component: FaqComponent},
-  {path: 'duszpasterstwa-i-chatki', component: AcademicMinistriesComponent}
+  {path: 'duszpasterstwa-i-chatki', loadChildren: './cottages/cottages.module#CottagesModule'}
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules})],
   exports: [RouterModule]
 })
 export class AppRoutingModule {

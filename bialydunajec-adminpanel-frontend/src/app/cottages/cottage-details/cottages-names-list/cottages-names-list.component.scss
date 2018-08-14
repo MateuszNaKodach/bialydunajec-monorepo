@@ -1,11 +1,9 @@
 @import "../../../../styles/variables/fonts";
 
-
 a {
   margin-bottom: 10px;
   font-weight: bold;
   color: #757575;
-
   &:hover {
     color: $a-active-font-color;
   }

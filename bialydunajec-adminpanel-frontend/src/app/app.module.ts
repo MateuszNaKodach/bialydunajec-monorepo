@@ -19,8 +19,7 @@ import {CottagesModule} from './cottages/cottages.module';
     CoreModule,
     SemanticUiModule,
     FlexLayoutModule,
-    AboutCampModule,
-    CottagesModule
+    AboutCampModule
   ],
   providers: [],
   bootstrap: [AppComponent]

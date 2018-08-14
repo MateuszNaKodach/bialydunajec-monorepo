@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {Cottage} from './cottage.model';
 
 @Component({
@@ -7,6 +7,8 @@ import {Cottage} from './cottage.model';
   styleUrls: ['./cottages-names-list.component.scss']
 })
 export class CottagesNamesListComponent implements OnInit {
+
+  @Output() cottageSelected = new EventEmitter<Cottage>();
 
   cottages: Cottage[] = [
     {id: '1', shortName: 'Antoni'},
@@ -23,6 +25,10 @@ export class CottagesNamesListComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  onCottageSelected(cottage: Cottage) {
+    this.cottageSelected.emit(cottage);
   }
 
 }
