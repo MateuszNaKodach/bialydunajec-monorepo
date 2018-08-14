@@ -1,13 +1,13 @@
 <div class="ui large buttons">
   <button
     class="ui button bda-dual-button"
-    [ngClass]="{'orange':this.selected == 'left'}"
+    [ngClass]="(this.selected == 'left') ? selectionColor : ''"
     (click)="onOptionSelected('left')"
   ><i class="icon user"></i>{{options.left}}
   </button>
   <button
     class="ui button bda-dual-button"
-    [ngClass]="{'orange': this.selected == 'right'}"
+    [ngClass]="(this.selected == 'right') ? selectionColor : ''"
     (click)="onOptionSelected('right')"
   ><i class="icon blind"></i>{{options.right}}
   </button>
