@@ -16,12 +16,11 @@ export class DualToggleButtonComponent implements OnInit {
   }
 
   ngOnInit() {
-
   }
 
   onOptionSelected(option: string) {
     this.selected = option;
+    console.log('Selected option:', this.options[option]);
     this.optionSelected.emit(this.options[option]);
   }
-
 }
