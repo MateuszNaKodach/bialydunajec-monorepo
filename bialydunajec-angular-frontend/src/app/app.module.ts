@@ -1,8 +1,13 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
+import {CoreModule} from './core/core.module';
+import {SemanticUiModule} from './semantic-ui/semantic-ui.module';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {AboutCampModule} from './about-camp/about-camp.module';
+import {CottagesModule} from './cottages/cottages.module';
 
 @NgModule({
   declarations: [
@@ -10,9 +15,14 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    CoreModule,
+    SemanticUiModule,
+    FlexLayoutModule,
+    AboutCampModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
