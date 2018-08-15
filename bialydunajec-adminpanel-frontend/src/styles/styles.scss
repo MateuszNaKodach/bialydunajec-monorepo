@@ -1,0 +1,49 @@
+/* You can add global styles to this file, and also import other style files */
+@import "variables/fonts";
+
+
+html, body {
+  font-size: $root-font-size;
+  font-family: $root-font-family;
+  height: 100%;
+}
+
+body{
+  margin: 0;
+  background-color: #f6f6f6;
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+h2 {
+  font-size: 1.714rem;
+}
+
+h3 {
+  font-size: 1.286rem;
+}
+
+h4 {
+  font-size: 1.071rem;
+}
+
+h5 {
+  font-size: 1rem;
+}
+
+h6 {
+  font-size: 0.9286rem;
+}
+
+
+a{
+  color: black;
+  &:hover{
+    color: $a-active-font-color;
+  }
+  &:active{
+    color: $a-active-font-color;
+  }
+}

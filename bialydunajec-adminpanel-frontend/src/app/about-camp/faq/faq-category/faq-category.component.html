@@ -1,0 +1,19 @@
+<section>
+  <header class="bda-faq-category-name" fxLayoutAlign="center">
+    <h3>{{getCategoryName() | uppercase}}</h3>
+  </header>
+  <sui-accordion class="styled fluid">
+    <sui-accordion-panel
+      *ngFor="let question of getQuestions()"
+      #accordionPanel style="font-size: 1.15rem">
+      <div title [ngClass]="{'bda-faq-selected-question-title': accordionPanel.isOpen}">
+        <i *ngIf="accordionPanel.isOpen" class="minus square icon"></i>
+        <i *ngIf="!accordionPanel.isOpen" class="plus square icon"></i>
+        {{question.content}}
+      </div>
+      <div content>
+        <p>{{question.answer}}</p>
+      </div>
+    </sui-accordion-panel>
+  </sui-accordion>
+</section>

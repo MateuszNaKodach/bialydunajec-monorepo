@@ -1,0 +1,40 @@
+<section fxLayoutAlign="center">
+  <div fxLayout="row">
+    <bda-cottages-names-list style="margin-top: 10px; width: 200px"></bda-cottages-names-list>
+    <div class="ui card raised" style="width:900px; padding-bottom: 50px;">
+
+      <header style="padding-top: 30px; padding-bottom: 30px; margin-bottom: 40px">
+        <div fxLayout="row" fxLayoutAlign="space-between flex-start">
+          <img [src]="'http://bialydunajec.org:3344/api/v1/academic-ministry/21/logo'"
+               alt="academic ministry logo.">
+          <div fxLayout="row" fxLayoutGap="10px" style="padding-right: 30px">
+            <a class="tiny ui icon button grey">
+              <i class="globe icon"></i>
+            </a>
+            <a class="tiny ui icon button grey">
+              <i class="facebook square icon"></i>
+            </a>
+            <a class="tiny ui icon button grey">
+              <i class="instagram icon"></i>
+            </a>
+            <a class="tiny ui icon button grey">
+              <i class="youtube icon"></i>
+            </a>
+          </div>
+        </div>
+        <div fxLayoutAlign="center">
+          <bda-dual-toggle-button [selectionColor]="'orange'"
+                                  [options]="{left: {name:'Chatka', icon: 'user'}, right: {name:'Duszpasterstwo', icon: 'blind'}}"></bda-dual-toggle-button>
+        </div>
+      </header>
+
+      <router-outlet></router-outlet>
+
+
+      <div fxHide style="height: 100px; width: 400px; background-color: black; position: relative">
+        <div
+          style="height: 50px; width: 800px; background-color: green; position: absolute; bottom: -16px; left: 16px;"></div>
+      </div>
+    </div>
+  </div>
+</section>
