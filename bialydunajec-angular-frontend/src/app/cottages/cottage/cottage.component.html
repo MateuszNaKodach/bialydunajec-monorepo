@@ -25,7 +25,9 @@
         </div>
         <div fxLayoutAlign="center">
           <bda-dual-toggle-button [selectionColor]="'orange'"
-                                  [options]="{left: {name:'Chatka', icon: 'user'}, right: {name:'Duszpasterstwo', icon: 'blind'}}"></bda-dual-toggle-button>
+                                  [options]="tabs" [selected]="getSelectedTabSide()"
+                                  (optionSelected)="onTabSelected($event)"
+          ></bda-dual-toggle-button>
         </div>
       </header>
 
