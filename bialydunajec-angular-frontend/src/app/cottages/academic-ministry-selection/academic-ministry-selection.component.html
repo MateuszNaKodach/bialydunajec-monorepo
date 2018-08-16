@@ -4,6 +4,7 @@
       class="column"
       *ngFor="let academicMinistry of academicMinistries"
       [academicMinistry]="academicMinistry"
+      (click)="onClick(academicMinistry)"
     ></bda-academic-ministry-card>
   </div>
 </div>

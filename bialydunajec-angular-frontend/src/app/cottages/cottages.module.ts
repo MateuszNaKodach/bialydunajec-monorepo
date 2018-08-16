@@ -9,6 +9,7 @@ import {CottagesNamesListComponent} from './cottage/cottages-names-list/cottages
 import {CottagesRoutingModule} from './cottages-routing.module';
 import { CottageDetailsComponent } from './cottage/cottage-details/cottage-details.component';
 import { CottageMinistryDetailsComponent } from './cottage/cottage-ministry-details/cottage-ministry-details.component';
+import {PhotoInfoCardComponent} from './cottage/photo-info-card/photo-info-card.component';
 
 @NgModule({
   imports: [
@@ -23,7 +24,8 @@ import { CottageMinistryDetailsComponent } from './cottage/cottage-ministry-deta
     CottageComponent,
     CottagesNamesListComponent,
     CottageDetailsComponent,
-    CottageMinistryDetailsComponent
+    CottageMinistryDetailsComponent,
+    PhotoInfoCardComponent
   ],
   exports: [AcademicMinistriesComponent]
 })
