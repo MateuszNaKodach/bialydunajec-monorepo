@@ -1,14 +1,14 @@
 <div class="ui raised card bda-photo-info-card">
   <div class="ui items">
     <div class="item">
-
-      <div *ngIf="imageSrc && imagePosition == 'left'" class="ui image"><img [src]="imageSrc" alt=""></div>
+      <!--FIXME: Find better image scaling than medium class-->
+      <div *ngIf="imageSrc && imagePosition == 'left'"><img class="ui medium rounded image" [src]="imageSrc" alt=""></div>
 
       <div fxLayout="column" fxLayoutAlign="center center" class="content">
         <ng-content></ng-content>
       </div>
 
-      <div *ngIf="imageSrc && imagePosition == 'right'" class="ui image"><img [src]="imageSrc" alt=""></div>
+      <div *ngIf="imageSrc && imagePosition == 'right'"><img class="ui medium rounded image" [src]="imageSrc" alt=""></div>
 
     </div>
   </div>
