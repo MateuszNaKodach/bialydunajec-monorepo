@@ -1,26 +1,16 @@
 <section>
   <div fxLayout="column" fxLayoutAlign="flex-start center">
 
-    <div class="ui raised card bda-cottage-card" style="padding: 0;">
-      <div class="ui items">
-        <div class="item">
-          <div class="ui image"><img src="assets/images/temp-placeholders/antoni_chatka_235.jpg" alt=""></div>
-
-          <div fxLayout="column" fxLayoutAlign="center center" class="content">
-            <h2>Chatka Antoni</h2>
-            <i class="huge map signs icon" style="margin: 10px"></i>
-            <div class="meta">
-              ul. Jana Pawła II 341a <br>
-              <br>
-              34-425 Biały Dunajec
-            </div>
-            <bda-camp-sign-up-button [style]="{width: '200px'}" style="padding-top: 20px"></bda-camp-sign-up-button>
-          </div>
-
-        </div>
+    <bda-photo-info-card [imageSrc]="'assets/images/temp-placeholders/antoni_chatka_235.jpg'">
+      <h2>Chatka Antoni</h2>
+      <i class="huge map signs icon" style="margin: 10px"></i>
+      <div class="meta">
+        ul. Jana Pawła II 341a <br>
+        <br>
+        34-425 Biały Dunajec
       </div>
-    </div>
-
+      <bda-camp-sign-up-button [style]="{width: '200px'}" style="padding-top: 20px"></bda-camp-sign-up-button>
+    </bda-photo-info-card>
 
     <!--TODO: Make it equals high!-->
     <div fxLayout fxLayoutAlign="space-between flex-start" fxLayoutGap="40px" class="bda-cottage-description">
@@ -55,25 +45,18 @@
 
 
     <div>
-      <div class="ui raised card bda-cottage-card" style="padding: 0;">
-        <div class="ui items">
-          <div class="item">
 
-            <div fxLayout="column" fxLayoutAlign="center center" style="width: 100%">
-              <h2>Dominika Piguła</h2>
-              <p class="meta">Szefowa chatki</p>
+      <bda-photo-info-card [imageSrc]="'assets/images/temp-placeholders/antoni_szef_235.jpg'" imagePosition="right">
+        <h3>Dominika Piguła</h3>
+        <p class="meta">Szefowa chatki</p>
 
-              <p class="meta" style="text-align: center"><b>Polietchnika Wrocławska</b><br>Inżynieria chemiczna i
-                procesowa</p>
+        <p class="meta" style="text-align: center"><b>Polietchnika Wrocławska</b><br>Inżynieria chemiczna i
+          procesowa</p>
 
-              <p class="meta">999 999 999</p>
-              <p class="meta">adres-email@gmail.com</p>
+        <p class="meta">999 999 999</p>
+        <p class="meta">adres-email@gmail.com</p>
+      </bda-photo-info-card>
 
-            </div>
-            <div class="ui image"><img src="assets/images/temp-placeholders/antoni_szef_235.jpg" alt=""></div>
-          </div>
-        </div>
-      </div>
     </div>
 
   </div>
