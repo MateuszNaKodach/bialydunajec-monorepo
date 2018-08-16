@@ -7,6 +7,7 @@ import { MeanOfTransportComponent } from './component/mean-of-transport/mean-of-
 import { MeanOfTransportHeaderComponent } from './component/mean-of-transport-header/mean-of-transport-header.component';
 import { TransportInfoCampBusComponent } from './component/transport-info-camp-bus/transport-info-camp-bus.component';
 import { TransportInfoCarComponent } from './component/transport-info-car/transport-info-car.component';
+import { TransportInfoHitchHikingComponent } from './component/transport-info-hitch-hiking/transport-info-hitch-hiking.component';
 
 @NgModule({
   imports: [
@@ -15,7 +16,7 @@ import { TransportInfoCarComponent } from './component/transport-info-car/transp
     TransportRoutingModule,
     SharedModule
   ],
-  declarations: [TransportComponent, MeanOfTransportComponent, MeanOfTransportHeaderComponent, TransportInfoCampBusComponent, TransportInfoCarComponent]
+  declarations: [TransportComponent, MeanOfTransportComponent, MeanOfTransportHeaderComponent, TransportInfoCampBusComponent, TransportInfoCarComponent, TransportInfoHitchHikingComponent]
 })
 export class TransportModule {
 }

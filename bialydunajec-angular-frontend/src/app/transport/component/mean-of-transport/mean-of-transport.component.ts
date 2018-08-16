@@ -7,7 +7,7 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class MeanOfTransportComponent implements OnInit {
 
-  @Input() mapType: 'square' | 'rectangle' = 'square';
+  @Input() mapType: 'none' | 'square' | 'rectangle' = 'none';
 
   constructor() {
   }
