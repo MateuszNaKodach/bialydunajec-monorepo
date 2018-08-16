@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'bda-academic-ministries',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AcademicMinistriesComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) {
+  }
 
   ngOnInit() {
+  }
+
+  onMinistrySelected(academicMinistry: { id: string, name: string }) {
+    this.router.navigate([academicMinistry.id + '/chatka'], {relativeTo: this.activatedRoute});
   }
 
 }

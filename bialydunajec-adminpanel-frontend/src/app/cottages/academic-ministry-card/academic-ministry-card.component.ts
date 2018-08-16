@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {AcademicMinistryCard} from './academic-ministry-card.model';
 
 @Component({
@@ -8,12 +8,18 @@ import {AcademicMinistryCard} from './academic-ministry-card.model';
 })
 export class AcademicMinistryCardComponent implements OnInit {
 
+  @Output() click = new EventEmitter<void>();
+
   @Input() academicMinistry: AcademicMinistryCard;
 
   constructor() {
   }
 
   ngOnInit() {
+  }
+
+  onClick() {
+    this.click.emit();
   }
 
 }
