@@ -4,7 +4,8 @@ import {FaqComponent} from './about-camp/faq/faq.component';
 
 const routes: Routes = [
   {path: 'o-obozie', component: FaqComponent},
-  {path: 'duszpasterstwa-i-chatki', loadChildren: './cottages/cottages.module#CottagesModule'}
+  {path: 'duszpasterstwa-i-chatki', loadChildren: './cottages/cottages.module#CottagesModule'},
+  {path: 'dojazd', loadChildren: './transport/transport.module#TransportModule'}
 ];
 
 @NgModule({

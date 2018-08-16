@@ -8,6 +8,7 @@ import {Component, Input, OnInit} from '@angular/core';
 export class CampSignUpButtonComponent implements OnInit {
 
   @Input() style: string;
+  @Input() text = 'ZAPISZ SIĘ!';
 
   constructor() {
   }
