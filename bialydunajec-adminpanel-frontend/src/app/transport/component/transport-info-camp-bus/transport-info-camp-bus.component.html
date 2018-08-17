@@ -1,3 +1,27 @@
-<p>
-  transport-info-camp-bus works!
-</p>
+<section>
+  <bda-mean-of-transport mapType="square">
+    <div fxLayout="column" fxLayoutAlign="flex-start center">
+      <bda-mean-of-transport-header
+        title="Autokar Białego Dunajca"
+        description="Specjalny autokar wyjeżdżający z Wrocławia i Opola, który dostarczy Cię bezpośrednio pod Twoją chatkę."
+      ></bda-mean-of-transport-header>
+      <bda-dual-toggle-button
+        [selected]="'left'"
+        [options]="{ left: { name: 'Wrocław'}, right: { name: 'Opole' } }"></bda-dual-toggle-button>
+      <p>Koszt : 55 zł (w jedną stronę)</p>
+      <p>Data : 30 sierpnia 2018, godz: 8:00</p>
+      <p>Zbiórka : Obok Aquaparku i wzgórza Andersa
+        ul. Marka Pietrusiewicza 85,
+        50-027 Wrocław
+        Autokar TOMEX
+      </p>
+      <p>Zapisy : Odbywają się w formularzu zapisów na obóz. Po wypełnieniu formularza otrzymasz maila z instrukcją
+        płatności.</p>
+      <p>Powrót: zapisy na autokar powrotny odbędą się w trakcie trwania obozu.</p>
+      <p style="margin-bottom: 40px;">Kontakt: Marcin Goleń - Koordynator Wyjazdu
+        999 999 999 (tylko sytuacje awaryjne!)</p>
+
+      <bda-camp-sign-up-button text="ZAPISZ SIĘ NA OBÓZ!"></bda-camp-sign-up-button>
+    </div>
+  </bda-mean-of-transport>
+</section>
