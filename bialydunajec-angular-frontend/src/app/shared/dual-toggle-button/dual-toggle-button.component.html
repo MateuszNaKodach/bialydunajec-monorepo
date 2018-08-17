@@ -3,12 +3,12 @@
     class="ui button bda-dual-button"
     [ngClass]="(this.selected == 'left') ? selectionColor : ''"
     (click)="onOptionSelected('left')"
-  ><i *ngIf="options.left.icon!=null" class="icon" [ngClass]="options.left.icon"></i>{{options.left.name}}
+  ><i *ngIf="options.left.icon" class="icon" [ngClass]="options.left.icon"></i>{{options.left.name}}
   </button>
   <button
     class="ui button bda-dual-button"
     [ngClass]="(this.selected == 'right') ? selectionColor : ''"
     (click)="onOptionSelected('right')"
-  ><i *ngIf="options.right.icon!=null" class="icon" [ngClass]="options.right.icon"></i>{{options.right.name}}
+  ><i *ngIf="options.right.icon" class="icon" [ngClass]="options.right.icon"></i>{{options.right.name}}
   </button>
 </div>
