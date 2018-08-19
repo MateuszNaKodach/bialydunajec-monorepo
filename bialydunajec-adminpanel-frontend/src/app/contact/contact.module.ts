@@ -1,10 +1,14 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CampCadreContactComponent} from './component/camp-cadre-contact/camp-cadre-contact.component';
+import {SharedModule} from '../shared/shared.module';
+import {ContactRoutingModule} from './contact-routing.module';
 
 @NgModule({
   imports: [
-    CommonModule
+    SharedModule,
+    ContactRoutingModule
   ],
-  declarations: []
+  declarations: [CampCadreContactComponent]
 })
-export class ContactModule { }
+export class ContactModule {
+}
