@@ -1,0 +1,23 @@
+<div class="ui raised card bda-mean-of-transport-card">
+  <div class="ui items">
+    <div class="item">
+      <div fxLayout="column">
+        <div fxLayout="row">
+          <div fxLayout="column">
+            <div style="width: 295px; background-color: orange; padding: 70px;">
+              <img
+                src="assets/images/transport/transport-car.svg">
+            </div>
+
+            <div *ngIf="mapType === 'square'" fxLayout="row" class="bda-google-maps-square">Google Map!</div>
+
+          </div>
+          <ng-content></ng-content>
+        </div>
+
+        <div *ngIf="mapType === 'rectangle'" fxLayout="row" class="bda-google-maps-rectangle">Google Map!</div>
+
+      </div>
+    </div>
+  </div>
+</div>
