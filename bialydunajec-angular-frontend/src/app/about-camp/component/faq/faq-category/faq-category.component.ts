@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {FaqCategory} from '../faq-category.model';
-import {FaqQuestion} from '../faq-question.model';
+import {FaqCategory} from '../../../model/faq-category.model';
+import {FaqQuestion} from '../../../model/faq-question.model';
 
 @Component({
   selector: 'bda-faq-category',
