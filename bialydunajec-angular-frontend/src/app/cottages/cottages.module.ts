@@ -7,9 +7,10 @@ import {AcademicMinistryCardComponent} from './academic-ministry-card/academic-m
 import {CottageComponent} from './cottage/cottage.component';
 import {CottagesNamesListComponent} from './cottage/cottages-names-list/cottages-names-list.component';
 import {CottagesRoutingModule} from './cottages-routing.module';
-import { CottageDetailsComponent } from './cottage/cottage-details/cottage-details.component';
-import { CottageMinistryDetailsComponent } from './cottage/cottage-ministry-details/cottage-ministry-details.component';
+import {CottageDetailsComponent} from './cottage/cottage-details/cottage-details.component';
+import {CottageMinistryDetailsComponent} from './cottage/cottage-ministry-details/cottage-ministry-details.component';
 import {PhotoInfoCardComponent} from './cottage/photo-info-card/photo-info-card.component';
+import {AcademicMinistryService} from './service/academic-ministry.service';
 
 @NgModule({
   imports: [
@@ -27,7 +28,8 @@ import {PhotoInfoCardComponent} from './cottage/photo-info-card/photo-info-card.
     CottageMinistryDetailsComponent,
     PhotoInfoCardComponent
   ],
-  exports: [AcademicMinistriesComponent]
+  exports: [AcademicMinistriesComponent],
+  providers: [AcademicMinistryService]
 })
 export class CottagesModule {
 }
