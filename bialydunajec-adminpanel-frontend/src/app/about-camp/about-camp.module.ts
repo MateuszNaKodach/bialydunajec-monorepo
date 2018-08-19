@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
-import { FaqComponent } from './faq/faq.component';
+import { FaqComponent } from './component/faq/faq.component';
 import {SharedModule} from '../shared/shared.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {SuiAccordionModule, SuiSearchModule} from 'ng2-semantic-ui';
-import { FaqCategoryComponent } from './faq/faq-category/faq-category.component';
+import { FaqCategoryComponent } from './component/faq/faq-category/faq-category.component';
+import {FaqService} from './service/faq.service';
 
 @NgModule({
   imports: [
@@ -12,6 +13,7 @@ import { FaqCategoryComponent } from './faq/faq-category/faq-category.component'
     SuiAccordionModule,
     SuiSearchModule
   ],
-  declarations: [FaqComponent, FaqCategoryComponent]
+  declarations: [FaqComponent, FaqCategoryComponent],
+  providers: [FaqService]
 })
 export class AboutCampModule { }

@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule, PreloadAllModules} from '@angular/router';
-import {FaqComponent} from './about-camp/faq/faq.component';
+import {FaqComponent} from './about-camp/component/faq/faq.component';
 
 const routes: Routes = [
   {path: 'o-obozie', component: FaqComponent},
