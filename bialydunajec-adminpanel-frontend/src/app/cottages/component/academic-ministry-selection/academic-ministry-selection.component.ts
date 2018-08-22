@@ -1,5 +1,6 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {AcademicMinistryCard} from '../academic-ministry-card/academic-ministry-card.model';
+import {AcademicMinistryService} from '../../service/academic-ministry.service';
 
 @Component({
   selector: 'bda-academic-ministry-selection',
@@ -10,23 +11,16 @@ export class AcademicMinistrySelectionComponent implements OnInit {
 
   @Output() ministrySelected = new EventEmitter<{ id: string, name: string }>();
 
-  academicMinistries: AcademicMinistryCard[] = [
-    {id: '21', name: 'Redemptor', logoUrl: 'http://bialydunajec.org:3344/api/v1/academic-ministry/21/logo'},
-    {id: '21', name: 'Redemptor', logoUrl: 'http://bialydunajec.org:3344/api/v1/academic-ministry/21/logo'},
-    {id: '21', name: 'Redemptor', logoUrl: 'http://bialydunajec.org:3344/api/v1/academic-ministry/21/logo'},
-    {id: '21', name: 'Redemptor', logoUrl: 'http://bialydunajec.org:3344/api/v1/academic-ministry/21/logo'},
-    {id: '21', name: 'Redemptor', logoUrl: 'http://bialydunajec.org:3344/api/v1/academic-ministry/21/logo'},
-    {id: '21', name: 'Redemptor', logoUrl: 'http://bialydunajec.org:3344/api/v1/academic-ministry/21/logo'},
-    {id: '21', name: 'Redemptor', logoUrl: 'http://bialydunajec.org:3344/api/v1/academic-ministry/21/logo'},
-    {id: '21', name: 'Redemptor', logoUrl: 'http://bialydunajec.org:3344/api/v1/academic-ministry/21/logo'},
-    {id: '21', name: 'Redemptor', logoUrl: 'http://bialydunajec.org:3344/api/v1/academic-ministry/21/logo'},
-    {id: '21', name: 'Redemptor', logoUrl: 'http://bialydunajec.org:3344/api/v1/academic-ministry/21/logo'}
-  ];
+  academicMinistries: AcademicMinistryCard[] = [];
 
-  constructor() {
+  constructor(private academicMinistryService: AcademicMinistryService) {
   }
 
   ngOnInit() {
+    this.academicMinistries = this.academicMinistryService.getAllAcademicMinistry()
+      .map(academicMinistry => {
+        return {id: academicMinistry.id, name: academicMinistry.shortName, logoUrl: academicMinistry.logoUrl};
+      });
   }
 
   onClick(academicMinistry: AcademicMinistryCard) {
