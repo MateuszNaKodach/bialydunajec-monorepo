@@ -12,7 +12,14 @@ import {PhotoInfoCardComponent} from './component/photo-info-card/photo-info-car
     FlexLayoutModule
   ],
   declarations: [SectionHeaderComponent, DualToggleButtonComponent, CampSignUpButtonComponent, PhotoInfoCardComponent],
-  exports: [CommonModule, FlexLayoutModule, SectionHeaderComponent, DualToggleButtonComponent, CampSignUpButtonComponent, PhotoInfoCardComponent]
+  exports: [
+    CommonModule,
+    FlexLayoutModule,
+    SectionHeaderComponent,
+    DualToggleButtonComponent,
+    CampSignUpButtonComponent,
+    PhotoInfoCardComponent
+  ]
 })
 export class SharedModule {
 }
