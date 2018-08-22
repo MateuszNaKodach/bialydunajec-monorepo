@@ -95,4 +95,14 @@ export class AcademicMinistryService {
     return this.getAllAcademicMinistryDetails()
       .map(ministry => ministry.toAcademicMinistry());
   }
+
+  getAcademicMinistryDetailsById(id: string): AcademicMinistryDetails {
+    return this.getAllAcademicMinistryDetails()
+      .find(academicMinistry => academicMinistry.id === id);
+  }
+
+  getAcademicMinistryDetailsByShortName(shortName: string): AcademicMinistryDetails {
+    return this.getAllAcademicMinistryDetails()
+      .find(academicMinistry => academicMinistry.shortName === shortName);
+  }
 }
