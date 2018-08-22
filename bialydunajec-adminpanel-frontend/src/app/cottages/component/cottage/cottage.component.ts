@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {OptionSelected} from '../../shared/dual-toggle-button/event/option-selected.event';
+import {OptionSelected} from '../../../shared/component/dual-toggle-button/event/option-selected.event';
 
 const TAB_COTTAGE = 'Chatka';
 const TAB_MINISTRY = 'Duszpasterstwo';
