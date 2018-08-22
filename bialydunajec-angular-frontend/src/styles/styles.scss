@@ -47,3 +47,11 @@ a{
     color: $a-active-font-color;
   }
 }
+
+.bda-flex-centered-content {
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  justify-content: center;
+  max-width: 50%;
+}

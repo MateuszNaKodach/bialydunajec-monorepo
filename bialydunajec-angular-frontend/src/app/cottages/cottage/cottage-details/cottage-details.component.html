@@ -2,14 +2,16 @@
   <div fxLayout="column" fxLayoutAlign="flex-start center">
 
     <bda-photo-info-card [imageSrc]="'assets/images/temp-placeholders/antoni_chatka_235.jpg'">
-      <h2>Chatka Antoni</h2>
-      <i class="huge map signs icon" style="margin: 10px"></i>
-      <div class="meta">
-        ul. Jana Pawła II 341a <br>
-        <br>
-        34-425 Biały Dunajec
+      <div fxLayout="column" fxLayoutAlign="center center" class="content">
+        <h2>Chatka Antoni</h2>
+        <i class="huge map signs icon" style="margin: 10px"></i>
+        <div class="meta">
+          ul. Jana Pawła II 341a <br>
+          <br>
+          34-425 Biały Dunajec
+        </div>
+        <bda-camp-sign-up-button [style]="{width: '200px'}" style="padding-top: 20px"></bda-camp-sign-up-button>
       </div>
-      <bda-camp-sign-up-button [style]="{width: '200px'}" style="padding-top: 20px"></bda-camp-sign-up-button>
     </bda-photo-info-card>
 
     <!--TODO: Make it equals high!-->
@@ -47,14 +49,16 @@
     <div>
 
       <bda-photo-info-card [imageSrc]="'assets/images/temp-placeholders/antoni_szef_235.jpg'" imagePosition="right">
-        <h3>Dominika Piguła</h3>
-        <p class="meta">Szefowa chatki</p>
+        <div fxLayout="column" fxLayoutAlign="center center" class="content">
+          <h3>Dominika Piguła</h3>
+          <p class="meta">Szefowa chatki</p>
 
-        <p class="meta" style="text-align: center"><b>Polietchnika Wrocławska</b><br>Inżynieria chemiczna i
-          procesowa</p>
+          <p class="meta" style="text-align: center"><b>Polietchnika Wrocławska</b><br>Inżynieria chemiczna i
+            procesowa</p>
 
-        <p class="meta">999 999 999</p>
-        <p class="meta">adres-email@gmail.com</p>
+          <p class="meta">999 999 999</p>
+          <p class="meta">adres-email@gmail.com</p>
+        </div>
       </bda-photo-info-card>
 
     </div>
