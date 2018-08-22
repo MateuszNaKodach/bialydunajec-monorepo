@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, Output} from '@angular/core';
+import {CadreMember} from '../../model/cadre-member.model';
+import {CampCadreService} from '../../service/camp-cadre.service';
 
 @Component({
   selector: 'bda-camp-cadre-contact',
@@ -7,9 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CampCadreContactComponent implements OnInit {
 
-  constructor() { }
+  @Output() campCadreMembers: CadreMember[];
+
+  constructor(private campCadreService: CampCadreService) {
+  }
 
   ngOnInit() {
+    this.campCadreMembers = this.campCadreService.getCampCadreMembers();
   }
 
 }

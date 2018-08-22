@@ -4,6 +4,7 @@ export class CadreMember {
   lastName: string;
   responsibility: string;
   academicMinistryName: string;
+  photoUrl: string;
   contactInfo: ContactInfo;
   description: PersonalDescription;
 
@@ -12,13 +13,15 @@ export class CadreMember {
               lastName: string,
               responsibility: string,
               academicMinistryName: string,
-              contactInfo: ContactInfo,
+              photoUrl: string,
+              contactInfo: ContactInfo = null,
               description: PersonalDescription = PersonalDescription.empty()) {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
     this.responsibility = responsibility;
     this.academicMinistryName = academicMinistryName;
+    this.photoUrl = photoUrl;
     this.contactInfo = contactInfo;
     this.description = description;
   }
