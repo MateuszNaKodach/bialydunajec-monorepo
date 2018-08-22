@@ -1,3 +1,16 @@
-<p>
-  camp-cadre-member works!
-</p>
+<div style="margin-bottom: 50px;">
+  <bda-photo-info-card
+    [imageSrc]="cadreMember.photoUrl">
+    <div fxLayout="column" fxLayoutAlign="center center" class="content">
+      <h2>{{cadreMember.firstName}} {{cadreMember.lastName}}</h2>
+      <p class="meta">{{cadreMember.responsibility}}</p>
+
+      <div style="text-align: center">
+        <p class="meta" style="text-align: center"><b>DA {{cadreMember.academicMinistryName}}</b><br></p>
+        <div class="ui divider"></div>
+        <p class="meta">{{cadreMember.contactInfo ? cadreMember.contactInfo.phoneNumber : ''}}</p>
+        <p class="meta">{{cadreMember.contactInfo ? cadreMember.contactInfo.email : ''}}</p>
+      </div>
+    </div>
+  </bda-photo-info-card>
+</div>
