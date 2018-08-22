@@ -4,6 +4,8 @@
       title="Kontakt"
       description="Tutaj znajdziesz dane kontaktowe do Kadry Głównej Obozu.">
     </bda-section-header>
-
+    <bda-camp-cadre-member
+    *ngFor="let cadreMember of campCadreMembers"
+    [cadreMember]="cadreMember"></bda-camp-cadre-member>
   </div>
 </section>
