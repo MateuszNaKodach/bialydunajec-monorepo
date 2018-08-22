@@ -10,7 +10,6 @@ import {AboutCampRoutingModule} from './about-camp-routing.module';
 @NgModule({
   imports: [
     SharedModule,
-    FlexLayoutModule,
     SuiAccordionModule,
     SuiSearchModule,
     AboutCampRoutingModule
