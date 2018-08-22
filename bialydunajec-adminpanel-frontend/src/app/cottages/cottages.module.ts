@@ -9,13 +9,12 @@ import {CottagesNamesListComponent} from './cottage/cottages-names-list/cottages
 import {CottagesRoutingModule} from './cottages-routing.module';
 import {CottageDetailsComponent} from './cottage/cottage-details/cottage-details.component';
 import {CottageMinistryDetailsComponent} from './cottage/cottage-ministry-details/cottage-ministry-details.component';
-import {PhotoInfoCardComponent} from './cottage/photo-info-card/photo-info-card.component';
+import {PhotoInfoCardComponent} from '../shared/photo-info-card/photo-info-card.component';
 import {AcademicMinistryService} from './service/academic-ministry.service';
 
 @NgModule({
   imports: [
     SharedModule,
-    FlexLayoutModule,
     CottagesRoutingModule
   ],
   declarations: [
@@ -25,8 +24,7 @@ import {AcademicMinistryService} from './service/academic-ministry.service';
     CottageComponent,
     CottagesNamesListComponent,
     CottageDetailsComponent,
-    CottageMinistryDetailsComponent,
-    PhotoInfoCardComponent
+    CottageMinistryDetailsComponent
   ],
   exports: [AcademicMinistriesComponent],
   providers: [AcademicMinistryService]
