@@ -1,5 +1,5 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {Cottage} from './cottage.model';
+import {Cottage} from '../../model/cottage.model';
 
 @Component({
   selector: 'bda-cottages-names-list',
