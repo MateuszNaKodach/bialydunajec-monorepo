@@ -26,7 +26,7 @@ export class AcademicMinistryDetails {
               facebook: Facebook,
               emailAddress: string,
               priests: Priest[] = [],
-              description: ExtendedDescription = ExtendedDescription.empty()) {
+              description: ExtendedDescription = null) {
     this.id = id;
     this.officialName = officialName;
     this.shortName = shortName;

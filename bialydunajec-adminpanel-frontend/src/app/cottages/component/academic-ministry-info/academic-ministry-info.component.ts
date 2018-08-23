@@ -1,16 +1,19 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 import {OptionSelected} from '../../../shared/component/dual-toggle-button/event/option-selected.event';
+import {AcademicMinistryService} from '../../service/academic-ministry.service';
+import {AcademicMinistry} from '../../model/academic-ministry.model';
+import {cottagesPaths} from '../../cottages.paths';
 
 const TAB_COTTAGE = 'Chatka';
 const TAB_MINISTRY = 'Duszpasterstwo';
 
 @Component({
-  selector: 'bda-cottage',
-  templateUrl: './cottage.component.html',
-  styleUrls: ['./cottage.component.scss']
+  selector: 'bda-academic-ministry-info',
+  templateUrl: './academic-ministry-info.component.html',
+  styleUrls: ['./academic-ministry-info.component.scss']
 })
-export class CottageComponent implements OnInit {
+export class AcademicMinistryInfoComponent implements OnInit {
 
   tabs = {
     left: {
@@ -23,10 +26,21 @@ export class CottageComponent implements OnInit {
     }
   };
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) {
+  academicMinistry: AcademicMinistry;
+
+  constructor(private router: Router,
+              private activatedRoute: ActivatedRoute,
+              private academicMinistryService: AcademicMinistryService) {
   }
 
   ngOnInit() {
+    this.activatedRoute.params
+      .subscribe(
+        (params: Params) => {
+          const academicMinistryId = params[cottagesPaths.academicMinistryId];
+          this.academicMinistry = this.academicMinistryService.getAcademicMinistryById(academicMinistryId);
+        }
+      );
   }
 
   isCottageTab(): boolean {
@@ -52,4 +66,5 @@ export class CottageComponent implements OnInit {
     console.log(selectedOptionName);
     this.router.navigate([selectedOptionName.toLowerCase()], {relativeTo: this.activatedRoute});
   }
+
 }

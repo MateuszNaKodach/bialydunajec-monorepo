@@ -1,5 +1,5 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {AcademicMinistryCard} from '../academic-ministry-card/academic-ministry-card.model';
+import {AcademicMinistryCardViewModel} from '../academic-ministry-card/academic-ministry-card.view-model';
 import {AcademicMinistryService} from '../../service/academic-ministry.service';
 
 @Component({
@@ -11,7 +11,7 @@ export class AcademicMinistrySelectionComponent implements OnInit {
 
   @Output() ministrySelected = new EventEmitter<{ id: string, name: string }>();
 
-  academicMinistries: AcademicMinistryCard[] = [];
+  academicMinistries: AcademicMinistryCardViewModel[] = [];
 
   constructor(private academicMinistryService: AcademicMinistryService) {
   }
@@ -23,7 +23,7 @@ export class AcademicMinistrySelectionComponent implements OnInit {
       });
   }
 
-  onClick(academicMinistry: AcademicMinistryCard) {
+  onClick(academicMinistry: AcademicMinistryCardViewModel) {
     this.ministrySelected.emit({id: academicMinistry.id, name: academicMinistry.name});
   }
 
