@@ -1,0 +1,8 @@
+<section fxLayout="column">
+  <a
+    *ngFor="let academicMinistry of academicMinistries"
+    (click)="onAcademicMinistrySelected(academicMinistry)"
+  >
+    {{academicMinistry.shortName}}
+  </a>
+</section>

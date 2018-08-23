@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {AcademicMinistryCard} from './academic-ministry-card.model';
+import {AcademicMinistryCardViewModel} from './academic-ministry-card.view-model';
 
 @Component({
   selector: 'bda-academic-ministry-card',
@@ -10,7 +10,7 @@ export class AcademicMinistryCardComponent implements OnInit {
 
   @Output() click = new EventEmitter<void>();
 
-  @Input() academicMinistry: AcademicMinistryCard;
+  @Input() academicMinistry: AcademicMinistryCardViewModel;
 
   constructor() {
   }

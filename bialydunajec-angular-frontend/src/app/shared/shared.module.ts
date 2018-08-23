@@ -5,20 +5,28 @@ import {DualToggleButtonComponent} from './component/dual-toggle-button/dual-tog
 import {CampSignUpButtonComponent} from './component/camp-sign-up-button/camp-sign-up-button.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {PhotoInfoCardComponent} from './component/photo-info-card/photo-info-card.component';
+import {SocialMediaLinksComponent} from './component/social-media-links/social-media-links.component';
 
 @NgModule({
   imports: [
     CommonModule,
     FlexLayoutModule
   ],
-  declarations: [SectionHeaderComponent, DualToggleButtonComponent, CampSignUpButtonComponent, PhotoInfoCardComponent],
+  declarations: [
+    SectionHeaderComponent,
+    DualToggleButtonComponent,
+    CampSignUpButtonComponent,
+    PhotoInfoCardComponent,
+    SocialMediaLinksComponent
+  ],
   exports: [
     CommonModule,
     FlexLayoutModule,
     SectionHeaderComponent,
     DualToggleButtonComponent,
     CampSignUpButtonComponent,
-    PhotoInfoCardComponent
+    PhotoInfoCardComponent,
+    SocialMediaLinksComponent
   ]
 })
 export class SharedModule {

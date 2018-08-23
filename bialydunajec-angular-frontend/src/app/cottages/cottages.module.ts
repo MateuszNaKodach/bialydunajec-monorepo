@@ -3,11 +3,11 @@ import {AcademicMinistrySelectionComponent} from './component/academic-ministry-
 import {AcademicMinistriesComponent} from './component/academic-ministries/academic-ministries.component';
 import {SharedModule} from '../shared/shared.module';
 import {AcademicMinistryCardComponent} from './component/academic-ministry-card/academic-ministry-card.component';
-import {CottageComponent} from './component/cottage/cottage.component';
-import {CottagesNamesListComponent} from './component/cottages-names-list/cottages-names-list.component';
+import {AcademicMinistryInfoComponent} from './component/academic-ministry-info/academic-ministry-info.component';
+import {AcademicMinistriesNamesComponent} from './component/academic-ministries-names/academic-ministries-names.component';
 import {CottagesRoutingModule} from './cottages-routing.module';
-import {CottageDetailsComponent} from './component/cottage-details/cottage-details.component';
-import {CottageMinistryDetailsComponent} from './component/cottage-ministry-details/cottage-ministry-details.component';
+import {CottageDetailsComponent} from './component/academic-ministry-cottage/academic-ministry-cottage.component';
+import {AcademicMinistryDetailsComponent} from './component/academic-ministry-details/academic-ministry-details.component';
 import {AcademicMinistryService} from './service/academic-ministry.service';
 
 @NgModule({
@@ -19,10 +19,10 @@ import {AcademicMinistryService} from './service/academic-ministry.service';
     AcademicMinistrySelectionComponent,
     AcademicMinistriesComponent,
     AcademicMinistryCardComponent,
-    CottageComponent,
-    CottagesNamesListComponent,
+    AcademicMinistryInfoComponent,
+    AcademicMinistriesNamesComponent,
     CottageDetailsComponent,
-    CottageMinistryDetailsComponent
+    AcademicMinistryDetailsComponent
   ],
   exports: [AcademicMinistriesComponent],
   providers: [AcademicMinistryService]

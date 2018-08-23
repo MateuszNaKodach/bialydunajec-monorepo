@@ -5,6 +5,7 @@ import {Priest} from '../model/priest.model';
 import {PersonalTitle} from '../../shared/model/personal-title.model';
 import {ExtendedDescription} from '../../shared/model/extended-description.model';
 import {Facebook} from '../../shared/model/facebook.model';
+import {AcademicMinistry} from '../model/academic-ministry.model';
 
 @Injectable()
 export class AcademicMinistryService {
@@ -30,9 +31,7 @@ export class AcademicMinistryService {
             'Maciaczyk',
             new PersonalTitle('ojciec', 'o.', 'OFM'),
             'assets/images/temp-placeholders/o_oskar.jpg',
-            null,
-            'oskar@anotni.org',
-            ExtendedDescription.empty()
+            'oskar@anotni.org'
           )
         ]
       ),
@@ -82,9 +81,8 @@ export class AcademicMinistryService {
             'Mazurkiewicz',
             new PersonalTitle('ojciec', 'o.', 'CSSR'),
             'https://pbs.twimg.com/profile_images/643644948865134592/0OquP-Ih_400x400.jpg',
-            '123-123-123',
             'duszpasterz@da.redemptor.pl',
-            ExtendedDescription.empty()
+            '123-123-123'
           )
         ]
       ),
@@ -96,9 +94,19 @@ export class AcademicMinistryService {
       .map(ministry => ministry.toAcademicMinistry());
   }
 
+  getAllAcademicMinistryShortNames() {
+    return this.getAllAcademicMinistryDetails()
+      .map(ministry => ministry.shortName);
+  }
+
   getAcademicMinistryDetailsById(id: string): AcademicMinistryDetails {
     return this.getAllAcademicMinistryDetails()
       .find(academicMinistry => academicMinistry.id === id);
+  }
+
+  getAcademicMinistryById(id: string): AcademicMinistry {
+    return this.getAcademicMinistryDetailsById(id)
+      .toAcademicMinistry();
   }
 
   getAcademicMinistryDetailsByShortName(shortName: string): AcademicMinistryDetails {

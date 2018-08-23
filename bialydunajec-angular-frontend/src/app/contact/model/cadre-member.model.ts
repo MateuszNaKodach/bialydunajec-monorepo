@@ -17,7 +17,7 @@ export class CadreMember {
               academicMinistryName: string,
               photoUrl: string,
               contactInfo: ContactInfo = null,
-              description: ExtendedDescription = ExtendedDescription.empty()) {
+              description: ExtendedDescription = null) {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;

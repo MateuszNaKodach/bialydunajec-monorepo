@@ -16,9 +16,9 @@ export class Priest {
               lastName: string,
               personalTitle: PersonalTitle = null,
               pictureUrl: string,
-              phoneNumber: string = '',
               emailAddress: string,
-              personalDescription: ExtendedDescription = ExtendedDescription.empty()) {
+              phoneNumber: string = null,
+              personalDescription: ExtendedDescription = null) {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
