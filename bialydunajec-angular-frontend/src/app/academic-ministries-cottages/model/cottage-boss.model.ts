@@ -11,7 +11,15 @@ export class CottageBoss {
   photoUrl: string;
   personalDescription: ExtendedDescription;
 
-  constructor(cottageBossId: string, firstName: string, lastName: string, phoneNumber: string, emailAddress: string, university: string, fieldOfStudy: string, photoUrl: string, personalDescription: ExtendedDescription) {
+  constructor(cottageBossId: string,
+              firstName: string,
+              lastName: string,
+              phoneNumber: string,
+              emailAddress: string,
+              university: string,
+              fieldOfStudy: string,
+              photoUrl: string,
+              personalDescription: ExtendedDescription = null) {
     this.cottageBossId = cottageBossId;
     this.firstName = firstName;
     this.lastName = lastName;

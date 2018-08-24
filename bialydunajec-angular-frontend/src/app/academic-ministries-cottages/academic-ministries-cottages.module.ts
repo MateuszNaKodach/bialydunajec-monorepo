@@ -9,6 +9,7 @@ import {AcademicMinistriesCottagesRoutingModule} from './academic-ministries-cot
 import {AcademicMinistryCottageComponent} from './component/academic-ministry-cottage/academic-ministry-cottage.component';
 import {AcademicMinistryDetailsComponent} from './component/academic-ministry-details/academic-ministry-details.component';
 import {AcademicMinistryService} from './service/academic-ministry.service';
+import {CottageService} from './service/cottage.service';
 
 @NgModule({
   imports: [
@@ -25,7 +26,7 @@ import {AcademicMinistryService} from './service/academic-ministry.service';
     AcademicMinistryDetailsComponent
   ],
   exports: [AcademicMinistriesComponent],
-  providers: [AcademicMinistryService]
+  providers: [AcademicMinistryService, CottageService]
 })
 export class AcademicMinistriesCottagesModule {
 }
