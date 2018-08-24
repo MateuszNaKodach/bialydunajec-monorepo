@@ -5,6 +5,7 @@ import {CottageBoss} from './cottage-boss.model';
 export class CottageDetails {
   cottageId: string;
   academicMinistryId: string;
+  cottageName: string;
   resortName: string;
   pictureUrl: string;
   address: Address;
@@ -14,6 +15,7 @@ export class CottageDetails {
 
   constructor(cottageId: string,
               academicMinistryId: string,
+              cottageName: string,
               resortName: string,
               pictureUrl: string,
               address: Address,
@@ -22,6 +24,7 @@ export class CottageDetails {
               geoLocation: GeoLocation = null) {
     this.cottageId = cottageId;
     this.academicMinistryId = academicMinistryId;
+    this.cottageName = cottageName;
     this.resortName = resortName;
     this.pictureUrl = pictureUrl;
     this.address = address;
