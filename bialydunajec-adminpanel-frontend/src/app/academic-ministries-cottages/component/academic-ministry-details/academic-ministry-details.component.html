@@ -3,32 +3,36 @@
 
     <bda-photo-info-card [imageSrc]="'assets/images/temp-placeholders/kosciol_antoni.jpg'">
       <div fxLayout="column" fxLayoutAlign="center center" class="content">
-        <h2>Antoni</h2>
+        <h2>{{academicMinistry.shortName}}</h2>
         <div class="meta">
-          Franciszkańskie Duszpasterstwo Akademickie
+          {{academicMinistry.officialName}}
         </div>
         <i class="huge map signs icon" style="margin: 10px"></i>
         <div class="meta">
-          Al. Jana Kasprowicza 26 <br>
+          {{academicMinistry.address.street}} {{academicMinistry.address.number}}<br>
           <br>
-          51-131 Wrocław
+          {{academicMinistry.address.postalCode}} {{academicMinistry.address.city}}
         </div>
       </div>
     </bda-photo-info-card>
 
     <div style="padding: 40px;"></div>
 
-    <bda-photo-info-card [imageSrc]="'assets/images/temp-placeholders/o_oskar.jpg'" imagePosition="right">
+    <bda-photo-info-card
+      *ngFor="let academicPriest of academicMinistry.priests"
+      [imageSrc]="academicPriest.pictureUrl"
+      imagePosition="right">
       <div fxLayout="column" fxLayoutAlign="center center" class="content">
-        <h3>o. Oskar Michał Maciaczyk OFM</h3>
+        <h3>{{academicPriest.personalTitle.prefix}} {{academicPriest.firstName}} {{academicPriest.lastName}}
+          {{academicPriest.personalTitle.postfix}}</h3>
         <div class="meta">
           Duszpasterz
         </div>
         <i class="huge map signs icon" style="margin: 10px"></i>
         <div class="meta">
-          999 999 999<br>
+          {{academicPriest.phoneNumber}}<br>
           <br>
-          adresemail@email.com
+          {{academicPriest.emailAddress}}
         </div>
       </div>
     </bda-photo-info-card>
