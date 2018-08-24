@@ -1,5 +1,4 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {Cottage} from '../../model/cottage.model';
 import {AcademicMinistryService} from '../../service/academic-ministry.service';
 import {AcademicMinistry} from '../../model/academic-ministry.model';
 

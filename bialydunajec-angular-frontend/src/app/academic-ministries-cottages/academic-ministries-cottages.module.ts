@@ -6,7 +6,7 @@ import {AcademicMinistryCardComponent} from './component/academic-ministry-card/
 import {AcademicMinistryInfoComponent} from './component/academic-ministry-info/academic-ministry-info.component';
 import {AcademicMinistriesNamesComponent} from './component/academic-ministries-names/academic-ministries-names.component';
 import {AcademicMinistriesCottagesRoutingModule} from './academic-ministries-cottages-routing.module';
-import {CottageDetailsComponent} from './component/academic-ministry-cottage/academic-ministry-cottage.component';
+import {AcademicMinistryCottageComponent} from './component/academic-ministry-cottage/academic-ministry-cottage.component';
 import {AcademicMinistryDetailsComponent} from './component/academic-ministry-details/academic-ministry-details.component';
 import {AcademicMinistryService} from './service/academic-ministry.service';
 
@@ -21,7 +21,7 @@ import {AcademicMinistryService} from './service/academic-ministry.service';
     AcademicMinistryCardComponent,
     AcademicMinistryInfoComponent,
     AcademicMinistriesNamesComponent,
-    CottageDetailsComponent,
+    AcademicMinistryCottageComponent,
     AcademicMinistryDetailsComponent
   ],
   exports: [AcademicMinistriesComponent],
