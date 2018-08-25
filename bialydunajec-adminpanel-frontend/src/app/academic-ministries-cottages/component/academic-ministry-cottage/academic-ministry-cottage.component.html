@@ -1,0 +1,76 @@
+<section>
+  <div *ngIf="cottage; else emptyCottageInfo" fxLayout="column" fxLayoutAlign="flex-start center">
+
+    <bda-photo-info-card [imageSrc]="cottage.pictureUrl">
+      <div fxLayout="column" fxLayoutAlign="center center" class="content">
+        <h2>Chatka {{cottage.cottageName}}</h2>
+        <i class="huge map signs icon" style="margin: 10px"></i>
+        <div class="meta">
+          {{cottage.address.street}} {{cottage.address.number}}<br>
+          <br>
+          {{cottage.address.postalCode}} {{cottage.address.city}}
+        </div>
+        <bda-camp-sign-up-button [style]="{width: '200px'}" style="padding-top: 20px"></bda-camp-sign-up-button>
+      </div>
+    </bda-photo-info-card>
+
+    <!--TODO: Make it equals high!-->
+    <div *ngIf="cottage.conditions" fxLayout fxLayoutAlign="space-between flex-start" fxLayoutGap="40px" class="bda-cottage-description">
+
+      <div *ngIf="cottage.conditions.eating" fxLayout="column" fxLayoutAlign="flex-start center" class="bda-cottage-section">
+        <img src="assets/images/icons/restaurant.png" alt="">
+        <p class="bda-cottage-section-title">{{cottage.conditions.eating.title}}</p>
+        <span>
+         {{cottage.conditions.eating.description}}
+        </span>
+      </div>
+
+      <div *ngIf="cottage.conditions.sleeping" fxLayout="column" fxLayoutAlign="flex-start center" class="bda-cottage-section">
+        <img src="assets/images/icons/restaurant.png" alt="">
+        <p class="bda-cottage-section-title">{{cottage.conditions.sleeping.title}}</p>
+        <span>
+          {{cottage.conditions.sleeping.description}}
+        </span>
+      </div>
+
+      <div *ngIf="cottage.conditions.registering" fxLayout="column" fxLayoutAlign="flex-start center" class="bda-cottage-section">
+        <img src="assets/images/icons/restaurant.png" alt="">
+        <p class="bda-cottage-section-title">{{cottage.conditions.registering.title}}</p>
+        <span>
+          {{cottage.conditions.registering.description}}
+        </span>
+      </div>
+
+    </div>
+
+
+    <div *ngIf="cottage.cottageBoss; else emptyCottageBossInfo">
+      <bda-photo-info-card [imageSrc]="cottage.cottageBoss.photoUrl" imagePosition="right">
+        <div fxLayout="column" fxLayoutAlign="center center" class="content">
+          <h3>{{cottage.cottageBoss.firstName}} {{cottage.cottageBoss.lastName}}</h3>
+          <p class="meta">Szef chatki</p>
+
+          <p class="meta" style="text-align: center"><b>{{cottage.cottageBoss.university}}</b><br>{{cottage.cottageBoss.fieldOfStudy}}</p>
+
+          <p class="meta">{{cottage.cottageBoss.phoneNumber}}</p>
+          <p class="meta">{{cottage.cottageBoss.emailAddress}}</p>
+        </div>
+      </bda-photo-info-card>
+    </div>
+
+    <ng-template #emptyCottageBossInfo>
+      <div>
+        <p>Brak informacji o szefie chatki.</p>
+      </div>
+    </ng-template>
+
+
+  </div>
+
+  <ng-template #emptyCottageInfo>
+    <div>
+      <p>Brak informacji o chatce.</p>
+    </div>
+  </ng-template>
+
+</section>
