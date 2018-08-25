@@ -1,0 +1,30 @@
+<section fxLayoutAlign="center">
+  <div fxLayout="row">
+    <bda-academic-ministries-names style="margin-top: 10px; width: 200px" fxHide.lt-lg></bda-academic-ministries-names>
+    <div class="ui card raised" style="width:900px; padding-bottom: 50px;">
+
+      <header style="padding-top: 30px; padding-bottom: 30px; margin-bottom: 40px">
+        <!---TODO: Create social links component!-->
+        <div fxLayout="row" fxLayoutAlign="space-between flex-start">
+          <img [src]="academicMinistry.logoUrl"
+               alt="{{academicMinistry.shortName}} academic ministry logo.">
+          <bda-social-media-links></bda-social-media-links>
+        </div>
+        <div fxLayoutAlign="center">
+          <bda-dual-toggle-button [selectionColor]="'orange'"
+                                  [options]="tabs" [selected]="getSelectedTabSide()"
+                                  (optionSelected)="onTabSelected($event)"
+          ></bda-dual-toggle-button>
+        </div>
+      </header>
+
+      <router-outlet></router-outlet>
+
+
+      <div fxHide style="height: 100px; width: 400px; background-color: black; position: relative">
+        <div
+          style="height: 50px; width: 800px; background-color: green; position: absolute; bottom: -16px; left: 16px;"></div>
+      </div>
+    </div>
+  </div>
+</section>

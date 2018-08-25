@@ -1,3 +1,5 @@
+import {ExtendedDescription} from '../../shared/model/extended-description.model';
+
 export class CadreMember {
   id: string;
   firstName: string;
@@ -6,7 +8,7 @@ export class CadreMember {
   academicMinistryName: string;
   photoUrl: string;
   contactInfo: ContactInfo;
-  description: PersonalDescription;
+  description: ExtendedDescription;
 
   constructor(id: string,
               firstName: string,
@@ -15,7 +17,7 @@ export class CadreMember {
               academicMinistryName: string,
               photoUrl: string,
               contactInfo: ContactInfo = null,
-              description: PersonalDescription = PersonalDescription.empty()) {
+              description: ExtendedDescription = null) {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
@@ -28,33 +30,15 @@ export class CadreMember {
 }
 
 export class ContactInfo {
-  email: string;
+  emailAddress: string;
   phoneNumber: string;
   facebookUrl: string;
 
 
   constructor(email: string = '', phoneNumber: string = '', facebookUrl: string = '') {
-    this.email = email;
+    this.emailAddress = email;
     this.phoneNumber = phoneNumber;
     this.facebookUrl = facebookUrl;
   }
 }
 
-export class PersonalDescription {
-  title: string;
-  content: string;
-
-
-  constructor(title: string, content: string) {
-    this.title = title;
-    this.content = content;
-  }
-
-  static empty() {
-    return new PersonalDescription('', '');
-  }
-
-  isEmpty() {
-    return this.content == null || this.content.length === 0;
-  }
-}

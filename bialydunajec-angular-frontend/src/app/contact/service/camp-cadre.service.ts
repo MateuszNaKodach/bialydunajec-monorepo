@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
-import {CadreMember, ContactInfo, PersonalDescription} from '../model/cadre-member.model';
+import {CadreMember, ContactInfo} from '../model/cadre-member.model';
+import {ExtendedDescription} from '../../shared/model/extended-description.model';
 
 @Injectable()
 export class CampCadreService {
@@ -13,7 +14,7 @@ export class CampCadreService {
       'Redemptor',
       'https://bialydunajec.org/images/stories/kontakty/kadra_glowna/szef.jpg',
       new ContactInfo('szef@bialydunajec.org', '999-888-777'),
-      new PersonalDescription('Cześć!', 'Hej! Jestem szefem wszystkich szefów!')
+      new ExtendedDescription('Cześć!', 'Hej! Jestem szefem wszystkich szefów!')
     ),
     new CadreMember(
       'bbasd-asdasd-ccccc-sawcia',
@@ -32,7 +33,7 @@ export class CampCadreService {
       'Stygmatyk',
       'https://bialydunajec.org/images/stories/kontakty/kadra_glowna/kulturalna.jpg',
       null,
-      new PersonalDescription('Aloha!', 'To nie ja jestem szefem wszystkich szefów... :( Lorem Ipsum jest tekstem stosowanym jako przykładowy wypełniacz w przemyśle poligraficznym. Został po raz pierwszy użyty w XV w. przez nieznanego drukarza do wypełnienia tekstem próbnej książki. Pięć wieków później zaczął być używany przemyśle elektronicznym, pozostając praktycznie niezmienionym. Spopularyzował się w latach 60. XX w. wraz z publikacją arkuszy Letrasetu, zawierających fragmenty Lorem Ipsum, a ostatnio z zawierającym różne wersje Lorem Ipsum oprogramowaniem przeznaczonym do realizacji druków na komputerach osobistych, jak Aldus PageMaker')
+      new ExtendedDescription('Aloha!', 'To nie ja jestem szefem wszystkich szefów... :( Lorem Ipsum jest tekstem stosowanym jako przykładowy wypełniacz w przemyśle poligraficznym. Został po raz pierwszy użyty w XV w. przez nieznanego drukarza do wypełnienia tekstem próbnej książki. Pięć wieków później zaczął być używany przemyśle elektronicznym, pozostając praktycznie niezmienionym. Spopularyzował się w latach 60. XX w. wraz z publikacją arkuszy Letrasetu, zawierających fragmenty Lorem Ipsum, a ostatnio z zawierającym różne wersje Lorem Ipsum oprogramowaniem przeznaczonym do realizacji druków na komputerach osobistych, jak Aldus PageMaker')
     ),
     new CadreMember(
       'bbasd-asdasd-ccccc-sawcia',

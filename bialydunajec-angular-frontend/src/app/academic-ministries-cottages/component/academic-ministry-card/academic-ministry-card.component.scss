@@ -1,0 +1,17 @@
+@import '../../../../styles/variables/fonts';
+
+.bda-academic-ministry-card {
+  width: 175px;
+  height: 200px;
+}
+
+.bda-academic-ministry-name {
+  color: $a-active-font-color;
+}
+
+.bda-academic-ministry-logo {
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  height: 158px;
+}
