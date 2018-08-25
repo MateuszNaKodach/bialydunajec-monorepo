@@ -33,7 +33,9 @@ export class AcademicMinistryService {
             'assets/images/temp-placeholders/o_oskar.jpg',
             'oskar@anotni.org'
           )
-        ]
+        ],
+        null,
+        'assets/images/temp-placeholders/kosciol_antoni.jpg'
       ),
       new AcademicMinistryDetails(
         '6',

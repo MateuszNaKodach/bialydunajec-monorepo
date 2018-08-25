@@ -15,6 +15,7 @@ export class AcademicMinistryDetails {
   emailAddress: string;
   priests: Priest[];
   description: ExtendedDescription;
+  photoUrl: string;
 
 
   constructor(id: string,
@@ -26,7 +27,8 @@ export class AcademicMinistryDetails {
               facebook: Facebook,
               emailAddress: string,
               priests: Priest[] = [],
-              description: ExtendedDescription = null) {
+              description: ExtendedDescription = null,
+              photoUrl: string = '') {
     this.id = id;
     this.officialName = officialName;
     this.shortName = shortName;
@@ -37,6 +39,7 @@ export class AcademicMinistryDetails {
     this.emailAddress = emailAddress;
     this.priests = priests;
     this.description = description;
+    this.photoUrl = photoUrl;
   }
 
   toAcademicMinistry(): AcademicMinistry {

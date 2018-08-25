@@ -4,6 +4,7 @@ import {AcademicMinistryDetails} from '../../model/academic-ministry-details.mod
 import {ActivatedRoute, Params} from '@angular/router';
 import {academicMinistriesCottagesPaths} from '../../academic-ministries-cottages.paths';
 
+
 @Component({
   selector: 'bda-academic-ministry-details',
   templateUrl: './academic-ministry-details.component.html',

@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, Output} from '@angular/core';
+import {CampBusLine} from '../../model/camp-bus-line.model';
+import {CampTransportService} from '../../service/camp-transport.service';
 
 @Component({
   selector: 'bda-transport-info-camp-bus',
@@ -7,9 +9,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TransportInfoCampBusComponent implements OnInit {
 
-  constructor() { }
+  @Output() selectedCampBusLine: CampBusLine;
+  private wroclawCampBusLine: CampBusLine;
+  private opoleCampBusLine: CampBusLine;
+
+  constructor(private campTransportService: CampTransportService) {
+  }
 
   ngOnInit() {
+    this.wroclawCampBusLine = this.campTransportService.getCampBusFromCity('Wrocław');
+    this.opoleCampBusLine = this.campTransportService.getCampBusFromCity('Opole');
+    this.selectedCampBusLine = this.wroclawCampBusLine;
+  }
+
+  selectBusFrom(originBusStopCity: string) {
+    console.log('Selected bus: ', originBusStopCity);
+    this.selectedCampBusLine =  originBusStopCity === 'Opole' ? this.opoleCampBusLine : this.wroclawCampBusLine;
   }
 
 }

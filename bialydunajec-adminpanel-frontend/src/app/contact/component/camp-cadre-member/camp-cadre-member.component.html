@@ -1,6 +1,6 @@
 <div style="margin-bottom: 50px;">
   <bda-photo-info-card
-    [imageSrc]="cadreMember.photoUrl">
+    [imageSrc]="cadreMember.photoUrl ? cadreMember.photoUrl : 'assets/images/placeholder/placeholder_person.jpg'">
     <div fxLayout="column" fxLayoutAlign="center center" class="content">
       <h2>{{cadreMember.firstName}} {{cadreMember.lastName}}</h2>
       <p class="meta">{{cadreMember.responsibility}}</p>
