@@ -1,3 +1,9 @@
+@import "../../../../styles/mixins/responsivness";
+
 .bda-dual-button{
-  width: 200px;
+  width: 150px;
+
+  @include gt-xs__screen() {
+    width: 200px;
+  }
 }

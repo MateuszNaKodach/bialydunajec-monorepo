@@ -1,3 +1,11 @@
-<p>
-  registration-form works!
-</p>
+<div class="bda-registration-form">
+  <div class="bda-registration-form__card">
+    <bda-registration-stepper
+      [steps]="getRegistrationSteps()"
+      class="bda-registration-form__stepper"
+    ></bda-registration-stepper>
+    <section class="bda-registration-form__step">
+      <router-outlet></router-outlet>
+    </section>
+  </div>
+</div>

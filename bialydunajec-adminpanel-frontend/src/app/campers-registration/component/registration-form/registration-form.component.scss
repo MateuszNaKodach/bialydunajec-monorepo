@@ -1,0 +1,31 @@
+@import "../../../../styles/mixins/responsivness";
+
+* {
+  box-sizing: border-box;
+}
+
+.bda-registration-form {
+  //background: url("../../../../assets/images/campers-registration/registration-form-background.jpg");
+  display: flex;
+  justify-content: center;
+}
+
+.bda-registration-form__card {
+  background: white;
+
+  width: 100vw;
+  padding: 2rem;
+
+  @include gt-xs__screen() {
+    width: 80vw;
+    padding: 5rem;
+  }
+}
+
+.bda-registration-form__stepper {
+}
+
+.bda-registration-form__step {
+  margin-top: 3rem;
+}
+
