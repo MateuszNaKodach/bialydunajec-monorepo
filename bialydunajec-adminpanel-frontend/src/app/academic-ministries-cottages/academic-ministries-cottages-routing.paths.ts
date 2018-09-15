@@ -1,4 +1,4 @@
-export const academicMinistriesCottagesPaths = {
+export const academicMinistriesCottagesRoutingPaths = {
   root: '',
   academicMinistryId: 'academicMinistryId',
   cottage: 'chatka',

@@ -3,7 +3,7 @@ import {ActivatedRoute, Params, Router} from '@angular/router';
 import {OptionSelected} from '../../../shared/component/dual-toggle-button/event/option-selected.event';
 import {AcademicMinistryService} from '../../service/academic-ministry.service';
 import {AcademicMinistry} from '../../model/academic-ministry.model';
-import {academicMinistriesCottagesPaths} from '../../academic-ministries-cottages.paths';
+import {academicMinistriesCottagesRoutingPaths} from '../../academic-ministries-cottages-routing.paths';
 
 const TAB_COTTAGE = 'Chatka';
 const TAB_MINISTRY = 'Duszpasterstwo';
@@ -37,7 +37,7 @@ export class AcademicMinistryInfoComponent implements OnInit {
     this.activatedRoute.params
       .subscribe(
         (params: Params) => {
-          const academicMinistryId = params[academicMinistriesCottagesPaths.academicMinistryId];
+          const academicMinistryId = params[academicMinistriesCottagesRoutingPaths.academicMinistryId];
           this.academicMinistry = this.academicMinistryService.getAcademicMinistryById(academicMinistryId);
         }
       );
