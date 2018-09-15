@@ -1,10 +1,128 @@
-<form>
-  <section>
+<form
+  class="bda-personal-data-form ui form"
+  [formGroup]="personalDataForm"
+  (ngSubmit)="onSubmit()"
+>
+  <section class="bda-personal-data-form__section">
     <bda-section-header
       title="Dane Uczestnika"
       description="Dane osobowe są niezbędne do zbiorowego ubezpieczenia uczestników i nie będą udostępniane zewnętrznym podmiotom."
     ></bda-section-header>
+
+    <div
+      class="bda-personal-data-form__personal-data-section"
+      formGroupName="personalData"
+    >
+      <div class="field">
+        <label>Płeć</label>
+        <bda-dual-toggle-button
+          [options]="{ left: { name: 'Kobieta'}, right: { name: 'Mężczyzna' } }"></bda-dual-toggle-button>
+      </div>
+      <div class="field">
+        <label>Imię</label>
+        <input type="text" formControlName="firstName">
+      </div>
+      <div class="field">
+        <label>Nazwisko</label>
+        <input type="text" formControlName="lastName">
+      </div>
+      <div class="field">
+        <label>Pesel</label>
+        <input type="text" formControlName="pesel">
+      </div>
+    </div>
+
+    <div
+      class="bda-personal-data-form__home-address-section"
+      formGroupName="homeAddress"
+    >
+      <div class="field">
+        <label>Ulica</label>
+        <input type="text" formControlName="street" placeholder="Przykładowa">
+      </div>
+      <div class="field">
+        <label>Nr domu</label>
+        <input type="text" formControlName="number" placeholder="192a/2">
+      </div>
+      <div class="field">
+        <label>Kod pocztowy</label>
+        <input type="text" formControlName="postalCode" placeholder="12-345">
+      </div>
+      <div class="field">
+        <label>Miasto</label>
+        <input type="text" formControlName="city" placeholder="Wrocław">
+      </div>
+    </div>
+    <div
+      class="bda-personal-data-form__contact-section"
+      formGroupName="contact"
+    >
+      <div class="field">
+        <label>Email</label>
+        <input type="email" formControlName="email" placeholder="jan.kowalski@test.com">
+      </div>
+      <div class="field">
+        <label>Telefon</label>
+        <input type="tel" formControlName="telephone">
+      </div>
+    </div>
   </section>
-  <bda-dual-toggle-button
-    [options]="{ left: { name: 'Kobieta'}, right: { name: 'Mężczyzna' } }"></bda-dual-toggle-button>
+
+  <section
+    class="bda-personal-data-form__section"
+  >
+    <bda-section-header
+      title="Uczelnia"
+      description="Potrzebne do zaplanowania imprez obozowych. Jeśli jeszcze nie studiujesz, podaj uczelnię, na której chciałbyś studiować."
+    ></bda-section-header>
+    <div
+      class="bda-personal-data-form__education-section"
+      formGroupName="education"
+    >
+      <div class="bda-personal-data-form__university-section">
+        <div class="field">
+          <label>Uczelnia</label>
+          <input type="text" formControlName="university">
+        </div>
+        <div class="field">
+          <label>Wydział</label>
+          <input type="text" formControlName="faculty">
+        </div>
+        <div class="field">
+          <label>Kierunek</label>
+          <input type="text" formControlName="fieldOfStudy">
+        </div>
+      </div>
+      <div class="bda-personal-data-form__high-school-section">
+        <div class="field">
+          <sui-checkbox formControlName="isRecentHighSchoolGraduate">
+            <b>Jestem maturzystą</b>
+          </sui-checkbox>
+        </div>
+        <div class="field">
+          <label>Liceum</label>
+          <input type="text" formControlName="highSchool">
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <section class="bda-personal-data-form__section">
+    <bda-section-header title="Pozostałe"></bda-section-header>
+    <div
+      class="bda-personal-data-form__others-section"
+      formGroupName="statistics"
+    >
+      <sui-checkbox formControlName="wasCamperInThePast">
+        <b>Byłem już na Obozie</b>
+      </sui-checkbox>
+    </div>
+  </section>
+
+  <button
+    type="submit"
+    class="btn btn-success">Submit
+  </button>
+
 </form>

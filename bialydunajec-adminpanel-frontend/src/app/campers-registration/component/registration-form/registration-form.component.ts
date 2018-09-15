@@ -12,7 +12,7 @@ export class RegistrationFormComponent implements OnInit {
     new RegistrationStepViewModel('Dane osobowe', 'clipboard list', 'Wprowadź swoje dane'),
     new RegistrationStepViewModel('Dojazd', 'bus', 'Wybierz transport'),
     new RegistrationStepViewModel('Koszulka', 'child', 'Wybierz kolor i rozmiar'),
-    new RegistrationStepViewModel('Chatka', 'warehouse', 'Wybierz swoją chatkę')
+    new RegistrationStepViewModel('Chatka', 'home', 'Wybierz swoją chatkę')
   ];
 
   constructor() {

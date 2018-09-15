@@ -7,11 +7,16 @@ import {PersonalDataFormComponent} from './component/registration-form/personal-
 import {ShirtFormComponent} from './component/registration-form/shirt-form/shirt-form.component';
 import {TransportFormComponent} from './component/registration-form/transport-form/transport-form.component';
 import {CottageFormComponent} from './component/registration-form/cottage-form/cottage-form.component';
+import {ReactiveFormsModule} from '@angular/forms';
+import {SuiCheckboxModule, SuiSelectModule} from 'ng2-semantic-ui';
 
 @NgModule({
   imports: [
     SharedModule,
-    CampersRegistrationRoutingModule
+    CampersRegistrationRoutingModule,
+    ReactiveFormsModule,
+    SuiCheckboxModule,
+    SuiSelectModule
   ],
   declarations: [
     RegistrationFormComponent,
