@@ -20,6 +20,11 @@
     width: 80vw;
     padding: 5rem;
   }
+
+  @include gt-md__screen() {
+    width: 65vw;
+    padding: 8rem;
+  }
 }
 
 .bda-registration-form__stepper {

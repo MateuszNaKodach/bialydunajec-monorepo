@@ -9,61 +9,70 @@
       description="Dane osobowe są niezbędne do zbiorowego ubezpieczenia uczestników i nie będą udostępniane zewnętrznym podmiotom."
     ></bda-section-header>
 
-    <div
-      class="bda-personal-data-form__personal-data-section"
-      formGroupName="personalData"
-    >
-      <div class="field">
-        <label>Płeć</label>
-        <bda-dual-toggle-button
-          [options]="{ left: { name: 'Kobieta'}, right: { name: 'Mężczyzna' } }"></bda-dual-toggle-button>
+    <div class="bda-personal-data-form__section-content">
+      <div
+        class="bda-personal-data-form__personal-data-section"
+        formGroupName="personalData"
+      >
+        <div class="field">
+          <label>Płeć</label>
+          <bda-dual-toggle-button
+            formControlName="gender"
+            [options]="{ left: { name: 'Kobieta', value: 'FEMALE'}, right: { name: 'Mężczyzna' , value: 'MALE'} }"></bda-dual-toggle-button>
+        </div>
+        <div class="field">
+          <label>Imię</label>
+          <input type="text" formControlName="firstName" placeholder="Jan">
+        </div>
+        <div class="field">
+          <label>Nazwisko</label>
+          <input type="text" formControlName="lastName">
+        </div>
+        <div class="field">
+          <label>Pesel</label>
+          <input type="text" formControlName="pesel">
+        </div>
       </div>
-      <div class="field">
-        <label>Imię</label>
-        <input type="text" formControlName="firstName">
-      </div>
-      <div class="field">
-        <label>Nazwisko</label>
-        <input type="text" formControlName="lastName">
-      </div>
-      <div class="field">
-        <label>Pesel</label>
-        <input type="text" formControlName="pesel">
-      </div>
-    </div>
 
-    <div
-      class="bda-personal-data-form__home-address-section"
-      formGroupName="homeAddress"
-    >
-      <div class="field">
-        <label>Ulica</label>
-        <input type="text" formControlName="street" placeholder="Przykładowa">
-      </div>
-      <div class="field">
-        <label>Nr domu</label>
-        <input type="text" formControlName="number" placeholder="192a/2">
-      </div>
-      <div class="field">
-        <label>Kod pocztowy</label>
-        <input type="text" formControlName="postalCode" placeholder="12-345">
-      </div>
-      <div class="field">
-        <label>Miasto</label>
-        <input type="text" formControlName="city" placeholder="Wrocław">
-      </div>
-    </div>
-    <div
-      class="bda-personal-data-form__contact-section"
-      formGroupName="contact"
-    >
-      <div class="field">
-        <label>Email</label>
-        <input type="email" formControlName="email" placeholder="jan.kowalski@test.com">
-      </div>
-      <div class="field">
-        <label>Telefon</label>
-        <input type="tel" formControlName="telephone">
+      <div>
+        <div
+          class="bda-personal-data-form__home-address-section"
+          formGroupName="homeAddress"
+        >
+          <div class="two fields">
+            <div class="eleven wide field">
+              <label>Ulica</label>
+              <input type="text" formControlName="street" placeholder="Przykładowa">
+            </div>
+            <div class="five wide field">
+              <label>Nr domu</label>
+              <input type="text" formControlName="number" placeholder="192a/2">
+            </div>
+          </div>
+          <div class="two fields">
+            <div class="four wide field">
+              <label>Kod pocztowy</label>
+              <input type="text" formControlName="postalCode" placeholder="12-345">
+            </div>
+            <div class="twelve wide field">
+              <label>Miasto</label>
+              <input type="text" formControlName="city" placeholder="Wrocław">
+            </div>
+          </div>
+        </div>
+        <div
+          class="bda-personal-data-form__contact-section"
+          formGroupName="contact"
+        >
+          <div class="field">
+            <label>Email</label>
+            <input type="email" formControlName="email" placeholder="jan.kowalski@test.com">
+          </div>
+          <div class="field">
+            <label>Telefon</label>
+            <input type="tel" formControlName="telephone">
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -105,7 +114,6 @@
         </div>
       </div>
     </div>
-
   </section>
 
   <section class="bda-personal-data-form__section">
@@ -114,9 +122,31 @@
       class="bda-personal-data-form__others-section"
       formGroupName="statistics"
     >
-      <sui-checkbox formControlName="wasCamperInThePast">
-        <b>Byłem już na Obozie</b>
-      </sui-checkbox>
+      <div class="bda-personal-data-form__others-section-content">
+        <div class="field">
+          <label>Skąd dowiedziałeś się po raz pierwszy o obozie?</label>
+          <sui-select class="selection">
+            <sui-select-option *ngFor="let option of campInfoOptions"
+                               [value]="option">
+            </sui-select-option>
+          </sui-select>
+        </div>
+
+        <div class="field">
+          <sui-checkbox formControlName="wasCamperInThePast">
+            <b>Byłem już na Obozie</b>
+          </sui-checkbox>
+        </div>
+
+        <div class="field">
+          <label>Który raz jedziesz na obóz?</label>
+          <sui-select class="selection">
+            <sui-select-option *ngFor="let option of whichOneGoForCamp"
+                               [value]="option">
+            </sui-select-option>
+          </sui-select>
+        </div>
+      </div>
     </div>
   </section>
 

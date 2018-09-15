@@ -11,9 +11,11 @@
           <bda-social-media-links></bda-social-media-links>
         </div>
         <div fxLayoutAlign="center">
-          <bda-dual-toggle-button [selectionColor]="'orange'"
-                                  [options]="tabs" [selected]="getSelectedTabSide()"
-                                  (optionSelected)="onTabSelected($event)"
+          <bda-dual-toggle-button
+            style="width: 400px;"
+            [selectionColor]="'orange'"
+            [options]="tabs" [selected]="getSelectedTabSide()"
+            (optionSelected)="onTabSelected($event)"
           ></bda-dual-toggle-button>
         </div>
       </header>

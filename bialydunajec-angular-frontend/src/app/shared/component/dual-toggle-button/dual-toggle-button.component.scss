@@ -2,10 +2,6 @@
 
 .bda-dual-button-group{
   width: 100%;
-
-  @include gt-sm__screen() {
-    width: 400px;
-  }
 }
 
 .bda-dual-button{

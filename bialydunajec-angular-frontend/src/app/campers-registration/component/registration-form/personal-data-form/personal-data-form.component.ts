@@ -11,6 +11,8 @@ export class PersonalDataFormComponent implements OnInit {
 
 
   personalDataForm: FormGroup;
+  campInfoOptions = ['Ze szkoły', 'Z uczelni', 'Od znajomych', 'Z facebooka'];
+  whichOneGoForCamp = ['drugi', 'trzeci', 'czwarty', 'piąty', 'szósty', 'siódmy', 'ósmy'];
 
   constructor() {
   }
@@ -24,6 +26,7 @@ export class PersonalDataFormComponent implements OnInit {
       {
         'personalData': new FormGroup(
           {
+            'gender': new FormControl(),
             'firstName': new FormControl(),
             'lastName': new FormControl(),
             'pesel': new FormControl()
