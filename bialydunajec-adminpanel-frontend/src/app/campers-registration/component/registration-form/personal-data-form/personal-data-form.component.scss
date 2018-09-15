@@ -22,7 +22,7 @@ input {
   }
 }
 
-//TODO: Change section grid to make form palced well
+//TODO: Change section grid to make form placed well
 .bda-personal-data-form__education-section{
   @include gt-sm__screen() {
     display: grid;
@@ -32,7 +32,7 @@ input {
 }
 
 .bda-personal-data-form__others-section-content{
-  width: 45%;
+  //width: 45%;
 }
 
 
