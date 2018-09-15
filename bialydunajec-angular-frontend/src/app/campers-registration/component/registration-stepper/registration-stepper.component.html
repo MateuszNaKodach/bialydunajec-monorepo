@@ -1,0 +1,17 @@
+<div class="ui fluid mobile stackable steps">
+  <div
+    *ngFor="let step of steps"
+    class="step"
+    [ngClass]="{'active' : step.isSelected(), 'completed ': step.isCompleted()}"
+    (click)="onStepClicked(step)"
+  >
+    <i
+      *ngIf="step.hasIcon()"
+      [ngClass]="{'orange' : step.isSelected()}"
+      class="{{step.getIcon()}} icon"></i>
+    <div class="content">
+      <div class="title">{{step.getTitle()}}</div>
+      <div *ngIf="step.hasDescription()" class="description">{{step.getDescription()}}</div>
+    </div>
+  </div>
+</div>
