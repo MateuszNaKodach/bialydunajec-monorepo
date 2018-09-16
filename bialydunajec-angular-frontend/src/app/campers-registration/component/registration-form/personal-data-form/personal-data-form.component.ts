@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {peselValidator} from '../../../../shared/validator/pesel.validator';
 
 
 @Component({
@@ -63,7 +64,7 @@ export class PersonalDataFormComponent implements OnInit {
             gender: new FormControl(currentPersonalData.gender, [Validators.required]),
             firstName: new FormControl(currentPersonalData.firstName, [Validators.required]),
             lastName: new FormControl(currentPersonalData.lastName, [Validators.required]),
-            pesel: new FormControl(currentPersonalData.pesel, [Validators.required])
+            pesel: new FormControl(currentPersonalData.pesel, [peselValidator])
           }
         ),
         homeAddress: this.formBuilder.group(
@@ -119,6 +120,27 @@ export class PersonalDataFormComponent implements OnInit {
     console.log(formValues);
     console.log(this.personalDataForm);
     console.log(this.personalDataForm.get(['education', 'isRecentHighSchoolGraduate']).value);
+  }
+
+
+  get gender() {
+    return this.getPersonalDataControl('gender');
+  }
+
+  get firstName() {
+    return this.getPersonalDataControl('firstName');
+  }
+
+  get lastName() {
+    return this.getPersonalDataControl('lastName');
+  }
+
+  get pesel() {
+    return this.getPersonalDataControl('pesel');
+  }
+
+  private getPersonalDataControl(name: string) {
+    return this.personalDataForm.get(['personalData', name]);
   }
 
 }

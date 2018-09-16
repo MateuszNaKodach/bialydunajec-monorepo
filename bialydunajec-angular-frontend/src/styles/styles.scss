@@ -54,3 +54,9 @@ a{
   background-color: transparent;
   justify-content: center;
 }
+
+input.ng-invalid.ng-touched,
+textarea.ng-invalid.ng-touched {
+  border: 1px solid red !important;
+}
+
