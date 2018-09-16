@@ -10,6 +10,8 @@ import {CottageFormComponent} from './component/registration-form/cottage-form/c
 import {ReactiveFormsModule} from '@angular/forms';
 import {SuiCheckboxModule, SuiSelectModule} from 'ng2-semantic-ui';
 import { FormNavigationButtonsComponent } from './component/registration-form/form-navigation-buttons/form-navigation-buttons.component';
+import { FormInputErrorComponent } from './component/form-input-error/form-input-error.component';
+
 @NgModule({
   imports: [
     SharedModule,
@@ -25,7 +27,8 @@ import { FormNavigationButtonsComponent } from './component/registration-form/fo
     ShirtFormComponent,
     TransportFormComponent,
     CottageFormComponent,
-    FormNavigationButtonsComponent
+    FormNavigationButtonsComponent,
+    FormInputErrorComponent
   ]
 })
 export class CampersRegistrationModule {

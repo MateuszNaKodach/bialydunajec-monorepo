@@ -1,4 +1,4 @@
-enum StepId {
+export enum StepId {
   PERSONAL_DATA = 'PERSONAL_DATA',
   TRANSPORT = 'TRANSPORT',
   SHIRT = 'SHIRT',
@@ -13,7 +13,7 @@ const REGISTRATION_FORM_STEPS: RegistrationFormStep[] = [
 
 ];
 
-const STEPS_ORDER = [
+export const STEPS_ORDER = [
   StepId.PERSONAL_DATA,
   StepId.TRANSPORT,
   StepId.SHIRT,
