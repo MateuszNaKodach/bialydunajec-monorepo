@@ -104,7 +104,7 @@
       </div>
       <div class="bda-personal-data-form__high-school-section">
         <div class="field">
-          <sui-checkbox formControlName="isRecentHighSchoolGraduate">
+          <sui-checkbox formControlName="isRecentHighSchoolGraduate" #recentHighSchoolGraduateCheckBox>
             <b>Jestem maturzystą</b>
           </sui-checkbox>
         </div>
@@ -125,7 +125,7 @@
       <div class="bda-personal-data-form__others-section-content">
         <div class="field">
           <label>Skąd dowiedziałeś się po raz pierwszy o obozie?</label>
-          <sui-select class="selection">
+          <sui-select class="selection" formControlName="knowAboutCampFrom">
             <sui-select-option *ngFor="let option of campInfoOptions"
                                [value]="option">
             </sui-select-option>
@@ -140,7 +140,7 @@
 
         <div class="field">
           <label>Który raz jedziesz na obóz?</label>
-          <sui-select class="selection">
+          <sui-select class="selection" formControlName="onCampForTime">
             <sui-select-option *ngFor="let option of whichOneGoForCamp"
                                [value]="option">
             </sui-select-option>
@@ -152,7 +152,9 @@
 
   <button
     type="submit"
-    class="btn btn-success">Submit
+    class="btn btn-success"
+
+  >Submit
   </button>
 
 </form>
