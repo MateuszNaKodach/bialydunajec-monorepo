@@ -1,7 +1,7 @@
 export enum FormStatus {
-  VALID = 'valid',
-  INVALID = 'invalid',
-  PENDING = 'pending',
-  DISABLED = 'disabled',
-  UNKNOWN = 'unknown'
+  VALID = 'VALID',
+  INVALID = 'INVALID',
+  PENDING = 'PENDING',
+  DISABLED = 'DISABLED',
+  UNKNOWN = 'UNKNOWN'
 }
