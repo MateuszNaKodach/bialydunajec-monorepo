@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 @Component({
   selector: 'bda-form-navigation-buttons',
@@ -7,7 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FormNavigationButtonsComponent implements OnInit {
 
-  constructor() { }
+  @Input() config: { left: { text: string, disabled: boolean }, right: { text: string, disabled: boolean } };
+  @Output() clickLeft = new EventEmitter<void>();
+  @Output() clickRight = new EventEmitter<void>();
+
+  constructor() {
+  }
 
   ngOnInit() {
   }

@@ -1,4 +1,4 @@
 <div>
-  <button class="ui basic button orange">Wstecz</button>
-  <button class="ui button orange outline">Dalej</button>
+  <button *ngIf="config.left" type="button" class="ui basic button orange" [disabled]="config.left.disabled" (click)="clickLeft.emit()">{{config.left.text}}</button>
+  <button *ngIf="config.right" type="button" class="ui button orange outline" [disabled]="config.right.disabled" (click)="clickRight.emit()">{{config.right.text}}</button>
 </div>

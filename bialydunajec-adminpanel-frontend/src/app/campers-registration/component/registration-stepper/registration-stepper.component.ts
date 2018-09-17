@@ -1,5 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {RegistrationStepViewModel} from './registration-step.view-model';
+import {CamperRegistrationFormNavigator} from '../../service/camper-registration-form.navigator';
+import {StepId} from '../registration-form/registration-form.config';
 
 @Component({
   selector: 'bda-registration-stepper',
@@ -11,7 +13,7 @@ export class RegistrationStepperComponent implements OnInit {
   @Input() steps: RegistrationStepViewModel[];
   @Output() stepClicked = new EventEmitter<RegistrationStepViewModel>();
 
-  constructor() {
+  constructor(private formNavigator: CamperRegistrationFormNavigator) {
   }
 
   ngOnInit() {
@@ -20,5 +22,14 @@ export class RegistrationStepperComponent implements OnInit {
   onStepClicked(step: RegistrationStepViewModel) {
     this.stepClicked.emit(step);
   }
+
+  isCurrentStep(stepId: StepId) {
+    return this.getCurrentStepId() === stepId;
+  }
+
+  private getCurrentStepId() {
+    return this.formNavigator.getCurrentStepId();
+  }
+
 
 }
