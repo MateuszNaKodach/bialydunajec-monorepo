@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {peselValidator} from '../../../../shared/validator/pesel.validator';
 import {CamperRegistrationFormNavigator} from '../../../service/camper-registration-form.navigator';
@@ -6,6 +6,7 @@ import {ActivatedRoute} from '@angular/router';
 import {CamperRegistrationFormStateService} from '../../../service/camper-registration-form-state.service';
 import {StepId} from '../registration-form.config';
 import {FormStatus} from '../../../model/form-status.enum';
+import {Subscription} from 'rxjs';
 
 
 @Component({
@@ -13,12 +14,13 @@ import {FormStatus} from '../../../model/form-status.enum';
   templateUrl: './personal-data-form.component.html',
   styleUrls: ['./personal-data-form.component.scss']
 })
-export class PersonalDataFormComponent implements OnInit {
-
+export class PersonalDataFormComponent implements OnInit, OnDestroy {
 
   personalDataForm: FormGroup;
   campInfoOptions = ['Ze szkoły', 'Z uczelni', 'Od znajomych', 'Z facebooka'];
   whichOneGoForCamp = ['drugi', 'trzeci', 'czwarty', 'piąty', 'szósty', 'siódmy', 'ósmy'];
+
+  private stepperSubscription: Subscription;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -85,7 +87,7 @@ export class PersonalDataFormComponent implements OnInit {
     this.personalDataForm.get(['education', 'isRecentHighSchoolGraduate']).valueChanges
       .subscribe(value => this.onIsRecentHighSchoolGraduateValueChanged(value));
 
-    this.formNavigator.stepperClicks
+    this.stepperSubscription = this.formNavigator.stepperClicks
       .subscribe(stepClicked => this.updatePersonalDataFormStatus());
   }
 
@@ -101,7 +103,6 @@ export class PersonalDataFormComponent implements OnInit {
 
   onSubmit() {
     const formValues = this.personalDataForm.value;
-    console.log('Submit form state');
     this.formState.savePersonalFormData(formValues);
     this.updatePersonalDataFormStatus();
   }
@@ -134,5 +135,10 @@ export class PersonalDataFormComponent implements OnInit {
   private updatePersonalDataFormStatus() {
     this.formState.updateFormStatus(StepId.PERSONAL_DATA, FormStatus[this.personalDataForm.status]);
   }
+
+  ngOnDestroy(): void {
+    this.stepperSubscription.unsubscribe();
+  }
+
 
 }

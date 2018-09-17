@@ -9,6 +9,8 @@ import {AbstractControl} from '@angular/forms';
 export class FormInputErrorComponent implements OnInit {
 
   @Input() control: AbstractControl;
+  @Input() messages: [{ error: string, message: string }];
+  @Input() showOnlyFirst = false;
 
   constructor() {
   }
@@ -16,12 +18,10 @@ export class FormInputErrorComponent implements OnInit {
   ngOnInit() {
   }
 
-  get errorMessage(): string | null {
-    const errors = this.control.errors;
-    if (errors.invalidPesel) {
-      return 'Niepoprawny numer PESEL';
-    }
-    return null;
+  get errorMessages(): string[] {
+    return this.messages
+      .filter(m => (this.control.hasError(m.error)))
+      .map(m => m.message);
   }
 
 }

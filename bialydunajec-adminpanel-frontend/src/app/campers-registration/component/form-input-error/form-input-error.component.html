@@ -1,3 +1,6 @@
-<div *ngIf="control.invalid  && control.touched">
-  <p class="bda-error__content">{{errorMessage}}</p>
+<div class="field">
+  <div *ngIf="control.invalid  && control.touched">
+    <p class="bda-error__content">{{errorMessages}}</p>
+  </div>
 </div>
+
