@@ -7,6 +7,7 @@ import {CamperRegistrationFormStateService} from '../../../service/camper-regist
 import {StepId} from '../registration-form.config';
 import {FormStatus} from '../../../model/form-status.enum';
 import {Subscription} from 'rxjs';
+import {emailValidator} from '../../../../shared/validator/email.validator';
 
 
 @Component({
@@ -62,7 +63,7 @@ export class PersonalDataFormComponent implements OnInit, OnDestroy {
         contact: this.formBuilder.group(
           {
             email: new FormControl(currentContact.email, [Validators.required, Validators.email]),
-            telephone: new FormControl(currentContact.telephone, [Validators.required])
+            telephone: new FormControl(currentContact.telephone, [Validators.required]) //TODO: Add phone number validator
           }
         ),
         education: this.formBuilder.group(
@@ -76,9 +77,9 @@ export class PersonalDataFormComponent implements OnInit, OnDestroy {
         ),
         statistics: this.formBuilder.group(
           {
-            knowAboutCampFrom: new FormControl(),
-            wasCamperInThePast: new FormControl(),
-            onCampForTime: new FormControl()
+            knowAboutCampFrom: new FormControl(null, [Validators.required]),
+            wasCamperInThePast: new FormControl(false, [Validators.required]),
+            onCampForTime: new FormControl(null, [Validators.required])
           }
         )
       }
@@ -102,7 +103,7 @@ export class PersonalDataFormComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    console.log(this.firstName);
+    this.markFormGroupTouched(this.personalDataForm);
     const formValues = this.personalDataForm.value;
     this.formState.savePersonalFormData(formValues);
     this.updatePersonalDataFormStatus();
@@ -125,8 +126,21 @@ export class PersonalDataFormComponent implements OnInit, OnDestroy {
     return this.getPersonalDataControl('pesel');
   }
 
+  get emailAddress() {
+    return this.getContactControl('email');
+  }
+
+  get phoneNumber() {
+    return this.getContactControl('telephone');
+  }
+
   private getPersonalDataControl(name: string) {
     return this.personalDataForm.get(['personalData', name]);
+  }
+
+
+  private getContactControl(name: string) {
+    return this.personalDataForm.get(['contact', name]);
   }
 
   onClickNext() {
@@ -139,6 +153,20 @@ export class PersonalDataFormComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.stepperSubscription.unsubscribe();
+  }
+
+  /**
+   * Marks all controls in a form group as touched
+   * @param formGroup - The group to caress..hah
+   */
+  private markFormGroupTouched(formGroup: FormGroup) {
+    (<any>Object).values(formGroup.controls).forEach(control => {
+      control.markAsTouched();
+
+      if (control.controls) {
+        this.markFormGroupTouched(control);
+      }
+    });
   }
 
 

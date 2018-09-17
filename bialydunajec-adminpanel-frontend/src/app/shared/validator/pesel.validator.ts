@@ -2,8 +2,11 @@ import {FormControl} from '@angular/forms';
 import {Gender} from '../../campers-registration/model/gender.model';
 
 export function peselValidator(control: FormControl) {
+  if (!control.value) {
+    return null;
+  }
   const isValid = getInfoFromPesel(control.value).valid;
-  return isValid ? null : {'invalidPesel': {value: control.value}};
+  return isValid ? null : {'invalidPesel': control.value};
 }
 
 // TODO: Check pesel function from:

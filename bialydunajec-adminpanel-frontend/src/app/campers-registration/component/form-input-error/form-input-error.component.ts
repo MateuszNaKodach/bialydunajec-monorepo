@@ -1,6 +1,8 @@
-import {Component, Input, OnChanges, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnDestroy, OnInit} from '@angular/core';
 import {AbstractControl} from '@angular/forms';
 import {defaultErrorDefinitions} from './error-defs.default';
+import {FormStatus} from '../../model/form-status.enum';
+import {Subscription} from 'rxjs';
 
 // https://almerosteyn.com/2016/03/angular2-form-validation-component
 @Component({
@@ -8,7 +10,7 @@ import {defaultErrorDefinitions} from './error-defs.default';
   templateUrl: './form-input-error.component.html',
   styleUrls: ['./form-input-error.component.scss']
 })
-export class FormInputErrorComponent implements OnInit, OnChanges {
+export class FormInputErrorComponent implements OnInit, OnDestroy {
 
   @Input() label: string;
   @Input() control: AbstractControl;
@@ -16,14 +18,27 @@ export class FormInputErrorComponent implements OnInit, OnChanges {
 
   errorMessage = '';
 
+  private controlStatusSubscription: Subscription;
+
   constructor() {
   }
 
   ngOnInit() {
+    this.errorDefs = {...this.errorDefs, ...defaultErrorDefinitions};
+
+    this.updateControlErrors();
+    this.controlStatusSubscription = this.control.statusChanges
+      .subscribe(status => {
+        if (status === FormStatus.INVALID) {
+          this.updateControlErrors();
+        } else {
+          this.errorMessage = '';
+        }
+      });
+
   }
 
-  ngOnChanges(changes: any): void {
-    this.errorMessage = '';
+  private updateControlErrors() {
     const errors = this.control.errors;
     if (errors) {
       Object.keys(this.errorDefs)
@@ -36,7 +51,28 @@ export class FormInputErrorComponent implements OnInit, OnChanges {
     }
   }
 
-  hasError() {
+  ngOnDestroy() {
+    this.controlStatusSubscription.unsubscribe();
+  }
+
+
+  /*
+    ngOnChanges(changes: any): void {
+      this.errorMessage = '';
+      const errors = changes.control.currentValue.errors;
+      console.log(errors);
+      if (errors) {
+        Object.keys(this.errorDefs)
+          .some(errorKey => {
+            if (errors[errorKey]) {
+              this.errorMessage = this.errorDefs[errorKey];
+              return true;
+            }
+          });
+      }
+    }
+  */
+  isValid() {
     return this.control.touched && this.control.invalid;
   }
 

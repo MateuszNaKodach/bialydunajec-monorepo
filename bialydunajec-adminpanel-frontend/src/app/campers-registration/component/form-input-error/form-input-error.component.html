@@ -1,5 +1,5 @@
 <div class="field">
-  <label [ngClass]="{'bda-error__label': hasError()}">{{label}}</label>
+  <label [ngClass]="{'bda-error__label': isValid()}">{{label}}</label>
   <ng-content></ng-content>
-  <p  class="bda-error__content">test + {{errorMessage}}</p>
+  <p *ngIf="isValid()" class="bda-error__content">{{errorMessage}}</p>
 </div>

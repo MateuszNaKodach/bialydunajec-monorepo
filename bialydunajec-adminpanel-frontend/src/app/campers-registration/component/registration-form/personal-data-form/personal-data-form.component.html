@@ -20,23 +20,22 @@
             formControlName="gender"
             [options]="{ left: { name: 'Kobieta', value: 'FEMALE'}, right: { name: 'Mężczyzna' , value: 'MALE'} }"></bda-dual-toggle-button>
         </div>
-
-        <div class="field">
-          <label>Nazwisko</label>
+        <bda-form-input-error
+          [control]="firstName"
+          label="Imię">
+          <input type="text" formControlName="firstName">
+        </bda-form-input-error>
+        <bda-form-input-error
+          [control]="lastName"
+          label="Nazwisko">
           <input type="text" formControlName="lastName">
-        </div>
+        </bda-form-input-error>
         <bda-form-input-error
           [control]="pesel"
           label="Pesel"
           [errorDefs]="{invalidPesel: 'Niepoprawny numer PESEL'}"
         >
           <input type="text" formControlName="pesel">
-        </bda-form-input-error>
-        <bda-form-input-error
-          [control]="firstName"
-          label="Imię"
-          [errorDefs]="{required: 'Imię jest wymagane'}">
-          <input type="text" formControlName="firstName">
         </bda-form-input-error>
       </div>
 
@@ -70,14 +69,20 @@
           class="bda-personal-data-form__contact-section"
           formGroupName="contact"
         >
-          <div class="field">
-            <label>Email</label>
+          <bda-form-input-error
+            [control]="emailAddress"
+            label="Email"
+            [errorDefs]="{email: 'Niepoprawny adres email'}"
+          >
             <input type="email" formControlName="email" placeholder="jan.kowalski@test.com">
-          </div>
-          <div class="field">
-            <label>Telefon</label>
+          </bda-form-input-error>
+
+          <bda-form-input-error
+            [control]="phoneNumber"
+            label="Telefon">
             <input type="tel" formControlName="telephone">
-          </div>
+          </bda-form-input-error>
+
         </div>
       </div>
     </div>
