@@ -1,11 +1,22 @@
 import {Injectable} from '@angular/core';
-import {RegistrationFormConfig} from '../component/registration-form/registration-form.config';
+import {RegistrationFormConfig, StepId} from '../component/registration-form/registration-form.config';
 import {ActivatedRoute, Router} from '@angular/router';
+import {Observable, Subject} from 'rxjs';
 
 @Injectable()
 export class CamperRegistrationFormNavigator {
 
+  private formStepperClickedSubject = new Subject<StepId>();
+
   constructor(private router: Router) {
+  }
+
+  onFormStepperClicked(stepId: StepId) {
+    this.formStepperClickedSubject.next(stepId);
+  }
+
+  get stepperClicks(): Observable<StepId> {
+    return this.formStepperClickedSubject.asObservable();
   }
 
   getCurrentStepId() {

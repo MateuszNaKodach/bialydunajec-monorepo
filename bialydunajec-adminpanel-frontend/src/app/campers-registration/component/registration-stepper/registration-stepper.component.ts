@@ -2,6 +2,8 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {RegistrationStepViewModel} from './registration-step.view-model';
 import {CamperRegistrationFormNavigator} from '../../service/camper-registration-form.navigator';
 import {StepId} from '../registration-form/registration-form.config';
+import {CamperRegistrationFormStateService} from '../../service/camper-registration-form-state.service';
+import {FormStatus} from '../../model/form-status.enum';
 
 @Component({
   selector: 'bda-registration-stepper',
@@ -13,7 +15,10 @@ export class RegistrationStepperComponent implements OnInit {
   @Input() steps: RegistrationStepViewModel[];
   @Output() stepClicked = new EventEmitter<RegistrationStepViewModel>();
 
-  constructor(private formNavigator: CamperRegistrationFormNavigator) {
+  constructor(
+    private formNavigator: CamperRegistrationFormNavigator,
+    private formStateService: CamperRegistrationFormStateService
+  ) {
   }
 
   ngOnInit() {
@@ -21,10 +26,15 @@ export class RegistrationStepperComponent implements OnInit {
 
   onStepClicked(step: RegistrationStepViewModel) {
     this.stepClicked.emit(step);
+    this.formNavigator.onFormStepperClicked(step.getStepId());
   }
 
   isCurrentStep(stepId: StepId) {
     return this.getCurrentStepId() === stepId;
+  }
+
+  isStepInvalid(stepId: StepId) {
+    return this.formStateService.getFormStatus(stepId) === FormStatus.INVALID;
   }
 
   private getCurrentStepId() {
