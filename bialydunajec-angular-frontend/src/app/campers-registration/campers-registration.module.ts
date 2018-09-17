@@ -7,16 +7,19 @@ import {PersonalDataFormComponent} from './component/registration-form/personal-
 import {ShirtFormComponent} from './component/registration-form/shirt-form/shirt-form.component';
 import {TransportFormComponent} from './component/registration-form/transport-form/transport-form.component';
 import {CottageFormComponent} from './component/registration-form/cottage-form/cottage-form.component';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {SuiCheckboxModule, SuiSelectModule} from 'ng2-semantic-ui';
-import { FormNavigationButtonsComponent } from './component/registration-form/form-navigation-buttons/form-navigation-buttons.component';
-import { FormInputErrorComponent } from './component/form-input-error/form-input-error.component';
+import {FormNavigationButtonsComponent} from './component/registration-form/form-navigation-buttons/form-navigation-buttons.component';
+import {FormInputErrorComponent} from './component/form-input-error/form-input-error.component';
+import {CamperRegistrationFormStateService} from './service/camper-registration-form-state.service';
+import {CamperRegistrationFormNavigator} from './service/camper-registration-form.navigator';
 
 @NgModule({
   imports: [
     SharedModule,
     CampersRegistrationRoutingModule,
     ReactiveFormsModule,
+    FormsModule,
     SuiCheckboxModule,
     SuiSelectModule
   ],
@@ -29,6 +32,10 @@ import { FormInputErrorComponent } from './component/form-input-error/form-input
     CottageFormComponent,
     FormNavigationButtonsComponent,
     FormInputErrorComponent
+  ],
+  providers: [
+    CamperRegistrationFormStateService,
+    CamperRegistrationFormNavigator
   ]
 })
 export class CampersRegistrationModule {

@@ -1,18 +1,19 @@
 <div class="ui eight steps">
-  <div
+  <a
     *ngFor="let step of steps"
     class="step"
-    [ngClass]="{'active' : step.isSelected(), 'completed ': step.isCompleted()}"
+    [ngClass]="{'active' : isCurrentStep(step.getStepId()), 'completed ': step.isCompleted()}"
     (click)="onStepClicked(step)"
+    [routerLink]="['./',step.getRelativeToFormPath()]"
   >
     <i
       *ngIf="step.hasIcon()"
-      [ngClass]="{'orange' : step.isSelected()}"
+      [ngClass]="{'orange' : isCurrentStep(step.getStepId())}"
       class="{{step.getIcon()}} icon"></i>
     <div class="content">
       <div class="title">{{step.getTitle()}}</div>
       <div *ngIf="step.hasDescription()" class="description">{{step.getDescription()}}</div>
     </div>
-  </div>
+  </a>
 </div>
 

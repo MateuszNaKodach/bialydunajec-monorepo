@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {peselValidator} from '../../../../shared/validator/pesel.validator';
+import {CamperRegistrationFormNavigator} from '../../../service/camper-registration-form.navigator';
+import {ActivatedRoute} from '@angular/router';
 
 
 @Component({
@@ -15,7 +17,7 @@ export class PersonalDataFormComponent implements OnInit {
   campInfoOptions = ['Ze szkoły', 'Z uczelni', 'Od znajomych', 'Z facebooka'];
   whichOneGoForCamp = ['drugi', 'trzeci', 'czwarty', 'piąty', 'szósty', 'siódmy', 'ósmy'];
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, public formNavigator: CamperRegistrationFormNavigator, private activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit() {
@@ -141,6 +143,10 @@ export class PersonalDataFormComponent implements OnInit {
 
   private getPersonalDataControl(name: string) {
     return this.personalDataForm.get(['personalData', name]);
+  }
+
+  onClickNext() {
+    this.formNavigator.navigateToNextStep(this.activatedRoute);
   }
 
 }

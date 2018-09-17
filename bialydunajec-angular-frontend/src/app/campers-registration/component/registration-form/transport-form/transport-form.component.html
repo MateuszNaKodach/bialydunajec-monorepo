@@ -1,10 +1,19 @@
-<div>
+<form
+  class="bda-personal-data-form ui form"
+  [formGroup]="testForm"
+  (ngSubmit)="console.log('s')"
+>
   <section>
     <bda-section-header
-      title="Dojazd"
+      [title]="form.title"
+      [description]="form.description"
     ></bda-section-header>
     <div>
-
+      <div class="field">
+        <label>TestControl</label>
+        <input type="text" formControlName="testControl">
+      </div>
     </div>
   </section>
-</div>
+</form>
+

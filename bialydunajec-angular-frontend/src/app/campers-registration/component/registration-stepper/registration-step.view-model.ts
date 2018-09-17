@@ -1,15 +1,24 @@
+import {StepId} from '../registration-form/registration-form.config';
+
 export class RegistrationStepViewModel {
+  private readonly stepId: StepId;
   private readonly icon: string;
   private readonly title: string;
   private readonly description: string;
-  private selected: boolean;
+  private readonly relativeToFormPath: string;
   private completed: boolean;
   private disabled: boolean;
 
-  constructor(title: string, icon: string = null, description: string = null) {
+  constructor(stepId: StepId, title: string, icon: string = null, description: string = null, relativeToFormPath: string = null) {
+    this.stepId = stepId;
     this.title = title;
     this.icon = icon;
     this.description = description;
+    this.relativeToFormPath = relativeToFormPath;
+  }
+
+  getStepId(): StepId {
+    return this.stepId;
   }
 
   getIcon(): string {
@@ -32,16 +41,8 @@ export class RegistrationStepViewModel {
     return this.description != null;
   }
 
-  isSelected() {
-    return this.selected;
-  }
-
-  select() {
-    this.selected = true;
-  }
-
-  unselect() {
-    this.selected = false;
+  getRelativeToFormPath(): string {
+    return this.relativeToFormPath;
   }
 
   isCompleted() {

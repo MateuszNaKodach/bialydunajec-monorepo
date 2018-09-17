@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {StepId} from '../component/registration-form/registration-form.config';
+import {campersRegistrationRoutingPaths} from '../campers-registration-routing.paths';
 
 @Injectable({
   providedIn: 'root'
@@ -9,29 +10,38 @@ export class CampersRegistrationService {
   stepsState = new Map<string, any>([
     [
       StepId.PERSONAL_DATA,
-      {completed: false, selected: false, disabled: false}
+      {
+        completed: false,
+        selected: false,
+        disabled: false,
+        formData: null
+      }
     ],
     [
       StepId.COTTAGE,
-      'Big Oranges'
-    ]
-  ]);
-
-
-  formSteps = new Map<string, any>([
-    [
-      StepId.COTTAGE,
       {
-        title: 'Chatka',
-        description: 'Wybierz swoją chatkę',
-        icon: 'house',
-        relativeToFormPath: 'chatka',
-        required: true
+        completed: false,
+        selected: false,
+        disabled: false,
+        formData: null
       }
     ]
   ]);
 
 
+
   constructor() {
   }
+
+  getCurrentStep() {
+
+  }
+}
+
+export class FormStepConfig {
+  title: string;
+  description: string;
+  icon: string;
+  relativeToFormPath: string;
+  required: boolean;
 }
