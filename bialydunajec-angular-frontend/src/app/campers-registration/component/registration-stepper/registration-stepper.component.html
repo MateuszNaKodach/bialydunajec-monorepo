@@ -9,7 +9,7 @@
     <i
       *ngIf="step.hasIcon()"
       [ngClass]="{'orange' : isCurrentStep(step.getStepId())}"
-      class="{{isStepInvalid(step.getStepId()) ? 'times circle red': step.getIcon()}} icon"></i>
+      class="{{isStepInvalid(step.getStepId()) && !isCurrentStep(step.getStepId()) ? 'times circle red': step.getIcon()}} icon"></i>
     <div class="content">
       <div class="title">{{step.getTitle()}}</div>
       <div *ngIf="step.hasDescription()" class="description">{{step.getDescription()}}</div>

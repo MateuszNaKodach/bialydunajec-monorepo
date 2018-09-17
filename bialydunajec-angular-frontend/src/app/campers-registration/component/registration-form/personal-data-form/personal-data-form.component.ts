@@ -48,7 +48,7 @@ export class PersonalDataFormComponent implements OnInit, OnDestroy {
             gender: new FormControl(currentPersonalData.gender, [Validators.required]),
             firstName: new FormControl(currentPersonalData.firstName, [Validators.required]),
             lastName: new FormControl(currentPersonalData.lastName, [Validators.required]),
-            pesel: new FormControl(currentPersonalData.pesel, [peselValidator])
+            pesel: new FormControl(currentPersonalData.pesel, [Validators.required, peselValidator])
           }
         ),
         homeAddress: this.formBuilder.group(
@@ -102,6 +102,7 @@ export class PersonalDataFormComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
+    console.log(this.firstName);
     const formValues = this.personalDataForm.value;
     this.formState.savePersonalFormData(formValues);
     this.updatePersonalDataFormStatus();

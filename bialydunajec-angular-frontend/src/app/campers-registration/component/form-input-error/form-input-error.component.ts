@@ -1,16 +1,20 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {AbstractControl} from '@angular/forms';
+import {defaultErrorDefinitions} from './error-defs.default';
 
+// https://almerosteyn.com/2016/03/angular2-form-validation-component
 @Component({
   selector: 'bda-form-input-error',
   templateUrl: './form-input-error.component.html',
   styleUrls: ['./form-input-error.component.scss']
 })
-export class FormInputErrorComponent implements OnInit {
+export class FormInputErrorComponent implements OnInit, OnChanges {
 
+  @Input() label: string;
   @Input() control: AbstractControl;
-  @Input() messages: [{ error: string, message: string }];
-  @Input() showOnlyFirst = false;
+  @Input() errorDefs: any;
+
+  errorMessage = '';
 
   constructor() {
   }
@@ -18,10 +22,22 @@ export class FormInputErrorComponent implements OnInit {
   ngOnInit() {
   }
 
-  get errorMessages(): string[] {
-    return this.messages
-      .filter(m => (this.control.hasError(m.error)))
-      .map(m => m.message);
+  ngOnChanges(changes: any): void {
+    this.errorMessage = '';
+    const errors = this.control.errors;
+    if (errors) {
+      Object.keys(this.errorDefs)
+        .some(errorKey => {
+          if (errors[errorKey]) {
+            this.errorMessage = this.errorDefs[errorKey];
+            return true;
+          }
+        });
+    }
+  }
+
+  hasError() {
+    return this.control.touched && this.control.invalid;
   }
 
 }
