@@ -55,6 +55,22 @@ export class CamperRegistrationFormStateService {
           testControl: null
         }
       }
+    ],
+    [
+      StepId.SHIRT,
+      {
+        status: FormStatus.UNKNOWN,
+        submitted: false,
+        data: {}
+      }
+    ],
+    [
+      StepId.COTTAGE,
+      {
+        status: FormStatus.UNKNOWN,
+        submitted: false,
+        data: {}
+      }
     ]
   ]);
 
@@ -86,6 +102,10 @@ export class CamperRegistrationFormStateService {
   updateFormStatus(stepId: StepId, status: FormStatus) {
     this.formState.get(stepId).status = status;
     this.publishFormStateChange(stepId, status);
+  }
+
+  getFormStatus(stepId: StepId) {
+    return this.formState.get(stepId).status;
   }
 
   private publishFormStateChange(stepId: StepId, formState: any) {

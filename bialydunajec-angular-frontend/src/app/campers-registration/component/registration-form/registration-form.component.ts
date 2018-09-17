@@ -10,7 +10,7 @@ import {StepId} from './registration-form.config';
   styleUrls: ['./registration-form.component.scss']
 })
 export class RegistrationFormComponent implements OnInit {
-//times circle red
+
   private registrationSteps = [
     new RegistrationStepViewModel(StepId.PERSONAL_DATA, 'Dane osobowe', 'clipboard list', 'Wprowadź swoje dane', campersRegistrationRoutingPaths.personalData),
     new RegistrationStepViewModel(StepId.TRANSPORT, 'Dojazd', 'bus', 'Wybierz transport', campersRegistrationRoutingPaths.transport),
@@ -24,7 +24,6 @@ export class RegistrationFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.registrationSteps[0].markAsCompleted();
   }
 
   getRegistrationSteps() {

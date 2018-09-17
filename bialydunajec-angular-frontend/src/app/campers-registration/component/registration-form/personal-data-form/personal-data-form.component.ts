@@ -85,6 +85,8 @@ export class PersonalDataFormComponent implements OnInit {
     this.personalDataForm.get(['education', 'isRecentHighSchoolGraduate']).valueChanges
       .subscribe(value => this.onIsRecentHighSchoolGraduateValueChanged(value));
 
+    this.formNavigator.stepperClicks
+      .subscribe(stepClicked => this.updatePersonalDataFormStatus());
   }
 
   onIsRecentHighSchoolGraduateValueChanged(isRecentHighSchoolGraduate: boolean) {
@@ -101,7 +103,7 @@ export class PersonalDataFormComponent implements OnInit {
     const formValues = this.personalDataForm.value;
     console.log('Submit form state');
     this.formState.savePersonalFormData(formValues);
-    this.formState.updateFormStatus(StepId.PERSONAL_DATA, FormStatus[this.personalDataForm.status]);
+    this.updatePersonalDataFormStatus();
   }
 
 
@@ -127,6 +129,10 @@ export class PersonalDataFormComponent implements OnInit {
 
   onClickNext() {
     this.formNavigator.navigateToNextStep(this.activatedRoute);
+  }
+
+  private updatePersonalDataFormStatus() {
+    this.formState.updateFormStatus(StepId.PERSONAL_DATA, FormStatus[this.personalDataForm.status]);
   }
 
 }
