@@ -3,6 +3,9 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {peselValidator} from '../../../../shared/validator/pesel.validator';
 import {CamperRegistrationFormNavigator} from '../../../service/camper-registration-form.navigator';
 import {ActivatedRoute} from '@angular/router';
+import {CamperRegistrationFormStateService} from '../../../service/camper-registration-form-state.service';
+import {StepId} from '../registration-form.config';
+import {FormStatus} from '../../../model/form-status.enum';
 
 
 @Component({
@@ -17,7 +20,11 @@ export class PersonalDataFormComponent implements OnInit {
   campInfoOptions = ['Ze szkoły', 'Z uczelni', 'Od znajomych', 'Z facebooka'];
   whichOneGoForCamp = ['drugi', 'trzeci', 'czwarty', 'piąty', 'szósty', 'siódmy', 'ósmy'];
 
-  constructor(private formBuilder: FormBuilder, public formNavigator: CamperRegistrationFormNavigator, private activatedRoute: ActivatedRoute) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private formState: CamperRegistrationFormStateService,
+    private formNavigator: CamperRegistrationFormNavigator,
+    private activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit() {
@@ -25,38 +32,11 @@ export class PersonalDataFormComponent implements OnInit {
   }
 
   private initForm() {
-    const currentFormState = {
-      personalData: {
-        gender: null,
-        firstName: null,
-        lastName: 'Kowalski',
-        pesel: null
-      },
-      homeAddress: {
-        street: null,
-        number: null,
-        postalCode: null,
-        city: null
-      },
-      contact: {
-        email: null,
-        telephone: null,
-      },
-      education: {
-        university: null,
-        faculty: null,
-        fieldOfStudy: null,
-        isRecentHighSchoolGraduate: false,
-        highSchool: null
-      },
-      statistics: {
-        wasCamperInThePast: null
-      }
-    };
-    const currentPersonalData = currentFormState.personalData;
-    const currentHomeAddress = currentFormState.homeAddress;
-    const currentContact = currentFormState.contact;
-    const currentEducation = currentFormState.education;
+    const initialFormState = this.formState.getPersonalFormDataSnapshot();
+    const currentPersonalData = initialFormState.personalData;
+    const currentHomeAddress = initialFormState.homeAddress;
+    const currentContact = initialFormState.contact;
+    const currentEducation = initialFormState.education;
 
 
     this.personalDataForm = this.formBuilder.group(
@@ -119,9 +99,9 @@ export class PersonalDataFormComponent implements OnInit {
 
   onSubmit() {
     const formValues = this.personalDataForm.value;
-    console.log(formValues);
-    console.log(this.personalDataForm);
-    console.log(this.personalDataForm.get(['education', 'isRecentHighSchoolGraduate']).value);
+    console.log('Submit form state');
+    this.formState.savePersonalFormData(formValues);
+    this.formState.updateFormStatus(StepId.PERSONAL_DATA, FormStatus[this.personalDataForm.status]);
   }
 
 

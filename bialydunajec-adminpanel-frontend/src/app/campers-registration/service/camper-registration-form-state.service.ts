@@ -1,74 +1,97 @@
 import {Injectable} from '@angular/core';
 import {StepId} from '../component/registration-form/registration-form.config';
-import {campersRegistrationRoutingPaths} from '../campers-registration-routing.paths';
-import {FormStepConfig} from './campers-registration.service';
+import {FormStatus} from '../model/form-status.enum';
+import {Subject} from 'rxjs';
 
 @Injectable()
 export class CamperRegistrationFormStateService {
+
+  private formStateSubject = new Subject<{ stepId: StepId, formState: any }>();
 
   private formState = new Map<string, any>([
     [
       StepId.PERSONAL_DATA,
       {
-        personalData: {
-          gender: null,
-          firstName: null,
-          lastName: null,
-          pesel: null
-        },
-        homeAddress: {
-          street: null,
-          number: null,
-          postalCode: null,
-          city: null
-        },
-        contact: {
-          email: null,
-          telephone: null,
-        },
-        education: {
-          university: null,
-          faculty: null,
-          fieldOfStudy: null,
-          isRecentHighSchoolGraduate: false,
-          highSchool: null
-        },
-        statistics: {
-          knowAboutCampFrom: null,
-          wasCamperInThePast: null,
-          onCampForTime: null
+        status: FormStatus.UNKNOWN,
+        submitted: false,
+        data: {
+          personalData: {
+            gender: null,
+            firstName: 'Mateusz',
+            lastName: null,
+            pesel: null
+          },
+          homeAddress: {
+            street: null,
+            number: null,
+            postalCode: null,
+            city: null
+          },
+          contact: {
+            email: null,
+            telephone: null,
+          },
+          education: {
+            university: null,
+            faculty: null,
+            fieldOfStudy: null,
+            isRecentHighSchoolGraduate: false,
+            highSchool: null
+          },
+          statistics: {
+            knowAboutCampFrom: null,
+            wasCamperInThePast: null,
+            onCampForTime: null
+          }
         }
       }
     ],
     [
       StepId.TRANSPORT,
-      {testControl: null}
+      {
+        status: FormStatus.UNKNOWN,
+        submitted: false,
+        data: {
+          testControl: null
+        }
+      }
     ]
   ]);
 
   constructor() {
   }
 
-  getPersonalFormState() {
-    return {...this.formState.get(StepId.PERSONAL_DATA)};
+  get formStateChanges() {
+    return this.formStateSubject.asObservable();
   }
 
-  savePersonalFormState(formState: any) {
-    this.formState.set(StepId.PERSONAL_DATA, formState);
+  getPersonalFormDataSnapshot() {
+    return {...this.formState.get(StepId.PERSONAL_DATA).data};
   }
 
-  getTransportFormState() {
-    return {...this.formState.get(StepId.TRANSPORT)};
+  savePersonalFormData(formData: any) {
+    this.formState.get(StepId.PERSONAL_DATA).data = formData;
+    this.publishFormStateChange(StepId.PERSONAL_DATA, this.formState.get(StepId.PERSONAL_DATA));
   }
 
-  saveTransportFormState(formState: any) {
-    this.formState.set(StepId.TRANSPORT, formState);
+  getTransportFormDataSnapshot() {
+    return {...this.formState.get(StepId.TRANSPORT).data};
   }
 
-  getSubmittedFormState() {
-    return {
-      personal: this.getPersonalFormState(),
-      transport: this.getTransportFormState()
-    };
+  saveTransportFormData(formState: any) {
+    this.formState.get(StepId.TRANSPORT).data = formState;
+    this.publishFormStateChange(StepId.TRANSPORT, this.formState.get(StepId.TRANSPORT));
   }
+
+  updateFormStatus(stepId: StepId, status: FormStatus) {
+    this.formState.get(stepId).status = status;
+    this.publishFormStateChange(stepId, status);
+  }
+
+  private publishFormStateChange(stepId: StepId, formState: any) {
+    console.log(this.formState);
+    this.formStateSubject.next({stepId, formState});
+  }
+
+
 }
