@@ -1,4 +1,3 @@
-import {FormStepConfig} from '../../service/campers-registration.service';
 import {campersRegistrationRoutingPaths} from '../../campers-registration-routing.paths';
 
 export enum StepId {
@@ -68,18 +67,3 @@ export class RegistrationFormConfig {
     return RegistrationFormConfig.STEPS_ORDER.length;
   }
 }
-
-export const getRegistrationFormSteps = () => {
-  return REGISTRATION_FORM_STEPS;
-};
-
-const REGISTRATION_FORM_STEPS: RegistrationFormStep[] = [];
-
-export class RegistrationFormStep {
-  id: StepId;
-  title: string;
-  description: string;
-  icon: string;
-  path: string;
-}
-

@@ -12,8 +12,6 @@ export class CampersRegistrationService {
       StepId.PERSONAL_DATA,
       {
         completed: false,
-        selected: false,
-        disabled: false,
         formData: null
       }
     ],
@@ -21,8 +19,6 @@ export class CampersRegistrationService {
       StepId.COTTAGE,
       {
         completed: false,
-        selected: false,
-        disabled: false,
         formData: null
       }
     ]
@@ -36,12 +32,4 @@ export class CampersRegistrationService {
   getCurrentStep() {
 
   }
-}
-
-export class FormStepConfig {
-  title: string;
-  description: string;
-  icon: string;
-  relativeToFormPath: string;
-  required: boolean;
 }
