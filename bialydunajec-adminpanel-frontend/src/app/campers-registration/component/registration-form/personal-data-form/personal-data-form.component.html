@@ -20,24 +20,24 @@
             formControlName="gender"
             [options]="{ left: { name: 'Kobieta', value: 'FEMALE'}, right: { name: 'Mężczyzna' , value: 'MALE'} }"></bda-dual-toggle-button>
         </div>
-        <div class="field">
-          <label>Imię</label>
-          <input type="text" formControlName="firstName" placeholder="Jan">
-        </div>
+
         <div class="field">
           <label>Nazwisko</label>
           <input type="text" formControlName="lastName">
         </div>
-        <div class="field">
-          <label>Pesel</label>
+        <bda-form-input-error
+          [control]="pesel"
+          label="Pesel"
+          [errorDefs]="{invalidPesel: 'Niepoprawny numer PESEL'}"
+        >
           <input type="text" formControlName="pesel">
-          <bda-form-input-error
-            [control]="pesel"
-            [messages]="[
-            {error: 'invalidPesel', message: 'Niepoprawny numer PESEL'}
-            ]"
-          ></bda-form-input-error>
-        </div>
+        </bda-form-input-error>
+        <bda-form-input-error
+          [control]="firstName"
+          label="Imię"
+          [errorDefs]="{required: 'Imię jest wymagane'}">
+          <input type="text" formControlName="firstName">
+        </bda-form-input-error>
       </div>
 
       <div>
