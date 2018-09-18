@@ -90,6 +90,10 @@ export class PersonalDataFormComponent implements OnInit, OnDestroy {
 
     this.stepperSubscription = this.formNavigator.stepperClicks
       .subscribe(stepClicked => this.updatePersonalDataFormStatus());
+
+    if (this.formState.getFormStatus(StepId.PERSONAL_DATA) === FormStatus.INVALID) {
+      this.markFormGroupTouched(this.personalDataForm);
+    }
   }
 
   onIsRecentHighSchoolGraduateValueChanged(isRecentHighSchoolGraduate: boolean) {
@@ -134,16 +138,61 @@ export class PersonalDataFormComponent implements OnInit, OnDestroy {
     return this.getContactControl('telephone');
   }
 
+  get street() {
+    return this.getHomeAddressControl('street');
+  }
+
+  get number() {
+    return this.getHomeAddressControl('number');
+  }
+
+  get postalCode() {
+    return this.getHomeAddressControl('postalCode');
+  }
+
+  get city() {
+    return this.getHomeAddressControl('city');
+  }
+
+  get university() {
+    return this.getEducationControl('university');
+  }
+
+  get faculty() {
+    return this.getEducationControl('faculty');
+  }
+
+  get fieldOfStudy() {
+    return this.getEducationControl('fieldOfStudy');
+  }
+
+  get isRecentHighSchoolGraduate() {
+    return this.getEducationControl('isRecentHighSchoolGraduate');
+  }
+
+  get highSchool() {
+    return this.getEducationControl('highSchool');
+  }
+
   private getPersonalDataControl(name: string) {
     return this.personalDataForm.get(['personalData', name]);
   }
-
 
   private getContactControl(name: string) {
     return this.personalDataForm.get(['contact', name]);
   }
 
+  private getHomeAddressControl(name: string) {
+    return this.personalDataForm.get(['homeAddress', name]);
+  }
+
+
+  private getEducationControl(name: string) {
+    return this.personalDataForm.get(['education', name]);
+  }
+
   onClickNext() {
+    this.onSubmit();
     this.formNavigator.navigateToNextStep(this.activatedRoute);
   }
 
@@ -155,10 +204,6 @@ export class PersonalDataFormComponent implements OnInit, OnDestroy {
     this.stepperSubscription.unsubscribe();
   }
 
-  /**
-   * Marks all controls in a form group as touched
-   * @param formGroup - The group to caress..hah
-   */
   private markFormGroupTouched(formGroup: FormGroup) {
     (<any>Object).values(formGroup.controls).forEach(control => {
       control.markAsTouched();
