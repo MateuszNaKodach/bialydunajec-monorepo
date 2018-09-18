@@ -1,14 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
 @import "variables/fonts";
 
-
 html, body {
   font-size: $root-font-size;
   font-family: $root-font-family;
   height: 100%;
 }
 
-body{
+body {
   margin: 0;
   background-color: #f6f6f6;
 }
@@ -37,13 +36,12 @@ h6 {
   font-size: 0.9286rem;
 }
 
-
-a{
+a {
   color: black;
-  &:hover{
+  &:hover {
     color: $a-active-font-color;
   }
-  &:active{
+  &:active {
     color: $a-active-font-color;
   }
 }
@@ -55,17 +53,13 @@ a{
   justify-content: center;
 }
 
-input.ng-invalid.ng-touched,
-textarea.ng-invalid.ng-touched {
-  border: 1px solid red !important;
-}
-
-.field{
+.field {
   height: 80px !important;
   margin-bottom: 20px !important;
 }
 
-input {
+input, .dropdown {
   height: 41.13px;
 }
+
 

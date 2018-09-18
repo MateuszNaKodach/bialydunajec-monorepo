@@ -14,12 +14,15 @@
         class="bda-personal-data-form__personal-data-section"
         formGroupName="personalData"
       >
-        <div class="field">
-          <label>Płeć</label>
+        <bda-form-input-error
+          [control]="gender"
+          label="Płeć">
           <bda-dual-toggle-button
             formControlName="gender"
-            [options]="{ left: { name: 'Kobieta', value: 'FEMALE'}, right: { name: 'Mężczyzna' , value: 'MALE'} }"></bda-dual-toggle-button>
-        </div>
+            [options]="{ left: { name: 'Kobieta', value: 'FEMALE'}, right: { name: 'Mężczyzna' , value: 'MALE'} }">
+          </bda-dual-toggle-button>
+        </bda-form-input-error>
+
         <bda-form-input-error
           [control]="firstName"
           label="Imię">
@@ -149,14 +152,15 @@
       formGroupName="statistics"
     >
       <div class="bda-personal-data-form__others-section-content">
-        <div class="field">
-          <label>Skąd dowiedziałeś się po raz pierwszy o obozie?</label>
+        <bda-form-input-error
+          [control]="knowAboutCampFrom"
+          label="Skąd dowiedziałeś się po raz pierwszy o obozie?">
           <sui-select class="selection" formControlName="knowAboutCampFrom">
             <sui-select-option *ngFor="let option of campInfoOptions"
                                [value]="option">
             </sui-select-option>
           </sui-select>
-        </div>
+        </bda-form-input-error>
 
         <div class="field">
           <sui-checkbox formControlName="wasCamperInThePast">
@@ -164,14 +168,17 @@
           </sui-checkbox>
         </div>
 
-        <div class="field">
-          <label>Który raz jedziesz na obóz?</label>
+        <bda-form-input-error
+          [control]="onCampForTime"
+          label="Który raz jedziesz na obóz?">
           <sui-select class="selection" formControlName="onCampForTime">
             <sui-select-option *ngFor="let option of whichOneGoForCamp"
                                [value]="option">
             </sui-select-option>
           </sui-select>
-        </div>
+        </bda-form-input-error>
+
+
       </div>
     </div>
   </section>
