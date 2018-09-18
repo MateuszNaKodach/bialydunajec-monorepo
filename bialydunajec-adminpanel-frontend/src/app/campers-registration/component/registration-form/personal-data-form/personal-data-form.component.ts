@@ -8,6 +8,7 @@ import {StepId} from '../registration-form.config';
 import {FormStatus} from '../../../model/form-status.enum';
 import {Subscription} from 'rxjs';
 import {emailValidator} from '../../../../shared/validator/email.validator';
+import {AngularFormHelper} from '../../../../shared/helper/angular-form.helper';
 
 
 @Component({
@@ -92,7 +93,7 @@ export class PersonalDataFormComponent implements OnInit, OnDestroy {
       .subscribe(stepClicked => this.updatePersonalDataFormStatus());
 
     if (this.formState.getFormStatus(StepId.PERSONAL_DATA) === FormStatus.INVALID) {
-      this.markFormGroupTouched(this.personalDataForm);
+      AngularFormHelper.markFormGroupTouched(this.personalDataForm);
     }
   }
 
@@ -107,7 +108,8 @@ export class PersonalDataFormComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    this.markFormGroupTouched(this.personalDataForm);
+    console.log(this.personalDataForm);
+    AngularFormHelper.markFormGroupTouched(this.personalDataForm);
     const formValues = this.personalDataForm.value;
     this.formState.savePersonalFormData(formValues);
     this.updatePersonalDataFormStatus();
@@ -174,6 +176,18 @@ export class PersonalDataFormComponent implements OnInit, OnDestroy {
     return this.getEducationControl('highSchool');
   }
 
+  get knowAboutCampFrom() {
+    return this.getStatisticsControl('knowAboutCampFrom');
+  }
+
+  get wasCamperInThePast() {
+    return this.getStatisticsControl('wasCamperInThePast');
+  }
+
+  get onCampForTime() {
+    return this.getStatisticsControl('onCampForTime');
+  }
+
   private getPersonalDataControl(name: string) {
     return this.personalDataForm.get(['personalData', name]);
   }
@@ -186,9 +200,12 @@ export class PersonalDataFormComponent implements OnInit, OnDestroy {
     return this.personalDataForm.get(['homeAddress', name]);
   }
 
-
   private getEducationControl(name: string) {
     return this.personalDataForm.get(['education', name]);
+  }
+
+  private getStatisticsControl(name: string) {
+    return this.personalDataForm.get(['statistics', name]);
   }
 
   onClickNext() {
@@ -203,16 +220,5 @@ export class PersonalDataFormComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.stepperSubscription.unsubscribe();
   }
-
-  private markFormGroupTouched(formGroup: FormGroup) {
-    (<any>Object).values(formGroup.controls).forEach(control => {
-      control.markAsTouched();
-
-      if (control.controls) {
-        this.markFormGroupTouched(control);
-      }
-    });
-  }
-
 
 }

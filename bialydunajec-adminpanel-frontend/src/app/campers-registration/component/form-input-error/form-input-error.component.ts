@@ -16,7 +16,7 @@ export class FormInputErrorComponent implements OnInit, OnDestroy {
   @Input() control: AbstractControl;
   @Input() errorDefs: any;
 
-  errorMessage = '';
+  errorMessage: string = null;
 
   private controlStatusSubscription: Subscription;
 
@@ -32,7 +32,7 @@ export class FormInputErrorComponent implements OnInit, OnDestroy {
         if (status === FormStatus.INVALID) {
           this.updateControlErrors();
         } else {
-          this.errorMessage = '';
+          this.errorMessage = null;
         }
       });
 
@@ -55,24 +55,7 @@ export class FormInputErrorComponent implements OnInit, OnDestroy {
     this.controlStatusSubscription.unsubscribe();
   }
 
-
-  /*
-    ngOnChanges(changes: any): void {
-      this.errorMessage = '';
-      const errors = changes.control.currentValue.errors;
-      console.log(errors);
-      if (errors) {
-        Object.keys(this.errorDefs)
-          .some(errorKey => {
-            if (errors[errorKey]) {
-              this.errorMessage = this.errorDefs[errorKey];
-              return true;
-            }
-          });
-      }
-    }
-  */
-  isValid() {
+  isInvalid() {
     return this.control.touched && this.control.invalid;
   }
 
