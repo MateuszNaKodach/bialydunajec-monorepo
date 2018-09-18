@@ -61,7 +61,11 @@ export class CamperRegistrationFormStateService {
       {
         status: FormStatus.UNKNOWN,
         submitted: false,
-        data: {}
+        data: {
+          color: null,
+          size: null,
+          clothType: null
+        }
       }
     ],
     [
@@ -97,6 +101,15 @@ export class CamperRegistrationFormStateService {
   saveTransportFormData(formState: any) {
     this.formState.get(StepId.TRANSPORT).data = formState;
     this.publishFormStateChange(StepId.TRANSPORT, this.formState.get(StepId.TRANSPORT));
+  }
+
+  getStepFormDataSnapshot(stepId: StepId) {
+    return {...this.formState.get(stepId).data};
+  }
+
+  saveStepFormData(stepId: StepId, formState: any) {
+    this.formState.get(stepId).data = formState;
+    this.publishFormStateChange(stepId, this.formState.get(stepId));
   }
 
   updateFormStatus(stepId: StepId, status: FormStatus) {

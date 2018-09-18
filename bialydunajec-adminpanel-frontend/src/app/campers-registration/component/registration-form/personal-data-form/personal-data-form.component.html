@@ -155,7 +155,7 @@
         <bda-form-input-error
           [control]="knowAboutCampFrom"
           label="Skąd dowiedziałeś się po raz pierwszy o obozie?">
-          <sui-select class="selection" formControlName="knowAboutCampFrom">
+          <sui-select class="selection" formControlName="knowAboutCampFrom" placeholder="Wybierz jedną z opcji">
             <sui-select-option *ngFor="let option of campInfoOptions"
                                [value]="option">
             </sui-select-option>
@@ -171,20 +171,15 @@
         <bda-form-input-error
           [control]="onCampForTime"
           label="Który raz jedziesz na obóz?">
-          <sui-select class="selection" formControlName="onCampForTime">
+          <sui-select class="selection" formControlName="onCampForTime" placeholder="Wybierz jedną z opcji">
             <sui-select-option *ngFor="let option of whichOneGoForCamp"
                                [value]="option">
             </sui-select-option>
           </sui-select>
         </bda-form-input-error>
-
-
       </div>
     </div>
   </section>
-
-  <button type="submit">Submit</button>
-
   <bda-form-navigation-buttons
     [config]='{right: {text: "Dalej", disabled: false}}'
     (clickRight)="onClickNext()"

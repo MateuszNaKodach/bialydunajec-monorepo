@@ -1,11 +1,51 @@
-<div>
+<form
+  class="ui form"
+  [formGroup]="stepForm"
+  (submit)="onSubmitStepForm()"
+>
   <section>
     <bda-section-header
       title="Koszulka"
-      description="Każdy z uczestników otrzyma koszulkę obozową. Informujemy, że ze względów organizacyjnych koszulki mogą nie być dostępne w wybranym rozmiarze i kolorze."
+      description="Każdy z uczestników otrzyma koszulkę obozową. Informujemy, że ze względów organizacyjnych koszulki mogą nie być dostępne w wybranym rozmiarze i kolorze. Tabela rozmiarów jest dostępna tutaj."
     ></bda-section-header>
     <div>
 
+      <bda-form-input-error
+        [control]="color"
+        label="Kolor koszulki">
+        <sui-select class="selection" formControlName="color" placeholder="Wybierz jedną z opcji">
+          <sui-select-option *ngFor="let option of getShirtColorOptions()"
+                             [value]="option">
+          </sui-select-option>
+        </sui-select>
+      </bda-form-input-error>
+
+      <bda-form-input-error
+        [control]="size"
+        label="Rozmiar koszulki">
+        <sui-select class="selection" formControlName="size" placeholder="Wybierz jedną z opcji">
+          <sui-select-option *ngFor="let option of getShirtSizeOptions()"
+                             [value]="option">
+          </sui-select-option>
+        </sui-select>
+      </bda-form-input-error>
+
+      <bda-form-input-error
+        [control]="clothType"
+        label="Rodzaj koszulki">
+            <div class="ui radio checkbox" style="display: block; margin-bottom: 0.5rem">
+              <input type="radio" formControlName="clothType" value="FEMALE">
+              <label>Damska</label>
+          </div>
+            <div class="ui radio checkbox" style="display: block">
+              <input type="radio" formControlName="clothType" value="MALE">
+              <label>Męska</label>
+            </div>
+      </bda-form-input-error>
     </div>
   </section>
-</div>
+  <bda-form-navigation-buttons
+    [config]='{right: {text: "Dalej", disabled: false}}'
+    (clickRight)="onSubmitStepForm()"
+  ></bda-form-navigation-buttons>
+</form>
