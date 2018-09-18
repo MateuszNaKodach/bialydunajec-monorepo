@@ -44,27 +44,38 @@
           class="bda-personal-data-form__home-address-section"
           formGroupName="homeAddress"
         >
-          <div class="two fields">
-            <div class="eleven wide field">
-              <label>Ulica</label>
+          <div style="display: flex; justify-content: space-between;">
+            <bda-form-input-error
+              style="flex: 12; margin-right: 10px"
+              [control]="street"
+              label="Ulica">
               <input type="text" formControlName="street" placeholder="Przykładowa">
-            </div>
-            <div class="five wide field">
-              <label>Nr domu</label>
+            </bda-form-input-error>
+            <bda-form-input-error
+              style="flex: 5; margin-left: 10px"
+              [control]="number"
+              label="Nr domu">
               <input type="text" formControlName="number" placeholder="192a/2">
-            </div>
+            </bda-form-input-error>
           </div>
-          <div class="two fields">
-            <div class="four wide field">
-              <label>Kod pocztowy</label>
+
+          <div style="display: flex; justify-content: space-between">
+            <bda-form-input-error
+              style="flex: 5; margin-right: 10px"
+              [control]="postalCode"
+              label="Kod pocztowy">
               <input type="text" formControlName="postalCode" placeholder="12-345">
-            </div>
-            <div class="twelve wide field">
-              <label>Miasto</label>
+            </bda-form-input-error>
+            <bda-form-input-error
+              style="flex: 12; margin-left: 10px"
+              [control]="city"
+              label="Miasto">
               <input type="text" formControlName="city" placeholder="Wrocław">
-            </div>
+            </bda-form-input-error>
           </div>
+
         </div>
+
         <div
           class="bda-personal-data-form__contact-section"
           formGroupName="contact"
@@ -100,29 +111,33 @@
       formGroupName="education"
     >
       <div class="bda-personal-data-form__university-section">
-        <div class="field">
-          <label>Uczelnia</label>
-          <input type="text" formControlName="university">
-        </div>
-        <div class="field">
-          <label>Wydział</label>
-          <input type="text" formControlName="faculty">
-        </div>
-        <div class="field">
-          <label>Kierunek</label>
-          <input type="text" formControlName="fieldOfStudy">
-        </div>
+        <bda-form-input-error
+          [control]="university"
+          label="Uczelnia">
+          <input type="tel" formControlName="university">
+        </bda-form-input-error>
+        <bda-form-input-error
+          [control]="faculty"
+          label="Wydział">
+          <input type="tel" formControlName="faculty">
+        </bda-form-input-error>
+        <bda-form-input-error
+          [control]="fieldOfStudy"
+          label="Kierunek">
+          <input type="tel" formControlName="fieldOfStudy">
+        </bda-form-input-error>
       </div>
       <div class="bda-personal-data-form__high-school-section">
         <div class="field">
-          <sui-checkbox formControlName="isRecentHighSchoolGraduate" #recentHighSchoolGraduateCheckBox>
+          <sui-checkbox formControlName="isRecentHighSchoolGraduate">
             <b>Jestem maturzystą</b>
           </sui-checkbox>
         </div>
-        <div class="field">
-          <label>Liceum</label>
-          <input type="text" formControlName="highSchool">
-        </div>
+        <bda-form-input-error
+          [control]="highSchool"
+          label="Liceum">
+          <input type="tel" formControlName="highSchool">
+        </bda-form-input-error>
       </div>
     </div>
   </section>
