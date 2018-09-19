@@ -11,11 +11,11 @@
     <div>
       <bda-form-input-error
         [label]="formConfig.controls.meanOfTransport.label"
-        [control]="getFormControlByName(formConfig.controls.meanOfTransport.name)"
+        [control]="meanOfTransport"
       >
         <sui-select class="selection" [formControlName]="formConfig.controls.meanOfTransport.name"
                     [placeholder]="formConfig.controls.meanOfTransport.placeholder">
-          <sui-select-option *ngFor="let option of formConfig.controls.meanOfTransport.options"
+          <sui-select-option *ngFor="let option of meanOfTransportOptions"
                              [value]="option">
           </sui-select-option>
         </sui-select>

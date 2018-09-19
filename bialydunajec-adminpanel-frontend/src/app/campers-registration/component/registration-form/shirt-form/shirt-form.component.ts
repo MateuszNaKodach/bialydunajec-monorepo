@@ -4,7 +4,6 @@ import {RegistrationFormStepAbstractComponent} from '../registration-form-step.a
 import {CamperRegistrationFormStateService} from '../../../service/camper-registration-form-state.service';
 import {StepId} from '../registration-form.config';
 import {Gender} from '../../../model/gender.model';
-import {AngularFormHelper} from '../../../../shared/helper/angular-form.helper';
 import {CamperRegistrationFormNavigator} from '../../../service/camper-registration-form.navigator';
 import {ActivatedRoute} from '@angular/router';
 
