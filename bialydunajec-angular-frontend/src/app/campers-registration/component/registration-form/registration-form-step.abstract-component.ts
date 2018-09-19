@@ -2,13 +2,13 @@ import {FormGroup} from '@angular/forms';
 import {StepId} from './registration-form.config';
 import {FormStatus} from '../../model/form-status.enum';
 import {CamperRegistrationFormStateService} from '../../service/camper-registration-form-state.service';
-import {OnInit} from '@angular/core';
+import {OnDestroy, OnInit} from '@angular/core';
 import {CamperRegistrationFormNavigator} from '../../service/camper-registration-form.navigator';
 import {ActivatedRoute} from '@angular/router';
 import {AngularFormHelper} from '../../../shared/helper/angular-form.helper';
 import {Subscription} from 'rxjs';
 
-export abstract class RegistrationFormStepAbstractComponent implements OnInit {
+export abstract class RegistrationFormStepAbstractComponent implements OnInit, OnDestroy {
 
   stepForm: FormGroup;
   private stepperSubscription: Subscription;
@@ -18,7 +18,8 @@ export abstract class RegistrationFormStepAbstractComponent implements OnInit {
     protected mainFormState: CamperRegistrationFormStateService,
     protected formNavigator: CamperRegistrationFormNavigator,
     protected stepRoute: ActivatedRoute
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.initStepFormControls();
@@ -31,11 +32,11 @@ export abstract class RegistrationFormStepAbstractComponent implements OnInit {
   }
 
   protected updateMainFormStepStatus() {
-    this.mainFormState.updateFormStatus(this.stepId, FormStatus[this.stepForm.status]);
+    this.mainFormState.updateStepFormStatus(this.stepId, FormStatus[this.stepForm.status]);
   }
 
   protected getMainFormStepStatus() {
-    return this.mainFormState.getFormStatus(this.stepId);
+    return this.mainFormState.getStepFormStatus(this.stepId);
   }
 
   isStepValid() {
@@ -49,6 +50,10 @@ export abstract class RegistrationFormStepAbstractComponent implements OnInit {
     if (this.isStepValid()) {
       this.formNavigator.navigateToNextStep(this.stepRoute);
     }
+  }
+
+  protected onNavigateToPreviousStep() {
+    this.formNavigator.navigateToPreviousStep(this.stepRoute);
   }
 
   protected getStepFormDataSnapshot() {
@@ -67,5 +72,9 @@ export abstract class RegistrationFormStepAbstractComponent implements OnInit {
 
   protected abstract initStepFormControls();
 
+
+  ngOnDestroy(): void {
+    this.stepperSubscription.unsubscribe();
+  }
 
 }

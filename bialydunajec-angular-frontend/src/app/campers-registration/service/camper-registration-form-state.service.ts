@@ -17,7 +17,7 @@ export class CamperRegistrationFormStateService {
         data: {
           personalData: {
             gender: null,
-            firstName: 'Mateusz',
+            firstName: null,
             lastName: null,
             pesel: null
           },
@@ -40,7 +40,7 @@ export class CamperRegistrationFormStateService {
           },
           statistics: {
             knowAboutCampFrom: null,
-            wasCamperInThePast: null,
+            wasCamperInThePast: false,
             onCampForTime: null
           }
         }
@@ -52,7 +52,7 @@ export class CamperRegistrationFormStateService {
         status: FormStatus.UNKNOWN,
         submitted: false,
         data: {
-          testControl: null
+          meanOfTransport: null
         }
       }
     ],
@@ -91,7 +91,7 @@ export class CamperRegistrationFormStateService {
 
   savePersonalFormData(formData: any) {
     this.formState.get(StepId.PERSONAL_DATA).data = formData;
-    this.publishFormStateChange(StepId.PERSONAL_DATA, this.formState.get(StepId.PERSONAL_DATA));
+    this.publishStepFormStateChange(StepId.PERSONAL_DATA, this.formState.get(StepId.PERSONAL_DATA));
   }
 
   getTransportFormDataSnapshot() {
@@ -100,7 +100,7 @@ export class CamperRegistrationFormStateService {
 
   saveTransportFormData(formState: any) {
     this.formState.get(StepId.TRANSPORT).data = formState;
-    this.publishFormStateChange(StepId.TRANSPORT, this.formState.get(StepId.TRANSPORT));
+    this.publishStepFormStateChange(StepId.TRANSPORT, this.formState.get(StepId.TRANSPORT));
   }
 
   getStepFormDataSnapshot(stepId: StepId) {
@@ -109,19 +109,19 @@ export class CamperRegistrationFormStateService {
 
   saveStepFormData(stepId: StepId, formState: any) {
     this.formState.get(stepId).data = formState;
-    this.publishFormStateChange(stepId, this.formState.get(stepId));
+    this.publishStepFormStateChange(stepId, this.formState.get(stepId));
   }
 
-  updateFormStatus(stepId: StepId, status: FormStatus) {
+  updateStepFormStatus(stepId: StepId, status: FormStatus) {
     this.formState.get(stepId).status = status;
-    this.publishFormStateChange(stepId, status);
+    this.publishStepFormStateChange(stepId, status);
   }
 
-  getFormStatus(stepId: StepId) {
+  getStepFormStatus(stepId: StepId) {
     return this.formState.get(stepId).status;
   }
 
-  private publishFormStateChange(stepId: StepId, formState: any) {
+  private publishStepFormStateChange(stepId: StepId, formState: any) {
     console.log(this.formState);
     this.formStateSubject.next({stepId, formState});
   }

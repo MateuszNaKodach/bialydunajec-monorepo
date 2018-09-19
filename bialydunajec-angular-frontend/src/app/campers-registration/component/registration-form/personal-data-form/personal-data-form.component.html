@@ -26,19 +26,19 @@
         <bda-form-input-error
           [control]="firstName"
           label="Imię">
-          <input type="text" formControlName="firstName">
+          <input type="text" formControlName="firstName" placeholder="Mateusz">
         </bda-form-input-error>
         <bda-form-input-error
           [control]="lastName"
           label="Nazwisko">
-          <input type="text" formControlName="lastName">
+          <input type="text" formControlName="lastName" placeholder="Nowak">
         </bda-form-input-error>
         <bda-form-input-error
           [control]="pesel"
           label="Pesel"
           [errorDefs]="{invalidPesel: 'Niepoprawny numer PESEL'}"
         >
-          <input type="text" formControlName="pesel">
+          <input type="text" formControlName="pesel" placeholder="99010112345" maxlength="11">
         </bda-form-input-error>
       </div>
 
@@ -94,7 +94,7 @@
           <bda-form-input-error
             [control]="phoneNumber"
             label="Telefon">
-            <input type="tel" formControlName="telephone">
+            <input type="tel" formControlName="telephone" placeholder="000-000-000">
           </bda-form-input-error>
 
         </div>
@@ -117,17 +117,17 @@
         <bda-form-input-error
           [control]="university"
           label="Uczelnia">
-          <input type="tel" formControlName="university">
+          <input type="tel" formControlName="university" placeholder="Politechnika Wrocławska">
         </bda-form-input-error>
         <bda-form-input-error
           [control]="faculty"
           label="Wydział">
-          <input type="tel" formControlName="faculty">
+          <input type="tel" formControlName="faculty" placeholder="Informatyki i Zarządzania">
         </bda-form-input-error>
         <bda-form-input-error
           [control]="fieldOfStudy"
           label="Kierunek">
-          <input type="tel" formControlName="fieldOfStudy">
+          <input type="tel" formControlName="fieldOfStudy" placeholder="Informatyka">
         </bda-form-input-error>
       </div>
       <div class="bda-personal-data-form__high-school-section">
@@ -138,8 +138,8 @@
         </div>
         <bda-form-input-error
           [control]="highSchool"
-          label="Liceum">
-          <input type="tel" formControlName="highSchool">
+          label="Szkoła średnia">
+          <input type="tel" formControlName="highSchool" placeholder="Liceum Ogólnokształcące nr II we Wrocławiu">
         </bda-form-input-error>
       </div>
     </div>
@@ -181,7 +181,7 @@
     </div>
   </section>
   <bda-form-navigation-buttons
-    [config]='{right: {text: "Dalej", disabled: false}}'
+    [config]='{right: {text: "DALEJ", disabled: false}}'
     (clickRight)="onSubmitStepForm()"
   ></bda-form-navigation-buttons>
 

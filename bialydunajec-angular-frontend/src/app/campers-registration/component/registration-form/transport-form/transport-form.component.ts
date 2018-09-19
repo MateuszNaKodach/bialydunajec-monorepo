@@ -1,49 +1,58 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
+import {FormBuilder, Validators} from '@angular/forms';
+import {RegistrationFormStepAbstractComponent} from '../registration-form-step.abstract-component';
+import {CamperRegistrationFormStateService} from '../../../service/camper-registration-form-state.service';
+import {CamperRegistrationFormNavigator} from '../../../service/camper-registration-form.navigator';
+import {ActivatedRoute} from '@angular/router';
+import {StepId} from '../registration-form.config';
 
+// TODO: Read dynamic forms config: https://toddmotto.com/angular-dynamic-components-forms
 @Component({
   selector: 'bda-transport-form',
   templateUrl: './transport-form.component.html',
   styleUrls: ['./transport-form.component.scss']
 })
-export class TransportFormComponent implements OnInit {
+export class TransportFormComponent extends RegistrationFormStepAbstractComponent {
+  formConfig = {
+    title: 'Dojazd',
+    description: 'Poinformuj nas jak dojedziesz do Białego Dunajca :) Więcej informacji na temat naszego autokaru znajdziesz tutaj.',
+    controls: {
+      meanOfTransport: {
+        name: 'meanOfTransport',
+        type: 'select',
+        label: 'Dojazd na Obóz',
+        placeholder: 'Wybierz formę dojazdu',
+        validators: [Validators.required],
+        options: [
+          'Samochodem',
+          'Pociągiem / autobusem',
+          'Rowerem',
+          'Na stopa',
+          'Autokarem Białego Dunajca (+55 zł)'
+        ]
+      }
+    }
+  };
 
-  form;
-  testForm: FormGroup;
 
-  constructor() {
+  constructor(
+    mainFormState: CamperRegistrationFormStateService,
+    formNavigator: CamperRegistrationFormNavigator,
+    stepRoute: ActivatedRoute,
+    private formBuilder: FormBuilder) {
+    super(StepId.TRANSPORT, mainFormState, formNavigator, stepRoute);
   }
 
-  ngOnInit() {
-    this.testForm = new FormGroup({
-      testControl: new FormControl()
-    });
+  protected initStepFormControls() {
+    const controlsConfig = {};
+    Object.values(this.formConfig.controls)
+      .forEach(c => controlsConfig[c.name] = [null, c.validators]);
+    this.stepForm = this.formBuilder.group(controlsConfig);
+  }
 
-
-
-
-
-
-
-    this.form = {
-      title: 'Dojazd',
-      description: 'Poinformuj nas jak dojedziesz do Białego Dunajca :) Więcej informacji na temat naszego autokaru znajdziesz tutaj.',
-      controls: [
-        {
-          label: 'Wybierz formę dojazdu',
-          name: 'transportForm',
-          type: 'select',
-          placeholder: 'Wybierz formę dojazdu',
-          options: [
-            {id: '1', value: 'Samochodem'},
-            {id: '2', value: 'Pociągiem / autobusem'},
-            {id: '3', value: 'Rowerem'},
-            {id: '4', value: 'Na stopa'},
-            {id: '5', value: 'Autokarem Białego Dunajca (+55 zł)'}
-          ]
-        }
-      ]
-    };
+  getFormControlByName(name: string) {
+    return this.stepForm.get(name);
   }
 
 }
+
