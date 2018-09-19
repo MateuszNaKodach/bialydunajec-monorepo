@@ -9,7 +9,7 @@
       [description]="formConfig.description"
     ></bda-section-header>
     <div>
-      <bda-form-input-error
+      <bda-form-input
         [label]="formConfig.controls.meanOfTransport.label"
         [control]="meanOfTransport"
       >
@@ -19,9 +19,9 @@
                              [value]="option">
           </sui-select-option>
         </sui-select>
-      </bda-form-input-error>
+      </bda-form-input>
 
-      <bda-form-input-error
+      <bda-form-input
         *ngIf="selectedTransportType===TransportType.CAMP_TRANSPORT"
         [control]="campTransportDestinationBusStop"
         label="Jadę z...">
@@ -35,7 +35,7 @@
             <label>Opola</label>
           </div>
         </div>
-      </bda-form-input-error>
+      </bda-form-input>
     </div>
   </section>
   <bda-form-navigation-buttons

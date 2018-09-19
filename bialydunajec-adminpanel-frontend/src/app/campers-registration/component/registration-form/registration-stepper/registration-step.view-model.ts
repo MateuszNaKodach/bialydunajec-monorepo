@@ -1,4 +1,4 @@
-import {StepId} from '../registration-form/registration-form.config';
+import {StepId} from '../registration-form.config';
 
 export class RegistrationStepViewModel {
   private readonly stepId: StepId;

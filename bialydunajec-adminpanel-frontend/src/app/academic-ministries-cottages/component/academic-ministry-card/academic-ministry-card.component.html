@@ -1,12 +1,10 @@
-<div (click)="onClick()" class="ui raised link card bda-academic-ministry-card centered">
-  <div class="bda-academic-ministry-logo">
+<div (click)="onClick()" class="bda-academic-ministry-card ui raised link card centered">
+  <div class="bda-academic-ministry-card__logo">
     <img
       [src]="academicMinistry.logoUrl"
          alt="{{academicMinistry.name}} academic ministry logo.">
   </div>
-  <div class="extra content">
-    <div class="center aligned bda-academic-ministry-name">
+  <div class="bda-academic-ministry-card__name extra content center aligned">
       <b>{{academicMinistry.name}}</b>
-    </div>
   </div>
 </div>

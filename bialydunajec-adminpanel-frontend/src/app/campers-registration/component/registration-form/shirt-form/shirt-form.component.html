@@ -10,7 +10,7 @@
     ></bda-section-header>
     <div>
 
-      <bda-form-input-error
+      <bda-form-input
         [control]="color"
         label="Kolor koszulki">
         <sui-select class="selection" formControlName="color" placeholder="Wybierz jedną z opcji">
@@ -18,9 +18,9 @@
                              [value]="option">
           </sui-select-option>
         </sui-select>
-      </bda-form-input-error>
+      </bda-form-input>
 
-      <bda-form-input-error
+      <bda-form-input
         [control]="size"
         label="Rozmiar koszulki">
         <sui-select class="selection" formControlName="size" placeholder="Wybierz jedną z opcji">
@@ -28,9 +28,9 @@
                              [value]="option">
           </sui-select-option>
         </sui-select>
-      </bda-form-input-error>
+      </bda-form-input>
 
-      <bda-form-input-error
+      <bda-form-input
         [control]="clothType"
         label="Rodzaj koszulki">
             <div class="ui radio checkbox" style="display: block; margin-bottom: 0.5rem">
@@ -41,7 +41,7 @@
               <input type="radio" formControlName="clothType" value="MALE">
               <label>Męska</label>
             </div>
-      </bda-form-input-error>
+      </bda-form-input>
     </div>
   </section>
   <bda-form-navigation-buttons
