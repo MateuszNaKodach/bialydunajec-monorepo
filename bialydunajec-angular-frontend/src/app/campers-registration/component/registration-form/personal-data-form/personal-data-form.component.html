@@ -1,7 +1,7 @@
 <form
   class="bda-personal-data-form ui form"
-  [formGroup]="personalDataForm"
-  (ngSubmit)="onSubmit()"
+  [formGroup]="stepForm"
+  (ngSubmit)="onSubmitStepForm()"
 >
   <section class="bda-personal-data-form__section">
     <bda-section-header
@@ -182,7 +182,7 @@
   </section>
   <bda-form-navigation-buttons
     [config]='{right: {text: "Dalej", disabled: false}}'
-    (clickRight)="onClickNext()"
+    (clickRight)="onSubmitStepForm()"
   ></bda-form-navigation-buttons>
 
 </form>

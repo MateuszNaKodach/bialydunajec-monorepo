@@ -18,11 +18,11 @@ export class AcademicMinistryInfoComponent implements OnInit {
   tabs = {
     left: {
       name: TAB_COTTAGE,
-      icon: 'user'
+      icon: 'home'
     },
     right: {
       name: TAB_MINISTRY,
-      icon: 'blind'
+      icon: 'users'
     }
   };
 

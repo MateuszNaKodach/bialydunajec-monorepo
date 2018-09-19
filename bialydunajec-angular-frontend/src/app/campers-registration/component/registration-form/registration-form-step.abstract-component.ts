@@ -6,26 +6,36 @@ import {OnInit} from '@angular/core';
 import {CamperRegistrationFormNavigator} from '../../service/camper-registration-form.navigator';
 import {ActivatedRoute} from '@angular/router';
 import {AngularFormHelper} from '../../../shared/helper/angular-form.helper';
+import {Subscription} from 'rxjs';
 
 export abstract class RegistrationFormStepAbstractComponent implements OnInit {
 
   stepForm: FormGroup;
+  private stepperSubscription: Subscription;
 
   protected constructor(
     protected stepId: StepId,
     protected mainFormState: CamperRegistrationFormStateService,
     protected formNavigator: CamperRegistrationFormNavigator,
     protected stepRoute: ActivatedRoute
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
-    this.initStepForm();
+    this.initStepFormControls();
     this.loadStepDataFromSnapshot();
+    if (this.getMainFormStepStatus() === FormStatus.INVALID) {
+      AngularFormHelper.markFormGroupTouched(this.stepForm);
+    }
+    this.stepperSubscription = this.formNavigator.stepperClicks
+      .subscribe(stepClicked => this.onSubmitStepForm());
   }
 
   protected updateMainFormStepStatus() {
     this.mainFormState.updateFormStatus(this.stepId, FormStatus[this.stepForm.status]);
+  }
+
+  protected getMainFormStepStatus() {
+    return this.mainFormState.getFormStatus(this.stepId);
   }
 
   isStepValid() {
@@ -55,7 +65,7 @@ export abstract class RegistrationFormStepAbstractComponent implements OnInit {
       .forEach(controlName => this.stepForm.get(controlName).setValue(dataSnapshot[controlName]));
   }
 
-  protected abstract initStepForm();
+  protected abstract initStepFormControls();
 
 
 }
