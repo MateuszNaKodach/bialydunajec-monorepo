@@ -52,7 +52,10 @@ export class CamperRegistrationFormStateService {
         status: FormStatus.UNKNOWN,
         submitted: false,
         data: {
-          meanOfTransport: null
+          meanOfTransport: null,
+          campTransport: {
+            destinationBusStop: null,
+          }
         }
       }
     ],

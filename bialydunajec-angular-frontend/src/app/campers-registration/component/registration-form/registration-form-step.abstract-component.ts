@@ -24,6 +24,7 @@ export abstract class RegistrationFormStepAbstractComponent implements OnInit, O
   ngOnInit(): void {
     this.initStepFormControls();
     this.loadStepDataFromSnapshot();
+    this.onStepFormDataLoaded();
     if (this.getMainFormStepStatus() === FormStatus.INVALID) {
       AngularFormHelper.markFormGroupTouched(this.stepForm);
     }
@@ -64,7 +65,7 @@ export abstract class RegistrationFormStepAbstractComponent implements OnInit, O
     return this.mainFormState.saveStepFormData(this.stepId, this.stepForm.value);
   }
 
-  protected loadStepDataFromSnapshot() {
+  private loadStepDataFromSnapshot() {
     const dataSnapshot = this.getStepFormDataSnapshot();
     Object.keys(this.stepForm.controls)
       .forEach(controlName => this.stepForm.get(controlName).setValue(dataSnapshot[controlName]));
@@ -72,6 +73,7 @@ export abstract class RegistrationFormStepAbstractComponent implements OnInit, O
 
   protected abstract initStepFormControls();
 
+  protected onStepFormDataLoaded() {}
 
   ngOnDestroy(): void {
     this.stepperSubscription.unsubscribe();
