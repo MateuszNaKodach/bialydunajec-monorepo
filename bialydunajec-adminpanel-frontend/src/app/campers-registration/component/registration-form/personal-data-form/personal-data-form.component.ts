@@ -9,6 +9,7 @@ import {FormStatus} from '../../../model/form-status.enum';
 import {Subscription} from 'rxjs';
 import {emailValidator} from '../../../../shared/validator/email.validator';
 import {AngularFormHelper} from '../../../../shared/helper/angular-form.helper';
+import {RegistrationFormStepAbstractComponent} from '../registration-form-step.abstract-component';
 
 
 @Component({
@@ -16,89 +17,70 @@ import {AngularFormHelper} from '../../../../shared/helper/angular-form.helper';
   templateUrl: './personal-data-form.component.html',
   styleUrls: ['./personal-data-form.component.scss']
 })
-export class PersonalDataFormComponent implements OnInit, OnDestroy {
+export class PersonalDataFormComponent extends RegistrationFormStepAbstractComponent implements OnDestroy {
 
-  personalDataForm: FormGroup;
   campInfoOptions = ['Ze szkoły', 'Z uczelni', 'Od znajomych', 'Z facebooka'];
   whichOneGoForCamp = ['drugi', 'trzeci', 'czwarty', 'piąty', 'szósty', 'siódmy', 'ósmy'];
 
-  private stepperSubscription: Subscription;
-
   constructor(
     private formBuilder: FormBuilder,
-    private formState: CamperRegistrationFormStateService,
-    private formNavigator: CamperRegistrationFormNavigator,
-    private activatedRoute: ActivatedRoute) {
+    mainFormState: CamperRegistrationFormStateService,
+    formNavigator: CamperRegistrationFormNavigator,
+    stepRoute: ActivatedRoute) {
+    super(StepId.PERSONAL_DATA, mainFormState, formNavigator, stepRoute);
   }
 
-  ngOnInit() {
-    this.initForm();
-  }
-
-  private initForm() {
-    const initialFormState = this.formState.getPersonalFormDataSnapshot();
-    const currentPersonalData = initialFormState.personalData;
-    const currentHomeAddress = initialFormState.homeAddress;
-    const currentContact = initialFormState.contact;
-    const currentEducation = initialFormState.education;
-
-
-    this.personalDataForm = this.formBuilder.group(
+  protected initStepFormControls() {
+    this.stepForm = this.formBuilder.group(
       {
         personalData: this.formBuilder.group(
           {
-            gender: new FormControl(currentPersonalData.gender, [Validators.required]),
-            firstName: new FormControl(currentPersonalData.firstName, [Validators.required]),
-            lastName: new FormControl(currentPersonalData.lastName, [Validators.required]),
-            pesel: new FormControl(currentPersonalData.pesel, [Validators.required, peselValidator])
+            gender: [null, [Validators.required]],
+            firstName: [null, [Validators.required]],
+            lastName: [null, [Validators.required]],
+            pesel: [null, [Validators.required, peselValidator]]
           }
         ),
         homeAddress: this.formBuilder.group(
           {
-            street: new FormControl(currentHomeAddress.street, [Validators.required]),
-            number: new FormControl(currentHomeAddress.number, [Validators.required]),
-            postalCode: new FormControl(currentHomeAddress.postalCode, [Validators.required]),
-            city: new FormControl(currentHomeAddress.city, [Validators.required])
+            street: [null, [Validators.required]],
+            number: [null, [Validators.required]],
+            postalCode: [null, [Validators.required]],
+            city: [null, [Validators.required]]
           }
         ),
         contact: this.formBuilder.group(
           {
-            email: new FormControl(currentContact.email, [Validators.required, Validators.email]),
-            telephone: new FormControl(currentContact.telephone, [Validators.required]) //TODO: Add phone number validator
+            email: [null, [Validators.required, Validators.email]],
+            telephone: [null, [Validators.required]] //TODO: Add phone number validator
           }
         ),
         education: this.formBuilder.group(
           {
-            university: new FormControl(currentEducation.university, [Validators.required]),
-            faculty: new FormControl(currentEducation.faculty, [Validators.required]),
-            fieldOfStudy: new FormControl(currentEducation.fieldOfStudy, [Validators.required]),
-            isRecentHighSchoolGraduate: new FormControl(currentEducation.isRecentHighSchoolGraduate, [Validators.required]),
-            highSchool: new FormControl(currentEducation.highSchool, [])
+            university: [null, [Validators.required]],
+            faculty: [null, [Validators.required]],
+            fieldOfStudy: [null, [Validators.required]],
+            isRecentHighSchoolGraduate: [null, [Validators.required]],
+            highSchool: [null, []]
           }
         ),
         statistics: this.formBuilder.group(
           {
-            knowAboutCampFrom: new FormControl(null, [Validators.required]),
-            wasCamperInThePast: new FormControl(false, [Validators.required]),
-            onCampForTime: new FormControl(null, [Validators.required])
+            knowAboutCampFrom: [null, [Validators.required]],
+            wasCamperInThePast: [null, [Validators.required]],
+            onCampForTime: [null, [Validators.required]]
           }
         )
       }
     );
 
-    this.personalDataForm.get(['education', 'isRecentHighSchoolGraduate']).valueChanges
+    this.stepForm.get(['education', 'isRecentHighSchoolGraduate']).valueChanges
       .subscribe(value => this.onIsRecentHighSchoolGraduateValueChanged(value));
-
-    this.stepperSubscription = this.formNavigator.stepperClicks
-      .subscribe(stepClicked => this.updatePersonalDataFormStatus());
-
-    if (this.formState.getFormStatus(StepId.PERSONAL_DATA) === FormStatus.INVALID) {
-      AngularFormHelper.markFormGroupTouched(this.personalDataForm);
-    }
   }
 
+
   onIsRecentHighSchoolGraduateValueChanged(isRecentHighSchoolGraduate: boolean) {
-    const highSchoolControl = this.personalDataForm.get(['education', 'highSchool']);
+    const highSchoolControl = this.stepForm.get(['education', 'highSchool']);
     if (isRecentHighSchoolGraduate) {
       highSchoolControl.setValidators(Validators.required);
     } else {
@@ -106,15 +88,6 @@ export class PersonalDataFormComponent implements OnInit, OnDestroy {
     }
     highSchoolControl.updateValueAndValidity();
   }
-
-  onSubmit() {
-    console.log(this.personalDataForm);
-    AngularFormHelper.markFormGroupTouched(this.personalDataForm);
-    const formValues = this.personalDataForm.value;
-    this.formState.savePersonalFormData(formValues);
-    this.updatePersonalDataFormStatus();
-  }
-
 
   get gender() {
     return this.getPersonalDataControl('gender');
@@ -189,32 +162,23 @@ export class PersonalDataFormComponent implements OnInit, OnDestroy {
   }
 
   private getPersonalDataControl(name: string) {
-    return this.personalDataForm.get(['personalData', name]);
+    return this.stepForm.get(['personalData', name]);
   }
 
   private getContactControl(name: string) {
-    return this.personalDataForm.get(['contact', name]);
+    return this.stepForm.get(['contact', name]);
   }
 
   private getHomeAddressControl(name: string) {
-    return this.personalDataForm.get(['homeAddress', name]);
+    return this.stepForm.get(['homeAddress', name]);
   }
 
   private getEducationControl(name: string) {
-    return this.personalDataForm.get(['education', name]);
+    return this.stepForm.get(['education', name]);
   }
 
   private getStatisticsControl(name: string) {
-    return this.personalDataForm.get(['statistics', name]);
-  }
-
-  onClickNext() {
-    this.onSubmit();
-    this.formNavigator.navigateToNextStep(this.activatedRoute);
-  }
-
-  private updatePersonalDataFormStatus() {
-    this.formState.updateFormStatus(StepId.PERSONAL_DATA, FormStatus[this.personalDataForm.status]);
+    return this.stepForm.get(['statistics', name]);
   }
 
   ngOnDestroy(): void {

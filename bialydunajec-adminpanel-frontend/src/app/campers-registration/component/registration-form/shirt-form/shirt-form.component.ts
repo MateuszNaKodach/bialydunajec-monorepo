@@ -17,13 +17,13 @@ export class ShirtFormComponent extends RegistrationFormStepAbstractComponent {
 
   constructor(
     mainFormState: CamperRegistrationFormStateService,
-    formNavigatior: CamperRegistrationFormNavigator,
+    formNavigator: CamperRegistrationFormNavigator,
     stepRoute: ActivatedRoute,
     private formBuilder: FormBuilder) {
-    super(StepId.SHIRT, mainFormState, formNavigatior, stepRoute);
+    super(StepId.SHIRT, mainFormState, formNavigator, stepRoute);
   }
 
-  protected initStepForm() {
+  protected initStepFormControls() {
     this.stepForm = this.formBuilder.group({
         color: [null, [Validators.required]],
         size: [null, Validators.required],
