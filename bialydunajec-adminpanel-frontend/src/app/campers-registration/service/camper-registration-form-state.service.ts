@@ -13,7 +13,7 @@ export class CamperRegistrationFormStateService {
       StepId.PERSONAL_DATA,
       {
         status: FormStatus.UNKNOWN,
-        submitted: false,
+        // submitted: false,
         data: {
           personalData: {
             gender: null,
@@ -50,7 +50,7 @@ export class CamperRegistrationFormStateService {
       StepId.TRANSPORT,
       {
         status: FormStatus.UNKNOWN,
-        submitted: false,
+        // submitted: false,
         data: {
           meanOfTransport: null,
           campTransport: {
@@ -63,7 +63,7 @@ export class CamperRegistrationFormStateService {
       StepId.SHIRT,
       {
         status: FormStatus.UNKNOWN,
-        submitted: false,
+        // submitted: false,
         data: {
           color: null,
           size: null,
@@ -75,7 +75,7 @@ export class CamperRegistrationFormStateService {
       StepId.COTTAGE,
       {
         status: FormStatus.UNKNOWN,
-        submitted: false,
+        // submitted: false,
         data: {}
       }
     ]
