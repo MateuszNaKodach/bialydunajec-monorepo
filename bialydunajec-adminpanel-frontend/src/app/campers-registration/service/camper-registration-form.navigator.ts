@@ -3,7 +3,7 @@ import {RegistrationFormConfig, StepId} from '../component/registration-form/reg
 import {ActivatedRoute, Router} from '@angular/router';
 import {Observable, Subject} from 'rxjs';
 
-@Injectable()
+@Injectable() //TODO: Add guards for navigation routes
 export class CamperRegistrationFormNavigator {
 
   private formStepperClickedSubject = new Subject<StepId>();

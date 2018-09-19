@@ -45,7 +45,8 @@
     </div>
   </section>
   <bda-form-navigation-buttons
-    [config]='{right: {text: "Dalej", disabled: false}}'
+    [config]='{left: {text: "WSTECZ", disabled: false}, right: {text: "DALEJ", disabled: false}}'
     (clickRight)="onSubmitStepForm()"
+    (clickLeft)="onNavigateToPreviousStep()"
   ></bda-form-navigation-buttons>
 </form>

@@ -1,1 +1,18 @@
+@import "../../../../../styles/mixins/responsivness";
 
+.bda-form-navigation__buttons {
+  display: flex;
+  justify-content: center;
+
+  @include gt-xs__screen() {
+    justify-content: flex-end;
+  }
+}
+
+.bda-form-navigation__button {
+  width: 300px;
+
+  @include gt-xs__screen() {
+    width: 100px;
+  }
+}

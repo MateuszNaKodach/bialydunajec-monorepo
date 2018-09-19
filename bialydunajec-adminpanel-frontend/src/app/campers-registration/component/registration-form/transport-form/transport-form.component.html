@@ -1,19 +1,31 @@
 <form
-  class="bda-personal-data-form ui form"
-  [formGroup]="testForm"
-  (ngSubmit)="console.log('s')"
+  class="ui form"
+  [formGroup]="stepForm"
+  (submit)="onSubmitStepForm()"
 >
   <section>
     <bda-section-header
-      [title]="form.title"
-      [description]="form.description"
+      [title]="formConfig.title"
+      [description]="formConfig.description"
     ></bda-section-header>
     <div>
-      <div class="field">
-        <label>TestControl</label>
-        <input type="text" formControlName="testControl">
-      </div>
+      <bda-form-input-error
+        [label]="formConfig.controls.meanOfTransport.label"
+        [control]="getFormControlByName(formConfig.controls.meanOfTransport.name)"
+      >
+        <sui-select class="selection" [formControlName]="formConfig.controls.meanOfTransport.name"
+                    [placeholder]="formConfig.controls.meanOfTransport.placeholder">
+          <sui-select-option *ngFor="let option of formConfig.controls.meanOfTransport.options"
+                             [value]="option">
+          </sui-select-option>
+        </sui-select>
+      </bda-form-input-error>
     </div>
   </section>
+  <bda-form-navigation-buttons
+    [config]='{left: {text: "WSTECZ", disabled: false}, right: {text: "DALEJ", disabled: false}}'
+    (clickRight)="onSubmitStepForm()"
+    (clickLeft)="onNavigateToPreviousStep()"
+  ></bda-form-navigation-buttons>
 </form>
 

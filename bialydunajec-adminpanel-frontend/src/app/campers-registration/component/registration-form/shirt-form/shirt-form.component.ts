@@ -34,7 +34,6 @@ export class ShirtFormComponent extends RegistrationFormStepAbstractComponent {
 
 
   get color() {
-    Object.keys(this.stepForm.controls);
     return this.stepForm.get('color');
   }
 

@@ -17,7 +17,7 @@ import {RegistrationFormStepAbstractComponent} from '../registration-form-step.a
   templateUrl: './personal-data-form.component.html',
   styleUrls: ['./personal-data-form.component.scss']
 })
-export class PersonalDataFormComponent extends RegistrationFormStepAbstractComponent implements OnDestroy {
+export class PersonalDataFormComponent extends RegistrationFormStepAbstractComponent {
 
   campInfoOptions = ['Ze szkoły', 'Z uczelni', 'Od znajomych', 'Z facebooka'];
   whichOneGoForCamp = ['drugi', 'trzeci', 'czwarty', 'piąty', 'szósty', 'siódmy', 'ósmy'];
@@ -179,10 +179,6 @@ export class PersonalDataFormComponent extends RegistrationFormStepAbstractCompo
 
   private getStatisticsControl(name: string) {
     return this.stepForm.get(['statistics', name]);
-  }
-
-  ngOnDestroy(): void {
-    this.stepperSubscription.unsubscribe();
   }
 
 }
