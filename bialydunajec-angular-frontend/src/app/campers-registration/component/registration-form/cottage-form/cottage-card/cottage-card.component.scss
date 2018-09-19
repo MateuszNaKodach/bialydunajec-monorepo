@@ -1,0 +1,31 @@
+@import '../../../../../../styles/variables/fonts';
+@import '../../../../../../styles/variables/dimensions';
+
+.bda-cottage-card {
+  width: $academic-ministry-card-width;
+  height: $academic-ministry-card-height;
+
+  &:hover {
+    background: red !important;
+  }
+
+  img {
+    filter: grayscale(1);
+  }
+}
+
+.bda-cottage-card__logo {
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  height: $academic-ministry-card-logo-height;
+}
+
+.bda-cottage-card__name {
+  color: $a-active-font-color !important;
+  font-weight: 700 !important;
+}
+
+.bda-cottage-card--checked {
+
+}

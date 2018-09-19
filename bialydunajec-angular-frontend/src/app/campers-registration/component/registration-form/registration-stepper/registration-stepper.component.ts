@@ -1,9 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {RegistrationStepViewModel} from './registration-step.view-model';
-import {CamperRegistrationFormNavigator} from '../../service/camper-registration-form.navigator';
-import {StepId} from '../registration-form/registration-form.config';
-import {CamperRegistrationFormStateService} from '../../service/camper-registration-form-state.service';
-import {FormStatus} from '../../model/form-status.enum';
+import {CamperRegistrationFormNavigator} from '../../../service/camper-registration-form.navigator';
+import {StepId} from '../registration-form.config';
+import {CamperRegistrationFormStateService} from '../../../service/camper-registration-form-state.service';
+import {FormStatus} from '../../../model/form-status.enum';
 
 @Component({
   selector: 'bda-registration-stepper',

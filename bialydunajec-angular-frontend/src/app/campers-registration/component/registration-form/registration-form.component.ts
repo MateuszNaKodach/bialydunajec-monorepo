@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {RegistrationStepViewModel} from '../registration-stepper/registration-step.view-model';
+import {RegistrationStepViewModel} from './registration-stepper/registration-step.view-model';
 import {CamperRegistrationFormStateService} from '../../service/camper-registration-form-state.service';
 import {campersRegistrationRoutingPaths} from '../../campers-registration-routing.paths';
 import {StepId} from './registration-form.config';

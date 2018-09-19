@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {CottageCardViewModel} from './cottage-card.view-model';
 
 @Component({
   selector: 'bda-cottage-card',
@@ -7,7 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CottageCardComponent implements OnInit {
 
-  constructor() { }
+  viewModel: CottageCardViewModel = {
+    cottageId: '1',
+    cottageName: 'Maciejówka',
+    cottageLogoUrl: 'http://bialydunajec.org:3344/api/v1/academic-ministry/18/logo'
+  };
+  hover = false;
+
+  constructor() {
+  }
 
   ngOnInit() {
   }

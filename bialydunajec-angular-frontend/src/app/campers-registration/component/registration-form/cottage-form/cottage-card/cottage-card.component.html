@@ -1,3 +1,13 @@
-<p>
-  cottage-card works!
-</p>
+<div class="bda-cottage-card ui raised link card"
+     (mouseenter)="hover = true"
+     (mouseleave)="hover = false"
+>
+  <div class="bda-cottage-card__logo">
+    <img
+      [src]="viewModel.cottageLogoUrl"
+      alt="{{viewModel.cottageName}} cottage logo.">
+  </div>
+  <div class="bda-cottage-card__name extra content center aligned">
+    {{viewModel.cottageName}}
+  </div>
+</div>

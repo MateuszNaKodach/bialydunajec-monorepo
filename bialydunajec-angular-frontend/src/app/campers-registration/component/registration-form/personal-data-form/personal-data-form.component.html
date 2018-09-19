@@ -14,32 +14,32 @@
         class="bda-personal-data-form__personal-data-section"
         formGroupName="personalData"
       >
-        <bda-form-input-error
+        <bda-form-input
           [control]="gender"
           label="Płeć">
           <bda-dual-toggle-button
             formControlName="gender"
             [options]="{ left: { name: 'Kobieta', value: 'FEMALE'}, right: { name: 'Mężczyzna' , value: 'MALE'} }">
           </bda-dual-toggle-button>
-        </bda-form-input-error>
+        </bda-form-input>
 
-        <bda-form-input-error
+        <bda-form-input
           [control]="firstName"
           label="Imię">
           <input type="text" formControlName="firstName" placeholder="Mateusz">
-        </bda-form-input-error>
-        <bda-form-input-error
+        </bda-form-input>
+        <bda-form-input
           [control]="lastName"
           label="Nazwisko">
           <input type="text" formControlName="lastName" placeholder="Nowak">
-        </bda-form-input-error>
-        <bda-form-input-error
+        </bda-form-input>
+        <bda-form-input
           [control]="pesel"
           label="Pesel"
           [errorDefs]="{invalidPesel: 'Niepoprawny numer PESEL'}"
         >
           <input type="text" formControlName="pesel" placeholder="99010112345" maxlength="11">
-        </bda-form-input-error>
+        </bda-form-input>
       </div>
 
       <div>
@@ -48,33 +48,33 @@
           formGroupName="homeAddress"
         >
           <div style="display: flex; justify-content: space-between;">
-            <bda-form-input-error
+            <bda-form-input
               style="flex: 12; margin-right: 10px"
               [control]="street"
               label="Ulica">
               <input type="text" formControlName="street" placeholder="Przykładowa">
-            </bda-form-input-error>
-            <bda-form-input-error
+            </bda-form-input>
+            <bda-form-input
               style="flex: 5; margin-left: 10px"
               [control]="number"
               label="Nr domu">
               <input type="text" formControlName="number" placeholder="192a/2">
-            </bda-form-input-error>
+            </bda-form-input>
           </div>
 
           <div style="display: flex; justify-content: space-between">
-            <bda-form-input-error
+            <bda-form-input
               style="flex: 5; margin-right: 10px"
               [control]="postalCode"
               label="Kod pocztowy">
               <input type="text" formControlName="postalCode" placeholder="12-345">
-            </bda-form-input-error>
-            <bda-form-input-error
+            </bda-form-input>
+            <bda-form-input
               style="flex: 12; margin-left: 10px"
               [control]="city"
               label="Miasto">
               <input type="text" formControlName="city" placeholder="Wrocław">
-            </bda-form-input-error>
+            </bda-form-input>
           </div>
 
         </div>
@@ -83,19 +83,19 @@
           class="bda-personal-data-form__contact-section"
           formGroupName="contact"
         >
-          <bda-form-input-error
+          <bda-form-input
             [control]="emailAddress"
             label="Email"
             [errorDefs]="{email: 'Niepoprawny adres email'}"
           >
             <input type="email" formControlName="email" placeholder="jan.kowalski@test.com">
-          </bda-form-input-error>
+          </bda-form-input>
 
-          <bda-form-input-error
+          <bda-form-input
             [control]="phoneNumber"
             label="Telefon">
             <input type="tel" formControlName="telephone" placeholder="000-000-000">
-          </bda-form-input-error>
+          </bda-form-input>
 
         </div>
       </div>
@@ -114,21 +114,21 @@
       formGroupName="education"
     >
       <div class="bda-personal-data-form__university-section">
-        <bda-form-input-error
+        <bda-form-input
           [control]="university"
           label="Uczelnia">
           <input type="tel" formControlName="university" placeholder="Politechnika Wrocławska">
-        </bda-form-input-error>
-        <bda-form-input-error
+        </bda-form-input>
+        <bda-form-input
           [control]="faculty"
           label="Wydział">
           <input type="tel" formControlName="faculty" placeholder="Informatyki i Zarządzania">
-        </bda-form-input-error>
-        <bda-form-input-error
+        </bda-form-input>
+        <bda-form-input
           [control]="fieldOfStudy"
           label="Kierunek">
           <input type="tel" formControlName="fieldOfStudy" placeholder="Informatyka">
-        </bda-form-input-error>
+        </bda-form-input>
       </div>
       <div class="bda-personal-data-form__high-school-section">
         <div class="field">
@@ -136,11 +136,11 @@
             <b>Jestem maturzystą</b>
           </sui-checkbox>
         </div>
-        <bda-form-input-error
+        <bda-form-input
           [control]="highSchool"
           label="Szkoła średnia">
           <input type="tel" formControlName="highSchool" placeholder="Liceum Ogólnokształcące nr II we Wrocławiu">
-        </bda-form-input-error>
+        </bda-form-input>
       </div>
     </div>
   </section>
@@ -152,7 +152,7 @@
       formGroupName="statistics"
     >
       <div class="bda-personal-data-form__others-section-content">
-        <bda-form-input-error
+        <bda-form-input
           [control]="knowAboutCampFrom"
           label="Skąd dowiedziałeś się po raz pierwszy o obozie?">
           <sui-select class="selection" formControlName="knowAboutCampFrom" placeholder="Wybierz jedną z opcji">
@@ -160,7 +160,7 @@
                                [value]="option">
             </sui-select-option>
           </sui-select>
-        </bda-form-input-error>
+        </bda-form-input>
 
         <div class="field">
           <sui-checkbox formControlName="wasCamperInThePast">
@@ -168,7 +168,7 @@
           </sui-checkbox>
         </div>
 
-        <bda-form-input-error
+        <bda-form-input
           [control]="onCampForTime"
           label="Który raz jedziesz na obóz?">
           <sui-select class="selection" formControlName="onCampForTime" placeholder="Wybierz jedną z opcji">
@@ -176,7 +176,7 @@
                                [value]="option">
             </sui-select-option>
           </sui-select>
-        </bda-form-input-error>
+        </bda-form-input>
       </div>
     </div>
   </section>

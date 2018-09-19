@@ -6,11 +6,11 @@ import {Subscription} from 'rxjs';
 
 // https://almerosteyn.com/2016/03/angular2-form-validation-component
 @Component({
-  selector: 'bda-form-input-error',
-  templateUrl: './form-input-error.component.html',
-  styleUrls: ['./form-input-error.component.scss']
+  selector: 'bda-form-input',
+  templateUrl: './form-input.component.html',
+  styleUrls: ['./form-input.component.scss']
 })
-export class FormInputErrorComponent implements OnInit, OnDestroy {
+export class FormInputComponent implements OnInit, OnDestroy {
 
   @Input() label: string;
   @Input() control: AbstractControl;
