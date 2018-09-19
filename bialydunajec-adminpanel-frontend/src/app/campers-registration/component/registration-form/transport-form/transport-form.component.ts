@@ -15,6 +15,8 @@ import {filter} from 'rxjs/operators';
   styleUrls: ['./transport-form.component.scss']
 })
 export class TransportFormComponent extends RegistrationFormStepAbstractComponent {
+  TransportType = TransportType;
+
   // TODO: To remove formConfig - use standard approach. Registration form is to complex for create it from such object!
   formConfig = {
     title: 'Dojazd',
@@ -45,7 +47,7 @@ export class TransportFormComponent extends RegistrationFormStepAbstractComponen
 
   additionalStepFormOptions = new Map<TransportType, FormGroup>([
     [TransportType.CAMP_TRANSPORT, this.formBuilder.group({
-      destinationBusStop: [null, [Validators.required]]
+      destinationBusStop: [this.getStepFormDataSnapshot().campTransport ? this.getStepFormDataSnapshot().campTransport.destinationBusStop : null, [Validators.required]]
     })]
   ]);
 
@@ -67,7 +69,6 @@ export class TransportFormComponent extends RegistrationFormStepAbstractComponen
     this.stepForm.get([this.formConfig.controls.meanOfTransport.name]).valueChanges
       .pipe(filter(value => value))
       .subscribe(value => {
-        console.log(value);
           this.selectedTransportType = this.getMeanOfTransportOptionByName(value).transportType;
           this.showAdditionalControlsForTransportType(this.selectedTransportType);
         }
@@ -75,11 +76,15 @@ export class TransportFormComponent extends RegistrationFormStepAbstractComponen
   }
 
   private showAdditionalControlsForTransportType(transportType: TransportType) {
-    this.stepForm.removeControl('campTransport');
+    this.stepForm.removeControl(TransportType.CAMP_TRANSPORT);
     if (transportType === TransportType.CAMP_TRANSPORT) {
-      this.stepForm.addControl('campTransport', this.additionalStepFormOptions.get(TransportType.CAMP_TRANSPORT));
+      this.stepForm.addControl(TransportType.CAMP_TRANSPORT, this.additionalStepFormOptions.get(TransportType.CAMP_TRANSPORT));
     }
     console.log(this.stepForm.value);
+  }
+
+  get campTransportDestinationBusStop() {
+    return this.getFormControlByName([TransportType.CAMP_TRANSPORT, 'destinationBusStop']);
   }
 
   get meanOfTransport() {
@@ -96,7 +101,7 @@ export class TransportFormComponent extends RegistrationFormStepAbstractComponen
       .find(o => o.name === name);
   }
 
-  private getFormControlByName(name: string) {
+  private getFormControlByName(name: string | string[]) {
     return this.stepForm.get(name);
   }
 

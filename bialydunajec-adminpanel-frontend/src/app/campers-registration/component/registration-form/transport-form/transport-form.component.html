@@ -20,6 +20,22 @@
           </sui-select-option>
         </sui-select>
       </bda-form-input-error>
+
+      <bda-form-input-error
+        *ngIf="selectedTransportType===TransportType.CAMP_TRANSPORT"
+        [control]="campTransportDestinationBusStop"
+        label="Jadę z...">
+        <div [formGroupName]="TransportType.CAMP_TRANSPORT">
+          <div class="ui radio checkbox" style="display: block; margin-bottom: 0.5rem">
+            <input type="radio" value="Wrocław" formControlName="destinationBusStop">
+            <label>Wrocławia</label>
+          </div>
+          <div class="ui radio checkbox" style="display: block">
+            <input type="radio" value="Opole" formControlName="destinationBusStop">
+            <label>Opola</label>
+          </div>
+        </div>
+      </bda-form-input-error>
     </div>
   </section>
   <bda-form-navigation-buttons
