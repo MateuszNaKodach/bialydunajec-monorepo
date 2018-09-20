@@ -1,9 +1,6 @@
 <div
   [ngClass]="{'bda-cottage-card--selected': selected, 'bda-cottage-card--no-space': !cottageViewModel.hasSpace}"
   class="bda-cottage-card ui card link"
-  (mouseenter)="hover = true"
-  (mouseleave)="hover = false"
-  (click)="selected = cottageViewModel.hasSpace"
 >
   <div class="bda-cottage-card__logo-wrapper content">
       <img

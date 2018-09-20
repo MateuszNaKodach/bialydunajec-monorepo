@@ -2,6 +2,7 @@
   <bda-cottage-card
     *ngFor="let cottage of cottages"
     [cottageViewModel]="cottage"
+    [selected]="isSelectedCottage(cottage.cottageId)"
+    (click)="onCottageClicked(cottage)"
   ></bda-cottage-card>
 </div>
-
