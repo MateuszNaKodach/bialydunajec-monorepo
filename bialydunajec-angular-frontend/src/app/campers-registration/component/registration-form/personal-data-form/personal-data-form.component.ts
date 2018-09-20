@@ -20,7 +20,7 @@ import {RegistrationFormStepAbstractComponent} from '../registration-form-step.a
 export class PersonalDataFormComponent extends RegistrationFormStepAbstractComponent {
 
   campInfoOptions = ['Ze szkoły', 'Z uczelni', 'Od znajomych', 'Z facebooka'];
-  whichOneGoForCamp = ['drugi', 'trzeci', 'czwarty', 'piąty', 'szósty', 'siódmy', 'ósmy'];
+  whichOneGoForCamp = ['pierwszy', 'drugi', 'trzeci', 'czwarty', 'piąty', 'szósty', 'siódmy', 'ósmy'];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -67,7 +67,6 @@ export class PersonalDataFormComponent extends RegistrationFormStepAbstractCompo
         statistics: this.formBuilder.group(
           {
             knowAboutCampFrom: [null, [Validators.required]],
-            wasCamperInThePast: [null, [Validators.required]],
             onCampForTime: [null, [Validators.required]]
           }
         )
@@ -151,10 +150,6 @@ export class PersonalDataFormComponent extends RegistrationFormStepAbstractCompo
 
   get knowAboutCampFrom() {
     return this.getStatisticsControl('knowAboutCampFrom');
-  }
-
-  get wasCamperInThePast() {
-    return this.getStatisticsControl('wasCamperInThePast');
   }
 
   get onCampForTime() {

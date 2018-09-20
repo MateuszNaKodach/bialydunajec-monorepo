@@ -40,7 +40,6 @@ export class CamperRegistrationFormStateService {
           },
           statistics: {
             knowAboutCampFrom: null,
-            wasCamperInThePast: false,
             onCampForTime: null
           }
         }
