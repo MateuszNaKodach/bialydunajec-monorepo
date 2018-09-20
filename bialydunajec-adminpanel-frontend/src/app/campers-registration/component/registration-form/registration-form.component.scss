@@ -14,17 +14,21 @@
   background: white;
   border-radius: 4px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.24);
-  max-width: 1070px;
   width: 100vw;
   padding: 2rem;
 
   @include gt-xs__screen() {
     width: 80vw;
-    padding: 5rem;
+    padding: 2.5rem;
+  }
+
+  @include gt-sm__screen() {
+    width: 80vw;
+    padding: 4rem;
   }
 
   @include gt-md__screen() {
-    width: 65vw;
+    width: 76rem;
     padding: 8rem;
   }
 }

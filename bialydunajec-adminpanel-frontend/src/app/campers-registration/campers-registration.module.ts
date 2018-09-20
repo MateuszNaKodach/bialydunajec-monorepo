@@ -14,6 +14,7 @@ import {FormInputComponent} from './component/form-input/form-input.component';
 import {CamperRegistrationFormStateService} from './service/camper-registration-form-state.service';
 import {CamperRegistrationFormNavigator} from './service/camper-registration-form.navigator';
 import { CottageCardComponent } from './component/registration-form/cottage-form/cottage-card/cottage-card.component';
+import { CottageSelectionComponent } from './component/registration-form/cottage-form/cottage-selection/cottage-selection.component';
 
 @NgModule({
   imports: [
@@ -33,7 +34,8 @@ import { CottageCardComponent } from './component/registration-form/cottage-form
     CottageFormComponent,
     FormNavigationButtonsComponent,
     FormInputComponent,
-    CottageCardComponent
+    CottageCardComponent,
+    CottageSelectionComponent
   ],
   providers: [
     CamperRegistrationFormStateService,
