@@ -1,11 +1,20 @@
 import {Component, OnInit} from '@angular/core';
+import {CottageCardViewModel} from '../cottage-card/cottage-card.view-model';
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 @Component({
   selector: 'bda-cottage-selection',
   templateUrl: './cottage-selection.component.html',
-  styleUrls: ['./cottage-selection.component.scss']
+  styleUrls: ['./cottage-selection.component.scss'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: CottageSelectionComponent,
+      multi: true
+    }
+  ]
 })
-export class CottageSelectionComponent implements OnInit {
+export class CottageSelectionComponent implements OnInit, ControlValueAccessor {
 
   cottages = [
     {
@@ -36,7 +45,7 @@ export class CottageSelectionComponent implements OnInit {
       cottageId: '5',
       cottageName: 'Redemptor',
       cottageLogoUrl: 'http://bialydunajec.org:3344/api/v1/academic-ministry/21/logo',
-      hasSpace: false
+      hasSpace: true
     },
     {
       cottageId: '4',
@@ -46,10 +55,44 @@ export class CottageSelectionComponent implements OnInit {
     }
   ];
 
+  private selectedCottage: CottageCardViewModel;
+  private onChange;
+
   constructor() {
   }
 
   ngOnInit() {
+  }
+
+  onCottageClicked(cottage: CottageCardViewModel) {
+    if (this.isSelectedCottage(cottage.cottageId)) {
+      this.selectedCottage = null;
+    } else if (cottage.hasSpace) {
+      this.selectedCottage = cottage;
+    } else if (!cottage.hasSpace) {
+      console.log('Show modal with info about camp boss.');
+    }
+    this.onChange(this.selectedCottage === null ? null : this.selectedCottage.cottageId);
+  }
+
+  isSelectedCottage(cottageId: string) {
+    return this.selectedCottage && this.selectedCottage.cottageId === cottageId;
+  }
+
+
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: any): void {
+    // TODO: Implement disabled!
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+  }
+
+  writeValue(cottageId: string): void {
+    this.selectedCottage = this.cottages.find(c => c.cottageId === cottageId);
   }
 
 }

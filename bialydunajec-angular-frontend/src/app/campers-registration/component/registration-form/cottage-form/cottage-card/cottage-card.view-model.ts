@@ -1,5 +1,3 @@
-import has = Reflect.has;
-
 export class CottageCardViewModel {
   cottageId: string;
   cottageName: string;

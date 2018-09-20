@@ -12,10 +12,14 @@
     justify-content: center;
     background-color: #eeeeee;
     height: $academic-ministry-card-logo-height;
-    padding: 5px;
+    padding: 1.25rem;
 
     img {
       filter: grayscale(1);
+      max-height: 7rem;
+      max-width: 9rem;
+      width: auto;
+      height: auto;
     }
   }
 
@@ -37,11 +41,6 @@
   }
 
   .bda-cottage-card__logo-wrapper {
-    padding: 5px;
-
-    img {
-      height: 100%;
-    }
   }
 
   .bda-cottage-card__name {
@@ -54,11 +53,9 @@
   border: 1px solid $a-active-font-color;
 
   .bda-cottage-card__logo-wrapper {
-    padding: 5px;
 
     img {
       filter: grayscale(0);
-      height: 100%;
     }
   }
 

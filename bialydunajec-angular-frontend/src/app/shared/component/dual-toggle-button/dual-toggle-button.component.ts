@@ -20,7 +20,7 @@ export class DualToggleButtonComponent implements OnInit, ControlValueAccessor {
   @Input() selected;
   @Input() options: { left: { name: string, icon: string, value: any }, right: { name: string, icon: string, value: any } };
   @Output() optionSelected = new EventEmitter<OptionSelected>();
-  onChange;
+  private onChange;
 
   constructor() {
   }
