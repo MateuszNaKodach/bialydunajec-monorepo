@@ -21,6 +21,22 @@
         </sui-select>
       </bda-form-input>
 
+      <ng-template [ngIf]="showParkingSpaceInfo">
+        <sui-message
+          [isDismissable]="false"
+          class="icon"
+        >
+          <i class="exclamation circle icon"></i>
+          <div class="content">
+            <div class="header">
+              Miejsce parkingowe
+            </div>
+            <p>Jeśli chcesz mieć zapewnione miejsce parkingowe pod swoją chatką, proszę skontaktuj się z jej szefem czy
+              istnieje taka możliwość.</p>
+          </div>
+        </sui-message>
+      </ng-template>
+
       <bda-form-input
         *ngIf="selectedTransportType===TransportType.CAMP_TRANSPORT"
         [control]="campTransportDestinationBusStop"
