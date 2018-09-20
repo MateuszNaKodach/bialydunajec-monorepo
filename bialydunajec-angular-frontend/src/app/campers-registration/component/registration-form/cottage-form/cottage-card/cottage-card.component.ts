@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {CottageCardViewModel} from './cottage-card.view-model';
 
 @Component({
@@ -8,12 +8,9 @@ import {CottageCardViewModel} from './cottage-card.view-model';
 })
 export class CottageCardComponent implements OnInit {
 
-  viewModel: CottageCardViewModel = {
-    cottageId: '1',
-    cottageName: 'Maciejówka',
-    cottageLogoUrl: 'http://bialydunajec.org:3344/api/v1/academic-ministry/18/logo'
-  };
+  @Input() cottageViewModel: CottageCardViewModel;
   hover = false;
+  selected = false;
 
   constructor() {
   }

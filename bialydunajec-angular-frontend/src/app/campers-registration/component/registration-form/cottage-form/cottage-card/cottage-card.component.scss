@@ -3,29 +3,77 @@
 
 .bda-cottage-card {
   width: $academic-ministry-card-width;
+  min-width: $academic-ministry-card-width;
   height: $academic-ministry-card-height;
 
+  .bda-cottage-card__logo-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #eeeeee;
+    height: $academic-ministry-card-logo-height;
+    padding: 5px;
+
+    img {
+      filter: grayscale(1);
+    }
+  }
+
+  .bda-cottage-card__name {
+    color: $a-active-font-color !important;
+    font-weight: 700 !important;
+  }
+}
+
+.bda-cottage-card--no-space{
+  opacity: 0.5;
+  .bda-cottage-card__no-space {
+    color: white !important;
+    font-weight: 700 !important;
+    font-size: 1rem;
+    background-color: gray;
+    height: 2rem;
+    padding: 0.15rem;
+  }
+
+  .bda-cottage-card__logo-wrapper {
+    padding: 5px;
+
+    img {
+      height: 100%;
+    }
+  }
+
+  .bda-cottage-card__name {
+    color: black !important;
+    font-weight: 700 !important;
+  }
+}
+
+.bda-cottage-card--selected {
+  border: 1px solid $a-active-font-color;
+
+  .bda-cottage-card__logo-wrapper {
+    padding: 5px;
+
+    img {
+      filter: grayscale(0);
+      height: 100%;
+    }
+  }
+
+  .bda-cottage-card__name {
+    color: white !important;
+    background-color: $a-active-font-color;
+    border-radius: 0 !important;
+  }
+
+  .bda-cottage-card__additional-info {
+    font-size: 0.8rem;
+    color: black;
+  }
+
   &:hover {
-    background: red !important;
+    border: 1px solid $a-active-font-color !important;
   }
-
-  img {
-    filter: grayscale(1);
-  }
-}
-
-.bda-cottage-card__logo {
-  display: flex;
-  align-items: center;
-  background-color: transparent;
-  height: $academic-ministry-card-logo-height;
-}
-
-.bda-cottage-card__name {
-  color: $a-active-font-color !important;
-  font-weight: 700 !important;
-}
-
-.bda-cottage-card--checked {
-
 }

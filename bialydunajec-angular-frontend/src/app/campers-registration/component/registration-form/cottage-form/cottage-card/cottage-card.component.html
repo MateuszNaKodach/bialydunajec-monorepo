@@ -1,13 +1,18 @@
-<div class="bda-cottage-card ui raised link card"
-     (mouseenter)="hover = true"
-     (mouseleave)="hover = false"
+<div
+  [ngClass]="{'bda-cottage-card--selected': selected, 'bda-cottage-card--no-space': !cottageViewModel.hasSpace}"
+  class="bda-cottage-card ui card link"
+  (mouseenter)="hover = true"
+  (mouseleave)="hover = false"
+  (click)="selected = cottageViewModel.hasSpace"
 >
-  <div class="bda-cottage-card__logo">
-    <img
-      [src]="viewModel.cottageLogoUrl"
-      alt="{{viewModel.cottageName}} cottage logo.">
+  <div class="bda-cottage-card__logo-wrapper content">
+      <img
+        [src]="cottageViewModel.cottageLogoUrl"
+        alt="{{cottageViewModel.cottageName}} cottage logo.">
   </div>
+  <div *ngIf="selected" class="bda-cottage-card__additional-info extra content center aligned">Do zobaczenia na Obozie!</div>
+  <div *ngIf="!cottageViewModel.hasSpace" class="bda-cottage-card__no-space extra content center aligned"><i class="lock icon"></i> Brak miejsc</div>
   <div class="bda-cottage-card__name extra content center aligned">
-    {{viewModel.cottageName}}
+    {{selected ? '✓' : cottageViewModel.cottageName}}
   </div>
 </div>
