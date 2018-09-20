@@ -47,9 +47,9 @@ export class DualToggleButtonComponent implements OnInit, ControlValueAccessor {
     // TODO: Implement disabled!
   }
 
-  writeValue(obj: any): void {
+  writeValue(value: any): void {
     this.selected = Object.keys(this.options)
-      .find(o => o['name'] === obj);
+      .find(o => this.options[o].value === value);
   }
 
 
