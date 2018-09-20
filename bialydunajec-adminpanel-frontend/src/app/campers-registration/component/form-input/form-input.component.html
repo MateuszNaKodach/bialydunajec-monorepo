@@ -1,5 +1,5 @@
-<div class="field" [ngClass]="{'error': isInvalid()}">
-  <label style="white-space: nowrap">{{label}}</label>
+<div class="bda-form-input field" [ngClass]="{'error': isInvalid()}">
+  <label class=".bda-form-input__label">{{label}}</label>
   <ng-content></ng-content>
   <p *ngIf="isInvalid()" class="bda-error__content">{{errorMessage}}</p>
 </div>
