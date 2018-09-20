@@ -32,8 +32,11 @@ export class TransportFormComponent extends RegistrationFormStepAbstractComponen
           {
             id: '1',
             name: 'Samochodem',
-            description: 'Jeśli chcesz mieć miejsce parkingowe pod swoją chatką, pamiętaj o kontakcie z szefem chatki zanim przyjedziesz!',
-            transportType: TransportType.PRIVATE_CAR
+            transportType: TransportType.PRIVATE_CAR,
+            additionalNotes: {
+              title: 'Miejsce parkingowe',
+              content: 'Jeśli chcesz mieć miejsce parkingowe pod swoją chatką, pamiętaj o kontakcie z szefem chatki zanim przyjedziesz!'
+            }
           },
           {id: '2', name: 'Pociągiem / autobusem', transportType: TransportType.PUBLIC_TRANSPORT},
           {id: '3', name: 'Rowerem', transportType: TransportType.PRIVATE_TRANSPORT},
@@ -82,7 +85,7 @@ export class TransportFormComponent extends RegistrationFormStepAbstractComponen
     this.showParkingSpaceInfo = false;
     if (transportType === TransportType.CAMP_TRANSPORT) {
       this.stepForm.addControl(TransportType.CAMP_TRANSPORT, this.additionalStepFormOptions.get(TransportType.CAMP_TRANSPORT));
-    } else if (transportType === TransportType.PRIVATE_CAR) {
+    } else if (transportType === TransportType.PRIVATE_CAR) { // TODO: Change for additional message without new TransportType!
       this.showParkingSpaceInfo = true;
     }
     console.log(this.stepForm.value);
