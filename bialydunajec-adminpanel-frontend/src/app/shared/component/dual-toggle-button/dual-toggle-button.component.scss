@@ -1,3 +1,9 @@
+@import "../../../../styles/mixins/responsivness";
+
+.bda-dual-button-group{
+  width: 100%;
+}
+
 .bda-dual-button{
-  width: 200px;
+  width: 50%;
 }
