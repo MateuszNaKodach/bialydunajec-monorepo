@@ -34,12 +34,12 @@
         [control]="clothType"
         label="Rodzaj koszulki">
             <div class="ui radio checkbox" style="display: block; margin-bottom: 0.5rem">
-              <input type="radio" formControlName="clothType" value="FEMALE">
-              <label>Damska</label>
+              <input id="femaleClothTypeOption" type="radio" formControlName="clothType" value="FEMALE">
+              <label for="femaleClothTypeOption">Damska</label>
           </div>
             <div class="ui radio checkbox" style="display: block">
-              <input type="radio" formControlName="clothType" value="MALE">
-              <label>Męska</label>
+              <input id="maleClothTypeOption" type="radio" formControlName="clothType" value="MALE">
+              <label for="maleClothTypeOption">Męska</label>
             </div>
       </bda-form-input>
     </div>

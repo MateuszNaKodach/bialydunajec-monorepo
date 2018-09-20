@@ -6,6 +6,7 @@ import {CampSignUpButtonComponent} from './component/camp-sign-up-button/camp-si
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {PhotoInfoCardComponent} from './component/photo-info-card/photo-info-card.component';
 import {SocialMediaLinksComponent} from './component/social-media-links/social-media-links.component';
+import {FormInputComponent} from './component/form-input/form-input.component';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import {SocialMediaLinksComponent} from './component/social-media-links/social-m
     DualToggleButtonComponent,
     CampSignUpButtonComponent,
     PhotoInfoCardComponent,
-    SocialMediaLinksComponent
+    SocialMediaLinksComponent,
+    FormInputComponent
   ],
   exports: [
     CommonModule,
@@ -26,7 +28,8 @@ import {SocialMediaLinksComponent} from './component/social-media-links/social-m
     DualToggleButtonComponent,
     CampSignUpButtonComponent,
     PhotoInfoCardComponent,
-    SocialMediaLinksComponent
+    SocialMediaLinksComponent,
+    FormInputComponent
   ]
 })
 export class SharedModule {

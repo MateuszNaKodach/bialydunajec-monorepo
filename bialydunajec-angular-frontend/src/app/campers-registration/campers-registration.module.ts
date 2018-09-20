@@ -10,11 +10,11 @@ import {CottageFormComponent} from './component/registration-form/cottage-form/c
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {SuiCheckboxModule, SuiSelectModule, SuiMessageModule, SuiModalModule} from 'ng2-semantic-ui';
 import {FormNavigationButtonsComponent} from './component/registration-form/form-navigation-buttons/form-navigation-buttons.component';
-import {FormInputComponent} from './component/form-input/form-input.component';
 import {CamperRegistrationFormStateService} from './service/camper-registration-form-state.service';
 import {CamperRegistrationFormNavigator} from './service/camper-registration-form.navigator';
 import { CottageCardComponent } from './component/registration-form/cottage-form/cottage-card/cottage-card.component';
 import { CottageSelectionComponent } from './component/registration-form/cottage-form/cottage-selection/cottage-selection.component';
+import { RegistrationSummaryComponent } from './component/registration-form/registration-summary/registration-summary.component';
 
 @NgModule({
   imports: [
@@ -35,9 +35,9 @@ import { CottageSelectionComponent } from './component/registration-form/cottage
     TransportFormComponent,
     CottageFormComponent,
     FormNavigationButtonsComponent,
-    FormInputComponent,
     CottageCardComponent,
-    CottageSelectionComponent
+    CottageSelectionComponent,
+    RegistrationSummaryComponent
   ],
   providers: [
     CamperRegistrationFormStateService,

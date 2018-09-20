@@ -5,5 +5,6 @@ export const campersRegistrationRoutingPaths = {
   personalData: 'dane-osobowe',
   transport: 'dojazd',
   shirt: 'koszulka-obozowa',
-  cottage: 'chatka'
+  cottage: 'chatka',
+  summary: 'podsumowanie'
 };

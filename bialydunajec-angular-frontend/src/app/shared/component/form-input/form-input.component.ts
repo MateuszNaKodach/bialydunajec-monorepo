@@ -1,7 +1,7 @@
 import {Component, Input, OnChanges, OnDestroy, OnInit} from '@angular/core';
 import {AbstractControl} from '@angular/forms';
 import {defaultErrorDefinitions} from './error-defs.default';
-import {FormStatus} from '../../model/form-status.enum';
+import {FormStatus} from '../../../campers-registration/model/form-status.enum';
 import {Subscription} from 'rxjs';
 
 // https://almerosteyn.com/2016/03/angular2-form-validation-component

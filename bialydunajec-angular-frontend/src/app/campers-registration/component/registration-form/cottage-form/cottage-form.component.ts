@@ -5,6 +5,7 @@ import {CamperRegistrationFormNavigator} from '../../../service/camper-registrat
 import {ActivatedRoute} from '@angular/router';
 import {FormBuilder, Validators} from '@angular/forms';
 import {StepId} from '../registration-form.config';
+import {AngularFormHelper} from '../../../../shared/helper/angular-form.helper';
 
 @Component({
   selector: 'bda-cottage-form',
@@ -32,4 +33,11 @@ export class CottageFormComponent extends RegistrationFormStepAbstractComponent 
     return this.stepForm.get('cottageId');
   }
 
+  onClickCampSignUp() {
+    //TODO: Add validating whole form!
+    this.onSubmitStepForm();
+    if (this.isStepValid()) {
+      window.alert('Formularz wysłany. WORK IN PROGRESS!');
+    }
+  }
 }
