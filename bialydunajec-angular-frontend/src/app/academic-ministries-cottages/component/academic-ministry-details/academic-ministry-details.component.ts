@@ -2,7 +2,7 @@ import {Component, OnInit, Output} from '@angular/core';
 import {AcademicMinistryService} from '../../service/academic-ministry.service';
 import {AcademicMinistryDetails} from '../../model/academic-ministry-details.model';
 import {ActivatedRoute, Params} from '@angular/router';
-import {academicMinistriesCottagesPaths} from '../../academic-ministries-cottages.paths';
+import {academicMinistriesCottagesRoutingPaths} from '../../academic-ministries-cottages-routing.paths';
 
 
 @Component({
@@ -21,7 +21,7 @@ export class AcademicMinistryDetailsComponent implements OnInit {
     this.activatedRoute.parent.params
       .subscribe(
         (params: Params) => {
-          const academicMinistryId = params[academicMinistriesCottagesPaths.academicMinistryId];
+          const academicMinistryId = params[academicMinistriesCottagesRoutingPaths.academicMinistryId];
           this.academicMinistry = this.academicMinistryService.getAcademicMinistryDetailsById(academicMinistryId);
         }
       );

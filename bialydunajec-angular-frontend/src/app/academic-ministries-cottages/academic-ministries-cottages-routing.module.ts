@@ -4,15 +4,15 @@ import {AcademicMinistriesComponent} from './component/academic-ministries/acade
 import {AcademicMinistryInfoComponent} from './component/academic-ministry-info/academic-ministry-info.component';
 import {AcademicMinistryCottageComponent} from './component/academic-ministry-cottage/academic-ministry-cottage.component';
 import {AcademicMinistryDetailsComponent} from './component/academic-ministry-details/academic-ministry-details.component';
-import {academicMinistriesCottagesPaths} from './academic-ministries-cottages.paths';
+import {academicMinistriesCottagesRoutingPaths} from './academic-ministries-cottages-routing.paths';
 
 const academicMinistriesCottagesRoutes: Routes = [
-  {path: academicMinistriesCottagesPaths.root, component: AcademicMinistriesComponent},
+  {path: academicMinistriesCottagesRoutingPaths.root, component: AcademicMinistriesComponent},
   {
-    path: ':' + academicMinistriesCottagesPaths.academicMinistryId, component: AcademicMinistryInfoComponent, children: [
-      {path: '', pathMatch: 'full', redirectTo: academicMinistriesCottagesPaths.cottage},
-      {path: academicMinistriesCottagesPaths.cottage, component: AcademicMinistryCottageComponent},
-      {path: academicMinistriesCottagesPaths.academicMinistry, component: AcademicMinistryDetailsComponent}
+    path: ':' + academicMinistriesCottagesRoutingPaths.academicMinistryId, component: AcademicMinistryInfoComponent, children: [
+      {path: '', pathMatch: 'full', redirectTo: academicMinistriesCottagesRoutingPaths.cottage},
+      {path: academicMinistriesCottagesRoutingPaths.cottage, component: AcademicMinistryCottageComponent},
+      {path: academicMinistriesCottagesRoutingPaths.academicMinistry, component: AcademicMinistryDetailsComponent}
     ]
   }
 ];

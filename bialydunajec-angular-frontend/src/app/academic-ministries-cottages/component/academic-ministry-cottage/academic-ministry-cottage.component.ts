@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {CottageService} from '../../service/cottage.service';
 import {ActivatedRoute, Params} from '@angular/router';
-import {academicMinistriesCottagesPaths} from '../../academic-ministries-cottages.paths';
+import {academicMinistriesCottagesRoutingPaths} from '../../academic-ministries-cottages-routing.paths';
 import {CottageDetails} from '../../model/cottage-details.model';
 
 @Component({
@@ -21,7 +21,7 @@ export class AcademicMinistryCottageComponent implements OnInit {
       .subscribe(
         (params: Params) => {
           console.log('Params:', params);
-          const academicMinistryId = params[academicMinistriesCottagesPaths.academicMinistryId];
+          const academicMinistryId = params[academicMinistriesCottagesRoutingPaths.academicMinistryId];
           console.log('Academic: ', academicMinistryId);
           this.cottage = this.cottageService.getCottageByAcademicMinistryId(academicMinistryId);
         }

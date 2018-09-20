@@ -1,0 +1,63 @@
+<form
+  class="ui form"
+  [formGroup]="stepForm"
+  (submit)="onSubmitStepForm()"
+>
+  <section>
+    <bda-section-header
+      [title]="formConfig.title"
+      [description]="formConfig.description"
+    ></bda-section-header>
+    <div>
+      <bda-form-input
+        [label]="formConfig.controls.meanOfTransport.label"
+        [control]="meanOfTransport"
+      >
+        <sui-select class="selection" [formControlName]="formConfig.controls.meanOfTransport.name"
+                    [placeholder]="formConfig.controls.meanOfTransport.placeholder">
+          <sui-select-option *ngFor="let option of meanOfTransportOptions"
+                             [value]="option">
+          </sui-select-option>
+        </sui-select>
+      </bda-form-input>
+
+      <ng-template [ngIf]="showParkingSpaceInfo">
+        <sui-message
+          [isDismissable]="false"
+          class="icon"
+        >
+          <i class="exclamation circle icon"></i>
+          <div class="content">
+            <div class="header">
+              Miejsce parkingowe
+            </div>
+            <p>Jeśli chcesz mieć zapewnione miejsce parkingowe pod swoją chatką, proszę skontaktuj się z jej szefem czy
+              istnieje taka możliwość.</p>
+          </div>
+        </sui-message>
+      </ng-template>
+
+      <bda-form-input
+        *ngIf="selectedTransportType===TransportType.CAMP_TRANSPORT"
+        [control]="campTransportDestinationBusStop"
+        label="Jadę z...">
+        <div [formGroupName]="TransportType.CAMP_TRANSPORT">
+          <div class="ui radio checkbox" style="display: block; margin-bottom: 0.5rem">
+            <input type="radio" value="Wrocław" formControlName="destinationBusStop">
+            <label>Wrocławia</label>
+          </div>
+          <div class="ui radio checkbox" style="display: block">
+            <input type="radio" value="Opole" formControlName="destinationBusStop">
+            <label>Opola</label>
+          </div>
+        </div>
+      </bda-form-input>
+    </div>
+  </section>
+  <bda-form-navigation-buttons
+    [config]='{left: {text: "WSTECZ", disabled: false}, right: {text: "DALEJ", disabled: false}}'
+    (clickRight)="onSubmitStepForm()"
+    (clickLeft)="onNavigateToPreviousStep()"
+  ></bda-form-navigation-buttons>
+</form>
+

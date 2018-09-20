@@ -1,0 +1,294 @@
+<form
+  class="bda-personal-data-form ui form"
+  [formGroup]="stepForm"
+  (ngSubmit)="onSubmitStepForm()"
+>
+  <section class="bda-personal-data-form__section">
+    <bda-section-header
+      title="Dane Uczestnika"
+      description="Dane osobowe są niezbędne do zbiorowego ubezpieczenia uczestników i nie będą udostępniane zewnętrznym podmiotom."
+    ></bda-section-header>
+
+    <div class="bda-personal-data-form__section-content">
+      <div
+        class="bda-personal-data-form__personal-data-section"
+        formGroupName="personalData"
+      >
+        <bda-form-input
+          [control]="gender"
+          label="Płeć">
+          <bda-dual-toggle-button
+            formControlName="gender"
+            [options]="{ left: { name: 'Kobieta', value: 'FEMALE'}, right: { name: 'Mężczyzna' , value: 'MALE'} }">
+          </bda-dual-toggle-button>
+        </bda-form-input>
+
+        <bda-form-input
+          [control]="firstName"
+          label="Imię">
+          <input type="text" formControlName="firstName" placeholder="Mateusz">
+        </bda-form-input>
+        <bda-form-input
+          [control]="lastName"
+          label="Nazwisko">
+          <input type="text" formControlName="lastName" placeholder="Nowak">
+        </bda-form-input>
+        <bda-form-input
+          [control]="pesel"
+          label="Pesel"
+          [errorDefs]="{invalidPesel: 'Niepoprawny numer PESEL'}"
+        >
+          <input type="text" formControlName="pesel" placeholder="99010112345" maxlength="11">
+        </bda-form-input>
+      </div>
+
+      <div>
+        <div
+          class="bda-personal-data-form__home-address-section"
+          formGroupName="homeAddress"
+        >
+          <div style="display: flex; justify-content: space-between;">
+            <bda-form-input
+              style="flex: 12; margin-right: 10px"
+              [control]="street"
+              label="Ulica">
+              <input type="text" formControlName="street" placeholder="Przykładowa">
+            </bda-form-input>
+            <bda-form-input
+              style="flex: 5; margin-left: 10px"
+              [control]="number"
+              label="Nr domu">
+              <input type="text" formControlName="number" placeholder="192a/2">
+            </bda-form-input>
+          </div>
+
+          <div style="display: flex; justify-content: space-between">
+            <bda-form-input
+              style="flex: 5; margin-right: 10px"
+              [control]="postalCode"
+              label="Kod pocztowy">
+              <input type="text" formControlName="postalCode" placeholder="12-345">
+            </bda-form-input>
+            <bda-form-input
+              style="flex: 12; margin-left: 10px"
+              [control]="city"
+              label="Miasto">
+              <input type="text" formControlName="city" placeholder="Wrocław">
+            </bda-form-input>
+          </div>
+
+        </div>
+
+        <div
+          class="bda-personal-data-form__contact-section"
+          formGroupName="contact"
+        >
+          <bda-form-input
+            [control]="emailAddress"
+            label="Email"
+            [errorDefs]="{email: 'Niepoprawny adres email'}"
+          >
+            <input type="email" formControlName="email" placeholder="jan.kowalski@test.com">
+          </bda-form-input>
+
+          <bda-form-input
+            [control]="phoneNumber"
+            label="Telefon">
+            <input type="tel" formControlName="telephone" placeholder="000-000-000">
+          </bda-form-input>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section
+    class="bda-personal-data-form__section"
+  >
+    <bda-section-header
+      title="Uczelnia"
+      description="Potrzebne do zaplanowania imprez obozowych. Jeśli jeszcze nie studiujesz, podaj uczelnię, na której chciałbyś studiować."
+    ></bda-section-header>
+    <div
+      class="bda-personal-data-form__education-section"
+      formGroupName="education"
+    >
+      <div class="bda-personal-data-form__university-section">
+        <bda-form-input
+          [control]="university"
+          label="Uczelnia">
+          <input type="text" formControlName="university" placeholder="Politechnika Wrocławska">
+        </bda-form-input>
+        <bda-form-input
+          [control]="faculty"
+          label="Wydział">
+          <input type="text" formControlName="faculty" placeholder="Informatyki i Zarządzania">
+        </bda-form-input>
+        <bda-form-input
+          [control]="fieldOfStudy"
+          label="Kierunek">
+          <input type="text" formControlName="fieldOfStudy" placeholder="Informatyka">
+        </bda-form-input>
+      </div>
+      <div class="bda-personal-data-form__high-school-section">
+        <div class="field">
+          <sui-checkbox formControlName="isRecentHighSchoolGraduate">
+            <b>Jestem maturzystą</b>
+          </sui-checkbox>
+        </div>
+        <bda-form-input
+          [control]="highSchool"
+          label="Szkoła średnia">
+          <input type="tel" formControlName="highSchool" placeholder="Liceum Ogólnokształcące nr II we Wrocławiu">
+        </bda-form-input>
+      </div>
+    </div>
+  </section>
+
+  <section class="bda-personal-data-form__section">
+    <bda-section-header
+      title="Pytania statystyczne"
+      description="Pomóz nam coraz lepiej Organizować obóz i odpowiedz na kilka pytań."
+    ></bda-section-header>
+    <div
+      class="bda-personal-data-form__others-section"
+      formGroupName="statistics"
+    >
+      <div class="bda-personal-data-form__others-section-content">
+        <bda-form-input
+          [control]="knowAboutCampFrom"
+          label="Skąd dowiedziałeś się po raz pierwszy o obozie?">
+          <sui-select class="selection" formControlName="knowAboutCampFrom" placeholder="Wybierz jedną z opcji">
+            <sui-select-option *ngFor="let option of campInfoOptions"
+                               [value]="option">
+            </sui-select-option>
+          </sui-select>
+        </bda-form-input>
+        <bda-form-input
+          [control]="onCampForTime"
+          label="Który raz jedziesz na obóz?">
+          <sui-select class="selection" formControlName="onCampForTime" placeholder="Wybierz jedną z opcji">
+            <sui-select-option *ngFor="let option of whichOneGoForCamp"
+                               [value]="option">
+            </sui-select-option>
+          </sui-select>
+        </bda-form-input>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="bda-personal-data-form__section">
+    <bda-section-header title="Regulaminy i zgody"
+    description="Aby zapisać się na Obóz, wszystkie poniższe zgody są wymagane."></bda-section-header>
+    <div formGroupName="agreements">
+      <div
+        class="bda-agreement-checkbox field"
+        style="margin-bottom: 0 !important;"
+        [ngClass]="{'bda-invalid-checkbox-field': campRegulations.invalid && campRegulations.touched}"
+      >
+        <sui-checkbox formControlName="campRegulations">
+          Akceptuję regulamin Obozu i zobowiązuję się do wypełniania jego postanowień.
+        </sui-checkbox>
+      </div>
+      <div
+        class="bda-agreement-checkbox field"
+        style="margin-bottom: 0 !important;"
+        [ngClass]="{'bda-invalid-checkbox-field': camperOwnResponsibility.invalid && camperOwnResponsibility.touched}"
+      >
+        <sui-checkbox formControlName="camperOwnResponsibility">
+          Oświadczam, że wyjeżdżam na Obóz na własną odpowiedzialność. Organizatorzy nie ponoszą żadnej
+          odpowiedzialności za straty majątkowe, uszkodzenia ciała czy inne wypadki. Organizatorzy informują, że
+          uczestnik jest ubezpieczany przez organizatorów od NNW jedynie na terenie RP.
+        </sui-checkbox>
+      </div>
+      <!-- TODO: Add link with it!
+      <div>
+        <b>KLAUZULA INFORMACYJNA DOTYCZĄCA PRZETWARZANIA DANYCH OSOBOWYCH</b>
+        <br>
+        Zgodnie z Rozporządzeniem Parlamentu Europejskiego i Rady (UE) 2016/679 z dnia 27 kwietnia 2016 r. w sprawie
+        ochrony osób fizycznych w związku z przetwarzaniem danych osobowych i w sprawie swobodnego przepływu takich
+        danych oraz uchylenia dyrektywy 95/46/WE (dalej jako „RODO”) informujemy, że:
+        <br>
+        <br>
+        1. Administratorem Twoich danych jest
+        Obóz Adaptacyjny Duszpasterstw Akademickich Wrocławia i Opola w Białym Dunajcu
+        Z administratorem danych można się skontaktować poprzez adres e-mail:
+        szef@bialydunajec.org lub rzecznik@bialydunajec.org
+        lub telefonicznie pod numerem tel.: 608147273.
+
+        <br>
+        <br>
+        2. Dane osobowe przetwarzane będą w następujących celach:
+        a) w celu sprawnej organizacji przebywania uczestników na obozie, czyli przydziału do odpowiedniego pokoju,
+        rejestracji na trasy, oraz jako informacja dla szefa chaty o obecności na obozie, płatności za obóz, oraz dla
+        osób odpowiedzialnych za wyżywienie (tzw. “kuchennych”) – podstawą prawną przetwarzania Twoich danych osobowych
+        w tym celu jest istnienie prawnie uzasadnionych interesów realizowanych przez administratora, w szczególności
+        polegających na zapewnieniu wykonywania w odniesieniu do Twojej osoby celów i zadań według regulaminu Obozu,
+        zaakceptowanych przez Ciebie w momencie rejestracji na obóz
+        b) w celu organizacji przejazdu na obóz i z obozu dla osób, które skorzystają z tej opcji - podstawą prawną
+        przetwarzania Twoich danych osobowych w tym celu jest wypełnienie obowiązku prawnego ciążącego na
+        administratorze;
+        c) w celach statystycznych, badań naukowych lub historycznych i w celach archiwalnych, w celu informowania i
+        promowania działalności Obozu - podstawą prawną przetwarzania Twoich danych osobowych w tym celu jest istnienie
+        prawnie uzasadnionych interesów realizowanych przez administratora, w szczególności polegających na zapewnieniu
+        wykonywania w odniesieniu do Twojej osoby celów i zadań ujętych w regulaminie, zaakceptowanych przez Ciebie w
+        momencie zapisania się na obóz, prowadzeniu działań informacyjnych i promujących działalność Obozu, a także w
+        tworzeniu i utrwalaniu historii Obozu.
+        <br>
+        <br>
+        3. Dane osobowe mogą zostać ujawnione przez Obóz innym podmiotom tzw. odbiorcom danych osobowych. Takimi
+        odbiorcami mogą być np. dostawcy rozwiązań informatycznych, ubezpieczyciele, instytucje i podmioty zapewniające
+        bezpieczeństwo uczestnikom obozu, placówki medyczne.
+
+        <br>
+        <br>
+        4. Dane przetwarzane na podstawie prawnie uzasadnionego interesu administratora będą przetwarzane przez okres
+        istnienia prawnie uzasadnionego interesu administratora, chyba że wyrazisz sprzeciw wobec przetwarzania danych w
+        tym celu. Po upływie okresu przetwarzania danych osobowych, dane te zostaną usunięte lub poddane anonimizacji,
+        tj. zostaną przetworzone w taki sposób, że nie będzie możliwe powiązanie ich z żadną osobą. Obóz rezerwuje sobie
+        okres 6 miesięcy od momentu upływu okresu przetwarzania na przeprowadzenie czynności usunięcia lub anonimizacji
+        danych. Czas ten jest niezbędny do potwierdzenia konieczności usunięcia danych osobowych, a także techniczne
+        przygotowanie do przeprowadzenia tych czynności. Okres przechowywania danych osobowych może zostać każdorazowo
+        przedłużony o okres przedawnienia roszczeń, jeżeli przetwarzanie danych osobowych będzie niezbędne dla
+        dochodzenia ewentualnych roszczeń lub obrony przed takimi roszczeniami przez administratora.
+        <br>
+        <br>
+        5. Przysługuje Ci prawo dostępu do treści danych osobowych oraz prawo ich sprostowania, usunięcia, ograniczenia
+        przetwarzania, prawo do przenoszenia danych.
+        <br>
+        <br>
+        6. W zakresie, w jakim podstawą przetwarzania danych osobowych jest przesłanka prawnie uzasadnionego interesu
+        administratora, przysługuje Ci prawo wniesienia sprzeciwu wobec przetwarzania Twoich danych osobowych. Sprzeciw
+        można złożyć za pośrednictwem wiadomości e-mail na adres: szef@bialydunajec.org lub rzecznik@bialydunajec.org.
+
+        <br>
+        <br>
+        7. Przysługuje Ci prawo wniesienia skargi do organu nadzorczego zajmującego się ochroną danych osobowych, gdy
+        uznasz, że przetwarzanie danych osobowych narusza przepisy RODO.
+        <br>
+        <br>
+        8. Podanie danych osobowych jest niezbędne do Twojego uczestnictwa w obozie organizowanym przez Obóz. Brak
+        Twojej zgody na przetwarzanie danych osobowych uniemożliwia Ci udział w obozie.
+        <br>
+        <br>
+      </div>-->
+      <div
+        class="bda-agreement-checkbox field"
+        style="margin-bottom: 0 !important;"
+        [ngClass]="{'bda-invalid-checkbox-field': personalDataProcessing.invalid && personalDataProcessing.touched}"
+      >
+        <sui-checkbox formControlName="personalDataProcessing">
+          Zapoznałem (-am) się z treścią klauzuli informacyjnej, w tym z informacją o celach i sposobach przetwarzania
+          moich danych osobowych oraz prawach przysługujących mi w związku z przetwarzaniem danych osobowych przez Obóz.
+        </sui-checkbox>
+      </div>
+    </div>
+  </section>
+
+  <bda-form-navigation-buttons
+    [config]='{right: {text: "DALEJ", disabled: false}}'
+    (clickRight)="onSubmitStepForm()"
+  ></bda-form-navigation-buttons>
+
+</form>

@@ -1,17 +1,22 @@
 @import '../../../../styles/variables/fonts';
+@import '../../../../styles/variables/dimensions';
+
 
 .bda-academic-ministry-card {
-  width: 175px;
-  height: 200px;
+  width: $academic-ministry-card-width;
+  min-width: $academic-ministry-card-width;
+  height: $academic-ministry-card-height;
 }
 
-.bda-academic-ministry-name {
-  color: $a-active-font-color;
+.bda-academic-ministry-card__name {
+  color: $a-active-font-color !important;
+  font-weight: 700 !important;
 }
 
-.bda-academic-ministry-logo {
-  display: flex;
+.bda-academic-ministry-card__logo {
+  display: inline-flex;
   align-items: center;
+  justify-content: center;
   background-color: transparent;
-  height: 158px;
+  height: $academic-ministry-card-logo-height;
 }
