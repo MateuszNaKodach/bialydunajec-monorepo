@@ -64,6 +64,6 @@ export class RegistrationFormConfig {
   }
 
   static getLastStepOrder() {
-    return RegistrationFormConfig.STEPS_ORDER.length;
+    return RegistrationFormConfig.STEPS_ORDER.length - 1;
   }
 }

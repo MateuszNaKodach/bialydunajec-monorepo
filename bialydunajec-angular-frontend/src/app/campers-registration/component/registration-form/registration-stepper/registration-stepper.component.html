@@ -2,7 +2,7 @@
   <a
     *ngFor="let step of steps"
     class="step"
-    [ngClass]="{'active' : isCurrentStep(step.getStepId()), 'completed ': step.isCompleted()}"
+    [ngClass]="{'active' : isCurrentStep(step.getStepId()), 'completed ': isStepValid(step.getStepId())}"
     (click)="onStepClicked(step)"
     [routerLink]="['./',step.getRelativeToFormPath()]"
   >

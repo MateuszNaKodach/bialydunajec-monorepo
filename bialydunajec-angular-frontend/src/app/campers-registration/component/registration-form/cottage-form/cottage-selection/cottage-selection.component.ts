@@ -36,6 +36,12 @@ export class CottageSelectionComponent implements OnInit, ControlValueAccessor {
       hasSpace: true
     },
     {
+      cottageId: '8',
+      cottageName: 'Horeb',
+      cottageLogoUrl: 'http://bialydunajec.org:3344/api/v1/academic-ministry/12/logo',
+      hasSpace: false
+    },
+    {
       cottageId: '4',
       cottageName: 'Maciejówka',
       cottageLogoUrl: 'http://bialydunajec.org:3344/api/v1/academic-ministry/18/logo',
@@ -46,12 +52,6 @@ export class CottageSelectionComponent implements OnInit, ControlValueAccessor {
       cottageName: 'Redemptor',
       cottageLogoUrl: 'http://bialydunajec.org:3344/api/v1/academic-ministry/21/logo',
       hasSpace: true
-    },
-    {
-      cottageId: '4',
-      cottageName: 'Maciejówka',
-      cottageLogoUrl: 'http://bialydunajec.org:3344/api/v1/academic-ministry/18/logo',
-      hasSpace: false
     }
   ];
 
