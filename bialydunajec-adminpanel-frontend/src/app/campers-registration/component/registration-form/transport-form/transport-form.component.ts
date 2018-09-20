@@ -32,7 +32,8 @@ export class TransportFormComponent extends RegistrationFormStepAbstractComponen
           {
             id: '1',
             name: 'Samochodem',
-            description: 'Jeśli chcesz mieć miejsce parkingowe pod swoją chatką, pamiętaj o kontakcie z szefem chatki zanim przyjedziesz!'
+            description: 'Jeśli chcesz mieć miejsce parkingowe pod swoją chatką, pamiętaj o kontakcie z szefem chatki zanim przyjedziesz!',
+            transportType: TransportType.PRIVATE_CAR
           },
           {id: '2', name: 'Pociągiem / autobusem', transportType: TransportType.PUBLIC_TRANSPORT},
           {id: '3', name: 'Rowerem', transportType: TransportType.PRIVATE_TRANSPORT},
@@ -44,6 +45,7 @@ export class TransportFormComponent extends RegistrationFormStepAbstractComponen
   };
 
   selectedTransportType: TransportType;
+  showParkingSpaceInfo = false;
 
   additionalStepFormOptions = new Map<TransportType, FormGroup>([
     [TransportType.CAMP_TRANSPORT, this.formBuilder.group({
@@ -70,15 +72,18 @@ export class TransportFormComponent extends RegistrationFormStepAbstractComponen
       .pipe(filter(value => value))
       .subscribe(value => {
           this.selectedTransportType = this.getMeanOfTransportOptionByName(value).transportType;
-          this.showAdditionalControlsForTransportType(this.selectedTransportType);
+          this.showAdditionalContentForTransportType(this.selectedTransportType);
         }
       );
   }
 
-  private showAdditionalControlsForTransportType(transportType: TransportType) {
+  private showAdditionalContentForTransportType(transportType: TransportType) {
     this.stepForm.removeControl(TransportType.CAMP_TRANSPORT);
+    this.showParkingSpaceInfo = false;
     if (transportType === TransportType.CAMP_TRANSPORT) {
       this.stepForm.addControl(TransportType.CAMP_TRANSPORT, this.additionalStepFormOptions.get(TransportType.CAMP_TRANSPORT));
+    } else if (transportType === TransportType.PRIVATE_CAR) {
+      this.showParkingSpaceInfo = true;
     }
     console.log(this.stepForm.value);
   }
