@@ -26,11 +26,13 @@ export class RegistrationStepperComponent implements OnInit {
 
   onStepClicked(step: RegistrationStepViewModel) {
     this.stepClicked.emit(step);
-    this.formNavigator.onFormStepperClicked(step.getStepId());
+    if (!this.isCurrentStep(step.getStepId())) {
+      this.formNavigator.onFormStepperClicked(step.getStepId());
+    }
   }
 
   isCurrentStep(stepId: StepId) {
-    return this.getCurrentStepId() === stepId;
+    return this.formNavigator.isCurrentStep(stepId);
   }
 
   isStepInvalid(stepId: StepId) {

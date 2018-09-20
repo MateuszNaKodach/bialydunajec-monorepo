@@ -24,7 +24,7 @@ export class RegistrationFormConfig {
       description: 'Wprowadź swoje dane',
       icon: 'clipboard list',
       relativeToFormPath: campersRegistrationRoutingPaths.personalData,
-      required: true
+      showOnStepper: true
     }
     ,
     {
@@ -33,7 +33,7 @@ export class RegistrationFormConfig {
       description: 'Wybierz transport',
       icon: 'bus',
       relativeToFormPath: campersRegistrationRoutingPaths.transport,
-      required: true
+      showOnStepper: true
     }
     ,
     {
@@ -42,7 +42,7 @@ export class RegistrationFormConfig {
       description: 'Wybierz kolor i rozmiar',
       icon: 'child',
       relativeToFormPath: campersRegistrationRoutingPaths.shirt,
-      required: true
+      showOnStepper: true
     }
     ,
     {
@@ -51,7 +51,7 @@ export class RegistrationFormConfig {
       description: 'Wybierz swoją chatkę',
       icon: 'home',
       relativeToFormPath: campersRegistrationRoutingPaths.cottage,
-      required: true
+      showOnStepper: true
     }
   ];
 

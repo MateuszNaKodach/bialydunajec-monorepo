@@ -41,6 +41,11 @@ export class CamperRegistrationFormStateService {
           statistics: {
             knowAboutCampFrom: null,
             onCampForTime: null
+          },
+          agreements: {
+            campRegulations: false,
+            camperOwnResponsibility: false,
+            personalDataProcessing: false
           }
         }
       }

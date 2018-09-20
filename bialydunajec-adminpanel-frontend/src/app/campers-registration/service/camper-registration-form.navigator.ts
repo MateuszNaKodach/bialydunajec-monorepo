@@ -25,6 +25,10 @@ export class CamperRegistrationFormNavigator {
       .stepId;
   }
 
+  isCurrentStep(stepId: StepId) {
+    return this.getCurrentStepId() === stepId;
+  }
+
   navigateToNextStep(activatedRoute: ActivatedRoute) {
     const currentStepId = this.getCurrentStepId();
     const currentStepOrder = RegistrationFormConfig.STEPS_ORDER.indexOf(currentStepId);

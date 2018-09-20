@@ -6,6 +6,7 @@ import {PersonalDataFormComponent} from './component/registration-form/personal-
 import {TransportFormComponent} from './component/registration-form/transport-form/transport-form.component';
 import {ShirtFormComponent} from './component/registration-form/shirt-form/shirt-form.component';
 import {CottageFormComponent} from './component/registration-form/cottage-form/cottage-form.component';
+import {RegistrationSummaryComponent} from './component/registration-form/registration-summary/registration-summary.component';
 
 const campersRegistrationRoutes: Routes = [
   {
@@ -22,6 +23,7 @@ const campersRegistrationRoutes: Routes = [
       {path: campersRegistrationRoutingPaths.transport, component: TransportFormComponent},
       {path: campersRegistrationRoutingPaths.shirt, component: ShirtFormComponent},
       {path: campersRegistrationRoutingPaths.cottage, component: CottageFormComponent},
+      {path: campersRegistrationRoutingPaths.summary, component: RegistrationSummaryComponent}
     ]
   }
 ];

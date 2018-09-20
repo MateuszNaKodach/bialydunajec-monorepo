@@ -69,6 +69,13 @@ export class PersonalDataFormComponent extends RegistrationFormStepAbstractCompo
             knowAboutCampFrom: [null, [Validators.required]],
             onCampForTime: [null, [Validators.required]]
           }
+        ),
+        agreements: this.formBuilder.group(
+          {
+            campRegulations: [null, [Validators.requiredTrue]],
+            camperOwnResponsibility: [null, [Validators.requiredTrue]],
+            personalDataProcessing: [null, [Validators.requiredTrue]]
+          }
         )
       }
     );
@@ -156,6 +163,18 @@ export class PersonalDataFormComponent extends RegistrationFormStepAbstractCompo
     return this.getStatisticsControl('onCampForTime');
   }
 
+  get campRegulations() {
+    return this.getAgreementsControl('campRegulations');
+  }
+
+  get camperOwnResponsibility() {
+    return this.getAgreementsControl('camperOwnResponsibility');
+  }
+
+  get personalDataProcessing() {
+    return this.getAgreementsControl('personalDataProcessing');
+  }
+
   private getPersonalDataControl(name: string) {
     return this.stepForm.get(['personalData', name]);
   }
@@ -174,6 +193,10 @@ export class PersonalDataFormComponent extends RegistrationFormStepAbstractCompo
 
   private getStatisticsControl(name: string) {
     return this.stepForm.get(['statistics', name]);
+  }
+
+  private getAgreementsControl(name: string) {
+    return this.stepForm.get(['agreements', name]);
   }
 
 }
