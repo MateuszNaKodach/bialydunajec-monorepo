@@ -44,7 +44,7 @@ export abstract class RegistrationFormStepAbstractComponent implements OnInit, O
     return !this.stepForm.invalid;
   }
 
-  protected onSubmitStepForm() {
+  onSubmitStepForm() {
     AngularFormHelper.markFormGroupTouched(this.stepForm);
     this.updateMainFormStepStatus();
     this.saveStepFormData();
@@ -53,7 +53,7 @@ export abstract class RegistrationFormStepAbstractComponent implements OnInit, O
     }
   }
 
-  protected onNavigateToPreviousStep() {
+  onNavigateToPreviousStep() {
     this.formNavigator.navigateToPreviousStep(this.stepRoute);
   }
 
