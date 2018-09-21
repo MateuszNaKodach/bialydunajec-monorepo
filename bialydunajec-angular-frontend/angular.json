@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "bialydunajec-angular-frontend": {
+    "bialydunajec-main": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/bialydunajec-angular-frontend",
+            "outputPath": "dist/bialydunajec-main",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -55,18 +55,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "bialydunajec-angular-frontend:build"
+            "browserTarget": "bialydunajec-main:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "bialydunajec-angular-frontend:build:production"
+              "browserTarget": "bialydunajec-main:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "bialydunajec-angular-frontend:build"
+            "browserTarget": "bialydunajec-main:build"
           }
         },
         "test": {
@@ -100,7 +100,7 @@
         }
       }
     },
-    "bialydunajec-angular-frontend-e2e": {
+    "bialydunajec-main-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "architect": {
@@ -108,11 +108,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "bialydunajec-angular-frontend:serve"
+            "devServerTarget": "bialydunajec-main:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "bialydunajec-angular-frontend:serve:production"
+              "devServerTarget": "bialydunajec-main:serve:production"
             }
           }
         },
@@ -291,5 +291,5 @@
       }
     }
   },
-  "defaultProject": "bialydunajec-angular-frontend"
+  "defaultProject": "bialydunajec-main"
 }
