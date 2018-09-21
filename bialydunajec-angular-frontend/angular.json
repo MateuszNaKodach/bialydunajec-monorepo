@@ -3,9 +3,9 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "bialydunajec-angular-frontend": {
-      "root": "",
-      "sourceRoot": "src",
+    "bialydunajec-main": {
+      "root": "projects/bialydunajec-main/",
+      "sourceRoot": "projects/bialydunajec-main/src",
       "projectType": "application",
       "prefix": "bda",
       "schematics": {
@@ -17,18 +17,18 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/bialydunajec-angular-frontend",
-            "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.app.json",
+            "outputPath": "dist/bialydunajec-main",
+            "index": "projects/bialydunajec-main/src/index.html",
+            "main": "projects/bialydunajec-main/src/main.ts",
+            "polyfills": "projects/bialydunajec-main/src/polyfills.ts",
+            "tsConfig": "projects/bialydunajec-main/tsconfig.app.json",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              "projects/bialydunajec-main/src/favicon.ico",
+              "projects/bialydunajec-main/src/assets"
             ],
             "styles": [
-              "src/styles/semantic-ui/dist/semantic.css",
-              "src/styles/styles.scss"
+              "projects/bialydunajec-main/src/styles/semantic-ui/dist/semantic.css",
+              "projects/bialydunajec-main/src/styles/styles.scss"
             ],
             "scripts": []
           },
@@ -36,8 +36,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "replace": "projects/bialydunajec-main/src/environments/environment.ts",
+                  "with": "projects/bialydunajec-main/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -55,34 +55,34 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "bialydunajec-angular-frontend:build"
+            "browserTarget": "bialydunajec-main:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "bialydunajec-angular-frontend:build:production"
+              "browserTarget": "bialydunajec-main:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "bialydunajec-angular-frontend:build"
+            "browserTarget": "bialydunajec-main:build"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.spec.json",
-            "karmaConfig": "src/karma.conf.js",
+            "main": "projects/bialydunajec-main/src/test.ts",
+            "polyfills": "projects/bialydunajec-main/src/polyfills.ts",
+            "tsConfig": "projects/bialydunajec-main/tsconfig.spec.json",
+            "karmaConfig": "projects/bialydunajec-main/karma.conf.js",
             "styles": [
-              "src/styles.scss"
+              "projects/bialydunajec-main/src/styles.scss"
             ],
             "scripts": [],
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              "projects/bialydunajec-main/src/favicon.ico",
+              "projects/bialydunajec-main/src/assets"
             ]
           }
         },
@@ -90,8 +90,8 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "src/tsconfig.app.json",
-              "src/tsconfig.spec.json"
+              "projects/bialydunajec-main/tsconfig.app.json",
+              "projects/bialydunajec-main/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"
@@ -100,26 +100,190 @@
         }
       }
     },
-    "bialydunajec-angular-frontend-e2e": {
-      "root": "e2e/",
+    "bialydunajec-main-e2e": {
+      "root": "projects/bialydunajec-main-e2e/",
       "projectType": "application",
       "architect": {
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
-            "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "bialydunajec-angular-frontend:serve"
+            "protractorConfig": "projects/bialydunajec-main-e2e/protractor.conf.js",
+            "devServerTarget": "bialydunajec-main:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "bialydunajec-angular-frontend:serve:production"
+              "devServerTarget": "bialydunajec-main:serve:production"
             }
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": "e2e/tsconfig.e2e.json",
+            "tsConfig": "projects/bialydunajec-main-e2e/tsconfig.e2e.json",
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "bialydunajec-admin": {
+      "root": "projects/bialydunajec-admin/",
+      "sourceRoot": "projects/bialydunajec-admin/src",
+      "projectType": "application",
+      "prefix": "bda-admin",
+      "schematics": {
+        "@schematics/angular:component": {
+          "styleext": "scss"
+        }
+      },
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/bialydunajec-admin",
+            "index": "projects/bialydunajec-admin/src/index.html",
+            "main": "projects/bialydunajec-admin/src/main.ts",
+            "polyfills": "projects/bialydunajec-admin/src/polyfills.ts",
+            "tsConfig": "projects/bialydunajec-admin/tsconfig.app.json",
+            "assets": [
+              "projects/bialydunajec-admin/src/favicon.ico",
+              "projects/bialydunajec-admin/src/assets"
+            ],
+            "styles": [
+              "projects/bialydunajec-admin/src/styles.scss"
+            ],
+            "scripts": [],
+            "baseHref": "/admin/"
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/bialydunajec-admin/src/environments/environment.ts",
+                  "with": "projects/bialydunajec-admin/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "bialydunajec-admin:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "bialydunajec-admin:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "bialydunajec-admin:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/bialydunajec-admin/src/test.ts",
+            "polyfills": "projects/bialydunajec-admin/src/polyfills.ts",
+            "tsConfig": "projects/bialydunajec-admin/tsconfig.spec.json",
+            "karmaConfig": "projects/bialydunajec-admin/karma.conf.js",
+            "styles": [
+              "projects/bialydunajec-admin/src/styles.scss"
+            ],
+            "scripts": [],
+            "assets": [
+              "projects/bialydunajec-admin/src/favicon.ico",
+              "projects/bialydunajec-admin/src/assets"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/bialydunajec-admin/tsconfig.app.json",
+              "projects/bialydunajec-admin/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "bialydunajec-admin-e2e": {
+      "root": "projects/bialydunajec-admin-e2e/",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/bialydunajec-admin-e2e/protractor.conf.js",
+            "devServerTarget": "bialydunajec-admin:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "bialydunajec-admin:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "projects/bialydunajec-admin-e2e/tsconfig.e2e.json",
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "bialydunajec-commons": {
+      "root": "projects/bialydunajec-commons",
+      "sourceRoot": "projects/bialydunajec-commons/src",
+      "projectType": "library",
+      "prefix": "bda-commons",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/bialydunajec-commons/tsconfig.lib.json",
+            "project": "projects/bialydunajec-commons/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "projects/bialydunajec-commons/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/bialydunajec-commons/src/test.ts",
+            "tsConfig": "projects/bialydunajec-commons/tsconfig.spec.json",
+            "karmaConfig": "projects/bialydunajec-commons/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/bialydunajec-commons/tsconfig.lib.json",
+              "projects/bialydunajec-commons/tsconfig.spec.json"
+            ],
             "exclude": [
               "**/node_modules/**"
             ]
@@ -128,5 +292,5 @@
       }
     }
   },
-  "defaultProject": "bialydunajec-angular-frontend"
+  "defaultProject": "bialydunajec-main"
 }
