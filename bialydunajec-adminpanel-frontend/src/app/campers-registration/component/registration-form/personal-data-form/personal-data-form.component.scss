@@ -2,13 +2,8 @@
 
 $registration-form-grid-columns-gap: 4rem;
 
-input {
-  height: 41.13px;
-}
-
 //TODO: Consider better solution!
 .field{
-  height: 80px;
   display: flex;
   flex-flow: column;
   justify-content: center;
@@ -48,11 +43,12 @@ input {
 .bda-agreement-checkbox{
   margin-top: 1rem !important;
   margin-bottom: 1rem !important;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding: 1rem;
+  min-height: 6rem !important;
 }
 
 .bda-invalid-checkbox-field{
+  height: 100%;
   background-color: #FFD9D9;
   border-radius: 4px;
 }
