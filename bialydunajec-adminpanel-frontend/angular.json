@@ -249,6 +249,46 @@
           }
         }
       }
+    },
+    "bialydunajec-commons": {
+      "root": "projects/bialydunajec-commons",
+      "sourceRoot": "projects/bialydunajec-commons/src",
+      "projectType": "library",
+      "prefix": "bda-commons",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/bialydunajec-commons/tsconfig.lib.json",
+            "project": "projects/bialydunajec-commons/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "projects/bialydunajec-commons/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/bialydunajec-commons/src/test.ts",
+            "tsConfig": "projects/bialydunajec-commons/tsconfig.spec.json",
+            "karmaConfig": "projects/bialydunajec-commons/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/bialydunajec-commons/tsconfig.lib.json",
+              "projects/bialydunajec-commons/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "bialydunajec-angular-frontend"
