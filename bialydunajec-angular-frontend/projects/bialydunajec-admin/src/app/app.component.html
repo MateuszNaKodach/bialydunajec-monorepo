@@ -20,3 +20,12 @@
 
 <router-outlet></router-outlet>
 <button nz-button nzType="primary">Primary</button>
+<bda-admin-login-form></bda-admin-login-form>
+
+<nz-upload
+  nzAction="https://jsonplaceholder.typicode.com/posts/">
+  <button nz-button>
+    <i class="anticon anticon-upload"></i><span>Click to Upload</span>
+  </button>
+</nz-upload>
+<nz-time-picker [(ngModel)]="time" [nzDefaultOpenValue]="defaultOpenValue"></nz-time-picker>

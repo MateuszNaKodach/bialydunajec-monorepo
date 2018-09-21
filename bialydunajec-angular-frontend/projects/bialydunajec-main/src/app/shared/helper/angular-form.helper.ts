@@ -1,12 +1,16 @@
-import {FormGroup} from '@angular/forms';
+import {AbstractControl, FormGroup} from '@angular/forms';
 
 export class AngularFormHelper {
   static markFormGroupTouched(formGroup: FormGroup) {
+    this.executeOnAllFormGroupControls(formGroup, control => control.markAsTouched());
+  }
+
+  static executeOnAllFormGroupControls(formGroup: FormGroup, functionToExecute: (control: AbstractControl) => any) {
     (<any>Object).values(formGroup.controls).forEach(control => {
-      control.markAsTouched();
+      functionToExecute(control);
 
       if (control.controls) {
-        this.markFormGroupTouched(control);
+        this.executeOnAllFormGroupControls(control, functionToExecute);
       }
     });
   }

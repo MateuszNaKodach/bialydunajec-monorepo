@@ -7,4 +7,6 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'bialydunajec-admin';
+  time: Date | null = null;
+  defaultOpenValue = new Date(0, 0, 0, 0, 0, 0);
 }
