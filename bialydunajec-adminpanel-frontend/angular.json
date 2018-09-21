@@ -153,7 +153,8 @@
             "styles": [
               "projects/bialydunajec-admin/src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "baseHref": "/admin/"
           },
           "configurations": {
             "production": {
