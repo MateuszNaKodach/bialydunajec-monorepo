@@ -134,7 +134,7 @@
       "prefix": "bda-admin",
       "schematics": {
         "@schematics/angular:component": {
-          "styleext": "scss"
+          "styleext": "less"
         }
       },
       "architect": {
@@ -151,11 +151,11 @@
               "projects/bialydunajec-admin/src/assets"
             ],
             "styles": [
-              "projects/bialydunajec-admin/src/theme.less",
-              "projects/bialydunajec-admin/src/styles.scss"
+              "projects/bialydunajec-admin/src/styles/theme.less",
+              "projects/bialydunajec-admin/src/styles/styles.less"
             ],
             "scripts": [],
-            "baseHref": "/admin/"
+            "baseHref": "/bd-admin/"
           },
           "configurations": {
             "production": {
@@ -203,7 +203,7 @@
             "karmaConfig": "projects/bialydunajec-admin/karma.conf.js",
             "styles": [
               "projects/bialydunajec-admin/src/theme.less",
-              "projects/bialydunajec-admin/src/styles.scss"
+              "projects/bialydunajec-admin/src/styles.less"
             ],
             "scripts": [],
             "assets": [
