@@ -21,7 +21,7 @@
             "index": "projects/bialydunajec-main/src/index.html",
             "main": "projects/bialydunajec-main/src/main.ts",
             "polyfills": "projects/bialydunajec-main/src/polyfills.ts",
-            "tsConfig": "projects/bialydunajec-main/src/tsconfig.app.json",
+            "tsConfig": "projects/bialydunajec-main/tsconfig.app.json",
             "assets": [
               "projects/bialydunajec-main/src/favicon.ico",
               "projects/bialydunajec-main/src/assets"
@@ -74,8 +74,8 @@
           "options": {
             "main": "projects/bialydunajec-main/src/test.ts",
             "polyfills": "projects/bialydunajec-main/src/polyfills.ts",
-            "tsConfig": "projects/bialydunajec-main/src/tsconfig.spec.json",
-            "karmaConfig": "projects/bialydunajec-main/src/karma.conf.js",
+            "tsConfig": "projects/bialydunajec-main/tsconfig.spec.json",
+            "karmaConfig": "projects/bialydunajec-main/karma.conf.js",
             "styles": [
               "projects/bialydunajec-main/src/styles.scss"
             ],
@@ -90,8 +90,8 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/bialydunajec-main/src/tsconfig.app.json",
-              "projects/bialydunajec-main/src/tsconfig.spec.json"
+              "projects/bialydunajec-main/tsconfig.app.json",
+              "projects/bialydunajec-main/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"
