@@ -151,6 +151,7 @@
               "projects/bialydunajec-admin/src/assets"
             ],
             "styles": [
+              "projects/bialydunajec-admin/src/theme.less",
               "projects/bialydunajec-admin/src/styles.scss"
             ],
             "scripts": [],
@@ -201,6 +202,7 @@
             "tsConfig": "projects/bialydunajec-admin/tsconfig.spec.json",
             "karmaConfig": "projects/bialydunajec-admin/karma.conf.js",
             "styles": [
+              "projects/bialydunajec-admin/src/theme.less",
               "projects/bialydunajec-admin/src/styles.scss"
             ],
             "scripts": [],
