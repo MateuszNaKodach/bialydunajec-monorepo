@@ -1,5 +1,5 @@
 import {FormControl} from '@angular/forms';
-import {Gender} from '../../campers-registration/model/gender.model';
+import {Gender} from '../model/gender.enum';
 
 export function peselValidator(control: FormControl) {
   if (!control.value) {

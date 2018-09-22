@@ -3,7 +3,7 @@ import {FormBuilder, Validators} from '@angular/forms';
 import {RegistrationFormStepAbstractComponent} from '../registration-form-step.abstract-component';
 import {CamperRegistrationFormStateService} from '../../../service/camper-registration-form-state.service';
 import {StepId} from '../registration-form.config';
-import {Gender} from '../../../model/gender.model';
+import {Gender} from '../../../../shared/model/gender.enum';
 import {CamperRegistrationFormNavigator} from '../../../service/camper-registration-form.navigator';
 import {ActivatedRoute} from '@angular/router';
 
