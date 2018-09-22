@@ -1,7 +1,7 @@
 import {Input, OnDestroy, OnInit} from '@angular/core';
 import {AbstractControl} from '@angular/forms';
 import {Subscription} from 'rxjs';
-import {defaultErrorDefinitions} from './error-defs.default';
+import {defaultErrorDefinitions} from '../../config/error-defs.default';
 import {FormStatus} from '../../model/form-status.enum';
 
 export abstract class FormInputAbstractComponent implements OnInit, OnDestroy {

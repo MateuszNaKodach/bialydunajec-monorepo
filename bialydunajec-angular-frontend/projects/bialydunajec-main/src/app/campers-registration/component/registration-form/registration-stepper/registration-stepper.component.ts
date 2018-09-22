@@ -3,7 +3,7 @@ import {RegistrationStepViewModel} from './registration-step.view-model';
 import {CamperRegistrationFormNavigator} from '../../../service/camper-registration-form.navigator';
 import {StepId} from '../registration-form.config';
 import {CamperRegistrationFormStateService} from '../../../service/camper-registration-form-state.service';
-import {FormStatus} from '../../../../shared/model/form-status.enum';
+import {FormStatus} from 'bialydunajec-commons';
 
 @Component({
   selector: 'bda-registration-stepper',

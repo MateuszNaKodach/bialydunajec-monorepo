@@ -5,7 +5,7 @@ import {CamperRegistrationFormNavigator} from '../../../service/camper-registrat
 import {ActivatedRoute} from '@angular/router';
 import {CamperRegistrationFormStateService} from '../../../service/camper-registration-form-state.service';
 import {StepId} from '../registration-form.config';
-import {FormStatus} from '../../../../shared/model/form-status.enum';
+import {FormStatus} from 'bialydunajec-commons';
 import {Subscription} from 'rxjs';
 import {emailValidator} from '../../../../shared/validator/email.validator';
 import {AngularFormHelper} from '../../../../shared/helper/angular-form.helper';
