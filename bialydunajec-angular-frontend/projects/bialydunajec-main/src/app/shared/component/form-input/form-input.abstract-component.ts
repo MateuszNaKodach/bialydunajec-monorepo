@@ -4,24 +4,24 @@ import {Subscription} from 'rxjs';
 import {defaultErrorDefinitions} from './error-defs.default';
 import {FormStatus} from '../../model/form-status.enum';
 
-export class FormInputAbstractComponent implements OnInit, OnDestroy {
+export abstract class FormInputAbstractComponent implements OnInit, OnDestroy {
 
-  @Input() label: string;
-  @Input() control: AbstractControl;
-  @Input() errorDefs: any;
+  private abstractControl: AbstractControl;
+  private errorDefinitions: any;
 
   errorMessage: string = null;
 
   private controlStatusSubscription: Subscription;
 
-  constructor() {
-  }
-
   ngOnInit() {
-    this.errorDefs = {...this.errorDefs, ...defaultErrorDefinitions};
+    const formInputProperties = this.getFormInputProperties();
+    this.abstractControl = formInputProperties.abstractControl;
+    this.errorDefinitions = formInputProperties.errorDefinitions;
+
+    this.errorDefinitions = {...this.errorDefinitions, ...defaultErrorDefinitions};
 
     this.updateControlErrors();
-    this.controlStatusSubscription = this.control.statusChanges
+    this.controlStatusSubscription = this.abstractControl.statusChanges
       .subscribe(status => {
         if (status === FormStatus.INVALID) {
           this.updateControlErrors();
@@ -32,13 +32,15 @@ export class FormInputAbstractComponent implements OnInit, OnDestroy {
 
   }
 
+  protected abstract getFormInputProperties(): { abstractControl: AbstractControl, errorDefinitions: any };
+
   private updateControlErrors() {
-    const errors = this.control.errors;
+    const errors = this.abstractControl.errors;
     if (errors) {
-      Object.keys(this.errorDefs)
+      Object.keys(this.errorDefinitions)
         .some(errorKey => {
           if (errors[errorKey]) {
-            this.errorMessage = this.errorDefs[errorKey];
+            this.errorMessage = this.errorDefinitions[errorKey];
             return true;
           }
         });
@@ -50,7 +52,8 @@ export class FormInputAbstractComponent implements OnInit, OnDestroy {
   }
 
   isInvalid() {
-    return this.control.touched && this.control.invalid;
+    return (this.abstractControl.touched || this.abstractControl.dirty) && this.abstractControl.invalid;
   }
+
 
 }

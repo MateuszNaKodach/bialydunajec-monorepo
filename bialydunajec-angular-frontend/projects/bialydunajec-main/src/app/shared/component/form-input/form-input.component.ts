@@ -3,6 +3,7 @@ import {AbstractControl} from '@angular/forms';
 import {defaultErrorDefinitions} from './error-defs.default';
 import {FormStatus} from '../../model/form-status.enum';
 import {Subscription} from 'rxjs';
+import {FormInputAbstractComponent} from './form-input.abstract-component';
 
 // https://almerosteyn.com/2016/03/angular2-form-validation-component
 @Component({
@@ -10,53 +11,14 @@ import {Subscription} from 'rxjs';
   templateUrl: './form-input.component.html',
   styleUrls: ['./form-input.component.scss']
 })
-export class FormInputComponent implements OnInit, OnDestroy {
+export class FormInputComponent extends FormInputAbstractComponent {
 
   @Input() label: string;
   @Input() control: AbstractControl;
   @Input() errorDefs: any;
 
-  errorMessage: string = null;
-
-  private controlStatusSubscription: Subscription;
-
-  constructor() {
-  }
-
-  ngOnInit() {
-    this.errorDefs = {...this.errorDefs, ...defaultErrorDefinitions};
-
-    this.updateControlErrors();
-    this.controlStatusSubscription = this.control.statusChanges
-      .subscribe(status => {
-        if (status === FormStatus.INVALID) {
-          this.updateControlErrors();
-        } else {
-          this.errorMessage = null;
-        }
-      });
-
-  }
-
-  private updateControlErrors() {
-    const errors = this.control.errors;
-    if (errors) {
-      Object.keys(this.errorDefs)
-        .some(errorKey => {
-          if (errors[errorKey]) {
-            this.errorMessage = this.errorDefs[errorKey];
-            return true;
-          }
-        });
-    }
-  }
-
-  ngOnDestroy() {
-    this.controlStatusSubscription.unsubscribe();
-  }
-
-  isInvalid() {
-    return this.control.touched && this.control.invalid;
+  protected getFormInputProperties(): { abstractControl: AbstractControl; errorDefinitions: any } {
+    return {abstractControl: this.control, errorDefinitions: this.errorDefs};
   }
 
 }
