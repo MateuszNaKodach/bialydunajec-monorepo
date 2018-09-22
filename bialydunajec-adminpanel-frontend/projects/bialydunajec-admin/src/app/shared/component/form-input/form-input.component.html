@@ -1,3 +1,7 @@
-<p>
-  form-input works!
-</p>
+<nz-form-item>
+  <nz-form-label *ngIf="label">{{label}}</nz-form-label>
+  <nz-form-control>
+    <ng-content></ng-content>
+    <nz-form-explain *ngIf="isInvalid()">{{errorMessage}}</nz-form-explain>
+  </nz-form-control>
+</nz-form-item>
