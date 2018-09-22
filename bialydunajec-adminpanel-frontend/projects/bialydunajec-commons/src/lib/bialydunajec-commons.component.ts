@@ -9,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
   `,
   styles: []
 })
-export class BialydunajecCommonsComponent implements OnInit {
+export class BialyDunajecCommonsComponent implements OnInit {
 
   constructor() { }
 
