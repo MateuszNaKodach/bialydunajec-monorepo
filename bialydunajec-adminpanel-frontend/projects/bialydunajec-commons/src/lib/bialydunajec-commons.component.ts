@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
   selector: 'bda-commons-bialydunajec-commons',
   template: `
     <p>
-      bialydunajec-commons works!
+      bialydunajec-commons works! super!
     </p>
   `,
   styles: []

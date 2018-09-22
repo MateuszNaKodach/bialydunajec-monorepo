@@ -1,16 +1,10 @@
-import {Component, Input, OnChanges, OnDestroy, OnInit} from '@angular/core';
+import {Input, OnDestroy, OnInit} from '@angular/core';
 import {AbstractControl} from '@angular/forms';
+import {Subscription} from 'rxjs';
 import {defaultErrorDefinitions} from './error-defs.default';
 import {FormStatus} from '../../model/form-status.enum';
-import {Subscription} from 'rxjs';
 
-// https://almerosteyn.com/2016/03/angular2-form-validation-component
-@Component({
-  selector: 'bda-form-input',
-  templateUrl: './form-input.component.html',
-  styleUrls: ['./form-input.component.scss']
-})
-export class FormInputComponent implements OnInit, OnDestroy {
+export class FormInputAbstractComponent implements OnInit, OnDestroy {
 
   @Input() label: string;
   @Input() control: AbstractControl;
