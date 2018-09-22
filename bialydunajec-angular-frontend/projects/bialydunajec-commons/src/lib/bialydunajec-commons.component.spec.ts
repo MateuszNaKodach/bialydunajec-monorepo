@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BialydunajecCommonsComponent } from './bialydunajec-commons.component';
+import { BialyDunajecCommonsComponent } from './bialydunajec-commons.component';
 
-describe('BialydunajecCommonsComponent', () => {
-  let component: BialydunajecCommonsComponent;
-  let fixture: ComponentFixture<BialydunajecCommonsComponent>;
+describe('BialyDunajecCommonsComponent', () => {
+  let component: BialyDunajecCommonsComponent;
+  let fixture: ComponentFixture<BialyDunajecCommonsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BialydunajecCommonsComponent ]
+      declarations: [ BialyDunajecCommonsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BialydunajecCommonsComponent);
+    fixture = TestBed.createComponent(BialyDunajecCommonsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
