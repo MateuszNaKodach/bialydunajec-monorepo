@@ -1,15 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {FormInputAbstractComponent} from 'bialydunajec-commons';
+import {AbstractControl} from '@angular/forms';
 
 @Component({
   selector: 'bda-admin-form-input',
   templateUrl: './form-input.component.html',
   styleUrls: ['./form-input.component.less']
 })
-export class FormInputComponent implements OnInit {
+export class FormInputComponent extends FormInputAbstractComponent {
 
-  constructor() { }
+  @Input() label: string;
+  @Input() control: AbstractControl;
+  @Input() errorDefs: any;
 
-  ngOnInit() {
+  protected getFormInputProperties(): { abstractControl: AbstractControl; errorDefinitions: any } {
+    return {abstractControl: this.control, errorDefinitions: this.errorDefs};
   }
 
 }

@@ -18,7 +18,9 @@ export abstract class FormInputAbstractComponent implements OnInit, OnDestroy {
     this.abstractControl = formInputProperties.abstractControl;
     this.errorDefinitions = formInputProperties.errorDefinitions;
 
-    this.errorDefinitions = {...this.errorDefinitions, ...defaultErrorDefinitions};
+    if (this.appendDefaultErrorDefinitions()) {
+      this.errorDefinitions = {...this.errorDefinitions, ...defaultErrorDefinitions};
+    }
 
     this.updateControlErrors();
     this.controlStatusSubscription = this.abstractControl.statusChanges
@@ -30,6 +32,10 @@ export abstract class FormInputAbstractComponent implements OnInit, OnDestroy {
         }
       });
 
+  }
+
+  protected appendDefaultErrorDefinitions() {
+    return true;
   }
 
   protected abstract getFormInputProperties(): { abstractControl: AbstractControl, errorDefinitions: any };
