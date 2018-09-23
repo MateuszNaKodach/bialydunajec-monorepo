@@ -1,6 +1,6 @@
 import {FormGroup} from '@angular/forms';
 import {StepId} from './registration-form.config';
-import {FormStatus} from '../../model/form-status.enum';
+import {FormStatus} from 'bialydunajec-commons';
 import {CamperRegistrationFormStateService} from '../../service/camper-registration-form-state.service';
 import {OnDestroy, OnInit} from '@angular/core';
 import {CamperRegistrationFormNavigator} from '../../service/camper-registration-form.navigator';

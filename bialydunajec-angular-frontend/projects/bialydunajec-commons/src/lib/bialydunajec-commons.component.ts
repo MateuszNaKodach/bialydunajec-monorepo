@@ -4,12 +4,12 @@ import { Component, OnInit } from '@angular/core';
   selector: 'bda-commons-bialydunajec-commons',
   template: `
     <p>
-      bialydunajec-commons works!
+      bialydunajec-commons works! super!
     </p>
   `,
   styles: []
 })
-export class BialydunajecCommonsComponent implements OnInit {
+export class BialyDunajecCommonsComponent implements OnInit {
 
   constructor() { }
 

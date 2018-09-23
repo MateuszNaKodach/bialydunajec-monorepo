@@ -183,8 +183,7 @@
     description="Aby zapisać się na Obóz, wszystkie poniższe zgody są wymagane."></bda-section-header>
     <div formGroupName="agreements">
       <div
-        class="bda-agreement-checkbox field"
-        style="margin-bottom: 0 !important;"
+        class="bda-agreement-checkbox"
         [ngClass]="{'bda-invalid-checkbox-field': campRegulations.invalid && campRegulations.touched}"
       >
         <sui-checkbox formControlName="campRegulations">
@@ -192,8 +191,7 @@
         </sui-checkbox>
       </div>
       <div
-        class="bda-agreement-checkbox field"
-        style="margin-bottom: 0 !important;"
+        class="bda-agreement-checkbox"
         [ngClass]="{'bda-invalid-checkbox-field': camperOwnResponsibility.invalid && camperOwnResponsibility.touched}"
       >
         <sui-checkbox formControlName="camperOwnResponsibility">
@@ -274,8 +272,7 @@
         <br>
       </div>-->
       <div
-        class="bda-agreement-checkbox field"
-        style="margin-bottom: 0 !important;"
+        class="bda-agreement-checkbox"
         [ngClass]="{'bda-invalid-checkbox-field': personalDataProcessing.invalid && personalDataProcessing.touched}"
       >
         <sui-checkbox formControlName="personalDataProcessing">

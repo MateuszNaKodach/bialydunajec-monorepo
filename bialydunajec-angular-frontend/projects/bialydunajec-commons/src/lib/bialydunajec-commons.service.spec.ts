@@ -1,15 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { BialydunajecCommonsService } from './bialydunajec-commons.service';
+import { BialyDunajecCommonsService } from './bialydunajec-commons.service';
 
-describe('BialydunajecCommonsService', () => {
+describe('BialyDunajecCommonsService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [BialydunajecCommonsService]
+      providers: [BialyDunajecCommonsService]
     });
   });
 
-  it('should be created', inject([BialydunajecCommonsService], (service: BialydunajecCommonsService) => {
+  it('should be created', inject([BialyDunajecCommonsService], (service: BialyDunajecCommonsService) => {
     expect(service).toBeTruthy();
   }));
 });
