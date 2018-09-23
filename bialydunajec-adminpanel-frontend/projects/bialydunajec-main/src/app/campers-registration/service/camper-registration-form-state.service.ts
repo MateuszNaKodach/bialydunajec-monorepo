@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {StepId} from '../component/registration-form/registration-form.config';
-import {FormStatus} from '../model/form-status.enum';
+import {FormStatus} from 'bialydunajec-commons';
 import {Subject} from 'rxjs';
 
 @Injectable()

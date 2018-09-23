@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
-import { BialydunajecCommonsComponent } from './bialydunajec-commons.component';
+import { BialyDunajecCommonsComponent } from './bialydunajec-commons.component';
 
 @NgModule({
   imports: [
   ],
-  declarations: [BialydunajecCommonsComponent],
-  exports: [BialydunajecCommonsComponent]
+  declarations: [BialyDunajecCommonsComponent],
+  exports: [BialyDunajecCommonsComponent]
 })
-export class BialydunajecCommonsModule { }
+export class BialyDunajecCommonsModule { }

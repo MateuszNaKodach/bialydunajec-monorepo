@@ -1,12 +1,11 @@
 import {Component, Input} from '@angular/core';
-import {AbstractControl} from '@angular/forms';
 import {FormInputAbstractComponent} from 'bialydunajec-commons';
+import {AbstractControl} from '@angular/forms';
 
-// https://almerosteyn.com/2016/03/angular2-form-validation-component
 @Component({
-  selector: 'bda-form-input',
+  selector: 'bda-admin-form-input',
   templateUrl: './form-input.component.html',
-  styleUrls: ['./form-input.component.scss']
+  styleUrls: ['./form-input.component.less']
 })
 export class FormInputComponent extends FormInputAbstractComponent {
 
