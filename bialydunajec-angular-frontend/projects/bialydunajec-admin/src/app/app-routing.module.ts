@@ -4,7 +4,7 @@ import {LoginFormComponent} from './auth/component/login-form/login-form.compone
 
 const routes: Routes = [
   {
-    path: '',
+    path: '*',
     loadChildren: './auth/auth.module#AuthModule'
   }
 ];
