@@ -5,6 +5,10 @@ export class AngularFormHelper {
     this.executeOnAllFormGroupControls(formGroup, control => control.markAsTouched());
   }
 
+  static markFormGroupDirty(formGroup: FormGroup) {
+    this.executeOnAllFormGroupControls(formGroup, control => control.markAsDirty());
+  }
+
   static executeOnAllFormGroupControls(formGroup: FormGroup, functionToExecute: (control: AbstractControl) => any) {
     (<any>Object).values(formGroup.controls).forEach(control => {
       functionToExecute(control);
