@@ -1,5 +1,7 @@
 rootProject.name = 'bialydunajec-backend'
 
+include 'bialydunajec-ddd:domain'
+
 include 'bialydunajec-core',
         'bialydunajec-core:application',
         'bialydunajec-core:presentation',
@@ -11,7 +13,6 @@ include 'bialydunajec-registrations',
         'bialydunajec-registrations:presentation',
         'bialydunajec-registrations:domain',
         'bialydunajec-registrations:infrastructure'
-
 
 /*
 Change all children projects names with following patter: <project name>+'-'<module name>
