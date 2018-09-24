@@ -15,4 +15,6 @@ class TestController(val testApplicationService: TestApplicationService) {
     @GetMapping("/test-application")
     fun testApplication() = testApplicationService.testApplication()
 
+    @GetMapping("/test-domain")
+    fun testDomain() = testApplicationService.testDomain()
 }
