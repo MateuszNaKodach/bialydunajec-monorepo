@@ -55,6 +55,7 @@ dependencies {
     compile('org.springframework.retry:spring-retry')
     compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     compile("org.jetbrains.kotlin:kotlin-reflect")
+    compile("javax.xml.bind:jaxb-api:2.3.0")
     runtime('org.springframework.boot:spring-boot-devtools')
     runtime('com.h2database:h2')
     runtime('mysql:mysql-connector-java')
