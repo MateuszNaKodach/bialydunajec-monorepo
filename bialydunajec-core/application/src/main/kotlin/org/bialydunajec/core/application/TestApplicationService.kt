@@ -1,12 +1,12 @@
 package org.bialydunajec.core.application
 
-import org.bialydunajec.core.domain.TestAggregateRoot
+import org.bialydunajec.core.domain.TestDomainRepository
 import org.springframework.stereotype.Service
 
 @Service
-class TestApplicationService {
+class TestApplicationService(val testDomainRepository: TestDomainRepository) {
 
     fun testApplication() = "Test Application Service";
 
-    fun testDomain() = TestAggregateRoot().getTestEntity()
+    fun testDomain() = testDomainRepository.getTestAggregateRoot().getTestEntity()
 }

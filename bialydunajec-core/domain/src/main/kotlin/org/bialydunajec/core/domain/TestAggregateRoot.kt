@@ -10,7 +10,7 @@ data class TestAggregateRoot(val id: String = UUID.randomUUID().toString()) {
 
 }
 
-class TestEntitySnapshot(val name: String = "EntityName")
+class TestEntitySnapshot(val name: String)
 
-internal class TestInternalEntity(val name: String = "EntityName")
+internal class TestInternalEntity(val name: String = "EntityNameRepo")
 
