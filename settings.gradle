@@ -6,3 +6,5 @@ include 'bialydunajec-core',
         'bialydunajec-core:domain',
         'bialydunajec-core:infrastructure'
 
+include 'bialydunajec-registrations'
+
