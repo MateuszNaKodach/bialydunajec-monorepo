@@ -1,4 +1,4 @@
-package org.bialydunajec.backend
+package org.bialydunajec
 
 import org.bialydunajec.core.presentation.TestService
 import org.springframework.web.bind.annotation.GetMapping

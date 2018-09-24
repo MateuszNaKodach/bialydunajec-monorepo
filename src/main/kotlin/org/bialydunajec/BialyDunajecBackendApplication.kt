@@ -1,4 +1,4 @@
-package org.bialydunajec.backend
+package org.bialydunajec
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
