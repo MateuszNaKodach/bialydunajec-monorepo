@@ -1,2 +1,0 @@
-rootProject.name = 'bialydunajec-core'
-include 'presentation', 'application', 'domain', 'infrastructure'

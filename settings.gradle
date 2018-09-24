@@ -1,1 +1,8 @@
 rootProject.name = 'bialydunajec-backend'
+
+include 'bialydunajec-core',
+        'bialydunajec-core:application',
+        'bialydunajec-core:presentation',
+        'bialydunajec-core:domain',
+        'bialydunajec-core:infrastructure'
+

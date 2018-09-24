@@ -56,7 +56,7 @@ dependencies {
 	compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	compile("org.jetbrains.kotlin:kotlin-reflect")
 	compile("javax.xml.bind:jaxb-api:2.3.0")
-	compile project(':presentation')
+	compile project(':bialydunajec-core:presentation')
 	runtime('org.springframework.boot:spring-boot-devtools')
 	runtime('com.h2database:h2')
 	runtime('mysql:mysql-connector-java')
