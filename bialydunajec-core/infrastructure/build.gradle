@@ -51,7 +51,7 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
     compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     compile("org.jetbrains.kotlin:kotlin-reflect")
-    compile project(':bialydunajec-core:domain')
+    compile project(':bialydunajec-core:bialydunajec-core-domain')
     runtime('com.h2database:h2')
     runtime('mysql:mysql-connector-java')
     testCompile('org.springframework.boot:spring-boot-starter-test')

@@ -6,5 +6,11 @@ include 'bialydunajec-core',
         'bialydunajec-core:domain',
         'bialydunajec-core:infrastructure'
 
-include 'bialydunajec-registrations'
+include 'bialydunajec-registrations',
+        'bialydunajec-registrations:domain'
 
+rootProject.children.each { p ->
+    p.children.each { module ->
+        module.name = p.name + '-' + module.name
+    }
+}

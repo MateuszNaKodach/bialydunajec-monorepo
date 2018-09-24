@@ -41,7 +41,7 @@ repositories {
 
 
 dependencies {
-    compile project(':bialydunajec-core:presentation')
+    compile project(':bialydunajec-core:bialydunajec-core-presentation')
     compile('org.springframework.boot:spring-boot-starter-actuator')
     compile('org.springframework.boot:spring-boot-starter-cache')
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
