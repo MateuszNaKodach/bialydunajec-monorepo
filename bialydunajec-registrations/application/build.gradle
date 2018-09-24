@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        kotlinVersion = '1.2.70'
+        kotlinVersion = '1.2.51'
         springBootVersion = '2.0.5.RELEASE'
     }
     repositories {
@@ -39,22 +39,11 @@ repositories {
     mavenCentral()
 }
 
-bootJar {
-    enabled = false
-}
-
-jar {
-    enabled = true
-}
 
 dependencies {
-    compile project(':bialydunajec-core:bialydunajec-core-domain')
-    compile project(':bialydunajec-core:bialydunajec-core-infrastructure')
     compile('org.springframework.boot:spring-boot-starter-cache')
     compile('org.springframework.boot:spring-boot-starter-validation')
     compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     compile("org.jetbrains.kotlin:kotlin-reflect")
-
-    compileOnly('org.springframework.boot:spring-boot-configuration-processor')
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }

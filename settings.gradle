@@ -9,6 +9,12 @@ include 'bialydunajec-core',
 include 'bialydunajec-registrations',
         'bialydunajec-registrations:domain'
 
+
+
+/*
+Change all children projects names with following patter: <project name>+'-'<module name>
+For example: bialydunajec-core:application will be bialydunajec-core:bialydunajec-core-application
+ */
 rootProject.children.each { p ->
     p.children.each { module ->
         module.name = p.name + '-' + module.name

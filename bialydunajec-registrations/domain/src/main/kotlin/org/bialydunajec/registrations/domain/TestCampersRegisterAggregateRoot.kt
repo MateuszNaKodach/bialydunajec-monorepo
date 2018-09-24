@@ -12,5 +12,5 @@ data class TestCampersRegisterAggregateRoot(val id: String = UUID.randomUUID().t
 
 class TestEntitySnapshot(val name: String)
 
-internal class TestInternalEntity(val name: String = "EntityNameRepo")
+internal class TestInternalEntity(val name: String = "EntityNameRepo camper")
 
