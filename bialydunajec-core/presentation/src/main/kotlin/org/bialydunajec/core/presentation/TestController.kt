@@ -1,14 +1,18 @@
 package org.bialydunajec.core.presentation
 
+import org.bialydunajec.core.application.TestApplicationService
 import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 
 @RestController
-@RequestMapping("/test")
-class TestController {
+class TestController(val testApplicationService: TestApplicationService) {
 
-    @GetMapping
+    @GetMapping("/test")
     fun test() = "Test response core"
+
+
+    @GetMapping("/test-application")
+    fun testApplication() = testApplicationService.testApplication()
+
 }
