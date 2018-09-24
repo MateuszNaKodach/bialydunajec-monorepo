@@ -7,7 +7,10 @@ include 'bialydunajec-core',
         'bialydunajec-core:infrastructure'
 
 include 'bialydunajec-registrations',
-        'bialydunajec-registrations:domain'
+        'bialydunajec-registrations:application',
+        'bialydunajec-registrations:domain',
+        'bialydunajec-registrations:infrastructure'
+
 
 
 

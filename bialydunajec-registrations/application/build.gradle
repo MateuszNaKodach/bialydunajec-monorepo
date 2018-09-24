@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        kotlinVersion = '1.2.51'
+        kotlinVersion = '1.2.70'
         springBootVersion = '2.0.5.RELEASE'
     }
     repositories {
@@ -39,6 +39,13 @@ repositories {
     mavenCentral()
 }
 
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
 
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-cache')
