@@ -8,10 +8,12 @@ import org.springframework.data.domain.DomainEvents
 import java.util.ArrayList
 import java.util.Collections
 import javax.persistence.EmbeddedId
+import javax.persistence.MappedSuperclass
 
 /**
  * Aggregate Root base class based in the Spring Data one {@link org.springframework.data.domain.AbstractAggregateRoot}.
  */
+@MappedSuperclass
 abstract class AggregateRoot<AggregateIdType : AggregateId, EventType : DomainEvent<AggregateIdType>>(
         @EmbeddedId
         private val aggregateId: AggregateIdType
@@ -19,7 +21,7 @@ abstract class AggregateRoot<AggregateIdType : AggregateId, EventType : DomainEv
 
     fun getAggregateId() = aggregateId
 
-    @Transient
+    @kotlin.jvm.Transient
     private val domainEvents = ArrayList<EventType>()
 
     /**

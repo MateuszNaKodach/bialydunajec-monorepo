@@ -41,10 +41,12 @@ repositories {
 
 
 dependencies {
+    /*
     compile project(':bialydunajec-core:bialydunajec-core-presentation')
     compile project(':bialydunajec-core:bialydunajec-core-application')
     compile project(':bialydunajec-core:bialydunajec-core-domain')
     compile project(':bialydunajec-core:bialydunajec-core-infrastructure')
+*/
 
     compile project(':bialydunajec-registrations:bialydunajec-registrations-presentation')
     compile project(':bialydunajec-registrations:bialydunajec-registrations-application')

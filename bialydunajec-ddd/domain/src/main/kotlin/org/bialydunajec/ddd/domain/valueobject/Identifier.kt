@@ -1,3 +1,5 @@
 package org.bialydunajec.ddd.domain.valueobject
 
-interface Identifier : ValueObject
+import java.io.Serializable
+
+interface Identifier : ValueObject, Serializable
