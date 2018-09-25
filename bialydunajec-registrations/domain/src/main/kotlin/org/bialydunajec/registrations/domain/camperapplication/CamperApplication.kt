@@ -4,5 +4,7 @@ import org.bialydunajec.ddd.domain.aggregate.AggregateRoot
 import javax.persistence.Entity
 
 @Entity
-class CamperApplication : AggregateRoot<CamperApplicationId, CamperApplicationEvents>(CamperApplicationId()) {
+class CamperApplication(
+        val name: String
+) : AggregateRoot<CamperApplicationId, CamperApplicationEvents>(CamperApplicationId()) {
 }
