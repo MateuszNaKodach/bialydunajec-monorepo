@@ -1,7 +1,8 @@
 package org.bialydunajec.registrations.domain.cottageaccommodation
 
-import org.bialydunajec.ddd.domain.aggregate.AggregateRoot
-import org.bialydunajec.ddd.domain.valueobject.AggregateId
+import org.bialydunajec.ddd.domain.base.valueobject.AggregateId
+import org.bialydunajec.registrations.domain.campregistrations.CampRegistrationsId
+import org.bialydunajec.registrations.domain.cottage.CottageId
 
-class CottageAccommodationId : AggregateId() {
-}
+class CottageAccommodationId(campRegistrationsId: CampRegistrationsId, cottageId: CottageId)
+    : AggregateId("$campRegistrationsId-$cottageId")

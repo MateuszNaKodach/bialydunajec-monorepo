@@ -1,6 +1,6 @@
 package org.bialydunajec.registrations.domain.cottage
 
-import org.bialydunajec.ddd.domain.valueobject.AggregateId
+import org.bialydunajec.ddd.domain.base.valueobject.AggregateId
 import javax.persistence.Embeddable
 
 @Embeddable

@@ -1,13 +1,21 @@
 package org.bialydunajec.registrations.domain.cottageaccommodation
 
-import org.bialydunajec.ddd.domain.aggregate.AggregateRoot
+import org.bialydunajec.ddd.domain.base.aggregate.AggregateRoot
+import org.bialydunajec.registrations.domain.campregistrations.CampRegistrationsId
 import org.bialydunajec.registrations.domain.cottage.CottageId
+import org.bialydunajec.registrations.domain.cottageaccommodation.entity.camper.Camper
+import org.bialydunajec.registrations.domain.cottageaccommodation.event.CottageAccommodationEvent
 import javax.persistence.*
 
 @Entity
 class CottageAccommodation internal constructor(
         @Embedded
         @AttributeOverrides(AttributeOverride(name = "aggregateId", column = Column(name = "cottageId")))
-        val cottageId: CottageId
-) : AggregateRoot<CottageAccommodationId, CottageAccommodationEvents>(CottageAccommodationId()) {
+        val cottageId: CottageId,
+        @AttributeOverrides(AttributeOverride(name = "aggregateId", column = Column(name = "campRegistrationsId")))
+        val campRegistrationsId: CampRegistrationsId
+) : AggregateRoot<CottageAccommodationId, CottageAccommodationEvent>(CottageAccommodationId(campRegistrationsId, cottageId)) {
+
+    @OneToMany
+    val campers = mutableListOf<Camper>()
 }
