@@ -8,7 +8,7 @@ class RepoTest(val camperApplicationRepository: CamperApplicationRepository) {
 
     @PostConstruct
     fun postContruct(){
-        this.camperApplicationRepository.save(CamperApplication("Camper1"))
-        this.camperApplicationRepository.save(CamperApplication("Camper2"))
+        //this.camperApplicationRepository.save(CamperApplication("Camper1"))
+        //this.camperApplicationRepository.save(CamperApplication("Camper2"))
     }
 }

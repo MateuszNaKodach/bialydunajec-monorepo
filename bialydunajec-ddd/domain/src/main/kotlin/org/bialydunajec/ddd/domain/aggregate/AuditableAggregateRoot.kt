@@ -19,9 +19,9 @@ abstract class AuditableAggregateRoot<AggregateIdType : AggregateId, EventType :
         private val createdDate: Instant = Instant.now(),
 
         @CreatedBy
-        private var createdBy: AggregateId? = null
+        private var createdBy: AggregateIdType? = null
 
-) : AggregateRoot<AggregateIdType, EventType>(aggregateId), Auditable<AggregateId, Instant>, Versioned {
+) : AggregateRoot<AggregateIdType, EventType>(aggregateId), Auditable<AggregateIdType, Instant>, Versioned {
 
     @Version
     private var version: Long = 1
@@ -30,7 +30,7 @@ abstract class AuditableAggregateRoot<AggregateIdType : AggregateId, EventType :
     private var lastModifiedDate: Instant? = null
 
     @LastModifiedBy
-    private var lastModifiedBy: AggregateId? = null
+    private var lastModifiedBy: AggregateIdType? = null
 
     override fun getCreatedDate() = createdDate
 
