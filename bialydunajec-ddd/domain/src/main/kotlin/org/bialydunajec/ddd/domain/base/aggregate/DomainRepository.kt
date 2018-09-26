@@ -4,7 +4,7 @@ import org.bialydunajec.ddd.domain.base.valueobject.AggregateId
 
 interface DomainRepository<AggregateType : AggregateRoot<*, *>, AggregateIdType : AggregateId> {
 
-    fun save(aggregateRoot: AggregateType)
+    fun save(aggregateRoot: AggregateType):AggregateType
     fun findAll(): Collection<AggregateType>
     fun findById(aggregateId: AggregateIdType): AggregateType?
     fun delete(aggregateRoot: AggregateType)

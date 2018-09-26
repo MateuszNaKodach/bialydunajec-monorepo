@@ -14,18 +14,18 @@ class Cottage internal constructor(
         val campRegistrationsId: CampRegistrationsId,
         @AttributeOverrides(AttributeOverride(name = "aggregateId", column = Column(name = "academicMinistryId")))
         val academicMinistryId: AcademicMinistryId,
-        val name: String,
+        var name: String,
 
         @Embedded
         @AttributeOverrides(AttributeOverride(name = "url", column = Column(name = "logoImageUrl")))
-        val logoImageUrl: Url.InternalUrl? = null,
+        var logoImageUrl: Url? = null,
 
         @Embedded
         @AttributeOverrides(AttributeOverride(name = "url", column = Column(name = "buildingPhotoUrl")))
-        val buildingPhotoUrl: Url.InternalUrl? = null,
+        val buildingPhotoUrl: Url? = null,
 
         @Embedded
-        val bankTransferDetails: BankTransferDetails? = null
+        var bankTransferDetails: BankTransferDetails? = null
 ) : AggregateRoot<CottageId, CottageEvents>(CottageId(campRegistrationsId, academicMinistryId)) {
 
     fun createCottageAccommodation(): CottageAccommodation {

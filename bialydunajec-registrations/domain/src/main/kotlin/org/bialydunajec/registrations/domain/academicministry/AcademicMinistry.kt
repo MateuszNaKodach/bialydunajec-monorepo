@@ -2,7 +2,7 @@ package org.bialydunajec.registrations.domain.academicministry
 
 import org.bialydunajec.ddd.domain.base.aggregate.AggregateRoot
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.Url
-import javax.persistence.Entity
+import javax.persistence.*
 import javax.validation.constraints.NotBlank
 
 /**
@@ -13,5 +13,7 @@ class AcademicMinistry(
         academicMinistryId: AcademicMinistryId,
         @NotBlank
         var shortName: String,
-        var logoUrl: Url.InternalUrl? = null
+        @Embedded
+        @AttributeOverrides(AttributeOverride(name = "url", column = Column(name = "logoImageUrl")))
+        var logoImageUrl: Url? = null
 ) : AggregateRoot<AcademicMinistryId, AcademicMinistryEvent>(academicMinistryId)

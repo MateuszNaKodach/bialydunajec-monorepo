@@ -11,9 +11,7 @@ abstract class AbstractDomainRepository<AggregateType : AggregateRoot<*, *>, Agg
         val jpaRepository: RepositoryType
 ) : DomainRepository<AggregateType, AggregateIdType> {
 
-    override fun save(aggregateRoot: AggregateType) {
-        jpaRepository.save(aggregateRoot)
-    }
+    override fun save(aggregateRoot: AggregateType) = jpaRepository.save(aggregateRoot)
 
     override fun findAll(): Collection<AggregateType> = jpaRepository.findAll()
 

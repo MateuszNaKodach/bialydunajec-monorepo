@@ -23,12 +23,16 @@ class CampRegistrations(
 
     fun isEnded() = Instant.now().isAfter(endDate)
 
-    fun createCottageFor(academicMinistry: AcademicMinistry): Cottage {
+    fun createAcademicMinistryCottage(academicMinistry: AcademicMinistry): Cottage {
         return Cottage(
                 getAggregateId(),
                 academicMinistry.getAggregateId(),
                 academicMinistry.shortName,
-                academicMinistry.logoUrl
+                academicMinistry.logoImageUrl
         )
+    }
+
+    fun createStandaloneCottage(){
+
     }
 }
