@@ -1,6 +1,7 @@
 package org.bialydunajec.registrations.domain.campregistrations
 
 import org.bialydunajec.ddd.domain.base.aggregate.AggregateRoot
+import org.bialydunajec.registrations.domain.academicministry.AcademicMinistry
 import org.bialydunajec.registrations.domain.cottage.Cottage
 import org.jetbrains.annotations.NotNull
 import java.time.Instant
@@ -14,7 +15,7 @@ class CampRegistrations(
 
         @NotNull
         val endDate: Instant? = null
-) : AggregateRoot<CampRegistrationsId, CampRegistrationsEvents>(campRegistrationsId) {
+) : AggregateRoot<CampRegistrationsId, CampRegistrationsEvent>(campRegistrationsId) {
 
     fun isInProgress() = isStarted() && !isEnded()
 
@@ -22,7 +23,12 @@ class CampRegistrations(
 
     fun isEnded() = Instant.now().isAfter(endDate)
 
-    fun createCottage(): Cottage {
-        return Cottage(getAggregateId())
+    fun createCottageFor(academicMinistry: AcademicMinistry): Cottage {
+        return Cottage(
+                getAggregateId(),
+                academicMinistry.getAggregateId(),
+                academicMinistry.shortName,
+                academicMinistry.logoUrl
+        )
     }
 }

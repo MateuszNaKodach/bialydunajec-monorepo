@@ -5,6 +5,9 @@ import javax.persistence.MappedSuperclass
 
 @MappedSuperclass
 abstract class AggregateId(val aggregateId: String = UUID.randomUUID().toString()) : Identifier{
+
+    override fun toString() = aggregateId
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

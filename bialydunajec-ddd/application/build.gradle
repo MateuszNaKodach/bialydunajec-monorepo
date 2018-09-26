@@ -48,10 +48,8 @@ jar {
 }
 
 dependencies {
-    compile project(':bialydunajec-ddd:bialydunajec-ddd-application')
-    compile project(':bialydunajec-registrations:bialydunajec-registrations-domain')
+    compile project(':bialydunajec-ddd:bialydunajec-ddd-domain')
 
-    compile('org.springframework.boot:spring-boot-starter-cache')
     compile('org.springframework.boot:spring-boot-starter-validation')
     compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     compile("org.jetbrains.kotlin:kotlin-reflect")

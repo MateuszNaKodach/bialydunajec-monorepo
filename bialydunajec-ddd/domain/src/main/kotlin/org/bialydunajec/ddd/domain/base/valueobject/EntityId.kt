@@ -4,7 +4,9 @@ import java.util.*
 import javax.persistence.MappedSuperclass
 
 @MappedSuperclass
-abstract class EntityId(val entityId: String = defaultValue()) : Identifier{
+abstract class EntityId(val entityId: String = defaultValue()) : Identifier {
+    override fun toString() = entityId
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

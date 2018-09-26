@@ -1,6 +1,7 @@
 package org.bialydunajec.registrations.domain.cottageaccommodation
 
 import org.bialydunajec.ddd.domain.base.aggregate.AggregateRoot
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.Pesel
 import org.bialydunajec.registrations.domain.campregistrations.CampRegistrationsId
 import org.bialydunajec.registrations.domain.cottage.CottageId
 import org.bialydunajec.registrations.domain.cottageaccommodation.entity.camper.Camper
@@ -17,5 +18,7 @@ class CottageAccommodation internal constructor(
 ) : AggregateRoot<CottageAccommodationId, CottageAccommodationEvent>(CottageAccommodationId(campRegistrationsId, cottageId)) {
 
     @OneToMany
-    val campers = mutableListOf<Camper>()
+    private val accommodatedCampers = mutableListOf<Camper>()
+
+    //fun getAccommodatedCamperSnapshotByPesel(pesel: Pesel): CamperSnapshot? = null
 }
