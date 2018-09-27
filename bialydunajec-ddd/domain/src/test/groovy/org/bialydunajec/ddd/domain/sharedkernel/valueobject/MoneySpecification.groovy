@@ -2,6 +2,7 @@ package org.bialydunajec.ddd.domain.sharedkernel.valueobject
 
 import org.bialydunajec.ddd.domain.base.exception.DomainException
 import org.bialydunajec.ddd.domain.sharedkernel.exception.SharedKernelDomainErrorCode
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.financial.Money
 import spock.lang.Specification
 
 class MoneySpecification extends Specification {

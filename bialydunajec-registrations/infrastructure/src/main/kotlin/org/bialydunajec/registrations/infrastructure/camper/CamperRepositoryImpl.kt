@@ -1,9 +1,7 @@
 package org.bialydunajec.registrations.infrastructure.camper
 
-import org.bialydunajec.ddd.domain.sharedkernel.valueobject.Pesel
 import org.bialydunajec.registrations.domain.camper.Camper
 import org.bialydunajec.registrations.domain.camper.CamperId
-import org.bialydunajec.registrations.domain.cottage.CottageId
 import org.bialydunajec.registrations.domain.camper.CamperRepository
 import org.bialydunajec.registrations.infrastructure.AbstractDomainRepository
 import org.springframework.data.jpa.repository.JpaRepository

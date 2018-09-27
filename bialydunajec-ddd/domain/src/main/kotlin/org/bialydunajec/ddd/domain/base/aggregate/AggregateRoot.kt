@@ -1,7 +1,7 @@
 package org.bialydunajec.ddd.domain.base.aggregate
 
 import org.bialydunajec.ddd.domain.base.event.DomainEvent
-import org.bialydunajec.ddd.domain.base.valueobject.AggregateId
+import org.bialydunajec.ddd.domain.base.valueobject.Identifier
 import org.springframework.data.domain.AfterDomainEventPublication
 import org.springframework.data.domain.DomainEvents
 import java.util.ArrayList
@@ -13,7 +13,7 @@ import javax.persistence.MappedSuperclass
  * Aggregate Root base class based in the Spring Data one {@link org.springframework.data.domain.AbstractAggregateRoot}.
  */
 @MappedSuperclass
-abstract class AggregateRoot<AggregateIdType : AggregateId, EventType : DomainEvent<AggregateIdType>>(
+abstract class AggregateRoot<AggregateIdType : Identifier<*>, EventType : DomainEvent<AggregateIdType>>(
         @EmbeddedId
         private val aggregateId: AggregateIdType
 ) {

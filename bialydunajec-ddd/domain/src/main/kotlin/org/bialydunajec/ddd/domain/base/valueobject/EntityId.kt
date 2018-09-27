@@ -4,7 +4,7 @@ import java.util.*
 import javax.persistence.MappedSuperclass
 
 @MappedSuperclass
-abstract class EntityId(val entityId: String = defaultValue()) : Identifier {
+abstract class EntityId(val entityId: String = defaultValue()) : Identifier<String> {
     override fun toString() = entityId
 
     override fun equals(other: Any?): Boolean {
@@ -21,6 +21,8 @@ abstract class EntityId(val entityId: String = defaultValue()) : Identifier {
     override fun hashCode(): Int {
         return entityId.hashCode()
     }
+
+    override fun getIdentifierValue(): String = entityId
 
     companion object {
         fun defaultValue() = UUID.randomUUID().toString()

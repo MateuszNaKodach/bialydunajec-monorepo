@@ -3,11 +3,12 @@ package org.bialydunajec.registrations.infrastructure
 import org.bialydunajec.ddd.domain.base.aggregate.AggregateRoot
 import org.bialydunajec.ddd.domain.base.aggregate.DomainRepository
 import org.bialydunajec.ddd.domain.base.valueobject.AggregateId
+import org.bialydunajec.ddd.domain.base.valueobject.Identifier
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.repository.NoRepositoryBean
 
 @NoRepositoryBean
-abstract class AbstractDomainRepository<AggregateType : AggregateRoot<*, *>, AggregateIdType : AggregateId, RepositoryType: JpaRepository<AggregateType, AggregateIdType>>(
+abstract class AbstractDomainRepository<AggregateType : AggregateRoot<*, *>, AggregateIdType : Identifier<*>, RepositoryType: JpaRepository<AggregateType, AggregateIdType>>(
         val jpaRepository: RepositoryType
 ) : DomainRepository<AggregateType, AggregateIdType> {
 

@@ -1,5 +1,6 @@
-package org.bialydunajec.ddd.domain.sharedkernel.valueobject
+package org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet
 
+import org.bialydunajec.ddd.domain.base.valueobject.ValueObject
 import org.hibernate.validator.constraints.URL
 import javax.persistence.Embeddable
 import javax.persistence.Lob
@@ -11,7 +12,7 @@ open class Url(
         @URL
         @NotBlank
         val url: String
-) {
+) : ValueObject {
     @Embeddable
     class InternalUrl(url: String) : Url(url)
 

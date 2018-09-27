@@ -1,8 +1,8 @@
 package org.bialydunajec.ddd.domain.base.aggregate
 
-import org.bialydunajec.ddd.domain.base.valueobject.AggregateId
+import org.bialydunajec.ddd.domain.base.valueobject.Identifier
 
-interface DomainRepository<AggregateType : AggregateRoot<*, *>, AggregateIdType : AggregateId> {
+interface DomainRepository<AggregateType : AggregateRoot<*, *>, AggregateIdType : Identifier<*>> {
 
     fun save(aggregateRoot: AggregateType):AggregateType
     fun findAll(): Collection<AggregateType>

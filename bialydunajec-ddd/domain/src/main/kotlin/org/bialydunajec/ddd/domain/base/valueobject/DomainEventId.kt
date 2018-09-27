@@ -4,4 +4,6 @@ import java.util.*
 import javax.persistence.Embeddable
 
 @Embeddable
-data class DomainEventId(val uuid: String = UUID.randomUUID().toString()) : Identifier
+data class DomainEventId(val uuid: String = UUID.randomUUID().toString()) : Identifier<String>{
+    override fun getIdentifierValue() = uuid
+}

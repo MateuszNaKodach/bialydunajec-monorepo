@@ -1,6 +1,6 @@
 package org.bialydunajec.registrations.domain.bootstrap
 
-import org.bialydunajec.ddd.domain.sharedkernel.valueobject.Url
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.Url
 import org.bialydunajec.registrations.domain.academicministry.AcademicMinistry
 import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryId
 import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryRepository
@@ -20,7 +20,6 @@ class BoundedContextBootstrap(
         val camperRepository: CamperRepository
 ) {
 
-
     @PostConstruct
     fun bootstrap() {
         val campRegistrations = campRegistrationsRepository.save(CampRegistrations(CampRegistrationsId(36)))
@@ -33,8 +32,11 @@ class BoundedContextBootstrap(
                 )
         )
 
-        //TODO: Consider add Cottage as entity to CampRegistrations! Co bylo w ksiazce o referencjach do wewnetrznych encji?
-        val cottage = cottageRepository.save(campRegistrations.createAcademicMinistryCottage(academicMinistry))
+        val academicMinistryCottage = cottageRepository.save(campRegistrations.createAcademicMinistryCottage(academicMinistry))
+        val standaloneCottage = cottageRepository.save(campRegistrations.createStandaloneCottage("Złomy"))
 
+        academicMinistryRepository.findAll().forEach {
+            println(it)
+        }
     }
 }

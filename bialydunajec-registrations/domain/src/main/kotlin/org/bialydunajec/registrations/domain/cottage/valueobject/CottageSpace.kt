@@ -1,6 +1,6 @@
-package org.bialydunajec.registrations.domain.cottage
+package org.bialydunajec.registrations.domain.cottage.valueobject
 
-import org.bialydunajec.ddd.domain.sharedkernel.valueobject.Gender
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.Gender
 import javax.persistence.Embeddable
 import javax.validation.constraints.NotNull
 

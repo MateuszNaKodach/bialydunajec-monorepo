@@ -1,37 +1,71 @@
 package org.bialydunajec.registrations.domain.cottage
 
 import org.bialydunajec.ddd.domain.base.aggregate.AggregateRoot
-import org.bialydunajec.ddd.domain.sharedkernel.valueobject.Url
+import org.bialydunajec.ddd.domain.base.exception.DomainException
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.Url
 import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryId
+import org.bialydunajec.registrations.domain.camper.Camper
 import org.bialydunajec.registrations.domain.campregistrations.CampRegistrationsId
-import org.bialydunajec.registrations.domain.cottage.valueobject.BankTransferDetails
+import org.bialydunajec.registrations.domain.cottage.valueobject.*
+import org.bialydunajec.registrations.domain.exception.CampersRegisterDomainErrorCode
 import javax.persistence.*
 import javax.validation.constraints.NotBlank
+import javax.validation.constraints.NotNull
 
 @Entity
+@Table(schema = "camp-registrations")
 class Cottage internal constructor(
         @AttributeOverrides(AttributeOverride(name = "aggregateId", column = Column(name = "campRegistrationsId")))
-        val campRegistrationsId: CampRegistrationsId,
+        private val campRegistrationsId: CampRegistrationsId,
+
+        @NotNull
+        @Enumerated(EnumType.STRING)
+        private val cottageType: CottageType,
 
         @AttributeOverrides(AttributeOverride(name = "aggregateId", column = Column(name = "academicMinistryId")))
-        val academicMinistryId: AcademicMinistryId,
+        private val academicMinistryId: AcademicMinistryId?,
 
         @NotBlank
-        var name: String,
+        private var name: String,
 
         @Embedded
         @AttributeOverrides(AttributeOverride(name = "url", column = Column(name = "logoImageUrl")))
-        var logoImageUrl: Url? = null,
+        private var logoImageUrl: Url? = null,
 
         @Embedded
         @AttributeOverrides(AttributeOverride(name = "url", column = Column(name = "buildingPhotoUrl")))
-        val buildingPhotoUrl: Url? = null,
+        private val buildingPhotoUrl: Url? = null,
 
         @Embedded
-        var bankTransferDetails: BankTransferDetails? = null,
+        private var cottageSpace: CottageSpace = CottageSpace(),
 
         @Embedded
-        var cottageSpace: CottageSpace = CottageSpace()
-) : AggregateRoot<CottageId, CottageEvents>(CottageId(campRegistrationsId, academicMinistryId)) {
+        private var campersLimitations: CampersLimitations? = CampersLimitations(),
+
+        @Embedded
+        private var bankTransferDetails: BankTransferDetails? = null
+) : AggregateRoot<CottageId, CottageEvents>(
+        when (cottageType) {
+            CottageType.STANDALONE -> CottageId.ofStandaloneCottage(campRegistrationsId)
+            CottageType.ACADEMIC_MINISTRY -> CottageId.ofAcademicMinistryCottage(campRegistrationsId, academicMinistryId
+                    ?: throw DomainException.of(CampersRegisterDomainErrorCode.NO_DEFINED_ACADEMIC_MINISTRY_FOR_COTTAGE))
+        }
+) {
+
+    private var cottageState: CottageState = CottageState.UNCONFIGURED
+
+    fun accommodateCamper(camper: Camper) {
+
+    }
+
+    fun getCampRegistrationsId() = campRegistrationsId
+    fun getCottageType() = cottageType
+    fun getName() = name
+    fun getLogoImageUrl() = logoImageUrl
+    fun getBuildingPhotoUrl() = buildingPhotoUrl
+    fun getCottageSpace() = cottageSpace
+    fun getCampersLimitations() = campersLimitations
+    fun getBankTransferDetails() = bankTransferDetails
+    fun getCottageState() = cottageState
 
 }

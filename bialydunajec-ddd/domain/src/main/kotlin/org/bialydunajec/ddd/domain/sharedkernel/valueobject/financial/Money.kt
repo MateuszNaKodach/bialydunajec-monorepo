@@ -1,4 +1,4 @@
-package org.bialydunajec.ddd.domain.sharedkernel.valueobject
+package org.bialydunajec.ddd.domain.sharedkernel.valueobject.financial
 
 import org.bialydunajec.ddd.domain.base.exception.DomainException
 import org.bialydunajec.ddd.domain.base.valueobject.ValueObject
