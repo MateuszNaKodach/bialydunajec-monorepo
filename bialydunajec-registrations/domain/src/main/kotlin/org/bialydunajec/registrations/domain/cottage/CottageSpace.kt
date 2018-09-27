@@ -1,4 +1,4 @@
-package org.bialydunajec.registrations.domain.cottageaccommodation
+package org.bialydunajec.registrations.domain.cottage
 
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.Gender
 import javax.persistence.Embeddable

@@ -4,7 +4,7 @@ import java.util.*
 import javax.persistence.MappedSuperclass
 
 @MappedSuperclass
-abstract class AggregateId(val aggregateId: String = UUID.randomUUID().toString()) : Identifier{
+abstract class AggregateId(val aggregateId: String = defaultValue()) : Identifier{
 
     override fun toString() = aggregateId
 
@@ -21,5 +21,9 @@ abstract class AggregateId(val aggregateId: String = UUID.randomUUID().toString(
 
     override fun hashCode(): Int {
         return aggregateId.hashCode()
+    }
+
+    companion object {
+        fun defaultValue() = UUID.randomUUID().toString()
     }
 }

@@ -8,7 +8,7 @@ import org.bialydunajec.registrations.domain.campregistrations.CampRegistrations
 import org.bialydunajec.registrations.domain.campregistrations.CampRegistrationsId
 import org.bialydunajec.registrations.domain.campregistrations.CampRegistrationsRepository
 import org.bialydunajec.registrations.domain.cottage.CottageRepository
-import org.bialydunajec.registrations.domain.cottageaccommodation.CottageAccommodationRepository
+import org.bialydunajec.registrations.domain.camper.CamperRepository
 import org.springframework.context.annotation.Configuration
 import javax.annotation.PostConstruct
 
@@ -17,7 +17,7 @@ class BoundedContextBootstrap(
         val academicMinistryRepository: AcademicMinistryRepository,
         val campRegistrationsRepository: CampRegistrationsRepository,
         val cottageRepository: CottageRepository,
-        val cottageAccommodationRepository: CottageAccommodationRepository
+        val camperRepository: CamperRepository
 ) {
 
 
