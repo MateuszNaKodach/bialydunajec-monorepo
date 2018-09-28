@@ -1,10 +1,11 @@
 package org.bialydunajec.registrations.domain.camper
 
 import org.bialydunajec.ddd.domain.base.aggregate.AuditableAggregateRoot
+import org.bialydunajec.registrations.domain.campedition.CampEditionId
 import org.bialydunajec.registrations.domain.camper.valueobject.CamperApplication
 import org.bialydunajec.registrations.domain.camper.event.CamperEvent
 import org.bialydunajec.registrations.domain.camper.valueobject.StayDuration
-import org.bialydunajec.registrations.domain.campregistrations.CampRegistrationsId
+import org.bialydunajec.registrations.domain.campedition.entity.CampRegistrationsId
 import org.bialydunajec.registrations.domain.cottage.Cottage
 import org.bialydunajec.registrations.domain.cottage.CottageId
 import javax.persistence.*
@@ -21,8 +22,8 @@ class Camper internal constructor(
 
         @NotNull
         @Embedded
-        @AttributeOverrides(AttributeOverride(name = "aggregateId", column = Column(name = "campRegistrationsId")))
-        private val campRegistrationsId: CampRegistrationsId,
+        @AttributeOverrides(AttributeOverride(name = "aggregateId", column = Column(name = "campEditionId")))
+        private val campEditionId: CampEditionId,
 
         @NotNull
         @Embedded
@@ -34,7 +35,7 @@ class Camper internal constructor(
 ) : AuditableAggregateRoot<CamperId, CamperEvent>(CamperId(camperApplication.personalData.pesel)) {
 
     fun accommodateInCottage(cottage: Cottage) {
-        if (cottage.getCampRegistrationsId() == campRegistrationsId) {
+        if (cottage.getCampEditionId() == campEditionId) {
             this.cottageId = cottage.getAggregateId()
         }
     }

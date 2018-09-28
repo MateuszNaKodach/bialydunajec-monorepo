@@ -9,8 +9,7 @@ import org.bialydunajec.registrations.domain.camper.valueobject.CamperApplicatio
 import org.bialydunajec.registrations.domain.camper.valueobject.CamperEducation
 import org.bialydunajec.registrations.domain.camper.valueobject.CamperPersonalData
 import org.bialydunajec.registrations.domain.camper.valueobject.StayDuration
-import org.bialydunajec.registrations.domain.campregistrations.CampRegistrationsRepository
-import org.bialydunajec.registrations.domain.campregistrations.specification.InProgressCampRegistrationsSpecification
+import org.bialydunajec.registrations.domain.campedition.specification.InProgressCampRegistrationsSpecification
 import org.bialydunajec.registrations.domain.cottage.CottageId
 import org.bialydunajec.registrations.domain.cottage.CottageRepository
 import org.bialydunajec.registrations.domain.exception.CampersRegisterDomainErrorCode.*
@@ -20,7 +19,6 @@ import org.bialydunajec.registrations.domain.exception.CampersRegisterDomainErro
 //TODO: Czy chatka wolna sprawdzać na etapie aplikacji!
 internal class CamperFactory(
         val cottageRepository: CottageRepository,
-        val campRegistrationsRepository: CampRegistrationsRepository,
         val campEditionRepository: CampEditionRepository
 ) {
     fun createCamper(
@@ -34,19 +32,16 @@ internal class CamperFactory(
     ): Camper {
         val camperCottage = cottageRepository.findById(cottageId) ?: throw DomainException.of(COTTAGE_NOT_FOUND)
 
-        val cottageInProgressCampRegistrations = campRegistrationsRepository.findByIdAndSpecification(
-                camperCottage.getCampRegistrationsId(),
+        val campEditionWithInProgressRegistrations = campEditionRepository.findByIdAndSpecification(
+                camperCottage.getCampEditionId(),
                 InProgressCampRegistrationsSpecification()
-        ) ?: throw DomainException.of(SELECTED_CAMP_REGISTRATIONS_IS_NOT_IN_PROGRESS)
+        ) ?: throw DomainException.of(CAMP_EDITION_HAS_NOT_IN_PROGRESS_REGISTRATIONS)
 
-        val campRegistrationsEdition = campEditionRepository.findById(cottageInProgressCampRegistrations.getCampEditionId())
-                ?: throw DomainException.of(CAMP_EDITION_NOT_FOUND)
-
-        val campEditionDuration = campRegistrationsEdition.getCampEditionDuration()
+        val campEditionDuration = campEditionWithInProgressRegistrations.getCampEditionDuration()
 
         return Camper(
                 cottageId = cottageId,
-                campRegistrationsId = cottageInProgressCampRegistrations.getAggregateId(),
+                campEditionId = campEditionWithInProgressRegistrations.getAggregateId(),
                 camperApplication = CamperApplication(
                         personalData = personalData,
                         homeAddress = homeAddress,

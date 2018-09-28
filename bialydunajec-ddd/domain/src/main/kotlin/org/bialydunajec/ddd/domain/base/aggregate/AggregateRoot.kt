@@ -15,19 +15,21 @@ import javax.persistence.MappedSuperclass
 @MappedSuperclass
 abstract class AggregateRoot<AggregateIdType : Identifier<*>, EventType : DomainEvent<AggregateIdType>>(
         @EmbeddedId
-        private val aggregateId: AggregateIdType
+        private val aggregateId: AggregateIdType,
+        @kotlin.jvm.Transient
+        private var domainEvents: MutableList<EventType>? = mutableListOf()
 ) {
 
     fun getAggregateId() = aggregateId
-
-    @kotlin.jvm.Transient
-    private val domainEvents = ArrayList<EventType>()
 
     /**
      * Registers the given event object for publication on a call to a Spring Data repository's save methods.
      */
     protected fun registerEvent(event: EventType): EventType {
-        this.domainEvents.add(event)
+        if(domainEvents== null){
+            domainEvents = mutableListOf()
+        }
+        this.domainEvents?.add(event)
         return event
     }
 
@@ -36,7 +38,7 @@ abstract class AggregateRoot<AggregateIdType : Identifier<*>, EventType : Domain
      */
     @DomainEvents
     fun domainEvents(): Collection<EventType> {
-        return Collections.unmodifiableList<EventType>(domainEvents)
+        return domainEvents?.toList() ?: emptyList()
     }
 
     /**
@@ -45,7 +47,10 @@ abstract class AggregateRoot<AggregateIdType : Identifier<*>, EventType : Domain
      */
     @AfterDomainEventPublication
     protected fun clearDomainEvents() {
-        this.domainEvents.clear()
+        if(domainEvents== null){
+            domainEvents = mutableListOf()
+        }
+        this.domainEvents?.clear()
     }
 
 }

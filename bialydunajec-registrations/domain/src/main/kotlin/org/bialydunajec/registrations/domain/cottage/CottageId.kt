@@ -2,7 +2,8 @@ package org.bialydunajec.registrations.domain.cottage
 
 import org.bialydunajec.ddd.domain.base.valueobject.AggregateId
 import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryId
-import org.bialydunajec.registrations.domain.campregistrations.CampRegistrationsId
+import org.bialydunajec.registrations.domain.campedition.CampEditionId
+import org.bialydunajec.registrations.domain.campedition.entity.CampRegistrationsId
 import org.bialydunajec.registrations.domain.cottage.valueobject.CottageType
 import javax.persistence.Embeddable
 
@@ -11,10 +12,10 @@ class CottageId private constructor(cottageId: String)
     : AggregateId(cottageId) {
 
     companion object {
-        fun ofAcademicMinistryCottage(campRegistrationsId: CampRegistrationsId, academicMinistryId: AcademicMinistryId) =
-                CottageId("$campRegistrationsId-${CottageType.ACADEMIC_MINISTRY.name}-$academicMinistryId")
+        fun ofAcademicMinistryCottage(campEditionId: CampEditionId, academicMinistryId: AcademicMinistryId) =
+                CottageId("$campEditionId-${CottageType.ACADEMIC_MINISTRY.name}-$academicMinistryId")
 
-        fun ofStandaloneCottage(campRegistrationsId: CampRegistrationsId) =
-                CottageId("$campRegistrationsId-${CottageType.STANDALONE.name}")
+        fun ofStandaloneCottage(campEditionId: CampEditionId) =
+                CottageId("$campEditionId-${CottageType.STANDALONE.name}")
     }
 }
