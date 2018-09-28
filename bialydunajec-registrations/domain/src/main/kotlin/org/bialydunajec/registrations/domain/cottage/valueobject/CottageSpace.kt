@@ -4,6 +4,7 @@ import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.Gender
 import javax.persistence.Embeddable
 import javax.validation.constraints.NotNull
 
+// TODO: Czy miejsce w chatce traktować jako ilosć łóżek!?
 @Embeddable
 data class CottageSpace(
         /**

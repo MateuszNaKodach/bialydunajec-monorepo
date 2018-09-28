@@ -2,29 +2,36 @@ package org.bialydunajec.registrations.domain.campregistrations
 
 import org.bialydunajec.ddd.domain.base.aggregate.AggregateRoot
 import org.bialydunajec.registrations.domain.academicministry.AcademicMinistry
+import org.bialydunajec.registrations.domain.campedition.CampEditionId
+import org.bialydunajec.registrations.domain.campregistrations.specification.InProgressCampRegistrationsSpecification
 import org.bialydunajec.registrations.domain.cottage.Cottage
 import org.bialydunajec.registrations.domain.cottage.valueobject.CottageType
 import org.jetbrains.annotations.NotNull
 import java.time.Instant
-import javax.persistence.Entity
-import javax.persistence.Table
+import javax.persistence.*
 
+//TODO: Consider merge camp edition with camp registrations - registrations setup as value object
 @Entity
-@Table(schema = "camp-registrations")
+//@Table(schema = "camp_registrations")
 class CampRegistrations(
-        campRegistrationsId: CampRegistrationsId,
+        @Embedded
+        @AttributeOverrides(AttributeOverride(name = "aggregateId", column = Column(name = "campEditionId")))
+        private val campEditionId: CampEditionId,
+
         @NotNull
         private val startDate: Instant? = null,
 
         @NotNull
         private val endDate: Instant? = null
-) : AggregateRoot<CampRegistrationsId, CampRegistrationsEvent>(campRegistrationsId) {
+) : AggregateRoot<CampRegistrationsId, CampRegistrationsEvent>(CampRegistrationsId(campEditionId)) {
+
+    fun getCampEditionId() = campEditionId
 
     fun getStartDate() = startDate
 
     fun getEndDate() = endDate
 
-    fun isInProgress() = isStarted() && !isEnded()
+    fun isInProgress() = InProgressCampRegistrationsSpecification().isSatisfiedBy(this)
 
     fun isStarted() = Instant.now().isAfter(startDate)
 

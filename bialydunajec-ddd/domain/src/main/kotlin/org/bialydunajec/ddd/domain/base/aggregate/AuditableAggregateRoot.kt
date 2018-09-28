@@ -21,9 +21,10 @@ abstract class AuditableAggregateRoot<AggregateIdType : AggregateId, EventType :
         @CreatedBy
         @Embedded
         @AttributeOverrides(
-                AttributeOverride(name = "auditorId", column = Column(name = "createdBy_auditorId")),
-                AttributeOverride(name = "firstName", column = Column(name = "createdBy_firstName")),
-                AttributeOverride(name = "lastName", column = Column(name = "createdBy_lastName"))
+                AttributeOverride(name = "auditorId.aggregateId", column = Column(name = "createdBy_auditorId")),
+                AttributeOverride(name = "firstName.firstName", column = Column(name = "createdBy_firstName")),
+                AttributeOverride(name = "lastName.lastName", column = Column(name = "createdBy_lastName")),
+                AttributeOverride(name = "emailAddress.email", column = Column(name = "createdBy_emailAddress"))
         )
         private var createdBy: Auditor? = null
 
@@ -38,9 +39,10 @@ abstract class AuditableAggregateRoot<AggregateIdType : AggregateId, EventType :
     @LastModifiedBy
     @Embedded
     @AttributeOverrides(
-            AttributeOverride(name = "auditorId", column = Column(name = "lastModifiedBy_auditorId")),
-            AttributeOverride(name = "firstName", column = Column(name = "lastModifiedBy_firstName")),
-            AttributeOverride(name = "lastName", column = Column(name = "lastModifiedBy_lastName"))
+            AttributeOverride(name = "auditorId.aggregateId", column = Column(name = "lastModifiedBy_auditorId")),
+            AttributeOverride(name = "firstName.firstName", column = Column(name = "lastModifiedBy_firstName")),
+            AttributeOverride(name = "lastName.lastName", column = Column(name = "lastModifiedBy_lastName")),
+            AttributeOverride(name = "emailAddress.email", column = Column(name = "lastModifiedBy_emailAddress"))
     )
     private var lastModifiedBy: Auditor? = null
 

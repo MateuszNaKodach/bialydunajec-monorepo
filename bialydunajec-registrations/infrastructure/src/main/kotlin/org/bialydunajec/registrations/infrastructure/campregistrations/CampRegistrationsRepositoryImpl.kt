@@ -9,8 +9,8 @@ import org.springframework.stereotype.Repository
 
 @Repository
 internal class CampRegistrationsRepositoryImpl(
-        campRegistrationJpaRepository: CampRegistrationsJpaRepository
-) : AbstractDomainRepository<CampRegistrations, CampRegistrationsId, CampRegistrationsJpaRepository>(campRegistrationJpaRepository), CampRegistrationsRepository {
+        jpaRepository: CampRegistrationsJpaRepository
+) : AbstractDomainRepository<CampRegistrations, CampRegistrationsId, CampRegistrationsJpaRepository>(jpaRepository), CampRegistrationsRepository {
 
 }
 

@@ -1,5 +1,8 @@
 package org.bialydunajec.ddd.domain.base.specification
 
+/*
+Specification in the sense of Domain Driven Design.
+ */
 interface Specification<T> {
     fun isSatisfiedBy(candidate: T): Boolean
 

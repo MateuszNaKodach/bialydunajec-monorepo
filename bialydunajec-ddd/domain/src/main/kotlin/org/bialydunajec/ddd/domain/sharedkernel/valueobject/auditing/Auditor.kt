@@ -1,6 +1,7 @@
 package org.bialydunajec.ddd.domain.sharedkernel.valueobject.auditing
 
 import org.bialydunajec.ddd.domain.base.valueobject.AggregateId
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddress
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.FirstName
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.LastName
 import javax.persistence.Embeddable
@@ -19,5 +20,9 @@ data class Auditor(
 
         @Embedded
         @NotNull
-        val lastName: LastName
+        val lastName: LastName,
+
+        @Embedded
+        @NotNull
+        val emailAddress: EmailAddress
 )

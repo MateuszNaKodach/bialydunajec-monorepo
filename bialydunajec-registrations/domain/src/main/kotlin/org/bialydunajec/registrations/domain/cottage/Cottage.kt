@@ -13,8 +13,10 @@ import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 
 @Entity
-@Table(schema = "camp-registrations")
+//@Table(schema = "camp_registrations")
 class Cottage internal constructor(
+
+        @Embedded
         @AttributeOverrides(AttributeOverride(name = "aggregateId", column = Column(name = "campRegistrationsId")))
         private val campRegistrationsId: CampRegistrationsId,
 
@@ -52,11 +54,9 @@ class Cottage internal constructor(
         }
 ) {
 
+    @NotBlank
+    @Enumerated(EnumType.STRING)
     private var cottageState: CottageState = CottageState.UNCONFIGURED
-
-    fun accommodateCamper(camper: Camper) {
-
-    }
 
     fun getCampRegistrationsId() = campRegistrationsId
     fun getCottageType() = cottageType
