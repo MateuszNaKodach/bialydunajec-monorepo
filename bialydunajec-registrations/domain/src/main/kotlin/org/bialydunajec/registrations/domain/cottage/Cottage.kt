@@ -13,7 +13,12 @@ import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 
 @Entity
-//@Table(schema = "camp_registrations")
+@Table(
+        uniqueConstraints = [
+            UniqueConstraint(columnNames = arrayOf("campEditionId", "academicMinistryId"), name = "one_cottage_for_academic_ministry"),
+            UniqueConstraint(columnNames = arrayOf("campEditionId", "name"), name = "unique_cottageName_on_edition")
+        ]
+)
 class Cottage internal constructor(
 
         @Embedded

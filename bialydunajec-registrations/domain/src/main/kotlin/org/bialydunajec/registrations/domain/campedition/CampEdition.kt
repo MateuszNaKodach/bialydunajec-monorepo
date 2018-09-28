@@ -34,22 +34,16 @@ class CampEdition internal constructor(
     @OneToOne(cascade = [CascadeType.ALL])
     private var campRegistrations: CampRegistrations = CampRegistrations(campEditionId)
 
-    fun getCampEditionDuration() = LocalDateRange(start = startDate, end = endDate)
-
-    fun updateCampEditionDuration(campEditionDuration: LocalDateRange) {
-        startDate = campEditionDuration.start
-        endDate = campEditionDuration.end
-
-        val campRegistrationsStartDate = getCampRegistrationsStartDate()
-        //if (campRegistrationsStartDate != null && campRegistrationsStartDate.isAfter(endDate)) {
-        //    campRegistrations.endDate = endDate
-        //}
-    }
-
     fun updateCampRegistrationsDuration(registrationDuration: ZonedDateTimeRange) {
-        campRegistrations.startDate = registrationDuration.start
-        campRegistrations.endDate = registrationDuration.end
+        campRegistrations.updateStartDate(registrationDuration.start)
+        campRegistrations.updateEndDate(registrationDuration.end)
     }
+
+    fun startCampRegistrations(): Cottage {
+
+    }
+
+
 
     fun createAcademicMinistryCottage(academicMinistry: AcademicMinistry): Cottage {
         return Cottage(
@@ -74,4 +68,6 @@ class CampEdition internal constructor(
     fun hasCampRegistrationsEnded(currentTime: ZonedDateTime) = campRegistrations.isEnded(currentTime)
     fun getCampRegistrationsStartDate() = campRegistrations.startDate
     fun getCampRegistrationsEndDate() = campRegistrations.endDate
+    fun getCampEditionStartDate() = startDate
+    fun getCampEditionEndDate() = endDate
 }

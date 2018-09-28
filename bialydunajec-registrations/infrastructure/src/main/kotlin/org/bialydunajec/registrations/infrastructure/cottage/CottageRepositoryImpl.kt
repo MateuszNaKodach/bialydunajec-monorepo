@@ -1,5 +1,6 @@
 package org.bialydunajec.registrations.infrastructure.cottage
 
+import org.bialydunajec.registrations.domain.campedition.CampEditionId
 import org.bialydunajec.registrations.domain.cottage.Cottage
 import org.bialydunajec.registrations.domain.cottage.CottageId
 import org.bialydunajec.registrations.domain.cottage.CottageRepository
@@ -12,6 +13,9 @@ internal class CottageRepositoryImpl(
         jpaRepository: CottageJpaRepository
 ) : AbstractDomainRepository<Cottage, CottageId, CottageJpaRepository>(jpaRepository), CottageRepository {
 
+    override fun findByCampEditionId(campEditionId: CampEditionId): Cottage? = jpaRepository.findByCampEditionId(campEditionId)
 }
 
-internal interface CottageJpaRepository : JpaRepository<Cottage, CottageId>
+internal interface CottageJpaRepository : JpaRepository<Cottage, CottageId>{
+    fun findByCampEditionId(campEditionId: CampEditionId): Cottage?
+}

@@ -37,7 +37,6 @@ internal class CamperFactory(
                 InProgressCampRegistrationsSpecification()
         ) ?: throw DomainException.of(CAMP_EDITION_HAS_NOT_IN_PROGRESS_REGISTRATIONS)
 
-        val campEditionDuration = campEditionWithInProgressRegistrations.getCampEditionDuration()
 
         return Camper(
                 cottageId = cottageId,
@@ -50,8 +49,8 @@ internal class CamperFactory(
                         camperEducation = camperEducation
                 ),
                 stayDuration = stayDuration ?: StayDuration(
-                        checkInDate = campEditionDuration.getStartDate(),
-                        checkOutDate = campEditionDuration.getEndDate()
+                        checkInDate = campEditionWithInProgressRegistrations.getCampEditionStartDate(),
+                        checkOutDate = campEditionWithInProgressRegistrations.getCampEditionEndDate()
                 )
         )
     }

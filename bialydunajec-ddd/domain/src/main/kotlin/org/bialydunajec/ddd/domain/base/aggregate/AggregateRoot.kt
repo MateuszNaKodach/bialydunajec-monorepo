@@ -6,6 +6,7 @@ import org.springframework.data.domain.AfterDomainEventPublication
 import org.springframework.data.domain.DomainEvents
 import java.util.ArrayList
 import java.util.Collections
+import javax.persistence.Column
 import javax.persistence.EmbeddedId
 import javax.persistence.MappedSuperclass
 
@@ -14,6 +15,7 @@ import javax.persistence.MappedSuperclass
  */
 @MappedSuperclass
 abstract class AggregateRoot<AggregateIdType : Identifier<*>, EventType : DomainEvent<AggregateIdType>>(
+        @Column(unique = true, updatable = false)
         @EmbeddedId
         private val aggregateId: AggregateIdType,
         @kotlin.jvm.Transient

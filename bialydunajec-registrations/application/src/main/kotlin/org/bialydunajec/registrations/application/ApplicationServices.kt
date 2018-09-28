@@ -7,7 +7,9 @@ import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryRe
 import org.bialydunajec.registrations.domain.campedition.CampEditionRepository
 import org.bialydunajec.registrations.domain.cottage.CottageRepository
 import org.bialydunajec.registrations.domain.exception.CampersRegisterDomainErrorCode
+import org.springframework.stereotype.Service
 
+@Service
 internal class SetupCampRegistrationsApplicationService(
         private val campEditionRepository: CampEditionRepository
 ) : ApplicationService<CampRegistrationsCommand.SetupCampRegistrations> {
@@ -21,6 +23,23 @@ internal class SetupCampRegistrationsApplicationService(
 }
 
 
+@Service
+internal class StartCampRegistrationsNowApplicationService(
+        private val campEditionRepository: CampEditionRepository,
+        private val cottageRepository: CottageRepository
+) : ApplicationService<CampRegistrationsCommand.StartCampRegistrationsNow> {
+
+    override fun process(command: CampRegistrationsCommand.StartCampRegistrationsNow) {
+        val campEdition = campEditionRepository.findById(command.campEditionId)
+                ?: throw DomainException.of(CampersRegisterDomainErrorCode.CAMP_EDITION_NOT_FOUND)
+
+        val academicMinistryCottage = campEdition.startCampRegistrations()
+
+        cottageRepository.save(academicMinistryCottage)
+    }
+}
+
+@Service
 internal class CreateAcademicMinistryCottageApplicationService(
         private val campEditionRepository: CampEditionRepository,
         private val academicMinistryRepository: AcademicMinistryRepository,
@@ -39,6 +58,7 @@ internal class CreateAcademicMinistryCottageApplicationService(
     }
 }
 
+@Service
 internal class CreateStandaloneCottageApplicationService(
         private val campEditionRepository: CampEditionRepository,
         private val cottageRepository: CottageRepository
@@ -53,3 +73,5 @@ internal class CreateStandaloneCottageApplicationService(
         cottageRepository.save(academicMinistryCottage)
     }
 }
+
+

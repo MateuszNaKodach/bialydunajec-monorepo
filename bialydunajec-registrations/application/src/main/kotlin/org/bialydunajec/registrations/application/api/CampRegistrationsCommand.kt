@@ -13,6 +13,14 @@ sealed class CampRegistrationsCommand : Command {
             val registrationsDuration: ZonedDateTimeRange
     ) : CampRegistrationsCommand()
 
+    data class StartCampRegistrationsNow(
+            val campEditionId: CampEditionId
+    ) : CampRegistrationsCommand()
+
+    data class StopCampRegistrationsNow(
+            val campEditionId: CampEditionId
+    ) : CampRegistrationsCommand()
+
     data class CreateAcademicMinistryCottage(
             val campEditionId: CampEditionId,
             val academicMinistryId: AcademicMinistryId

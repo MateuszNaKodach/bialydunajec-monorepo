@@ -1,21 +1,37 @@
 package org.bialydunajec.ddd.domain.sharedkernel.valueobject.time
 
+import org.bialydunajec.ddd.domain.base.exception.DomainException
 import org.bialydunajec.ddd.domain.base.valueobject.ValueObject
-import java.time.Instant
-import java.time.LocalDate
-import java.time.LocalTime
+import org.bialydunajec.ddd.domain.extensions.isBetween
+import org.bialydunajec.ddd.domain.sharedkernel.exception.SharedKernelDomainErrorCode
+import java.time.Duration
 import java.time.ZonedDateTime
 import javax.persistence.Embeddable
-import javax.validation.constraints.Positive
-
 
 @Embeddable
 class ZonedDateTimeRange(
-        val start: ZonedDateTime? = null,
-        val end: ZonedDateTime? = null
+        val start: ZonedDateTime,
+        val end: ZonedDateTime
 ) : ValueObject {
+
+    init {
+        if (end.isBefore(start)) {
+            throw DomainException.of(SharedKernelDomainErrorCode.END_DATE_CANNOT_BE_BEFORE_START_DATE)
+        }
+    }
+
     fun getStartDate() = start
-    fun getStartDateTime() = start?.toOffsetDateTime()?.toOffsetTime()
+    fun getStartDateTime() = start.toOffsetDateTime()?.toOffsetTime()
     fun getEndDate() = end
-    fun getEndDateTime() = end?.toOffsetDateTime()?.toOffsetTime()
+    fun getEndDateTime() = end.toOffsetDateTime()?.toOffsetTime()
+
+    fun overlapWith(zonedDateTimeRange: ZonedDateTimeRange) =
+            start.isBetween(zonedDateTimeRange.start, zonedDateTimeRange.end)
+                    || end.isBetween(zonedDateTimeRange.start, zonedDateTimeRange.end)
+                    || includes(zonedDateTimeRange)
+
+    fun includes(zonedDateTimeRange: ZonedDateTimeRange) =
+            start.isBefore(zonedDateTimeRange.start) && end.isAfter(zonedDateTimeRange.end)
+
+
 }

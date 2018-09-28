@@ -4,7 +4,9 @@ import org.bialydunajec.ddd.application.base.CommandGateway
 import org.bialydunajec.registrations.application.CreateAcademicMinistryCottageApplicationService
 import org.bialydunajec.registrations.application.CreateStandaloneCottageApplicationService
 import org.bialydunajec.registrations.application.SetupCampRegistrationsApplicationService
+import org.springframework.stereotype.Component
 
+@Component
 class CampRegistrationsCommandGateway internal constructor(
         private val setupCampRegistrationsApplicationService: SetupCampRegistrationsApplicationService,
         private val createAcademicMinistryCottageApplicationService: CreateAcademicMinistryCottageApplicationService,
