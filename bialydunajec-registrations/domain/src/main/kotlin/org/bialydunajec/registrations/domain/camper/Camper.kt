@@ -1,18 +1,12 @@
 package org.bialydunajec.registrations.domain.camper
 
 import org.bialydunajec.ddd.domain.base.aggregate.AuditableAggregateRoot
-import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.PhoneNumber
-import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddress
-import org.bialydunajec.ddd.domain.sharedkernel.valueobject.location.Address
+import org.bialydunajec.registrations.domain.camper.valueobject.CamperApplication
 import org.bialydunajec.registrations.domain.camper.event.CamperEvent
-import org.bialydunajec.registrations.domain.camper.valueobject.CamperEducation
-import org.bialydunajec.registrations.domain.camper.valueobject.CamperPersonalData
 import org.bialydunajec.registrations.domain.camper.valueobject.StayDuration
 import org.bialydunajec.registrations.domain.campregistrations.CampRegistrationsId
-import org.bialydunajec.registrations.domain.campregistrations.CampRegistrationsRepository
 import org.bialydunajec.registrations.domain.cottage.Cottage
 import org.bialydunajec.registrations.domain.cottage.CottageId
-import org.bialydunajec.registrations.domain.cottage.CottageRepository
 import javax.persistence.*
 import javax.validation.constraints.NotNull
 
@@ -22,47 +16,34 @@ import javax.validation.constraints.NotNull
 class Camper internal constructor(
         @NotNull
         @Embedded
-        private var personalData: CamperPersonalData,
+        @AttributeOverrides(AttributeOverride(name = "aggregateId", column = Column(name = "cottageId")))
+        private var cottageId: CottageId,
 
         @NotNull
         @Embedded
-        private var homeAddress: Address,
+        @AttributeOverrides(AttributeOverride(name = "aggregateId", column = Column(name = "campRegistrationsId")))
+        private val campRegistrationsId: CampRegistrationsId,
 
         @NotNull
         @Embedded
-        private var emailAddress: EmailAddress,
-
-        @NotNull
-        @Embedded
-        private var phoneNumber: PhoneNumber,
-
-        @NotNull
-        @Embedded
-        private var camperEducation: CamperEducation,
+        private val camperApplication: CamperApplication,
 
         @NotNull
         @Embedded
         private var stayDuration: StayDuration
-) : AuditableAggregateRoot<CamperId, CamperEvent>(CamperId(personalData.pesel)) {
-    @Embedded
-    @AttributeOverrides(AttributeOverride(name = "aggregateId", column = Column(name = "cottageId")))
-    private var cottageId: CottageId? = null
-
-    @NotNull
-    @Embedded
-    @AttributeOverrides(AttributeOverride(name = "aggregateId", column = Column(name = "campRegistrationsId")))
-    private var campRegistrationsId: CampRegistrationsId? = null
+) : AuditableAggregateRoot<CamperId, CamperEvent>(CamperId(camperApplication.personalData.pesel)) {
 
     fun accommodateInCottage(cottage: Cottage) {
-        this.cottageId = cottage.getAggregateId()
-        this.campRegistrationsId = cottage.getCampRegistrationsId()
+        if (cottage.getCampRegistrationsId() == campRegistrationsId) {
+            this.cottageId = cottage.getAggregateId()
+        }
     }
 
     fun getCottageId() = cottageId
-    fun getPersonalData() = personalData
-    fun getHomeAddress() = homeAddress
-    fun getEmailAddress() = emailAddress
-    fun getPhoneNumber() = phoneNumber
-    fun getCamperEducation() = camperEducation
+    fun getPersonalData() = camperApplication.personalData
+    fun getHomeAddress() = camperApplication.homeAddress
+    fun getEmailAddress() = camperApplication.emailAddress
+    fun getPhoneNumber() = camperApplication.phoneNumber
+    fun getCamperEducation() = camperApplication.camperEducation
     fun getStayDuration() = stayDuration
 }

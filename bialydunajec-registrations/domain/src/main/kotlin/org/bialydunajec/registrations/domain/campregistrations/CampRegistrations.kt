@@ -13,7 +13,7 @@ import javax.persistence.*
 //TODO: Consider merge camp edition with camp registrations - registrations setup as value object
 @Entity
 //@Table(schema = "camp_registrations")
-class CampRegistrations(
+class CampRegistrations internal constructor(
         @Embedded
         @AttributeOverrides(AttributeOverride(name = "aggregateId", column = Column(name = "campEditionId")))
         private val campEditionId: CampEditionId,

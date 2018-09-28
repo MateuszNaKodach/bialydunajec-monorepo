@@ -4,8 +4,8 @@ import org.bialydunajec.ddd.domain.base.exception.DomainException
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.PhoneNumber
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddress
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.location.Address
-import org.bialydunajec.registrations.domain.campedition.CampEditionId
 import org.bialydunajec.registrations.domain.campedition.CampEditionRepository
+import org.bialydunajec.registrations.domain.camper.valueobject.CamperApplication
 import org.bialydunajec.registrations.domain.camper.valueobject.CamperEducation
 import org.bialydunajec.registrations.domain.camper.valueobject.CamperPersonalData
 import org.bialydunajec.registrations.domain.camper.valueobject.StayDuration
@@ -15,9 +15,10 @@ import org.bialydunajec.registrations.domain.cottage.CottageId
 import org.bialydunajec.registrations.domain.cottage.CottageRepository
 import org.bialydunajec.registrations.domain.exception.CampersRegisterDomainErrorCode.*
 
+//TODO: Id Campera jest zwiazane z CampRegistrations
 //TODO: Dodać metode sprawdzajaca czy pesel sie nie powtarza, tworzenie id z hashowaniem peselu BCrypt - dla trzymania danych archiwalnych, ew. random!
 //TODO: Czy chatka wolna sprawdzać na etapie aplikacji!
-class CamperFactory(
+internal class CamperFactory(
         val cottageRepository: CottageRepository,
         val campRegistrationsRepository: CampRegistrationsRepository,
         val campEditionRepository: CampEditionRepository
@@ -46,11 +47,13 @@ class CamperFactory(
         return Camper(
                 cottageId = cottageId,
                 campRegistrationsId = cottageInProgressCampRegistrations.getAggregateId(),
-                personalData = personalData,
-                homeAddress = homeAddress,
-                emailAddress = emailAddress,
-                phoneNumber = phoneNumber,
-                camperEducation = camperEducation,
+                camperApplication = CamperApplication(
+                        personalData = personalData,
+                        homeAddress = homeAddress,
+                        emailAddress = emailAddress,
+                        phoneNumber = phoneNumber,
+                        camperEducation = camperEducation
+                ),
                 stayDuration = stayDuration ?: StayDuration(
                         checkInDate = campEditionDuration.getStartDate(),
                         checkOutDate = campEditionDuration.getEndDate()
