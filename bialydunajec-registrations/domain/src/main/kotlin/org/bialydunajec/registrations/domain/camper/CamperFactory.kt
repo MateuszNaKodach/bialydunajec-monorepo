@@ -1,6 +1,6 @@
 package org.bialydunajec.registrations.domain.camper
 
-import org.bialydunajec.ddd.domain.base.exception.DomainException
+import org.bialydunajec.ddd.domain.base.exception.BusinessRuleViolationException
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.PhoneNumber
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddress
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.location.Address
@@ -30,12 +30,12 @@ internal class CamperFactory(
             camperEducation: CamperEducation,
             stayDuration: StayDuration? = null
     ): Camper {
-        val camperCottage = cottageRepository.findById(cottageId) ?: throw DomainException.of(COTTAGE_NOT_FOUND)
+        val camperCottage = cottageRepository.findById(cottageId) ?: throw BusinessRuleViolationException.of(COTTAGE_NOT_FOUND)
 
         val campEditionWithInProgressRegistrations = campEditionRepository.findByIdAndSpecification(
                 camperCottage.getCampEditionId(),
                 InProgressCampRegistrationsSpecification()
-        ) ?: throw DomainException.of(CAMP_EDITION_HAS_NOT_IN_PROGRESS_REGISTRATIONS)
+        ) ?: throw BusinessRuleViolationException.of(CAMP_EDITION_HAS_NOT_IN_PROGRESS_REGISTRATIONS)
 
 
         return Camper(

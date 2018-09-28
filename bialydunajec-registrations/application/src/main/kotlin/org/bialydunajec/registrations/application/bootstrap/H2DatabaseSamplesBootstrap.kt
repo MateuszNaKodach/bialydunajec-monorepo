@@ -1,6 +1,7 @@
 package org.bialydunajec.registrations.application.bootstrap
 
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.time.ZonedDateTimeRange
+import org.bialydunajec.registrations.application.api.CampRegistrationsCommand
 import org.bialydunajec.registrations.application.api.CampRegistrationsCommand.*
 import org.bialydunajec.registrations.application.api.CampRegistrationsCommandGateway
 import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryId

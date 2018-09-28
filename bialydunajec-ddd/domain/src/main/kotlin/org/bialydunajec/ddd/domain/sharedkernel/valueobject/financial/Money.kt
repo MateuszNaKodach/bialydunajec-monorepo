@@ -1,6 +1,6 @@
 package org.bialydunajec.ddd.domain.sharedkernel.valueobject.financial
 
-import org.bialydunajec.ddd.domain.base.exception.DomainException
+import org.bialydunajec.ddd.domain.base.exception.BusinessRuleViolationException
 import org.bialydunajec.ddd.domain.base.valueobject.ValueObject
 import org.bialydunajec.ddd.domain.extensions.isNegative
 import org.bialydunajec.ddd.domain.extensions.isZero
@@ -29,7 +29,7 @@ class Money private constructor(
 
     init {
         if (value.isNegative()) {
-            throw DomainException.of(SharedKernelDomainErrorCode.MONEY_VALUE_CANNOT_BE_NEGATIVE_NUMBER)
+            throw BusinessRuleViolationException.of(SharedKernelDomainErrorCode.MONEY_VALUE_CANNOT_BE_NEGATIVE_NUMBER)
         }
     }
 
@@ -43,14 +43,14 @@ class Money private constructor(
 
     fun add(money: Money): Money {
         if (!compatibleCurrency(money)) {
-            throw DomainException.of(SharedKernelDomainErrorCode.CURRENCY_MISMATCH)
+            throw BusinessRuleViolationException.of(SharedKernelDomainErrorCode.CURRENCY_MISMATCH)
         }
         return Money(value.add(money.value), determineCurrencyCode(money))
     }
 
     fun subtract(money: Money): Money {
         if (!compatibleCurrency(money)) {
-            throw DomainException.of(SharedKernelDomainErrorCode.CURRENCY_MISMATCH)
+            throw BusinessRuleViolationException.of(SharedKernelDomainErrorCode.CURRENCY_MISMATCH)
         }
         return Money(value.subtract(money.value), determineCurrencyCode(money))
     }

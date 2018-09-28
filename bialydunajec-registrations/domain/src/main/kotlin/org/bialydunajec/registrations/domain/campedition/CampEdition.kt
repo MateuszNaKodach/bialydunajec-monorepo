@@ -34,15 +34,20 @@ class CampEdition internal constructor(
     @OneToOne(cascade = [CascadeType.ALL])
     private var campRegistrations: CampRegistrations = CampRegistrations(campEditionId)
 
+
+
     fun updateCampRegistrationsDuration(registrationDuration: ZonedDateTimeRange) {
         campRegistrations.updateStartDate(registrationDuration.start)
         campRegistrations.updateEndDate(registrationDuration.end)
     }
 
-    fun startCampRegistrations(): Cottage {
+    fun startCampRegistrations(){
 
     }
 
+    fun canStartCampRegistrations(){
+
+    }
 
 
     fun createAcademicMinistryCottage(academicMinistry: AcademicMinistry): Cottage {
