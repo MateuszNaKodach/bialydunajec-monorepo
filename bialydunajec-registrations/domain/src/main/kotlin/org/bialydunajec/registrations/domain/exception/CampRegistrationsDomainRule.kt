@@ -1,8 +1,8 @@
 package org.bialydunajec.registrations.domain.exception
 
-import org.bialydunajec.ddd.domain.base.exception.DomainErrorCode
+import org.bialydunajec.ddd.domain.base.validation.exception.DomainRule
 
-enum class CampersRegisterDomainErrorCode : DomainErrorCode {
+enum class CampRegistrationsDomainRule : DomainRule {
     ACADEMIC_MINISTRY_NOT_FOUND,
     COTTAGE_NOT_FOUND,
     CAMP_REGISTRATIONS_NOT_FOUND,
@@ -14,7 +14,10 @@ enum class CampersRegisterDomainErrorCode : DomainErrorCode {
     CHECK_OUT_TIME_CAN_NOT_BE_SPECIFIED_WITHOUT_CHECK_OUT_DATE,
 
     NOT_CONFIGURED_CAMP_REGISTRATIONS_CANNOT_BE_ACTIVATED,
-    IN_PROGRESS_CAMP_REGISTRATIONS_CANNOT_BE_UPDATED;
+    IN_PROGRESS_CAMP_REGISTRATIONS_CANNOT_BE_UPDATED,
+    FINISHED_CAMP_REGISTRATIONS_CANNOT_BE_UPDATED;
 
-    override fun getName() = name;
+    override fun getName() = name
+
+    override fun getDescription() = ""
 }

@@ -1,9 +1,9 @@
 package org.bialydunajec.ddd.domain.sharedkernel.valueobject.time
 
-import org.bialydunajec.ddd.domain.base.exception.BusinessRuleViolationException
+import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
 import org.bialydunajec.ddd.domain.base.valueobject.ValueObject
 import org.bialydunajec.ddd.domain.extensions.isBetween
-import org.bialydunajec.ddd.domain.sharedkernel.exception.SharedKernelDomainErrorCode
+import org.bialydunajec.ddd.domain.sharedkernel.exception.SharedKernelDomainError
 import java.time.ZonedDateTime
 import javax.persistence.Embeddable
 
@@ -15,7 +15,7 @@ class ZonedDateTimeRange(
 
     init {
         if (end.isBefore(start)) {
-            throw BusinessRuleViolationException.of(SharedKernelDomainErrorCode.END_DATE_CANNOT_BE_BEFORE_START_DATE)
+            throw DomainRuleViolationException.of(SharedKernelDomainError.END_DATE_CANNOT_BE_BEFORE_START_DATE)
         }
     }
 

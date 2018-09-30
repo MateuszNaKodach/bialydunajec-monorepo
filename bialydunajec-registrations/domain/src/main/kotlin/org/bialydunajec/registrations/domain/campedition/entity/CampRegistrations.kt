@@ -1,13 +1,12 @@
 package org.bialydunajec.registrations.domain.campedition.entity
 
-import org.bialydunajec.ddd.domain.base.exception.BusinessRuleViolationException
+import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
 import org.bialydunajec.ddd.domain.base.persistence.IdentifiedEntity
-import org.bialydunajec.ddd.domain.sharedkernel.valueobject.time.ZonedDateTimeRange
+import org.bialydunajec.ddd.domain.base.validation.ValidationResult
 import org.bialydunajec.registrations.domain.campedition.CampEditionId
 import org.bialydunajec.registrations.domain.campedition.valueobject.RegistrationsStatus
-import org.bialydunajec.registrations.domain.exception.CampersRegisterDomainErrorCode.*
+import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule.*
 import org.jetbrains.annotations.NotNull
-import java.time.Instant
 import java.time.ZonedDateTime
 import java.util.Objects.nonNull
 import javax.persistence.*
@@ -29,17 +28,27 @@ internal class CampRegistrations constructor(
     @EmbeddedId
     override val entityId: CampRegistrationsId = CampRegistrationsId(campEditionId)
 
-    internal fun canUpdateDuration() = status != RegistrationsStatus.IN_PROGRESS && status!= RegistrationsStatus.FINISHED
+    internal fun canUpdateDuration() =
+            ValidationResult.buffer()
+                    .addViolatedRule(
+                            IN_PROGRESS_CAMP_REGISTRATIONS_CANNOT_BE_UPDATED,
+                            status == RegistrationsStatus.IN_PROGRESS
+                    )
+                    .addViolatedRule(
+                            FINISHED_CAMP_REGISTRATIONS_CANNOT_BE_UPDATED,
+                            status == RegistrationsStatus.FINISHED
+                    )
+                    .toValidationResult()
 
     internal fun updateDuration(startDate: ZonedDateTime?, endDate: ZonedDateTime?) {
-        if(canUpdateDuration()){
-            throw BusinessRuleViolationException.of(IN_PROGRESS_CAMP_REGISTRATIONS_CANNOT_BE_UPDATED)
-        }
+        canUpdateDuration()
+                .ifInvalidThrowException()
+
         val isUpdate = this.startDate != startDate && this.endDate != endDate
         if (isUpdate) {
             this.startDate = startDate
             this.endDate = endDate
-            //TODO: Update event
+            //TODO: Update event - consider how to do it with events, maybe return them from methods!?
             if (nonNull(startDate) && nonNull(endDate)) {
                 status = RegistrationsStatus.CONFIGURED
             } else {
@@ -49,27 +58,24 @@ internal class CampRegistrations constructor(
         }
     }
 
-    internal fun canActivate() = status == RegistrationsStatus.CONFIGURED
+    internal fun canStart() = status == RegistrationsStatus.CONFIGURED
 
-    internal fun activate() {
-        if (canActivate()) {
-            throw BusinessRuleViolationException(NOT_CONFIGURED_CAMP_REGISTRATIONS_CANNOT_BE_ACTIVATED)
+    internal fun startIfStartDateIsAfter(currentTime: ZonedDateTime) {
+
+    }
+
+    internal fun startNow(currentTime: ZonedDateTime) {
+        if (canStart()) {
+            throw DomainRuleViolationException(NOT_CONFIGURED_CAMP_REGISTRATIONS_CANNOT_BE_ACTIVATED)
         }
-        status = RegistrationsStatus.ACTIVATED
+        status = RegistrationsStatus.IN_PROGRESS
         //TODO: Add event
     }
 
-    internal fun startNow(){
 
-    }
+/*internal fun isStarted(currentTime: ZonedDateTime) = currentTime.isAfter(startDate)
 
-    internal fun startIfStartDateIsAfter(currentTime: ZonedDateTime){
-
-    }
-
-    /*internal fun isStarted(currentTime: ZonedDateTime) = currentTime.isAfter(startDate)
-
-    internal fun isEnded(currentTime: ZonedDateTime) = currentTime.isAfter(endDate)
+internal fun isEnded(currentTime: ZonedDateTime) = currentTime.isAfter(endDate)
 */
 
     internal fun removeStartDate() {
@@ -80,9 +86,9 @@ internal class CampRegistrations constructor(
 
     }
 
-    //internal fun canStart() = nonNull(endDate)
+//internal fun canStart() = nonNull(endDate)
 
-    /*internal fun start() {
-        this.status = RegistrationsStatus.ACTIVATED
-    }*/
+/*internal fun start() {
+    this.status = RegistrationsStatus.ACTIVATED
+}*/
 }

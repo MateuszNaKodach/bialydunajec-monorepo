@@ -1,12 +1,12 @@
 package org.bialydunajec.registrations.domain.cottage
 
 import org.bialydunajec.ddd.domain.base.aggregate.AggregateRoot
-import org.bialydunajec.ddd.domain.base.exception.BusinessRuleViolationException
+import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.Url
 import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryId
 import org.bialydunajec.registrations.domain.campedition.CampEditionId
 import org.bialydunajec.registrations.domain.cottage.valueobject.*
-import org.bialydunajec.registrations.domain.exception.CampersRegisterDomainErrorCode
+import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule
 import javax.persistence.*
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
@@ -54,7 +54,7 @@ class Cottage internal constructor(
         when (cottageType) {
             CottageType.STANDALONE -> CottageId.ofStandaloneCottage(campEditionId)
             CottageType.ACADEMIC_MINISTRY -> CottageId.ofAcademicMinistryCottage(campEditionId, academicMinistryId
-                    ?: throw BusinessRuleViolationException.of(CampersRegisterDomainErrorCode.NO_DEFINED_ACADEMIC_MINISTRY_FOR_COTTAGE))
+                    ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.NO_DEFINED_ACADEMIC_MINISTRY_FOR_COTTAGE))
         }
 ) {
 

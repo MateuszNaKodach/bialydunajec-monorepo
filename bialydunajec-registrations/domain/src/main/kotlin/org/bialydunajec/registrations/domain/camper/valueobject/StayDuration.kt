@@ -1,7 +1,7 @@
 package org.bialydunajec.registrations.domain.camper.valueobject
 
-import org.bialydunajec.ddd.domain.base.exception.BusinessRuleViolationException
-import org.bialydunajec.registrations.domain.exception.CampersRegisterDomainErrorCode.*
+import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
+import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule.*
 import java.time.LocalDate
 import java.time.LocalTime
 import javax.persistence.Embeddable
@@ -16,11 +16,11 @@ data class StayDuration internal constructor(
 
     init {
         if (checkInDate == null && checkInTime != null) {
-            throw BusinessRuleViolationException.of(CHECK_IN_TIME_CAN_NOT_BE_SPECIFIED_WITHOUT_CHECK_IN_DATE)
+            throw DomainRuleViolationException.of(CHECK_IN_TIME_CAN_NOT_BE_SPECIFIED_WITHOUT_CHECK_IN_DATE)
         }
 
         if (checkOutDate == null && checkOutTime != null) {
-            throw BusinessRuleViolationException.of(CHECK_OUT_TIME_CAN_NOT_BE_SPECIFIED_WITHOUT_CHECK_OUT_DATE)
+            throw DomainRuleViolationException.of(CHECK_OUT_TIME_CAN_NOT_BE_SPECIFIED_WITHOUT_CHECK_OUT_DATE)
         }
     }
 

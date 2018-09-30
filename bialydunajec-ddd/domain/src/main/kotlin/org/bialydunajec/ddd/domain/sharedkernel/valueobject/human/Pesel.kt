@@ -1,9 +1,9 @@
 package org.bialydunajec.ddd.domain.sharedkernel.valueobject.human
 
-import org.bialydunajec.ddd.domain.base.exception.BusinessRuleViolationException
+import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
 import org.bialydunajec.ddd.domain.base.valueobject.ValueObject
 import org.bialydunajec.ddd.domain.extensions.isEven
-import org.bialydunajec.ddd.domain.sharedkernel.exception.SharedKernelDomainErrorCode
+import org.bialydunajec.ddd.domain.sharedkernel.exception.SharedKernelDomainError
 import org.hibernate.validator.constraints.Length
 import org.hibernate.validator.constraints.pl.PESEL
 import java.time.LocalDate
@@ -23,7 +23,7 @@ data class Pesel(
 
     init {
         if (!PeselValidator(pesel).isValid) {
-            throw BusinessRuleViolationException.of(SharedKernelDomainErrorCode.PESEL_NUMBER_IS_NOT_VALID)
+            throw DomainRuleViolationException.of(SharedKernelDomainError.PESEL_NUMBER_MUST_BE_VALID)
         }
     }
 

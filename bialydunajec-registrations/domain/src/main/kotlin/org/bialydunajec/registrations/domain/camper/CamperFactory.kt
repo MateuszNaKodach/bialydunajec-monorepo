@@ -1,6 +1,6 @@
 package org.bialydunajec.registrations.domain.camper
 
-import org.bialydunajec.ddd.domain.base.exception.BusinessRuleViolationException
+import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.PhoneNumber
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddress
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.location.Address
@@ -12,7 +12,7 @@ import org.bialydunajec.registrations.domain.camper.valueobject.StayDuration
 import org.bialydunajec.registrations.domain.campedition.specification.InProgressCampRegistrationsSpecification
 import org.bialydunajec.registrations.domain.cottage.CottageId
 import org.bialydunajec.registrations.domain.cottage.CottageRepository
-import org.bialydunajec.registrations.domain.exception.CampersRegisterDomainErrorCode.*
+import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule.*
 
 //TODO: Id Campera jest zwiazane z CampRegistrations
 //TODO: Dodać metode sprawdzajaca czy pesel sie nie powtarza, tworzenie id z hashowaniem peselu BCrypt - dla trzymania danych archiwalnych, ew. random!
@@ -30,12 +30,12 @@ internal class CamperFactory(
             camperEducation: CamperEducation,
             stayDuration: StayDuration? = null
     ): Camper {
-        val camperCottage = cottageRepository.findById(cottageId) ?: throw BusinessRuleViolationException.of(COTTAGE_NOT_FOUND)
+        val camperCottage = cottageRepository.findById(cottageId) ?: throw DomainRuleViolationException.of(COTTAGE_NOT_FOUND)
 
         val campEditionWithInProgressRegistrations = campEditionRepository.findByIdAndSpecification(
                 camperCottage.getCampEditionId(),
                 InProgressCampRegistrationsSpecification()
-        ) ?: throw BusinessRuleViolationException.of(CAMP_EDITION_HAS_NOT_IN_PROGRESS_REGISTRATIONS)
+        ) ?: throw DomainRuleViolationException.of(CAMP_EDITION_HAS_NOT_IN_PROGRESS_REGISTRATIONS)
 
 
         return Camper(

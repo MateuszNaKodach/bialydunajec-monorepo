@@ -1,10 +1,10 @@
 package org.bialydunajec.ddd.domain.sharedkernel.valueobject.financial
 
-import org.bialydunajec.ddd.domain.base.exception.BusinessRuleViolationException
+import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
 import org.bialydunajec.ddd.domain.base.valueobject.ValueObject
 import org.bialydunajec.ddd.domain.extensions.isNegative
 import org.bialydunajec.ddd.domain.extensions.isZero
-import org.bialydunajec.ddd.domain.sharedkernel.exception.SharedKernelDomainErrorCode
+import org.bialydunajec.ddd.domain.sharedkernel.exception.SharedKernelDomainError
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.util.*
@@ -29,7 +29,7 @@ class Money private constructor(
 
     init {
         if (value.isNegative()) {
-            throw BusinessRuleViolationException.of(SharedKernelDomainErrorCode.MONEY_VALUE_CANNOT_BE_NEGATIVE_NUMBER)
+            throw DomainRuleViolationException.of(SharedKernelDomainError.MONEY_VALUE_CANNOT_BE_NEGATIVE_NUMBER)
         }
     }
 
@@ -43,14 +43,14 @@ class Money private constructor(
 
     fun add(money: Money): Money {
         if (!compatibleCurrency(money)) {
-            throw BusinessRuleViolationException.of(SharedKernelDomainErrorCode.CURRENCY_MISMATCH)
+            throw DomainRuleViolationException.of(SharedKernelDomainError.CALCULATION_CURRENCIES_MUST_BE_THE_SAME)
         }
         return Money(value.add(money.value), determineCurrencyCode(money))
     }
 
     fun subtract(money: Money): Money {
         if (!compatibleCurrency(money)) {
-            throw BusinessRuleViolationException.of(SharedKernelDomainErrorCode.CURRENCY_MISMATCH)
+            throw DomainRuleViolationException.of(SharedKernelDomainError.CALCULATION_CURRENCIES_MUST_BE_THE_SAME)
         }
         return Money(value.subtract(money.value), determineCurrencyCode(money))
     }

@@ -9,16 +9,8 @@ internal enum class RegistrationsStatus {
      * All necessary configuration is setup
      */
     CONFIGURED,
-
-
     /**
-     * Registrations are activated and will be InProgress when reach startDate
-     */
-    //ACTIVATED, //TODO: Delete this option, and configured will be IN_PROGRESS when reached time or not if time is not set!
-
-
-        /**
-     * Registrations startDate reached
+     * Registrations startDate reached or activated manually
      */
     IN_PROGRESS,
     /**

@@ -48,7 +48,6 @@ jar {
 }
 
 dependencies {
-    compile project(':bialydunajec-registrations:bialydunajec-registrations-domain')
     compile project(':bialydunajec-registrations:bialydunajec-registrations-application')
 
     compile('org.springframework.boot:spring-boot-starter-web')

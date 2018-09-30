@@ -1,12 +1,12 @@
 package org.bialydunajec.registrations.application
 
 import org.bialydunajec.ddd.application.base.ApplicationService
-import org.bialydunajec.ddd.domain.base.exception.BusinessRuleViolationException
+import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
 import org.bialydunajec.registrations.application.api.CampRegistrationsCommand
 import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryRepository
 import org.bialydunajec.registrations.domain.campedition.CampEditionRepository
 import org.bialydunajec.registrations.domain.cottage.CottageRepository
-import org.bialydunajec.registrations.domain.exception.CampersRegisterDomainErrorCode
+import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule
 import org.springframework.stereotype.Service
 
 @Service
@@ -16,7 +16,7 @@ internal class SetupCampRegistrationsApplicationService(
 
     override fun process(command: CampRegistrationsCommand.SetupCampRegistrations) {
         val campEdition = campEditionRepository.findById(command.campEditionId)
-                ?: throw BusinessRuleViolationException.of(CampersRegisterDomainErrorCode.CAMP_EDITION_NOT_FOUND)
+                ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.CAMP_EDITION_NOT_FOUND)
         campEdition.updateCampRegistrationsDuration(command.registrationsDuration)
         campEditionRepository.save(campEdition)
     }
@@ -31,7 +31,7 @@ internal class StartCampRegistrationsNowApplicationService(
 
     override fun process(command: CampRegistrationsCommand.StartCampRegistrationsNow) {
         val campEdition = campEditionRepository.findById(command.campEditionId)
-                ?: throw BusinessRuleViolationException.of(CampersRegisterDomainErrorCode.CAMP_EDITION_NOT_FOUND)
+                ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.CAMP_EDITION_NOT_FOUND)
 
         val academicMinistryCottage = campEdition.startCampRegistrations()
 
@@ -48,9 +48,9 @@ internal class CreateAcademicMinistryCottageApplicationService(
 
     override fun process(command: CampRegistrationsCommand.CreateAcademicMinistryCottage) {
         val campEdition = campEditionRepository.findById(command.campEditionId)
-                ?: throw BusinessRuleViolationException.of(CampersRegisterDomainErrorCode.CAMP_EDITION_NOT_FOUND)
+                ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.CAMP_EDITION_NOT_FOUND)
         val academicMinistry = academicMinistryRepository.findById(command.academicMinistryId)
-                ?: throw BusinessRuleViolationException.of(CampersRegisterDomainErrorCode.ACADEMIC_MINISTRY_NOT_FOUND)
+                ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.ACADEMIC_MINISTRY_NOT_FOUND)
 
         val academicMinistryCottage = campEdition.createAcademicMinistryCottage(academicMinistry)
 
@@ -66,7 +66,7 @@ internal class CreateStandaloneCottageApplicationService(
 
     override fun process(command: CampRegistrationsCommand.CreateStandaloneCottage) {
         val campEdition = campEditionRepository.findById(command.campEditionId)
-                ?: throw BusinessRuleViolationException.of(CampersRegisterDomainErrorCode.CAMP_EDITION_NOT_FOUND)
+                ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.CAMP_EDITION_NOT_FOUND)
 
         val academicMinistryCottage = campEdition.createStandaloneCottage(command.cottageName)
 
