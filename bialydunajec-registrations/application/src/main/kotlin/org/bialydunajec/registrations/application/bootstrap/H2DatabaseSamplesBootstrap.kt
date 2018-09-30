@@ -1,7 +1,6 @@
 package org.bialydunajec.registrations.application.bootstrap
 
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.time.ZonedDateTimeRange
-import org.bialydunajec.registrations.application.api.CampRegistrationsCommand
 import org.bialydunajec.registrations.application.api.CampRegistrationsCommand.*
 import org.bialydunajec.registrations.application.api.CampRegistrationsCommandGateway
 import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryId
@@ -24,7 +23,7 @@ internal class H2DatabaseSamplesBootstrap(
         boundedContextExternalDataBootstrap.bootstrap()
 
         commandGateway.process(
-                SetupCampRegistrations(CampEditionId(36), ZonedDateTimeRange(
+                UpdateCampRegistrationsTimer(CampEditionId(36), ZonedDateTimeRange(
                         ZonedDateTime.of(LocalDateTime.of(2019, 6, 15, 12, 0), ZoneId.systemDefault()),
                         ZonedDateTime.of(LocalDateTime.of(2019, 8, 15, 23, 59), ZoneId.systemDefault())
                 ))

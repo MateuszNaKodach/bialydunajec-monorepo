@@ -1,22 +1,22 @@
 package org.bialydunajec.registrations.domain.campedition.valueobject
 
-internal enum class RegistrationsStatus {
+enum class RegistrationsStatus {
     /**
      * Lack of necessary configuration
      */
-    UNCONFIGURED,
+    UNCONFIGURED_TIMER,
     /**
      * All necessary configuration is setup
      */
-    CONFIGURED,
+    CONFIGURED_TIMER,
     /**
      * Registrations startDate reached or activated manually
      */
     IN_PROGRESS,
     /**
-     * CONFIGURED Registrations can't be deactivated - startDate doesn't matter
+     * Deactivated - startDate doesn't matter
      */
-    DEACTIVATED,
+    SUSPENDED, //zawieszone
     /**
      * Registrations are FINISHED when endDate is reached
      */

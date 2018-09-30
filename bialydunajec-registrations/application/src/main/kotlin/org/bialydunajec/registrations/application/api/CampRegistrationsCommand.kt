@@ -5,19 +5,20 @@ import org.bialydunajec.ddd.domain.sharedkernel.valueobject.time.ZonedDateTimeRa
 import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryId
 import org.bialydunajec.registrations.domain.campedition.CampEditionId
 import org.bialydunajec.registrations.domain.campedition.entity.CampRegistrationsId
+import org.bialydunajec.registrations.domain.campedition.valueobject.TimerSettings
 import org.bialydunajec.registrations.domain.cottage.CottageId
 
 sealed class CampRegistrationsCommand : Command {
-    data class SetupCampRegistrations(
+    data class UpdateCampRegistrationsTimer(
             val campEditionId: CampEditionId,
-            val registrationsDuration: ZonedDateTimeRange
+            val timerSettings: TimerSettings
     ) : CampRegistrationsCommand()
 
     data class StartCampRegistrationsNow(
             val campEditionId: CampEditionId
     ) : CampRegistrationsCommand()
 
-    data class StopCampRegistrationsNow(
+    data class FinishCampRegistrationsNow(
             val campEditionId: CampEditionId
     ) : CampRegistrationsCommand()
 

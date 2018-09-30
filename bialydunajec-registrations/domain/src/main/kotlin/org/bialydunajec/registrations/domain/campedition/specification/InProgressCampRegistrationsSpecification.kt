@@ -7,5 +7,5 @@ import java.time.ZonedDateTime
 class InProgressCampRegistrationsSpecification : CompositeSpecification<CampEdition>() {
 
     override fun isSatisfiedBy(candidate: CampEdition) =
-            candidate.hasCampRegistrationsStarted(ZonedDateTime.now()) && !candidate.hasCampRegistrationsEnded(ZonedDateTime.now())
+            candidate.campRegistrationsInProgress()
 }

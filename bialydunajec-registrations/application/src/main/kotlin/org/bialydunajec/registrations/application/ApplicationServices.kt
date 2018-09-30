@@ -1,23 +1,26 @@
 package org.bialydunajec.registrations.application
 
 import org.bialydunajec.ddd.application.base.ApplicationService
+import org.bialydunajec.ddd.application.base.time.Clock
 import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
 import org.bialydunajec.registrations.application.api.CampRegistrationsCommand
 import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryRepository
 import org.bialydunajec.registrations.domain.campedition.CampEditionRepository
+import org.bialydunajec.registrations.domain.campedition.specification.CampRegistrationsHasMinimumCottagesToStartSpecification
 import org.bialydunajec.registrations.domain.cottage.CottageRepository
 import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule
 import org.springframework.stereotype.Service
 
 @Service
 internal class SetupCampRegistrationsApplicationService(
-        private val campEditionRepository: CampEditionRepository
-) : ApplicationService<CampRegistrationsCommand.SetupCampRegistrations> {
+        private val campEditionRepository: CampEditionRepository,
+        private val clock: Clock
+) : ApplicationService<CampRegistrationsCommand.UpdateCampRegistrationsTimer> {
 
-    override fun process(command: CampRegistrationsCommand.SetupCampRegistrations) {
+    override fun process(command: CampRegistrationsCommand.UpdateCampRegistrationsTimer) {
         val campEdition = campEditionRepository.findById(command.campEditionId)
                 ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.CAMP_EDITION_NOT_FOUND)
-        campEdition.updateCampRegistrationsDuration(command.registrationsDuration)
+        campEdition.updateCampRegistrationsTimer(command.timerSettings, clock.currentDateTime())
         campEditionRepository.save(campEdition)
     }
 }
@@ -26,16 +29,33 @@ internal class SetupCampRegistrationsApplicationService(
 @Service
 internal class StartCampRegistrationsNowApplicationService(
         private val campEditionRepository: CampEditionRepository,
-        private val cottageRepository: CottageRepository
+        private val cottageRepository: CottageRepository,
+        private val clock: Clock
 ) : ApplicationService<CampRegistrationsCommand.StartCampRegistrationsNow> {
 
     override fun process(command: CampRegistrationsCommand.StartCampRegistrationsNow) {
         val campEdition = campEditionRepository.findById(command.campEditionId)
                 ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.CAMP_EDITION_NOT_FOUND)
 
-        val academicMinistryCottage = campEdition.startCampRegistrations()
+        campEdition.startNowCampRegistrations(clock.currentDateTime(), CampRegistrationsHasMinimumCottagesToStartSpecification(cottageRepository))
 
-        cottageRepository.save(academicMinistryCottage)
+        campEditionRepository.save(campEdition)
+    }
+}
+
+@Service
+internal class FinishCampRegistrationsNowApplicationService(
+        private val campEditionRepository: CampEditionRepository,
+        private val clock: Clock
+) : ApplicationService<CampRegistrationsCommand.FinishCampRegistrationsNow> {
+
+    override fun process(command: CampRegistrationsCommand.FinishCampRegistrationsNow) {
+        val campEdition = campEditionRepository.findById(command.campEditionId)
+                ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.CAMP_EDITION_NOT_FOUND)
+
+        campEdition.finishNowCampRegistrations(clock.currentDateTime())
+
+        campEditionRepository.save(campEdition)
     }
 }
 

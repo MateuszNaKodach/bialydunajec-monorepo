@@ -1,12 +1,16 @@
 package org.bialydunajec.registrations.domain.campedition
 
 import org.bialydunajec.ddd.domain.base.aggregate.AggregateRoot
+import org.bialydunajec.ddd.domain.base.validation.ValidationResult
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.time.LocalDateRange
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.time.ZonedDateTimeRange
 import org.bialydunajec.registrations.domain.academicministry.AcademicMinistry
 import org.bialydunajec.registrations.domain.campedition.entity.CampRegistrations
+import org.bialydunajec.registrations.domain.campedition.specification.CampRegistrationsHasMinimumCottagesToStartSpecification
+import org.bialydunajec.registrations.domain.campedition.valueobject.TimerSettings
 import org.bialydunajec.registrations.domain.cottage.Cottage
 import org.bialydunajec.registrations.domain.cottage.valueobject.CottageType
+import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule
 import org.jetbrains.annotations.NotNull
 import java.time.Instant
 import java.time.LocalDate
@@ -14,6 +18,8 @@ import java.time.ZonedDateTime
 import javax.persistence.CascadeType
 import javax.persistence.Entity
 import javax.persistence.OneToOne
+import kotlin.concurrent.timer
+import kotlin.math.min
 
 //TODO: CampEdition musi miec jako entity CampRegistrations i dbac np. o daty, zeby rejestracja nie trwała dłużej niz koniec obozu!
 /**
@@ -35,20 +41,33 @@ class CampEdition internal constructor(
     private var campRegistrations: CampRegistrations = CampRegistrations(campEditionId)
 
 
-
-    fun updateCampRegistrationsDuration(registrationDuration: ZonedDateTimeRange) {
-        campRegistrations.updateStartDate(registrationDuration.start)
-        campRegistrations.updateEndDate(registrationDuration.end)
+    fun updateCampRegistrationsTimer(timerSettings: TimerSettings, currentTime: ZonedDateTime) {
+        campRegistrations.updateTimerSettings(timerSettings, currentTime)
     }
 
-    fun startCampRegistrations(){
-
+    fun canStartNowCampRegistrations(currentTime: ZonedDateTime, minCottagesSpec: CampRegistrationsHasMinimumCottagesToStartSpecification): ValidationResult {
+        val validationResultBuffer = ValidationResult.buffer()
+        campRegistrations.canStartNow(currentTime).doIfInvalid { validationResultBuffer.addViolatedRules(it.violatedRules) }
+        validationResultBuffer.addViolatedRuleIfNot(CampRegistrationsDomainRule.CAMP_REGISTERS_HAS_TO_HAVE_MIN_COTTAGES_TO_START, minCottagesSpec.isSatisfiedBy(this))
+        return validationResultBuffer.toValidationResult()
     }
 
-    fun canStartCampRegistrations(){
+    fun startNowCampRegistrations(currentTime: ZonedDateTime, minCottagesSpec: CampRegistrationsHasMinimumCottagesToStartSpecification) {
+        canStartNowCampRegistrations(currentTime, minCottagesSpec)
+                .ifInvalidThrowException()
 
+        campRegistrations.startNow(currentTime)
     }
 
+    fun finishNowCampRegistrations(currentTime: ZonedDateTime) {
+        campRegistrations.finishNow(currentTime)
+    }
+
+    fun suspendNowCampRegistrations(currentTime: ZonedDateTime) {
+        campRegistrations.suspend(currentTime)
+    }
+
+    fun campRegistrationsInProgress() = campRegistrations.isInProgress()
 
     fun createAcademicMinistryCottage(academicMinistry: AcademicMinistry): Cottage {
         return Cottage(
@@ -68,11 +87,6 @@ class CampEdition internal constructor(
                     academicMinistryId = null
             )
 
-
-    fun hasCampRegistrationsStarted(currentTime: ZonedDateTime) = campRegistrations.isStarted(currentTime)
-    fun hasCampRegistrationsEnded(currentTime: ZonedDateTime) = campRegistrations.isEnded(currentTime)
-    fun getCampRegistrationsStartDate() = campRegistrations.startDate
-    fun getCampRegistrationsEndDate() = campRegistrations.endDate
     fun getCampEditionStartDate() = startDate
     fun getCampEditionEndDate() = endDate
 }

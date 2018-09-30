@@ -31,8 +31,11 @@ sealed class ValidationResult {
     class Buffer internal constructor(violatedRules: Collection<DomainRule> = emptySet()) {
         private val violatedRules = violatedRules.toMutableSet()
         fun addViolatedRule(violatedRule: DomainRule) = also { violatedRules.add(violatedRule) }
-        fun addViolatedRule(violatedRule: DomainRule, violationCondition: Boolean) =
+        fun addViolatedRuleIf(violatedRule: DomainRule, violationCondition: Boolean) =
                 apply { violationCondition.takeIf { it }.also { violatedRules.add(violatedRule) } }
+
+        fun addViolatedRuleIfNot(violatedRule: DomainRule, violationCondition: Boolean) =
+                apply { violationCondition.takeIf { it.not() }.also { violatedRules.add(violatedRule) } }
 
         fun addViolatedRules(violatedRules: Collection<DomainRule>) = also { this.violatedRules.addAll(violatedRules) }
         fun toValidationResult() = if (violatedRules.isEmpty()) Valid() else Invalid(violatedRules)
