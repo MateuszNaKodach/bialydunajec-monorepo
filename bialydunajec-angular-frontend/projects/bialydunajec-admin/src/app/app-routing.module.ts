@@ -1,11 +1,16 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
-import {LoginFormComponent} from './auth/component/login-form/login-form.component';
+import {CoreModule} from './core/core.module';
+import {AuthModule} from './auth/auth.module';
 
 const routes: Routes = [
   {
-    path: '*',
-    loadChildren: './auth/auth.module#AuthModule'
+    path: '',
+    loadChildren: () => AuthModule
+  },
+  {
+    path: 'panel',
+    loadChildren: () => CoreModule
   }
 ];
 

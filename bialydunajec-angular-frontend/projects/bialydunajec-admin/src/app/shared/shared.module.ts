@@ -5,6 +5,8 @@ import pl from '@angular/common/locales/pl';
 import {FormInputComponent} from './component/form-input/form-input.component';
 import {BialyDunajecCommonsModule} from 'bialydunajec-commons';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { UserAvatarComponent } from './component/user-avatar/user-avatar.component';
+import {CampEditionSelectionComponent} from './component/camp-edition-selection/camp-edition-selection.component';
 
 registerLocaleData(pl);
 
@@ -17,7 +19,9 @@ registerLocaleData(pl);
     BialyDunajecCommonsModule
   ],
   declarations: [
-    FormInputComponent
+    FormInputComponent,
+    UserAvatarComponent,
+    CampEditionSelectionComponent
   ],
   exports: [
     CommonModule,
@@ -25,7 +29,9 @@ registerLocaleData(pl);
     ReactiveFormsModule,
     NgZorroAntdModule,
     FormInputComponent,
-    BialyDunajecCommonsModule
+    UserAvatarComponent,
+    BialyDunajecCommonsModule,
+    CampEditionSelectionComponent
   ],
   providers: [{provide: NZ_I18N, useValue: pl_PL}]
 })
