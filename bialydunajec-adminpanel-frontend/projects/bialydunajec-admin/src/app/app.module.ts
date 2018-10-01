@@ -8,6 +8,7 @@ import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {AuthModule} from './auth/auth.module';
 import {SharedModule} from './shared/shared.module';
+import {CampRegistrationsModule} from './camp-registrations/camp-registrations.module';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import {SharedModule} from './shared/shared.module';
     BrowserAnimationsModule,
     HttpClientModule,
     SharedModule,
-    AuthModule
+    AuthModule,
+    CampRegistrationsModule
   ],
   bootstrap: [AppComponent]
 })
