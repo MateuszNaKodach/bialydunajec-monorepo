@@ -9,6 +9,8 @@ open class DomainRuleViolationException private constructor(
 
     private constructor(violatedRule: DomainRule, cause: Throwable? = null) : this(setOf(violatedRule), cause)
 
+    fun containsViolatedRule(violatedRule: DomainRule) = violatedRules.contains(violatedRule)
+
     companion object {
         fun of(invalid: ValidationResult.Invalid, cause: Throwable? = null) = DomainRuleViolationException(violatedRules = invalid.violatedRules, cause = cause)
 

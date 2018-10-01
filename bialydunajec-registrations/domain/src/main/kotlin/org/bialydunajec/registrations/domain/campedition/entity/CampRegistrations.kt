@@ -25,6 +25,7 @@ internal class CampRegistrations constructor(
         private var lastFinishedAt: ZonedDateTime? = null
 ) : IdentifiedEntity<CampRegistrationsId> {
 
+    @Enumerated(EnumType.STRING)
     private var status: RegistrationsStatus = RegistrationsStatus.UNCONFIGURED_TIMER
     //private var startMethod: StatusChangeMethod = StatusChangeMethod.MANUAL
     //private var endMethod: StatusChangeMethod = StatusChangeMethod.MANUAL
@@ -32,36 +33,38 @@ internal class CampRegistrations constructor(
     @EmbeddedId
     override val entityId: CampRegistrationsId = CampRegistrationsId(campEditionId)
 
-    internal fun canUpdateDuration(startDate: ZonedDateTime?, endDate: ZonedDateTime?, currentTime: ZonedDateTime) =
-            ValidationResult.buffer()
-                    .addViolatedRuleIf(
-                            IN_PROGRESS_CAMP_REGISTRATIONS_CANNOT_BE_UPDATED,
-                            status == RegistrationsStatus.IN_PROGRESS
-                    )
-                    .addViolatedRuleIf(
-                            FINISHED_CAMP_REGISTRATIONS_CANNOT_BE_UPDATED,
-                            status == RegistrationsStatus.FINISHED
-                    )
-                    .addViolatedRuleIf(
-                            CAMP_REGISTERS_START_DATE_HAS_TO_BE_BEFORE_END_DATE,
-                            startDate != null && !startDate.isBefore(endDate)
-                    )
-                    .addViolatedRuleIf(
-                            CAMP_REGISTERS_END_DATE_HAS_TO_BE_AFTER_START_DATE,
-                            endDate != null && !endDate.isAfter(endDate)
-                    )
-                    .addViolatedRuleIf(
-                            CAMP_REGISTERS_START_DATE_HAS_TO_BE_IN_THE_FUTURE,
-                            startDate != null && !startDate.isAfter(currentTime)
-                    )
-                    .addViolatedRuleIf(
-                            CAMP_REGISTERS_END_DATE_HAS_TO_BE_IN_THE_FUTURE,
-                            endDate != null && !endDate.isAfter(currentTime)
-                    )
-                    .toValidationResult()
+    internal fun canupdateTimerSettings(timerSettings: TimerSettings, currentTime: ZonedDateTime): ValidationResult{
+        val (startDate, endDate) = timerSettings
+        return ValidationResult.buffer()
+                .addViolatedRuleIf(
+                        IN_PROGRESS_CAMP_REGISTRATIONS_CANNOT_BE_UPDATED,
+                        status == RegistrationsStatus.IN_PROGRESS
+                )
+                .addViolatedRuleIf(
+                        FINISHED_CAMP_REGISTRATIONS_CANNOT_BE_UPDATED,
+                        status == RegistrationsStatus.FINISHED
+                )
+                .addViolatedRuleIf(
+                        CAMP_REGISTERS_START_DATE_HAS_TO_BE_BEFORE_END_DATE,
+                        startDate != null && !startDate.isBefore(endDate)
+                )
+                .addViolatedRuleIf(
+                        CAMP_REGISTERS_END_DATE_HAS_TO_BE_AFTER_START_DATE,
+                        endDate != null && !endDate.isAfter(endDate)
+                )
+                .addViolatedRuleIf(
+                        CAMP_REGISTERS_START_DATE_HAS_TO_BE_IN_THE_FUTURE,
+                        startDate != null && !startDate.isAfter(currentTime)
+                )
+                .addViolatedRuleIf(
+                        CAMP_REGISTERS_END_DATE_HAS_TO_BE_IN_THE_FUTURE,
+                        endDate != null && !endDate.isAfter(currentTime)
+                )
+                .toValidationResult()
+    }
 
     internal fun updateTimerSettings(timerSettings: TimerSettings, currentTime: ZonedDateTime) {
-        canUpdateDuration(timerSettings.startDate, timerSettings.endDate, currentTime)
+        canupdateTimerSettings(timerSettings, currentTime)
                 .ifInvalidThrowException()
 
         val isUpdate = this.timerSettings != timerSettings
@@ -106,6 +109,7 @@ internal class CampRegistrations constructor(
     internal fun canStartNow(currentTime: ZonedDateTime) =
             ValidationResult.buffer()
                     .addViolatedRuleIf(FINISHED_CAMP_REGISTRATIONS_CANNOT_START, status == RegistrationsStatus.FINISHED)
+                    .addViolatedRuleIf(IN_PROGRESS_CAMP_REGISTRATIONS_CANNOT_START, status == RegistrationsStatus.IN_PROGRESS)
                     .toValidationResult()
 
     internal fun startNow(currentTime: ZonedDateTime) {
@@ -160,6 +164,8 @@ internal class CampRegistrations constructor(
     }
 
     fun isInProgress() = status == RegistrationsStatus.IN_PROGRESS
+
+    internal fun getTimerSettings() = timerSettings
 
     internal fun getSnapshot() = CampRegistrationsSnapshot(
             campRegistrationsId = entityId,

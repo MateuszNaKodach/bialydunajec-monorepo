@@ -18,8 +18,7 @@ import java.time.ZonedDateTime
 import javax.persistence.CascadeType
 import javax.persistence.Entity
 import javax.persistence.OneToOne
-import kotlin.concurrent.timer
-import kotlin.math.min
+import org.bialydunajec.registrations.domain.campedition.CampEditionEvent.*
 
 //TODO: CampEdition musi miec jako entity CampRegistrations i dbac np. o daty, zeby rejestracja nie trwała dłużej niz koniec obozu!
 /**
@@ -57,14 +56,36 @@ class CampEdition internal constructor(
                 .ifInvalidThrowException()
 
         campRegistrations.startNow(currentTime)
+
+        registerEvent(
+                CampRegistrationsStarted(
+                        getAggregateId(),
+                        campRegistrations.entityId,
+                        campRegistrations.getTimerSettings()
+                )
+        )
     }
 
     fun finishNowCampRegistrations(currentTime: ZonedDateTime) {
         campRegistrations.finishNow(currentTime)
+
+        registerEvent(
+                CampRegistrationsFinished(
+                        getAggregateId(),
+                        campRegistrations.entityId
+                )
+        )
     }
 
     fun suspendNowCampRegistrations(currentTime: ZonedDateTime) {
         campRegistrations.suspend(currentTime)
+
+        registerEvent(
+                CampRegistrationsSuspended(
+                        getAggregateId(),
+                        campRegistrations.entityId
+                )
+        )
     }
 
     fun campRegistrationsInProgress() = campRegistrations.isInProgress()

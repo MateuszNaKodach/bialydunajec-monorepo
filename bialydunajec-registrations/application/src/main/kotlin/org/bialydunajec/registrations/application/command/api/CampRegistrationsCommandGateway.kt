@@ -1,7 +1,7 @@
-package org.bialydunajec.registrations.application.api
+package org.bialydunajec.registrations.application.command.api
 
 import org.bialydunajec.ddd.application.base.CommandGateway
-import org.bialydunajec.registrations.application.*
+import org.bialydunajec.registrations.application.command.*
 import org.springframework.stereotype.Component
 
 @Component
@@ -9,6 +9,7 @@ class CampRegistrationsCommandGateway internal constructor(
         private val setupCampRegistrationsApplicationService: SetupCampRegistrationsApplicationService,
         private val startCampRegistrationsNowApplicationService: StartCampRegistrationsNowApplicationService,
         private val finishCampRegistrationsNowApplicationService: FinishCampRegistrationsNowApplicationService,
+        private val suspendCampRegistrationsNowApplicationService: SuspendCampRegistrationsNowApplicationService,
         private val createAcademicMinistryCottageApplicationService: CreateAcademicMinistryCottageApplicationService,
         private val standaloneCottageApplicationService: CreateStandaloneCottageApplicationService
 ) : CommandGateway<CampRegistrationsCommand> {
@@ -20,6 +21,7 @@ class CampRegistrationsCommandGateway internal constructor(
             is CampRegistrationsCommand.FinishCampRegistrationsNow -> process(command)
             is CampRegistrationsCommand.CreateAcademicMinistryCottage -> process(command)
             is CampRegistrationsCommand.CreateStandaloneCottage -> process(command)
+            is CampRegistrationsCommand.SuspendCampRegistrationsNow -> process(command)
         }
     }
 
@@ -42,5 +44,10 @@ class CampRegistrationsCommandGateway internal constructor(
     private fun process(command: CampRegistrationsCommand.CreateStandaloneCottage) {
         standaloneCottageApplicationService.process(command)
     }
+
+    private fun process(command: CampRegistrationsCommand.SuspendCampRegistrationsNow) {
+        suspendCampRegistrationsNowApplicationService.process(command)
+    }
+
 
 }

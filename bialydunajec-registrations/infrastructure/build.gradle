@@ -48,6 +48,7 @@ jar {
 }
 
 dependencies {
+	compile project(':bialydunajec-ddd:bialydunajec-ddd-infrastructure')
 	compile project(':bialydunajec-registrations:bialydunajec-registrations-domain')
 	compile project(':bialydunajec-registrations:bialydunajec-registrations-application')
 	compile project(':bialydunajec-registrations:bialydunajec-registrations-presentation')

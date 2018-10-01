@@ -1,6 +1,6 @@
 package org.bialydunajec.ddd.domain.sharedkernel.valueobject
 
-import org.bialydunajec.ddd.domain.base.exception.BusinessRuleViolationException
+import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
 import org.bialydunajec.ddd.domain.sharedkernel.exception.SharedKernelDomainError
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.financial.Money
 import spock.lang.Specification
@@ -12,8 +12,8 @@ class MoneySpecification extends Specification {
         new Money(negativeNumber, "PLN")
 
         then:
-        BusinessRuleViolationException exception = thrown()
-        exception.errorCode == SharedKernelDomainError.MONEY_VALUE_CANNOT_BE_NEGATIVE_NUMBER
+        DomainRuleViolationException exception = thrown()
+        exception.containsViolatedRule(SharedKernelDomainError.MONEY_VALUE_CANNOT_BE_NEGATIVE_NUMBER)
 
         where:
         negativeNumber || _

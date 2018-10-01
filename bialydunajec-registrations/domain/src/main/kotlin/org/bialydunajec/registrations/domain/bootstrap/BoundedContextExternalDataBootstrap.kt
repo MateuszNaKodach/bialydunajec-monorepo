@@ -29,15 +29,24 @@ class BoundedContextExternalDataBootstrap(
     }
 
     private fun initCampEdition(): CampEdition {
-        val campEdition = campEditionRepository.save(
+        val campEdition36 = campEditionRepository.save(
                 CampEdition(
                         campEditionId = CampEditionId(36),
                         startDate = LocalDate.of(2019, 8, 1),
                         endDate = LocalDate.of(2019, 8, 15)
                 )
         )
-        campEditionRepository.save(campEdition)
-        return campEdition
+        val campEdition37 = campEditionRepository.save(
+                CampEdition(
+                        campEditionId = CampEditionId(37),
+                        startDate = LocalDate.of(2020, 8, 1),
+                        endDate = LocalDate.of(2020, 8, 15)
+                )
+        )
+        campEditionRepository.save(campEdition36)
+        campEditionRepository.save(campEdition37)
+
+        return campEdition36
     }
 
     private fun initAcademicMinistries(): Pair<AcademicMinistry, AcademicMinistry> {
