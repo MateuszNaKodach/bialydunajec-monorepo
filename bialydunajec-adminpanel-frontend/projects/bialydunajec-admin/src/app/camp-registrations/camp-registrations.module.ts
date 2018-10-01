@@ -1,16 +1,15 @@
 import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
 
 import {SharedModule} from '../shared/shared.module';
 import {CampRegistrationsRoutingModule} from './camp-registrations-routing.module';
+import { CampEditionSettingsComponent } from './component/camp-edition-settings/camp-edition-settings.component';
 
 @NgModule({
   imports: [
-    CommonModule,
     CampRegistrationsRoutingModule,
     SharedModule
   ],
-  declarations: [],
+  declarations: [CampEditionSettingsComponent],
   exports: []
 })
 export class CampRegistrationsModule {

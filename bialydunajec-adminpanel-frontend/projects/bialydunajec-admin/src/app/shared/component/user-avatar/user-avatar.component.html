@@ -1,0 +1,15 @@
+<div
+  class="bda-admin-user-avatar"
+  nz-tooltip
+  [nzPlacement]="tooltipPlacement"
+  [nzTitle]="userViewModel.emailAddress">
+  <nz-avatar
+    *ngIf="showAvatar"
+    [nzShape]="'square'"
+    [nzIcon]="'anticon anticon-user'"></nz-avatar>
+  <div
+    *ngIf="showName"
+    style="font-size: 1rem; margin-left: 0.5rem; font-weight: bold">{{userViewModel.firstName}}
+    {{userViewModel.lastName}}
+  </div>
+</div>

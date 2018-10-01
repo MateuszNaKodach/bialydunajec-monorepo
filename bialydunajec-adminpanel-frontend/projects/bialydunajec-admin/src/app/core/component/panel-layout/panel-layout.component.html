@@ -1,0 +1,132 @@
+<nz-layout class="bda-admin-panel-layout">
+  <nz-sider
+    nzCollapsible [(nzCollapsed)]="isCollapsed"
+    [nzTrigger]="triggerTemplate"
+    nzBreakpoint="md"
+    nzWidth="230">
+    <div class="logo" style="text-align: center">
+      <img *ngIf="isCollapsed" style="height: 100%;" src="assets/images/bialydunajec_header_logo.png"
+           alt="Biały Dunajec - Logo Obozu">
+      <img *ngIf="!isCollapsed" style="height: 100%;" src="assets/images/bialydunajec_header_logo_white.png"
+           alt="Biały Dunajec - Logo Obozu">
+    </div>
+    <ul nz-menu [nzTheme]="'dark'" [nzMode]="'inline'" [nzInlineCollapsed]="isCollapsed">
+
+      <li nz-menu-item><span><i class="anticon anticon-home"></i><span class="nav-text">Twój Kokpit</span></span></li>
+
+      <li nz-submenu>
+        <span title><i class="anticon anticon-compass"></i><span class="nav-text">Edycja Obozu</span></span>
+        <ul>
+          <li nz-menu-item>Planer Edycji</li>
+          <li nz-menu-item>Program Obozu</li>
+        </ul>
+      </li>
+
+
+      <li nz-submenu>
+        <span title><i class="anticon anticon-facebook"></i><span class="nav-text">Aktualności</span></span>
+        <ul>
+          <li nz-menu-item>Ustawienia</li>
+        </ul>
+      </li>
+
+      <li nz-submenu>
+        <span title><i class="anticon anticon-question-circle-o"></i><span class="nav-text">O Obozie</span></span>
+        <ul>
+          <li nz-menu-item>FAQ</li>
+        </ul>
+      </li>
+
+      <li nz-submenu>
+        <span title><i class="anticon anticon-car"></i><span class="nav-text">Dojazd</span></span>
+        <ul>
+          <li nz-menu-item>Ustawienia</li>
+        </ul>
+      </li>
+
+      <li nz-submenu>
+        <span title><i class="anticon anticon-team"></i><span class="nav-text">Duszpasterstwa</span></span>
+        <ul>
+          <li nz-menu-item>Redemptor</li>
+          <li nz-menu-item>
+            <button nz-button class="bda-admin-login-form__button" [nzType]="'primary'">Dodaj nowe</button>
+          </li>
+        </ul>
+      </li>
+
+      <li nz-submenu>
+        <span title><i class="anticon anticon-picture"></i><span class="nav-text">Galeria</span></span>
+        <ul>
+          <li nz-menu-item>Albumy</li>
+          <li nz-menu-item>Ustawienia</li>
+        </ul>
+      </li>
+
+      <li nz-submenu>
+        <span title><i class="anticon anticon-solution"></i><span class="nav-text">Kadra Obozowa</span></span>
+        <ul>
+          <li nz-menu-item>Kontakt</li>
+        </ul>
+      </li>
+
+      <li nz-submenu>
+        <span title><i class="anticon anticon-profile"></i><span class="nav-text">Zapisy na Obóz</span></span>
+        <ul>
+          <li nz-menu-item routerLink="zapisy-na-oboz">Ustawienia Zapisów</li>
+          <li nz-menu-item>Ustawienia Chatki</li>
+          <li nz-menu-item>Zgłoszenia na Obóz</li>
+          <li nz-menu-item>Ustawienia Autokaru</li>
+          <li nz-menu-item>Zgłoszenia na Autokar</li>
+          <li nz-menu-item>Płatności?</li>
+          <li nz-menu-item>Statystyki</li>
+        </ul>
+      </li>
+
+      <li nz-submenu>
+        <span title><i class="anticon anticon-mail"></i><span class="nav-text">Wiadomość Obozowa</span></span>
+        <ul>
+          <li nz-menu-item>Wyślij / Zaplanuj SMS</li>
+          <li nz-menu-item>Szablony SMS</li>
+          <li nz-menu-item>Wyślij / Zaplanuj Email</li>
+          <li nz-menu-item>Szablony Email</li>
+          <li nz-menu-item>Konfiguracja</li>
+        </ul>
+      </li>
+
+      <li nz-submenu>
+        <span title><i class="anticon anticon-user"></i><span class="nav-text">Użytkownicy</span></span>
+        <ul>
+          <li nz-menu-item>Twój Profil</li>
+          <li nz-menu-item>Wszyscy Użytkownicy</li>
+          <li nz-menu-item>Uprawnienia</li>
+        </ul>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+
+    <nz-header class="bda-admin-panel-layout__header">
+      <i class="anticon trigger" [class.anticon-menu-fold]="!isCollapsed" [class.anticon-menu-unfold]="isCollapsed"
+         (click)="isCollapsed=!isCollapsed"></i>
+      <div class="bda-admin-panel-layout__header__content">
+        <h2><b>PANEL ADMINISTRACYJNY</b></h2>
+        <div class="bda-admin-panel-layout__header__logged-user">
+          <bda-admin-current-user></bda-admin-current-user>
+        </div>
+      </div>
+    </nz-header>
+
+    <nz-content style="margin:1rem 1rem 0;">
+      <div style="padding:1rem">
+        <router-outlet></router-outlet>
+      </div>
+    </nz-content>
+
+    <nz-footer style="text-align: center;">Biały Dunajec Aplikacja Webowa (Panel Administracyjny - wersja: 1.0) ©2018
+      Implemented by Mateusz Nowak
+    </nz-footer>
+  </nz-layout>
+</nz-layout>
+<ng-template #trigger>
+  <i class="anticon anticon-up"></i>
+</ng-template>

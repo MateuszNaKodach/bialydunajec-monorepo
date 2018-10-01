@@ -1,0 +1,29 @@
+<div style="margin: 3rem;">
+  <!--
+  <nz-breadcrumb [nzSeparator]="separatorTemplate">
+    <nz-breadcrumb-item>
+      <a [routerLink]="['../../']"><h1 style="display: inline-block; margin-bottom: 0;">Zapisy na Obóz</h1></a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      <a><h1 style="display: inline-block;  margin-bottom: 0;">Ustawienia Zapisów</h1></a>
+    </nz-breadcrumb-item>
+  </nz-breadcrumb>
+
+  <ng-template #separatorTemplate><h1 style="display: inline-block;  margin-bottom: 0;">></h1></ng-template>
+-->
+
+  <div style="display: flex; justify-content: space-between">
+    <nz-breadcrumb>
+      <nz-breadcrumb-item>
+        Zapisy na Obóz
+      </nz-breadcrumb-item>
+      <nz-breadcrumb-item style="white-space: nowrap">
+        <b>Ustawienia Zapisów</b>
+      </nz-breadcrumb-item>
+    </nz-breadcrumb>
+    <bda-admin-camp-edition-selection></bda-admin-camp-edition-selection>
+  </div>
+  <div class="bda-admin-camp-edition-settings-card">
+    <h1>XXXVI Edycja Obozu</h1>
+  </div>
+</div>
