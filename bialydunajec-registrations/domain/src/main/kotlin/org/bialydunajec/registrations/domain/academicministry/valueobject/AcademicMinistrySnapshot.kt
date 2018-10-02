@@ -1,0 +1,3 @@
+package org.bialydunajec.registrations.domain.academicministry.valueobject
+
+internal class AcademicMinistrySnapshot

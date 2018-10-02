@@ -1,0 +1,28 @@
+rootProject.name = 'bialydunajec-backend'
+
+include 'bialydunajec-ddd:application',
+        'bialydunajec-ddd:domain',
+        'bialydunajec-ddd:infrastructure'
+
+include 'bialydunajec-core',
+        'bialydunajec-core:application',
+        'bialydunajec-core:presentation',
+        'bialydunajec-core:domain',
+        'bialydunajec-core:infrastructure'
+
+include 'bialydunajec-registrations',
+        'bialydunajec-registrations:application',
+        'bialydunajec-registrations:presentation',
+        'bialydunajec-registrations:domain',
+        'bialydunajec-registrations:infrastructure'
+
+/*
+Change all children projects names with following patter: <project name>+'-'<module name>
+For example: bialydunajec-core:application will be bialydunajec-core:bialydunajec-core-application
+Reference: http://blog.lick-me.org/2014/11/gradle-gotcha-duplicate-project-names/
+ */
+rootProject.children.each { p ->
+    p.children.each { module ->
+        module.name = p.name + '-' + module.name
+    }
+}
