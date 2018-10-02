@@ -22,4 +22,9 @@ sealed class CampEditionEvent(
             val campEditionId: CampEditionId,
             val campRegistrationsId: CampRegistrationsId
     ) : CampEditionEvent(campEditionId)
+
+    class CampRegistrationsUnsuspended(
+            val campEditionId: CampEditionId,
+            val campRegistrationsId: CampRegistrationsId
+    ) : CampEditionEvent(campEditionId)
 }

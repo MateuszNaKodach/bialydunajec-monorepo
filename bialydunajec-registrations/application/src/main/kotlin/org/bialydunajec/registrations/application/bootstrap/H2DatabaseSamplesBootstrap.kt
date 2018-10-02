@@ -46,7 +46,5 @@ internal class H2DatabaseSamplesBootstrap(
         commandGateway.process(
                 CreateStandaloneCottage(campEdition36Id, "Złomy")
         )
-
-        commandGateway.process(StartCampRegistrationsNow(campEdition36Id))
     }
 }

@@ -88,6 +88,17 @@ class CampEdition internal constructor(
         )
     }
 
+    fun unsuspendNowCampRegistrations(currentTime: ZonedDateTime) {
+        campRegistrations.unsuspend(currentTime)
+
+        registerEvent(
+                CampRegistrationsUnsuspended(
+                        getAggregateId(),
+                        campRegistrations.entityId
+                )
+        )
+    }
+
     fun campRegistrationsInProgress() = campRegistrations.isInProgress()
 
     fun createAcademicMinistryCottage(academicMinistry: AcademicMinistry): Cottage {

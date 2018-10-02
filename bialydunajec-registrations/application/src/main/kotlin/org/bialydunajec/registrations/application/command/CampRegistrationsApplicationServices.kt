@@ -60,6 +60,22 @@ internal class SuspendCampRegistrationsNowApplicationService(
 }
 
 @Service
+internal class UnsuspendCampRegistrationsNowApplicationService(
+        private val campEditionRepository: CampEditionRepository,
+        private val clock: Clock
+) : ApplicationService<CampRegistrationsCommand.UnsuspendCampRegistrationsNow> {
+
+    override fun process(command: CampRegistrationsCommand.UnsuspendCampRegistrationsNow) {
+        val campEdition = campEditionRepository.findById(command.campEditionId)
+                ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.CAMP_EDITION_NOT_FOUND)
+
+        campEdition.unsuspendNowCampRegistrations(clock.currentDateTime())
+
+        campEditionRepository.save(campEdition)
+    }
+}
+
+@Service
 internal class FinishCampRegistrationsNowApplicationService(
         private val campEditionRepository: CampEditionRepository,
         private val clock: Clock

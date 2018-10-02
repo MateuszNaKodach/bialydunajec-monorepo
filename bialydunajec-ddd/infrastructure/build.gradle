@@ -41,6 +41,13 @@ repositories {
     mavenCentral()
 }
 
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
 
 dependencies {
     compile project(':bialydunajec-ddd:bialydunajec-ddd-application')

@@ -18,7 +18,9 @@ sealed class ValidationResult {
 
     fun doIfInvalid(doIfInvalid: (ValidationResult.Invalid) -> Any) = doIf(invalid = doIfInvalid)
 
-    fun ifInvalidThrowException(exception: ((ValidationResult.Invalid) -> RuntimeException) = { DomainRuleViolationException.of(this as Invalid) }) = doIfInvalid { exception }
+    fun doIfValid(doIfValid: (ValidationResult.Valid) -> Any) = doIf(valid = doIfValid)
+
+    fun ifInvalidThrowException(exception: ((ValidationResult.Invalid) -> RuntimeException) = { DomainRuleViolationException.of(this as Invalid) }) = doIfInvalid {throw exception(it)}
 
 
     fun doIf(valid: ((ValidationResult.Valid) -> Any)? = null, invalid: ((ValidationResult.Invalid) -> Any)? = null) {
@@ -31,11 +33,12 @@ sealed class ValidationResult {
     class Buffer internal constructor(violatedRules: Collection<DomainRule> = emptySet()) {
         private val violatedRules = violatedRules.toMutableSet()
         fun addViolatedRule(violatedRule: DomainRule) = also { violatedRules.add(violatedRule) }
-        fun addViolatedRuleIf(violatedRule: DomainRule, violationCondition: Boolean) =
-                apply { violationCondition.takeIf { it }.also { violatedRules.add(violatedRule) } }
+
+        fun addViolatedRuleIf(violatedRule: DomainRule, violationCondition: Boolean)
+            = also {(if (violationCondition) { this.violatedRules.add(violatedRule) } )}
 
         fun addViolatedRuleIfNot(violatedRule: DomainRule, violationCondition: Boolean) =
-                apply { violationCondition.takeIf { it.not() }.also { violatedRules.add(violatedRule) } }
+                addViolatedRuleIf(violatedRule, !violationCondition)
 
         fun addViolatedRules(violatedRules: Collection<DomainRule>) = also { this.violatedRules.addAll(violatedRules) }
         fun toValidationResult() = if (violatedRules.isEmpty()) Valid() else Invalid(violatedRules)

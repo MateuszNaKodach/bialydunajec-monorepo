@@ -1,6 +1,6 @@
 package org.bialydunajec.registrations.application.command.api
 
-import org.bialydunajec.ddd.application.base.Command
+import org.bialydunajec.ddd.application.base.command.Command
 import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryId
 import org.bialydunajec.registrations.domain.campedition.CampEditionId
 import org.bialydunajec.registrations.domain.campedition.valueobject.TimerSettings
@@ -20,6 +20,10 @@ sealed class CampRegistrationsCommand : Command {
     ) : CampRegistrationsCommand()
 
     data class SuspendCampRegistrationsNow(
+            val campEditionId: CampEditionId
+    ) : CampRegistrationsCommand()
+
+    data class UnsuspendCampRegistrationsNow(
             val campEditionId: CampEditionId
     ) : CampRegistrationsCommand()
 

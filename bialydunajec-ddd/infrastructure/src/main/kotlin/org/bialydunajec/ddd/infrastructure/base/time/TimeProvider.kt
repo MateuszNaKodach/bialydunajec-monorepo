@@ -1,4 +1,4 @@
-package org.bialydunajec.registrations.infrastructure.time
+package org.bialydunajec.ddd.infrastructure.base.time
 
 import org.bialydunajec.ddd.application.base.time.Clock
 import org.springframework.stereotype.Component

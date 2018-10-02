@@ -33,7 +33,7 @@ internal class CampRegistrations constructor(
     @EmbeddedId
     override val entityId: CampRegistrationsId = CampRegistrationsId(campEditionId)
 
-    internal fun canupdateTimerSettings(timerSettings: TimerSettings, currentTime: ZonedDateTime): ValidationResult{
+    internal fun canUpdateTimerSettings(timerSettings: TimerSettings, currentTime: ZonedDateTime): ValidationResult{
         val (startDate, endDate) = timerSettings
         return ValidationResult.buffer()
                 .addViolatedRuleIf(
@@ -46,11 +46,11 @@ internal class CampRegistrations constructor(
                 )
                 .addViolatedRuleIf(
                         CAMP_REGISTERS_START_DATE_HAS_TO_BE_BEFORE_END_DATE,
-                        startDate != null && !startDate.isBefore(endDate)
+                        startDate != null && endDate != null && !startDate.isBefore(endDate)
                 )
                 .addViolatedRuleIf(
                         CAMP_REGISTERS_END_DATE_HAS_TO_BE_AFTER_START_DATE,
-                        endDate != null && !endDate.isAfter(endDate)
+                        startDate != null && endDate != null && !endDate.isAfter(startDate)
                 )
                 .addViolatedRuleIf(
                         CAMP_REGISTERS_START_DATE_HAS_TO_BE_IN_THE_FUTURE,
@@ -64,7 +64,7 @@ internal class CampRegistrations constructor(
     }
 
     internal fun updateTimerSettings(timerSettings: TimerSettings, currentTime: ZonedDateTime) {
-        canupdateTimerSettings(timerSettings, currentTime)
+        canUpdateTimerSettings(timerSettings, currentTime)
                 .ifInvalidThrowException()
 
         val isUpdate = this.timerSettings != timerSettings
