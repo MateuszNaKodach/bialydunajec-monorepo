@@ -1,11 +1,10 @@
+version = '0.0.1-SNAPSHOT'
+
 buildscript {
-    ext {
-        kotlinVersion = '1.2.70'
-        springBootVersion = '2.0.5.RELEASE'
-    }
     repositories {
         mavenCentral()
     }
+
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
@@ -14,33 +13,45 @@ buildscript {
     }
 }
 
-apply plugin: 'kotlin'
-apply plugin: 'kotlin-spring'
-apply plugin: 'kotlin-jpa'
-apply plugin: 'groovy'
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
+allprojects {
+    apply plugin: 'kotlin'
+    apply plugin: 'kotlin-spring'
+    apply plugin: 'kotlin-jpa'
+    apply plugin: 'groovy'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
 
-group = 'org.bialydunajec'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = 1.8
-compileKotlin {
-    kotlinOptions {
-        freeCompilerArgs = ["-Xjsr305=strict"]
-        jvmTarget = "1.8"
+    group = 'org.bialydunajec'
+    sourceCompatibility = 1.8
+
+    compileKotlin {
+        kotlinOptions {
+            freeCompilerArgs = ["-Xjsr305=strict"]
+            jvmTarget = "1.8"
+        }
+    }
+
+    compileTestKotlin {
+        kotlinOptions {
+            freeCompilerArgs = ["-Xjsr305=strict"]
+            jvmTarget = "1.8"
+        }
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies{
+        compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+        compile("org.jetbrains.kotlin:kotlin-reflect")
+
+        compile("javax.xml.bind:jaxb-api:${jaxbApiVersion}")
+
+        testCompile("org.spockframework:spock-core:${spockVersion}")
+        testCompile("org.spockframework:spock-spring:${spockVersion}")
     }
 }
-compileTestKotlin {
-    kotlinOptions {
-        freeCompilerArgs = ["-Xjsr305=strict"]
-        jvmTarget = "1.8"
-    }
-}
-
-repositories {
-    mavenCentral()
-}
-
 
 dependencies {
     /*
@@ -67,12 +78,11 @@ dependencies {
     compile('com.fasterxml.jackson.module:jackson-module-kotlin')
     compile('org.springframework.data:spring-data-rest-hal-browser')
     compile('org.springframework.retry:spring-retry')
-    compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    compile("org.jetbrains.kotlin:kotlin-reflect")
-    compile("javax.xml.bind:jaxb-api:2.3.0")
+
     runtime('org.springframework.boot:spring-boot-devtools')
     runtime('com.h2database:h2')
     runtime('mysql:mysql-connector-java')
+
     compileOnly('org.springframework.boot:spring-boot-configuration-processor')
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('io.projectreactor:reactor-test')
