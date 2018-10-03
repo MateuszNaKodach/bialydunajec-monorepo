@@ -12,7 +12,7 @@ import java.util.Objects.nonNull
 import javax.persistence.*
 
 @Entity
-//@Table(schema = "camp_registrations")
+@Table(schema = "camp_registrations")
 internal class CampRegistrations constructor(
         campEditionId: CampEditionId,
 

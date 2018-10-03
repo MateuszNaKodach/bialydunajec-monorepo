@@ -1,6 +1,7 @@
 package org.bialydunajec.ddd.domain.base.persistence
 
 import org.bialydunajec.ddd.domain.base.valueobject.AggregateId
+import org.bialydunajec.ddd.domain.base.valueobject.EntityId
 import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedBy
@@ -10,7 +11,7 @@ import javax.persistence.MappedSuperclass
 import javax.persistence.Version
 
 @MappedSuperclass
-abstract class AuditableEntity(
+abstract class AuditableEntity<EntityIdType: EntityId>(
         @CreatedDate
         private val createdDate: Instant = Instant.now(),
 
@@ -22,7 +23,7 @@ abstract class AuditableEntity(
 
         @LastModifiedBy
         private var lastModifiedBy: AggregateId? = null
-) : Auditable<AggregateId, Instant>, Versioned {
+) : Auditable<AggregateId, Instant>, Versioned, IdentifiedEntity<EntityIdType> {
 
     @Version
     private var version: Long = 1

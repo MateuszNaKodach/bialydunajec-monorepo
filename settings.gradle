@@ -16,6 +16,8 @@ include 'bialydunajec-registrations',
         'bialydunajec-registrations:domain',
         'bialydunajec-registrations:infrastructure'
 
+include 'bialydunajec-authorization:server'
+
 /*
 Change all children projects names with following patter: <project name>+'-'<module name>
 For example: bialydunajec-core:application will be bialydunajec-core:bialydunajec-core-application

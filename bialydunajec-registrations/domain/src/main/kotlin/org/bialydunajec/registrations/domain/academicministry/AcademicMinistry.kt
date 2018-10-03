@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank
  * Academic ministry in Camp Registrations Bounded Context
  */
 @Entity
-//@Table(schema = "camp_registrations")
+@Table(schema = "camp_registrations")
 class AcademicMinistry(
         academicMinistryId: AcademicMinistryId,
         @NotBlank
