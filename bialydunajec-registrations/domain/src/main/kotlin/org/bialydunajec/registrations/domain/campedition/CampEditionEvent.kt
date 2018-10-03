@@ -7,6 +7,12 @@ import org.bialydunajec.registrations.domain.campedition.valueobject.TimerSettin
 sealed class CampEditionEvent(
         override val aggregateId: CampEditionId
 ) : DomainEvent<CampEditionId> {
+    class CampRegistrationsCreated(
+            val campEditionId: CampEditionId,
+            val campRegistrationsId: CampRegistrationsId,
+            val timerSettings: TimerSettings
+    ) : CampEditionEvent(campEditionId)
+
     class CampRegistrationsStarted(
             val campEditionId: CampEditionId,
             val campRegistrationsId: CampRegistrationsId,

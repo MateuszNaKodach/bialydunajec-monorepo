@@ -10,11 +10,13 @@ internal class TestEventHandler {
 
     @EventListener
     fun handle(domainEvent: DomainEvent<*>) {
-        println("Event arrived $domainEvent")
+        println("Event arrived ${domainEvent.javaClass.name}")
     }
 
+    /*
     @EventListener
     fun handle(domainEvent: CampEditionEvent.CampRegistrationsStarted) {
         println("Event arrived $domainEvent")
     }
+    */
 }

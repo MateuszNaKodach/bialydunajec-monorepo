@@ -12,7 +12,9 @@ include 'bialydunajec-core',
 
 include 'bialydunajec-camp-edition',
         'bialydunajec-camp-edition:application',
-        'bialydunajec-camp-edition:domain'
+        'bialydunajec-camp-edition:presentation',
+        'bialydunajec-camp-edition:domain',
+        'bialydunajec-camp-edition:infrastructure'
 
 include 'bialydunajec-registrations',
         'bialydunajec-registrations:application',

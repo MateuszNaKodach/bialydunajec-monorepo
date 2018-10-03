@@ -1,6 +1,7 @@
 package org.bialydunajec.registrations.domain.campedition
 
 import org.bialydunajec.ddd.domain.base.aggregate.AggregateRoot
+import org.bialydunajec.ddd.domain.base.persistence.Versioned
 import org.bialydunajec.ddd.domain.base.validation.ValidationResult
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.time.LocalDateRange
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.time.ZonedDateTimeRange
@@ -15,11 +16,8 @@ import org.jetbrains.annotations.NotNull
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZonedDateTime
-import javax.persistence.CascadeType
-import javax.persistence.Entity
-import javax.persistence.OneToOne
 import org.bialydunajec.registrations.domain.campedition.CampEditionEvent.*
-import javax.persistence.Table
+import javax.persistence.*
 
 //TODO: CampEdition musi miec jako entity CampRegistrations i dbac np. o daty, zeby rejestracja nie trwała dłużej niz koniec obozu!
 /**
@@ -27,19 +25,31 @@ import javax.persistence.Table
  */
 @Entity
 @Table(schema = "camp_registrations")
-class CampEdition internal constructor(
+class CampEdition constructor(
         campEditionId: CampEditionId,
         @NotNull
-        private var startDate: LocalDate? = null,
+        private var startDate: LocalDate,
 
         @NotNull
-        private var endDate: LocalDate? = null
-) : AggregateRoot<CampEditionId, CampEditionEvent>(campEditionId) {
+        private var endDate: LocalDate
+) : AggregateRoot<CampEditionId, CampEditionEvent>(campEditionId), Versioned {
+
+    @Version
+    private var version: Long? = null
 
     @NotNull
     @OneToOne(cascade = [CascadeType.ALL])
     private var campRegistrations: CampRegistrations = CampRegistrations(campEditionId)
 
+    init {
+        registerEvent(
+                CampRegistrationsCreated(
+                        getAggregateId(),
+                        campRegistrations.entityId,
+                        campRegistrations.getTimerSettings()
+                )
+        )
+    }
 
     fun updateCampRegistrationsTimer(timerSettings: TimerSettings, currentTime: ZonedDateTime) {
         campRegistrations.updateTimerSettings(timerSettings, currentTime)
@@ -122,4 +132,5 @@ class CampEdition internal constructor(
 
     fun getCampEditionStartDate() = startDate
     fun getCampEditionEndDate() = endDate
+    override fun getVersion() = version
 }

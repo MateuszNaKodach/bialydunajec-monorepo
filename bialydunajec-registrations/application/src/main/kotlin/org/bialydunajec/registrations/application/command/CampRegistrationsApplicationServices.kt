@@ -5,13 +5,32 @@ import org.bialydunajec.ddd.application.base.time.Clock
 import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
 import org.bialydunajec.registrations.application.command.api.CampRegistrationsCommand
 import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryRepository
+import org.bialydunajec.registrations.domain.campedition.CampEdition
 import org.bialydunajec.registrations.domain.campedition.CampEditionRepository
 import org.bialydunajec.registrations.domain.campedition.specification.CampRegistrationsHasMinimumCottagesToStartSpecification
 import org.bialydunajec.registrations.domain.cottage.CottageRepository
 import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
+@Transactional
+internal class CreateCampRegistrationsApplicationService(
+        private val campEditionRepository: CampEditionRepository
+) : ApplicationService<CampRegistrationsCommand.CreateCampRegistrations> {
+
+    override fun process(command: CampRegistrationsCommand.CreateCampRegistrations) {
+        val newCampEdition = CampEdition(
+                campEditionId = command.campEditionId,
+                startDate = command.campEditionStartDate,
+                endDate = command.campEditionEndDate
+        )
+        campEditionRepository.save(newCampEdition)
+    }
+}
+
+@Service
+@Transactional
 internal class SetupCampRegistrationsApplicationService(
         private val campEditionRepository: CampEditionRepository,
         private val clock: Clock
@@ -27,6 +46,7 @@ internal class SetupCampRegistrationsApplicationService(
 
 
 @Service
+@Transactional
 internal class StartCampRegistrationsNowApplicationService(
         private val campEditionRepository: CampEditionRepository,
         private val cottageRepository: CottageRepository,
@@ -44,6 +64,7 @@ internal class StartCampRegistrationsNowApplicationService(
 }
 
 @Service
+@Transactional
 internal class SuspendCampRegistrationsNowApplicationService(
         private val campEditionRepository: CampEditionRepository,
         private val clock: Clock
@@ -60,6 +81,7 @@ internal class SuspendCampRegistrationsNowApplicationService(
 }
 
 @Service
+@Transactional
 internal class UnsuspendCampRegistrationsNowApplicationService(
         private val campEditionRepository: CampEditionRepository,
         private val clock: Clock
@@ -76,6 +98,7 @@ internal class UnsuspendCampRegistrationsNowApplicationService(
 }
 
 @Service
+@Transactional
 internal class FinishCampRegistrationsNowApplicationService(
         private val campEditionRepository: CampEditionRepository,
         private val clock: Clock
@@ -92,6 +115,7 @@ internal class FinishCampRegistrationsNowApplicationService(
 }
 
 @Service
+@Transactional
 internal class CreateAcademicMinistryCottageApplicationService(
         private val campEditionRepository: CampEditionRepository,
         private val academicMinistryRepository: AcademicMinistryRepository,
@@ -111,6 +135,7 @@ internal class CreateAcademicMinistryCottageApplicationService(
 }
 
 @Service
+@Transactional
 internal class CreateStandaloneCottageApplicationService(
         private val campEditionRepository: CampEditionRepository,
         private val cottageRepository: CottageRepository

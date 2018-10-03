@@ -4,8 +4,15 @@ import org.bialydunajec.ddd.application.base.command.Command
 import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryId
 import org.bialydunajec.registrations.domain.campedition.CampEditionId
 import org.bialydunajec.registrations.domain.campedition.valueobject.TimerSettings
+import java.time.LocalDate
 
 sealed class CampRegistrationsCommand : Command {
+    data class CreateCampRegistrations(
+            val campEditionId: CampEditionId,
+            val campEditionStartDate: LocalDate,
+            val campEditionEndDate: LocalDate
+    ) : CampRegistrationsCommand()
+
     data class UpdateCampRegistrationsTimer(
             val campEditionId: CampEditionId,
             val timerSettings: TimerSettings
