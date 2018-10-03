@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/rest-api/v1/camp-edition")
-internal class CampEditionController(
+class CampEditionController(
         private val campEditionCommandGateway: CampEditionCommandGateway,
         private val campEditionQueryGateway: CampEditionQueryGateway
 ) {

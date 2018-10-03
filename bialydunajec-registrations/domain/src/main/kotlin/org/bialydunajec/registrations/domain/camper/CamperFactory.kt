@@ -4,7 +4,7 @@ import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolation
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.PhoneNumber
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddress
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.location.Address
-import org.bialydunajec.registrations.domain.campedition.CampEditionRepository
+import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionRepository
 import org.bialydunajec.registrations.domain.camper.valueobject.CamperApplication
 import org.bialydunajec.registrations.domain.camper.valueobject.CamperEducation
 import org.bialydunajec.registrations.domain.camper.valueobject.CamperPersonalData
@@ -19,7 +19,7 @@ import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRu
 //TODO: Czy chatka wolna sprawdzać na etapie aplikacji!
 internal class CamperFactory(
         val cottageRepository: CottageRepository,
-        val campEditionRepository: CampEditionRepository
+        val campEditionRepository: CampRegistrationsEditionRepository
 ) {
     fun createCamper(
             cottageId: CottageId,

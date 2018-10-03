@@ -3,8 +3,6 @@ package org.bialydunajec.registrations.domain.campedition
 import org.bialydunajec.ddd.domain.base.aggregate.AggregateRoot
 import org.bialydunajec.ddd.domain.base.persistence.Versioned
 import org.bialydunajec.ddd.domain.base.validation.ValidationResult
-import org.bialydunajec.ddd.domain.sharedkernel.valueobject.time.LocalDateRange
-import org.bialydunajec.ddd.domain.sharedkernel.valueobject.time.ZonedDateTimeRange
 import org.bialydunajec.registrations.domain.academicministry.AcademicMinistry
 import org.bialydunajec.registrations.domain.campedition.entity.CampRegistrations
 import org.bialydunajec.registrations.domain.campedition.specification.CampRegistrationsHasMinimumCottagesToStartSpecification
@@ -13,25 +11,24 @@ import org.bialydunajec.registrations.domain.cottage.Cottage
 import org.bialydunajec.registrations.domain.cottage.valueobject.CottageType
 import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule
 import org.jetbrains.annotations.NotNull
-import java.time.Instant
 import java.time.LocalDate
 import java.time.ZonedDateTime
 import org.bialydunajec.registrations.domain.campedition.CampEditionEvent.*
 import javax.persistence.*
 
-//TODO: CampEdition musi miec jako entity CampRegistrations i dbac np. o daty, zeby rejestracja nie trwała dłużej niz koniec obozu!
+//TODO: CampRegistrationsEdition musi miec jako entity CampRegistrations i dbac np. o daty, zeby rejestracja nie trwała dłużej niz koniec obozu!
 /**
  * Camp Edition in Camp Registrations Bounded Context
  */
 @Entity
 @Table(schema = "camp_registrations")
-class CampEdition constructor(
+class CampRegistrationsEdition constructor(
         campEditionId: CampEditionId,
         @NotNull
-        private var startDate: LocalDate,
+        private var editionStartDate: LocalDate,
 
         @NotNull
-        private var endDate: LocalDate
+        private var editionEndDate: LocalDate
 ) : AggregateRoot<CampEditionId, CampEditionEvent>(campEditionId), Versioned {
 
     @Version
@@ -130,7 +127,7 @@ class CampEdition constructor(
                     academicMinistryId = null
             )
 
-    fun getCampEditionStartDate() = startDate
-    fun getCampEditionEndDate() = endDate
+    fun getCampEditionStartDate() = editionStartDate
+    fun getCampEditionEndDate() = editionEndDate
     override fun getVersion() = version
 }

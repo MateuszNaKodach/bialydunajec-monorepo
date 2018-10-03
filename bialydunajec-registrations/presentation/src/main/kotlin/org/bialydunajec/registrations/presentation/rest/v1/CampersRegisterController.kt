@@ -12,7 +12,7 @@ import java.time.LocalDate
 @RestController
 @RequestMapping("/rest-api/v1/event")
 class CampersRegisterController(
-        val commandGateway: CampRegistrationsCommandGateway
+        private val commandGateway: CampRegistrationsCommandGateway
 ) {
 
     val campEdition36Id = CampEditionId(36)
