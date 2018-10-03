@@ -1,3 +1,3 @@
 package org.bialydunajec.registrations.domain.campedition.valueobject
 
-internal class CampEditionSnapshot
+internal class CampRegistrationsEditionSnapshot

@@ -1,7 +1,6 @@
 package org.bialydunajec.registrations.application.query.readmodel.event.handler
 
 import org.bialydunajec.ddd.domain.base.event.DomainEvent
-import org.bialydunajec.registrations.domain.campedition.CampEditionEvent
 import org.springframework.context.event.EventListener
 import org.springframework.stereotype.Component
 
@@ -15,7 +14,7 @@ internal class TestEventHandler {
 
     /*
     @EventListener
-    fun handle(domainEvent: CampEditionEvent.CampRegistrationsStarted) {
+    fun handle(domainEvent: CampRegistrationsEditionEvent.CampRegistrationsStarted) {
         println("Event arrived $domainEvent")
     }
     */

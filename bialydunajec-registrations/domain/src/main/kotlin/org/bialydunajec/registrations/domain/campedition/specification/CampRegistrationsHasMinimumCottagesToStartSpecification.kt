@@ -10,5 +10,5 @@ class CampRegistrationsHasMinimumCottagesToStartSpecification(
 ) : CompositeSpecification<CampRegistrationsEdition>() {
 
     //TODO: One cottage with free space for camper!
-    override fun isSatisfiedBy(candidate: CampRegistrationsEdition) = cottagesRepository.countByCampEditionId(candidate.getAggregateId()) >= 1
+    override fun isSatisfiedBy(candidate: CampRegistrationsEdition) = cottagesRepository.countByCampRegistrationsEditionId(candidate.getAggregateId()) >= 1
 }

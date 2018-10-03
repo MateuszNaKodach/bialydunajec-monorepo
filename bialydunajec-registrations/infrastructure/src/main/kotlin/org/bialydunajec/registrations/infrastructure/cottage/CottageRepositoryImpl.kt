@@ -1,6 +1,6 @@
 package org.bialydunajec.registrations.infrastructure.cottage
 
-import org.bialydunajec.registrations.domain.campedition.CampEditionId
+import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
 import org.bialydunajec.registrations.domain.cottage.Cottage
 import org.bialydunajec.registrations.domain.cottage.CottageId
 import org.bialydunajec.registrations.domain.cottage.CottageRepository
@@ -13,12 +13,12 @@ internal class CottageRepositoryImpl(
         jpaRepository: CottageJpaRepository
 ) : AbstractDomainRepositoryImpl<Cottage, CottageId, CottageJpaRepository>(jpaRepository), CottageRepository {
 
-    override fun findByCampEditionId(campEditionId: CampEditionId)= jpaRepository.findByCampEditionId(campEditionId)
+    override fun findByCampRegistrationsEditionId(campRegistrationsEditionId: CampRegistrationsEditionId)= jpaRepository.findByCampRegistrationsEditionId(campRegistrationsEditionId)
 
-    override fun countByCampEditionId(campEditionId: CampEditionId) = jpaRepository.countByCampEditionId(campEditionId)
+    override fun countByCampRegistrationsEditionId(campRegistrationsEditionId: CampRegistrationsEditionId) = jpaRepository.countByCampRegistrationsEditionId(campRegistrationsEditionId)
 }
 
 internal interface CottageJpaRepository : JpaRepository<Cottage, CottageId>{
-    fun findByCampEditionId(campEditionId: CampEditionId): Cottage?
-    fun countByCampEditionId(campEditionId: CampEditionId): Long
+    fun findByCampRegistrationsEditionId(campRegistrationsEditionId: CampRegistrationsEditionId): Cottage?
+    fun countByCampRegistrationsEditionId(campRegistrationsEditionId: CampRegistrationsEditionId): Long
 }

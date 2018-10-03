@@ -2,7 +2,7 @@ package org.bialydunajec.registrations.presentation.rest.v1
 
 import org.bialydunajec.registrations.application.command.api.CampRegistrationsCommand
 import org.bialydunajec.registrations.application.command.api.CampRegistrationsCommandGateway
-import org.bialydunajec.registrations.domain.campedition.CampEditionId
+import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
@@ -15,13 +15,13 @@ class CampersRegisterController(
         private val commandGateway: CampRegistrationsCommandGateway
 ) {
 
-    val campEdition36Id = CampEditionId(36)
+    val campEdition36Id = CampRegistrationsEditionId(36)
 
     @GetMapping("/create/{id}")
     fun postEventCreate(@PathVariable id: Int) {
         commandGateway.process(
                 CampRegistrationsCommand.CreateCampRegistrations(
-                        CampEditionId(id),
+                        CampRegistrationsEditionId(id),
                         LocalDate.of(2021, 8, 1),
                         LocalDate.of(2021, 8, 13)
                 )

@@ -40,7 +40,7 @@ internal class CamperFactory(
 
         return Camper(
                 cottageId = cottageId,
-                campEditionId = campEditionWithInProgressRegistrations.getAggregateId(),
+                campRegistrationsEditionId = campEditionWithInProgressRegistrations.getAggregateId(),
                 camperApplication = CamperApplication(
                         personalData = personalData,
                         homeAddress = homeAddress,

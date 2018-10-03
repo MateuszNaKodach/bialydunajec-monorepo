@@ -13,7 +13,7 @@ import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRu
 import org.jetbrains.annotations.NotNull
 import java.time.LocalDate
 import java.time.ZonedDateTime
-import org.bialydunajec.registrations.domain.campedition.CampEditionEvent.*
+import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionEvent.*
 import javax.persistence.*
 
 //TODO: CampRegistrationsEdition musi miec jako entity CampRegistrations i dbac np. o daty, zeby rejestracja nie trwała dłużej niz koniec obozu!
@@ -23,20 +23,20 @@ import javax.persistence.*
 @Entity
 @Table(schema = "camp_registrations")
 class CampRegistrationsEdition constructor(
-        campEditionId: CampEditionId,
+        campRegistrationsEditionId: CampRegistrationsEditionId,
         @NotNull
         private var editionStartDate: LocalDate,
 
         @NotNull
         private var editionEndDate: LocalDate
-) : AggregateRoot<CampEditionId, CampEditionEvent>(campEditionId), Versioned {
+) : AggregateRoot<CampRegistrationsEditionId, CampRegistrationsEditionEvent>(campRegistrationsEditionId), Versioned {
 
     @Version
     private var version: Long? = null
 
     @NotNull
     @OneToOne(cascade = [CascadeType.ALL])
-    private var campRegistrations: CampRegistrations = CampRegistrations(campEditionId)
+    private var campRegistrations: CampRegistrations = CampRegistrations(campRegistrationsEditionId)
 
     init {
         registerEvent(
@@ -111,7 +111,7 @@ class CampRegistrationsEdition constructor(
 
     fun createAcademicMinistryCottage(academicMinistry: AcademicMinistry): Cottage {
         return Cottage(
-                campEditionId = getAggregateId(),
+                campRegistrationsEditionId = getAggregateId(),
                 cottageType = CottageType.ACADEMIC_MINISTRY,
                 academicMinistryId = academicMinistry.getAggregateId(),
                 name = academicMinistry.getShortName(),
@@ -121,7 +121,7 @@ class CampRegistrationsEdition constructor(
 
     fun createStandaloneCottage(cottageName: String) =
             Cottage(
-                    campEditionId = getAggregateId(),
+                    campRegistrationsEditionId = getAggregateId(),
                     cottageType = CottageType.STANDALONE,
                     name = cottageName,
                     academicMinistryId = null

@@ -5,7 +5,7 @@ import org.bialydunajec.registrations.domain.academicministry.AcademicMinistry
 import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryId
 import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryRepository
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEdition
-import org.bialydunajec.registrations.domain.campedition.CampEditionId
+import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionRepository
 import org.bialydunajec.registrations.domain.cottage.CottageRepository
 import org.bialydunajec.registrations.domain.camper.CamperRepository
@@ -29,14 +29,14 @@ class BoundedContextExternalDataBootstrap(
     private fun initCampEdition(): CampRegistrationsEdition {
         val campEdition36 = campEditionRepository.save(
                 CampRegistrationsEdition(
-                        campEditionId = CampEditionId(36),
+                        campRegistrationsEditionId = CampRegistrationsEditionId(36),
                         editionStartDate = LocalDate.of(2019, 8, 1),
                         editionEndDate = LocalDate.of(2019, 8, 15)
                 )
         )
         val campEdition37 = campEditionRepository.save(
                 CampRegistrationsEdition(
-                        campEditionId = CampEditionId(37),
+                        campRegistrationsEditionId = CampRegistrationsEditionId(37),
                         editionStartDate = LocalDate.of(2020, 8, 1),
                         editionEndDate = LocalDate.of(2020, 8, 15)
                 )
@@ -84,7 +84,7 @@ class BoundedContextExternalDataBootstrap(
     private fun initCampEditionWithRegistrations(): CampRegistrationsEdition {
         val campEdition = campEditionRepository.save(
                 CampRegistrationsEdition(
-                        campEditionId = CampEditionId(36),
+                        campRegistrationsEditionId = CampRegistrationsEditionId(36),
                         startDate = LocalDate.of(2019, 8, 1),
                         endDate = LocalDate.of(2019, 8, 15)
                 )

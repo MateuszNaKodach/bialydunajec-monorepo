@@ -4,33 +4,33 @@ import org.bialydunajec.ddd.domain.base.event.DomainEvent
 import org.bialydunajec.registrations.domain.campedition.entity.CampRegistrationsId
 import org.bialydunajec.registrations.domain.campedition.valueobject.TimerSettings
 
-sealed class CampEditionEvent(
-        override val aggregateId: CampEditionId
-) : DomainEvent<CampEditionId> {
+sealed class CampRegistrationsEditionEvent(
+        override val aggregateId: CampRegistrationsEditionId
+) : DomainEvent<CampRegistrationsEditionId> {
     class CampRegistrationsCreated(
-            val campEditionId: CampEditionId,
+            val campRegistrationsEditionId: CampRegistrationsEditionId,
             val campRegistrationsId: CampRegistrationsId,
             val timerSettings: TimerSettings
-    ) : CampEditionEvent(campEditionId)
+    ) : CampRegistrationsEditionEvent(campRegistrationsEditionId)
 
     class CampRegistrationsStarted(
-            val campEditionId: CampEditionId,
+            val campRegistrationsEditionId: CampRegistrationsEditionId,
             val campRegistrationsId: CampRegistrationsId,
             val timerSettings: TimerSettings
-    ) : CampEditionEvent(campEditionId)
+    ) : CampRegistrationsEditionEvent(campRegistrationsEditionId)
 
     class CampRegistrationsFinished(
-            val campEditionId: CampEditionId,
+            val campRegistrationsEditionId: CampRegistrationsEditionId,
             val campRegistrationsId: CampRegistrationsId
-    ) : CampEditionEvent(campEditionId)
+    ) : CampRegistrationsEditionEvent(campRegistrationsEditionId)
 
     class CampRegistrationsSuspended(
-            val campEditionId: CampEditionId,
+            val campRegistrationsEditionId: CampRegistrationsEditionId,
             val campRegistrationsId: CampRegistrationsId
-    ) : CampEditionEvent(campEditionId)
+    ) : CampRegistrationsEditionEvent(campRegistrationsEditionId)
 
     class CampRegistrationsUnsuspended(
-            val campEditionId: CampEditionId,
+            val campRegistrationsEditionId: CampRegistrationsEditionId,
             val campRegistrationsId: CampRegistrationsId
-    ) : CampEditionEvent(campEditionId)
+    ) : CampRegistrationsEditionEvent(campRegistrationsEditionId)
 }
