@@ -1,4 +1,4 @@
-package org.bialydunajec.registrations.presentation.rest
+package org.bialydunajec.registrations.presentation.rest.v1
 
 import org.bialydunajec.registrations.application.command.api.CampRegistrationsCommand
 import org.bialydunajec.registrations.application.command.api.CampRegistrationsCommandGateway

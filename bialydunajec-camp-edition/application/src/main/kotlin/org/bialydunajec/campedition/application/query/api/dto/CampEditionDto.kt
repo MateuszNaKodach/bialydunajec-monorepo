@@ -6,13 +6,15 @@ import java.time.LocalDate
 data class CampEditionDto(
         val campEditionId: String,
         val campEditionStartDate: LocalDate,
-        val campEditionEndDate: LocalDate
+        val campEditionEndDate: LocalDate,
+        val campEditionYear: Int
 ) {
     internal companion object {
         fun from(campEdition: CampEditionSnapshot) = CampEditionDto(
                 campEditionId = campEdition.campEditionId.toString(),
                 campEditionStartDate = campEdition.startDate,
-                campEditionEndDate = campEdition.endDate
+                campEditionEndDate = campEdition.endDate,
+                campEditionYear = campEdition.startDate.year
         )
     }
 }

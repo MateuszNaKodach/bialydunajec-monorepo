@@ -2,6 +2,7 @@ package org.bialydunajec.campedition.application.query.readmodel
 
 import org.bialydunajec.campedition.application.query.api.CampEditionQuery
 import org.bialydunajec.campedition.application.query.api.dto.CampEditionDto
+import org.bialydunajec.campedition.domain.campedition.CampEditionId
 import org.bialydunajec.campedition.domain.campedition.CampEditionRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -15,6 +16,6 @@ internal class DomainModelReader(private val campEditionRepository: CampEditionR
                     .map { CampEditionDto.from(it.getSnapshot()) }
 
     fun readFor(query: CampEditionQuery.ById): CampEditionDto? =
-            campEditionRepository.findById(query.campEditionId)?.let { CampEditionDto.from(it.getSnapshot()) }
+            campEditionRepository.findById(CampEditionId(query.campEditionId))?.let { CampEditionDto.from(it.getSnapshot()) }
 
 }

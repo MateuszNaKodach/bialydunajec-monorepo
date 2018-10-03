@@ -1,4 +1,4 @@
-package org.bialydunajec.registrations.presentation.rest
+package org.bialydunajec.registrations.presentation.rest.v1
 
 import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
 import org.springframework.web.bind.annotation.ExceptionHandler

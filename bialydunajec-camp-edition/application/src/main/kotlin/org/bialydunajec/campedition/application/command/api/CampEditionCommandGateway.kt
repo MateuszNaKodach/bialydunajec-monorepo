@@ -6,7 +6,7 @@ import org.bialydunajec.ddd.application.base.command.CommandGateway
 import org.springframework.stereotype.Component
 
 @Component
-internal class CampEditionCommandGateway internal constructor(
+class CampEditionCommandGateway internal constructor(
         private val createCampEditionApplicationService: CreateCampEditionApplicationService,
         private val updateCampEditionDurationApplicationService: UpdateCampEditionDurationApplicationService
 ) : CommandGateway {
