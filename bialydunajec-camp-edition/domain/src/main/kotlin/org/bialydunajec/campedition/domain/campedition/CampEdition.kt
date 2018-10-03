@@ -1,5 +1,6 @@
 package org.bialydunajec.campedition.domain.campedition
 
+import org.bialydunajec.campedition.domain.campedition.valueobject.CampEditionSnapshot
 import org.bialydunajec.campedition.domain.exception.CampEditionDomainRule
 import org.bialydunajec.ddd.domain.base.aggregate.AggregateRoot
 import org.bialydunajec.ddd.domain.base.persistence.Versioned
@@ -12,7 +13,7 @@ import javax.persistence.Version
 
 @Entity
 @Table(schema = "camp_edition")
-class CampEdition internal constructor(
+class CampEdition constructor(
         campEditionId: CampEditionId,
         @NotNull
         private var startDate: LocalDate,
@@ -66,5 +67,6 @@ class CampEdition internal constructor(
 
     fun getStartDate() = startDate
     fun getEndDate() = endDate
+    fun getSnapshot() = CampEditionSnapshot(getAggregateId(), startDate, endDate)
     override fun getVersion() = version
 }

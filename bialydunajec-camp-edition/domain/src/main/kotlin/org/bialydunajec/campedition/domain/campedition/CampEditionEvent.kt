@@ -1,7 +1,6 @@
 package org.bialydunajec.campedition.domain.campedition
 
 import org.bialydunajec.ddd.domain.base.event.DomainEvent
-import org.jetbrains.annotations.NotNull
 import java.time.LocalDate
 
 sealed class CampEditionEvent(
