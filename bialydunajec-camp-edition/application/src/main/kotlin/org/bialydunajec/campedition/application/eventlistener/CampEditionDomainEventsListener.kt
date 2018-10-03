@@ -4,13 +4,18 @@ import org.bialydunajec.campedition.domain.campedition.CampEditionEvent
 import org.bialydunajec.campedition.messages.event.CampEditionExternalEvent
 import org.bialydunajec.ddd.application.base.external.event.ExternalEventBus
 import org.springframework.context.event.EventListener
+import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Component
+import org.springframework.transaction.event.TransactionPhase
+import org.springframework.transaction.event.TransactionalEventListener
 
 @Component
 internal class CampEditionDomainEventsListener(private val externalEventBus: ExternalEventBus) {
 
-    @EventListener
+    @Async
+    @TransactionalEventListener
     fun handleDomainEvent(domainEvent: CampEditionEvent.CampEditionCreated) {
+        println("Event arrived $domainEvent")
         externalEventBus.send(
                 CampEditionExternalEvent.CampEditionCreated(
                         campEditionId = domainEvent.aggregateId.toString(),
@@ -20,7 +25,8 @@ internal class CampEditionDomainEventsListener(private val externalEventBus: Ext
         )
     }
 
-    @EventListener
+    @Async
+    @TransactionalEventListener
     fun handleDomainEvent(domainEvent: CampEditionEvent.CampEditionDurationUpdated) {
         externalEventBus.send(
                 CampEditionExternalEvent.CampEditionDurationUpdated(

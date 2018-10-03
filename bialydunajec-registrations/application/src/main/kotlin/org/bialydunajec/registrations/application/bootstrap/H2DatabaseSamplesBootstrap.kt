@@ -18,7 +18,7 @@ internal class H2DatabaseSamplesBootstrap(
         private val commandGateway: CampRegistrationsCommandGateway
 ) {
 
-    @PostConstruct
+    //@PostConstruct
     fun bootstrap() {
         boundedContextExternalDataBootstrap.bootstrap()
 

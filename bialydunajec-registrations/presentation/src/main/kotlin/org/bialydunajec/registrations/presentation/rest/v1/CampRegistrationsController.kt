@@ -11,7 +11,7 @@ import java.time.LocalDate
 
 @RestController
 @RequestMapping("/rest-api/v1/event")
-class CampersRegisterController(
+class CampRegistrationsController(
         private val commandGateway: CampRegistrationsCommandGateway
 ) {
 
@@ -20,7 +20,7 @@ class CampersRegisterController(
     @GetMapping("/create/{id}")
     fun postEventCreate(@PathVariable id: Int) {
         commandGateway.process(
-                CampRegistrationsCommand.CreateCampRegistrations(
+                CampRegistrationsCommand.CreateCampRegistrationsEdition(
                         CampRegistrationsEditionId(id),
                         LocalDate.of(2021, 8, 1),
                         LocalDate.of(2021, 8, 13)

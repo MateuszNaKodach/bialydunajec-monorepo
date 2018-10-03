@@ -4,7 +4,9 @@ import org.bialydunajec.ddd.domain.base.valueobject.AggregateId
 import javax.persistence.Embeddable
 
 @Embeddable
-class CampRegistrationsEditionId(campEditionNumber: Int) : AggregateId(campEditionNumber.toString()){
+class CampRegistrationsEditionId(campEditionNumber: String) : AggregateId(campEditionNumber){
+
+    constructor(campEditionNumber: Int) : this(campEditionNumber.toString())
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

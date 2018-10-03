@@ -11,15 +11,16 @@ import org.bialydunajec.registrations.domain.campedition.specification.CampRegis
 import org.bialydunajec.registrations.domain.cottage.CottageRepository
 import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-@Transactional
-internal class CreateCampRegistrationsApplicationService(
+@Transactional(propagation = Propagation.REQUIRES_NEW)
+internal class CreateCampRegistrationsEditionApplicationService(
         private val campEditionRepository: CampRegistrationsEditionRepository
-) : ApplicationService<CampRegistrationsCommand.CreateCampRegistrations> {
+) : ApplicationService<CampRegistrationsCommand.CreateCampRegistrationsEdition> {
 
-    override fun process(command: CampRegistrationsCommand.CreateCampRegistrations) {
+    override fun process(command: CampRegistrationsCommand.CreateCampRegistrationsEdition) {
         val newCampEdition = CampRegistrationsEdition(
                 campRegistrationsEditionId = command.campRegistrationsEditionId,
                 editionStartDate = command.campEditionStartDate,
@@ -30,7 +31,7 @@ internal class CreateCampRegistrationsApplicationService(
 }
 
 @Service
-@Transactional
+@Transactional(propagation = Propagation.REQUIRES_NEW)
 internal class SetupCampRegistrationsApplicationService(
         private val campEditionRepository: CampRegistrationsEditionRepository,
         private val clock: Clock

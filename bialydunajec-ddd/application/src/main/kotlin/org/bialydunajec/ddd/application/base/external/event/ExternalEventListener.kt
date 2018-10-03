@@ -1,6 +1,6 @@
 package org.bialydunajec.ddd.application.base.external.event
 
-interface ExternalEventListener<ExternalEventPayloadType> {
+interface ExternalEventListener {
 
-    fun handleExternalEvent(externalEvent: ExternalEvent<ExternalEventPayloadType>)
+    fun handleExternalEvent(externalEvent: ExternalEvent<*>)
 }

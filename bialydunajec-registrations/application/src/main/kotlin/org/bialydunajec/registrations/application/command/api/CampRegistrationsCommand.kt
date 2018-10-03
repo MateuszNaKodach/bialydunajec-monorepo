@@ -7,7 +7,13 @@ import org.bialydunajec.registrations.domain.campedition.valueobject.TimerSettin
 import java.time.LocalDate
 
 sealed class CampRegistrationsCommand : Command {
-    data class CreateCampRegistrations(
+    data class CreateCampRegistrationsEdition(
+            val campRegistrationsEditionId: CampRegistrationsEditionId,
+            val campEditionStartDate: LocalDate,
+            val campEditionEndDate: LocalDate
+    ) : CampRegistrationsCommand()
+
+    data class UpdateCampRegistrationsEditionDuration(
             val campRegistrationsEditionId: CampRegistrationsEditionId,
             val campEditionStartDate: LocalDate,
             val campEditionEndDate: LocalDate

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component
 
 @Component
 class CampRegistrationsCommandGateway internal constructor(
-        private val createCampRegistrationsApplicationService: CreateCampRegistrationsApplicationService,
+        private val createCampRegistrationsEditionApplicationService: CreateCampRegistrationsEditionApplicationService,
         private val setupCampRegistrationsApplicationService: SetupCampRegistrationsApplicationService,
         private val startCampRegistrationsNowApplicationService: StartCampRegistrationsNowApplicationService,
         private val finishCampRegistrationsNowApplicationService: FinishCampRegistrationsNowApplicationService,
@@ -16,8 +16,8 @@ class CampRegistrationsCommandGateway internal constructor(
         private val standaloneCottageApplicationService: CreateStandaloneCottageApplicationService
 ) : CommandGateway {
 
-    fun process(command: CampRegistrationsCommand.CreateCampRegistrations) {
-        createCampRegistrationsApplicationService.process(command)
+    fun process(command: CampRegistrationsCommand.CreateCampRegistrationsEdition) {
+        createCampRegistrationsEditionApplicationService.process(command)
     }
 
     fun process(command: CampRegistrationsCommand.UpdateCampRegistrationsTimer) {
