@@ -19,13 +19,14 @@ import javax.persistence.CascadeType
 import javax.persistence.Entity
 import javax.persistence.OneToOne
 import org.bialydunajec.registrations.domain.campedition.CampEditionEvent.*
+import javax.persistence.Table
 
 //TODO: CampEdition musi miec jako entity CampRegistrations i dbac np. o daty, zeby rejestracja nie trwała dłużej niz koniec obozu!
 /**
  * Camp Edition in Camp Registrations Bounded Context
  */
 @Entity
-//@Table(schema = "camp_registrations")
+@Table(schema = "camp_registrations")
 class CampEdition internal constructor(
         campEditionId: CampEditionId,
         @NotNull

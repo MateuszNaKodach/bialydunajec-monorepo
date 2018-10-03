@@ -40,6 +40,7 @@ allprojects {
 
     repositories {
         mavenCentral()
+        maven { url "https://repo.spring.io/snapshot" }
     }
 
     dependencies{
@@ -66,18 +67,24 @@ dependencies {
     compile project(':bialydunajec-registrations:bialydunajec-registrations-domain')
     compile project(':bialydunajec-registrations:bialydunajec-registrations-infrastructure')
 
+    compile project(':bialydunajec-authorization:bialydunajec-authorization-server')
+
     compile('org.springframework.boot:spring-boot-starter-actuator')
     compile('org.springframework.boot:spring-boot-starter-cache')
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
-    compile('org.springframework.boot:spring-boot-starter-data-rest')
+    //compile('org.springframework.boot:spring-boot-starter-data-rest')
     compile('org.springframework.boot:spring-boot-starter-hateoas')
     compile('org.springframework.boot:spring-boot-starter-mail')
     compile('org.springframework.boot:spring-boot-starter-quartz')
     compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.springframework.boot:spring-boot-starter-webflux')
     compile('com.fasterxml.jackson.module:jackson-module-kotlin')
-    compile('org.springframework.data:spring-data-rest-hal-browser')
+   // compile('org.springframework.data:spring-data-rest-hal-browser')
     compile('org.springframework.retry:spring-retry')
+
+    //Swagger 2 - REST Api documentation
+    compile("io.springfox:springfox-swagger2:${swaggerVersion}")
+    compile("io.springfox:springfox-swagger-ui:${swaggerVersion}")
 
     runtime('org.springframework.boot:spring-boot-devtools')
     runtime('com.h2database:h2')

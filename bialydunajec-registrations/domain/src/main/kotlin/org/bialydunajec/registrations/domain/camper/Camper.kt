@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull
 
 //TODO: Add accepted agreements (modifable for Camp Registrations)
 @Entity
-//@Table(schema = "camp_registrations")
+@Table(schema = "camp_registrations")
 class Camper internal constructor(
         @NotNull
         @Embedded
