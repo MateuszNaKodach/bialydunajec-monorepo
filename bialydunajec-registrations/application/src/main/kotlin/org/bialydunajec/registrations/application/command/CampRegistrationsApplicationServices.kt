@@ -32,6 +32,20 @@ internal class CreateCampRegistrationsEditionApplicationService(
 
 @Service
 @Transactional(propagation = Propagation.REQUIRES_NEW)
+internal class UpdateCampRegistrationsEditionDurationApplicationService(
+        private val campEditionRepository: CampRegistrationsEditionRepository
+) : ApplicationService<CampRegistrationsCommand.UpdateCampRegistrationsEditionDuration> {
+
+    override fun process(command: CampRegistrationsCommand.UpdateCampRegistrationsEditionDuration) {
+        val campEdition = campEditionRepository.findById(command.campRegistrationsEditionId)
+                ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.CAMP_EDITION_NOT_FOUND)
+        campEdition.updateCampEditionDuration(command.campEditionStartDate, command.campEditionEndDate)
+        campEditionRepository.save(campEdition)
+    }
+}
+
+@Service
+@Transactional(propagation = Propagation.REQUIRES_NEW)
 internal class SetupCampRegistrationsApplicationService(
         private val campEditionRepository: CampRegistrationsEditionRepository,
         private val clock: Clock

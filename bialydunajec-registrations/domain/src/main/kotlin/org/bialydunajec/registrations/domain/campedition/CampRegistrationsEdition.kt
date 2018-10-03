@@ -48,6 +48,11 @@ class CampRegistrationsEdition constructor(
         )
     }
 
+    fun updateCampEditionDuration(editionStartDate: LocalDate, editionEndDate: LocalDate){
+        this.editionStartDate = editionStartDate
+        this.editionEndDate = editionEndDate
+    }
+
     fun updateCampRegistrationsTimer(timerSettings: TimerSettings, currentTime: ZonedDateTime) {
         campRegistrations.updateTimerSettings(timerSettings, currentTime)
     }

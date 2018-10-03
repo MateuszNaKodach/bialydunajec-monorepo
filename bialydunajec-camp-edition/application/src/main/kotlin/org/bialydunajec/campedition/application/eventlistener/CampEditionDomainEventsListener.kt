@@ -15,7 +15,6 @@ internal class CampEditionDomainEventsListener(private val externalEventBus: Ext
     @Async
     @TransactionalEventListener
     fun handleDomainEvent(domainEvent: CampEditionEvent.CampEditionCreated) {
-        println("Event arrived $domainEvent")
         externalEventBus.send(
                 CampEditionExternalEvent.CampEditionCreated(
                         campEditionId = domainEvent.aggregateId.toString(),

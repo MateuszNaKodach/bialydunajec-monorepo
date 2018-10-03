@@ -17,7 +17,6 @@ internal class CampEditionEventListener(private val campRegistrationsCommandGate
         val payload = externalEvent.payload
         when (payload) {
             is CampEditionExternalEvent.CampEditionCreated -> {
-                println("EVENT CampEditionExternalEvent.CampEditionCreated")
                 campRegistrationsCommandGateway.process(
                         CampRegistrationsCommand.CreateCampRegistrationsEdition(
                                 CampRegistrationsEditionId(payload.campEditionId),
@@ -26,7 +25,15 @@ internal class CampEditionEventListener(private val campRegistrationsCommandGate
                         )
                 )
             }
-            is CampEditionExternalEvent.CampEditionDurationUpdated -> println("EVENT CampEditionExternalEvent.CampEditionDurationUpdated")
+            is CampEditionExternalEvent.CampEditionDurationUpdated -> {
+                campRegistrationsCommandGateway.process(
+                        CampRegistrationsCommand.UpdateCampRegistrationsEditionDuration(
+                                CampRegistrationsEditionId(payload.campEditionId),
+                                payload.startDate,
+                                payload.endDate
+                        )
+                )
+            }
         }
     }
 }
