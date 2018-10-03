@@ -11,6 +11,7 @@ include 'bialydunajec-core',
         'bialydunajec-core:infrastructure'
 
 include 'bialydunajec-camp-edition',
+        'bialydunajec-camp-edition:application',
         'bialydunajec-camp-edition:domain'
 
 include 'bialydunajec-registrations',
