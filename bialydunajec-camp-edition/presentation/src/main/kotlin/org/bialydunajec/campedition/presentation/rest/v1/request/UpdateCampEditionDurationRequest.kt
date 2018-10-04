@@ -4,4 +4,5 @@ import java.time.LocalDate
 
 data class UpdateCampEditionDurationRequest(
         val campEditionStartDate: LocalDate,
-        val campEditionEndDate: LocalDate)
+        val campEditionEndDate: LocalDate
+)

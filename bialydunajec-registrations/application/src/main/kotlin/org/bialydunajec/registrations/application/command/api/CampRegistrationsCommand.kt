@@ -24,8 +24,8 @@ sealed class CampRegistrationsCommand : Command {
             val campRegistrationsEditionId: CampRegistrationsEditionId,
             val timerSettings: TimerSettings
     ) : CampRegistrationsCommand() {
-        constructor(campRegistrationsEditionId: Int, startDate: ZonedDateTime?, endDate: ZonedDateTime?)
-                : this(CampRegistrationsEditionId(campRegistrationsEditionId), TimerSettings(startDate, endDate))
+        constructor(campRegistrationsEditionId: Int, timerStartDate: ZonedDateTime?, timerEndDate: ZonedDateTime?)
+                : this(CampRegistrationsEditionId(campRegistrationsEditionId), TimerSettings(timerStartDate, timerEndDate))
     }
 
     data class StartCampRegistrationsNow(

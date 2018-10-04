@@ -6,6 +6,7 @@ import org.bialydunajec.registrations.application.query.api.CampEditionQuery
 import org.bialydunajec.registrations.application.query.api.CampRegistrationsEditionQuery
 import org.bialydunajec.registrations.application.query.api.CampRegistrationsQueryGateway
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
+import org.bialydunajec.registrations.presentation.rest.v1.request.UpdateCampRegistrationsTimerRequest
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDate
 
@@ -17,6 +18,16 @@ class CampRegistrationsController(
 ) {
 
     //COMMAND----------------------------------------------------------------------------------------------------------
+    @PatchMapping("{campRegistrationsEditionId}/timer")
+    fun startCampRegistrationsEditionById(@PathVariable campRegistrationsEditionId: Int, @RequestBody request: UpdateCampRegistrationsTimerRequest) =
+            commandGateway.process(
+                    CampRegistrationsCommand.UpdateCampRegistrationsTimer(
+                            campRegistrationsEditionId,
+                            request.timerStartDate,
+                            request.timerEndDate
+                    )
+            )
+
     @PatchMapping("{campRegistrationsEditionId}/start")
     fun startCampRegistrationsEditionById(@PathVariable campRegistrationsEditionId: Int) =
             commandGateway.process(CampRegistrationsCommand.StartCampRegistrationsNow(campRegistrationsEditionId))
