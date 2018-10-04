@@ -57,27 +57,26 @@ allprojects {
 dependencies {
     /*
     compile project(':bialydunajec-core:bialydunajec-core-presentation')
-    compile project(':bialydunajec-core:bialydunajec-core-application')
-    compile project(':bialydunajec-core:bialydunajec-core-domain')
     compile project(':bialydunajec-core:bialydunajec-core-infrastructure')
 */
 
+    compile project(':bialydunajec-camp-edition:bialydunajec-camp-edition-presentation')
+    compile project(':bialydunajec-camp-edition:bialydunajec-camp-edition-infrastructure')
+
     compile project(':bialydunajec-registrations:bialydunajec-registrations-presentation')
-    compile project(':bialydunajec-registrations:bialydunajec-registrations-application')
-    compile project(':bialydunajec-registrations:bialydunajec-registrations-domain')
     compile project(':bialydunajec-registrations:bialydunajec-registrations-infrastructure')
 
     compile project(':bialydunajec-authorization:bialydunajec-authorization-server')
 
-    compile('org.springframework.boot:spring-boot-starter-actuator')
-    compile('org.springframework.boot:spring-boot-starter-cache')
+    //compile('org.springframework.boot:spring-boot-starter-actuator')
+    //compile('org.springframework.boot:spring-boot-starter-cache')
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
     //compile('org.springframework.boot:spring-boot-starter-data-rest')
     compile('org.springframework.boot:spring-boot-starter-hateoas')
     compile('org.springframework.boot:spring-boot-starter-mail')
     compile('org.springframework.boot:spring-boot-starter-quartz')
     compile('org.springframework.boot:spring-boot-starter-web')
-    compile('org.springframework.boot:spring-boot-starter-webflux')
+    //compile('org.springframework.boot:spring-boot-starter-webflux')
     compile('com.fasterxml.jackson.module:jackson-module-kotlin')
    // compile('org.springframework.data:spring-data-rest-hal-browser')
     compile('org.springframework.retry:spring-retry')
@@ -92,5 +91,5 @@ dependencies {
 
     compileOnly('org.springframework.boot:spring-boot-configuration-processor')
     testCompile('org.springframework.boot:spring-boot-starter-test')
-    testCompile('io.projectreactor:reactor-test')
+    //testCompile('io.projectreactor:reactor-test')
 }

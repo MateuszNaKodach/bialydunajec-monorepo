@@ -7,6 +7,7 @@ import org.springframework.boot.runApplication
 @SpringBootApplication
 class BialyDunajecBackendApplication
 
+
 fun main(args: Array<String>) {
     runApplication<BialyDunajecBackendApplication>(*args)
 }

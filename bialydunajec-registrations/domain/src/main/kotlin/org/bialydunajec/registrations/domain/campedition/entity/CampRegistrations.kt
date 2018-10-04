@@ -2,7 +2,7 @@ package org.bialydunajec.registrations.domain.campedition.entity
 
 import org.bialydunajec.ddd.domain.base.persistence.IdentifiedEntity
 import org.bialydunajec.ddd.domain.base.validation.ValidationResult
-import org.bialydunajec.registrations.domain.campedition.CampEditionId
+import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
 import org.bialydunajec.registrations.domain.campedition.valueobject.CampRegistrationsSnapshot
 import org.bialydunajec.registrations.domain.campedition.valueobject.RegistrationsStatus
 import org.bialydunajec.registrations.domain.campedition.valueobject.TimerSettings
@@ -14,7 +14,7 @@ import javax.persistence.*
 @Entity
 @Table(schema = "camp_registrations")
 internal class CampRegistrations constructor(
-        campEditionId: CampEditionId,
+        campRegistrationsEditionId: CampRegistrationsEditionId,
 
         @Embedded
         private var timerSettings: TimerSettings = TimerSettings(),
@@ -31,9 +31,9 @@ internal class CampRegistrations constructor(
     //private var endMethod: StatusChangeMethod = StatusChangeMethod.MANUAL
 
     @EmbeddedId
-    override val entityId: CampRegistrationsId = CampRegistrationsId(campEditionId)
+    override val entityId: CampRegistrationsId = CampRegistrationsId(campRegistrationsEditionId)
 
-    internal fun canUpdateTimerSettings(timerSettings: TimerSettings, currentTime: ZonedDateTime): ValidationResult{
+    internal fun canUpdateTimerSettings(timerSettings: TimerSettings, currentTime: ZonedDateTime): ValidationResult {
         val (startDate, endDate) = timerSettings
         return ValidationResult.buffer()
                 .addViolatedRuleIf(
@@ -166,9 +166,11 @@ internal class CampRegistrations constructor(
     fun isInProgress() = status == RegistrationsStatus.IN_PROGRESS
 
     internal fun getTimerSettings() = timerSettings
+    internal fun getStatus() = status
 
     internal fun getSnapshot() = CampRegistrationsSnapshot(
             campRegistrationsId = entityId,
+            status = status,
             timerSettings = timerSettings,
             lastStartedAt = lastStartedAt,
             lastSuspendAt = lastSuspendAt,

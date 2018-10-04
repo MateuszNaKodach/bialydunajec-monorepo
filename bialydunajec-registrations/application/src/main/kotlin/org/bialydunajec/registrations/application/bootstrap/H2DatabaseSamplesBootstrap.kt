@@ -1,19 +1,12 @@
 package org.bialydunajec.registrations.application.bootstrap
 
-import org.bialydunajec.ddd.domain.base.event.DomainEvent
-import org.bialydunajec.ddd.domain.sharedkernel.valueobject.time.ZonedDateTimeRange
 import org.bialydunajec.registrations.application.command.api.CampRegistrationsCommand.*
 import org.bialydunajec.registrations.application.command.api.CampRegistrationsCommandGateway
 import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryId
 import org.bialydunajec.registrations.domain.bootstrap.BoundedContextExternalDataBootstrap
-import org.bialydunajec.registrations.domain.campedition.CampEditionEvent
-import org.bialydunajec.registrations.domain.campedition.CampEditionId
+import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
 import org.bialydunajec.registrations.domain.campedition.valueobject.TimerSettings
-import org.springframework.context.ApplicationEventPublisher
-import org.springframework.context.event.EventListener
 import org.springframework.stereotype.Component
-import org.springframework.transaction.event.TransactionPhase
-import org.springframework.transaction.event.TransactionalEventListener
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -25,11 +18,11 @@ internal class H2DatabaseSamplesBootstrap(
         private val commandGateway: CampRegistrationsCommandGateway
 ) {
 
-    @PostConstruct
+    //@PostConstruct
     fun bootstrap() {
         boundedContextExternalDataBootstrap.bootstrap()
 
-        val campEdition36Id = CampEditionId(36)
+        val campEdition36Id = CampRegistrationsEditionId(36)
         commandGateway.process(
                 UpdateCampRegistrationsTimer(campEdition36Id,
                         TimerSettings(

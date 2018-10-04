@@ -10,6 +10,13 @@ include 'bialydunajec-core',
         'bialydunajec-core:domain',
         'bialydunajec-core:infrastructure'
 
+include 'bialydunajec-camp-edition',
+        'bialydunajec-camp-edition:application',
+        'bialydunajec-camp-edition:presentation',
+        'bialydunajec-camp-edition:domain',
+        'bialydunajec-camp-edition:infrastructure',
+        'bialydunajec-camp-edition:messages'
+
 include 'bialydunajec-registrations',
         'bialydunajec-registrations:application',
         'bialydunajec-registrations:presentation',

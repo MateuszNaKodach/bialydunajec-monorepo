@@ -59,6 +59,6 @@ internal data class OAuth2User(
     fun getUsername() = username
     fun getPassword() = password
     fun isEnabled() = enabled
-    fun getSnapshot() = OAuth2UserSnapshot(emailAddress, username, password, enabled)
+    fun getSnapshot() = OAuth2UserSnapshot(oAuth2UserId.toString(), emailAddress, username, password, enabled)
 
 }

@@ -3,27 +3,29 @@ package org.bialydunajec.registrations.domain.cottage
 import org.bialydunajec.ddd.domain.base.aggregate.AggregateRoot
 import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.Url
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.location.Place
 import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryId
-import org.bialydunajec.registrations.domain.campedition.CampEditionId
+import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
 import org.bialydunajec.registrations.domain.cottage.valueobject.*
 import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule
 import javax.persistence.*
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 
+//TODO: Add address and geolocation!
 @Entity
 @Table(
         schema = "camp_registrations",
         uniqueConstraints = [
-            UniqueConstraint(columnNames = arrayOf("campEditionId", "academicMinistryId"), name = "one_cottage_for_academic_ministry"),
-            UniqueConstraint(columnNames = arrayOf("campEditionId", "name"), name = "unique_cottageName_on_edition")
+            UniqueConstraint(columnNames = arrayOf("campRegistrationsEditionId", "academicMinistryId"), name = "one_cottage_for_academic_ministry"),
+            UniqueConstraint(columnNames = arrayOf("campRegistrationsEditionId", "name"), name = "unique_cottageName_on_edition")
         ]
 )
 class Cottage internal constructor(
 
         @Embedded
-        @AttributeOverrides(AttributeOverride(name = "aggregateId", column = Column(name = "campEditionId")))
-        private val campEditionId: CampEditionId,
+        @AttributeOverrides(AttributeOverride(name = "aggregateId", column = Column(name = "campRegistrationsEditionId")))
+        private val campRegistrationsEditionId: CampRegistrationsEditionId,
 
         @NotNull
         @Enumerated(EnumType.STRING)
@@ -44,6 +46,9 @@ class Cottage internal constructor(
         private val buildingPhotoUrl: Url? = null,
 
         @Embedded
+        private val place: Place? = null,
+
+        @Embedded
         private var cottageSpace: CottageSpace = CottageSpace(),
 
         @Embedded
@@ -53,8 +58,8 @@ class Cottage internal constructor(
         private var bankTransferDetails: BankTransferDetails? = null
 ) : AggregateRoot<CottageId, CottageEvents>(
         when (cottageType) {
-            CottageType.STANDALONE -> CottageId.ofStandaloneCottage(campEditionId)
-            CottageType.ACADEMIC_MINISTRY -> CottageId.ofAcademicMinistryCottage(campEditionId, academicMinistryId
+            CottageType.STANDALONE -> CottageId.ofStandaloneCottage(campRegistrationsEditionId)
+            CottageType.ACADEMIC_MINISTRY -> CottageId.ofAcademicMinistryCottage(campRegistrationsEditionId, academicMinistryId
                     ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.NO_DEFINED_ACADEMIC_MINISTRY_FOR_COTTAGE))
         }
 ) {
@@ -62,11 +67,12 @@ class Cottage internal constructor(
     @Enumerated(EnumType.STRING)
     private var cottageState: CottageState = CottageState.UNCONFIGURED
 
-    fun getCampEditionId() = campEditionId
+    fun getCampEditionId() = campRegistrationsEditionId
     fun getCottageType() = cottageType
     fun getName() = name
     fun getLogoImageUrl() = logoImageUrl
     fun getBuildingPhotoUrl() = buildingPhotoUrl
+    fun getPlace() = place
     fun getCottageSpace() = cottageSpace
     fun getCampersLimitations() = campersLimitations
     fun getBankTransferDetails() = bankTransferDetails

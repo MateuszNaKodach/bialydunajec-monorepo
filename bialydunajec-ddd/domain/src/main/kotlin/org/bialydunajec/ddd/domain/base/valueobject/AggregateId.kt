@@ -1,10 +1,14 @@
 package org.bialydunajec.ddd.domain.base.valueobject
 
 import java.util.*
+import javax.persistence.Column
 import javax.persistence.MappedSuperclass
 
 @MappedSuperclass
-abstract class AggregateId(private val aggregateId: String = defaultValue()) : Identifier<String> {
+abstract class AggregateId(
+        @Column(unique = true, updatable = false, insertable = false)
+        private val aggregateId: String = defaultValue()
+) : Identifier<String> {
 
     override fun toString() = aggregateId
 

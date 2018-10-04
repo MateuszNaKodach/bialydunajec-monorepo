@@ -2,38 +2,68 @@ package org.bialydunajec.registrations.application.command.api
 
 import org.bialydunajec.ddd.application.base.command.Command
 import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryId
-import org.bialydunajec.registrations.domain.campedition.CampEditionId
+import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
 import org.bialydunajec.registrations.domain.campedition.valueobject.TimerSettings
+import java.time.LocalDate
+import java.time.ZonedDateTime
 
 sealed class CampRegistrationsCommand : Command {
-    data class UpdateCampRegistrationsTimer(
-            val campEditionId: CampEditionId,
-            val timerSettings: TimerSettings
+    data class CreateCampRegistrationsEdition(
+            val campRegistrationsEditionId: CampRegistrationsEditionId,
+            val campEditionStartDate: LocalDate,
+            val campEditionEndDate: LocalDate
     ) : CampRegistrationsCommand()
+
+    data class UpdateCampRegistrationsEditionDuration(
+            val campRegistrationsEditionId: CampRegistrationsEditionId,
+            val campEditionStartDate: LocalDate,
+            val campEditionEndDate: LocalDate
+    ) : CampRegistrationsCommand()
+
+    data class UpdateCampRegistrationsTimer(
+            val campRegistrationsEditionId: CampRegistrationsEditionId,
+            val timerSettings: TimerSettings
+    ) : CampRegistrationsCommand() {
+        constructor(campRegistrationsEditionId: Int, timerStartDate: ZonedDateTime?, timerEndDate: ZonedDateTime?)
+                : this(CampRegistrationsEditionId(campRegistrationsEditionId), TimerSettings(timerStartDate, timerEndDate))
+    }
 
     data class StartCampRegistrationsNow(
-            val campEditionId: CampEditionId
-    ) : CampRegistrationsCommand()
+            val campRegistrationsEditionId: CampRegistrationsEditionId
+    ) : CampRegistrationsCommand() {
+        constructor(campRegistrationsEditionId: Int) : this(CampRegistrationsEditionId(campRegistrationsEditionId))
+    }
 
     data class FinishCampRegistrationsNow(
-            val campEditionId: CampEditionId
-    ) : CampRegistrationsCommand()
+            val campRegistrationsEditionId: CampRegistrationsEditionId
+    ) : CampRegistrationsCommand() {
+        constructor(campRegistrationsEditionId: Int) : this(CampRegistrationsEditionId(campRegistrationsEditionId))
+    }
 
     data class SuspendCampRegistrationsNow(
-            val campEditionId: CampEditionId
-    ) : CampRegistrationsCommand()
+            val campRegistrationsEditionId: CampRegistrationsEditionId
+    ) : CampRegistrationsCommand() {
+        constructor(campRegistrationsEditionId: Int) : this(CampRegistrationsEditionId(campRegistrationsEditionId))
+    }
 
     data class UnsuspendCampRegistrationsNow(
-            val campEditionId: CampEditionId
-    ) : CampRegistrationsCommand()
+            val campRegistrationsEditionId: CampRegistrationsEditionId
+    ) : CampRegistrationsCommand() {
+        constructor(campRegistrationsEditionId: Int) : this(CampRegistrationsEditionId(campRegistrationsEditionId))
+    }
 
     data class CreateAcademicMinistryCottage(
-            val campEditionId: CampEditionId,
+            val campRegistrationsEditionId: CampRegistrationsEditionId,
             val academicMinistryId: AcademicMinistryId
-    ) : CampRegistrationsCommand()
+    ) : CampRegistrationsCommand() {
+        constructor(campRegistrationsEditionId: Int, academicMinistryId: String) : this(CampRegistrationsEditionId(campRegistrationsEditionId), AcademicMinistryId(academicMinistryId))
+    }
 
     data class CreateStandaloneCottage(
-            val campEditionId: CampEditionId,
+            val campRegistrationsEditionId: CampRegistrationsEditionId,
             val cottageName: String
-    ) : CampRegistrationsCommand()
+    ) : CampRegistrationsCommand() {
+        constructor(campRegistrationsEditionId: Int, cottageName: String) : this(CampRegistrationsEditionId(campRegistrationsEditionId), cottageName)
+
+    }
 }
