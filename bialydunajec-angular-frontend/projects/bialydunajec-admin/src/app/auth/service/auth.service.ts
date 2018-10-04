@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {TokenEndpoint} from './rest/token.endpoint';
 import {Subject} from 'rxjs';
 import {AuthState} from './auth.state';
+import {TokenResponse} from './rest/response/token.response';
 
 const CURRENT_USER_TOKEN_KEY = 'org.bialydunajec.current_user_token';
 
@@ -48,12 +49,12 @@ export class AuthService {
     return this.userOAuthToken.current_user;
   }
 
-  get userOAuthToken() {
+  get userOAuthToken(): TokenResponse {
     return JSON.parse(localStorage.getItem(CURRENT_USER_TOKEN_KEY));
   }
 
   isAuthenticated(): boolean {
-    return this.userOAuthToken;
+    return this.userOAuthToken != null;
   }
 
 }
