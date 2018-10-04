@@ -17,6 +17,13 @@ include 'bialydunajec-camp-edition',
         'bialydunajec-camp-edition:infrastructure',
         'bialydunajec-camp-edition:messages'
 
+include 'bialydunajec-academic-ministry',
+        'bialydunajec-academic-ministry:application',
+        'bialydunajec-academic-ministry:presentation',
+        'bialydunajec-academic-ministry:domain',
+        'bialydunajec-academic-ministry:infrastructure',
+        'bialydunajec-academic-ministry:messages'
+
 include 'bialydunajec-registrations',
         'bialydunajec-registrations:application',
         'bialydunajec-registrations:presentation',
