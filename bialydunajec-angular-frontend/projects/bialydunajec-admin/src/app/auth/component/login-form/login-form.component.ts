@@ -24,6 +24,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     this.userAuthenticationSubscription = this.authService.userAuthentication
       .subscribe(
         authState => {
+          console.log(authState);
           this.authInProgress = false;
           this.loginErrorMessage = authState.errorMessage;
           if (authState.currentUser) {
