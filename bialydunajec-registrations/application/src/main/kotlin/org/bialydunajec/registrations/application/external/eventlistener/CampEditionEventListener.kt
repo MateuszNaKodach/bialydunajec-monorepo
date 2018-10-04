@@ -1,4 +1,4 @@
-package org.bialydunajec.registrations.application.external.event
+package org.bialydunajec.registrations.application.external.eventlistener
 
 import org.bialydunajec.campedition.messages.event.CampEditionExternalEvent
 import org.bialydunajec.ddd.application.base.external.event.ExternalEvent

@@ -1,5 +1,6 @@
 package org.bialydunajec.authorization.server.security.configuration
 
+import org.bialydunajec.authorization.server.web.filter.AccessControlAllowOriginFilter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationManager
@@ -12,4 +13,6 @@ internal class WebSecurityConfiguration : WebSecurityConfigurerAdapter() {
     override fun authenticationManagerBean(): AuthenticationManager {
         return super.authenticationManagerBean()
     }
+
+
 }

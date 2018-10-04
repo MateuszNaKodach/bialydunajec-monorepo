@@ -12,8 +12,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 internal class OAuth2ResourceServerConfiguration : ResourceServerConfigurerAdapter() {
 
     override fun configure(http: HttpSecurity) {
-        http.cors().and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        http.cors()
                 .and()
                 .authorizeRequests()
                 .antMatchers("/", "/h2-console/**", "/swagger-ui.html", "/oauth/token", "api/v1/user-account")

@@ -4,10 +4,11 @@ import org.bialydunajec.registrations.domain.campedition.entity.CampRegistration
 import java.time.ZonedDateTime
 
 data class CampRegistrationsSnapshot(
-        private val campRegistrationsId: CampRegistrationsId,
-        private var timerSettings: TimerSettings,
-        private var lastStartedAt: ZonedDateTime?,
-        private var lastSuspendAt: ZonedDateTime?,
-        private var lastUnsuspendAt: ZonedDateTime?,
-        private var lastFinishedAt: ZonedDateTime?
+        val campRegistrationsId: CampRegistrationsId,
+        val status: RegistrationsStatus,
+        val timerSettings: TimerSettings,
+        val lastStartedAt: ZonedDateTime?,
+        val lastSuspendAt: ZonedDateTime?,
+        val lastUnsuspendAt: ZonedDateTime?,
+        val lastFinishedAt: ZonedDateTime?
 )

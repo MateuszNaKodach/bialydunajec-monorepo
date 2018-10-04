@@ -10,7 +10,7 @@ import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRu
 import javax.persistence.*
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
-
+//TODO: Add address and geolocation!
 @Entity
 @Table(
         schema = "camp_registrations",

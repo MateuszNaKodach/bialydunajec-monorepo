@@ -14,6 +14,7 @@ import org.jetbrains.annotations.NotNull
 import java.time.LocalDate
 import java.time.ZonedDateTime
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionEvent.*
+import org.bialydunajec.registrations.domain.campedition.valueobject.CampRegistrationsEditionSnapshot
 import javax.persistence.*
 
 //TODO: CampRegistrationsEdition musi miec jako entity CampRegistrations i dbac np. o daty, zeby rejestracja nie trwała dłużej niz koniec obozu!
@@ -48,12 +49,19 @@ class CampRegistrationsEdition constructor(
         )
     }
 
-    fun updateCampEditionDuration(editionStartDate: LocalDate, editionEndDate: LocalDate){
+    fun updateCampEditionDuration(editionStartDate: LocalDate, editionEndDate: LocalDate) {
         this.editionStartDate = editionStartDate
         this.editionEndDate = editionEndDate
     }
 
+    fun canUpdateCampRegistrationsTimer(timerSettings: TimerSettings, currentTime: ZonedDateTime) =
+            campRegistrations.canUpdateTimerSettings(timerSettings, currentTime)
+
+
     fun updateCampRegistrationsTimer(timerSettings: TimerSettings, currentTime: ZonedDateTime) {
+        canUpdateCampRegistrationsTimer(timerSettings, currentTime)
+                .ifInvalidThrowException()
+
         campRegistrations.updateTimerSettings(timerSettings, currentTime)
     }
 
@@ -79,8 +87,10 @@ class CampRegistrationsEdition constructor(
         )
     }
 
+    fun canFinishNowCampRegistrations(currentTime: ZonedDateTime) = campRegistrations.canFinishNow(currentTime)
+
     fun finishNowCampRegistrations(currentTime: ZonedDateTime) {
-        campRegistrations.finishNow(currentTime)
+        canFinishNowCampRegistrations(currentTime)
 
         registerEvent(
                 CampRegistrationsFinished(
@@ -89,6 +99,9 @@ class CampRegistrationsEdition constructor(
                 )
         )
     }
+
+    fun canSuspendNowCampRegistrations() =
+            campRegistrations.canSuspend()
 
     fun suspendNowCampRegistrations(currentTime: ZonedDateTime) {
         campRegistrations.suspend(currentTime)
@@ -100,6 +113,9 @@ class CampRegistrationsEdition constructor(
                 )
         )
     }
+
+    fun canUnsuspendNowCampRegistrations() =
+            campRegistrations.canUnsuspend()
 
     fun unsuspendNowCampRegistrations(currentTime: ZonedDateTime) {
         campRegistrations.unsuspend(currentTime)
@@ -135,4 +151,12 @@ class CampRegistrationsEdition constructor(
     fun getCampEditionStartDate() = editionStartDate
     fun getCampEditionEndDate() = editionEndDate
     override fun getVersion() = version
+    fun getCampRegistrationsStatus() = campRegistrations.getStatus()
+
+    fun getSnapshot() = CampRegistrationsEditionSnapshot(
+            campRegistrationsEditionId = getAggregateId(),
+            editionStartDate = editionStartDate,
+            editionEndDate = editionEndDate,
+            campRegistrations = campRegistrations.getSnapshot()
+    )
 }

@@ -16,20 +16,23 @@ class CampEditionController(
         private val campEditionQueryGateway: CampEditionQueryGateway
 ) {
 
+    //COMMAND----------------------------------------------------------------------------------------------------------
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun createCampEdition(@RequestBody request: CreateCampEditionRequest) = campEditionCommandGateway.process(
             CampEditionCommand.CreateCampEdition.from(request.campEditionId, request.campEditionStartDate, request.campEditionEndDate)
     )
 
-    @PatchMapping
-    fun updateCampEditionDuration(@RequestBody request: UpdateCampEditionDurationRequest) = campEditionCommandGateway.process(
-            CampEditionCommand.UpdateCampEditionDuration.from(request.campEditionId, request.campEditionStartDate, request.campEditionEndDate)
+    @PatchMapping("/{campEditionId}/duration")
+    fun updateCampEditionDurationById(@PathVariable campEditionId: Int, @RequestBody request: UpdateCampEditionDurationRequest) = campEditionCommandGateway.process(
+            CampEditionCommand.UpdateCampEditionDuration.from(campEditionId, request.campEditionStartDate, request.campEditionEndDate)
     )
 
+    //QUERY------------------------------------------------------------------------------------------------------------
     @GetMapping
     fun getAllCampEditions() =
             campEditionQueryGateway.process(CampEditionQuery.All())
+                    .sortedByDescending { it.campEditionId.toInt() }
 
 
     @GetMapping("/{campEditionId}")

@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional(readOnly = true)
-internal class DomainModelReader(private val campEditionRepository: CampEditionRepository) {
+internal class CampEditionDomainModelReader(private val campEditionRepository: CampEditionRepository) {
 
     fun readFor(query: CampEditionQuery.All): Collection<CampEditionDto> =
             campEditionRepository.findAll()

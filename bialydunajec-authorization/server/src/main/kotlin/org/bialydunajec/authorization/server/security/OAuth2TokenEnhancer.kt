@@ -23,6 +23,7 @@ internal class OAuth2TokenEnhancer : TokenEnhancer {
         val currentUser = authentication.principal as UserDetailsDto
         val additionalInfo = HashMap<String, Any>()
         additionalInfo[ATTR_LOGGED_USER] = TokenUserInfoDto(
+                userId = currentUser.getUserId(),
                 emailAddress = currentUser.getEmailAddress(),
                 username = currentUser.username
         )
@@ -33,5 +34,5 @@ internal class OAuth2TokenEnhancer : TokenEnhancer {
         private const val ATTR_LOGGED_USER = "current_user"
     }
 
-    private data class TokenUserInfoDto(val emailAddress: String, val username: String) : Serializable
+    private data class TokenUserInfoDto(val userId: String, val emailAddress: String, val username: String) : Serializable
 }

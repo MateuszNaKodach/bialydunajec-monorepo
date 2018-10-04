@@ -33,7 +33,7 @@ internal class CampRegistrations constructor(
     @EmbeddedId
     override val entityId: CampRegistrationsId = CampRegistrationsId(campRegistrationsEditionId)
 
-    internal fun canUpdateTimerSettings(timerSettings: TimerSettings, currentTime: ZonedDateTime): ValidationResult{
+    internal fun canUpdateTimerSettings(timerSettings: TimerSettings, currentTime: ZonedDateTime): ValidationResult {
         val (startDate, endDate) = timerSettings
         return ValidationResult.buffer()
                 .addViolatedRuleIf(
@@ -166,9 +166,11 @@ internal class CampRegistrations constructor(
     fun isInProgress() = status == RegistrationsStatus.IN_PROGRESS
 
     internal fun getTimerSettings() = timerSettings
+    internal fun getStatus() = status
 
     internal fun getSnapshot() = CampRegistrationsSnapshot(
             campRegistrationsId = entityId,
+            status = status,
             timerSettings = timerSettings,
             lastStartedAt = lastStartedAt,
             lastSuspendAt = lastSuspendAt,

@@ -2,50 +2,54 @@ package org.bialydunajec.registrations.presentation.rest.v1
 
 import org.bialydunajec.registrations.application.command.api.CampRegistrationsCommand
 import org.bialydunajec.registrations.application.command.api.CampRegistrationsCommandGateway
+import org.bialydunajec.registrations.application.query.api.CampEditionQuery
+import org.bialydunajec.registrations.application.query.api.CampRegistrationsEditionQuery
+import org.bialydunajec.registrations.application.query.api.CampRegistrationsQueryGateway
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import java.time.LocalDate
 
 @RestController
-@RequestMapping("/rest-api/v1/event")
+@RequestMapping("/rest-api/v1/camp-registrations")
 class CampRegistrationsController(
-        private val commandGateway: CampRegistrationsCommandGateway
+        private val commandGateway: CampRegistrationsCommandGateway,
+        private val queryGateway: CampRegistrationsQueryGateway
 ) {
 
-    val campEdition36Id = CampRegistrationsEditionId(36)
+    //COMMAND----------------------------------------------------------------------------------------------------------
+    @PatchMapping("{campRegistrationsEditionId}/start")
+    fun startCampRegistrationsEditionById(@PathVariable campRegistrationsEditionId: Int) =
+            commandGateway.process(CampRegistrationsCommand.StartCampRegistrationsNow(campRegistrationsEditionId))
 
-    @GetMapping("/create/{id}")
-    fun postEventCreate(@PathVariable id: Int) {
-        commandGateway.process(
-                CampRegistrationsCommand.CreateCampRegistrationsEdition(
-                        CampRegistrationsEditionId(id),
-                        LocalDate.of(2021, 8, 1),
-                        LocalDate.of(2021, 8, 13)
-                )
-        )
-    }
 
-    @GetMapping("/start")
-    fun postEventStart() {
-        commandGateway.process(CampRegistrationsCommand.StartCampRegistrationsNow(campEdition36Id))
-    }
+    @PatchMapping("{campRegistrationsEditionId}/suspend")
+    fun suspendCampRegistrationsEditionById(@PathVariable campRegistrationsEditionId: Int) =
+            commandGateway.process(CampRegistrationsCommand.SuspendCampRegistrationsNow(campRegistrationsEditionId))
 
-    @GetMapping("/suspend")
-    fun postEventSuspend() {
-        commandGateway.process(CampRegistrationsCommand.SuspendCampRegistrationsNow(campEdition36Id))
-    }
 
-    @GetMapping("/unsuspend")
-    fun postEventUnsuspend() {
-        commandGateway.process(CampRegistrationsCommand.UnsuspendCampRegistrationsNow(campEdition36Id))
-    }
+    @PatchMapping("{campRegistrationsEditionId}/unsuspend")
+    fun unsuspendCampRegistrationsEditionById(@PathVariable campRegistrationsEditionId: Int) =
+            commandGateway.process(CampRegistrationsCommand.UnsuspendCampRegistrationsNow(campRegistrationsEditionId))
 
-    @GetMapping("/finish")
-    fun postEventFinish() {
-        commandGateway.process(CampRegistrationsCommand.FinishCampRegistrationsNow(campEdition36Id))
-    }
+
+    @PatchMapping("{campRegistrationsEditionId}/finish")
+    fun finishCampRegistrationsEditionById(@PathVariable campRegistrationsEditionId: Int) =
+            commandGateway.process(CampRegistrationsCommand.FinishCampRegistrationsNow(campRegistrationsEditionId))
+
+
+    //QUERY------------------------------------------------------------------------------------------------------------
+    @GetMapping
+    fun getAllCampRegistrations() = queryGateway.process(CampRegistrationsEditionQuery.All());
+
+    @GetMapping("/camp-edition")
+    fun getAllCampRegistrationsEditions() = queryGateway.process(CampEditionQuery.All());
+
+    @GetMapping("/{campRegistrationsEditionId}")
+    fun getCampRegistrationsEditionById(@PathVariable campRegistrationsEditionId: Int) =
+            queryGateway.process(CampRegistrationsEditionQuery.ById(campRegistrationsEditionId))
+
+    @GetMapping("/{campRegistrationsEditionId}/camp-edition")
+    fun getCampEditionByCampRegistrationsEditionId(@PathVariable campRegistrationsEditionId: Int) =
+            queryGateway.process(CampEditionQuery.ById(campRegistrationsEditionId))
 
 }
