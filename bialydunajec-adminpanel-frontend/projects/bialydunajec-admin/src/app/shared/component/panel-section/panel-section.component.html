@@ -1,0 +1,15 @@
+<div style="margin: 3rem;">
+  <div style="display: flex; justify-content: space-between">
+    <nz-breadcrumb>
+      <nz-breadcrumb-item
+        *ngFor="let breadcrumb of breadcrumbs; let i = index"
+        style="white-space: nowrap"
+        [ngClass]="{'bda-admin-bold-breadcrumb': i === breadcrumbs.length-1}">
+        {{breadcrumb}}
+      </nz-breadcrumb-item>
+    </nz-breadcrumb>
+    <!--<bda-admin-camp-edition-selection></bda-admin-camp-edition-selection>-->
+  </div>
+  <ng-content></ng-content>
+</div>
+

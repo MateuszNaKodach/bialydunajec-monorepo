@@ -8,6 +8,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { UserAvatarComponent } from './component/user-avatar/user-avatar.component';
 import {CampEditionSelectionComponent} from './component/camp-edition-selection/camp-edition-selection.component';
 import {HttpClientModule} from '@angular/common/http';
+import { PanelSectionComponent } from './component/panel-section/panel-section.component';
 
 registerLocaleData(pl);
 
@@ -23,7 +24,8 @@ registerLocaleData(pl);
   declarations: [
     FormInputComponent,
     UserAvatarComponent,
-    CampEditionSelectionComponent
+    CampEditionSelectionComponent,
+    PanelSectionComponent
   ],
   exports: [
     CommonModule,
@@ -33,7 +35,8 @@ registerLocaleData(pl);
     FormInputComponent,
     UserAvatarComponent,
     BialyDunajecCommonsModule,
-    CampEditionSelectionComponent
+    CampEditionSelectionComponent,
+    PanelSectionComponent
   ],
   providers: [{provide: NZ_I18N, useValue: pl_PL}]
 })

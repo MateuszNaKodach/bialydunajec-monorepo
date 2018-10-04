@@ -1,3 +1,17 @@
-<p>
-  camp-edition-list works!
-</p>
+<bda-admin-panel-section
+  [breadcrumbs]="['Edycje Obozu','Wszystkie Edycje']">
+  <div class="bda-admin-camp-edition-settings-card">
+    <h1>XXXVI Edycja Obozu</h1>
+    <button (click)="onClick()">BUTTON</button>
+    <div>
+    <div
+    *ngFor="let camp of campEditions | async"
+    >
+      {{camp.campEditionEndDate}}
+    </div>
+    </div>
+  </div>
+</bda-admin-panel-section>
+
+
+
