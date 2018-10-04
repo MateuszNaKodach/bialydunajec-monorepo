@@ -18,7 +18,7 @@
         <span title><i class="anticon anticon-compass"></i><span class="nav-text">Edycja Obozu</span></span>
         <ul>
           <li nz-menu-item routerLink="edycje-obozu">Wszystkie Edycje</li>
-          <li nz-menu-item>Dodaj nową</li>
+          <li nz-menu-item routerLink="edycje-obozu/dodaj-nowa">Dodaj nową</li>
           <li nz-menu-item>Planer Edycji</li>
           <li nz-menu-item>Program Obozu</li>
         </ul>
@@ -119,10 +119,8 @@
       </div>
     </nz-header>
 
-    <nz-content style="margin:1rem 1rem 0;">
-      <div style="padding:1rem">
-        <router-outlet></router-outlet>
-      </div>
+    <nz-content  class="bda-admin-panel-layout__content">
+          <router-outlet></router-outlet>
     </nz-content>
 
     <nz-footer style="text-align: center;">Biały Dunajec Aplikacja Webowa (Panel Administracyjny - wersja: 1.0) ©2018

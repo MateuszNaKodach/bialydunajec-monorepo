@@ -9,6 +9,7 @@ import { UserAvatarComponent } from './component/user-avatar/user-avatar.compone
 import {CampEditionSelectionComponent} from './component/camp-edition-selection/camp-edition-selection.component';
 import {HttpClientModule} from '@angular/common/http';
 import { PanelSectionComponent } from './component/panel-section/panel-section.component';
+import { BreadcrumbsComponent } from './component/breadcrumbs/breadcrumbs.component';
 
 registerLocaleData(pl);
 
@@ -25,7 +26,8 @@ registerLocaleData(pl);
     FormInputComponent,
     UserAvatarComponent,
     CampEditionSelectionComponent,
-    PanelSectionComponent
+    PanelSectionComponent,
+    BreadcrumbsComponent
   ],
   exports: [
     CommonModule,
@@ -36,7 +38,8 @@ registerLocaleData(pl);
     UserAvatarComponent,
     BialyDunajecCommonsModule,
     CampEditionSelectionComponent,
-    PanelSectionComponent
+    PanelSectionComponent,
+    BreadcrumbsComponent
   ],
   providers: [{provide: NZ_I18N, useValue: pl_PL}]
 })

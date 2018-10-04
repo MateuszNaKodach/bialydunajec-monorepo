@@ -23,7 +23,7 @@
 }
 
 @mixin xl__screen() {
-  @media screen and (min-width: 1920px) and (max-width: 5000px) {
+  @media screen and (min-width: 1920px){
     @content;
   }
 }

@@ -1,3 +1,4 @@
 export const campEditionRoutingPaths = {
-  root: ''
+  root: '',
+  newCampEdition: 'dodaj-nowa'
 };
