@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CampEditionSettingsComponent } from './camp-edition-settings.component';
+import { CampRegistrationsSettingsComponent } from './camp-registrations-settings.component';
 
 describe('CampEditionSettingsComponent', () => {
-  let component: CampEditionSettingsComponent;
-  let fixture: ComponentFixture<CampEditionSettingsComponent>;
+  let component: CampRegistrationsSettingsComponent;
+  let fixture: ComponentFixture<CampRegistrationsSettingsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CampEditionSettingsComponent ]
+      declarations: [ CampRegistrationsSettingsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CampEditionSettingsComponent);
+    fixture = TestBed.createComponent(CampRegistrationsSettingsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

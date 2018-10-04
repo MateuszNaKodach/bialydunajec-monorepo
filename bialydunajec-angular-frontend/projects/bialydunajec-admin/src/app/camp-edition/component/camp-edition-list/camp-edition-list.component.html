@@ -1,17 +1,27 @@
-<bda-admin-panel-section
-  [breadcrumbs]="['Edycje Obozu','Wszystkie Edycje']">
-  <div class="bda-admin-camp-edition-settings-card">
-    <h1>XXXVI Edycja Obozu</h1>
-    <button (click)="onClick()">BUTTON</button>
-    <div>
-    <div
-    *ngFor="let camp of campEditions | async"
-    >
-      {{camp.campEditionEndDate}}
-    </div>
+<section>
+  <div style="display: flex; margin-left: 3rem;">
+    <bda-admin-breadcrumbs
+      [breadcrumbs]="['Edycja Obozu','Wszystkie Edycje']"
+    ></bda-admin-breadcrumbs>
+    <button style="margin-left: 2rem" nz-button nzType="primary">Dodaj nową</button>
+  </div>
+  <div
+    *ngFor="let campEdition of campEditions | async"
+    class="bda-admin-panel-section-card">
+    <div class="bda-admin-panel-section-card-content">
+      <div>
+        <h2 style="font-weight: bold">{{RomanNumerals.roman(campEdition.campEditionId)}} Edycja Obozu</h2>
+        <h3>Rok {{campEdition.campEditionYear}}</h3>
+      </div>
+      <div>
+        <h3>
+          Czas trwania: {{campEdition.campEditionStartDate}} - {{campEdition.campEditionEndDate}}
+        </h3>
+        <button nz-button>Modyfikuj</button>
+      </div>
     </div>
   </div>
-</bda-admin-panel-section>
+</section>
 
 
 

@@ -26,7 +26,7 @@ export class AuthService {
           console.log(this.userOAuthToken);
         },
         response => {
-          if (response.status === 401) {
+          if (response.status >= 400 && response.status < 500) {
             this.authenticationSubject.next(new AuthState(null, 'Niepoprawne dane logowania.'));
           } else {
             this.authenticationSubject.next(new AuthState(null, 'Błąd serwera. Spróbuj ponownie później. ' +
