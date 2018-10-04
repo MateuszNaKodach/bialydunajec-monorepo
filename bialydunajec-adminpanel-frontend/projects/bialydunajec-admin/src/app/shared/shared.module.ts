@@ -7,6 +7,7 @@ import {BialyDunajecCommonsModule} from 'bialydunajec-commons';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { UserAvatarComponent } from './component/user-avatar/user-avatar.component';
 import {CampEditionSelectionComponent} from './component/camp-edition-selection/camp-edition-selection.component';
+import {HttpClientModule} from '@angular/common/http';
 
 registerLocaleData(pl);
 
@@ -14,6 +15,7 @@ registerLocaleData(pl);
   imports: [
     CommonModule,
     FormsModule,
+    HttpClientModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
     BialyDunajecCommonsModule

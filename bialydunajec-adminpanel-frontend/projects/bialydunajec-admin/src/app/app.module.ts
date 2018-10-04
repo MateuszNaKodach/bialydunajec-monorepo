@@ -16,8 +16,8 @@ import {CoreModule} from './core/core.module';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule,
     HttpClientModule,
+    BrowserAnimationsModule,
     SharedModule,
     CoreModule,
     AuthModule
