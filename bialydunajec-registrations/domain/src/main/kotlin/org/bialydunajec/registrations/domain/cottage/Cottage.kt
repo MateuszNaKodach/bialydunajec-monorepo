@@ -3,6 +3,7 @@ package org.bialydunajec.registrations.domain.cottage
 import org.bialydunajec.ddd.domain.base.aggregate.AggregateRoot
 import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.Url
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.location.Place
 import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryId
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
 import org.bialydunajec.registrations.domain.cottage.valueobject.*
@@ -10,6 +11,7 @@ import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRu
 import javax.persistence.*
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
+
 //TODO: Add address and geolocation!
 @Entity
 @Table(
@@ -44,6 +46,9 @@ class Cottage internal constructor(
         private val buildingPhotoUrl: Url? = null,
 
         @Embedded
+        private val place: Place,
+
+        @Embedded
         private var cottageSpace: CottageSpace = CottageSpace(),
 
         @Embedded
@@ -67,6 +72,7 @@ class Cottage internal constructor(
     fun getName() = name
     fun getLogoImageUrl() = logoImageUrl
     fun getBuildingPhotoUrl() = buildingPhotoUrl
+    fun getPlace() = place
     fun getCottageSpace() = cottageSpace
     fun getCampersLimitations() = campersLimitations
     fun getBankTransferDetails() = bankTransferDetails

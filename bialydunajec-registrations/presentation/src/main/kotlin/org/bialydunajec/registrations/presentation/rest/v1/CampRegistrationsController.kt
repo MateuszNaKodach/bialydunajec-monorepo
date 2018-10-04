@@ -19,7 +19,7 @@ class CampRegistrationsController(
 
     //COMMAND----------------------------------------------------------------------------------------------------------
     @PatchMapping("{campRegistrationsEditionId}/timer")
-    fun startCampRegistrationsEditionById(@PathVariable campRegistrationsEditionId: Int, @RequestBody request: UpdateCampRegistrationsTimerRequest) =
+    fun updateCampRegistrationsTimerById(@PathVariable campRegistrationsEditionId: Int, @RequestBody request: UpdateCampRegistrationsTimerRequest) =
             commandGateway.process(
                     CampRegistrationsCommand.UpdateCampRegistrationsTimer(
                             campRegistrationsEditionId,
