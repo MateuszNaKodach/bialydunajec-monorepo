@@ -46,7 +46,7 @@ class Cottage internal constructor(
         private val buildingPhotoUrl: Url? = null,
 
         @Embedded
-        private val place: Place,
+        private val place: Place? = null,
 
         @Embedded
         private var cottageSpace: CottageSpace = CottageSpace(),
