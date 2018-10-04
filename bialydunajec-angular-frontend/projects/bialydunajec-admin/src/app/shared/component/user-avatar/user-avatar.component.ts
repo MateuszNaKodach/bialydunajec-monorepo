@@ -11,7 +11,7 @@ export class UserAvatarComponent implements OnInit {
   @Input() tooltipPlacement: 'bottom' | 'none' = 'bottom';
   @Input() showName = true;
   @Input() showAvatar = true;
-  @Input() userViewModel: UserViewModel = new UserViewModel('123sda', 'Mateusz', 'Nowak', 'nowak@gmail.com');
+  @Input() userViewModel: UserViewModel = new UserViewModel('123sda', 'Mateusz Nowak', 'Mateusz', 'Nowak', 'nowak@gmail.com');
 
   constructor() {
   }

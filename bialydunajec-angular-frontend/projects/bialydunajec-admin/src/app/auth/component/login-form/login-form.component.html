@@ -2,6 +2,8 @@
   <header>
     <img src="assets/images/bialydunajec_header_logo_black.png" alt="Biały Dunajec - Logo Obozu">
   </header>
+
+
   <nz-card class="bda-admin-login-page__card" [nzTitle]="cardTitle">
     <ng-template #cardTitle>
       <b style="display: block; text-align: center;">PANEL ADMINISTRACYJNY</b>
@@ -30,9 +32,17 @@
           <label nz-checkbox formControlName="remember">
             <span>Zapamiętaj mnie</span>
           </label>
-          <button nz-button class="bda-admin-login-form__button" [nzType]="'primary'">Zaloguj się</button>
+          <button nz-button class="bda-admin-login-form__button" [nzLoading]="authInProgress" [nzType]="'primary'">Zaloguj się</button>
         </nz-form-control>
       </nz-form-item>
+      <nz-alert
+        style="margin-bottom: 1rem;"
+        *ngIf="loginErrorMessage"
+        nzType="error"
+        nzMessage="Logowanie nie powiodło się"
+        [nzDescription]="loginErrorMessage"
+        nzShowIcon>
+      </nz-alert>
       <a class="bda-admin-login-form__forgot-password-link">Nie pamiętasz hasła?</a>
     </form>
   </nz-card>
