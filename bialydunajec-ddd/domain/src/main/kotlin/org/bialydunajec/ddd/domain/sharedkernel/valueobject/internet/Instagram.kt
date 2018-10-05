@@ -7,17 +7,13 @@ import javax.persistence.Lob
 import javax.validation.constraints.NotBlank
 
 @Embeddable
-open class Url(
+data class Instagram(
         @Lob
         @URL
         @NotBlank
-        private val url: String
+        private val instagramUrl: String
 ) : ValueObject {
-    @Embeddable
-    class InternalUrl(url: String) : Url(url)
 
-    @Embeddable
-    class ExternalUrl(url: String) : Url(url)
-
-    override fun toString() = url
+        override fun toString() = instagramUrl
+        fun getUrl() = instagramUrl
 }

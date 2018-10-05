@@ -7,17 +7,13 @@ import javax.persistence.Lob
 import javax.validation.constraints.NotBlank
 
 @Embeddable
-open class Url(
+data class YouTubeChannel(
         @Lob
         @URL
         @NotBlank
-        private val url: String
+        private val youTubeChannelUrl: String
 ) : ValueObject {
-    @Embeddable
-    class InternalUrl(url: String) : Url(url)
 
-    @Embeddable
-    class ExternalUrl(url: String) : Url(url)
-
-    override fun toString() = url
+        override fun toString() = youTubeChannelUrl
+        fun getUrl() = youTubeChannelUrl
 }

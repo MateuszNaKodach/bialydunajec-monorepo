@@ -6,12 +6,12 @@ import javax.persistence.Lob
 import javax.validation.constraints.NotBlank
 
 @Embeddable
-data class Note(
-        @Column(name = "note_title")
+data class ExtendedDescription(
+        @Column(name = "description_title")
         val title: String?,
 
         @Lob
         @NotBlank
-        @Column(name = "note_content")
+        @Column(name = "description_content")
         val content: String
 )

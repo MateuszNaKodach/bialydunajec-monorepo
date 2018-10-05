@@ -17,11 +17,11 @@ class CampRegistrationsCommandGateway internal constructor(
         private val standaloneCottageApplicationService: CreateStandaloneCottageApplicationService
 ) : CommandGateway {
 
-    fun process(command: CampRegistrationsCommand.CreateCampRegistrationsEdition) {
+    internal fun process(command: CampRegistrationsCommand.CreateCampRegistrationsEdition) {
         createCampRegistrationsEditionApplicationService.process(command)
     }
 
-    fun process(command: CampRegistrationsCommand.UpdateCampRegistrationsEditionDuration) {
+    internal fun process(command: CampRegistrationsCommand.UpdateCampRegistrationsEditionDuration) {
         updateCampRegistrationsEditionDurationApplicationService.process(command)
     }
 
