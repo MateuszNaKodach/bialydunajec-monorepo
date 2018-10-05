@@ -15,6 +15,5 @@ data class AcademicMinistrySnapshot(
         val socialMedia: SocialMedia,
         val emailAddress: EmailAddress?,
         val photoUrl: Url?,
-        val description: ExtendedDescription?,
-        val priests: List<AcademicPriestSnapshot>
+        val description: ExtendedDescription?
 )

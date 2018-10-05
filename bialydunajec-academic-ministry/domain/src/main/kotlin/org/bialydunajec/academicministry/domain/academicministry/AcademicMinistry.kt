@@ -46,6 +46,26 @@ internal class AcademicMinistry(
     @OneToMany(cascade = [CascadeType.ALL])
     private var priests: List<AcademicPriest> = mutableListOf();
 
+    init {
+        registerEvent(AcademicMinistryEvent.AcademicMinistryCreated(getSnapshot()))
+    }
+
+    fun updateWith(snapshot: AcademicMinistrySnapshot) {
+        val isUpdate = snapshot != getSnapshot()
+        if (isUpdate) {
+            this.officialName = snapshot.officialName
+            this.shortName = snapshot.shortName
+            this.logoImageUrl = snapshot.logoImageUrl
+            this.place = snapshot.place
+            this.socialMedia = snapshot.socialMedia
+            this.emailAddress = snapshot.emailAddress
+            this.photoUrl = snapshot.photoUrl
+            this.description = snapshot.description
+
+            registerEvent(AcademicMinistryEvent.AcademicMinistryUpdated(getSnapshot()))
+        }
+    }
+
     fun getOfficialName() = officialName
     fun getShortName() = shortName
     fun getLogoImageUrl() = logoImageUrl
@@ -65,7 +85,6 @@ internal class AcademicMinistry(
             socialMedia = socialMedia,
             emailAddress = emailAddress,
             photoUrl = photoUrl,
-            description = description,
-            priests = getPriestsSnapshots()
+            description = description
     )
 }

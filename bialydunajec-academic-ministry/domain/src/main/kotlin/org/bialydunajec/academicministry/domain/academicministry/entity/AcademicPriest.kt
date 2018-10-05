@@ -47,6 +47,19 @@ internal class AcademicPriest(
     @Version
     private var version: Long? = null
 
+    fun updateWith(snapshot: AcademicPriestSnapshot) {
+        val isUpdate = snapshot != getSnapshot()
+        if (isUpdate) {
+            this.firstName = snapshot.firstName
+            this.lastName = snapshot.lastName
+            this.personalTitle = snapshot.personalTitle
+            this.emailAddress = snapshot.emailAddress
+            this.phoneNumber = snapshot.phoneNumber
+            this.description = snapshot.description
+            this.photoUrl = snapshot.photoUrl
+        }
+    }
+
     fun getAcademicPriestId() = entityId
     fun getFirstName() = firstName
     fun getLastName() = lastName
