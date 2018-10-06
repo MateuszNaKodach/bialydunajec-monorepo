@@ -1,6 +1,6 @@
 package org.bialydunajec.academicministry.application.command.api
 
-import org.bialydunajec.academicministry.domain.academicministry.AcademicMinistryId
+import org.bialydunajec.academicministry.domain.AcademicMinistryId
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.SocialMedia
 import org.bialydunajec.ddd.application.base.command.Command
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddress

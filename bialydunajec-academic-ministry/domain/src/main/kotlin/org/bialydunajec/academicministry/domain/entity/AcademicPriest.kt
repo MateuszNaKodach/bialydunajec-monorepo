@@ -1,6 +1,6 @@
-package org.bialydunajec.academicministry.domain.academicministry.entity
+package org.bialydunajec.academicministry.domain.entity
 
-import org.bialydunajec.academicministry.domain.academicministry.valueobject.AcademicPriestSnapshot
+import org.bialydunajec.academicministry.domain.valueobject.AcademicPriestSnapshot
 import org.bialydunajec.ddd.domain.base.persistence.IdentifiedEntity
 import org.bialydunajec.ddd.domain.base.persistence.Versioned
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.PhoneNumber

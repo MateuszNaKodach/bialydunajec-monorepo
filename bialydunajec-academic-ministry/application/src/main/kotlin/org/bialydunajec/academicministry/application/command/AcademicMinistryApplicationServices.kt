@@ -1,9 +1,9 @@
 package org.bialydunajec.academicministry.application.command
 
 import org.bialydunajec.academicministry.application.command.api.AcademicMinistryCommand
-import org.bialydunajec.academicministry.domain.academicministry.AcademicMinistry
-import org.bialydunajec.academicministry.domain.academicministry.AcademicMinistryRepository
-import org.bialydunajec.academicministry.domain.academicministry.valueobject.AcademicMinistrySnapshot
+import org.bialydunajec.academicministry.domain.AcademicMinistry
+import org.bialydunajec.academicministry.domain.AcademicMinistryRepository
+import org.bialydunajec.academicministry.domain.valueobject.AcademicMinistrySnapshot
 import org.bialydunajec.academicministry.domain.exception.AcademicMinistryDomainRule
 import org.bialydunajec.ddd.application.base.ApplicationService
 import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException

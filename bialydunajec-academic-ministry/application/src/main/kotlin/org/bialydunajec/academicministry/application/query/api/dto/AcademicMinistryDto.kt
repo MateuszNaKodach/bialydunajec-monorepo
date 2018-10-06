@@ -1,6 +1,6 @@
 package org.bialydunajec.academicministry.application.query.api.dto
 
-import org.bialydunajec.academicministry.domain.academicministry.valueobject.AcademicMinistrySnapshot
+import org.bialydunajec.academicministry.domain.valueobject.AcademicMinistrySnapshot
 import org.bialydunajec.ddd.application.base.query.api.dto.ExtendedDescriptionDto
 import org.bialydunajec.ddd.application.base.query.api.dto.PlaceDto
 import org.bialydunajec.ddd.application.base.query.api.dto.SocialMediaDto
@@ -9,7 +9,7 @@ import org.bialydunajec.ddd.application.base.query.api.dto.toDto
 data class AcademicMinistryDto(
         val academicMinistryId: String,
         val officialName: String,
-        val shortName: String,
+        val shortName: String?,
         val logoImageUrl: String?,
         val place: PlaceDto?,
         val socialMedia: SocialMediaDto?,

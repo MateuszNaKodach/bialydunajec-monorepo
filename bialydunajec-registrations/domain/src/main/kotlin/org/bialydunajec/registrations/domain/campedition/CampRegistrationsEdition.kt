@@ -135,7 +135,7 @@ class CampRegistrationsEdition constructor(
                 campRegistrationsEditionId = getAggregateId(),
                 cottageType = CottageType.ACADEMIC_MINISTRY,
                 academicMinistryId = academicMinistry.getAggregateId(),
-                name = academicMinistry.getShortName(),
+                name = academicMinistry.getShortName() ?: academicMinistry.getOfficialName(),
                 logoImageUrl = academicMinistry.getLogoImageUrl()
         )
     }

@@ -1,6 +1,6 @@
-package org.bialydunajec.academicministry.domain.academicministry
+package org.bialydunajec.academicministry.domain
 
-import org.bialydunajec.academicministry.domain.academicministry.valueobject.AcademicMinistrySnapshot
+import org.bialydunajec.academicministry.domain.valueobject.AcademicMinistrySnapshot
 import org.bialydunajec.ddd.domain.base.event.DomainEvent
 
 sealed class AcademicMinistryEvent(override val aggregateId: AcademicMinistryId) : DomainEvent<AcademicMinistryId> {

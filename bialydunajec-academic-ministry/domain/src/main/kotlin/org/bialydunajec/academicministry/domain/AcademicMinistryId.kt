@@ -1,4 +1,4 @@
-package org.bialydunajec.academicministry.domain.academicministry
+package org.bialydunajec.academicministry.domain
 
 import org.bialydunajec.ddd.domain.base.valueobject.AggregateId
 import javax.persistence.Embeddable

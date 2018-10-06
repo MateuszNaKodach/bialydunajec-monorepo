@@ -10,6 +10,9 @@ import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditio
 import org.bialydunajec.registrations.domain.campedition.specification.CampRegistrationsHasMinimumCottagesToStartSpecification
 import org.bialydunajec.registrations.domain.cottage.CottageRepository
 import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.context.annotation.Bean
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
@@ -133,6 +136,7 @@ internal class FinishCampRegistrationsNowApplicationService(
 @Transactional
 internal class CreateAcademicMinistryCottageApplicationService(
         private val campEditionRepository: CampRegistrationsEditionRepository,
+        @Qualifier("cottageAcademicMinistryRepositoryImpl")
         private val academicMinistryRepository: AcademicMinistryRepository,
         private val cottageRepository: CottageRepository
 ) : ApplicationService<CampRegistrationsCommand.CreateAcademicMinistryCottage> {

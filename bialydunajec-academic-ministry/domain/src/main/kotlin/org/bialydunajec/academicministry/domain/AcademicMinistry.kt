@@ -1,7 +1,7 @@
-package org.bialydunajec.academicministry.domain.academicministry
+package org.bialydunajec.academicministry.domain
 
-import org.bialydunajec.academicministry.domain.academicministry.entity.AcademicPriest
-import org.bialydunajec.academicministry.domain.academicministry.valueobject.AcademicMinistrySnapshot
+import org.bialydunajec.academicministry.domain.entity.AcademicPriest
+import org.bialydunajec.academicministry.domain.valueobject.AcademicMinistrySnapshot
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.SocialMedia
 import org.bialydunajec.ddd.domain.base.aggregate.AggregateRoot
 import org.bialydunajec.ddd.domain.base.persistence.Versioned
@@ -11,6 +11,7 @@ import org.bialydunajec.ddd.domain.sharedkernel.valueobject.location.Place
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.notes.ExtendedDescription
 import javax.persistence.*
 import javax.validation.constraints.NotBlank
+import javax.validation.constraints.NotEmpty
 
 @Entity
 @Table(schema = "academic_ministry")
@@ -18,8 +19,8 @@ class AcademicMinistry(
         @NotBlank
         private var officialName: String,
 
-        @NotBlank
-        private var shortName: String,
+        @NotEmpty
+        private var shortName: String?,
 
         @Embedded
         @AttributeOverrides(AttributeOverride(name = "url", column = Column(name = "logoImageUrl")))

@@ -1,4 +1,4 @@
-package org.bialydunajec.academicministry.domain.academicministry.valueobject
+package org.bialydunajec.academicministry.domain.valueobject
 
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.PhoneNumber
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddress

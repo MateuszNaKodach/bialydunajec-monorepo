@@ -1,8 +1,8 @@
 package org.bialydunajec.academicministry.application.query.readmodel
 
 import org.bialydunajec.academicministry.application.query.api.AcademicMinistryQuery
-import org.bialydunajec.academicministry.domain.academicministry.AcademicMinistryId
-import org.bialydunajec.academicministry.domain.academicministry.AcademicMinistryRepository
+import org.bialydunajec.academicministry.domain.AcademicMinistryId
+import org.bialydunajec.academicministry.domain.AcademicMinistryRepository
 import org.springframework.stereotype.Component
 
 @Component
