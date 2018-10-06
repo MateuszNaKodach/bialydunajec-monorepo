@@ -7,4 +7,6 @@ import javax.validation.constraints.NotBlank
 data class Street(
         @NotBlank
         val street: String
-)
+){
+        override fun toString() = street
+}

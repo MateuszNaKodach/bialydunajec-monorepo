@@ -12,5 +12,8 @@ sealed class AcademicMinistryEvent(override val aggregateId: AcademicMinistryId)
             val snapshot: AcademicMinistrySnapshot
     ) : AcademicMinistryEvent(snapshot.academicMinistryId)
 
-    //data class AcademicMinistryDeleted(val academicMinistryId: AcademicMinistryId) : AcademicMinistryEvent(academicMinistryId)
+    //data class AcademicMinistryInactivated(val academicMinistryId: AcademicMinistryId) : AcademicMinistryEvent(academicMinistryId)
+
+    //data class AcademicMinistryActivated(val academicMinistryId: AcademicMinistryId) : AcademicMinistryEvent(academicMinistryId)
+
 }

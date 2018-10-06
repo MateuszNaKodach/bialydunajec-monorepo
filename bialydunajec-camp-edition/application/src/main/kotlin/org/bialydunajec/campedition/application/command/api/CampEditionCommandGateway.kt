@@ -11,12 +11,12 @@ class CampEditionCommandGateway internal constructor(
         private val updateCampEditionDurationApplicationService: UpdateCampEditionDurationApplicationService
 ) : CommandGateway {
 
-    fun process(command: CampEditionCommand.CreateCampEdition) {
-        createCampEditionApplicationService.process(command)
-    }
+    fun process(command: CampEditionCommand.CreateCampEdition) =
+            createCampEditionApplicationService.process(command)
 
-    fun process(command: CampEditionCommand.UpdateCampEditionDuration) {
-        updateCampEditionDurationApplicationService.process(command)
-    }
+
+    fun process(command: CampEditionCommand.UpdateCampEditionDuration) =
+            updateCampEditionDurationApplicationService.process(command)
+
 
 }

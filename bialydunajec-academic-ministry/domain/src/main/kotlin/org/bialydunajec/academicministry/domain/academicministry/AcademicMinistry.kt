@@ -2,7 +2,7 @@ package org.bialydunajec.academicministry.domain.academicministry
 
 import org.bialydunajec.academicministry.domain.academicministry.entity.AcademicPriest
 import org.bialydunajec.academicministry.domain.academicministry.valueobject.AcademicMinistrySnapshot
-import org.bialydunajec.academicministry.domain.academicministry.valueobject.SocialMedia
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.SocialMedia
 import org.bialydunajec.ddd.domain.base.aggregate.AggregateRoot
 import org.bialydunajec.ddd.domain.base.persistence.Versioned
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddress
@@ -15,8 +15,6 @@ import javax.validation.constraints.NotBlank
 @Entity
 @Table(schema = "academic_ministry")
 class AcademicMinistry(
-        academicMinistryId: AcademicMinistryId,
-
         @NotBlank
         private var officialName: String,
 
@@ -42,7 +40,7 @@ class AcademicMinistry(
 
         @Embedded
         private var description: ExtendedDescription? = null
-) : AggregateRoot<AcademicMinistryId, AcademicMinistryEvent>(academicMinistryId), Versioned {
+) : AggregateRoot<AcademicMinistryId, AcademicMinistryEvent>(AcademicMinistryId()), Versioned {
 
     @Version
     private var version: Long? = null

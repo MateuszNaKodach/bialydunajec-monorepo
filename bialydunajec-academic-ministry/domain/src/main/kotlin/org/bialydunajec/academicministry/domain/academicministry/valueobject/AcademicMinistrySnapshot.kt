@@ -2,6 +2,7 @@ package org.bialydunajec.academicministry.domain.academicministry.valueobject
 
 import org.bialydunajec.academicministry.domain.academicministry.AcademicMinistryId
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddress
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.SocialMedia
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.Url
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.location.Place
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.notes.ExtendedDescription

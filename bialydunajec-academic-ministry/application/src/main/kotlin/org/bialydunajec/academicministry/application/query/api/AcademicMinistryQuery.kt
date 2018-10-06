@@ -1,4 +1,6 @@
 package org.bialydunajec.academicministry.application.query.api
 
-class AcademicMinistryQuery {
+sealed class AcademicMinistryQuery {
+    class All : AcademicMinistryQuery()
+    class ById(val academicMinistryId: String) : AcademicMinistryQuery()
 }

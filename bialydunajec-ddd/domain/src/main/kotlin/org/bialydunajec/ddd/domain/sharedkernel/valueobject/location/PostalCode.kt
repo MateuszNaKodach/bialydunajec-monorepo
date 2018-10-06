@@ -7,4 +7,6 @@ import javax.validation.constraints.NotBlank
 data class PostalCode(
         @NotBlank
         val postalCode: String
-)
+) {
+    override fun toString() = postalCode
+}

@@ -1,6 +1,7 @@
 package org.bialydunajec.academicministry.application.command.api
 
-import org.bialydunajec.academicministry.domain.academicministry.valueobject.SocialMedia
+import org.bialydunajec.academicministry.domain.academicministry.AcademicMinistryId
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.SocialMedia
 import org.bialydunajec.ddd.application.base.command.Command
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddress
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.Url
@@ -20,6 +21,7 @@ sealed class AcademicMinistryCommand : Command {
     ) : AcademicMinistryCommand()
 
     data class UpdateAcademicMinistry internal constructor(
+            val academicMinistryId: AcademicMinistryId,
             val officialName: String,
             val shortName: String,
             val logoImageUrl: Url?,
@@ -28,5 +30,9 @@ sealed class AcademicMinistryCommand : Command {
             val emailAddress: EmailAddress?,
             val photoUrl: Url?,
             val description: ExtendedDescription?
+    ) : AcademicMinistryCommand()
+
+    data class InactivateAcademicMinistry internal constructor(
+            val academicMinistryId: AcademicMinistryId
     ) : AcademicMinistryCommand()
 }

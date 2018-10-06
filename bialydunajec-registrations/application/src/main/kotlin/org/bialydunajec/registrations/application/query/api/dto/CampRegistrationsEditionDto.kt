@@ -23,7 +23,7 @@ data class CampRegistrationsEditionDto(
     }
 }
 
-data class CampRegistrationsDto(
+data class  CampRegistrationsDto(
         val campRegistrationsId: String,
         val status: String,
         val timerStartDate: ZonedDateTime?,

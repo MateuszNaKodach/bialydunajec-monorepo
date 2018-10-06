@@ -1,4 +1,4 @@
-package org.bialydunajec.academicministry.domain.academicministry.valueobject
+package org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet
 
 import org.bialydunajec.ddd.domain.base.valueobject.ValueObject
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.*

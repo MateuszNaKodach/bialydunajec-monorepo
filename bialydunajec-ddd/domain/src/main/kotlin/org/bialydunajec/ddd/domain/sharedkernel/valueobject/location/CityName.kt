@@ -7,4 +7,6 @@ import javax.validation.constraints.NotBlank
 data class CityName(
         @NotBlank
         val city: String
-)
+){
+        override fun toString() = city
+}

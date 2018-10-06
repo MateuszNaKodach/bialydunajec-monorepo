@@ -7,4 +7,6 @@ import javax.validation.constraints.NotBlank
 data class HomeNumber(
         @NotBlank
         val homeNumber: String
-)
+){
+        override fun toString() = homeNumber
+}
