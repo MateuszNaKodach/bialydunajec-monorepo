@@ -8,13 +8,13 @@ import java.time.LocalDate
 import java.time.ZonedDateTime
 
 sealed class CampRegistrationsCommand : Command {
-    data class CreateCampRegistrationsEdition(
+    internal data class CreateCampRegistrationsEdition(
             val campRegistrationsEditionId: CampRegistrationsEditionId,
             val campEditionStartDate: LocalDate,
             val campEditionEndDate: LocalDate
     ) : CampRegistrationsCommand()
 
-    data class UpdateCampRegistrationsEditionDuration(
+    internal data class UpdateCampRegistrationsEditionDuration(
             val campRegistrationsEditionId: CampRegistrationsEditionId,
             val campEditionStartDate: LocalDate,
             val campEditionEndDate: LocalDate

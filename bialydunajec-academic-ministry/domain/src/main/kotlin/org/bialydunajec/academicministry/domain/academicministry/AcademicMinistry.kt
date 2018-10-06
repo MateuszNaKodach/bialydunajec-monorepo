@@ -4,6 +4,7 @@ import org.bialydunajec.academicministry.domain.academicministry.entity.Academic
 import org.bialydunajec.academicministry.domain.academicministry.valueobject.AcademicMinistrySnapshot
 import org.bialydunajec.academicministry.domain.academicministry.valueobject.SocialMedia
 import org.bialydunajec.ddd.domain.base.aggregate.AggregateRoot
+import org.bialydunajec.ddd.domain.base.persistence.Versioned
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddress
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.Url
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.location.Place
@@ -13,7 +14,7 @@ import javax.validation.constraints.NotBlank
 
 @Entity
 @Table(schema = "academic_ministry")
-internal class AcademicMinistry(
+class AcademicMinistry(
         academicMinistryId: AcademicMinistryId,
 
         @NotBlank
@@ -41,7 +42,10 @@ internal class AcademicMinistry(
 
         @Embedded
         private var description: ExtendedDescription? = null
-) : AggregateRoot<AcademicMinistryId, AcademicMinistryEvent>(academicMinistryId) {
+) : AggregateRoot<AcademicMinistryId, AcademicMinistryEvent>(academicMinistryId), Versioned {
+
+    @Version
+    private var version: Long? = null
 
     @OneToMany(cascade = [CascadeType.ALL])
     private var priests: List<AcademicPriest> = mutableListOf();
@@ -75,6 +79,7 @@ internal class AcademicMinistry(
     fun getPhotoUrl() = photoUrl
     fun getDescription() = description
     fun getPriestsSnapshots() = priests.map { it.getSnapshot() }
+    override fun getVersion() = version
 
     fun getSnapshot() = AcademicMinistrySnapshot(
             academicMinistryId = getAggregateId(),
