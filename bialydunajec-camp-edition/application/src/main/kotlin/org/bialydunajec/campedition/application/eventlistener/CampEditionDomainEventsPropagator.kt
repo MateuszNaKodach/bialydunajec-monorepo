@@ -10,7 +10,7 @@ import org.springframework.transaction.event.TransactionPhase
 import org.springframework.transaction.event.TransactionalEventListener
 
 @Component
-internal class CampEditionDomainEventsListener(private val externalEventBus: ExternalEventBus) {
+internal class CampEditionDomainEventsPropagator(private val externalEventBus: ExternalEventBus) {
 
     @Async
     @TransactionalEventListener

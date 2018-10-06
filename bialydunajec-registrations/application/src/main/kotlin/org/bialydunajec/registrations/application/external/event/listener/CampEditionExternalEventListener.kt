@@ -1,4 +1,4 @@
-package org.bialydunajec.registrations.application.external.eventlistener
+package org.bialydunajec.registrations.application.external.event.listener
 
 import org.bialydunajec.campedition.messages.event.CampEditionExternalEvent
 import org.bialydunajec.ddd.application.base.external.event.ExternalEvent
@@ -10,8 +10,9 @@ import org.springframework.context.event.EventListener
 import org.springframework.stereotype.Component
 
 @Component
-internal class CampEditionEventListener(private val campRegistrationsCommandGateway: CampRegistrationsCommandGateway) : ExternalEventListener {
+internal class CampEditionExternalEventListener(private val campRegistrationsCommandGateway: CampRegistrationsCommandGateway) : ExternalEventListener {
 
+    //TODO: Change to ExternalEventProcessors instead of commands!!!
     @EventListener
     override fun handleExternalEvent(externalEvent: ExternalEvent<*>) {
         val payload = externalEvent.payload
