@@ -1,10 +1,46 @@
 <section>
-  <div style="margin-left: 3rem;">
-  <bda-admin-breadcrumbs
-    [breadcrumbs]="['Edycja Obozu','Dodaj nową']"
-  ></bda-admin-breadcrumbs>
+  <div>
+    <bda-admin-breadcrumbs
+      [breadcrumbs]="['Edycja Obozu','Dodaj nową']"
+    ></bda-admin-breadcrumbs>
   </div>
-  <div style="min-height: 300px;" class="bda-admin-panel-section-card">
-    <h2 style="font-weight: bold">{{RomanNumerals.roman(36)}} Edycja Obozu</h2>
+  <div class="bda-admin-panel-section-card">
+    <form nz-form #f="ngForm" (ngSubmit)="onSubmit(f)" class="bda-admin-camp-edition-edit-form">
+      <nz-form-item>
+        <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired>Edycja Obozu</nz-form-label>
+        <nz-form-control [nzSm]="10" [nzXs]="24">
+          <input
+            #campEditionInput="ngModel"
+            nz-input
+            name="campEditionRomanNumber"
+            ngModel
+            required
+            pattern="(^(?=[MDCLXVI])M*(C[MD]|D?C{0,3})(X[CL]|L?X{0,3})(I[XV]|V?I{0,3})$)">
+          <nz-form-explain *ngIf="campEditionInput.dirty && campEditionInput.errors">
+            Proszę wpisać numer edycji obozu cyframi rzymskimi.
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired>Czas trwania Obozu</nz-form-label>
+        <nz-form-control [nzSm]="10" [nzXs]="24">
+          <nz-range-picker
+            #campDurationInput="ngModel"
+            name="campEditionDuration"
+            [nzFormat]="dateFormat"
+            ngModel
+            required
+          ></nz-range-picker>
+          <nz-form-explain *ngIf="campDurationInput.dirty && campDurationInput.errors">
+            Wybierz czas trwania edycji obozu.
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 16, offset: 8 }">
+          <button nz-button nzType="primary" [nzLoading]="submittingInProgress">Zatwierdź</button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
   </div>
 </section>

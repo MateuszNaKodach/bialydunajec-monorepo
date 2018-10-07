@@ -1,5 +1,5 @@
 <section>
-  <div style="display: flex; margin-left: 3rem;">
+  <div style="display: flex;">
     <bda-admin-breadcrumbs
       [breadcrumbs]="['Edycja Obozu','Wszystkie Edycje']"
     ></bda-admin-breadcrumbs>
@@ -10,7 +10,7 @@
     class="bda-admin-panel-section-card">
     <div class="bda-admin-panel-section-card-content">
       <div>
-        <h2 style="font-weight: bold">{{RomanNumerals.roman(campEdition.campEditionId)}} Edycja Obozu</h2>
+        <h2 style="font-weight: bold">{{RomanNumerals.numberToRoman(campEdition.campEditionId)}} Edycja Obozu</h2>
         <h3>Rok {{campEdition.campEditionYear}}</h3>
       </div>
       <div>
