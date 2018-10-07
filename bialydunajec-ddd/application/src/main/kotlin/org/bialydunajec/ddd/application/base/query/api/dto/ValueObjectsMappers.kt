@@ -1,9 +1,7 @@
 package org.bialydunajec.ddd.application.base.query.api.dto
 
-import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.SocialMedia
-import org.bialydunajec.ddd.domain.sharedkernel.valueobject.location.Address
-import org.bialydunajec.ddd.domain.sharedkernel.valueobject.location.GeoLocation
-import org.bialydunajec.ddd.domain.sharedkernel.valueobject.location.Place
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.*
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.location.*
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.notes.ExtendedDescription
 
 fun Place.toDto() =
@@ -11,6 +9,13 @@ fun Place.toDto() =
                 address = address.toDto(),
                 geoLocation = geoLocation?.toDto()
         )
+
+fun PlaceDto.toValueObject() =
+        Place(
+                address = address.toValueObject(),
+                geoLocation = geoLocation?.toValueObject()
+        )
+
 
 fun Address.toDto() =
         AddressDto(
@@ -20,17 +25,31 @@ fun Address.toDto() =
                 postalCode = postalCode.toString()
         )
 
+fun AddressDto.toValueObject() =
+        Address(
+                street = Street(street),
+                homeNumber = homeNumber?.let { HomeNumber(it) },
+                city = CityName(city),
+                postalCode = postalCode?.let { PostalCode(it) }
+        )
+
 fun GeoLocation.toDto() =
         GeoLocationDto(
                 latitude = latitude,
                 longitude = longitude
         )
 
+fun GeoLocationDto.toValueObject() =
+        GeoLocation(latitude, longitude)
+
 fun ExtendedDescription.toDto() =
         ExtendedDescriptionDto(
                 title = title,
                 content = content
         )
+
+fun ExtendedDescriptionDto.toValueObject() =
+        ExtendedDescription(title, content)
 
 fun SocialMedia.toDto() =
         SocialMediaDto(
@@ -40,3 +59,12 @@ fun SocialMedia.toDto() =
                 instagramUrl = instagram?.getUrl(),
                 youTubeChannelUrl = youTubeChannel?.getUrl()
         )
+
+fun SocialMediaDto.toValueObject() = SocialMedia(
+        webPage = webPageUrl?.let { WebPage(it) },
+        facebookPage = facebookPageUrl?.let { FacebookPage(it) },
+        facebookGroup = facebookGroupUrl?.let { FacebookGroup(it) },
+        instagram = instagramUrl?.let { Instagram(it) },
+        youTubeChannel = youTubeChannelUrl?.let { YouTubeChannel(it) }
+)
+

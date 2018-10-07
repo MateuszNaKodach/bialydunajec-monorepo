@@ -20,12 +20,11 @@ internal class AcademicMinistryExternalEventListener(
     override fun handleExternalEvent(externalEvent: ExternalEvent<*>) {
         val payload = externalEvent.payload
         when (payload) {
-            is AcademicMinistryExternalEvent.AcademicMinistryCreated -> {
+            is AcademicMinistryExternalEvent.AcademicMinistryCreated ->
                 academicMinistryExternalEventProcessor.process(payload)
-        }
-            is AcademicMinistryExternalEvent.AcademicMinistryUpdated -> {
+
+            is AcademicMinistryExternalEvent.AcademicMinistryUpdated ->
                 academicMinistryExternalEventProcessor.process(payload)
-            }
         }
     }
 }

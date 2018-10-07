@@ -9,7 +9,7 @@ import org.bialydunajec.ddd.domain.sharedkernel.valueobject.location.Place
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.notes.ExtendedDescription
 
 sealed class AcademicMinistryCommand : Command {
-    data class CreateAcademicMinistry internal constructor(
+    data class CreateAcademicMinistry constructor(
             val officialName: String,
             val shortName: String,
             val logoImageUrl: Url?,
@@ -20,7 +20,7 @@ sealed class AcademicMinistryCommand : Command {
             val description: ExtendedDescription?
     ) : AcademicMinistryCommand()
 
-    data class UpdateAcademicMinistry internal constructor(
+    data class UpdateAcademicMinistry constructor(
             val academicMinistryId: AcademicMinistryId,
             val officialName: String,
             val shortName: String,

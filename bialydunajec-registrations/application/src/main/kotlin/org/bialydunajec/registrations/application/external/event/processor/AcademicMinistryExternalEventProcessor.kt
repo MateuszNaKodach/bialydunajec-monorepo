@@ -34,5 +34,12 @@ internal class AcademicMinistryExternalEventProcessor(
         val academicMinistry = academicMinistryRepository.findById(AcademicMinistryId(eventPayload.academicMinistryId))
                 ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.ACADEMIC_MINISTRY_NOT_FOUND)
 
+        academicMinistry.updateWith(
+                eventPayload.officialName,
+                eventPayload.shortName,
+                eventPayload.logoImageUrl?.let { Url(it) }
+        )
+
+        academicMinistryRepository.save(academicMinistry)
     }
 }

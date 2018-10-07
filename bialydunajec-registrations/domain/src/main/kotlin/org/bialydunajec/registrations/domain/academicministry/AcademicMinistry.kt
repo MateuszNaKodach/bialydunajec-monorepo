@@ -2,6 +2,7 @@ package org.bialydunajec.registrations.domain.academicministry
 
 import org.bialydunajec.ddd.domain.base.aggregate.AggregateRoot
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.Url
+import org.bialydunajec.registrations.domain.academicministry.valueobject.AcademicMinistrySnapshot
 import javax.persistence.*
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotEmpty
@@ -25,5 +26,21 @@ class AcademicMinistry(
     fun getOfficialName() = officialName
     fun getShortName() = shortName
     fun getLogoImageUrl() = logoImageUrl
+
+    fun updateWith(officialName: String,
+                   shortName: String?,
+                   logoImageUrl: Url?) {
+        this.officialName = officialName
+        this.shortName = shortName
+        this.logoImageUrl = logoImageUrl
+    }
+
+    fun getSnapshot() =
+            AcademicMinistrySnapshot(
+                    academicMinistryId = getAggregateId(),
+                    officialName = officialName,
+                    shortName = shortName,
+                    logoImageUrl = logoImageUrl
+            )
 
 }
