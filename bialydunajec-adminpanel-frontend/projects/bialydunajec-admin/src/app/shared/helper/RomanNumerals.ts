@@ -1,4 +1,8 @@
 export class RomanNumerals {
+  static numberStringToRoman(num: string): string {
+    return RomanNumerals.numberToRoman(+num);
+  }
+
   static numberToRoman(num: number): string {
     const romanArray: string[] = [];
     const digits: string[] = num.toString().split('').reverse();

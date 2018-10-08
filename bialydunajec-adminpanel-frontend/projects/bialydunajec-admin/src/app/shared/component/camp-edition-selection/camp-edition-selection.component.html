@@ -1,9 +1,12 @@
 <h3 style="display: inline-block;">Edycja Obozu:</h3>
 <nz-select
   style="width: 150px; margin-left: 1.5rem;"
-  nzPlaceHolder="Wybierz edycję" [(ngModel)]="selectedEdition">
-  <nz-option nzLabel="2019 - XXXVI" nzValue="XXXVI"></nz-option>
-  <nz-option nzLabel="2018 - XXXV" nzValue="XXXV"></nz-option>
-  <nz-option nzLabel="2017 - XXXIV" nzValue="XXXIV"></nz-option>
-  <nz-option nzLabel="2016 - XXXIII" nzValue="XXXIII"></nz-option>
+  nzPlaceHolder="Wybierz edycję"
+  nzNotFoundContent="Brak Edycji Obozu"
+  [(ngModel)]="selectedCampEditionId">
+  <nz-option
+    *ngFor="let campEdition of availableCampEditions"
+    nzLabel="{{RomanNumerals.numberToRoman(campEdition.campEditionId)}} - {{campEdition.campEditionYear}}"
+    [nzValue]="campEdition.campEditionId"
+  ></nz-option>
 </nz-select>

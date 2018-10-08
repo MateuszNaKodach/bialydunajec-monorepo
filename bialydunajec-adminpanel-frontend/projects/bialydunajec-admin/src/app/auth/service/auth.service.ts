@@ -3,6 +3,7 @@ import {TokenEndpoint} from './rest/token.endpoint';
 import {Subject} from 'rxjs';
 import {AuthState} from './auth.state';
 import {TokenResponse} from './rest/response/token.response';
+import {HttpResponseHelper} from '../../shared/helper/HttpResponseHelper';
 
 const CURRENT_USER_TOKEN_KEY = 'org.bialydunajec.current_user_token';
 
@@ -26,7 +27,7 @@ export class AuthService {
           console.log(this.userOAuthToken);
         },
         response => {
-          if (response.status >= 400 && response.status < 500) {
+          if (HttpResponseHelper.isStatus4xx(response)) {
             this.authenticationSubject.next(new AuthState(null, 'Niepoprawne dane logowania.'));
           } else {
             this.authenticationSubject.next(new AuthState(null, 'Błąd serwera. Spróbuj ponownie później. ' +
