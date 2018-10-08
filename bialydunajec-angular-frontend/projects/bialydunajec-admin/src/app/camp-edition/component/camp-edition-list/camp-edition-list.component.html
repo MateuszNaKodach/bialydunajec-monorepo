@@ -5,18 +5,19 @@
     ></bda-admin-breadcrumbs>
     <button style="margin-left: 2rem" nz-button nzType="primary">Dodaj nową</button>
   </div>
-  <div
-    *ngFor="let campEdition of campEditions | async"
-    class="bda-admin-panel-section-card">
-    <div class="bda-admin-panel-section-card-content">
-      <div>
-        <h2 style="font-weight: bold">{{RomanNumerals.numberToRoman(campEdition.campEditionId)}} Edycja Obozu</h2>
-        <h3>Rok {{campEdition.campEditionYear}}</h3>
-      </div>
-      <div>
-        <h3>
-          Czas trwania: {{campEdition.campEditionStartDate}} - {{campEdition.campEditionEndDate}}
-        </h3>
+  <div class="bda-admin-camp-edition-list">
+    <div
+      *ngFor="let campEdition of campEditions | async"
+      class="bda-admin-panel-section-card">
+      <div class="bda-admin-panel-section-card-content">
+        <div>
+          <h2 style="font-weight: bold">{{RomanNumerals.numberToRoman(campEdition.campEditionId)}} Edycja Obozu</h2>
+          <h3>Rok {{campEdition.campEditionYear}}</h3>
+        </div>
+        <div style="text-align: right">
+          <h3>Czas trwania Obozu: </h3>
+          <h3>{{campEdition.campEditionStartDate}} - {{campEdition.campEditionEndDate}}</h3>
+        </div>
       </div>
     </div>
   </div>
