@@ -1,6 +1,6 @@
 export class CampEditionResponse {
-  campEditionId: string;
+  campEditionId: number;
   campEditionStartDate: Date;
   campEditionEndDate: Date;
-  campEditionYear: Number;
+  campEditionYear: number;
 }

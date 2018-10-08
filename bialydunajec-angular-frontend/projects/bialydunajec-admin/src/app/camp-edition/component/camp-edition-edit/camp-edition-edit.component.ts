@@ -6,6 +6,8 @@ import {AngularFormHelper} from '../../../../../../bialydunajec-main/src/app/sha
 import {CreateCampEditionRequest} from '../../service/rest/request/create-camp-edition.request';
 import {finalize, tap} from 'rxjs/operators';
 import {NzNotificationService} from 'ng-zorro-antd';
+import {HttpErrorResponse} from '@angular/common/http';
+import {HttpResponseHelper} from '../../../shared/helper/HttpResponseHelper';
 
 @Component({
   selector: 'bda-admin-camp-edition-edit',
@@ -17,11 +19,11 @@ export class CampEditionEditComponent implements OnInit {
   RomanNumerals = RomanNumerals;
   dateFormat = 'DD.MM.YYYY';
   submittingInProgress = false;
+  lastAlert: { type: string; message: string; description: string };
 
 
   constructor(
-    private campEditionEndpoint: CampEditionEndpoint,
-    private notificationService: NzNotificationService) {
+    private campEditionEndpoint: CampEditionEndpoint) {
   }
 
   ngOnInit() {
@@ -37,6 +39,7 @@ export class CampEditionEditComponent implements OnInit {
     const createCampEditionRequest = new CreateCampEditionRequest(campEditionId, campEditionStartDate, campEditionEndDate);
     console.log(createCampEditionRequest);
     if (form.valid) {
+      this.lastAlert = null;
       this.submittingInProgress = true;
       this.campEditionEndpoint.createCampEdition(createCampEditionRequest)
         .pipe(
@@ -45,20 +48,29 @@ export class CampEditionEditComponent implements OnInit {
         .subscribe(
           _ => {
             form.reset();
-            this.notificationService.create(
-              'success',
-              `${romanCampEditionNumber} Edycja Obozu`,
-              'została poprawnie utworzona!'
-            );
+            this.lastAlert = {
+              type: 'success',
+              message: `${romanCampEditionNumber} Edycja Obozu`,
+              description: 'została poprawnie utworzona!'
+            };
           },
-          response => {
+          (response: HttpErrorResponse) => {
             const error = response.error;
-            this.notificationService.create(
-              'error',
-              `${romanCampEditionNumber} Edycja Obozu`,
-              'nie została utworzona, z powodu błędów: \n' +
-              error.localizedMessage
-            );
+            const restErrors = response.error.restErrors;
+            if (HttpResponseHelper.isStatus4xx(response) && restErrors) {
+              this.lastAlert = {
+                type: 'error',
+                message: `${romanCampEditionNumber} Edycja Obozu`,
+                description: 'nie została utworzona, z powodu błędów:' +
+                  restErrors.map((e: string) => ` ${e}`)
+              };
+            } else {
+              this.lastAlert = {
+                type: 'error',
+                message: `${romanCampEditionNumber} Edycja Obozu`,
+                description: 'nie została utworzona, z powodu nieznanych błędów, skontaktuj się z administratorem.'
+              };
+            }
           }
         );
     }

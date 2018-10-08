@@ -3,7 +3,9 @@
     <bda-admin-breadcrumbs
       [breadcrumbs]="['Zapisy na Obóz','Ustawienia zapisów']"
     ></bda-admin-breadcrumbs>
-    <bda-admin-camp-edition-selection></bda-admin-camp-edition-selection>
+    <bda-admin-camp-edition-selection
+      (campEditionIdSelected)="onCampEditionIdSelected($event)"
+      [campEditionsObservable]="availableCampEditions"></bda-admin-camp-edition-selection>
   </div>
   <div class="bda-admin-panel-section-card">
     <h2 style="font-weight: bold">{{RomanNumerals.numberToRoman(36)}} Edycja Obozu</h2>
