@@ -25,11 +25,6 @@ export class CampEditionEditComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.notificationService.config({
-      nzPlacement: 'topRight',
-      nzDuration: 9000,
-      nzTop: '6rem'
-    });
   }
 
   onSubmit(form: FormGroup) {
@@ -56,8 +51,14 @@ export class CampEditionEditComponent implements OnInit {
               'została poprawnie utworzona!'
             );
           },
-          error => {
-            console.log(error);
+          response => {
+            const error = response.error;
+            this.notificationService.create(
+              'error',
+              `${romanCampEditionNumber} Edycja Obozu`,
+              'nie została utworzona, z powodu błędów: \n' +
+              error.localizedMessage
+            );
           }
         );
     }
