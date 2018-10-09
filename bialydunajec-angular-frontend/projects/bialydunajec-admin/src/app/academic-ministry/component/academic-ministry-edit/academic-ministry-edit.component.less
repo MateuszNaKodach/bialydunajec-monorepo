@@ -1,0 +1,48 @@
+@import '../../../../styles/responsivness';
+
+.bda-admin-academic-ministry-edit__form {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 1.5rem;
+
+  .gt-md__screen({ grid-template-columns: 1fr 1fr; });
+  .gt-xl__screen({ grid-template-columns: 1fr 1fr 1fr; });
+
+  .bda-admin-academic-ministry-edit__logo-preview {
+    text-align: center;
+    height: 11.285rem;
+
+    img {
+      max-height: 100%;
+    }
+  }
+}
+
+.bda-admin-form-group-address-street {
+  display: flex;
+  justify-content: space-between;
+
+  .bda-admin--form-input-street {
+    flex: 12;
+    margin-right: 10px;
+  }
+
+  .bda-admin--form-input-home-number {
+    flex: 5;
+    margin-left: 10px;
+  }
+}
+
+.bda-admin-form-group-address-city {
+  display: flex;
+  justify-content: space-between;
+  .bda-admin-form-input-postal-code {
+    flex: 5;
+    margin-right: 10px
+  }
+
+  .bda-admin-form-input-city {
+    flex: 12;
+    margin-left: 10px;
+  }
+}

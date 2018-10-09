@@ -55,20 +55,27 @@ export class CampEditionEditComponent implements OnInit {
             };
           },
           (response: HttpErrorResponse) => {
+            console.log(response);
             const error = response.error;
             const restErrors = response.error.restErrors;
             if (HttpResponseHelper.isStatus4xx(response) && restErrors) {
               this.lastAlert = {
                 type: 'error',
                 message: `${romanCampEditionNumber} Edycja Obozu`,
-                description: 'nie została utworzona, z powodu błędów:' +
+                description: 'nie została utworzona, z powodu złamania reguł:' +
                   restErrors.map((e: string) => ` ${e}`)
+              };
+            } else if (response.status === 0) {
+              this.lastAlert = {
+                type: 'error',
+                message: `${romanCampEditionNumber} Edycja Obozu`,
+                description: 'nie została utworzona, z powodu braku odpowiedzi serwera.'
               };
             } else {
               this.lastAlert = {
                 type: 'error',
                 message: `${romanCampEditionNumber} Edycja Obozu`,
-                description: 'nie została utworzona, z powodu nieznanych błędów, skontaktuj się z administratorem.'
+                description: `nie została utworzona, z powodu błędu (jeśli nie wiesz co zrobić, to skontaktuj się z administratorem): \n ${error.message}`
               };
             }
           }

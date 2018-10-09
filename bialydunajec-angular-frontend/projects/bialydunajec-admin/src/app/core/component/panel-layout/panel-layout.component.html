@@ -17,8 +17,10 @@
       <li nz-submenu>
         <span title><i class="anticon anticon-compass"></i><span class="nav-text">Edycja Obozu</span></span>
         <ul>
-          <li nz-menu-item routerLink="edycje-obozu">Wszystkie Edycje</li>
-          <li nz-menu-item routerLink="edycje-obozu/dodaj-nowa">Dodaj nową</li>
+          <li nz-menu-item [routerLink]="coreRoutingPaths.campEdition">Wszystkie Edycje</li>
+          <li nz-menu-item [routerLink]="[coreRoutingPaths.campEdition,campEditionRoutingPaths.newCampEdition]">Dodaj
+            nową
+          </li>
           <li nz-menu-item>Planer Edycji</li>
           <li nz-menu-item>Program Obozu</li>
         </ul>
@@ -51,7 +53,11 @@
         <ul>
           <li nz-menu-item>Redemptor</li>
           <li nz-menu-item>
-            <button nz-button class="bda-admin-login-form__button" [nzType]="'primary'">Dodaj nowe</button>
+            <button
+              [routerLink]="[coreRoutingPaths.academicMinistry,academicMinistryRoutingPaths.newCampEdition]"
+              nz-button
+              class="bda-admin-login-form__button"
+              [nzType]="'primary'">Dodaj nowe</button>
           </li>
         </ul>
       </li>
@@ -74,7 +80,7 @@
       <li nz-submenu>
         <span title><i class="anticon anticon-profile"></i><span class="nav-text">Zapisy na Obóz</span></span>
         <ul>
-          <li nz-menu-item routerLink="zapisy-na-oboz">Ustawienia Zapisów</li>
+          <li nz-menu-item [routerLink]="coreRoutingPaths.campRegistrations">Ustawienia Zapisów</li>
           <li nz-menu-item>Ustawienia Chatki</li>
           <li nz-menu-item>Zgłoszenia na Obóz</li>
           <li nz-menu-item>Ustawienia Autokaru</li>
@@ -120,7 +126,7 @@
     </nz-header>
 
     <nz-content class="bda-admin-panel-layout__content">
-          <router-outlet></router-outlet>
+      <router-outlet></router-outlet>
     </nz-content>
 
     <nz-footer style="text-align: center;">Biały Dunajec Aplikacja Webowa (Panel Administracyjny - wersja: 1.0) ©2018
