@@ -1,21 +1,36 @@
 <section class="bda-admin-academic-ministry-edit">
-  <div>
+  <div style="display: flex;">
     <bda-admin-breadcrumbs
-      [breadcrumbs]="['Duszpasterstwa','Dodaj nowe']"
+      [breadcrumbs]="['Duszpasterstwa',isEditMode ? 'Edytuj' : 'Dodaj nowe']"
     ></bda-admin-breadcrumbs>
+    <button style="margin-left: 2rem" nz-button nzType="primary" [nzLoading]="submittingInProgress" type="submit" form="academic-ministry-form">Zatwierdź</button>
   </div>
+  <nz-form-item>
+    <nz-alert
+      *ngIf="lastAlert"
+      [nzType]="lastAlert.type"
+      [nzMessage]="lastAlert.message"
+      [nzDescription]="lastAlert.description"
+      nzCloseable
+      nzShowIcon>
+    </nz-alert>
+  </nz-form-item>
   <div class="bda-admin-academic-ministry-edit__content">
     <form
+      id="academic-ministry-form"
       class="bda-admin-academic-ministry-edit__form"
       nz-form
-      [formGroup]="academicMinistryForm">
+      [formGroup]="academicMinistryForm"
+      (ngSubmit)="onSubmit()">
       <div class="bda-admin-panel-section-card">
-        <h3><b>Dane ogólne</b></h3>
+        <h3><b>DANE OGÓLNE</b></h3>
         <nz-divider></nz-divider>
+
         <nz-form-item>
           <nz-form-label nzRequired nzFor="officialName">Nazwa oficjalna</nz-form-label>
           <nz-form-control>
             <input nz-input formControlName="officialName" id="officialName">
+            <nz-form-explain *ngIf="officialNameFormControl.dirty && officialNameFormControl.errors">Proszę wypełnić pole.</nz-form-explain>
           </nz-form-control>
         </nz-form-item>
 
@@ -30,7 +45,7 @@
           </span>
           </nz-form-label>
           <nz-form-control>
-            <input nz-input formControlName="officialName" id="shortName">
+            <input nz-input formControlName="shortName" id="shortName">
           </nz-form-control>
         </nz-form-item>
 
@@ -43,12 +58,12 @@
         <nz-form-item class="bda-admin-academic-ministry-edit__logo-preview">
           <img [src]="imageUrlInput.value ? imageUrlInput.value : 'assets/images/placeholder/placeholder_church.png'"
                class="img-responsive"
-               alt="Niepoprawny url loga.">
+               alt="Brak obrazu pod wskazanym url.">
         </nz-form-item>
       </div>
 
       <div class="bda-admin-panel-section-card">
-        <h3><b>Dane Kontaktowe</b></h3>
+        <h3><b>DANE KONTAKTOWE</b></h3>
         <nz-divider></nz-divider>
         <nz-form-item>
           <nz-form-label nzFor="emailAddress">Adres e-mail</nz-form-label>
@@ -64,9 +79,10 @@
 
             <div class="bda-admin-form-group-address-street">
               <nz-form-item class="bda-admin--form-input-street">
-                <nz-form-label nzRequired nzFor="street">Ulica</nz-form-label>
+                <nz-form-label nzFor="street" nzRequired>Ulica</nz-form-label>
                 <nz-form-control>
                   <input nz-input formControlName="street" id="street">
+                  <nz-form-explain *ngIf="streetFormControl.dirty && streetFormControl.errors">Proszę wypełnić pole.</nz-form-explain>
                 </nz-form-control>
               </nz-form-item>
               <nz-form-item class="bda-admin--form-input-home-number">
@@ -85,10 +101,11 @@
                 </nz-form-control>
               </nz-form-item>
               <nz-form-item class="bda-admin-form-input-city">
-                <nz-form-label nzRequired nzFor="city">Miasto</nz-form-label>
+                <nz-form-label nzFor="city" nzRequired>Miasto</nz-form-label>
                 <nz-form-control>
                   <input nz-input formControlName="city" id="city">
                 </nz-form-control>
+                <nz-form-explain *ngIf="cityFormControl.dirty && cityFormControl.errors">Proszę wypełnić pole.</nz-form-explain>
               </nz-form-item>
             </div>
 
@@ -97,7 +114,7 @@
       </div>
 
       <div class="bda-admin-panel-section-card">
-        <h3><b>Opis Duszpasterstwa</b></h3>
+        <h3><b>OPIS DUSZPASTERSTWA</b></h3>
         <nz-divider></nz-divider>
         <div formGroupName="description">
           <nz-form-item>
@@ -123,13 +140,13 @@
         <nz-form-item class="bda-admin-academic-ministry-edit__logo-preview">
           <img [src]="photoUrlInput.value ? photoUrlInput.value : 'assets/images/placeholder/placeholder_church.png'"
                class="img-responsive"
-               alt="Niepoprawny url loga.">
+               alt="Brak obrazu pod wskazanym url.">
         </nz-form-item>
 
       </div>
 
       <div class="bda-admin-panel-section-card">
-        <h3><b>Media społecznościowe</b></h3>
+        <h3><b>MEDIA SPOŁECZNOŚCIOWE</b></h3>
         <nz-divider></nz-divider>
 
         <div formGroupName="socialMedia">
@@ -174,7 +191,6 @@
             </nz-form-control>
           </nz-form-item>
         </div>
-
       </div>
     </form>
   </div>
