@@ -7,6 +7,10 @@ const academicMinistryRoutes: Routes = [
   {
     path: academicMinistryRoutingPaths.newCampEdition,
     component: AcademicMinistryEditComponent
+  },
+  {
+    path: `:academicMinistryId/${academicMinistryRoutingPaths.editCampEdition}`,
+    component: AcademicMinistryEditComponent
   }
 ];
 

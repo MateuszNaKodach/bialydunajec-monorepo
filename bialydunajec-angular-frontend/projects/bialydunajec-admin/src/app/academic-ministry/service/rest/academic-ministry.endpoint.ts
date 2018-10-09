@@ -15,6 +15,9 @@ export class AcademicMinistryEndpoint extends AbstractEndpoint {
   }
 
   createAcademicMinistry(requestBody: CreateAcademicMinistryRequest) {
+    if (requestBody.description && requestBody.description.content == null && requestBody.description.title == null) {
+      requestBody.description = null;
+    }
     return this.httpClient.post(this.callsBaseUrl, requestBody);
   }
 
