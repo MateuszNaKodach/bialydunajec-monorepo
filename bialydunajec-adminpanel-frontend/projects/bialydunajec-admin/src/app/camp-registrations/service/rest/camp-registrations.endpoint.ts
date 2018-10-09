@@ -43,7 +43,7 @@ export class CampRegistrationsEndpoint extends AbstractEndpoint {
     return this.httpClient.get<CampRegistrationsEditionResponse[]>(`${this.callsBaseUrl}/${campRegistrationsEditionId}`);
   }
 
-  getAllCampRegistrationsEditions() {
+  getAllCampEditions() {
     return this.httpClient.get<CampEditionResponse[]>(`${this.callsBaseUrl}/camp-edition`);
   }
 
