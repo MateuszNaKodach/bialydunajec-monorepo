@@ -30,7 +30,7 @@ class AcademicMinistry(
         private var place: Place? = null,
 
         @Embedded
-        private var socialMedia: SocialMedia = SocialMedia(),
+        private var socialMedia: SocialMedia? = null,
 
         @Embedded
         private var emailAddress: EmailAddress? = null,

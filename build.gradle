@@ -59,6 +59,8 @@ dependencies {
     compile project(':bialydunajec-core:bialydunajec-core-presentation')
     compile project(':bialydunajec-core:bialydunajec-core-infrastructure')
 */
+    compile project(':bialydunajec-ddd:bialydunajec-ddd-presentation')
+    compile project(':bialydunajec-ddd:bialydunajec-ddd-infrastructure')
 
     compile project(':bialydunajec-camp-edition:bialydunajec-camp-edition-presentation')
     compile project(':bialydunajec-camp-edition:bialydunajec-camp-edition-infrastructure')

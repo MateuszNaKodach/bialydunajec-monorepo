@@ -3,7 +3,7 @@ package org.bialydunajec.registrations.domain.campedition
 import org.bialydunajec.ddd.domain.base.aggregate.AggregateRoot
 import org.bialydunajec.ddd.domain.base.persistence.Versioned
 import org.bialydunajec.ddd.domain.base.validation.ValidationResult
-import org.bialydunajec.registrations.domain.academicministry.AcademicMinistry
+import org.bialydunajec.registrations.domain.academicministry.CampRegistrationsAcademicMinistry
 import org.bialydunajec.registrations.domain.campedition.entity.CampRegistrations
 import org.bialydunajec.registrations.domain.campedition.specification.CampRegistrationsHasMinimumCottagesToStartSpecification
 import org.bialydunajec.registrations.domain.campedition.valueobject.TimerSettings
@@ -130,7 +130,7 @@ class CampRegistrationsEdition constructor(
 
     fun campRegistrationsInProgress() = campRegistrations.isInProgress()
 
-    fun createAcademicMinistryCottage(academicMinistry: AcademicMinistry): Cottage {
+    fun createAcademicMinistryCottage(academicMinistry: CampRegistrationsAcademicMinistry): Cottage {
         return Cottage(
                 campRegistrationsEditionId = getAggregateId(),
                 cottageType = CottageType.ACADEMIC_MINISTRY,

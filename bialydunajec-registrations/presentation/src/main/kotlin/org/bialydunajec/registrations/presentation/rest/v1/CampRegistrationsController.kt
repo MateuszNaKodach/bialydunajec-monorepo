@@ -17,6 +17,7 @@ class CampRegistrationsController(
         private val queryGateway: CampRegistrationsQueryGateway
 ) {
 
+    //TODO: cottages command!
     //COMMAND----------------------------------------------------------------------------------------------------------
     @PatchMapping("{campRegistrationsEditionId}/timer")
     fun updateCampRegistrationsTimerById(@PathVariable campRegistrationsEditionId: Int, @RequestBody request: UpdateCampRegistrationsTimerRequest) =
@@ -47,17 +48,25 @@ class CampRegistrationsController(
     fun finishCampRegistrationsEditionById(@PathVariable campRegistrationsEditionId: Int) =
             commandGateway.process(CampRegistrationsCommand.FinishCampRegistrationsNow(campRegistrationsEditionId))
 
+    @PostMapping("{campRegistrationsEditionId}/academic-ministry-cottage")
+    fun createAcademicMinistryCottage(@PathVariable campRegistrationsEditionId: Int, @RequestParam academicMinistryId: String) =
+            commandGateway.process(CampRegistrationsCommand.CreateAcademicMinistryCottage(campRegistrationsEditionId, academicMinistryId))
+
+    @PostMapping("{campRegistrationsEditionId}/standalone-cottage")
+    fun createStandaloneCottage(@PathVariable campRegistrationsEditionId: Int, @RequestParam cottageName: String) =
+            commandGateway.process(CampRegistrationsCommand.CreateStandaloneCottage(campRegistrationsEditionId, cottageName))
 
     //QUERY------------------------------------------------------------------------------------------------------------
     @GetMapping
-    fun getAllCampRegistrations() = queryGateway.process(CampRegistrationsEditionQuery.All());
-
-    @GetMapping("/camp-edition")
-    fun getAllCampRegistrationsEditions() = queryGateway.process(CampEditionQuery.All());
+    fun getAllCampRegistrations() = queryGateway.process(CampRegistrationsEditionQuery.All())
 
     @GetMapping("/{campRegistrationsEditionId}")
     fun getCampRegistrationsEditionById(@PathVariable campRegistrationsEditionId: Int) =
             queryGateway.process(CampRegistrationsEditionQuery.ById(campRegistrationsEditionId))
+
+    @GetMapping("/camp-edition")
+    fun getAllCampEditions() = queryGateway.process(CampEditionQuery.All())
+            .sortedByDescending { it.campEditionId }
 
     @GetMapping("/{campRegistrationsEditionId}/camp-edition")
     fun getCampEditionByCampRegistrationsEditionId(@PathVariable campRegistrationsEditionId: Int) =

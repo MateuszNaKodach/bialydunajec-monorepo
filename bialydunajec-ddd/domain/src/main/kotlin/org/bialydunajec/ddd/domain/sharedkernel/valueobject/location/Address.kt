@@ -19,5 +19,5 @@ data class Address(
 
         @NotNull
         @Embedded
-        val postalCode: PostalCode
+        val postalCode: PostalCode? = null
 ) : ValueObject

@@ -16,21 +16,18 @@ internal class CreateAcademicMinistryApplicationService(
         private val academicMinistryRepository: AcademicMinistryRepository
 ) : ApplicationService<AcademicMinistryCommand.CreateAcademicMinistry> {
 
-    override fun process(command: AcademicMinistryCommand.CreateAcademicMinistry) {
-        val academicMinistry =
-                AcademicMinistry(
-                        officialName = command.officialName,
-                        shortName = command.shortName,
-                        logoImageUrl = command.logoImageUrl,
-                        place = command.place,
-                        socialMedia = command.socialMedia,
-                        emailAddress = command.emailAddress,
-                        photoUrl = command.photoUrl,
-                        description = command.description
-                )
-
-        academicMinistryRepository.save(academicMinistry)
-    }
+    override fun process(command: AcademicMinistryCommand.CreateAcademicMinistry) =
+        AcademicMinistry(
+                officialName = command.officialName,
+                shortName = command.shortName,
+                logoImageUrl = command.logoImageUrl,
+                place = command.place,
+                socialMedia = command.socialMedia,
+                emailAddress = command.emailAddress,
+                photoUrl = command.photoUrl,
+                description = command.description)
+                .let { academicMinistryRepository.save(it) }
+                .getAggregateId()
 }
 
 @Service

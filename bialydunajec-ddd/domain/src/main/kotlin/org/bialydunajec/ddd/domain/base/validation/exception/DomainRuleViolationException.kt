@@ -5,7 +5,7 @@ import org.bialydunajec.ddd.domain.base.validation.ValidationResult
 open class DomainRuleViolationException private constructor(
         val violatedRules: Set<DomainRule>,
         cause: Throwable? = null
-) : RuntimeException(violatedRules.joinToString(", ") { it.getDescription() }, cause) {
+) : RuntimeException(violatedRules.joinToString("\n") { it.getDescription() ?: it.getRuleName() }, cause) {
 
     private constructor(violatedRule: DomainRule, cause: Throwable? = null) : this(setOf(violatedRule), cause)
 

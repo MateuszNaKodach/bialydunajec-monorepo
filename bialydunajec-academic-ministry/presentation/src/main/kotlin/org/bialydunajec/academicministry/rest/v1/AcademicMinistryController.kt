@@ -57,7 +57,7 @@ internal class AcademicMinistryController(
     @GetMapping
     fun getAllAcademicMinistries() =
             academicMinistryQueryGateway.process(AcademicMinistryQuery.All())
-                    .sortedByDescending { it.shortName }
+                    .sortedBy { it.getDisplayName() }
 
 
     @GetMapping("/{academicMinistryId}")

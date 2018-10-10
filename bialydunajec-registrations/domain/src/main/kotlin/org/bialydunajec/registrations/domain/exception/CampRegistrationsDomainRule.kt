@@ -33,7 +33,6 @@ enum class CampRegistrationsDomainRule : DomainRule {
     ONLY_CONFIGURED_TIMER_OR_IN_PROGRESS_REGISTERS_CAN_BE_SUSPENDED,
     ONLY_SUSPENDED_REGISTERS_CAN_BE_UNSUSPEND;
 
-    override fun getName() = name
-
-    override fun getDescription() = ""
+    override fun getRuleName() = name
+    override fun getDescription() = null
 }

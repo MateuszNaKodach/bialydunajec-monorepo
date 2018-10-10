@@ -6,7 +6,7 @@ import java.time.ZonedDateTime
 data class CampRegistrationsSnapshot(
         val campRegistrationsId: CampRegistrationsId,
         val status: RegistrationsStatus,
-        val timerSettings: TimerSettings,
+        val timerSettings: TimerSettings?,
         val lastStartedAt: ZonedDateTime?,
         val lastSuspendAt: ZonedDateTime?,
         val lastUnsuspendAt: ZonedDateTime?,

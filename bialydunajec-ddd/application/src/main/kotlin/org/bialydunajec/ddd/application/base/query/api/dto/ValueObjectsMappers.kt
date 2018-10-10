@@ -1,5 +1,6 @@
 package org.bialydunajec.ddd.application.base.query.api.dto
 
+import org.bialydunajec.ddd.domain.extensions.toStringOrNull
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.*
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.location.*
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.notes.ExtendedDescription
@@ -20,9 +21,9 @@ fun PlaceDto.toValueObject() =
 fun Address.toDto() =
         AddressDto(
                 street = street.toString(),
-                homeNumber = homeNumber.toString(),
+                homeNumber = homeNumber.toStringOrNull(),
                 city = city.toString(),
-                postalCode = postalCode.toString()
+                postalCode = postalCode.toStringOrNull()
         )
 
 fun AddressDto.toValueObject() =

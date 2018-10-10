@@ -3,7 +3,7 @@ package org.bialydunajec.registrations.application.external.event.processor
 import org.bialydunajec.academicministry.messages.event.AcademicMinistryExternalEvent
 import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.Url
-import org.bialydunajec.registrations.domain.academicministry.AcademicMinistry
+import org.bialydunajec.registrations.domain.academicministry.CampRegistrationsAcademicMinistry
 import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryId
 import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryRepository
 import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule
@@ -21,7 +21,7 @@ internal class AcademicMinistryExternalEventProcessor(
 
     fun process(eventPayload: AcademicMinistryExternalEvent.AcademicMinistryCreated) {
         academicMinistryRepository.save(
-                AcademicMinistry(
+                CampRegistrationsAcademicMinistry(
                         academicMinistryId = AcademicMinistryId(eventPayload.academicMinistryId),
                         officialName = eventPayload.officialName,
                         shortName = eventPayload.shortName,

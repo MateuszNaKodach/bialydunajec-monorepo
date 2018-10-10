@@ -17,8 +17,7 @@ internal class CampRegistrations constructor(
         campRegistrationsEditionId: CampRegistrationsEditionId,
 
         @Embedded
-        private var timerSettings: TimerSettings = TimerSettings(),
-
+        private var timerSettings: TimerSettings? = null,
         private var lastStartedAt: ZonedDateTime? = null,
         private var lastSuspendAt: ZonedDateTime? = null,
         private var lastUnsuspendAt: ZonedDateTime? = null,
@@ -70,7 +69,7 @@ internal class CampRegistrations constructor(
         val isUpdate = this.timerSettings != timerSettings
         if (isUpdate) {
             this.timerSettings = timerSettings
-            status = if (nonNull(this.timerSettings.startDate) && status != RegistrationsStatus.SUSPENDED) {
+            status = if (nonNull(this.timerSettings) && nonNull(this.timerSettings?.startDate) && status != RegistrationsStatus.SUSPENDED) {
                 RegistrationsStatus.CONFIGURED_TIMER
             } else {
                 RegistrationsStatus.UNCONFIGURED_TIMER
@@ -86,7 +85,7 @@ internal class CampRegistrations constructor(
     internal fun startByTimer(currentTime: ZonedDateTime) {
         canStartByTimer(currentTime)
                 .ifInvalidThrowException()
-        if (timerSettings.startDate != null && currentTime.isEqual(timerSettings.startDate) || currentTime.isAfter(timerSettings.startDate)) {
+        if (timerSettings != null && timerSettings?.startDate != null && currentTime.isEqual(timerSettings?.startDate) || currentTime.isAfter(timerSettings?.startDate)) {
             status = RegistrationsStatus.IN_PROGRESS
             lastStartedAt = currentTime
         }
@@ -100,7 +99,7 @@ internal class CampRegistrations constructor(
     internal fun finishByTimer(currentTime: ZonedDateTime) {
         canFinishByTimer(currentTime)
                 .ifInvalidThrowException()
-        if (timerSettings.endDate != null && currentTime.isEqual(timerSettings.endDate) || currentTime.isAfter(timerSettings.endDate)) {
+        if (timerSettings != null && timerSettings?.endDate != null && currentTime.isEqual(timerSettings?.endDate) || currentTime.isAfter(timerSettings?.endDate)) {
             status = RegistrationsStatus.FINISHED
             lastFinishedAt = currentTime
         }
@@ -117,7 +116,7 @@ internal class CampRegistrations constructor(
                 .ifInvalidThrowException()
 
         status = RegistrationsStatus.IN_PROGRESS
-        timerSettings = timerSettings.copy(startDate = currentTime)
+        lastStartedAt = currentTime
     }
 
     internal fun canFinishNow(currentTime: ZonedDateTime) =
@@ -130,7 +129,7 @@ internal class CampRegistrations constructor(
                 .ifInvalidThrowException()
 
         status = RegistrationsStatus.FINISHED
-        timerSettings = timerSettings.copy(endDate = currentTime)
+        lastFinishedAt = currentTime
     }
 
     internal fun canSuspend() =

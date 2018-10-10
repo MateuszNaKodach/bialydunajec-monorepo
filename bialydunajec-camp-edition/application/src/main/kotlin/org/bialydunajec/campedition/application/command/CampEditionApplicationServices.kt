@@ -9,7 +9,7 @@ import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolation
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
-
+//TODO: Add checking for overlapped camp editions by LocalDateRange!!!
 @Service
 @Transactional
 internal class CreateCampEditionApplicationService(

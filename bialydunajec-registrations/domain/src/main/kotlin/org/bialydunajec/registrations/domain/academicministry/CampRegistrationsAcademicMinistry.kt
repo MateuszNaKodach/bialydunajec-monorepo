@@ -10,9 +10,15 @@ import javax.validation.constraints.NotEmpty
 /**
  * Academic ministry in Camp Registrations Bounded Context
  */
+
+/*
+FIXME: Name changed from AcademicMinistry to CampRegistrationsAcademicMinistry because of:
+java.lang.ClassCastException: org.bialydunajec.registrations.domain.academicministry.AcademicMinistry cannot be cast to org.bialydunajec.academicministry.domain.AcademicMinistry
+
+ */
 @Entity
 @Table(schema = "camp_registrations")
-class AcademicMinistry(
+class CampRegistrationsAcademicMinistry(
         academicMinistryId: AcademicMinistryId,
         @NotBlank
         private var officialName: String,

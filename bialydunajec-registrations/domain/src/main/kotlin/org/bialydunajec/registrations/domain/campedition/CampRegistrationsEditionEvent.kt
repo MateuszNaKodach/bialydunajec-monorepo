@@ -10,13 +10,13 @@ sealed class CampRegistrationsEditionEvent(
     class CampRegistrationsCreated(
             val campRegistrationsEditionId: CampRegistrationsEditionId,
             val campRegistrationsId: CampRegistrationsId,
-            val timerSettings: TimerSettings
+            val timerSettings: TimerSettings?
     ) : CampRegistrationsEditionEvent(campRegistrationsEditionId)
 
     class CampRegistrationsStarted(
             val campRegistrationsEditionId: CampRegistrationsEditionId,
             val campRegistrationsId: CampRegistrationsId,
-            val timerSettings: TimerSettings
+            val timerSettings: TimerSettings?
     ) : CampRegistrationsEditionEvent(campRegistrationsEditionId)
 
     class CampRegistrationsFinished(

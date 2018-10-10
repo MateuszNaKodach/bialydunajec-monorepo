@@ -1,5 +1,6 @@
 package org.bialydunajec.ddd.domain.sharedkernel.valueobject.notes
 
+import org.bialydunajec.ddd.domain.base.valueobject.ValueObject
 import javax.persistence.Column
 import javax.persistence.Embeddable
 import javax.persistence.Lob
@@ -14,4 +15,4 @@ data class ExtendedDescription(
         @NotBlank
         @Column(name = "description_content")
         val content: String
-)
+): ValueObject

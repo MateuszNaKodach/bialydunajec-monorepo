@@ -38,8 +38,8 @@ data class  CampRegistrationsDto(
                 CampRegistrationsDto(
                         campRegistrationsId = snapshot.campRegistrationsId.toString(),
                         status = snapshot.status.name,
-                        timerStartDate = snapshot.timerSettings.startDate,
-                        timerEndDate = snapshot.timerSettings.endDate,
+                        timerStartDate = snapshot.timerSettings?.startDate,
+                        timerEndDate = snapshot.timerSettings?.endDate,
                         lastStartedAt = snapshot.lastStartedAt,
                         lastSuspendAt = snapshot.lastSuspendAt,
                         lastUnsuspendAt = snapshot.lastUnsuspendAt,

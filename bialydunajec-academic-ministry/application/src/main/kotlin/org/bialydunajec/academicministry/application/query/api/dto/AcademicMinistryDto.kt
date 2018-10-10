@@ -5,6 +5,7 @@ import org.bialydunajec.ddd.application.base.query.api.dto.ExtendedDescriptionDt
 import org.bialydunajec.ddd.application.base.query.api.dto.PlaceDto
 import org.bialydunajec.ddd.application.base.query.api.dto.SocialMediaDto
 import org.bialydunajec.ddd.application.base.query.api.dto.toDto
+import org.bialydunajec.ddd.domain.extensions.toStringOrNull
 
 data class AcademicMinistryDto(
         val academicMinistryId: String,
@@ -23,12 +24,14 @@ data class AcademicMinistryDto(
                         academicMinistryId = snapshot.academicMinistryId.toString(),
                         officialName = snapshot.officialName,
                         shortName = snapshot.shortName,
-                        logoImageUrl = snapshot.logoImageUrl.toString(),
+                        logoImageUrl = snapshot.logoImageUrl.toStringOrNull(),
                         place = snapshot.place?.toDto(),
-                        socialMedia = snapshot.socialMedia.toDto(),
-                        emailAddress = snapshot.emailAddress.toString(),
-                        photoUrl = snapshot.photoUrl.toString(),
+                        socialMedia = snapshot.socialMedia?.toDto(),
+                        emailAddress = snapshot.emailAddress.toStringOrNull(),
+                        photoUrl = snapshot.photoUrl.toStringOrNull(),
                         description = snapshot.description?.toDto()
                 )
     }
+
+    fun getDisplayName() = shortName ?: officialName
 }
