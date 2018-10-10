@@ -7,7 +7,60 @@
       (campEditionIdSelected)="onCampEditionIdSelected($event)"
       [campEditionsObservable]="availableCampEditions"></bda-admin-camp-edition-selection>
   </div>
-  <div class="bda-admin-panel-section-card">
-    <h2 style="font-weight: bold">{{RomanNumerals.numberToRoman(36)}} Edycja Obozu</h2>
+  <div
+    class="bda-admin-camp-registrations-settings__form"
+    *ngIf="selectedCampRegistrations | async as campEdition"
+  >
+    <div class="bda-admin-panel-section-card--preview">
+      <div style="display: flex; justify-content: space-between; align-items: center">
+        <h2 style="font-weight: bold; margin: 0">{{RomanNumerals.numberToRoman(campEdition.campRegistrationsEditionId)}}
+          Edycja
+          Obozu</h2>
+        <label class="preview-label">podgląd</label>
+      </div>
+      <nz-divider></nz-divider>
+      <div>
+        <h3><b>Czas trwania Obozu:</b> od {{campEdition.editionStartDate | date:'d.MM.yyyy'}} do
+          {{campEdition.editionEndDate | date:'d.MM.yyyy' }}</h3>
+      </div>
+    </div>
+
+    <div
+      class="bda-admin-panel-section-card"
+      *ngIf="campEdition.campRegistrations as campRegistrations"
+    >
+      <h2 style="font-weight: bold">Przełącznik Czasowy</h2>
+      <nz-divider></nz-divider>
+      <div>
+        Ustal czas trwania zapisów:
+      </div>
+    </div>
+
+    <div
+      class="bda-admin-panel-section-card"
+      *ngIf="campEdition.campRegistrations as campRegistrations"
+    >
+      <h2 style="font-weight: bold">Status Zapisów</h2>
+      <nz-divider></nz-divider>
+      <div>
+        <p>Aktualny status zapisów: {{campRegistrations.status}}</p>
+      </div>
+      <nz-alert
+        nzType="info"
+        nzMessage="Statusy Zapisów"
+        [nzDescription]="campRegistrationStatusesDescription"
+        nzShowIcon>
+      </nz-alert>
+      <ng-template #campRegistrationStatusesDescription>
+        <p>Zapisy mogą przyjmować następujące statusy:</p>
+        <p><b>NIESKONFIGUROWANE</b> - nie ustalono kiedy należy uruchomić zapisy</p>
+        <p><b>SKONFIGUROWANY PRZEŁĄCZNIK CZASOWY</b> - zapisy rozpoczną się i skończą wg. ustalonych ram czasowych</p>
+        <p><b>W TRAKCIE</b> - aktualnie aktywne zapisy</p>
+        <p><b>ZAWIESZONE</b> - zapisy zostały zawieszone i muszą być ręcznie przywrócone</p>
+        <p><b>FINISHED</b> - zapisy zostały zakończone</p>
+        <p><b>ZARCHIWIZOWANE</b> - obóz został zakończony, a dane personalne uczestników zanonimizowane</p>
+      </ng-template>
+    </div>
+
   </div>
 </section>
