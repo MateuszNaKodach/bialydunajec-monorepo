@@ -1,7 +1,7 @@
 <section class="bda-admin-academic-ministry-edit">
   <div style="display: flex;">
     <bda-admin-breadcrumbs
-      [breadcrumbs]="['Duszpasterstwa',isEditMode ? 'Edytuj' : 'Dodaj nowe']"
+      [breadcrumbs]="isEditMode ? ['Duszpasterstwa', shortNameFormControl.value ? shortNameFormControl.value : officialNameFormControl.value, 'Edytuj'] : ['Duszpasterstwa', 'Dodaj nowe']"
     ></bda-admin-breadcrumbs>
     <button style="margin-left: 2rem" nz-button nzType="primary" [nzLoading]="submittingInProgress" type="submit" form="academic-ministry-form">Zatwierdź</button>
   </div>
@@ -124,7 +124,7 @@
             </nz-form-control>
           </nz-form-item>
           <nz-form-item>
-            <nz-form-label nzFor="content">Treść</nz-form-label>
+            <nz-form-label nzFor="content" nzRequired>Treść</nz-form-label>
             <nz-form-control>
               <textarea formControlName="content" id="content" nz-input [nzAutosize]="{ minRows: 2, maxRows: 2 }"></textarea>
             </nz-form-control>
