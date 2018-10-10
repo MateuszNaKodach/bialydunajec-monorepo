@@ -18,7 +18,8 @@
         <span title><i class="anticon anticon-compass"></i><span class="nav-text">Edycja Obozu</span></span>
         <ul>
           <li nz-menu-item [routerLink]="coreRoutingPaths.campEdition">Wszystkie Edycje</li>
-          <li nz-menu-item [routerLink]="[coreRoutingPaths.campEdition,campEditionRoutingPaths.newCampEdition]">Dodaj
+          <li nz-menu-item [routerLink]="[coreRoutingPaths.campEdition,campEditionRoutingPaths.newCampEdition]">
+            Dodaj
             nową
           </li>
           <li nz-menu-item>Planer Edycji</li>
@@ -48,16 +49,22 @@
         </ul>
       </li>
 
-      <li nz-submenu>
+      <li nz-submenu (nzOpenChange)="onMenuOpenChange($event)" >
         <span title><i class="anticon anticon-team"></i><span class="nav-text">Duszpasterstwa</span></span>
         <ul>
-          <li nz-menu-item>Redemptor</li>
+          <li
+            nz-menu-item
+            *ngFor="let academicMinistry of academicMinistries | async"
+            [routerLink]="[coreRoutingPaths.academicMinistry,academicMinistry.academicMinistryId,academicMinistryRoutingPaths.editAcademicMinistry]"
+          >{{academicMinistry.shortName ? academicMinistry.shortName : academicMinistry.officialName}}
+          </li>
           <li nz-menu-item>
             <button
-              [routerLink]="[coreRoutingPaths.academicMinistry,academicMinistryRoutingPaths.newCampEdition]"
+              [routerLink]="[coreRoutingPaths.academicMinistry,academicMinistryRoutingPaths.newAcademicMinistry]"
               nz-button
               class="bda-admin-login-form__button"
-              [nzType]="'primary'">Dodaj nowe</button>
+              [nzType]="'primary'">Dodaj nowe
+            </button>
           </li>
         </ul>
       </li>

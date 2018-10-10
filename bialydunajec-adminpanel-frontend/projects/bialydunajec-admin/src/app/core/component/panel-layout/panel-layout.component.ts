@@ -3,6 +3,9 @@ import {coreRoutingPaths} from '../../core-routing.paths';
 import {campEditionRoutingPaths} from '../../../camp-edition/camp-edition-routing.paths';
 import {academicMinistryRoutingPaths} from '../../../academic-ministry/academic-ministry.routing.paths';
 import {campRegistrationsRoutingPaths} from '../../../camp-registrations/camp-registrations-routing.paths';
+import {Observable} from 'rxjs';
+import {AcademicMinistryResponse} from '../../../academic-ministry/service/rest/response/academic-ministry.response';
+import {AcademicMinistryEndpoint} from '../../../academic-ministry/service/rest/academic-ministry.endpoint';
 
 @Component({
   selector: 'bda-admin-panel-layout',
@@ -16,14 +19,27 @@ export class PanelLayoutComponent implements OnInit {
   campEditionRoutingPaths = campEditionRoutingPaths;
   campRegistrationsRoutingPaths = campRegistrationsRoutingPaths;
 
+  academicMinistries: Observable<AcademicMinistryResponse[]>;
+
   isCollapsed = false;
   triggerTemplate = null;
   @ViewChild('trigger') customTrigger: TemplateRef<void>;
 
-  constructor() {
+  constructor(private academicMinistryEndpoint: AcademicMinistryEndpoint) {
   }
 
   ngOnInit() {
+    this.updateAcademicMinistriesList();
+  }
+
+  onMenuOpenChange(menuOpen: boolean) {
+    if (menuOpen) {
+      this.updateAcademicMinistriesList();
+    }
+  }
+
+  updateAcademicMinistriesList() {
+    this.academicMinistries = this.academicMinistryEndpoint.getAllAcademicMinistries();
   }
 
   /** custom trigger can be TemplateRef **/

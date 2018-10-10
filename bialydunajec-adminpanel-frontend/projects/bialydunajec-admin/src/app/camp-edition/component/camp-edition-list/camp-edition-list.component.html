@@ -3,7 +3,12 @@
     <bda-admin-breadcrumbs
       [breadcrumbs]="['Edycja Obozu','Wszystkie Edycje']"
     ></bda-admin-breadcrumbs>
-    <button style="margin-left: 2rem" nz-button nzType="primary">Dodaj nową</button>
+    <button
+      style="margin-left: 2rem"
+      nz-button
+      nzType="primary"
+      [routerLink]="[campEditionRoutingPaths.newCampEdition]"
+    >Dodaj nową</button>
   </div>
   <div class="bda-admin-camp-edition-list">
     <div

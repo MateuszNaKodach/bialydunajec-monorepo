@@ -4,6 +4,8 @@ import {CampEditionService} from '../../service/camp-edition.service';
 import {CampEditionResponse} from '../../service/rest/response/camp-edition.response';
 import {Observable} from 'rxjs';
 import {RomanNumerals} from '../../../shared/helper/RomanNumerals';
+import {coreRoutingPaths} from '../../../core/core-routing.paths';
+import {campEditionRoutingPaths} from '../../camp-edition-routing.paths';
 
 @Component({
   selector: 'bda-admin-camp-edition-list',
@@ -13,6 +15,7 @@ import {RomanNumerals} from '../../../shared/helper/RomanNumerals';
 export class CampEditionListComponent implements OnInit {
 
   RomanNumerals = RomanNumerals;
+  campEditionRoutingPaths = campEditionRoutingPaths;
 
   campEditions: Observable<CampEditionResponse[]>;
 
