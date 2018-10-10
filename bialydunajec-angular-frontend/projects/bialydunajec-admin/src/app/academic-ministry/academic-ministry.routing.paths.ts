@@ -1,5 +1,5 @@
 export const academicMinistryRoutingPaths = {
   root: '',
-  newCampEdition: 'dodaj-nowe',
-  editCampEdition: 'edytuj'
+  newAcademicMinistry: 'dodaj-nowe',
+  editAcademicMinistry: 'edytuj'
 };

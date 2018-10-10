@@ -10,4 +10,8 @@ export class AcademicMinistryResponse {
   emailAddress?: string;
   photoUrl?: string;
   description?: ExtendedDescriptionDto;
+
+  get displayName(): string {
+    return this.shortName ? this.shortName : this.officialName;
+  }
 }

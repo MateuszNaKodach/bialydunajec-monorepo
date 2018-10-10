@@ -5,11 +5,11 @@ import {AcademicMinistryEditComponent} from './component/academic-ministry-edit/
 
 const academicMinistryRoutes: Routes = [
   {
-    path: academicMinistryRoutingPaths.newCampEdition,
+    path: academicMinistryRoutingPaths.newAcademicMinistry,
     component: AcademicMinistryEditComponent
   },
   {
-    path: `:academicMinistryId/${academicMinistryRoutingPaths.editCampEdition}`,
+    path: `:academicMinistryId/${academicMinistryRoutingPaths.editAcademicMinistry}`,
     component: AcademicMinistryEditComponent
   }
 ];

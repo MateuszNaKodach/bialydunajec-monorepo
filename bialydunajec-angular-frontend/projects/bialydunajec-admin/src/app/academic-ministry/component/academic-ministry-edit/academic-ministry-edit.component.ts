@@ -138,7 +138,7 @@ export class AcademicMinistryEditComponent implements OnInit {
               this.lastAlert = {
                 type: 'success',
                 message: updateAcademicMinistryRequest.officialName,
-                description: 'zostało poprawnie zaktualizowane!'
+                description: 'Duszpasterstwo zostało poprawnie zaktualizowane!'
               };
             },
             response => {
@@ -149,7 +149,7 @@ export class AcademicMinistryEditComponent implements OnInit {
                 this.lastAlert = {
                   type: 'error',
                   message: updateAcademicMinistryRequest.officialName,
-                  description: 'nie zostało zaktualizowane, z powodu złamania reguł:' +
+                  description: 'Duszpasterstwo nie zostało zaktualizowane, z powodu złamania reguł:' +
                     restErrors.map((e: string) => ` ${e}`)
                 };
               } else if (response.status === 0) {
@@ -162,7 +162,7 @@ export class AcademicMinistryEditComponent implements OnInit {
                 this.lastAlert = {
                   type: 'error',
                   message: updateAcademicMinistryRequest.officialName,
-                  description: `nie zostało zaktualizowane, z powodu błędu 
+                  description: `Duszpasterstwo nie zostało zaktualizowane, z powodu błędu 
                   (jeśli nie wiesz co zrobić, to skontaktuj się z administratorem): \n ${error.message}`
                 };
               }
@@ -178,7 +178,7 @@ export class AcademicMinistryEditComponent implements OnInit {
               this.lastAlert = {
                 type: 'success',
                 message: createAcademicMinistryRequest.officialName,
-                description: 'zostało poprawnie utworzone!'
+                description: 'Duszpasterstwo zostało poprawnie utworzone!'
               };
             },
             response => {
@@ -189,20 +189,20 @@ export class AcademicMinistryEditComponent implements OnInit {
                 this.lastAlert = {
                   type: 'error',
                   message: createAcademicMinistryRequest.officialName,
-                  description: 'nie zostało utworzone, z powodu złamania reguł:' +
+                  description: 'Duszpasterstwo nie zostało utworzone, z powodu złamania reguł:' +
                     restErrors.map((e: string) => ` ${e}`)
                 };
               } else if (response.status === 0) {
                 this.lastAlert = {
                   type: 'error',
                   message: createAcademicMinistryRequest.officialName,
-                  description: 'nie zostało utworzone, z powodu braku odpowiedzi serwera.'
+                  description: 'Duszpasterstwo nie zostało utworzone, z powodu braku odpowiedzi serwera.'
                 };
               } else {
                 this.lastAlert = {
                   type: 'error',
                   message: createAcademicMinistryRequest.officialName,
-                  description: `nie zostało utworzone, z powodu błędu 
+                  description: `Duszpasterstwo nie zostało utworzone, z powodu błędu 
                   (jeśli nie wiesz co zrobić, to skontaktuj się z administratorem): \n ${error.message}`
                 };
               }

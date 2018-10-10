@@ -127,6 +127,7 @@
             <nz-form-label nzFor="content" nzRequired>Treść</nz-form-label>
             <nz-form-control>
               <textarea formControlName="content" id="content" nz-input [nzAutosize]="{ minRows: 2, maxRows: 2 }"></textarea>
+              <nz-form-explain *ngIf="descriptionContentFormControl.dirty && descriptionContentFormControl.errors">Proszę wpisać choćby krótki opis.</nz-form-explain>
             </nz-form-control>
           </nz-form-item>
         </div>
@@ -191,6 +192,12 @@
             </nz-form-control>
           </nz-form-item>
         </div>
+      </div>
+
+      <div class="bda-admin-panel-section-card">
+        <h3><b>DUSZPASTERZE</b></h3>
+        <nz-divider></nz-divider>
+        DODAJ DUSZPASTERZA
       </div>
     </form>
   </div>
