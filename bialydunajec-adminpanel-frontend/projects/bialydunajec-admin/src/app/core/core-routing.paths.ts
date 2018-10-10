@@ -1,6 +1,6 @@
 export const coreRoutingPaths = {
   root: '',
-  campRegistrations: 'zapisy-na-oboz',
-  campEdition: 'edycje-obozu',
-  academicMinistry: 'duszpasterstwa'
+  campRegistrations: 'camp-registrations',
+  campEdition: 'camp-editions',
+  academicMinistry: 'academic-ministries'
 };

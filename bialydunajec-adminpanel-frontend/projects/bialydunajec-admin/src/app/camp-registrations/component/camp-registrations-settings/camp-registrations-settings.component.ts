@@ -3,6 +3,7 @@ import {RomanNumerals} from '../../../shared/helper/RomanNumerals';
 import {CampRegistrationsEndpoint} from '../../service/rest/camp-registrations.endpoint';
 import {Observable} from 'rxjs';
 import {CampEditionResponse} from '../../../camp-edition/service/rest/response/camp-edition.response';
+import {CampRegistrationsEditionResponse} from '../../service/rest/response/camp-registrations-edition.response';
 
 @Component({
   selector: 'bda-admin-camp-registrations-settings',
@@ -13,6 +14,7 @@ export class CampRegistrationsSettingsComponent implements OnInit {
 
   RomanNumerals = RomanNumerals;
   availableCampEditions: Observable<CampEditionResponse[]>;
+  selectedCampRegistrations: Observable<CampRegistrationsEditionResponse>;
 
   constructor(private campRegistrationsEndpoint: CampRegistrationsEndpoint) {
   }
@@ -21,7 +23,7 @@ export class CampRegistrationsSettingsComponent implements OnInit {
     this.availableCampEditions = this.campRegistrationsEndpoint.getAllCampEditions();
   }
 
-  onCampEditionIdSelected($selectedCampEditionId: number) {
-    console.log('Selected Camp Edition Id:', $selectedCampEditionId);
+  onCampEditionIdSelected(selectedCampEditionId: number) {
+    this.selectedCampRegistrations = this.campRegistrationsEndpoint.getCampRegistrationsEditionById(selectedCampEditionId);
   }
 }

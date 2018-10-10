@@ -1,5 +1,5 @@
 export const academicMinistryRoutingPaths = {
   root: '',
-  newAcademicMinistry: 'dodaj-nowe',
-  editAcademicMinistry: 'edytuj'
+  newAcademicMinistry: 'new',
+  editAcademicMinistry: 'edit'
 };
