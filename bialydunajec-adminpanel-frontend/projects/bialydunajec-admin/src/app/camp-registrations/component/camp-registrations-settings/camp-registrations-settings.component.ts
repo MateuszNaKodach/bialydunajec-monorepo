@@ -4,6 +4,7 @@ import {CampRegistrationsEndpoint} from '../../service/rest/camp-registrations.e
 import {Observable} from 'rxjs';
 import {CampEditionResponse} from '../../../camp-edition/service/rest/response/camp-edition.response';
 import {CampRegistrationsEditionResponse} from '../../service/rest/response/camp-registrations-edition.response';
+import {RegistrationsStatus} from '../../service/rest/response/camp-registrations.response';
 
 @Component({
   selector: 'bda-admin-camp-registrations-settings',
