@@ -8,6 +8,7 @@
       [campEditionsObservable]="availableCampEditions"></bda-admin-camp-edition-selection>
   </div>
   <div
+    id="camp-edition-preview"
     class="bda-admin-camp-registrations-settings__form"
     *ngIf="selectedCampRegistrations | async as campEdition"
   >
@@ -26,24 +27,35 @@
     </div>
 
     <div
+      id="timer"
       class="bda-admin-panel-section-card"
       *ngIf="campEdition.campRegistrations as campRegistrations"
     >
       <h2 style="font-weight: bold">Przełącznik Czasowy</h2>
       <nz-divider></nz-divider>
       <div>
-        Ustal czas trwania zapisów:
+        <h3><b>Ustal czas trwania zapisów:</b></h3>
       </div>
     </div>
 
     <div
+      id="statuses"
       class="bda-admin-panel-section-card"
       *ngIf="campEdition.campRegistrations as campRegistrations"
     >
       <h2 style="font-weight: bold">Status Zapisów</h2>
       <nz-divider></nz-divider>
-      <div>
-        <p>Aktualny status zapisów: {{campRegistrations.status}}</p>
+      <div style="margin-bottom: 1rem;">
+        <h3><b>Aktualny status zapisów:</b></h3>
+        <div [ngSwitch]="campRegistrations.status" #statusTemplate style="text-align: center">
+          <h3 *ngSwitchCase="'UNCONFIGURED_TIMER'" style="color: red;"><b>NIESKONFIGUROWANE</b></h3>
+          <h3 *ngSwitchCase="'CONFIGURED_TIMER'" style="color: greenyellow;"><b>SKONFIGUROWANY PRZEŁĄCZNIK CZASOWY</b>
+          </h3>
+          <h3 *ngSwitchCase="'IN_PROGRESS'" style="color: green;"><b>W TRAKCIE</b></h3>
+          <h3 *ngSwitchCase="'SUSPENDED'" style="color: yellow;"><b>WSTRZYMANE</b></h3>
+          <h3 *ngSwitchCase="'FINISHED'" style="color: blueviolet;"><b>ZAKOŃCZONE</b></h3>
+          <h3 *ngSwitchCase="'ARCHIVED'" style="color: sandybrown;"><b>ZARCHIWIZOWANE</b></h3>
+        </div>
       </div>
       <nz-alert
         nzType="info"
@@ -55,11 +67,38 @@
         <p>Zapisy mogą przyjmować następujące statusy:</p>
         <p><b>NIESKONFIGUROWANE</b> - nie ustalono kiedy należy uruchomić zapisy</p>
         <p><b>SKONFIGUROWANY PRZEŁĄCZNIK CZASOWY</b> - zapisy rozpoczną się i skończą wg. ustalonych ram czasowych</p>
-        <p><b>W TRAKCIE</b> - aktualnie aktywne zapisy</p>
-        <p><b>ZAWIESZONE</b> - zapisy zostały zawieszone i muszą być ręcznie przywrócone</p>
-        <p><b>FINISHED</b> - zapisy zostały zakończone</p>
-        <p><b>ZARCHIWIZOWANE</b> - obóz został zakończony, a dane personalne uczestników zanonimizowane</p>
+        <p><b>W TRAKCIE</b> - aktualnie aktywne zapisy. Zostały rozpoczęte ręcznie lub przez Przełącznik Czasowy</p>
+        <p><b>WSTRZYMANE</b> - zapisy zostały zawieszone przez administratora. Aby kontunować konieczne jest ręczne
+          przywrócenie</p>
+        <p><b>ZAKOŃCZONE</b> - zapisy zostały zakończone ręcznie lub przez Przełącznik Czasowy, mogą zostać ręcznie
+          przywrócone</p>
+        <p><b>ZARCHIWIZOWANE</b> - status ostateczny, obóz został zakończony, a dane personalne uczestników
+          zanonimizowane</p>
       </ng-template>
+    </div>
+
+    <div
+      id="actions"
+      class="bda-admin-panel-section-card"
+      *ngIf="campEdition.campRegistrations as campRegistrations"
+    >
+      <h2 style="font-weight: bold">Akcje dla aktualnego statusu</h2>
+      <nz-divider></nz-divider>
+      <div>
+        <div *ngIf="campRegistrations.status == 'UNCONFIGURED_TIMER' || campRegistrations.status == 'CONFIGURED_TIMER'">
+          <button nz-button nzType="primary" type="submit">Rozpocznij teraz</button>
+        </div>
+        <div *ngIf="campRegistrations.status == 'IN_PROGRESS'">
+          <button nz-button nzType="primary" type="submit">Wstrzymaj</button>
+        </div>
+        <div *ngIf="campRegistrations.status == 'SUSPENDED'">
+          <button nz-button nzType="primary" type="submit">Przywróc po wstrzymaniu</button>
+          <button nz-button nzType="primary" type="submit">Zakończ</button>
+        </div>
+        <div *ngIf="campRegistrations.status == 'FINISHED'">
+          <button nz-button nzType="primary" type="submit">Przywróc po zakończeniu</button>
+        </div>
+      </div>
     </div>
 
   </div>

@@ -1,5 +1,6 @@
 @import '../../../../styles/responsivness';
 
+/*
 .bda-admin-camp-registrations-settings__form{
   display: grid;
   grid-template-columns: 1fr;
@@ -9,6 +10,7 @@
   .gt-xl__screen({ grid-template-columns: 1fr 1fr 1fr; });
 
 }
+*/
 
 .preview-label{
   color: #1890ff;
@@ -19,4 +21,33 @@
   display: inline;
   font-weight: 700;
   text-transform: uppercase;
+}
+
+.bda-admin-camp-registrations-settings__form{
+  display: grid;
+  grid-gap: 1.5rem;
+  grid:
+    "   camp      statuses    actions      " 12rem
+    "   timer   statuses    actions      " auto
+    /   1fr       1fr         1fr;
+
+  button{
+    margin: 1rem;
+  }
+}
+
+#camp-edition-preview{
+  grid-area: camp;
+}
+
+#timer{
+  grid-area: timer;
+}
+
+#actions{
+  grid-area: actions;
+}
+
+#statuses{
+  grid-area: statuses;
 }

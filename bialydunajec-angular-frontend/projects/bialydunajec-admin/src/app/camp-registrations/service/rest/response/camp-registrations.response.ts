@@ -29,5 +29,23 @@ export enum RegistrationsStatus {
   /**
    * Registrations are FINISHED when endDate is reached
    */
-  FINISHED
+  FINISHED,
+  ARCHIVED
+}
+
+namespace asd {
+  function getName(status: RegistrationsStatus) {
+    switch (status) {
+      case RegistrationsStatus.UNCONFIGURED_TIMER:
+        return 'NIESKONFIGUROWANE';
+      case RegistrationsStatus.CONFIGURED_TIMER:
+        return 'SKONFIGUROWANY PRZEŁĄCZNIK CZASOWY';
+      case RegistrationsStatus.IN_PROGRESS:
+        return 'W TRAKCIE';
+      case RegistrationsStatus.SUSPENDED:
+        return 'WSTRZYMANE';
+      case RegistrationsStatus.FINISHED:
+        return 'ZAKOŃCZONE';
+    }
+  }
 }
