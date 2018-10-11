@@ -1,3 +1,5 @@
 export const campRegistrationsRoutingPaths = {
-  root: ''
+  root: '',
+  cottages: 'cottages',
+  newCottage: 'cottage-new'
 };

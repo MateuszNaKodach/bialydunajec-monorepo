@@ -1,0 +1,22 @@
+<div class="bda-admin-panel-new-camp-cottage-card">
+  <nz-form-item>
+    <p><b>Wybierz typ chatki: </b></p>
+    <nz-radio-group style="text-align: center" [(ngModel)]="cottageType" [nzButtonStyle]="'solid'">
+      <label nz-radio-button nzValue="ACADEMIC_MINISTRY">Duszpasterstwa</label>
+      <label nz-radio-button nzValue="STANDALONE">Samodzielna</label>
+    </nz-radio-group>
+  </nz-form-item>
+  <ng-container [ngSwitch]="cottageType">
+    <nz-form-item  *ngSwitchCase="'STANDALONE'" style="width: 24rem">
+      <p><b>Podaj nazwę chatki: </b></p>
+      <input nz-input id="officialName" placeholder="Nazwa chatki bez duszpasterstwa">
+    </nz-form-item>
+    <nz-form-item *ngSwitchCase="'ACADEMIC_MINISTRY'" style="width: 24rem">
+        <p><b>Wybierz duszpasterstwo: </b></p>
+        <bda-admin-academic-ministry-selection
+          [academicMinistryObservable]="availableAcademicMinistries"
+        ></bda-admin-academic-ministry-selection>
+      </nz-form-item>
+  </ng-container>
+  <button nz-button nzType="primary" type="submit"><i class="anticon anticon-plus"></i>Zatwierdź nową chatkę</button>
+</div>
