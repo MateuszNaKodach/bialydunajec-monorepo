@@ -62,11 +62,11 @@ export class CampRegistrationsEndpoint extends AbstractEndpoint {
   }
 
   createAcademicMinistryCottage(campRegistrationsEditionId: number, academicMinistryId: string) {
-    return this.httpClient.post(`${this.callsBaseUrl}/academic-ministry-cottage`, {academicMinistryId});
+    return this.httpClient.post(`${this.callsBaseUrl}/${campRegistrationsEditionId}/cottage/academic-ministry-cottage?academicMinistryId=${academicMinistryId}`,null);
   }
 
   createStandaloneCottage(campRegistrationsEditionId: number, cottageName: string) {
-    return this.httpClient.post(`${this.callsBaseUrl}/standalone-cottage`, {cottageName});
+    return this.httpClient.post(`${this.callsBaseUrl}/${campRegistrationsEditionId}/cottage/standalone-cottage?cottageName=${cottageName}`, null);
   }
 
   getAllCottagesByCampRegistrationsEditionId(campRegistrationsEditionId: number) {
