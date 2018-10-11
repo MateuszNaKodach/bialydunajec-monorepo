@@ -7,7 +7,7 @@
       (campEditionIdSelected)="onCampEditionIdSelected($event)"
       [campEditionsObservable]="availableCampEditions"></bda-admin-camp-edition-selection>
   </div>
-  <div class="bda-admin-cottage-list-content">
+  <div *ngIf="selectedCampRegistrations | async as campRegistrations" class="bda-admin-cottage-list-content">
     <bda-admin-new-cottage-card></bda-admin-new-cottage-card>
   </div>
 </section>

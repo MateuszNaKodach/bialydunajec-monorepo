@@ -1,4 +1,4 @@
-export class AcademicMinistryResponse{
+export class AcademicMinistryResponse {
   academicMinistryId: string;
   officialName: string;
   shortName?: string;
