@@ -1,6 +1,7 @@
 package org.bialydunajec.registrations.domain.cottage
 
 import org.bialydunajec.ddd.domain.base.aggregate.AggregateRoot
+import org.bialydunajec.ddd.domain.base.persistence.Versioned
 import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.Url
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.location.Place
@@ -43,10 +44,10 @@ class Cottage internal constructor(
 
         @Embedded
         @AttributeOverrides(AttributeOverride(name = "url", column = Column(name = "buildingPhotoUrl")))
-        private val buildingPhotoUrl: Url? = null,
+        private var buildingPhotoUrl: Url? = null,
 
         @Embedded
-        private val place: Place? = null,
+        private var place: Place? = null,
 
         @Embedded
         private var cottageSpace: CottageSpace = CottageSpace(),
@@ -62,7 +63,10 @@ class Cottage internal constructor(
             CottageType.ACADEMIC_MINISTRY -> CottageId.ofAcademicMinistryCottage(campRegistrationsEditionId, academicMinistryId
                     ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.NO_DEFINED_ACADEMIC_MINISTRY_FOR_COTTAGE))
         }
-) {
+), Versioned {
+
+    @Version
+    private var version: Long? = null
 
     @Enumerated(EnumType.STRING)
     private var cottageState: CottageState = CottageState.UNCONFIGURED
@@ -91,5 +95,8 @@ class Cottage internal constructor(
                     bankTransferDetails,
                     cottageState
             )
+
+    override fun getVersion() = version
+
 
 }

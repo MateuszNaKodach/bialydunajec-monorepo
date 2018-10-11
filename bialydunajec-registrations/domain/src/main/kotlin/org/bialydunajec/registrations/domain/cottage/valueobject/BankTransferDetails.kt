@@ -14,7 +14,7 @@ data class BankTransferDetails(
         val accountOwner: String,
 
         @NotBlank
-        val accountOwnerAddress: String,
+        val accountOwnerAddress: String?,
 
         val transferTitleTemplate: String
 )
