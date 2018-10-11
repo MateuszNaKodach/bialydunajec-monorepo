@@ -13,12 +13,18 @@ internal class CottageRepositoryImpl(
         jpaRepository: CottageJpaRepository
 ) : AbstractDomainRepositoryImpl<Cottage, CottageId, CottageJpaRepository>(jpaRepository), CottageRepository {
 
-    override fun findByCampRegistrationsEditionId(campRegistrationsEditionId: CampRegistrationsEditionId)= jpaRepository.findByCampRegistrationsEditionId(campRegistrationsEditionId)
+    override fun findAllByCampRegistrationsEditionId(campRegistrationsEditionId: CampRegistrationsEditionId)=
+            jpaRepository.findAllByCampRegistrationsEditionId(campRegistrationsEditionId)
 
-    override fun countByCampRegistrationsEditionId(campRegistrationsEditionId: CampRegistrationsEditionId) = jpaRepository.countByCampRegistrationsEditionId(campRegistrationsEditionId)
+    override fun findByIdAndCampRegistrationsEditionId(cottageId: CottageId, campRegistrationsEditionId: CampRegistrationsEditionId): Cottage? =
+            jpaRepository.findByAggregateIdAndCampRegistrationsEditionId(cottageId, campRegistrationsEditionId)
+
+    override fun countByCampRegistrationsEditionId(campRegistrationsEditionId: CampRegistrationsEditionId) =
+            jpaRepository.countByCampRegistrationsEditionId(campRegistrationsEditionId)
 }
 
 internal interface CottageJpaRepository : JpaRepository<Cottage, CottageId>{
-    fun findByCampRegistrationsEditionId(campRegistrationsEditionId: CampRegistrationsEditionId): Cottage?
+    fun findAllByCampRegistrationsEditionId(campRegistrationsEditionId: CampRegistrationsEditionId): Collection<Cottage>
+    fun findByAggregateIdAndCampRegistrationsEditionId(cottageId: CottageId, campRegistrationsEditionId: CampRegistrationsEditionId): Cottage?
     fun countByCampRegistrationsEditionId(campRegistrationsEditionId: CampRegistrationsEditionId): Long
 }

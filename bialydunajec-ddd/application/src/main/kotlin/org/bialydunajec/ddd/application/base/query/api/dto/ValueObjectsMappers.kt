@@ -1,6 +1,7 @@
 package org.bialydunajec.ddd.application.base.query.api.dto
 
 import org.bialydunajec.ddd.domain.extensions.toStringOrNull
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.AgeRange
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.*
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.location.*
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.notes.ExtendedDescription
@@ -68,4 +69,10 @@ fun SocialMediaDto.toValueObject() = SocialMedia(
         instagram = instagramUrl?.let { Instagram(it) },
         youTubeChannel = youTubeChannelUrl?.let { YouTubeChannel(it) }
 )
+
+fun AgeRange.toDto() =
+        AgeRangeDto(min,max)
+
+fun AgeRangeDto.toValueObject() =
+        AgeRange(min,max)
 

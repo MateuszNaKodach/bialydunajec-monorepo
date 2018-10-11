@@ -7,7 +7,7 @@ import org.bialydunajec.registrations.domain.cottage.valueobject.CottageType
 import javax.persistence.Embeddable
 
 @Embeddable
-class CottageId private constructor(cottageId: String)
+class CottageId constructor(cottageId: String)
     : AggregateId(cottageId) {
 
     companion object {

@@ -11,7 +11,7 @@ import org.bialydunajec.registrations.presentation.rest.v1.request.UpdateCampReg
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDate
 
-//TODO: Change to /admin-rest-api/v1
+//TODO: Change to /rest-api/admin/v1
 @RestController
 @RequestMapping("/rest-api/v1/camp-registrations")
 class CampRegistrationsController(
@@ -19,7 +19,6 @@ class CampRegistrationsController(
         private val queryGateway: CampRegistrationsQueryGateway
 ) {
 
-    //TODO: cottages command!
     //COMMAND----------------------------------------------------------------------------------------------------------
     @PatchMapping("{campRegistrationsEditionId}/timer")
     fun updateCampRegistrationsTimerById(@PathVariable campRegistrationsEditionId: Int, @RequestBody request: UpdateCampRegistrationsTimerRequest) =
@@ -50,13 +49,6 @@ class CampRegistrationsController(
     fun finishCampRegistrationsEditionById(@PathVariable campRegistrationsEditionId: Int) =
             commandGateway.process(CampRegistrationsCommand.FinishCampRegistrationsNow(campRegistrationsEditionId))
 
-    @PostMapping("{campRegistrationsEditionId}/academic-ministry-cottage")
-    fun createAcademicMinistryCottage(@PathVariable campRegistrationsEditionId: Int, @RequestParam academicMinistryId: String) =
-            commandGateway.process(CampRegistrationsCommand.CreateAcademicMinistryCottage(campRegistrationsEditionId, academicMinistryId))
-
-    @PostMapping("{campRegistrationsEditionId}/standalone-cottage")
-    fun createStandaloneCottage(@PathVariable campRegistrationsEditionId: Int, @RequestParam cottageName: String) =
-            commandGateway.process(CampRegistrationsCommand.CreateStandaloneCottage(campRegistrationsEditionId, cottageName))
 
     //QUERY------------------------------------------------------------------------------------------------------------
     @GetMapping
@@ -73,14 +65,4 @@ class CampRegistrationsController(
     @GetMapping("/{campRegistrationsEditionId}/camp-edition")
     fun getCampEditionByCampRegistrationsEditionId(@PathVariable campRegistrationsEditionId: Int) =
             queryGateway.process(CampEditionQuery.ById(campRegistrationsEditionId))
-
-    @GetMapping("/academic-ministry")
-    fun getAllAcademicMinistries() =
-            queryGateway.process(AcademicMinistryQuery.All())
-                    .sortedByDescending { it.displayName }
-
-    @GetMapping("/academic-ministry/{academicMinistryId}")
-    fun getAcademicMinistryById(@PathVariable academicMinistryId: String) =
-            queryGateway.process(AcademicMinistryQuery.ById(academicMinistryId))
-
 }

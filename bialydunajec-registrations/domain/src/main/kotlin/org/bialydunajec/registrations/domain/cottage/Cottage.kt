@@ -52,7 +52,7 @@ class Cottage internal constructor(
         private var cottageSpace: CottageSpace = CottageSpace(),
 
         @Embedded
-        private var campersLimitations: CampersLimitations? = CampersLimitations(),
+        private var campersLimitations: CampersLimitations? = null,
 
         @Embedded
         private var bankTransferDetails: BankTransferDetails? = null
@@ -77,5 +77,19 @@ class Cottage internal constructor(
     fun getCampersLimitations() = campersLimitations
     fun getBankTransferDetails() = bankTransferDetails
     fun getCottageState() = cottageState
+    fun getSnapshot() =
+            CottageSnapshot(
+                    campRegistrationsEditionId,
+                    cottageType,
+                    academicMinistryId,
+                    name,
+                    logoImageUrl,
+                    buildingPhotoUrl,
+                    place,
+                    cottageSpace,
+                    campersLimitations,
+                    bankTransferDetails,
+                    cottageState
+            )
 
 }

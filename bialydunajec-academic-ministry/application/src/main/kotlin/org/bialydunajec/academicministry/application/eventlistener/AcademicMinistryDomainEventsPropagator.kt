@@ -17,7 +17,7 @@ internal class AcademicMinistryDomainEventsPropagator(private val externalEventB
         with(domainEvent.snapshot) {
             externalEventBus.send(
                     AcademicMinistryExternalEvent.AcademicMinistryCreated(
-                            academicMinistryId = this.officialName,
+                            academicMinistryId = this.academicMinistryId.toString(),
                             officialName = this.officialName,
                             shortName = this.shortName,
                             logoImageUrl = this.logoImageUrl.toString()
@@ -32,7 +32,7 @@ internal class AcademicMinistryDomainEventsPropagator(private val externalEventB
         with(domainEvent.snapshot) {
             externalEventBus.send(
                     AcademicMinistryExternalEvent.AcademicMinistryUpdated(
-                            academicMinistryId = this.officialName,
+                            academicMinistryId = this.academicMinistryId.toString(),
                             officialName = this.officialName,
                             shortName = this.shortName,
                             logoImageUrl = this.logoImageUrl.toString()
