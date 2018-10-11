@@ -10,4 +10,8 @@ class CampRegistrationsQueryGateway internal constructor(private val domainModel
 
     fun process(query: CampEditionQuery.All) = domainModelReader.readFor(query)
     fun process(query: CampEditionQuery.ById) = domainModelReader.readFor(query)
+
+    fun process(query: AcademicMinistryQuery.All) = domainModelReader.readFor(query)
+    fun process(query: AcademicMinistryQuery.ById) = domainModelReader.readFor(query)
+
 }

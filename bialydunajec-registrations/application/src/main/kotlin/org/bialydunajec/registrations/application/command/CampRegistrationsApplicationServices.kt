@@ -8,6 +8,7 @@ import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryRe
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEdition
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionRepository
 import org.bialydunajec.registrations.domain.campedition.specification.CampRegistrationsHasMinimumCottagesToStartSpecification
+import org.bialydunajec.registrations.domain.cottage.CottageId
 import org.bialydunajec.registrations.domain.cottage.CottageRepository
 import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule
 import org.springframework.beans.factory.annotation.Autowired
@@ -141,7 +142,7 @@ internal class CreateAcademicMinistryCottageApplicationService(
         private val cottageRepository: CottageRepository
 ) : ApplicationService<CampRegistrationsCommand.CreateAcademicMinistryCottage> {
 
-    override fun process(command: CampRegistrationsCommand.CreateAcademicMinistryCottage) {
+    override fun process(command: CampRegistrationsCommand.CreateAcademicMinistryCottage): CottageId {
         val campEdition = campEditionRepository.findById(command.campRegistrationsEditionId)
                 ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.CAMP_EDITION_NOT_FOUND)
         val academicMinistry = academicMinistryRepository.findById(command.academicMinistryId)
@@ -149,7 +150,7 @@ internal class CreateAcademicMinistryCottageApplicationService(
 
         val academicMinistryCottage = campEdition.createAcademicMinistryCottage(academicMinistry)
 
-        cottageRepository.save(academicMinistryCottage)
+        return cottageRepository.save(academicMinistryCottage).getAggregateId()
     }
 }
 
@@ -160,13 +161,13 @@ internal class CreateStandaloneCottageApplicationService(
         private val cottageRepository: CottageRepository
 ) : ApplicationService<CampRegistrationsCommand.CreateStandaloneCottage> {
 
-    override fun process(command: CampRegistrationsCommand.CreateStandaloneCottage) {
+    override fun process(command: CampRegistrationsCommand.CreateStandaloneCottage): CottageId {
         val campEdition = campEditionRepository.findById(command.campRegistrationsEditionId)
                 ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.CAMP_EDITION_NOT_FOUND)
 
         val academicMinistryCottage = campEdition.createStandaloneCottage(command.cottageName)
 
-        cottageRepository.save(academicMinistryCottage)
+        return cottageRepository.save(academicMinistryCottage).getAggregateId()
     }
 }
 
