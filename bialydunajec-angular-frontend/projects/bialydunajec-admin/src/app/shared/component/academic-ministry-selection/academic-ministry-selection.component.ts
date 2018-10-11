@@ -31,6 +31,7 @@ export class AcademicMinistrySelectionComponent implements OnInit {
 
   set selectedAcademicMinistryId(value: string) {
     this._selectedAcademicMinistryId = value;
+    this.academicMinistryIdSelected.emit(value);
   }
 
 }

@@ -6,6 +6,7 @@ import {Injectable} from '@angular/core';
 import {CampRegistrationsEditionResponse} from './response/camp-registrations-edition.response';
 import {UpdateCampRegistrationsTimerRequest} from './request/update-camp-registrations-timer.request';
 import {AcademicMinistryResponse} from './response/academic-ministry.response';
+import {CottageResponse} from './response/cottage.response';
 
 @Injectable({
   providedIn: 'root'
@@ -58,6 +59,22 @@ export class CampRegistrationsEndpoint extends AbstractEndpoint {
 
   getAcademicMinistryById(academicMinistryId: string) {
     return this.httpClient.get<AcademicMinistryResponse>(`${this.callsBaseUrl}/academic-ministry/${academicMinistryId}`);
+  }
+
+  createAcademicMinistryCottage(campRegistrationsEditionId: number, academicMinistryId: string) {
+    return this.httpClient.post(`${this.callsBaseUrl}/academic-ministry-cottage`, {academicMinistryId});
+  }
+
+  createStandaloneCottage(campRegistrationsEditionId: number, cottageName: string) {
+    return this.httpClient.post(`${this.callsBaseUrl}/standalone-cottage`, {cottageName});
+  }
+
+  getAllCottagesByCampRegistrationsEditionId(campRegistrationsEditionId: number) {
+    return this.httpClient.get<CottageResponse[]>(`${this.callsBaseUrl}/${campRegistrationsEditionId}/cottage`);
+  }
+
+  getCottagesByIdAndCampRegistrationsEditionId(cottageId: string, campRegistrationsEditionId: number) {
+    return this.httpClient.get<CottageResponse>(`${this.callsBaseUrl}/${campRegistrationsEditionId}/cottage/${cottageId}`);
   }
 
 }
