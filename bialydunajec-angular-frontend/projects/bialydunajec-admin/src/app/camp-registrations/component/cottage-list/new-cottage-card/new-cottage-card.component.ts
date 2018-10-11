@@ -20,8 +20,8 @@ export class NewCottageCardComponent implements OnInit {
   standaloneCottageName: string;
   selectedAcademicMinistryId: string;
   availableAcademicMinistries: Observable<AcademicMinistryResponse[]>;
-  @Output() submittedNewAcademicMinistryCottage: EventEmitter<{ selectedAcademicMinistryId: string }>;
-  @Output() submittedNewStandaloneCottage: EventEmitter<{ cottageName: string }>;
+  @Output() submittedNewAcademicMinistryCottage = new EventEmitter<{ selectedAcademicMinistryId: string }>();
+  @Output() submittedNewStandaloneCottage = new EventEmitter<{ cottageName: string }>();
 
 
   constructor(
@@ -34,16 +34,15 @@ export class NewCottageCardComponent implements OnInit {
   }
 
   onSubmit() {
-    switch (this._cottageType) {
-      case CottageType.STANDALONE: {
-
+    console.log('ON SUBMIT!');
+    switch (this._cottageType.toString()) {
+      case 'STANDALONE': {
         this.submittedNewStandaloneCottage.emit({
           cottageName: this.standaloneCottageName
         });
         break;
       }
-      case CottageType.ACADEMIC_MINISTRY: {
-
+      case 'ACADEMIC_MINISTRY': {
         this.submittedNewAcademicMinistryCottage.emit({
           selectedAcademicMinistryId: this.selectedAcademicMinistryId
         });

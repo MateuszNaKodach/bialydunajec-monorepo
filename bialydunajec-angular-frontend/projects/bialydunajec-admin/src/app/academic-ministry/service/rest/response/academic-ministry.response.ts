@@ -1,4 +1,6 @@
-import {ExtendedDescriptionDto, PlaceDto, SocialMediaDto} from '../request/create-academic-ministry.request';
+import {PlaceDto} from '../../../../shared/service/rest/dto/place.dto';
+import {SocialMediaDto} from '../../../../shared/service/rest/dto/social-media.dto';
+import {ExtendedDescriptionDto} from '../../../../shared/service/rest/dto/extended-description.dto';
 
 export class AcademicMinistryResponse {
   academicMinistryId: string;
