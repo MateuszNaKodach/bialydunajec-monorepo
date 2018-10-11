@@ -10,6 +10,7 @@ import {CampEditionSelectionComponent} from './component/camp-edition-selection/
 import {HttpClientModule} from '@angular/common/http';
 import {PanelSectionComponent} from './component/panel-section/panel-section.component';
 import {BreadcrumbsComponent} from './component/breadcrumbs/breadcrumbs.component';
+import { AcademicMinistrySelectionComponent } from './component/academic-ministry-selection/academic-ministry-selection.component';
 
 registerLocaleData(pl);
 
@@ -27,7 +28,8 @@ registerLocaleData(pl);
     UserAvatarComponent,
     CampEditionSelectionComponent,
     PanelSectionComponent,
-    BreadcrumbsComponent
+    BreadcrumbsComponent,
+    AcademicMinistrySelectionComponent
   ],
   exports: [
     CommonModule,
@@ -39,7 +41,8 @@ registerLocaleData(pl);
     BialyDunajecCommonsModule,
     CampEditionSelectionComponent,
     PanelSectionComponent,
-    BreadcrumbsComponent
+    BreadcrumbsComponent,
+    AcademicMinistrySelectionComponent
   ],
   providers: [
     {provide: NZ_I18N, useValue: pl_PL},

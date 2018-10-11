@@ -32,7 +32,14 @@
           <label nz-checkbox formControlName="remember">
             <span>Zapamiętaj mnie</span>
           </label>
-          <button nz-button class="bda-admin-login-form__button" [nzLoading]="authInProgress" [nzType]="'primary'">Zaloguj się</button>
+          <button
+            nz-button
+            class="bda-admin-login-form__button"
+            [nzLoading]="authInProgress"
+            [nzType]="'primary'">
+            <i class="anticon anticon-login"></i>
+            Zaloguj się
+          </button>
         </nz-form-control>
       </nz-form-item>
       <nz-alert

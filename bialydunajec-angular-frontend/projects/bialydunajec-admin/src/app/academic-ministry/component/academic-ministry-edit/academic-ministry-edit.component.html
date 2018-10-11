@@ -3,7 +3,7 @@
     <bda-admin-breadcrumbs
       [breadcrumbs]="isEditMode ? ['Duszpasterstwa', shortNameFormControl.value ? shortNameFormControl.value : officialNameFormControl.value, 'Edytuj'] : ['Duszpasterstwa', 'Dodaj nowe']"
     ></bda-admin-breadcrumbs>
-    <button style="margin-left: 2rem" nz-button nzType="primary" [nzLoading]="submittingInProgress" type="submit" form="academic-ministry-form">Zatwierdź</button>
+    <button [disabled]="isEditMode && !academicMinistryForm.dirty" style="margin-left: 2rem" nz-button nzType="primary" [nzLoading]="submittingInProgress" type="submit" form="academic-ministry-form">{{isEditMode ? 'Zatwierdź zmiany' : 'Dodaj duszpasterstwo'}}</button>
   </div>
   <nz-form-item>
     <nz-alert

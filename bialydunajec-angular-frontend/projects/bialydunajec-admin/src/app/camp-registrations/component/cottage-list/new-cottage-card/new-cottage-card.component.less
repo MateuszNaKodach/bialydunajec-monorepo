@@ -1,0 +1,25 @@
+@import '../../../../../styles/responsivness';
+@import '../../../../../styles/styles';
+@import '../../../../../styles/theme';
+
+.bda-admin-panel-new-camp-cottage-card {
+  padding: 1rem;
+  .gt-sm__screen({ padding: 2rem; border-radius: 4px; });
+  background: transparent;
+  border: dashed 4px @primary-color;
+  height: 22rem;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  align-items: center;
+
+  nz-radio-group{
+    label{
+      width: 12rem;
+    }
+  }
+
+  button{
+    align-self: flex-end;
+  }
+}

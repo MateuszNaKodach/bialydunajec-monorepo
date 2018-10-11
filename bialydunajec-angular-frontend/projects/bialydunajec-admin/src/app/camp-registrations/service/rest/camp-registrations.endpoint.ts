@@ -5,6 +5,7 @@ import {CampEditionResponse} from '../../../camp-edition/service/rest/response/c
 import {Injectable} from '@angular/core';
 import {CampRegistrationsEditionResponse} from './response/camp-registrations-edition.response';
 import {UpdateCampRegistrationsTimerRequest} from './request/update-camp-registrations-timer.request';
+import {AcademicMinistryResponse} from './response/academic-ministry.response';
 
 @Injectable({
   providedIn: 'root'
@@ -50,4 +51,13 @@ export class CampRegistrationsEndpoint extends AbstractEndpoint {
   getCampEditionByCampRegistrationsEditionId(campRegistrationsEditionId: number) {
     return this.httpClient.get<CampEditionResponse>(`${this.callsBaseUrl}/${campRegistrationsEditionId}/camp-edition`);
   }
+
+  getAllAcademicMinistries() {
+    return this.httpClient.get<AcademicMinistryResponse[]>(`${this.callsBaseUrl}/academic-ministry`);
+  }
+
+  getAcademicMinistryById(academicMinistryId: string) {
+    return this.httpClient.get<AcademicMinistryResponse>(`${this.callsBaseUrl}/academic-ministry/${academicMinistryId}`);
+  }
+
 }
