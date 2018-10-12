@@ -119,7 +119,7 @@ export class AcademicMinistryEditComponent implements OnInit {
       photoUrl: [null, []],
       description: this.formBuilder.group({
         title: [null, []],
-        content: [null, [Validators.required]]
+        content: [null, []]
       })
     });
   }

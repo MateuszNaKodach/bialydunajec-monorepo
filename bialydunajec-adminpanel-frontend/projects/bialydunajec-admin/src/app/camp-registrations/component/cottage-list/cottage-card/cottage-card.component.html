@@ -1,0 +1,23 @@
+<div class="bda-admin-cottage-card">
+  <h2 style="font-weight: bold; margin: 0">Chatka {{cottage.name}}</h2>
+  <nz-divider></nz-divider>
+  <div class="bda-admin-cottage-card-content">
+    <div class="bda-admin-cottage-logo">
+      <img [src]="cottage.logoImageUrl ? cottage.logoImageUrl : 'assets/images/placeholder/placeholder_church.png'"
+           class="img-responsive"
+           alt="Brak obrazu pod wskazanym url.">
+    </div>
+  </div>
+  <div class="bda-admin-section-card-action">
+    <button nz-button nzType="primary"
+            [routerLink]="[cottage.cottageId]">Więcej
+    </button>
+    <button nz-button
+            class="bda-admin-section-card-action-small-button"
+            style="margin-left: 0.5rem;"><i class="anticon anticon-edit"></i></button>
+    <button nz-button
+            class="bda-admin-section-card-action-small-button"
+            nz-popconfirm nzTitle="Czy jesteś pewien, że chcesz usunąć Chatkę?"
+            style="margin-left: 0.5rem;"><i class="anticon anticon-delete"></i></button>
+  </div>
+</div>

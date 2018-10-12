@@ -16,7 +16,7 @@ export class NewCottageCardComponent implements OnInit {
   coreRoutingPaths = coreRoutingPaths;
   campRegistrationsRoutingPaths = campRegistrationsRoutingPaths;
 
-  private _cottageType: CottageType;
+  private _cottageType: CottageType = CottageType.ACADEMIC_MINISTRY;
   standaloneCottageName: string;
   selectedAcademicMinistryId: string;
   availableAcademicMinistries: Observable<AcademicMinistryResponse[]>;

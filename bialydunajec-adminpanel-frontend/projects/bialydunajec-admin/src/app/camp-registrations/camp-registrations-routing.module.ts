@@ -8,7 +8,14 @@ import {CottageEditComponent} from './component/cottage-edit/cottage-edit.compon
 const campRegistrationsRoutes: Routes = [
   {path: campRegistrationsRoutingPaths.root, component: CampRegistrationsSettingsComponent},
   {path: campRegistrationsRoutingPaths.cottages, component: CottageListComponent},
-  {path: campRegistrationsRoutingPaths.newCottage, component: CottageEditComponent}
+  {
+    path: `${campRegistrationsRoutingPaths.cottages}/:cottageId`,
+    component: CottageEditComponent
+  },
+  {
+    path: `${campRegistrationsRoutingPaths.cottages}/:cottageId/${campRegistrationsRoutingPaths.editCottage}`,
+    component: CottageEditComponent
+  }
 ];
 
 @NgModule({

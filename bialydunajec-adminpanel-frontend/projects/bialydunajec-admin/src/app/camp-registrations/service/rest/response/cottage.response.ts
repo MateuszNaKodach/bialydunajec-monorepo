@@ -4,6 +4,7 @@ import {CampersLimitationsDto} from './dto/camper-limitations.dto';
 import {BankTransferDetailsDto} from './dto/bank-transfer-details.dto';
 
 export class CottageResponse {
+  cottageId: string;
   campRegistrationsEditionId: string;
   cottageType: string;
   academicMinistryId?: string;
