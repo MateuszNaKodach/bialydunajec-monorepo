@@ -18,6 +18,12 @@
     </nz-alert>
   </nz-form-item>
   <div *ngIf="selectedCampRegistrations | async as campRegistrations" class="bda-admin-cottage-list-content">
+    <ng-container *ngIf="cottagesObservable | async as cottages">
+      <bda-admin-cottage-card
+        *ngFor="let cottage of cottages"
+        [cottage]="cottage"
+      ></bda-admin-cottage-card>
+    </ng-container>
     <bda-admin-new-cottage-card
       (submittedNewAcademicMinistryCottage)="onSubmittedNewAcademicMinistryCottage($event)"
       (submittedNewStandaloneCottage)="onSubmittedNewStandaloneCottage($event)"

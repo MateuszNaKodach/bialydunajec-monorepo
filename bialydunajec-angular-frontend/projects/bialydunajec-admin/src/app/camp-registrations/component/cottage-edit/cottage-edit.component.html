@@ -1,3 +1,55 @@
-<p>
-  cottage-edit works!
-</p>
+<section class="bda-admin-cottage-edit">
+  <div style="display: flex;">
+    <bda-admin-breadcrumbs
+      [breadcrumbs]="isEditMode ? ['Chatki Obozowe','Nazwa','Edytuj'] : ['Chatki Obozowe','Nazwa']"
+    ></bda-admin-breadcrumbs>
+    <button
+      *ngIf="isPreviewMode"
+      nz-button nzType="primary"
+      [routerLink]="campRegistrationsRoutingPaths.editCottage"
+      style="margin-left: 2rem;"><i class="anticon anticon-edit"></i>Edytuj
+    </button>
+    <button
+      *ngIf="isEditMode"
+      nz-button nzType="primary"
+      [nzLoading]="submittingInProgress"
+      type="submit"
+      form="cottage-form"
+      style="margin-left: 2rem;">Zatwierdź zmiany
+    </button>
+  </div>
+  <div class="bda-admin-cottage-edit__content">
+    <form
+      id="cottage-form"
+      class="bda-admin-cottage-edit__form"
+      nz-form
+      [formGroup]="cottageForm"
+      (ngSubmit)="onSubmit()">
+
+      <div class="bda-admin-panel-section-card">
+        <h3 style="font-weight: bold; ; margin: 0">DANE OGÓLNE</h3>
+        <nz-divider></nz-divider>
+
+        <nz-form-item>
+          <nz-form-label nzFor="name" nzRequired>Nazwa Chatki</nz-form-label>
+          <nz-form-control>
+            <input *ngIf="showInputs; else nameValueView" nz-input formControlName="name" id="name">
+          </nz-form-control>
+          <ng-template #nameValueView>
+            {{'Redemptor'}}
+          </ng-template>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label nzFor="logoImageUrl">Logo chatki (url)</nz-form-label>
+          <nz-form-control>
+            <input nz-input formControlName="logoImageUrl" id="logoImageUrl">
+          </nz-form-control>
+        </nz-form-item>
+
+      </div>
+
+    </form>
+  </div>
+
+</section>

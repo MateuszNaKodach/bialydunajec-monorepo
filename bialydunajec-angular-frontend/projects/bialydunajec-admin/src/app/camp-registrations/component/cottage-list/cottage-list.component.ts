@@ -38,6 +38,10 @@ export class CottageListComponent implements OnInit {
       .pipe(
         tap(response => this.campRegistrationsId = response.campRegistrationsEditionId)
       );
+    this.updateCottages(selectedCampEditionId);
+  }
+
+  updateCottages(selectedCampEditionId: number) {
     this.cottagesObservable = this.campRegistrationsEndpoint.getAllCottagesByCampRegistrationsEditionId(selectedCampEditionId);
   }
 
@@ -48,6 +52,7 @@ export class CottageListComponent implements OnInit {
         message: 'Nowa Chatka Obozowa',
         description: 'Nowa Chatka została utworzona!!'
       };
+      this.updateCottages(this.campRegistrationsId);
     },
     error: response => {
       console.log(response);

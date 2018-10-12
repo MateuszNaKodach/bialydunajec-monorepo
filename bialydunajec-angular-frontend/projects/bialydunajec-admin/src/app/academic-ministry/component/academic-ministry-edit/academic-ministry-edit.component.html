@@ -72,7 +72,7 @@
           </nz-form-control>
         </nz-form-item>
 
-        <h3><b>Adres</b></h3>
+        <h3><b>LOKALIZACJA</b></h3>
         <nz-divider></nz-divider>
         <div formGroupName="place">
           <div formGroupName="address">
@@ -124,7 +124,7 @@
             </nz-form-control>
           </nz-form-item>
           <nz-form-item>
-            <nz-form-label nzFor="content" nzRequired>Treść</nz-form-label>
+            <nz-form-label nzFor="content">Treść</nz-form-label>
             <nz-form-control>
               <textarea formControlName="content" id="content" nz-input [nzAutosize]="{ minRows: 2, maxRows: 2 }"></textarea>
               <nz-form-explain *ngIf="descriptionContentFormControl.dirty && descriptionContentFormControl.errors">Proszę wpisać choćby krótki opis.</nz-form-explain>
