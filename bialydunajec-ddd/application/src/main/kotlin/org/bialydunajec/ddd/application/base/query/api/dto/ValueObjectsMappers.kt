@@ -29,9 +29,9 @@ fun Address.toDto() =
 
 fun AddressDto.toValueObject() =
         Address(
-                street = Street(street),
+                street = street?.let { Street(it) },
                 homeNumber = homeNumber?.let { HomeNumber(it) },
-                city = CityName(city),
+                city = city?.let { CityName(it) },
                 postalCode = postalCode?.let { PostalCode(it) }
         )
 
@@ -71,8 +71,8 @@ fun SocialMediaDto.toValueObject() = SocialMedia(
 )
 
 fun AgeRange.toDto() =
-        AgeRangeDto(min,max)
+        AgeRangeDto(min, max)
 
 fun AgeRangeDto.toValueObject() =
-        AgeRange(min,max)
+        AgeRange(min, max)
 

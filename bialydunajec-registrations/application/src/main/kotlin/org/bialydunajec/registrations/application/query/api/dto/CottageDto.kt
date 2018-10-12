@@ -15,7 +15,7 @@ data class CottageDto(
         val logoImageUrl: String?,
         val buildingPhotoUrl: String?,
         val place: PlaceDto?,
-        val cottageSpace: CottageSpaceDto,
+        val cottageSpace: CottageSpaceDto?,
         val campersLimitations: CampersLimitationsDto?,
         val bankTransferDetails: BankTransferDetailsDto?,
         val cottageState: String
@@ -30,7 +30,7 @@ data class CottageDto(
                 logoImageUrl = snapshot.logoImageUrl.toStringOrNull(),
                 buildingPhotoUrl = snapshot.buildingPhotoUrl.toStringOrNull(),
                 place = snapshot.place?.toDto(),
-                cottageSpace = snapshot.cottageSpace.toDto(),
+                cottageSpace = snapshot.cottageSpace?.toDto(),
                 campersLimitations = snapshot.campersLimitations?.toDto(),
                 bankTransferDetails = snapshot.bankTransferDetails?.toDto(),
                 cottageState = snapshot.cottageState.toString()

@@ -51,7 +51,7 @@ class Cottage internal constructor(
         private var place: Place? = null,
 
         @Embedded
-        private var cottageSpace: CottageSpace = CottageSpace(),
+        private var cottageSpace: CottageSpace? = CottageSpace(),
 
         @Embedded
         private var campersLimitations: CampersLimitations? = null,
@@ -72,20 +72,82 @@ class Cottage internal constructor(
     @Enumerated(EnumType.STRING)
     private var cottageState: CottageState = CottageState.UNCONFIGURED
 
+    fun update(
+            name: String,
+            logoImageUrl: Url?,
+            buildingPhotoUrl: Url?,
+            place: Place?,
+            cottageSpace: CottageSpace?,
+            campersLimitations: CampersLimitations?,
+            bankTransferDetails: BankTransferDetails?
+    ) {
+        if (this.name != name) {
+            this.name = name
+        }
+        if (this.logoImageUrl != logoImageUrl) {
+            canUpdateLogoImageUrl(logoImageUrl)
+                    .ifInvalidThrowException()
+            this.logoImageUrl = logoImageUrl
+        }
+        if (this.buildingPhotoUrl != buildingPhotoUrl) {
+            this.buildingPhotoUrl = buildingPhotoUrl
+        }
+        if (this.place != place) {
+            canUpdatePlace(place)
+                    .ifInvalidThrowException()
+            this.place = place
+        }
+        if (this.cottageSpace != cottageSpace) {
+            this.cottageSpace = cottageSpace
+        }
+        if (this.campersLimitations != campersLimitations) {
+            this.campersLimitations = campersLimitations
+        }
+        if (this.bankTransferDetails != bankTransferDetails) {
+            canUpdateBankTransferDetails(bankTransferDetails)
+                    .ifInvalidThrowException()
+            this.bankTransferDetails = bankTransferDetails
+        }
+        updateConfigurationStatus()
+
+    }
+
     fun updateName(name: String) {
         this.name = name
     }
 
+    fun canUpdateLogoImageUrl(logoImageUrl: Url?) =
+            ValidationResult.buffer()
+                    .addViolatedRuleIf(
+                            ACTIVATED_COTTAGE_HAS_TO_HAVE_ADDRESS,
+                            cottageState == CottageState.ACTIVATED && logoImageUrl == null)
+                    .toValidationResult()
+
+
     fun updateLogoImageUrl(logoImageUrl: Url?) {
+        canUpdateLogoImageUrl(logoImageUrl)
+                .ifInvalidThrowException()
+
         this.logoImageUrl = logoImageUrl
+        updateConfigurationStatus()
     }
 
     fun updateBuildingPhotoUrl(buildingPhotoUrl: Url?) {
         this.buildingPhotoUrl = buildingPhotoUrl
     }
 
+    fun canUpdatePlace(place: Place?) =
+            ValidationResult.buffer()
+                    .addViolatedRuleIf(
+                            ACTIVATED_COTTAGE_HAS_TO_HAVE_ADDRESS,
+                            cottageState == CottageState.ACTIVATED && (place == null || place?.address == null || place?.address?.city == null || place?.address?.street == null))
+                    .toValidationResult()
+
     fun updatePlace(place: Place?) {
+        canUpdatePlace(place)
+                .ifInvalidThrowException()
         this.place = place
+        updateConfigurationStatus()
     }
 
     fun updateCottageSpace(cottageSpace: CottageSpace) {
@@ -97,15 +159,15 @@ class Cottage internal constructor(
         this.campersLimitations = campersLimitations
     }
 
-    fun canUpdateBankTransferDetails(bankTransferDetails: BankTransferDetails) =
+    fun canUpdateBankTransferDetails(bankTransferDetails: BankTransferDetails?) =
             ValidationResult.buffer()
                     .addViolatedRuleIf(
                             ACTIVATED_COTTAGE_HAS_TO_HAVE_BASIC_BANK_TRANSFER_INFO,
-                            cottageState == CottageState.ACTIVATED && (bankTransferDetails.accountNumber == null || bankTransferDetails.accountOwner == null || bankTransferDetails.transferTitleTemplate == null))
+                            cottageState == CottageState.ACTIVATED && (bankTransferDetails == null || bankTransferDetails.accountNumber == null || bankTransferDetails.accountOwner == null || bankTransferDetails.transferTitleTemplate == null))
                     .toValidationResult()
 
 
-    fun updateBankTransferDetails(bankTransferDetails: BankTransferDetails) {
+    fun updateBankTransferDetails(bankTransferDetails: BankTransferDetails?) {
         canUpdateBankTransferDetails(bankTransferDetails)
                 .ifInvalidThrowException()
 
@@ -116,11 +178,9 @@ class Cottage internal constructor(
     private fun updateConfigurationStatus() {
         val hasRequiredConfiguration =
                 bankTransferDetails != null
-                        && cottageSpace.fullCapacity != null
-                        && cottageSpace.reservations != null
-                        && place?.address != null
-                        && place?.address?.street != null
-                        && place?.address?.city != null
+                        && logoImageUrl != null
+                        && cottageSpace !=null && cottageSpace?.fullCapacity != null && cottageSpace?.reservations != null
+                        && place?.address != null && place?.address?.street != null && place?.address?.city != null
 
         if (hasRequiredConfiguration && this.cottageState != CottageState.CONFIGURED && this.cottageState != CottageState.ACTIVATED) {
             this.cottageState = CottageState.CONFIGURED

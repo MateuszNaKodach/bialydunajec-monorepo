@@ -15,7 +15,7 @@ data class CottageSnapshot internal constructor(
         val logoImageUrl: Url?,
         val buildingPhotoUrl: Url?,
         val place: Place?,
-        val cottageSpace: CottageSpace,
+        val cottageSpace: CottageSpace?,
         val campersLimitations: CampersLimitations?,
         val bankTransferDetails: BankTransferDetails?,
         val cottageState: CottageState

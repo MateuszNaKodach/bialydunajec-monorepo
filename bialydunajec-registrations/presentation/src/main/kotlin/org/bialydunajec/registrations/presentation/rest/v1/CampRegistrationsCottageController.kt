@@ -1,10 +1,15 @@
 package org.bialydunajec.registrations.presentation.rest.v1
 
+import org.bialydunajec.ddd.application.base.query.api.dto.toValueObject
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.Url
 import org.bialydunajec.registrations.application.command.api.CampRegistrationsCommand
 import org.bialydunajec.registrations.application.command.api.CampRegistrationsCommandGateway
 import org.bialydunajec.registrations.application.query.api.*
+import org.bialydunajec.registrations.application.query.api.dto.toValueObject
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
+import org.bialydunajec.registrations.domain.cottage.CottageId
 import org.bialydunajec.registrations.presentation.rest.v1.request.UpdateCampRegistrationsTimerRequest
+import org.bialydunajec.registrations.presentation.rest.v1.request.UpdateCottageRequest
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDate
 
@@ -19,6 +24,21 @@ class CampRegistrationsCottageController(
     @PostMapping("/{campRegistrationsEditionId}/cottage/academic-ministry-cottage")
     fun createAcademicMinistryCottage(@PathVariable campRegistrationsEditionId: Int, @RequestParam academicMinistryId: String) =
             commandGateway.process(CampRegistrationsCommand.CreateAcademicMinistryCottage(campRegistrationsEditionId, academicMinistryId))
+
+    @PutMapping("/{campRegistrationsEditionId}/cottage/{cottageId}")
+    fun updateCottage(@PathVariable campRegistrationsEditionId: Int, @PathVariable cottageId: String, @RequestBody request: UpdateCottageRequest) =
+            commandGateway.process(
+                    CampRegistrationsCommand.UpdateCottage(
+                            cottageId = CottageId(cottageId),
+                            name = request.name,
+                            logoImageUrl = request.logoImageUrl?.let { Url(it) },
+                            buildingPhotoUrl = request.buildingPhotoUrl?.let { Url(it) },
+                            place = request.place?.toValueObject(),
+                            cottageSpace = request.cottageSpace?.toValueObject(),
+                            campersLimitations = request.campersLimitations?.toValueObject(),
+                            bankTransferDetails = request.bankTransferDetails?.toValueObject()
+                    )
+            )
 
     @PostMapping("/{campRegistrationsEditionId}/cottage/standalone-cottage")
     fun createStandaloneCottage(@PathVariable campRegistrationsEditionId: Int, @RequestParam cottageName: String) =

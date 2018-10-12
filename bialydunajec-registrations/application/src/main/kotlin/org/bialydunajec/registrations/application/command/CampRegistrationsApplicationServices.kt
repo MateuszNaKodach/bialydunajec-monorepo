@@ -171,4 +171,28 @@ internal class CreateStandaloneCottageApplicationService(
     }
 }
 
+@Service
+@Transactional
+internal class UpdateCottageApplicationService(
+        private val cottageRepository: CottageRepository
+) : ApplicationService<CampRegistrationsCommand.UpdateCottage> {
+
+    override fun process(command: CampRegistrationsCommand.UpdateCottage) {
+        val cottage = cottageRepository.findById(command.cottageId)
+                ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.COTTAGE_NOT_FOUND)
+
+        cottage.update(
+                command.name,
+                command.logoImageUrl,
+                command.buildingPhotoUrl,
+                command.place,
+                command.cottageSpace,
+                command.campersLimitations,
+                command.bankTransferDetails
+        )
+
+        cottageRepository.save(cottage)
+    }
+}
+
 

@@ -8,14 +8,14 @@ import javax.validation.constraints.NotNull
 @Embeddable
 data class Address(
         @NotNull
-        val street: Street,
+        val street: Street? = null,
 
         @Embedded
         val homeNumber: HomeNumber? = null,
 
         @NotNull
         @Embedded
-        val city: CityName,
+        val city: CityName? = null,
 
         @NotNull
         @Embedded
