@@ -1,6 +1,8 @@
 package org.bialydunajec.registrations.domain.cottage.valueobject
 
+import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.Gender
+import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule
 import javax.persistence.Embeddable
 import javax.validation.constraints.NotNull
 
@@ -9,7 +11,7 @@ import javax.validation.constraints.NotNull
 data class CottageSpace(
         /**
          * Amount of all available spaces in the cottage, exclude any other limitations.
-         * Only his value is necessary for run campers registration.
+         * Only this value is necessary for run campers registration.
          */
         @NotNull
         val fullCapacity: Int = 0,
@@ -47,6 +49,14 @@ data class CottageSpace(
 
         val maxMaleHighSchoolRecentGraduates: Int? = null
 ) {
+    init {
+        if (fullCapacity < 0) {
+            throw DomainRuleViolationException.of(CampRegistrationsDomainRule.COTTAGE_FULL_CAPACITY_HAS_TO_BE_POSITIVE_NUMBER)
+        }
+        if (reservations < 0) {
+            throw DomainRuleViolationException.of(CampRegistrationsDomainRule.COTTAGE_RESERVATIONS_NEED_TO_BE_POSITIVE_NUMBER)
+        }
+    }
 
     fun getMaxBy(gender: Gender) = if (gender.isFemale) maxFemaleTotal else maxMaleTotal
 

@@ -4,8 +4,10 @@ import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.Url
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.location.Place
 import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryId
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
+import org.bialydunajec.registrations.domain.cottage.CottageId
 
 data class CottageSnapshot internal constructor(
+        val cottageId: CottageId,
         val campRegistrationsEditionId: CampRegistrationsEditionId,
         val cottageType: CottageType,
         val academicMinistryId: AcademicMinistryId?,

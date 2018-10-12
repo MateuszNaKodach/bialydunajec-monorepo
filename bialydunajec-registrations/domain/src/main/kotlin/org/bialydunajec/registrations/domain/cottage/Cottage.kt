@@ -2,13 +2,14 @@ package org.bialydunajec.registrations.domain.cottage
 
 import org.bialydunajec.ddd.domain.base.aggregate.AggregateRoot
 import org.bialydunajec.ddd.domain.base.persistence.Versioned
+import org.bialydunajec.ddd.domain.base.validation.ValidationResult
 import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.Url
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.location.Place
 import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryId
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
 import org.bialydunajec.registrations.domain.cottage.valueobject.*
-import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule
+import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule.*
 import javax.persistence.*
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
@@ -61,7 +62,7 @@ class Cottage internal constructor(
         when (cottageType) {
             CottageType.STANDALONE -> CottageId.ofStandaloneCottage(campRegistrationsEditionId)
             CottageType.ACADEMIC_MINISTRY -> CottageId.ofAcademicMinistryCottage(campRegistrationsEditionId, academicMinistryId
-                    ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.NO_DEFINED_ACADEMIC_MINISTRY_FOR_COTTAGE))
+                    ?: throw DomainRuleViolationException.of(NO_DEFINED_ACADEMIC_MINISTRY_FOR_COTTAGE))
         }
 ), Versioned {
 
@@ -70,6 +71,77 @@ class Cottage internal constructor(
 
     @Enumerated(EnumType.STRING)
     private var cottageState: CottageState = CottageState.UNCONFIGURED
+
+    fun updateName(name: String) {
+        this.name = name
+    }
+
+    fun updateLogoImageUrl(logoImageUrl: Url?) {
+        this.logoImageUrl = logoImageUrl
+    }
+
+    fun updateBuildingPhotoUrl(buildingPhotoUrl: Url?) {
+        this.buildingPhotoUrl = buildingPhotoUrl
+    }
+
+    fun updatePlace(place: Place?) {
+        this.place = place
+    }
+
+    fun updateCottageSpace(cottageSpace: CottageSpace) {
+        this.cottageSpace = cottageSpace
+        updateConfigurationStatus()
+    }
+
+    fun updateCampersLimitations(campersLimitations: CampersLimitations?) {
+        this.campersLimitations = campersLimitations
+    }
+
+    fun canUpdateBankTransferDetails(bankTransferDetails: BankTransferDetails) =
+            ValidationResult.buffer()
+                    .addViolatedRuleIf(
+                            ACTIVATED_COTTAGE_HAS_TO_HAVE_BASIC_BANK_TRANSFER_INFO,
+                            cottageState == CottageState.ACTIVATED && (bankTransferDetails.accountNumber == null || bankTransferDetails.accountOwner == null || bankTransferDetails.transferTitleTemplate == null))
+                    .toValidationResult()
+
+
+    fun updateBankTransferDetails(bankTransferDetails: BankTransferDetails) {
+        canUpdateBankTransferDetails(bankTransferDetails)
+                .ifInvalidThrowException()
+
+        this.bankTransferDetails = bankTransferDetails
+        updateConfigurationStatus()
+    }
+
+    private fun updateConfigurationStatus() {
+        val hasRequiredConfiguration =
+                bankTransferDetails != null
+                        && cottageSpace.fullCapacity != null
+                        && cottageSpace.reservations != null
+                        && place?.address != null
+                        && place?.address?.street != null
+                        && place?.address?.city != null
+
+        if (hasRequiredConfiguration && this.cottageState != CottageState.CONFIGURED && this.cottageState != CottageState.ACTIVATED) {
+            this.cottageState = CottageState.CONFIGURED
+        } else if (!hasRequiredConfiguration) {
+            this.cottageState = CottageState.UNCONFIGURED
+        }
+    }
+
+    fun canActivate() =
+            ValidationResult.buffer()
+                    .addViolatedRuleIf(NOT_CONFIGURED_COTTAGE_CANNOT_BE_ACTIVATED, cottageState == CottageState.CONFIGURED)
+                    .toValidationResult()
+
+    fun activate() {
+        canActivate().ifInvalidThrowException()
+        this.cottageState = CottageState.ACTIVATED
+    }
+
+    fun deactivate() {
+        this.cottageState = CottageState.CONFIGURED
+    }
 
     fun getCampEditionId() = campRegistrationsEditionId
     fun getCottageType() = cottageType
@@ -83,6 +155,7 @@ class Cottage internal constructor(
     fun getCottageState() = cottageState
     fun getSnapshot() =
             CottageSnapshot(
+                    getAggregateId(),
                     campRegistrationsEditionId,
                     cottageType,
                     academicMinistryId,

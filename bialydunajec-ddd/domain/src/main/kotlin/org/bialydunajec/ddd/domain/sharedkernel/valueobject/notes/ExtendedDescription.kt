@@ -5,14 +5,16 @@ import javax.persistence.Column
 import javax.persistence.Embeddable
 import javax.persistence.Lob
 import javax.validation.constraints.NotBlank
+import javax.validation.constraints.NotEmpty
 
 @Embeddable
 data class ExtendedDescription(
+        @NotEmpty
         @Column(name = "description_title")
         val title: String?,
 
         @Lob
-        @NotBlank
+        @NotEmpty
         @Column(name = "description_content")
-        val content: String
+        val content: String?
 ): ValueObject

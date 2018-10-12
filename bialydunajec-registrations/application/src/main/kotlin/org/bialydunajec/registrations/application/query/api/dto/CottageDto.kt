@@ -7,6 +7,7 @@ import org.bialydunajec.registrations.domain.cottage.valueobject.CottageSnapshot
 
 
 data class CottageDto(
+        val cottageId: String,
         val campRegistrationsEditionId: String,
         val cottageType: String,
         val academicMinistryId: String?,
@@ -21,6 +22,7 @@ data class CottageDto(
 ) {
     internal companion object {
         fun from(snapshot: CottageSnapshot) = CottageDto(
+                cottageId = snapshot.cottageId.toString(),
                 campRegistrationsEditionId = snapshot.campRegistrationsEditionId.toString(),
                 cottageType = snapshot.cottageType.toString(),
                 academicMinistryId = snapshot.academicMinistryId.toStringOrNull(),
