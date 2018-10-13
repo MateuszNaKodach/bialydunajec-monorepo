@@ -2,6 +2,7 @@
   style="width: 100%"
   nzPlaceHolder="Wybierz duszpasterstwo"
   nzNotFoundContent="Brak Duszpasterstw"
+  [nzDisabled]="disabled"
   [(ngModel)]="selectedAcademicMinistryId">
   <nz-option
     *ngFor="let academicMinistry of availableAcademicMinistries"

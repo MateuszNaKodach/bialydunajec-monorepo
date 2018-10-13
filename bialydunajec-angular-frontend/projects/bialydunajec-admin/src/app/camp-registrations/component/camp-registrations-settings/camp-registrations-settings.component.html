@@ -46,7 +46,7 @@
       <h2 style="font-weight: bold">Status Zapisów</h2>
       <nz-divider></nz-divider>
       <div style="margin-bottom: 1rem;">
-        <h3><b>Aktualny status zapisów:</b></h3>
+        <h4><b>Aktualny status zapisów:</b></h4>
         <div [ngSwitch]="campRegistrations.status" #statusTemplate style="text-align: center">
           <h3 *ngSwitchCase="'UNCONFIGURED_TIMER'" style="color: red;"><b>NIESKONFIGUROWANE</b></h3>
           <h3 *ngSwitchCase="'CONFIGURED_TIMER'" style="color: greenyellow;"><b>SKONFIGUROWANY PRZEŁĄCZNIK CZASOWY</b>
@@ -55,6 +55,23 @@
           <h3 *ngSwitchCase="'SUSPENDED'" style="color: yellow;"><b>WSTRZYMANE</b></h3>
           <h3 *ngSwitchCase="'FINISHED'" style="color: blueviolet;"><b>ZAKOŃCZONE</b></h3>
           <h3 *ngSwitchCase="'ARCHIVED'" style="color: sandybrown;"><b>ZARCHIWIZOWANE</b></h3>
+        </div>
+      </div>
+
+      <h4><b>Dostępne akcje dla aktualnego statusu:</b></h4>
+      <div style="text-align: center">
+        <div *ngIf="campRegistrations.status == 'UNCONFIGURED_TIMER' || campRegistrations.status == 'CONFIGURED_TIMER'">
+          <button nz-button nzType="primary" type="button">Rozpocznij teraz</button>
+        </div>
+        <div *ngIf="campRegistrations.status == 'IN_PROGRESS'">
+          <button nz-button nzType="primary" type="button">Wstrzymaj</button>
+        </div>
+        <div *ngIf="campRegistrations.status == 'SUSPENDED'">
+          <button nz-button nzType="primary" type="button">Przywróc po wstrzymaniu</button>
+          <button nz-button nzType="primary" type="button">Zakończ</button>
+        </div>
+        <div *ngIf="campRegistrations.status == 'FINISHED'">
+          <button nz-button nzType="primary" type="button">Przywróc po zakończeniu</button>
         </div>
       </div>
       <nz-alert
@@ -75,30 +92,6 @@
         <p><b>ZARCHIWIZOWANE</b> - status ostateczny, obóz został zakończony, a dane personalne uczestników
           zanonimizowane</p>
       </ng-template>
-    </div>
-
-    <div
-      id="actions"
-      class="bda-admin-panel-section-card"
-      *ngIf="campEdition.campRegistrations as campRegistrations"
-    >
-      <h2 style="font-weight: bold">Akcje dla aktualnego statusu</h2>
-      <nz-divider></nz-divider>
-      <div>
-        <div *ngIf="campRegistrations.status == 'UNCONFIGURED_TIMER' || campRegistrations.status == 'CONFIGURED_TIMER'">
-          <button nz-button nzType="primary" type="submit">Rozpocznij teraz</button>
-        </div>
-        <div *ngIf="campRegistrations.status == 'IN_PROGRESS'">
-          <button nz-button nzType="primary" type="submit">Wstrzymaj</button>
-        </div>
-        <div *ngIf="campRegistrations.status == 'SUSPENDED'">
-          <button nz-button nzType="primary" type="submit">Przywróc po wstrzymaniu</button>
-          <button nz-button nzType="primary" type="submit">Zakończ</button>
-        </div>
-        <div *ngIf="campRegistrations.status == 'FINISHED'">
-          <button nz-button nzType="primary" type="submit">Przywróc po zakończeniu</button>
-        </div>
-      </div>
     </div>
 
   </div>

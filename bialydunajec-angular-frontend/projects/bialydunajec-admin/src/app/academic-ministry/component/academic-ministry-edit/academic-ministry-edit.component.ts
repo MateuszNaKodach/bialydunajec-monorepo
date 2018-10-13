@@ -156,7 +156,7 @@ export class AcademicMinistryEditComponent implements OnInit {
                 this.lastAlert = {
                   type: 'error',
                   message: updateAcademicMinistryRequest.officialName,
-                  description: 'nie zostało zaktualizowane, z powodu braku odpowiedzi serwera.'
+                  description: 'Duszpasterstwo nie zostało zaktualizowane, z powodu braku odpowiedzi serwera.'
                 };
               } else {
                 this.lastAlert = {
