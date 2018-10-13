@@ -377,12 +377,14 @@
             <div *ngSwitchCase="'CONFIGURED'">
               <button
                 nz-button nzType="primary" type="button"
+                [nzLoading]="changedStatusInProgress"
                 nz-popconfirm nzTitle="Czy jesteś pewien, że chcesz aktywować Chatkę? Od tej chwili mogą się do niej zapisywać uczestnicy Obozu."
                 (nzOnConfirm)="activateCottage()"><i class="anticon anticon-check"></i>Aktywuj</button>
             </div>
             <div *ngSwitchCase="'ACTIVATED'">
               <button
                 nz-button nzType="primary" type="button"
+                [nzLoading]="changedStatusInProgress"
                 nz-popconfirm nzTitle="Czy jesteś pewien, że chcesz dezaktywować Chatkę? Uczestnik nie będzie mógł się do niej zapisać, do czasu ponownej aktywacji."
                 (nzOnConfirm)="deactivateCottage()"><i class="anticon anticon-close"></i>Dezaktywuj</button>
             </div>

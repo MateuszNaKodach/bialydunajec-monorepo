@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 import {CampEditionResponse} from '../../../camp-edition/service/rest/response/camp-edition.response';
 import {CampRegistrationsEditionResponse} from '../../service/rest/response/camp-registrations-edition.response';
 import {RegistrationsStatus} from '../../service/rest/response/camp-registrations.response';
+import {finalize, tap} from 'rxjs/operators';
 
 @Component({
   selector: 'bda-admin-camp-registrations-settings',
@@ -16,6 +17,8 @@ export class CampRegistrationsSettingsComponent implements OnInit {
   RomanNumerals = RomanNumerals;
   availableCampEditions: Observable<CampEditionResponse[]>;
   selectedCampRegistrations: Observable<CampRegistrationsEditionResponse>;
+  changingStatusInProgress = false;
+  private currentCampRegistrationsEdition: CampRegistrationsEditionResponse;
 
   constructor(private campRegistrationsEndpoint: CampRegistrationsEndpoint) {
   }
@@ -25,6 +28,57 @@ export class CampRegistrationsSettingsComponent implements OnInit {
   }
 
   onCampEditionIdSelected(selectedCampEditionId: number) {
-    this.selectedCampRegistrations = this.campRegistrationsEndpoint.getCampRegistrationsEditionById(selectedCampEditionId);
+    this.updateCampRegistrationsEdition(selectedCampEditionId);
+  }
+
+  updateCampRegistrationsEdition(selectedCampEditionId: number) {
+    this.selectedCampRegistrations = this.campRegistrationsEndpoint.getCampRegistrationsEditionById(selectedCampEditionId)
+      .pipe(tap(response => this.currentCampRegistrationsEdition = response));
+  }
+
+  startCampRegistrations() {
+    this.changingStatusInProgress = true;
+    this.campRegistrationsEndpoint.startCampRegistrationsEditionById(this.currentCampRegistrationsEdition.campRegistrationsEditionId)
+      .pipe(
+        finalize(() => this.changingStatusInProgress = false)
+      )
+      .subscribe(response => {
+          console.log(response);
+          this.updateCampRegistrationsEdition(this.currentCampRegistrationsEdition.campRegistrationsEditionId);
+        },
+        error => console.log(error)
+      );
+  }
+
+  suspendCampRegistrations() {
+    this.changingStatusInProgress = true;
+    this.campRegistrationsEndpoint.suspendCampRegistrationsEditionById(this.currentCampRegistrationsEdition.campRegistrationsEditionId)
+      .pipe(
+        finalize(() => this.changingStatusInProgress = false)
+      )
+      .subscribe(response => {
+          console.log(response);
+          this.updateCampRegistrationsEdition(this.currentCampRegistrationsEdition.campRegistrationsEditionId);
+        },
+        error => console.log(error)
+      );
+  }
+
+  unsuspendCampRegistrations() {
+    this.changingStatusInProgress = true;
+    this.campRegistrationsEndpoint.unsuspendCampRegistrationsEditionById(this.currentCampRegistrationsEdition.campRegistrationsEditionId)
+      .pipe(
+        finalize(() => this.changingStatusInProgress = false)
+      )
+      .subscribe(response => {
+          console.log(response);
+          this.updateCampRegistrationsEdition(this.currentCampRegistrationsEdition.campRegistrationsEditionId);
+        },
+        error => console.log(error)
+      );
+  }
+
+  finishCampRegistrations() {
+    console.log('finish');
   }
 }
