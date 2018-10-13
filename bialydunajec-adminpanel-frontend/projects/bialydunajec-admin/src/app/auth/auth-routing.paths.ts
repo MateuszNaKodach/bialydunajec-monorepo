@@ -1,4 +1,4 @@
 export const authRoutingPaths = {
   root: '',
-  login: 'logowanie'
+  login: 'login'
 };
