@@ -7,6 +7,7 @@ import org.bialydunajec.registrations.application.command.api.CampRegistrationsC
 import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryRepository
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEdition
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionRepository
+import org.bialydunajec.registrations.domain.campedition.specification.CampRegistrationsCanStartSpecification
 import org.bialydunajec.registrations.domain.campedition.specification.CampRegistrationsHasMinimumCottagesToStartSpecification
 import org.bialydunajec.registrations.domain.cottage.CottageId
 import org.bialydunajec.registrations.domain.cottage.CottageRepository
@@ -17,7 +18,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
-
+//TODO: Add checking camp edition state if any other is in progress
 @Service
 @Transactional(propagation = Propagation.REQUIRES_NEW)
 internal class CreateCampRegistrationsEditionApplicationService(
@@ -68,7 +69,6 @@ internal class SetupCampRegistrationsApplicationService(
 @Transactional
 internal class StartCampRegistrationsNowApplicationService(
         private val campEditionRepository: CampRegistrationsEditionRepository,
-        private val cottageRepository: CottageRepository,
         private val clock: Clock
 ) : ApplicationService<CampRegistrationsCommand.StartCampRegistrationsNow> {
 
@@ -76,7 +76,7 @@ internal class StartCampRegistrationsNowApplicationService(
         val campEdition = campEditionRepository.findById(command.campRegistrationsEditionId)
                 ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.CAMP_EDITION_NOT_FOUND)
 
-        campEdition.startNowCampRegistrations(clock.currentDateTime(), CampRegistrationsHasMinimumCottagesToStartSpecification(cottageRepository))
+        campEdition.startNowCampRegistrations(clock.currentDateTime(), CampRegistrationsCanStartSpecification(campEditionRepository))
 
         campEditionRepository.save(campEdition)
     }

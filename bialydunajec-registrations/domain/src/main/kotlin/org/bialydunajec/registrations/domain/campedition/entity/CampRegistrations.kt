@@ -156,10 +156,8 @@ internal class CampRegistrations constructor(
         canUnsuspend()
                 .ifInvalidThrowException()
 
+        status = RegistrationsStatus.IN_PROGRESS
         lastUnsuspendAt = currentTime
-        if (canStartByTimer(currentTime).isValid()) {
-            startByTimer(currentTime)
-        }
     }
 
     fun isInProgress() = status == RegistrationsStatus.IN_PROGRESS

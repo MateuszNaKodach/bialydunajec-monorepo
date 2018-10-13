@@ -24,6 +24,7 @@ class Camper internal constructor(
         @AttributeOverrides(AttributeOverride(name = "aggregateId", column = Column(name = "campRegistrationsEditionId")))
         private val campRegistrationsEditionId: CampRegistrationsEditionId,
 
+        //TODO: Zmienic na listę encji! Albo zrobić osobny agregat CamperApplication!
         @NotNull
         @Embedded
         private val camperApplication: CamperApplication,

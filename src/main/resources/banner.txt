@@ -48,4 +48,5 @@
                                      ``-:/+++++++++++++++/:-.
                                          `..-:///////:--``
 
+Author: Mateusz Nowak <kontakt.mateusznowak@gmail.com>
 Spring Boot version: ${spring-boot.version}
