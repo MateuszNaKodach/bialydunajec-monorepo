@@ -1,9 +1,18 @@
 package org.bialydunajec.registrations.application.query.api.dto
 
+import org.bialydunajec.ddd.domain.base.validation.constraints.NullOrNotBlank
+
 
 data class BankTransferDetailsDto(
-        val accountNumber: String,
-        val accountOwner: String,
+        @field:NullOrNotBlank
+        val accountNumber: String?,
+
+        @field:NullOrNotBlank
+        val accountOwner: String?,
+
+        @field:NullOrNotBlank
         val accountOwnerAddress: String?,
-        val transferTitleTemplate: String
+
+        @field:NullOrNotBlank
+        val transferTitleTemplate: String?
 )

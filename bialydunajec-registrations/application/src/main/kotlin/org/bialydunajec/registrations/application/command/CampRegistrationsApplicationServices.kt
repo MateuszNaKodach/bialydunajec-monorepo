@@ -195,4 +195,30 @@ internal class UpdateCottageApplicationService(
     }
 }
 
+@Service
+@Transactional
+internal class ActivateCottageApplicationService(
+        private val cottageRepository: CottageRepository
+) : ApplicationService<CampRegistrationsCommand.ActivateCottage> {
 
+    override fun process(command: CampRegistrationsCommand.ActivateCottage) {
+        val cottage = cottageRepository.findById(command.cottageId)
+                ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.COTTAGE_NOT_FOUND)
+        cottage.activate()
+        cottageRepository.save(cottage)
+    }
+}
+
+@Service
+@Transactional
+internal class DeactivateCottageApplicationService(
+        private val cottageRepository: CottageRepository
+) : ApplicationService<CampRegistrationsCommand.DeactivateCottage> {
+
+    override fun process(command: CampRegistrationsCommand.DeactivateCottage) {
+        val cottage = cottageRepository.findById(command.cottageId)
+                ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.COTTAGE_NOT_FOUND)
+        cottage.deactivate()
+        cottageRepository.save(cottage)
+    }
+}

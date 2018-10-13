@@ -21,9 +21,9 @@ fun PlaceDto.toValueObject() =
 
 fun Address.toDto() =
         AddressDto(
-                street = street.toString(),
+                street = street.toStringOrNull(),
                 homeNumber = homeNumber.toStringOrNull(),
-                city = city.toString(),
+                city = city.toStringOrNull(),
                 postalCode = postalCode.toStringOrNull()
         )
 

@@ -70,7 +70,7 @@ class Cottage internal constructor(
     private var version: Long? = null
 
     @Enumerated(EnumType.STRING)
-    private var cottageState: CottageState = CottageState.UNCONFIGURED
+    private var cottageState: CottageStatus = CottageStatus.UNCONFIGURED
 
     fun update(
             name: String,
@@ -120,7 +120,7 @@ class Cottage internal constructor(
             ValidationResult.buffer()
                     .addViolatedRuleIf(
                             ACTIVATED_COTTAGE_HAS_TO_HAVE_ADDRESS,
-                            cottageState == CottageState.ACTIVATED && logoImageUrl == null)
+                            cottageState == CottageStatus.ACTIVATED && logoImageUrl == null)
                     .toValidationResult()
 
 
@@ -140,7 +140,7 @@ class Cottage internal constructor(
             ValidationResult.buffer()
                     .addViolatedRuleIf(
                             ACTIVATED_COTTAGE_HAS_TO_HAVE_ADDRESS,
-                            cottageState == CottageState.ACTIVATED && (place == null || place?.address == null || place?.address?.city == null || place?.address?.street == null))
+                            cottageState == CottageStatus.ACTIVATED && (place == null || place?.address == null || place?.address?.city == null || place?.address?.street == null))
                     .toValidationResult()
 
     fun updatePlace(place: Place?) {
@@ -163,7 +163,7 @@ class Cottage internal constructor(
             ValidationResult.buffer()
                     .addViolatedRuleIf(
                             ACTIVATED_COTTAGE_HAS_TO_HAVE_BASIC_BANK_TRANSFER_INFO,
-                            cottageState == CottageState.ACTIVATED && (bankTransferDetails == null || bankTransferDetails.accountNumber == null || bankTransferDetails.accountOwner == null || bankTransferDetails.transferTitleTemplate == null))
+                            cottageState == CottageStatus.ACTIVATED && (bankTransferDetails?.accountNumber == null || bankTransferDetails.accountOwner == null || bankTransferDetails.transferTitleTemplate == null))
                     .toValidationResult()
 
 
@@ -177,30 +177,32 @@ class Cottage internal constructor(
 
     private fun updateConfigurationStatus() {
         val hasRequiredConfiguration =
-                bankTransferDetails != null
+                bankTransferDetails != null && !bankTransferDetails?.accountNumber.isNullOrBlank() && !bankTransferDetails?.accountOwner.isNullOrBlank() && !bankTransferDetails?.transferTitleTemplate.isNullOrBlank()
                         && logoImageUrl != null
-                        && cottageSpace !=null && cottageSpace?.fullCapacity != null && cottageSpace?.reservations != null
+                        && cottageSpace != null && cottageSpace?.fullCapacity != null && cottageSpace?.reservations != null
                         && place?.address != null && place?.address?.street != null && place?.address?.city != null
 
-        if (hasRequiredConfiguration && this.cottageState != CottageState.CONFIGURED && this.cottageState != CottageState.ACTIVATED) {
-            this.cottageState = CottageState.CONFIGURED
+        if (hasRequiredConfiguration && this.cottageState != CottageStatus.CONFIGURED && this.cottageState != CottageStatus.ACTIVATED) {
+            this.cottageState = CottageStatus.CONFIGURED
+            registerEvent(CottageEvents.CottageStatusChanged(getAggregateId(),cottageState))
         } else if (!hasRequiredConfiguration) {
-            this.cottageState = CottageState.UNCONFIGURED
+            this.cottageState = CottageStatus.UNCONFIGURED
+            registerEvent(CottageEvents.CottageStatusChanged(getAggregateId(),cottageState))
         }
     }
 
     fun canActivate() =
             ValidationResult.buffer()
-                    .addViolatedRuleIf(NOT_CONFIGURED_COTTAGE_CANNOT_BE_ACTIVATED, cottageState == CottageState.CONFIGURED)
+                    .addViolatedRuleIf(NOT_CONFIGURED_COTTAGE_CANNOT_BE_ACTIVATED, cottageState != CottageStatus.CONFIGURED)
                     .toValidationResult()
 
     fun activate() {
         canActivate().ifInvalidThrowException()
-        this.cottageState = CottageState.ACTIVATED
+        this.cottageState = CottageStatus.ACTIVATED
     }
 
     fun deactivate() {
-        this.cottageState = CottageState.CONFIGURED
+        this.cottageState = CottageStatus.CONFIGURED
     }
 
     fun getCampEditionId() = campRegistrationsEditionId

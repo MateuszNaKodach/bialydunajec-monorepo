@@ -84,4 +84,16 @@ sealed class CampRegistrationsCommand : Command {
     ) : CampRegistrationsCommand() {
 
     }
+
+    data class ActivateCottage constructor(
+            val cottageId: CottageId
+    ) : CampRegistrationsCommand() {
+
+    }
+
+    data class DeactivateCottage constructor(
+            val cottageId: CottageId
+    ) : CampRegistrationsCommand() {
+
+    }
 }

@@ -12,6 +12,7 @@ import org.bialydunajec.registrations.presentation.rest.v1.request.UpdateCampReg
 import org.bialydunajec.registrations.presentation.rest.v1.request.UpdateCottageRequest
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDate
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("/rest-api/v1/camp-registrations")
@@ -25,8 +26,13 @@ class CampRegistrationsCottageController(
     fun createAcademicMinistryCottage(@PathVariable campRegistrationsEditionId: Int, @RequestParam academicMinistryId: String) =
             commandGateway.process(CampRegistrationsCommand.CreateAcademicMinistryCottage(campRegistrationsEditionId, academicMinistryId))
 
+
+    @PostMapping("/{campRegistrationsEditionId}/cottage/standalone-cottage")
+    fun createStandaloneCottage(@PathVariable campRegistrationsEditionId: Int, @RequestParam cottageName: String) =
+            commandGateway.process(CampRegistrationsCommand.CreateStandaloneCottage(campRegistrationsEditionId, cottageName))
+
     @PutMapping("/{campRegistrationsEditionId}/cottage/{cottageId}")
-    fun updateCottage(@PathVariable campRegistrationsEditionId: Int, @PathVariable cottageId: String, @RequestBody request: UpdateCottageRequest) =
+    fun updateCottage(@PathVariable campRegistrationsEditionId: Int, @PathVariable cottageId: String, @Valid @RequestBody request: UpdateCottageRequest) =
             commandGateway.process(
                     CampRegistrationsCommand.UpdateCottage(
                             cottageId = CottageId(cottageId),
@@ -40,10 +46,13 @@ class CampRegistrationsCottageController(
                     )
             )
 
-    @PostMapping("/{campRegistrationsEditionId}/cottage/standalone-cottage")
-    fun createStandaloneCottage(@PathVariable campRegistrationsEditionId: Int, @RequestParam cottageName: String) =
-            commandGateway.process(CampRegistrationsCommand.CreateStandaloneCottage(campRegistrationsEditionId, cottageName))
+    @PatchMapping("/{campRegistrationsEditionId}/cottage/{cottageId}/activate")
+    fun activateCottage(@PathVariable campRegistrationsEditionId: Int, @PathVariable cottageId: String) =
+            commandGateway.process(CampRegistrationsCommand.ActivateCottage(cottageId = CottageId(cottageId)))
 
+    @PatchMapping("/{campRegistrationsEditionId}/cottage/{cottageId}/deactivate")
+    fun deactivateCottage(@PathVariable campRegistrationsEditionId: Int, @PathVariable cottageId: String) =
+            commandGateway.process(CampRegistrationsCommand.DeactivateCottage(cottageId = CottageId(cottageId)))
 
     //QUERY------------------------------------------------------------------------------------------------------------
     @GetMapping("/{campRegistrationsEditionId}/cottage")

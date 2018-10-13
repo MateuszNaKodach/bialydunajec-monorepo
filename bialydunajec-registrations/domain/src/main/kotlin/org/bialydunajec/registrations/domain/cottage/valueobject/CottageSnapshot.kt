@@ -18,5 +18,5 @@ data class CottageSnapshot internal constructor(
         val cottageSpace: CottageSpace?,
         val campersLimitations: CampersLimitations?,
         val bankTransferDetails: BankTransferDetails?,
-        val cottageState: CottageState
+        val cottageState: CottageStatus
 )
