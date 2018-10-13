@@ -1,20 +1,26 @@
 package org.bialydunajec.registrations.application.command.api
 
 import org.bialydunajec.ddd.application.base.command.Command
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.Url
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.location.Place
 import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryId
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
 import org.bialydunajec.registrations.domain.campedition.valueobject.TimerSettings
+import org.bialydunajec.registrations.domain.cottage.CottageId
+import org.bialydunajec.registrations.domain.cottage.valueobject.BankTransferDetails
+import org.bialydunajec.registrations.domain.cottage.valueobject.CampersLimitations
+import org.bialydunajec.registrations.domain.cottage.valueobject.CottageSpace
 import java.time.LocalDate
 import java.time.ZonedDateTime
 
 sealed class CampRegistrationsCommand : Command {
-    data class CreateCampRegistrationsEdition(
+    internal data class CreateCampRegistrationsEdition(
             val campRegistrationsEditionId: CampRegistrationsEditionId,
             val campEditionStartDate: LocalDate,
             val campEditionEndDate: LocalDate
     ) : CampRegistrationsCommand()
 
-    data class UpdateCampRegistrationsEditionDuration(
+    internal data class UpdateCampRegistrationsEditionDuration(
             val campRegistrationsEditionId: CampRegistrationsEditionId,
             val campEditionStartDate: LocalDate,
             val campEditionEndDate: LocalDate
@@ -64,6 +70,30 @@ sealed class CampRegistrationsCommand : Command {
             val cottageName: String
     ) : CampRegistrationsCommand() {
         constructor(campRegistrationsEditionId: Int, cottageName: String) : this(CampRegistrationsEditionId(campRegistrationsEditionId), cottageName)
+    }
+
+    data class UpdateCottage constructor(
+            val cottageId: CottageId,
+            val name: String,
+            val logoImageUrl: Url?,
+            val buildingPhotoUrl: Url?,
+            val place: Place?,
+            val cottageSpace: CottageSpace?,
+            val campersLimitations: CampersLimitations?,
+            val bankTransferDetails: BankTransferDetails?
+    ) : CampRegistrationsCommand() {
+
+    }
+
+    data class ActivateCottage constructor(
+            val cottageId: CottageId
+    ) : CampRegistrationsCommand() {
+
+    }
+
+    data class DeactivateCottage constructor(
+            val cottageId: CottageId
+    ) : CampRegistrationsCommand() {
 
     }
 }

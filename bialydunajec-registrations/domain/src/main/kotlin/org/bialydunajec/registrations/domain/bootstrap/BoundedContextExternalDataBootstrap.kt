@@ -1,7 +1,7 @@
 package org.bialydunajec.registrations.domain.bootstrap
 
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.Url
-import org.bialydunajec.registrations.domain.academicministry.AcademicMinistry
+import org.bialydunajec.registrations.domain.academicministry.CampRegistrationsAcademicMinistry
 import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryId
 import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryRepository
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEdition
@@ -47,17 +47,19 @@ class BoundedContextExternalDataBootstrap(
         return campEdition36
     }
 
-    private fun initAcademicMinistries(): Pair<AcademicMinistry, AcademicMinistry> {
+    private fun initAcademicMinistries(): Pair<CampRegistrationsAcademicMinistry, CampRegistrationsAcademicMinistry> {
         val redemptor = academicMinistryRepository.save(
-                AcademicMinistry(
+                CampRegistrationsAcademicMinistry(
                         AcademicMinistryId("1"),
+                        "Duszpasterstwo Akademickie Redemptor",
                         "Redemptor",
                         Url.ExternalUrl("https://lh3.googleusercontent.com/NopHXZjFGG2AcY5xWgRyKnzcRgKATiAgPCFLQHfrwEX4YjqbZ7nMfvL4F9TuZFhl55Axx-TGZcipxKdXUI6X7UEpbqSKmeqhGhHT5jG9wjzNo2zHhF5Hc_7gNJE7Yx1fnSAPSw46JDN5apArt02SoPt4RCnvFhdYHQD6vmJ136cs6pbQuSb73xkze34Z0Kx66N62yELLuevc_h7bG20yLr-FtG1hQGiFP_Ieq_ovTn-d6TBT-eciEIKc0luRlzQXLm5EeMzVfPLgCj7Y-pCLzu5J1LhFw_PG-MV_dUn2k8NTH9QQZRVjPLalcshdNoACVwgMcBwXyzUJHSTvQKpu-do2Z_g8hAPTZeP5TXXbz3rFb2A0Bew0QstsuYhw37EMkFmhDXP0-GHzoUPZrILL7xp3AKVXEw7RS1TJVOAwzg6Gw_3poUW31NRV2Y3GBaJEdwRpuGWoexcUQqZF-Bweiqn_Pslwe4Gz7TamEyZ14uNrOAQlLvEMJdvU3e8qoENS0hkshd9xXD_QL4QANdgkRyH-krq7vIDCDTu3JX7Zd6mE3Do5z8RVSwqUblZOwh7aXLmP3SSzqasRZedvaMqtuWcAcVSw6LynL5WkRzwflywlaVZg_s0JlAWheJIQvegem9zt0sP-a0-5fEKT-dWYovYjicf6eZ7m0DNBdsGAwGRJylkGjZQpAY8=w175-h128-no")
                 )
         )
         val maciejowka = academicMinistryRepository.save(
-                AcademicMinistry(
+                CampRegistrationsAcademicMinistry(
                         AcademicMinistryId("2"),
+                        "Centralny Ośrodek Duszpasterstwa Akademickiego Maciejówka",
                         "Maciejówka"
                 )
         )
@@ -101,16 +103,16 @@ class BoundedContextExternalDataBootstrap(
         return campEdition
     }
 
-    private fun initAcademicMinistries(): Pair<AcademicMinistry, AcademicMinistry> {
+    private fun initAcademicMinistries(): Pair<CampRegistrationsAcademicMinistry, CampRegistrationsAcademicMinistry> {
         val redemptor = academicMinistryRepository.save(
-                AcademicMinistry(
+                CampRegistrationsAcademicMinistry(
                         AcademicMinistryId("1"),
                         "Redemptor",
                         Url.ExternalUrl("https://lh3.googleusercontent.com/NopHXZjFGG2AcY5xWgRyKnzcRgKATiAgPCFLQHfrwEX4YjqbZ7nMfvL4F9TuZFhl55Axx-TGZcipxKdXUI6X7UEpbqSKmeqhGhHT5jG9wjzNo2zHhF5Hc_7gNJE7Yx1fnSAPSw46JDN5apArt02SoPt4RCnvFhdYHQD6vmJ136cs6pbQuSb73xkze34Z0Kx66N62yELLuevc_h7bG20yLr-FtG1hQGiFP_Ieq_ovTn-d6TBT-eciEIKc0luRlzQXLm5EeMzVfPLgCj7Y-pCLzu5J1LhFw_PG-MV_dUn2k8NTH9QQZRVjPLalcshdNoACVwgMcBwXyzUJHSTvQKpu-do2Z_g8hAPTZeP5TXXbz3rFb2A0Bew0QstsuYhw37EMkFmhDXP0-GHzoUPZrILL7xp3AKVXEw7RS1TJVOAwzg6Gw_3poUW31NRV2Y3GBaJEdwRpuGWoexcUQqZF-Bweiqn_Pslwe4Gz7TamEyZ14uNrOAQlLvEMJdvU3e8qoENS0hkshd9xXD_QL4QANdgkRyH-krq7vIDCDTu3JX7Zd6mE3Do5z8RVSwqUblZOwh7aXLmP3SSzqasRZedvaMqtuWcAcVSw6LynL5WkRzwflywlaVZg_s0JlAWheJIQvegem9zt0sP-a0-5fEKT-dWYovYjicf6eZ7m0DNBdsGAwGRJylkGjZQpAY8=w175-h128-no")
                 )
         )
         val maciejowka = academicMinistryRepository.save(
-                AcademicMinistry(
+                CampRegistrationsAcademicMinistry(
                         AcademicMinistryId("1"),
                         "Maciejówka"
                 )

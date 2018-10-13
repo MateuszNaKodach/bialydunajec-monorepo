@@ -8,13 +8,13 @@ import javax.validation.constraints.NotBlank
 data class BankTransferDetails(
         @NotBlank
         @Length(min = 26, max = 26)
-        val accountNumber: String,
+        val accountNumber: String?,
 
         @NotBlank
-        val accountOwner: String,
+        val accountOwner: String?,
 
         @NotBlank
-        val accountOwnerAddress: String,
+        val accountOwnerAddress: String?,
 
-        val transferTitleTemplate: String
+        val transferTitleTemplate: String?
 )

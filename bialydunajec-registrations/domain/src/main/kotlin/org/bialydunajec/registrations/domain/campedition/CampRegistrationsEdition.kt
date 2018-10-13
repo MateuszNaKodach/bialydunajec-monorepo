@@ -3,7 +3,7 @@ package org.bialydunajec.registrations.domain.campedition
 import org.bialydunajec.ddd.domain.base.aggregate.AggregateRoot
 import org.bialydunajec.ddd.domain.base.persistence.Versioned
 import org.bialydunajec.ddd.domain.base.validation.ValidationResult
-import org.bialydunajec.registrations.domain.academicministry.AcademicMinistry
+import org.bialydunajec.registrations.domain.academicministry.CampRegistrationsAcademicMinistry
 import org.bialydunajec.registrations.domain.campedition.entity.CampRegistrations
 import org.bialydunajec.registrations.domain.campedition.specification.CampRegistrationsHasMinimumCottagesToStartSpecification
 import org.bialydunajec.registrations.domain.campedition.valueobject.TimerSettings
@@ -14,9 +14,12 @@ import org.jetbrains.annotations.NotNull
 import java.time.LocalDate
 import java.time.ZonedDateTime
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionEvent.*
+import org.bialydunajec.registrations.domain.campedition.specification.CampRegistrationsCanStartSpecification
 import org.bialydunajec.registrations.domain.campedition.valueobject.CampRegistrationsEditionSnapshot
+import org.springframework.data.jpa.domain.Specification
 import javax.persistence.*
 
+//TODO: Aby rozpoczać lub skonfigurować zapisy cała reszta musi być finished!!!
 //TODO: CampRegistrationsEdition musi miec jako entity CampRegistrations i dbac np. o daty, zeby rejestracja nie trwała dłużej niz koniec obozu!
 /**
  * Camp Edition in Camp Registrations Bounded Context
@@ -65,15 +68,15 @@ class CampRegistrationsEdition constructor(
         campRegistrations.updateTimerSettings(timerSettings, currentTime)
     }
 
-    fun canStartNowCampRegistrations(currentTime: ZonedDateTime, minCottagesSpec: CampRegistrationsHasMinimumCottagesToStartSpecification): ValidationResult {
+    fun canStartNowCampRegistrations(currentTime: ZonedDateTime, canStartSpec: CampRegistrationsCanStartSpecification): ValidationResult {
         val validationResultBuffer = ValidationResult.buffer()
         campRegistrations.canStartNow(currentTime).doIfInvalid { validationResultBuffer.addViolatedRules(it.violatedRules) }
-        validationResultBuffer.addViolatedRuleIfNot(CampRegistrationsDomainRule.CAMP_REGISTERS_HAS_TO_HAVE_MIN_COTTAGES_TO_START, minCottagesSpec.isSatisfiedBy(this))
+        validationResultBuffer.addViolatedRuleIfNot(CampRegistrationsDomainRule.ONLY_ONE_CAMP_REGISTRATIONS_CAN_BE_IN_PROGRESS_IN_THE_SAME_TIME, canStartSpec.isSatisfiedBy(this))
         return validationResultBuffer.toValidationResult()
     }
 
-    fun startNowCampRegistrations(currentTime: ZonedDateTime, minCottagesSpec: CampRegistrationsHasMinimumCottagesToStartSpecification) {
-        canStartNowCampRegistrations(currentTime, minCottagesSpec)
+    fun startNowCampRegistrations(currentTime: ZonedDateTime, canStartSpec: CampRegistrationsCanStartSpecification) {
+        canStartNowCampRegistrations(currentTime, canStartSpec)
                 .ifInvalidThrowException()
 
         campRegistrations.startNow(currentTime)
@@ -130,12 +133,12 @@ class CampRegistrationsEdition constructor(
 
     fun campRegistrationsInProgress() = campRegistrations.isInProgress()
 
-    fun createAcademicMinistryCottage(academicMinistry: AcademicMinistry): Cottage {
+    fun createAcademicMinistryCottage(academicMinistry: CampRegistrationsAcademicMinistry): Cottage {
         return Cottage(
                 campRegistrationsEditionId = getAggregateId(),
                 cottageType = CottageType.ACADEMIC_MINISTRY,
                 academicMinistryId = academicMinistry.getAggregateId(),
-                name = academicMinistry.getShortName(),
+                name = academicMinistry.getShortName() ?: academicMinistry.getOfficialName(),
                 logoImageUrl = academicMinistry.getLogoImageUrl()
         )
     }

@@ -1,7 +1,7 @@
 package org.bialydunajec.registrations.domain.cottage.valueobject
 
-enum class CottageState {
+enum class CottageStatus {
     UNCONFIGURED,
-    DEACTIVATED,
+    CONFIGURED,
     ACTIVATED
 }

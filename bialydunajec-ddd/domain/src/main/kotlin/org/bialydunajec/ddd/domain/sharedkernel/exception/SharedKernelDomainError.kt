@@ -8,7 +8,6 @@ enum class SharedKernelDomainError : DomainRule {
     CALCULATION_CURRENCIES_MUST_BE_THE_SAME,
     PESEL_NUMBER_MUST_BE_VALID;
 
-    override fun getName() = name;
-
-    override fun getDescription(): String = ""
+    override fun getRuleName() = name
+    override fun getDescription() = null
 }

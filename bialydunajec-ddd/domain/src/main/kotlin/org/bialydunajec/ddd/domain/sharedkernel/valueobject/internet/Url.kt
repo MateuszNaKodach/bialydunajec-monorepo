@@ -11,11 +11,13 @@ open class Url(
         @Lob
         @URL
         @NotBlank
-        val url: String
+        private val url: String
 ) : ValueObject {
     @Embeddable
     class InternalUrl(url: String) : Url(url)
 
     @Embeddable
     class ExternalUrl(url: String) : Url(url)
+
+    override fun toString() = url
 }

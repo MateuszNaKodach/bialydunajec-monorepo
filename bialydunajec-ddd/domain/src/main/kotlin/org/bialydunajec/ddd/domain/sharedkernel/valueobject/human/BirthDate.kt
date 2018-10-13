@@ -1,5 +1,6 @@
 package org.bialydunajec.ddd.domain.sharedkernel.valueobject.human
 
+import org.bialydunajec.ddd.domain.base.valueobject.ValueObject
 import java.time.LocalDate
 import javax.persistence.Embeddable
 import javax.validation.constraints.NotNull
@@ -10,4 +11,4 @@ data class BirthDate(
         @NotNull
         @Past
         val birthDate: LocalDate
-)
+): ValueObject

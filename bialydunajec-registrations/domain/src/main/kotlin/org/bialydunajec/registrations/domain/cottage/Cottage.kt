@@ -1,13 +1,15 @@
 package org.bialydunajec.registrations.domain.cottage
 
 import org.bialydunajec.ddd.domain.base.aggregate.AggregateRoot
+import org.bialydunajec.ddd.domain.base.persistence.Versioned
+import org.bialydunajec.ddd.domain.base.validation.ValidationResult
 import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.Url
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.location.Place
 import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryId
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
 import org.bialydunajec.registrations.domain.cottage.valueobject.*
-import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule
+import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule.*
 import javax.persistence.*
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
@@ -43,16 +45,16 @@ class Cottage internal constructor(
 
         @Embedded
         @AttributeOverrides(AttributeOverride(name = "url", column = Column(name = "buildingPhotoUrl")))
-        private val buildingPhotoUrl: Url? = null,
+        private var buildingPhotoUrl: Url? = null,
 
         @Embedded
-        private val place: Place? = null,
+        private var place: Place? = null,
 
         @Embedded
-        private var cottageSpace: CottageSpace = CottageSpace(),
+        private var cottageSpace: CottageSpace? = CottageSpace(),
 
         @Embedded
-        private var campersLimitations: CampersLimitations? = CampersLimitations(),
+        private var campersLimitations: CampersLimitations? = null,
 
         @Embedded
         private var bankTransferDetails: BankTransferDetails? = null
@@ -60,12 +62,148 @@ class Cottage internal constructor(
         when (cottageType) {
             CottageType.STANDALONE -> CottageId.ofStandaloneCottage(campRegistrationsEditionId)
             CottageType.ACADEMIC_MINISTRY -> CottageId.ofAcademicMinistryCottage(campRegistrationsEditionId, academicMinistryId
-                    ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.NO_DEFINED_ACADEMIC_MINISTRY_FOR_COTTAGE))
+                    ?: throw DomainRuleViolationException.of(NO_DEFINED_ACADEMIC_MINISTRY_FOR_COTTAGE))
         }
-) {
+), Versioned {
+
+    @Version
+    private var version: Long? = null
 
     @Enumerated(EnumType.STRING)
-    private var cottageState: CottageState = CottageState.UNCONFIGURED
+    private var cottageState: CottageStatus = CottageStatus.UNCONFIGURED
+
+    fun update(
+            name: String,
+            logoImageUrl: Url?,
+            buildingPhotoUrl: Url?,
+            place: Place?,
+            cottageSpace: CottageSpace?,
+            campersLimitations: CampersLimitations?,
+            bankTransferDetails: BankTransferDetails?
+    ) {
+        if (this.name != name) {
+            this.name = name
+        }
+        if (this.logoImageUrl != logoImageUrl) {
+            canUpdateLogoImageUrl(logoImageUrl)
+                    .ifInvalidThrowException()
+            this.logoImageUrl = logoImageUrl
+        }
+        if (this.buildingPhotoUrl != buildingPhotoUrl) {
+            this.buildingPhotoUrl = buildingPhotoUrl
+        }
+        if (this.place != place) {
+            canUpdatePlace(place)
+                    .ifInvalidThrowException()
+            this.place = place
+        }
+        if (this.cottageSpace != cottageSpace) {
+            this.cottageSpace = cottageSpace
+        }
+        if (this.campersLimitations != campersLimitations) {
+            this.campersLimitations = campersLimitations
+        }
+        if (this.bankTransferDetails != bankTransferDetails) {
+            canUpdateBankTransferDetails(bankTransferDetails)
+                    .ifInvalidThrowException()
+            this.bankTransferDetails = bankTransferDetails
+        }
+        updateConfigurationStatus()
+
+    }
+
+    fun updateName(name: String) {
+        this.name = name
+    }
+
+    fun canUpdateLogoImageUrl(logoImageUrl: Url?) =
+            ValidationResult.buffer()
+                    .addViolatedRuleIf(
+                            ACTIVATED_COTTAGE_HAS_TO_HAVE_ADDRESS,
+                            cottageState == CottageStatus.ACTIVATED && logoImageUrl == null)
+                    .toValidationResult()
+
+
+    fun updateLogoImageUrl(logoImageUrl: Url?) {
+        canUpdateLogoImageUrl(logoImageUrl)
+                .ifInvalidThrowException()
+
+        this.logoImageUrl = logoImageUrl
+        updateConfigurationStatus()
+    }
+
+    fun updateBuildingPhotoUrl(buildingPhotoUrl: Url?) {
+        this.buildingPhotoUrl = buildingPhotoUrl
+    }
+
+    fun canUpdatePlace(place: Place?) =
+            ValidationResult.buffer()
+                    .addViolatedRuleIf(
+                            ACTIVATED_COTTAGE_HAS_TO_HAVE_ADDRESS,
+                            cottageState == CottageStatus.ACTIVATED && (place == null || place?.address == null || place?.address?.city == null || place?.address?.street == null))
+                    .toValidationResult()
+
+    fun updatePlace(place: Place?) {
+        canUpdatePlace(place)
+                .ifInvalidThrowException()
+        this.place = place
+        updateConfigurationStatus()
+    }
+
+    fun updateCottageSpace(cottageSpace: CottageSpace) {
+        this.cottageSpace = cottageSpace
+        updateConfigurationStatus()
+    }
+
+    fun updateCampersLimitations(campersLimitations: CampersLimitations?) {
+        this.campersLimitations = campersLimitations
+    }
+
+    fun canUpdateBankTransferDetails(bankTransferDetails: BankTransferDetails?) =
+            ValidationResult.buffer()
+                    .addViolatedRuleIf(
+                            ACTIVATED_COTTAGE_HAS_TO_HAVE_BASIC_BANK_TRANSFER_INFO,
+                            cottageState == CottageStatus.ACTIVATED && (bankTransferDetails?.accountNumber == null || bankTransferDetails.accountOwner == null || bankTransferDetails.transferTitleTemplate == null))
+                    .toValidationResult()
+
+
+    fun updateBankTransferDetails(bankTransferDetails: BankTransferDetails?) {
+        canUpdateBankTransferDetails(bankTransferDetails)
+                .ifInvalidThrowException()
+
+        this.bankTransferDetails = bankTransferDetails
+        updateConfigurationStatus()
+    }
+
+    private fun updateConfigurationStatus() {
+        val hasRequiredConfiguration =
+                bankTransferDetails != null && !bankTransferDetails?.accountNumber.isNullOrBlank() && !bankTransferDetails?.accountOwner.isNullOrBlank() && !bankTransferDetails?.transferTitleTemplate.isNullOrBlank()
+                        && logoImageUrl != null
+                        && cottageSpace != null && cottageSpace?.fullCapacity != null && cottageSpace?.reservations != null
+                        && place?.address != null && place?.address?.street != null && place?.address?.city != null
+
+        if (hasRequiredConfiguration && this.cottageState != CottageStatus.CONFIGURED && this.cottageState != CottageStatus.ACTIVATED) {
+            this.cottageState = CottageStatus.CONFIGURED
+            registerEvent(CottageEvents.CottageStatusChanged(getAggregateId(),cottageState))
+        } else if (!hasRequiredConfiguration) {
+            this.cottageState = CottageStatus.UNCONFIGURED
+            registerEvent(CottageEvents.CottageStatusChanged(getAggregateId(),cottageState))
+        }
+    }
+
+    fun canActivate() =
+            ValidationResult.buffer()
+                    .addViolatedRuleIf(NOT_CONFIGURED_COTTAGE_CANNOT_BE_ACTIVATED, cottageState != CottageStatus.CONFIGURED)
+                    .toValidationResult()
+
+    fun activate() {
+        canActivate().ifInvalidThrowException()
+        this.cottageState = CottageStatus.ACTIVATED
+    }
+
+    fun deactivate() {
+        this.cottageState = CottageStatus.CONFIGURED
+    }
 
     fun getCampEditionId() = campRegistrationsEditionId
     fun getCottageType() = cottageType
@@ -77,5 +215,23 @@ class Cottage internal constructor(
     fun getCampersLimitations() = campersLimitations
     fun getBankTransferDetails() = bankTransferDetails
     fun getCottageState() = cottageState
+    fun getSnapshot() =
+            CottageSnapshot(
+                    getAggregateId(),
+                    campRegistrationsEditionId,
+                    cottageType,
+                    academicMinistryId,
+                    name,
+                    logoImageUrl,
+                    buildingPhotoUrl,
+                    place,
+                    cottageSpace,
+                    campersLimitations,
+                    bankTransferDetails,
+                    cottageState
+            )
+
+    override fun getVersion() = version
+
 
 }

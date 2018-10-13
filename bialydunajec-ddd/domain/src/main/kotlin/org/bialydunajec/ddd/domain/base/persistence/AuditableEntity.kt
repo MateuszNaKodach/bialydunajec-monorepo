@@ -23,10 +23,7 @@ abstract class AuditableEntity<EntityIdType: EntityId>(
 
         @LastModifiedBy
         private var lastModifiedBy: AggregateId? = null
-) : Auditable<AggregateId, Instant>, Versioned, IdentifiedEntity<EntityIdType> {
-
-    @Version
-    private var version: Long = 1
+) : Auditable<AggregateId, Instant>, IdentifiedEntity<EntityIdType> {
 
     override fun getCreatedDate() = createdDate
 
@@ -35,6 +32,4 @@ abstract class AuditableEntity<EntityIdType: EntityId>(
     override fun getLastModifiedDate() = lastModifiedDate
 
     override fun getLastModifiedBy() = lastModifiedBy
-
-    override fun getVersion() = version
 }

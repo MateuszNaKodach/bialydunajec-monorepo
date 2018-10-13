@@ -14,44 +14,54 @@ class CampRegistrationsCommandGateway internal constructor(
         private val suspendCampRegistrationsNowApplicationService: SuspendCampRegistrationsNowApplicationService,
         private val unsuspendCampRegistrationsNowApplicationService: UnsuspendCampRegistrationsNowApplicationService,
         private val createAcademicMinistryCottageApplicationService: CreateAcademicMinistryCottageApplicationService,
-        private val standaloneCottageApplicationService: CreateStandaloneCottageApplicationService
+        private val standaloneCottageApplicationService: CreateStandaloneCottageApplicationService,
+        private val updateCottageApplicationService: UpdateCottageApplicationService,
+        private val activateCottageApplicationService: ActivateCottageApplicationService,
+        private val deactivateCottageApplicationService: DeactivateCottageApplicationService
+
 ) : CommandGateway {
 
-    fun process(command: CampRegistrationsCommand.CreateCampRegistrationsEdition) {
-        createCampRegistrationsEditionApplicationService.process(command)
-    }
-
-    fun process(command: CampRegistrationsCommand.UpdateCampRegistrationsEditionDuration) {
-        updateCampRegistrationsEditionDurationApplicationService.process(command)
-    }
-
-    fun process(command: CampRegistrationsCommand.UpdateCampRegistrationsTimer) {
-        setupCampRegistrationsApplicationService.process(command)
-    }
-
-    fun process(command: CampRegistrationsCommand.StartCampRegistrationsNow) {
-        startCampRegistrationsNowApplicationService.process(command)
-    }
-
-    fun process(command: CampRegistrationsCommand.SuspendCampRegistrationsNow) {
-        suspendCampRegistrationsNowApplicationService.process(command)
-    }
-
-    fun process(command: CampRegistrationsCommand.UnsuspendCampRegistrationsNow) {
-        unsuspendCampRegistrationsNowApplicationService.process(command)
-    }
-
-    fun process(command: CampRegistrationsCommand.FinishCampRegistrationsNow) {
-        finishCampRegistrationsNowApplicationService.process(command)
-    }
-
-    fun process(command: CampRegistrationsCommand.CreateAcademicMinistryCottage) {
-        createAcademicMinistryCottageApplicationService.process(command)
-    }
-
-    fun process(command: CampRegistrationsCommand.CreateStandaloneCottage) {
-        standaloneCottageApplicationService.process(command)
-    }
+    internal fun process(command: CampRegistrationsCommand.CreateCampRegistrationsEdition) =
+            createCampRegistrationsEditionApplicationService.process(command)
 
 
+    internal fun process(command: CampRegistrationsCommand.UpdateCampRegistrationsEditionDuration) =
+            updateCampRegistrationsEditionDurationApplicationService.process(command)
+
+
+    fun process(command: CampRegistrationsCommand.UpdateCampRegistrationsTimer) =
+            setupCampRegistrationsApplicationService.process(command)
+
+
+    fun process(command: CampRegistrationsCommand.StartCampRegistrationsNow) =
+            startCampRegistrationsNowApplicationService.process(command)
+
+
+    fun process(command: CampRegistrationsCommand.SuspendCampRegistrationsNow) =
+            suspendCampRegistrationsNowApplicationService.process(command)
+
+
+    fun process(command: CampRegistrationsCommand.UnsuspendCampRegistrationsNow) =
+            unsuspendCampRegistrationsNowApplicationService.process(command)
+
+
+    fun process(command: CampRegistrationsCommand.FinishCampRegistrationsNow) =
+            finishCampRegistrationsNowApplicationService.process(command)
+
+
+    fun process(command: CampRegistrationsCommand.CreateAcademicMinistryCottage) =
+            createAcademicMinistryCottageApplicationService.process(command)
+
+
+    fun process(command: CampRegistrationsCommand.CreateStandaloneCottage) =
+            standaloneCottageApplicationService.process(command)
+
+    fun process(command: CampRegistrationsCommand.UpdateCottage) =
+            updateCottageApplicationService.process(command)
+
+    fun process(command: CampRegistrationsCommand.ActivateCottage) =
+            activateCottageApplicationService.process(command)
+
+    fun process(command: CampRegistrationsCommand.DeactivateCottage) =
+            deactivateCottageApplicationService.process(command)
 }
