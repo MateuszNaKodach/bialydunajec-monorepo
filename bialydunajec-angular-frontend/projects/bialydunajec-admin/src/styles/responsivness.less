@@ -1,0 +1,100 @@
+@import 'theme';
+
+.xs__screen(@rules) {
+  @media screen and (max-width: @screen-xs-max) {
+    @rules();
+  }
+}
+
+.sm__screen(@rules) {
+  @media screen and (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+    @rules();
+  }
+}
+
+.md__screen(@rules) {
+  @media screen and (min-width: @screen-md-min) and (max-width: @screen-md-max) {
+    @rules();
+  }
+}
+
+.lg__screen(@rules) {
+  @media screen and (min-width: @screen-lg-min) and (max-width: @screen-lg-max) {
+    @rules();
+  }
+}
+
+.xl__screen(@rules) {
+  @media screen and (min-width: @screen-xl-min) and (max-width: @screen-xl-max) {
+    @rules();
+  }
+}
+
+.xxl__screen(@rules) {
+  @media screen and (min-width: @screen-xxl-min){
+    @rules();
+  }
+}
+
+
+.lt-xs__screen(@rules) {
+  @media screen and (max-width: @screen-xs-max) {
+    @rules();
+  }
+}
+
+.lt-sm__screen(@rules) {
+  @media screen and (max-width: @screen-sm-max) {
+    @rules();
+  }
+}
+
+.lt-md__screen(@rules) {
+  @media screen and (max-width: @screen-md-max) {
+    @rules();
+  }
+}
+
+.lt-lg__screen(@rules) {
+  @media screen and (max-width: @screen-lg-max) {
+    @rules();
+  }
+}
+
+
+.lt-xl__screen(@rules) {
+  @media screen and (max-width: @screen-xl-max) {
+    @rules();
+  }
+}
+
+.gt-xs__screen(@rules) {
+  @media screen and (min-width: @screen-xs-max) {
+    @rules();
+  }
+}
+
+
+.gt-sm__screen(@rules) {
+  @media screen and (min-width: @screen-sm-max) {
+    @rules();
+  }
+}
+
+.gt-md__screen(@rules) {
+  @media screen and (min-width: @screen-md-max) {
+    @rules();
+  }
+}
+
+.gt-lg__screen(@rules) {
+  @media screen and (min-width: @screen-lg-max) {
+  @rules();
+  }
+}
+
+.gt-xl__screen(@rules) {
+  @media screen and (min-width: @screen-xl-max) {
+  @rules();
+  }
+}

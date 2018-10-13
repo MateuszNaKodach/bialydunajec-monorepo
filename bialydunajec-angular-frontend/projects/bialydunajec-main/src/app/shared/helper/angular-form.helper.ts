@@ -12,6 +12,7 @@ export class AngularFormHelper {
   static executeOnAllFormGroupControls(formGroup: FormGroup, functionToExecute: (control: AbstractControl) => any) {
     (<any>Object).values(formGroup.controls).forEach(control => {
       functionToExecute(control);
+      control.updateValueAndValidity();
 
       if (control.controls) {
         this.executeOnAllFormGroupControls(control, functionToExecute);

@@ -1,0 +1,422 @@
+<section class="bda-admin-cottage-edit">
+  <div style="display: flex;">
+    <bda-admin-breadcrumbs
+      [breadcrumbs]="isEditMode ? ['Zapisy na Obóz','Chatki Obozowe',nameFormControl.value,'Edytuj'] : ['Zapisy na Obóz','Chatki Obozowe',nameFormControl.value]"
+    ></bda-admin-breadcrumbs>
+    <button
+      *ngIf="isPreviewMode"
+      nz-button nzType="primary"
+      [routerLink]="campRegistrationsRoutingPaths.editCottage"
+      style="margin-left: 2rem;"><i class="anticon anticon-edit"></i>Edytuj
+    </button>
+    <button
+      *ngIf="isEditMode"
+      nz-button nzType="primary"
+      [nzLoading]="submittingInProgress"
+      type="submit"
+      form="cottage-form"
+      [disabled]="isEditMode && !cottageForm.dirty"
+      style="margin-left: 2rem;">Zatwierdź wszystkie zmiany
+    </button>
+  </div>
+  <nz-form-item>
+    <nz-alert
+      *ngIf="lastAlert"
+      [nzType]="lastAlert.type"
+      [nzMessage]="lastAlert.message"
+      [nzDescription]="lastAlert.description"
+      nzCloseable
+      nzShowIcon>
+    </nz-alert>
+  </nz-form-item>
+  <div class="bda-admin-cottage-edit__content">
+    <form
+      id="cottage-form"
+      class="bda-admin-cottage-edit__form"
+      nz-form
+      [formGroup]="cottageForm"
+      (ngSubmit)="onSubmit()">
+
+      <div class="bda-admin-panel-section-card">
+        <h3>Dane ogólne</h3>
+        <nz-divider></nz-divider>
+        <nz-form-item>
+          <nz-form-label nzRequired>
+            <span>
+              Duszpasterstwo
+               <nz-tooltip
+                 nzTitle="Zmiana duszpasterstwa chatki nie jest obecnie możliwa.">
+              <i nz-tooltip class="anticon anticon-question-circle-o"></i>
+            </nz-tooltip>
+            </span>
+          </nz-form-label>
+          <nz-form-control>
+            <bda-admin-academic-ministry-selection
+              [academicMinistryObservable]="availableAcademicMinistries"
+              [disabled]="true"
+              formControlName="academicMinistryId"
+            ></bda-admin-academic-ministry-selection>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label nzFor="name" nzRequired>
+            <span>Nazwa Chatki</span>
+          </nz-form-label>
+          <nz-form-control>
+            <input *ngIf="showInputs; else nameValueView" nz-input formControlName="name" id="name">
+          </nz-form-control>
+          <ng-template #nameValueView>
+            <bda-admin-form-input-value [control]="nameFormControl"></bda-admin-form-input-value>
+          </ng-template>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label nzFor="logoImageUrl">
+            <span><i class="anticon anticon-setting"></i> Logo chatki (url)</span>
+          </nz-form-label>
+          <nz-form-control>
+            <input *ngIf="showInputs" nz-input formControlName="logoImageUrl"
+                   id="logoImageUrl">
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item class="bda-admin-cottage-edit__logo-preview">
+          <img
+            [src]="logoImageUrlFormControl.value ? logoImageUrlFormControl.value : 'assets/images/placeholder/placeholder_church.png'"
+            class="img-responsive"
+            alt="Brak obrazu pod wskazanym url.">
+        </nz-form-item>
+      </div>
+
+
+      <div class="bda-admin-panel-section-card">
+        <h3>Lokalizacja</h3>
+        <nz-divider></nz-divider>
+        <div formGroupName="place">
+          <div formGroupName="address">
+
+            <div class="bda-admin-form-group-address-street">
+              <nz-form-item class="bda-admin--form-input-street">
+                <nz-form-label nzFor="street">
+                  <span><i class="anticon anticon-setting"></i> Ulica</span>
+                </nz-form-label>
+                <nz-form-control>
+                  <input *ngIf="showInputs; else streetValueView" nz-input formControlName="street" id="street">
+                  <nz-form-explain *ngIf="streetFormControl.dirty && streetFormControl.errors">Proszę wypełnić pole.
+                  </nz-form-explain>
+                </nz-form-control>
+                <ng-template #streetValueView>
+                  <bda-admin-form-input-value [control]="streetFormControl"></bda-admin-form-input-value>
+                </ng-template>
+              </nz-form-item>
+
+              <nz-form-item class="bda-admin--form-input-home-number">
+                <nz-form-label nzFor="homeNumber">Nr domu</nz-form-label>
+                <nz-form-control>
+                  <input *ngIf="showInputs; else homeNumberValueView" nz-input formControlName="homeNumber"
+                         id="homeNumber">
+                </nz-form-control>
+                <ng-template #homeNumberValueView>
+                  <bda-admin-form-input-value [control]="homeNumberFormControl"></bda-admin-form-input-value>
+                </ng-template>
+              </nz-form-item>
+            </div>
+
+            <div class="bda-admin-form-group-address-city">
+              <nz-form-item class="bda-admin-form-input-postal-code">
+                <nz-form-label nzFor="postalCode">Kod pocztowy</nz-form-label>
+                <nz-form-control>
+                  <input *ngIf="showInputs; else postalCodeValueView" nz-input formControlName="postalCode"
+                         id="postalCode">
+                </nz-form-control>
+                <ng-template #postalCodeValueView>
+                  <bda-admin-form-input-value [control]="postalCodeFormControl"></bda-admin-form-input-value>
+                </ng-template>
+              </nz-form-item>
+              <nz-form-item class="bda-admin-form-input-city">
+                <nz-form-label nzFor="city">
+                  <span><i class="anticon anticon-setting"></i> Miasto</span>
+                </nz-form-label>
+                <nz-form-control>
+                  <input *ngIf="showInputs; else cityValueView" nz-input formControlName="city" id="city">
+                </nz-form-control>
+                <nz-form-explain *ngIf="cityFormControl.dirty && cityFormControl.errors">Proszę wypełnić pole.
+                </nz-form-explain>
+                <ng-template #cityValueView>
+                  <bda-admin-form-input-value [control]="cityFormControl"></bda-admin-form-input-value>
+                </ng-template>
+              </nz-form-item>
+            </div>
+
+          </div>
+        </div>
+        <nz-form-item>
+          <nz-form-label nzFor="buildingPhotoUrl">Zdjęcie chatki (url)</nz-form-label>
+          <nz-form-control>
+            <input *ngIf="showInputs" nz-input formControlName="buildingPhotoUrl"
+                   id="buildingPhotoUrl">
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item class="bda-admin-cottage-edit__logo-preview">
+          <img
+            [src]="buildingPhotoUrlFormControl.value"
+            class="img-responsive"
+            alt="Brak obrazu pod wskazanym url.">
+        </nz-form-item>
+      </div>
+
+      <div class="bda-admin-panel-section-card">
+        <h3>Pojemność Chatki</h3>
+        <nz-divider></nz-divider>
+
+        <div class="bda-admin-cottage-space-form" formGroupName="cottageSpace">
+          <nz-form-item>
+            <nz-form-label nzFor="cottageSpaceFullCapacity">
+              <span><i class="anticon anticon-setting"></i> Całkowita pojemność</span>
+            </nz-form-label>
+            <nz-form-control>
+              <nz-input-number
+                *ngIf="showInputs; else fullCapacityValueView"
+                nz-input
+                formControlName="fullCapacity"
+                id="cottageSpaceFullCapacity"
+                [nzMin]="0" [nzMax]="200"
+              ></nz-input-number>
+            </nz-form-control>
+            <ng-template #fullCapacityValueView>
+              <bda-admin-form-input-value
+                [control]="cottageSpaceFullCapacityFormControl"></bda-admin-form-input-value>
+            </ng-template>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label nzFor="cottageSpaceFullCapacity">
+              <span>
+              <i class="anticon anticon-setting"></i> Zarezerwowane miejsca
+            <nz-tooltip
+              nzTitle="Ilość miejsc, na które nie można zapisać się przez formularz. Zapis dostępny tylko przez panel administracyjny.">
+              <i nz-tooltip class="anticon anticon-question-circle-o"></i>
+            </nz-tooltip>
+          </span>
+            </nz-form-label>
+            <nz-form-control>
+              <nz-input-number
+                *ngIf="showInputs; else reservationsValueView"
+                nz-input
+                formControlName="reservations"
+                id="cottageSpaceReservations"
+                [nzMin]="0" [nzMax]="cottageSpaceFullCapacityFormControl.value"
+              ></nz-input-number>
+            </nz-form-control>
+            <ng-template #reservationsValueView>
+              <bda-admin-form-input-value
+                [control]="cottageSpaceReservationsFormControl"></bda-admin-form-input-value>
+            </ng-template>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label nzFor="cottageSpaceMaxFemaleTotal">
+              <span>
+              Maksimum Kobiet
+            <nz-tooltip
+              nzTitle="Maksymalna liczba miejsc dla kobiet.">
+              <i nz-tooltip class="anticon anticon-question-circle-o"></i>
+            </nz-tooltip>
+          </span>
+            </nz-form-label>
+            <nz-form-control>
+              <nz-input-number
+                *ngIf="showInputs; else maxFemaleTotalValueView"
+                nz-input
+                formControlName="maxFemaleTotal"
+                id="cottageSpaceMaxFemaleTotal"
+                [nzMin]="0"
+                [nzMax]="cottageSpaceFullCapacityFormControl.value - cottageSpaceMaxMaleTotalFormControl.value"
+                nzPlaceHolder="Bez limitu"
+              ></nz-input-number>
+            </nz-form-control>
+            <ng-template #maxFemaleTotalValueView>
+              <bda-admin-form-input-value
+                [control]="cottageSpaceMaxFemaleTotalFormControl"></bda-admin-form-input-value>
+            </ng-template>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label nzFor="cottageSpaceMaxMmaleTotal">
+              <span>
+              Maksimum Mężczyzn
+            <nz-tooltip
+              nzTitle="Maksymalna liczba miejsc dla mężczyzn.">
+              <i nz-tooltip class="anticon anticon-question-circle-o"></i>
+            </nz-tooltip>
+          </span>
+            </nz-form-label>
+            <nz-form-control>
+              <nz-input-number
+                *ngIf="showInputs; else maxMaleTotalValueView"
+                nz-input
+                formControlName="maxMaleTotal"
+                id="cottageSpaceMaxMaleTotal"
+                [nzMin]="0"
+                [nzMax]="cottageSpaceFullCapacityFormControl.value - cottageSpaceMaxFemaleTotalFormControl.value"
+                nzPlaceHolder="Bez limitu"
+              ></nz-input-number>
+            </nz-form-control>
+            <ng-template #maxMaleTotalValueView>
+              <bda-admin-form-input-value
+                [control]="cottageSpaceMaxMaleTotalFormControl"></bda-admin-form-input-value>
+            </ng-template>
+          </nz-form-item>
+        </div>
+
+        <h3>Ograniczenia zapisu</h3>
+        <nz-divider></nz-divider>
+        <div>
+          <nz-form-item>
+            <nz-form-label nzFor="cottageSpaceMaxFemaleTotal">
+              <span>
+              Przedział wiekowy
+            <nz-tooltip
+              nzTitle="Jeśli uczestnik obozu nie jest w podanym przedziale wiekowym, jego zapis będzie możliwy tylko administracyjnie. W formularzu zapisów pokaże się brak miejsc w tej chatce.">
+              <i nz-tooltip class="anticon anticon-question-circle-o"></i>
+            </nz-tooltip>
+          </span>
+            </nz-form-label>
+            <nz-form-control>
+
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+      </div>
+
+      <div class="bda-admin-panel-section-card">
+        <h3>Konto bankowe</h3>
+        <nz-divider></nz-divider>
+
+        <div formGroupName="bankTransferDetails">
+          <nz-form-item>
+            <nz-form-label nzFor="accountNumber">
+              <span><i class="anticon anticon-setting"></i> Numer konta</span>
+            </nz-form-label>
+            <nz-form-control>
+              <input *ngIf="showInputs; else accountNumberValueView" nz-input formControlName="accountNumber"
+                     id="accountNumber">
+            </nz-form-control>
+            <ng-template #accountNumberValueView>
+              <bda-admin-form-input-value
+                [control]="bankTransferDetailsAccountNumberFormControl"></bda-admin-form-input-value>
+            </ng-template>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label nzFor="accountOwner">
+              <span><i class="anticon anticon-setting"></i> Właściciel konta</span>
+            </nz-form-label>
+            <nz-form-control>
+              <input *ngIf="showInputs; else accountOwnerValueView" nz-input formControlName="accountOwner"
+                     id="accountOwner">
+            </nz-form-control>
+            <ng-template #accountOwnerValueView>
+              <bda-admin-form-input-value
+                [control]="bankTransferDetailsAccountOwnerFormControl"></bda-admin-form-input-value>
+            </ng-template>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label nzFor="accountOwnerAddress">Adres właściciela konta</nz-form-label>
+            <nz-form-control>
+              <input *ngIf="showInputs; else accountOwnerAddressValueView" nz-input
+                     formControlName="accountOwnerAddress" id="accountOwnerAddress">
+            </nz-form-control>
+            <ng-template #accountOwnerAddressValueView>
+              <bda-admin-form-input-value
+                [control]="bankTransferDetailsAccountOwnerAddressFormControl"></bda-admin-form-input-value>
+            </ng-template>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label nzFor="transferTitleTemplate">
+              <span><i class="anticon anticon-setting"></i> Wzorzec tytułu przelewu</span>
+            </nz-form-label>
+            <nz-form-control>
+              <input *ngIf="showInputs; else transferTitleTemplateValueView" nz-input
+                     formControlName="transferTitleTemplate" id="transferTitleTemplate">
+            </nz-form-control>
+            <ng-template #transferTitleTemplateValueView>
+              <bda-admin-form-input-value
+                [control]="bankTransferDetailsTransferTitleTemplateFormControl"></bda-admin-form-input-value>
+            </ng-template>
+          </nz-form-item>
+        </div>
+      </div>
+
+
+      <div class="bda-admin-panel-section-card">
+        <h3><b>Szef Chatki</b></h3>
+        <nz-divider></nz-divider>
+        <div>
+          DANE SZEFA CHATKI
+        </div>
+      </div>
+
+      <div class="bda-admin-panel-section-card">
+        <h3><b>Status Chatki</b></h3>
+        <nz-divider></nz-divider>
+        <h4><b>Aktualny status Chatki:</b></h4>
+        <div style="text-align: center">
+          <bda-admin-cottage-status-badge [cottageStatus]="currentCottageStatus"></bda-admin-cottage-status-badge>
+        </div>
+
+        <div *ngIf="isEditMode" style="margin-top: 1rem;">
+          <h4><b>Dostępne akcje dla aktualnego statusu:</b></h4>
+          <div [ngSwitch]="currentCottageStatus" #statusTemplate style="text-align: center">
+            <div *ngSwitchCase="'UNCONFIGURED'">
+              <p>Brak dostępnych akcji</p>
+            </div>
+            <div *ngSwitchCase="'CONFIGURED'">
+              <button
+                nz-button nzType="primary" type="button"
+                [nzLoading]="changedStatusInProgress"
+                nz-popconfirm nzTitle="Czy jesteś pewien, że chcesz aktywować Chatkę? Od tej chwili mogą się do niej zapisywać uczestnicy Obozu."
+                (nzOnConfirm)="activateCottage()"><i class="anticon anticon-check"></i>Aktywuj</button>
+            </div>
+            <div *ngSwitchCase="'ACTIVATED'">
+              <button
+                nz-button nzType="primary" type="button"
+                [nzLoading]="changedStatusInProgress"
+                nz-popconfirm nzTitle="Czy jesteś pewien, że chcesz dezaktywować Chatkę? Uczestnik nie będzie mógł się do niej zapisać, do czasu ponownej aktywacji."
+                (nzOnConfirm)="deactivateCottage()"><i class="anticon anticon-close"></i>Dezaktywuj</button>
+            </div>
+          </div>
+        </div>
+        <nz-alert
+          style="margin-top: 1rem;"
+          nzType="info"
+          nzMessage="Statusy Chatek"
+          [nzDescription]="campRegistrationStatusesDescription"
+          nzShowIcon>
+        </nz-alert>
+        <ng-template #campRegistrationStatusesDescription>
+          <p>Chatki mogą przyjmować następujące statusy</p>
+          <bda-admin-cottage-status-badge [cottageStatus]="'UNCONFIGURED'"></bda-admin-cottage-status-badge>
+          <p style="margin-top: 0.5rem">Chatka wymaga uzupełnienia informacji oznaczonych ikoną <i
+            class="anticon anticon-setting"></i>, aby
+            przejść w status "Skonfigurowana".</p>
+
+          <bda-admin-cottage-status-badge [cottageStatus]="'CONFIGURED'"></bda-admin-cottage-status-badge>
+          <p style="margin-top: 0.5rem">Chatka posiada wszystkie wymagane informacje i może zostać aktywowana, aby być
+            widoczna w trakcie
+            zapisów.</p>
+
+          <bda-admin-cottage-status-badge [cottageStatus]="'ACTIVATED'"></bda-admin-cottage-status-badge>
+          <p style="margin-top: 0.5rem">Chatka jest widoczna w systemie zapisów. Może zostać dezaktywowana i tym samym
+            powrócić do statusu
+            "Skonfigurowana".</p>
+
+        </ng-template>
+      </div>
+    </form>
+  </div>
+
+</section>

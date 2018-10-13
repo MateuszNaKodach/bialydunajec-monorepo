@@ -1,0 +1,41 @@
+@import '../../../../styles/responsivness';
+
+.preview-label{
+  color: #1890ff;
+  border: 2px solid #1890ff;
+  padding: 1px 10px 3px 10px;
+  border-radius: 4px;
+  line-height: 18px;
+  display: inline;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.bda-admin-camp-registrations-settings__form{
+  display: grid;
+  grid-gap: 1.5rem;
+  grid:
+    "   camp      statuses       " 12rem
+    "   timer   statuses       " auto
+    /   2fr       3fr;
+
+  button{
+    margin: 1rem;
+  }
+}
+
+#camp-edition-preview{
+  grid-area: camp;
+}
+
+#timer{
+  grid-area: timer;
+}
+
+#actions{
+  grid-area: actions;
+}
+
+#statuses{
+  grid-area: statuses;
+}
