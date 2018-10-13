@@ -27,6 +27,7 @@ export class CottageEditComponent implements OnInit, MultiModeForm<CottageEditFo
   // ui
   lastAlert: AlertViewModel;
   submittingInProgress = false;
+  changedStatusInProgress = false;
 
   // logic
   private currentFormMode: EditFormMode = EditFormMode.PREVIEW;
@@ -188,7 +189,9 @@ export class CottageEditComponent implements OnInit, MultiModeForm<CottageEditFo
   }
 
   activateCottage() {
+    this.changedStatusInProgress = true;
     this.campRegistrationsEndpoint.activateCottage(this.currentCampRegistrationsId, this.currentCottageId)
+      .pipe(finalize(() => this.changedStatusInProgress = false))
       .subscribe(
         response => {
           this.lastAlert = {
@@ -228,7 +231,9 @@ export class CottageEditComponent implements OnInit, MultiModeForm<CottageEditFo
   }
 
   deactivateCottage() {
+    this.changedStatusInProgress = true;
     this.campRegistrationsEndpoint.deactivateCottage(this.currentCampRegistrationsId, this.currentCottageId)
+      .pipe(finalize(() => this.changedStatusInProgress = false))
       .subscribe(
         response => {
           this.lastAlert = {
