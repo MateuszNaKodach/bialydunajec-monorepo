@@ -7,6 +7,7 @@ import {CampRegistrationsEditionResponse} from './response/camp-registrations-ed
 import {UpdateCampRegistrationsTimerRequest} from './request/update-camp-registrations-timer.request';
 import {AcademicMinistryResponse} from './response/academic-ministry.response';
 import {CottageResponse} from './response/cottage.response';
+import {UpdateCottageRequest} from './request/update-cottage.request';
 
 @Injectable({
   providedIn: 'root'
@@ -62,11 +63,38 @@ export class CampRegistrationsEndpoint extends AbstractEndpoint {
   }
 
   createAcademicMinistryCottage(campRegistrationsEditionId: number, academicMinistryId: string) {
-    return this.httpClient.post(`${this.callsBaseUrl}/${campRegistrationsEditionId}/cottage/academic-ministry-cottage?academicMinistryId=${academicMinistryId}`,null);
+    return this.httpClient.post(
+      `${this.callsBaseUrl}/${campRegistrationsEditionId}/cottage/academic-ministry-cottage?academicMinistryId=${academicMinistryId}`
+      , null
+    );
   }
 
   createStandaloneCottage(campRegistrationsEditionId: number, cottageName: string) {
-    return this.httpClient.post(`${this.callsBaseUrl}/${campRegistrationsEditionId}/cottage/standalone-cottage?cottageName=${cottageName}`, null);
+    return this.httpClient.post(
+      `${this.callsBaseUrl}/${campRegistrationsEditionId}/cottage/standalone-cottage?cottageName=${cottageName}`,
+      null
+    );
+  }
+
+  updateCottage(campRegistrationsEditionId: number, cottageId: string, requestBody: UpdateCottageRequest) {
+    return this.httpClient.put(
+      `${this.callsBaseUrl}/${campRegistrationsEditionId}/cottage/${cottageId}`,
+      requestBody
+    );
+  }
+
+  activateCottage(campRegistrationsEditionId: number, cottageId: string) {
+    return this.httpClient.patch(
+      `${this.callsBaseUrl}/${campRegistrationsEditionId}/cottage/${cottageId}/activate`,
+      null
+    );
+  }
+
+  deactivateCottage(campRegistrationsEditionId: number, cottageId: string) {
+    return this.httpClient.patch(
+      `${this.callsBaseUrl}/${campRegistrationsEditionId}/cottage/${cottageId}/deactivate`,
+      null
+    );
   }
 
   getAllCottagesByCampRegistrationsEditionId(campRegistrationsEditionId: number) {

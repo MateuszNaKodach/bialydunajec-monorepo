@@ -11,6 +11,9 @@ import {HttpClientModule} from '@angular/common/http';
 import {PanelSectionComponent} from './component/panel-section/panel-section.component';
 import {BreadcrumbsComponent} from './component/breadcrumbs/breadcrumbs.component';
 import { AcademicMinistrySelectionComponent } from './component/academic-ministry-selection/academic-ministry-selection.component';
+import { FormInputValueComponent } from './component/form-input-value/form-input-value.component';
+import { HttpResponseAlterComponent } from './component/http-response-alter/http-response-alter.component';
+import {InputExtensionValueAccessor} from './directive/input-extension-value-accessor.extension.directive';
 
 registerLocaleData(pl);
 
@@ -29,7 +32,10 @@ registerLocaleData(pl);
     CampEditionSelectionComponent,
     PanelSectionComponent,
     BreadcrumbsComponent,
-    AcademicMinistrySelectionComponent
+    AcademicMinistrySelectionComponent,
+    FormInputValueComponent,
+    HttpResponseAlterComponent,
+    InputExtensionValueAccessor
   ],
   exports: [
     CommonModule,
@@ -42,7 +48,10 @@ registerLocaleData(pl);
     CampEditionSelectionComponent,
     PanelSectionComponent,
     BreadcrumbsComponent,
-    AcademicMinistrySelectionComponent
+    AcademicMinistrySelectionComponent,
+    FormInputValueComponent,
+    HttpResponseAlterComponent,
+    InputExtensionValueAccessor
   ],
   providers: [
     {provide: NZ_I18N, useValue: pl_PL},

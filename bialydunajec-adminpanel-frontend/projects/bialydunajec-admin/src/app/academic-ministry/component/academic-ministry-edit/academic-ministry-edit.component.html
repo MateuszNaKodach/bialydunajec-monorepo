@@ -3,17 +3,10 @@
     <bda-admin-breadcrumbs
       [breadcrumbs]="isEditMode ? ['Duszpasterstwa', shortNameFormControl.value ? shortNameFormControl.value : officialNameFormControl.value, 'Edytuj'] : ['Duszpasterstwa', 'Dodaj nowe']"
     ></bda-admin-breadcrumbs>
-    <button [disabled]="isEditMode && !academicMinistryForm.dirty" style="margin-left: 2rem" nz-button nzType="primary" [nzLoading]="submittingInProgress" type="submit" form="academic-ministry-form">{{isEditMode ? 'Zatwierdź zmiany' : 'Dodaj duszpasterstwo'}}</button>
+    <button [disabled]="isEditMode && !academicMinistryForm.dirty" style="margin-left: 2rem" nz-button nzType="primary" [nzLoading]="submittingInProgress" type="submit" form="academic-ministry-form">{{isEditMode ? 'Zatwierdź wszystkie zmiany' : 'Dodaj duszpasterstwo'}}</button>
   </div>
   <nz-form-item>
-    <nz-alert
-      *ngIf="lastAlert"
-      [nzType]="lastAlert.type"
-      [nzMessage]="lastAlert.message"
-      [nzDescription]="lastAlert.description"
-      nzCloseable
-      nzShowIcon>
-    </nz-alert>
+    <bda-admin-http-response-alter [alter]="lastAlert"></bda-admin-http-response-alter>
   </nz-form-item>
   <div class="bda-admin-academic-ministry-edit__content">
     <form

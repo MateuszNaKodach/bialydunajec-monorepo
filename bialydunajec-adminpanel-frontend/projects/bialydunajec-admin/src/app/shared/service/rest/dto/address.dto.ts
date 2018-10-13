@@ -1,7 +1,7 @@
 export class AddressDto {
   street?: string;
   homeNumber?: string = null;
-  city: string;
+  city?: string;
   postalCode?: string = null;
 
 
