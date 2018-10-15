@@ -1,11 +1,15 @@
 package org.bialydunajec.registrations.domain.cottage.specification
 
-import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.Gender
-import org.bialydunajec.registrations.domain.camper.Camper
+import org.bialydunajec.registrations.domain.camper.CampParticipantRepository
+import org.bialydunajec.registrations.domain.camper.valueobject.CamperApplication
+import org.springframework.stereotype.Component
 
-class CottageFreeSpaceSpecificationFactory {
+@Component
+class CottageFreeSpaceSpecificationFactory (
+        private val campParticipantRepository: CampParticipantRepository
+) {
 
-    /*fun createForCamper(camperGender: Gender, isHighSchoolRecentGraduate: Boolean):CottageFreeSpaceSpecification{
+    fun createFor(camperApplication: CamperApplication) =
+            CottageFreeSpaceSpecification.createFor(camperApplication, campParticipantRepository)
 
-    }*/
 }

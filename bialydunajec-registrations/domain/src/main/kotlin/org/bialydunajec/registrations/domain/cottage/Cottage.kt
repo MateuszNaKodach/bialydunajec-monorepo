@@ -70,7 +70,7 @@ class Cottage internal constructor(
     private var version: Long? = null
 
     @Enumerated(EnumType.STRING)
-    private var cottageState: CottageStatus = CottageStatus.UNCONFIGURED
+    private var status: CottageStatus = CottageStatus.UNCONFIGURED
 
     fun update(
             name: String,
@@ -120,7 +120,7 @@ class Cottage internal constructor(
             ValidationResult.buffer()
                     .addViolatedRuleIf(
                             ACTIVATED_COTTAGE_HAS_TO_HAVE_ADDRESS,
-                            cottageState == CottageStatus.ACTIVATED && logoImageUrl == null)
+                            status == CottageStatus.ACTIVATED && logoImageUrl == null)
                     .toValidationResult()
 
 
@@ -140,7 +140,7 @@ class Cottage internal constructor(
             ValidationResult.buffer()
                     .addViolatedRuleIf(
                             ACTIVATED_COTTAGE_HAS_TO_HAVE_ADDRESS,
-                            cottageState == CottageStatus.ACTIVATED && (place == null || place?.address == null || place?.address?.city == null || place?.address?.street == null))
+                            status == CottageStatus.ACTIVATED && (place == null || place?.address == null || place?.address?.city == null || place?.address?.street == null))
                     .toValidationResult()
 
     fun updatePlace(place: Place?) {
@@ -163,7 +163,7 @@ class Cottage internal constructor(
             ValidationResult.buffer()
                     .addViolatedRuleIf(
                             ACTIVATED_COTTAGE_HAS_TO_HAVE_BASIC_BANK_TRANSFER_INFO,
-                            cottageState == CottageStatus.ACTIVATED && (bankTransferDetails?.accountNumber == null || bankTransferDetails.accountOwner == null || bankTransferDetails.transferTitleTemplate == null))
+                            status == CottageStatus.ACTIVATED && (bankTransferDetails?.accountNumber == null || bankTransferDetails.accountOwner == null || bankTransferDetails.transferTitleTemplate == null))
                     .toValidationResult()
 
 
@@ -182,27 +182,29 @@ class Cottage internal constructor(
                         && cottageSpace != null && cottageSpace?.fullCapacity != null && cottageSpace?.reservations != null
                         && place?.address != null && place?.address?.street != null && place?.address?.city != null
 
-        if (hasRequiredConfiguration && this.cottageState != CottageStatus.CONFIGURED && this.cottageState != CottageStatus.ACTIVATED) {
-            this.cottageState = CottageStatus.CONFIGURED
-            registerEvent(CottageEvents.CottageStatusChanged(getAggregateId(),cottageState))
+        if (hasRequiredConfiguration && this.status != CottageStatus.CONFIGURED && this.status != CottageStatus.ACTIVATED) {
+            this.status = CottageStatus.CONFIGURED
+            registerEvent(CottageEvents.CottageStatusChanged(getAggregateId(),status))
         } else if (!hasRequiredConfiguration) {
-            this.cottageState = CottageStatus.UNCONFIGURED
-            registerEvent(CottageEvents.CottageStatusChanged(getAggregateId(),cottageState))
+            this.status = CottageStatus.UNCONFIGURED
+            registerEvent(CottageEvents.CottageStatusChanged(getAggregateId(),status))
         }
     }
 
     fun canActivate() =
             ValidationResult.buffer()
-                    .addViolatedRuleIf(NOT_CONFIGURED_COTTAGE_CANNOT_BE_ACTIVATED, cottageState != CottageStatus.CONFIGURED)
+                    .addViolatedRuleIf(NOT_CONFIGURED_COTTAGE_CANNOT_BE_ACTIVATED, status != CottageStatus.CONFIGURED)
                     .toValidationResult()
 
     fun activate() {
         canActivate().ifInvalidThrowException()
-        this.cottageState = CottageStatus.ACTIVATED
+        this.status = CottageStatus.ACTIVATED
     }
 
+    fun isActivated() = this.status == CottageStatus.ACTIVATED
+
     fun deactivate() {
-        this.cottageState = CottageStatus.CONFIGURED
+        this.status = CottageStatus.CONFIGURED
     }
 
     fun getCampEditionId() = campRegistrationsEditionId
@@ -214,7 +216,7 @@ class Cottage internal constructor(
     fun getCottageSpace() = cottageSpace
     fun getCampersLimitations() = campersLimitations
     fun getBankTransferDetails() = bankTransferDetails
-    fun getCottageState() = cottageState
+    fun getCottageState() = status
     fun getSnapshot() =
             CottageSnapshot(
                     getAggregateId(),
@@ -228,10 +230,9 @@ class Cottage internal constructor(
                     cottageSpace,
                     campersLimitations,
                     bankTransferDetails,
-                    cottageState
+                    status
             )
 
     override fun getVersion() = version
-
 
 }

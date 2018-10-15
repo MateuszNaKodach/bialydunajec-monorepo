@@ -1,4 +1,4 @@
-package org.bialydunajec.registrations.presentation.rest.v1
+package org.bialydunajec.registrations.presentation.rest.v1.admin
 
 import org.bialydunajec.registrations.application.command.api.CampRegistrationsCommand
 import org.bialydunajec.registrations.application.command.api.CampRegistrationsCommandGateway
@@ -7,7 +7,7 @@ import org.bialydunajec.registrations.application.query.api.CampEditionQuery
 import org.bialydunajec.registrations.application.query.api.CampRegistrationsEditionQuery
 import org.bialydunajec.registrations.application.query.api.CampRegistrationsQueryGateway
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
-import org.bialydunajec.registrations.presentation.rest.v1.request.UpdateCampRegistrationsTimerRequest
+import org.bialydunajec.registrations.presentation.rest.v1.admin.request.UpdateCampRegistrationsTimerRequest
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDate
 
@@ -20,7 +20,7 @@ class CampRegistrationsController(
 ) {
 
     //COMMAND----------------------------------------------------------------------------------------------------------
-    @PatchMapping("{campRegistrationsEditionId}/timer")
+    @PatchMapping("/{campRegistrationsEditionId}/timer")
     fun updateCampRegistrationsTimerById(@PathVariable campRegistrationsEditionId: Int, @RequestBody request: UpdateCampRegistrationsTimerRequest) =
             commandGateway.process(
                     CampRegistrationsCommand.UpdateCampRegistrationsTimer(
@@ -30,22 +30,22 @@ class CampRegistrationsController(
                     )
             )
 
-    @PatchMapping("{campRegistrationsEditionId}/start")
+    @PatchMapping("/{campRegistrationsEditionId}/start")
     fun startCampRegistrationsEditionById(@PathVariable campRegistrationsEditionId: Int) =
             commandGateway.process(CampRegistrationsCommand.StartCampRegistrationsNow(campRegistrationsEditionId))
 
 
-    @PatchMapping("{campRegistrationsEditionId}/suspend")
+    @PatchMapping("/{campRegistrationsEditionId}/suspend")
     fun suspendCampRegistrationsEditionById(@PathVariable campRegistrationsEditionId: Int) =
             commandGateway.process(CampRegistrationsCommand.SuspendCampRegistrationsNow(campRegistrationsEditionId))
 
 
-    @PatchMapping("{campRegistrationsEditionId}/unsuspend")
+    @PatchMapping("/{campRegistrationsEditionId}/unsuspend")
     fun unsuspendCampRegistrationsEditionById(@PathVariable campRegistrationsEditionId: Int) =
             commandGateway.process(CampRegistrationsCommand.UnsuspendCampRegistrationsNow(campRegistrationsEditionId))
 
 
-    @PatchMapping("{campRegistrationsEditionId}/finish")
+    @PatchMapping("/{campRegistrationsEditionId}/finish")
     fun finishCampRegistrationsEditionById(@PathVariable campRegistrationsEditionId: Int) =
             commandGateway.process(CampRegistrationsCommand.FinishCampRegistrationsNow(campRegistrationsEditionId))
 

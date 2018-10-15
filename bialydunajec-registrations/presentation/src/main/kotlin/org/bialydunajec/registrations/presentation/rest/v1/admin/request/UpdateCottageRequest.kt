@@ -1,10 +1,10 @@
-package org.bialydunajec.registrations.presentation.rest.v1.request
+package org.bialydunajec.registrations.presentation.rest.v1.admin.request
 
 import org.bialydunajec.ddd.application.base.query.api.dto.PlaceDto
 import org.bialydunajec.ddd.domain.base.validation.constraints.NullOrNotBlank
-import org.bialydunajec.registrations.application.query.api.dto.BankTransferDetailsDto
-import org.bialydunajec.registrations.application.query.api.dto.CampersLimitationsDto
-import org.bialydunajec.registrations.application.query.api.dto.CottageSpaceDto
+import org.bialydunajec.registrations.application.dto.BankTransferDetailsDto
+import org.bialydunajec.registrations.application.dto.CampersLimitationsDto
+import org.bialydunajec.registrations.application.dto.CottageSpaceDto
 import javax.validation.Valid
 import javax.validation.constraints.NotBlank
 

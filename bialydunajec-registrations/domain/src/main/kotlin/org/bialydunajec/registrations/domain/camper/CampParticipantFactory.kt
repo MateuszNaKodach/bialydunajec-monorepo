@@ -12,42 +12,39 @@ import org.bialydunajec.registrations.domain.camper.valueobject.StayDuration
 import org.bialydunajec.registrations.domain.campedition.specification.InProgressCampRegistrationsSpecification
 import org.bialydunajec.registrations.domain.cottage.CottageId
 import org.bialydunajec.registrations.domain.cottage.CottageRepository
+import org.bialydunajec.registrations.domain.cottage.specification.ActivatedCottageSpecification
+import org.bialydunajec.registrations.domain.cottage.specification.CottageFreeSpaceSpecificationFactory
 import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule.*
+import org.springframework.stereotype.Component
 
 //TODO: Id Campera jest zwiazane z CampRegistrations
 //TODO: Dodać metode sprawdzajaca czy pesel sie nie powtarza, tworzenie id z hashowaniem peselu BCrypt - dla trzymania danych archiwalnych, ew. random!
 //TODO: Czy chatka wolna sprawdzać na etapie aplikacji!
-internal class CamperFactory(
-        val cottageRepository: CottageRepository,
-        val campEditionRepository: CampRegistrationsEditionRepository
+@Component
+class CampParticipantFactory constructor(
+        private val cottageRepository: CottageRepository,
+        private val campEditionRepository: CampRegistrationsEditionRepository,
+        private val cottageFreeSpaceSpecificationFactory: CottageFreeSpaceSpecificationFactory,
+        private val campParticipantIdGenerator: CampParticipantIdGenerator
 ) {
-    fun createCamper(
-            cottageId: CottageId,
-            personalData: CamperPersonalData,
-            homeAddress: Address,
-            emailAddress: EmailAddress,
-            phoneNumber: PhoneNumber,
-            camperEducation: CamperEducation,
+    fun createCampParticipant(
+            camperApplication: CamperApplication,
             stayDuration: StayDuration? = null
-    ): Camper {
-        val camperCottage = cottageRepository.findById(cottageId) ?: throw DomainRuleViolationException.of(COTTAGE_NOT_FOUND)
+    ): CampParticipant {
+        val camperCottage = cottageRepository.findByIdAndSpecification(
+                camperApplication.cottageId,
+                ActivatedCottageSpecification().and(cottageFreeSpaceSpecificationFactory.createFor(camperApplication))
+        ) ?: throw DomainRuleViolationException.of(COTTAGE_NOT_FOUND)
 
         val campEditionWithInProgressRegistrations = campEditionRepository.findByIdAndSpecification(
                 camperCottage.getCampEditionId(),
                 InProgressCampRegistrationsSpecification()
         ) ?: throw DomainRuleViolationException.of(CAMP_EDITION_HAS_NOT_IN_PROGRESS_REGISTRATIONS)
 
-
-        return Camper(
-                cottageId = cottageId,
+        return CampParticipant(
+                campParticipantIdGenerator = campParticipantIdGenerator,
                 campRegistrationsEditionId = campEditionWithInProgressRegistrations.getAggregateId(),
-                camperApplication = CamperApplication(
-                        personalData = personalData,
-                        homeAddress = homeAddress,
-                        emailAddress = emailAddress,
-                        phoneNumber = phoneNumber,
-                        camperEducation = camperEducation
-                ),
+                originalApplication = camperApplication,
                 stayDuration = stayDuration ?: StayDuration(
                         checkInDate = campEditionWithInProgressRegistrations.getCampEditionStartDate(),
                         checkOutDate = campEditionWithInProgressRegistrations.getCampEditionEndDate()

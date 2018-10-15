@@ -1,4 +1,4 @@
-package org.bialydunajec.registrations.application.query.api.dto
+package org.bialydunajec.registrations.application.dto
 
 import org.bialydunajec.registrations.domain.campedition.valueobject.CampRegistrationsEditionSnapshot
 import org.bialydunajec.registrations.domain.campedition.valueobject.CampRegistrationsSnapshot

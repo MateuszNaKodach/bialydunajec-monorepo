@@ -10,5 +10,7 @@ import javax.validation.constraints.Past
 data class BirthDate(
         @NotNull
         @Past
-        val birthDate: LocalDate
-): ValueObject
+        private val birthDate: LocalDate
+): ValueObject{
+        fun toLocalDate() = birthDate
+}

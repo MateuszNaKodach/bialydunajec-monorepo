@@ -4,16 +4,18 @@ import org.bialydunajec.registrations.application.query.api.AcademicMinistryQuer
 import org.bialydunajec.registrations.application.query.api.CampEditionQuery
 import org.bialydunajec.registrations.application.query.api.CampRegistrationsEditionQuery
 import org.bialydunajec.registrations.application.query.api.CottageQuery
-import org.bialydunajec.registrations.application.query.api.dto.AcademicMinistryDto
-import org.bialydunajec.registrations.application.query.api.dto.CampEditionDto
-import org.bialydunajec.registrations.application.query.api.dto.CampRegistrationsEditionDto
-import org.bialydunajec.registrations.application.query.api.dto.CottageDto
+import org.bialydunajec.registrations.application.dto.AcademicMinistryDto
+import org.bialydunajec.registrations.application.dto.CampEditionDto
+import org.bialydunajec.registrations.application.dto.CampRegistrationsEditionDto
+import org.bialydunajec.registrations.application.dto.CottageDto
 import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryId
 import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryRepository
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionRepository
+import org.bialydunajec.registrations.domain.campedition.specification.InProgressCampRegistrationsSpecification
 import org.bialydunajec.registrations.domain.cottage.CottageId
 import org.bialydunajec.registrations.domain.cottage.CottageRepository
+import org.bialydunajec.registrations.domain.cottage.valueobject.CottageStatus
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -31,6 +33,10 @@ internal class CampRegistrationsDomainModelReader(
     fun readFor(query: CampRegistrationsEditionQuery.ById): CampRegistrationsEditionDto? =
             campRegistrationsEditionRepository
                     .findById(CampRegistrationsEditionId(query.campRegistrationsEditionId))
+                    ?.let { CampRegistrationsEditionDto.from(it.getSnapshot()) }
+
+    fun readFor(query: CampRegistrationsEditionQuery.InProgress): CampRegistrationsEditionDto? =
+            campRegistrationsEditionRepository.findFirstBySpecification(InProgressCampRegistrationsSpecification())
                     ?.let { CampRegistrationsEditionDto.from(it.getSnapshot()) }
 
     fun readFor(query: CampEditionQuery.All): Collection<CampEditionDto> =
@@ -66,4 +72,8 @@ internal class CampRegistrationsDomainModelReader(
     fun readFor(query: CottageQuery.ByIdAndByCampRegistrationsEditionId): CottageDto? =
             cottageRepository.findByIdAndCampRegistrationsEditionId(CottageId(query.cottageId), CampRegistrationsEditionId(query.campRegistrationsEditionId))
                     ?.let { CottageDto.from(it.getSnapshot()) }
+
+    fun readFor(query: CottageQuery.AllActiveByCampRegistrationsEditionId): Collection<CottageDto> =
+            cottageRepository.findAllByCampRegistrationsEditionIdAndStatus(CampRegistrationsEditionId(query.campRegistrationsEditionId), CottageStatus.ACTIVATED)
+                    .map { CottageDto.from(it.getSnapshot()) }
 }

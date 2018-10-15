@@ -1,4 +1,4 @@
-package org.bialydunajec.registrations.application.query.api.dto
+package org.bialydunajec.registrations.application.dto
 
 import org.bialydunajec.ddd.application.base.query.api.dto.PlaceDto
 import org.bialydunajec.ddd.application.base.query.api.dto.toDto

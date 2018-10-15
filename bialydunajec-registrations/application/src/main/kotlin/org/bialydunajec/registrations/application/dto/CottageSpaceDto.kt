@@ -1,4 +1,4 @@
-package org.bialydunajec.registrations.application.query.api.dto
+package org.bialydunajec.registrations.application.dto
 
 data class CottageSpaceDto(
         val fullCapacity: Int,

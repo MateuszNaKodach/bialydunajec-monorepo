@@ -1,4 +1,4 @@
-package org.bialydunajec.registrations.presentation.rest.v1.request
+package org.bialydunajec.registrations.presentation.rest.v1.admin.request
 
 import java.time.ZonedDateTime
 

@@ -4,7 +4,7 @@ import org.bialydunajec.registrations.domain.camper.CampParticipantRepository
 import org.bialydunajec.registrations.domain.camper.valueobject.CamperApplication
 import org.bialydunajec.registrations.domain.cottage.Cottage
 
-internal class CottageMaleFreeSpaceSpecification internal constructor(
+internal class CottageFemaleFreeSpaceSpecification internal constructor(
         campParticipantRepository: CampParticipantRepository,
         private val camperApplication: CamperApplication
 ): CottageFreeSpaceSpecification(campParticipantRepository) {
