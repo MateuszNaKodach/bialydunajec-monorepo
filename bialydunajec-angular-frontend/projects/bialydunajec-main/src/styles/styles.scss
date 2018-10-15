@@ -2,7 +2,6 @@
 @import "variables/fonts";
 @import "variables/dimensions";
 
-
 html, body {
   font-size: $root-font-size;
   font-family: $root-font-family;
@@ -38,6 +37,10 @@ h6 {
   font-size: 0.9286rem;
 }
 
+p{
+  font-size: 1rem;
+}
+
 a {
   color: black;
   font-size: 1rem;
@@ -63,6 +66,12 @@ a {
 
 input, .dropdown {
   height: 3rem;
+}
+
+.bda-page-section {
+  padding-top: $page-section-padding;
+  padding-bottom: $page-section-padding;
+  min-height: 70vh;
 }
 
 

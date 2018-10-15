@@ -1,7 +1,7 @@
 import {PlaceDto} from '../../../shared/service/rest/dto/place.dto';
-import {CottageSpaceDto} from '../../service/rest/response/dto/cottage-space.dto';
-import {CampersLimitationsDto} from '../../service/rest/response/dto/camper-limitations.dto';
-import {BankTransferDetailsDto} from '../../service/rest/response/dto/bank-transfer-details.dto';
+import {CottageSpaceDto} from '../../service/rest/dto/cottage-space.dto';
+import {CampersLimitationsDto} from '../../service/rest/dto/camper-limitations.dto';
+import {BankTransferDetailsDto} from '../../service/rest/dto/bank-transfer-details.dto';
 import {CottageResponse} from '../../service/rest/response/cottage.response';
 
 export class CottageEditFormModel {

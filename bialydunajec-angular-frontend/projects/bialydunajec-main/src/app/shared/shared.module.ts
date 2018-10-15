@@ -7,11 +7,16 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {PhotoInfoCardComponent} from './component/photo-info-card/photo-info-card.component';
 import {SocialMediaLinksComponent} from './component/social-media-links/social-media-links.component';
 import {FormInputComponent} from './component/form-input/form-input.component';
+import {HttpClientModule} from '@angular/common/http';
+import { CampRegistrationsReminderComponent } from './component/camp-registrations-reminder/camp-registrations-reminder.component';
+import {SuiCheckboxModule} from 'ng2-semantic-ui';
 
 @NgModule({
   imports: [
     CommonModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    HttpClientModule,
+    SuiCheckboxModule
   ],
   declarations: [
     SectionHeaderComponent,
@@ -19,7 +24,8 @@ import {FormInputComponent} from './component/form-input/form-input.component';
     CampSignUpButtonComponent,
     PhotoInfoCardComponent,
     SocialMediaLinksComponent,
-    FormInputComponent
+    FormInputComponent,
+    CampRegistrationsReminderComponent
   ],
   exports: [
     CommonModule,
@@ -29,7 +35,9 @@ import {FormInputComponent} from './component/form-input/form-input.component';
     CampSignUpButtonComponent,
     PhotoInfoCardComponent,
     SocialMediaLinksComponent,
-    FormInputComponent
+    FormInputComponent,
+    HttpClientModule,
+    CampRegistrationsReminderComponent
   ]
 })
 export class SharedModule {

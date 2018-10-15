@@ -1,7 +1,7 @@
 import {PlaceDto} from '../../../../shared/service/rest/dto/place.dto';
-import {CottageSpaceDto} from './dto/cottage-space.dto';
-import {CampersLimitationsDto} from './dto/camper-limitations.dto';
-import {BankTransferDetailsDto} from './dto/bank-transfer-details.dto';
+import {CottageSpaceDto} from '../dto/cottage-space.dto';
+import {CampersLimitationsDto} from '../dto/camper-limitations.dto';
+import {BankTransferDetailsDto} from '../dto/bank-transfer-details.dto';
 
 export class CottageResponse {
   cottageId: string;
