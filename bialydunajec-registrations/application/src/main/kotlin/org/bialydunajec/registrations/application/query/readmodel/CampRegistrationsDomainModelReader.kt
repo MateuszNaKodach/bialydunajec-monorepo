@@ -1,13 +1,10 @@
 package org.bialydunajec.registrations.application.query.readmodel
 
+import org.bialydunajec.registrations.application.dto.*
 import org.bialydunajec.registrations.application.query.api.AcademicMinistryQuery
 import org.bialydunajec.registrations.application.query.api.CampEditionQuery
 import org.bialydunajec.registrations.application.query.api.CampRegistrationsEditionQuery
 import org.bialydunajec.registrations.application.query.api.CottageQuery
-import org.bialydunajec.registrations.application.dto.AcademicMinistryDto
-import org.bialydunajec.registrations.application.dto.CampEditionDto
-import org.bialydunajec.registrations.application.dto.CampRegistrationsEditionDto
-import org.bialydunajec.registrations.application.dto.CottageDto
 import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryId
 import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryRepository
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
@@ -15,6 +12,7 @@ import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditio
 import org.bialydunajec.registrations.domain.campedition.specification.InProgressCampRegistrationsSpecification
 import org.bialydunajec.registrations.domain.cottage.CottageId
 import org.bialydunajec.registrations.domain.cottage.CottageRepository
+import org.bialydunajec.registrations.domain.cottage.specification.CottageFreeSpaceSpecificationFactory
 import org.bialydunajec.registrations.domain.cottage.valueobject.CottageStatus
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -24,7 +22,9 @@ import org.springframework.transaction.annotation.Transactional
 internal class CampRegistrationsDomainModelReader(
         private val campRegistrationsEditionRepository: CampRegistrationsEditionRepository,
         private val academicMinistryRepository: AcademicMinistryRepository,
-        private val cottageRepository: CottageRepository) {
+        private val cottageRepository: CottageRepository,
+        private val cottageFreeSpaceSpecificationFactory: CottageFreeSpaceSpecificationFactory
+) {
 
     fun readFor(query: CampRegistrationsEditionQuery.All): Collection<CampRegistrationsEditionDto> =
             campRegistrationsEditionRepository.findAll()
@@ -73,7 +73,7 @@ internal class CampRegistrationsDomainModelReader(
             cottageRepository.findByIdAndCampRegistrationsEditionId(CottageId(query.cottageId), CampRegistrationsEditionId(query.campRegistrationsEditionId))
                     ?.let { CottageDto.from(it.getSnapshot()) }
 
-    fun readFor(query: CottageQuery.AllActiveByCampRegistrationsEditionId): Collection<CottageDto> =
+    fun readFor(query: CottageQuery.AllActiveByCampRegistrationsEditionId): Collection<CampRegistrationsCottageDto> =
             cottageRepository.findAllByCampRegistrationsEditionIdAndStatus(CampRegistrationsEditionId(query.campRegistrationsEditionId), CottageStatus.ACTIVATED)
-                    .map { CottageDto.from(it.getSnapshot()) }
+                    .map { CampRegistrationsCottageDto.from(it.getSnapshot(), cottageFreeSpaceSpecificationFactory.createFor(query.camperGender).isSatisfiedBy(it)) }
 }

@@ -76,10 +76,11 @@ class CampParticipant internal constructor(
     }
 
     fun getCottageId() = this.currentCamperData.cottageId
-    fun getPersonalData() = originalApplication.personalData
-    fun getHomeAddress() = originalApplication.homeAddress
-    fun getEmailAddress() = originalApplication.emailAddress
-    fun getPhoneNumber() = originalApplication.phoneNumber
-    fun getCamperEducation() = originalApplication.camperEducation
+    fun getPersonalData() = currentCamperData.personalData
+    fun getHomeAddress() = currentCamperData.homeAddress
+    fun getEmailAddress() = currentCamperData.emailAddress
+    fun getPhoneNumber() = currentCamperData.phoneNumber
+    fun getCamperEducation() = currentCamperData.camperEducation
     fun getStayDuration() = stayDuration
+    fun getOriginalApplication() = this.originalApplication
 }

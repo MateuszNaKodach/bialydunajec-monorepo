@@ -51,7 +51,7 @@ class Cottage internal constructor(
         private var place: Place? = null,
 
         @Embedded
-        private var cottageSpace: CottageSpace? = CottageSpace(),
+        private var cottageSpace: CottageSpace = CottageSpace(),
 
         @Embedded
         private var campersLimitations: CampersLimitations? = null,
@@ -77,7 +77,7 @@ class Cottage internal constructor(
             logoImageUrl: Url?,
             buildingPhotoUrl: Url?,
             place: Place?,
-            cottageSpace: CottageSpace?,
+            cottageSpace: CottageSpace,
             campersLimitations: CampersLimitations?,
             bankTransferDetails: BankTransferDetails?
     ) {

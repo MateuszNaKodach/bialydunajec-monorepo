@@ -38,7 +38,7 @@ class CampRegistrationsCottageController(
                             logoImageUrl = request.logoImageUrl?.let { Url(it) },
                             buildingPhotoUrl = request.buildingPhotoUrl?.let { Url(it) },
                             place = request.place?.toValueObject(),
-                            cottageSpace = request.cottageSpace?.toValueObject(),
+                            cottageSpace = request.cottageSpace.toValueObject(),
                             campersLimitations = request.campersLimitations?.toValueObject(),
                             bankTransferDetails = request.bankTransferDetails?.toValueObject()
                     )
@@ -56,7 +56,7 @@ class CampRegistrationsCottageController(
     @GetMapping("/{campRegistrationsEditionId}/cottage")
     fun getAllCottagesByCampRegistrationsEditionId(@PathVariable campRegistrationsEditionId: String) =
             queryGateway.process(CottageQuery.AllByCampRegistrationsEditionId(campRegistrationsEditionId))
-                    .sortedByDescending { it.name }
+                    .sortedBy { it.name }
 
     @GetMapping("/{campRegistrationsEditionId}/cottage/{cottageId}")
     fun getByIdAndCampRegistrationsEditionId(@PathVariable campRegistrationsEditionId: String, @PathVariable cottageId: String) =

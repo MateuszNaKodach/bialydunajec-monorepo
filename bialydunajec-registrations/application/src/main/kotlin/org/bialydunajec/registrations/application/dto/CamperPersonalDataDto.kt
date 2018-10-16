@@ -15,9 +15,7 @@ data class CamperPersonalDataDto(
         @NotBlank
         val gender: Gender,
 
-        @NotNull
         val pesel: String?,
 
-        @NotNull
-        val birthDate: LocalDate
+        val birthDate: LocalDate?
 )

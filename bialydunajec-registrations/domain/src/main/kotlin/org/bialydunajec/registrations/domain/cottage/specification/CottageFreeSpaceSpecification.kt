@@ -8,13 +8,14 @@ import org.bialydunajec.registrations.domain.camper.valueobject.CamperApplicatio
 import org.bialydunajec.registrations.domain.cottage.Cottage
 
 abstract class CottageFreeSpaceSpecification(
-        private val campParticipantRepository: CampParticipantRepository
+        protected val campParticipantRepository: CampParticipantRepository
 ) : CompositeSpecification<Cottage>() {
+
     companion object {
-        fun createFor(camperApplication: CamperApplication, campParticipantRepository: CampParticipantRepository): Specification<Cottage> {
-            return when (camperApplication.personalData.gender) {
-                Gender.MALE -> CottageMaleFreeSpaceSpecification(campParticipantRepository, camperApplication)
-                Gender.FEMALE -> CottageFemaleFreeSpaceSpecification(campParticipantRepository, camperApplication)
+        fun createFor(camperGender: Gender, campParticipantRepository: CampParticipantRepository): Specification<Cottage> {
+            return when (camperGender) {
+                Gender.MALE -> CottageMaleFreeSpaceSpecification(campParticipantRepository)
+                Gender.FEMALE -> CottageFemaleFreeSpaceSpecification(campParticipantRepository)
             }
         }
     }

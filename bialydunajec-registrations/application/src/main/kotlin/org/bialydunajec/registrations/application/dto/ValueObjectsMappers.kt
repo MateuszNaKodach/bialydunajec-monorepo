@@ -61,14 +61,16 @@ fun BankTransferDetailsDto.toValueObject() =
 fun CamperPersonalData.toDto() =
         CamperPersonalDataDto(firstName = firstName.toString(), lastName = lastName.toString(), gender = gender, pesel = pesel.toStringOrNull(), birthDate = birthDate.toLocalDate())
 
-fun CamperPersonalDataDto.toValueObject() =
-        CamperPersonalData(
-                firstName = FirstName(firstName),
-                lastName = LastName(lastName),
-                gender = gender,
-                pesel = pesel?.let { Pesel(it) },
-                birthDate = BirthDate(birthDate)
-        )
+fun CamperPersonalDataDto.toValueObject(): CamperPersonalData {
+    val pesel = pesel?.let { Pesel(it) }
+    return CamperPersonalData(
+            firstName = FirstName(firstName),
+            lastName = LastName(lastName),
+            gender = gender,
+            pesel = pesel,
+            birthDate = birthDate?.let { BirthDate(it) } ?: pesel!!.getBirthDate() // TODO: Add validation for DTO - PESEL or BirthDate
+    )
+}
 
 fun CamperEducation.toDto() =
         CamperEducationDto(university, faculty, fieldOfStudy, highSchool, isHighSchoolRecentGraduate)

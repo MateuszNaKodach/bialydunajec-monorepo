@@ -7,6 +7,7 @@ import javax.persistence.Embeddable
 
 interface PeselEncoder {
     fun encode(pesel: Pesel): String
+    fun match(rawPesel: Pesel, encodedPesel: Pesel): Boolean
 }
 
 @Component

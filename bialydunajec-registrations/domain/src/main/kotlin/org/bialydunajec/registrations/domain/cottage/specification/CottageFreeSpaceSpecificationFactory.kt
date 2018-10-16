@@ -1,5 +1,6 @@
 package org.bialydunajec.registrations.domain.cottage.specification
 
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.Gender
 import org.bialydunajec.registrations.domain.camper.CampParticipantRepository
 import org.bialydunajec.registrations.domain.camper.valueobject.CamperApplication
 import org.springframework.stereotype.Component
@@ -10,6 +11,9 @@ class CottageFreeSpaceSpecificationFactory (
 ) {
 
     fun createFor(camperApplication: CamperApplication) =
-            CottageFreeSpaceSpecification.createFor(camperApplication, campParticipantRepository)
+            CottageFreeSpaceSpecification.createFor(camperApplication.personalData.gender, campParticipantRepository)
+
+    fun createFor(camperGender: Gender) =
+            CottageFreeSpaceSpecification.createFor(camperGender, campParticipantRepository)
 
 }

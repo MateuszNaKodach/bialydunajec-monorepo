@@ -78,5 +78,5 @@ data class CottageSpace(
 
     fun getMaxBy(gender: Gender) = if (gender.isFemale) maxFemaleTotal else maxMaleTotal
 
-    fun getSpaceForCampers() = fullCapacity - reservations
+    fun getSpaceForCampersRegistrations() = fullCapacity - reservations
 }

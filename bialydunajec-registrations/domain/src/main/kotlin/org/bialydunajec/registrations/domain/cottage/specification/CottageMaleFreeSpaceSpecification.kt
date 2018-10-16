@@ -1,16 +1,18 @@
 package org.bialydunajec.registrations.domain.cottage.specification
 
 import org.bialydunajec.registrations.domain.camper.CampParticipantRepository
-import org.bialydunajec.registrations.domain.camper.valueobject.CamperApplication
 import org.bialydunajec.registrations.domain.cottage.Cottage
 
 internal class CottageMaleFreeSpaceSpecification internal constructor(
-        campParticipantRepository: CampParticipantRepository,
-        private val camperApplication: CamperApplication
-): CottageFreeSpaceSpecification(campParticipantRepository) {
+        campParticipantRepository: CampParticipantRepository
+) : CottageFreeSpaceSpecification(campParticipantRepository) {
 
     override fun isSatisfiedBy(candidate: Cottage): Boolean {
-        return true;
+        val campParticipantsFromCottage = campParticipantRepository.findAllByCottageId(candidate.getAggregateId())
+        val allParticipantsCount = campParticipantsFromCottage.size
+        val maleParticipantsCount = campParticipantsFromCottage.filter { it.getPersonalData().gender.isMale }.size
+        return allParticipantsCount < candidate.getCottageSpace().getSpaceForCampersRegistrations()
+                && maleParticipantsCount < candidate.getCottageSpace().maxMaleTotal ?: Int.MAX_VALUE
     }
 
 }

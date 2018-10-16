@@ -18,7 +18,7 @@ data class UpdateCottageRequest(
         @field:Valid
         val place: PlaceDto?,
         @field:Valid
-        val cottageSpace: CottageSpaceDto?,
+        val cottageSpace: CottageSpaceDto,
         @field:Valid
         val campersLimitations: CampersLimitationsDto?,
         @field:Valid
