@@ -20,18 +20,3 @@ internal class CampParticipantRegistrationApplicationService(
                     .getAggregateId()
 
 }
-
-
-@Service
-@Transactional
-internal class CampParticipantRegistrationConfirmationApplicationService(
-        private val campParticipantFactory: CampParticipantFactory,
-        private val campParticipantRepository: CampParticipantRepository
-) : ApplicationService<CampRegistrationsCommand.RegisterCampParticipantCommand> {
-
-    override fun process(command: CampRegistrationsCommand.RegisterCampParticipantCommand) =
-            campParticipantFactory.createCampParticipant(command.camperApplication)
-                    .let { campParticipantRepository.save(it) }
-                    .getAggregateId()
-
-}

@@ -5,6 +5,7 @@ import org.bialydunajec.ddd.domain.base.persistence.Versioned
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantEvent
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantId
+import org.bialydunajec.registrations.domain.camper.valueobject.CampParticipantRegistrationSnapshot
 import org.bialydunajec.registrations.domain.camper.valueobject.RegistrationStatus
 import org.bialydunajec.registrations.domain.camper.valueobject.CamperApplication
 import org.bialydunajec.registrations.domain.camper.valueobject.ParticipationStatus
@@ -53,14 +54,37 @@ class CampParticipantRegistration private constructor(
 
         @NotNull
         @Enumerated(EnumType.STRING)
-        private val status: RegistrationStatus = RegistrationStatus.WAITING_FOR_CONFIRM
+        private var status: RegistrationStatus = RegistrationStatus.WAITING_FOR_CONFIRM
 ) : AuditableAggregateRoot<CampParticipantRegistrationId, CampParticipantRegistrationEvent>(CampParticipantRegistrationId(campRegistrationsEditionId)), Versioned {
 
     @Version
     private var version: Long? = null
 
+    init {
+        registerEvent(
+                CampParticipantRegistrationEvent.Created(getAggregateId(), getSnapshot())
+        )
+    }
+
+    fun confirmByCamperWithVerificationCode(verificationCode: String) {
+        this.status = RegistrationStatus.CONFIRMED_BY_CAMPER
+    }
+
+    fun cancelByCamper() {
+        this.status = RegistrationStatus.CANCELLED_BY_CAMPER
+    }
+
     override fun getVersion() = version
     fun getCamperApplication() = camperApplication
+    fun getSnapshot() =
+            CampParticipantRegistrationSnapshot(
+                    getAggregateId(),
+                    campParticipantId,
+                    campRegistrationsEditionId,
+                    originalCamperApplication,
+                    camperApplication,
+                    status
+            )
 
     companion object {
         fun createFrom(event: CampParticipantEvent.Created) =
