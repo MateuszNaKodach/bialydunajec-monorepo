@@ -145,7 +145,7 @@ export class CottageEditComponent implements OnInit, MultiModeForm<CottageEditFo
       this.lastAlert = null;
       this.submittingInProgress = true;
       const updateCottageRequest: UpdateCottageRequest = {...this.cottageForm.value};
-      this.campRegistrationsEndpoint.updateCottage(this.currentCampRegistrationsId, this.currentCottageId, updateCottageRequest)
+      this.campRegistrationsEndpoint.updateCottage(this.currentCottageId, updateCottageRequest)
         .pipe(
           finalize(() => this.submittingInProgress = false)
         )
@@ -190,7 +190,7 @@ export class CottageEditComponent implements OnInit, MultiModeForm<CottageEditFo
 
   activateCottage() {
     this.changedStatusInProgress = true;
-    this.campRegistrationsEndpoint.activateCottage(this.currentCampRegistrationsId, this.currentCottageId)
+    this.campRegistrationsEndpoint.activateCottage(this.currentCottageId)
       .pipe(finalize(() => this.changedStatusInProgress = false))
       .subscribe(
         response => {
@@ -232,7 +232,7 @@ export class CottageEditComponent implements OnInit, MultiModeForm<CottageEditFo
 
   deactivateCottage() {
     this.changedStatusInProgress = true;
-    this.campRegistrationsEndpoint.deactivateCottage(this.currentCampRegistrationsId, this.currentCottageId)
+    this.campRegistrationsEndpoint.deactivateCottage(this.currentCottageId)
       .pipe(finalize(() => this.changedStatusInProgress = false))
       .subscribe(
         response => {
