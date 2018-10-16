@@ -18,7 +18,9 @@
         </nz-form-control>
       </nz-form-item>
     </div>
-    <nz-progress style="justify-self: flex-end; align-self: flex-end" [nzPercent]="68" nzType="circle"></nz-progress>
+    <div style="justify-self: flex-end; align-self: flex-end" *ngIf="campParticipantsPercentByCottageId | async as campParticipants">
+      <nz-progress [nzPercent]="campParticipants.percent" nzType="circle"></nz-progress>
+    </div>
   </div>
   <div class="bda-admin-section-card-action">
     <button nz-button nzType="primary"
