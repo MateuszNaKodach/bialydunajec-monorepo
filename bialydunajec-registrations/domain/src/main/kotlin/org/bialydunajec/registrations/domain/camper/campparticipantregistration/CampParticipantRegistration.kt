@@ -1,33 +1,23 @@
-package org.bialydunajec.registrations.domain.camper
+package org.bialydunajec.registrations.domain.camper.campparticipantregistration
 
 import org.bialydunajec.ddd.domain.base.aggregate.AuditableAggregateRoot
+import org.bialydunajec.ddd.domain.base.persistence.Versioned
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
-import org.bialydunajec.registrations.domain.camper.event.CamperEvent
+import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantEvent
+import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantId
+import org.bialydunajec.registrations.domain.camper.valueobject.RegistrationStatus
 import org.bialydunajec.registrations.domain.camper.valueobject.CamperApplication
-import org.bialydunajec.registrations.domain.camper.valueobject.CampParticipationStatus
-import org.bialydunajec.registrations.domain.camper.valueobject.StayDuration
-import org.bialydunajec.registrations.domain.cottage.Cottage
+import org.bialydunajec.registrations.domain.camper.valueobject.ParticipationStatus
 import javax.persistence.*
 import javax.validation.constraints.NotNull
 
-// or camp_participation!?
-/*
-Przemyslec czy to nie powinny byc osobny aggreagate, w sumie CampParticipant dba o aggregaty (nie moze byc zapisany np. do tej samej chatki), ale z drugiej strony strasznie kosztowne query zliczania ilosci zapisanych do chatki np.
- Osobno, najwyzej aggreguje to na statystycznych rzeczach, tam mam CampParticipant, tutaj tylko konkretny udział!!!
- Zmienić na CampParticipant i podmienić z aggregatem CampParticipant!
- Zbieranie danych o konkretnych camperach bedzie tylko read modelem, ile razy np. był na obozie.
- */
-
-//TODO: Add accepted agreements (modifable for Camp Registrations)
 @Entity
-@Table(
-        schema = "camp_registrations",
-        uniqueConstraints = [
-            UniqueConstraint(columnNames = arrayOf("campRegistrationsEditionId", "pesel"), name = "one_camper_application_per_edition")
-        ]
-)
-class CampParticipant internal constructor(
-        campParticipantIdGenerator: CampParticipantIdGenerator,
+@Table(schema = "camp_registrations")
+class CampParticipantRegistration private constructor(
+        @NotNull
+        @Embedded
+        @AttributeOverrides(AttributeOverride(name = "aggregateId", column = Column(name = "campParticipantId")))
+        private val campParticipantId: CampParticipantId,
 
         @NotNull
         @Embedded
@@ -55,32 +45,27 @@ class CampParticipant internal constructor(
                 AttributeOverride(name = "camperEducation.highSchool", column = Column(name = "originalApplication_highSchool")),
                 AttributeOverride(name = "camperEducation.isHighSchoolRecentGraduate", column = Column(name = "originalApplication_isHighSchoolRecentGraduate"))
         )
-        private val originalApplication: CamperApplication, //Widac kto stworzył czy admin czy, alb dodać jakis applicationType, czy administracyjny
+        private val originalCamperApplication: CamperApplication,
 
         @NotNull
         @Embedded
-        private var stayDuration: StayDuration,
+        private var camperApplication: CamperApplication = originalCamperApplication, //TODO: Nie można zmienić po zatwierdzeniu!
 
         @NotNull
         @Enumerated(EnumType.STRING)
-        val participationStatus: CampParticipationStatus = CampParticipationStatus.WAITING_FOR_CONFIRM
-) : AuditableAggregateRoot<CampParticipantId, CamperEvent>(campParticipantIdGenerator.generateFrom(originalApplication.personalData.pesel)) {
-    @NotNull
-    @Embedded
-    private var currentCamperData: CamperApplication = originalApplication
+        private val status: RegistrationStatus = RegistrationStatus.WAITING_FOR_CONFIRM
+) : AuditableAggregateRoot<CampParticipantRegistrationId, CampParticipantRegistrationEvent>(CampParticipantRegistrationId(campRegistrationsEditionId)), Versioned {
 
-    fun accommodateInCottage(cottage: Cottage) {
-        if (cottage.getCampEditionId() == campRegistrationsEditionId) {
-            this.currentCamperData = currentCamperData.copy(cottageId = cottage.getAggregateId())
-        }
+    @Version
+    private var version: Long? = null
+
+    override fun getVersion() = version
+    fun getCamperApplication() = camperApplication
+
+    companion object {
+        fun createFrom(event: CampParticipantEvent.Created) =
+                with(event.snapshot) {
+                    CampParticipantRegistration(campParticipantId, campRegistrationsEditionId, currentCamperData)
+                }
     }
-
-    fun getCottageId() = this.currentCamperData.cottageId
-    fun getPersonalData() = currentCamperData.personalData
-    fun getHomeAddress() = currentCamperData.homeAddress
-    fun getEmailAddress() = currentCamperData.emailAddress
-    fun getPhoneNumber() = currentCamperData.phoneNumber
-    fun getCamperEducation() = currentCamperData.camperEducation
-    fun getStayDuration() = stayDuration
-    fun getOriginalApplication() = this.originalApplication
 }

@@ -21,4 +21,5 @@ class CampRegistrationsQueryGateway internal constructor(private val domainModel
     fun process(query: CottageQuery.ByIdAndByCampRegistrationsEditionId) = domainModelReader.readFor(query)
     fun process(query: CottageQuery.AllActiveByCampRegistrationsEditionId) = domainModelReader.readFor(query)
 
+    fun process(query: CampParticipantQuery.CountByCottageId) = domainModelReader.readFor(query)
 }

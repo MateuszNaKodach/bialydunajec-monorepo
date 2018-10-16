@@ -1,6 +1,6 @@
 package org.bialydunajec.registrations.domain.cottage.specification
 
-import org.bialydunajec.registrations.domain.camper.CampParticipantRepository
+import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantRepository
 import org.bialydunajec.registrations.domain.cottage.Cottage
 
 internal class CottageMaleFreeSpaceSpecification internal constructor(

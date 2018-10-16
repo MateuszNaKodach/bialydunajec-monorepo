@@ -4,7 +4,7 @@ package org.bialydunajec.registrations.domain.camper.valueobject
 Original application sent by camper - entity - @OneToOne with CampParticipant
  */
 
-enum class CampParticipationStatus {
+enum class RegistrationStatus {
     WAITING_FOR_CONFIRM,
     CONFIRMED_BY_CAMPER,
     CANCELLED_BY_CAMPER,

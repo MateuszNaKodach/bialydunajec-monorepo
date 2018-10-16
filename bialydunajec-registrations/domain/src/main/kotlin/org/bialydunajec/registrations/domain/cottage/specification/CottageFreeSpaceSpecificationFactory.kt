@@ -1,7 +1,7 @@
 package org.bialydunajec.registrations.domain.cottage.specification
 
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.Gender
-import org.bialydunajec.registrations.domain.camper.CampParticipantRepository
+import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantRepository
 import org.bialydunajec.registrations.domain.camper.valueobject.CamperApplication
 import org.springframework.stereotype.Component
 

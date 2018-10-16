@@ -66,6 +66,6 @@ class CampRegistrationsCommandGateway internal constructor(
     fun process(command: CampRegistrationsCommand.DeactivateCottage) =
             deactivateCottageApplicationService.process(command)
 
-    fun process(command: CampRegistrationsCommand.CampParticipantRegistrationCommand) =
+    fun process(command: CampRegistrationsCommand.RegisterCampParticipantCommand) =
             campParticipantRegistrationApplicationService.process(command)
 }

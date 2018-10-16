@@ -1,7 +1,7 @@
 package org.bialydunajec.registrations.infrastructure.camper
 
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.Pesel
-import org.bialydunajec.registrations.domain.camper.PeselEncoder
+import org.bialydunajec.registrations.domain.camper.campparticipant.PeselEncoder
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Component
 

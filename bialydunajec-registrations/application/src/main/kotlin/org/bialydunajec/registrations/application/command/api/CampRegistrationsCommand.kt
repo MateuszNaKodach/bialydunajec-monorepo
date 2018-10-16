@@ -6,6 +6,7 @@ import org.bialydunajec.ddd.domain.sharedkernel.valueobject.location.Place
 import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryId
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
 import org.bialydunajec.registrations.domain.campedition.valueobject.TimerSettings
+import org.bialydunajec.registrations.domain.camper.campparticipantregistration.CampParticipantRegistrationId
 import org.bialydunajec.registrations.domain.camper.valueobject.CamperApplication
 import org.bialydunajec.registrations.domain.cottage.CottageId
 import org.bialydunajec.registrations.domain.cottage.valueobject.BankTransferDetails
@@ -98,9 +99,15 @@ sealed class CampRegistrationsCommand : Command {
 
     }
 
-    data class CampParticipantRegistrationCommand constructor(
+    data class RegisterCampParticipantCommand constructor(
             val campRegistrationsEditionId: CampRegistrationsEditionId,
             val camperApplication: CamperApplication
+    ) : CampRegistrationsCommand() {
+
+    }
+
+    data class CampParticipantRegistrationConfirmCommand constructor(
+            val campParticipantRegistrationId: CampParticipantRegistrationId
     ) : CampRegistrationsCommand() {
 
     }

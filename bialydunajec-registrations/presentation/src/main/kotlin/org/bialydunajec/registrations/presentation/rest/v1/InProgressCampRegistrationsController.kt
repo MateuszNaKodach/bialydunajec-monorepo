@@ -7,7 +7,6 @@ import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.Gender
 import org.bialydunajec.registrations.application.command.api.CampRegistrationsCommand
 import org.bialydunajec.registrations.application.command.api.CampRegistrationsCommandGateway
 import org.bialydunajec.registrations.application.dto.CampRegistrationsCottageDto
-import org.bialydunajec.registrations.application.dto.CottageDto
 import org.bialydunajec.registrations.application.dto.toValueObject
 import org.bialydunajec.registrations.application.query.api.*
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
@@ -30,7 +29,7 @@ class InProgressCampRegistrationsController(
     fun registerCampParticipant(@RequestBody request: CampParticipantRegistrationRequest) =
             queryGateway.process(CampRegistrationsEditionQuery.InProgress())?.let {
                 commandGateway.process(
-                        CampRegistrationsCommand.CampParticipantRegistrationCommand(
+                        CampRegistrationsCommand.RegisterCampParticipantCommand(
                                 CampRegistrationsEditionId(it.campRegistrationsEditionId),
                                 with(request) {
                                     CamperApplication(

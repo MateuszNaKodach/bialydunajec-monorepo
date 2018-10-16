@@ -1,15 +1,13 @@
 package org.bialydunajec.registrations.application.query.readmodel
 
 import org.bialydunajec.registrations.application.dto.*
-import org.bialydunajec.registrations.application.query.api.AcademicMinistryQuery
-import org.bialydunajec.registrations.application.query.api.CampEditionQuery
-import org.bialydunajec.registrations.application.query.api.CampRegistrationsEditionQuery
-import org.bialydunajec.registrations.application.query.api.CottageQuery
+import org.bialydunajec.registrations.application.query.api.*
 import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryId
 import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryRepository
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionRepository
 import org.bialydunajec.registrations.domain.campedition.specification.InProgressCampRegistrationsSpecification
+import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantRepository
 import org.bialydunajec.registrations.domain.cottage.CottageId
 import org.bialydunajec.registrations.domain.cottage.CottageRepository
 import org.bialydunajec.registrations.domain.cottage.specification.CottageFreeSpaceSpecificationFactory
@@ -23,6 +21,7 @@ internal class CampRegistrationsDomainModelReader(
         private val campRegistrationsEditionRepository: CampRegistrationsEditionRepository,
         private val academicMinistryRepository: AcademicMinistryRepository,
         private val cottageRepository: CottageRepository,
+        private val campParticipantRepository: CampParticipantRepository,
         private val cottageFreeSpaceSpecificationFactory: CottageFreeSpaceSpecificationFactory
 ) {
 
@@ -76,4 +75,8 @@ internal class CampRegistrationsDomainModelReader(
     fun readFor(query: CottageQuery.AllActiveByCampRegistrationsEditionId): Collection<CampRegistrationsCottageDto> =
             cottageRepository.findAllByCampRegistrationsEditionIdAndStatus(CampRegistrationsEditionId(query.campRegistrationsEditionId), CottageStatus.ACTIVATED)
                     .map { CampRegistrationsCottageDto.from(it.getSnapshot(), cottageFreeSpaceSpecificationFactory.createFor(query.camperGender).isSatisfiedBy(it)) }
+
+    fun readFor(query: CampParticipantQuery.CountByCottageId) =
+            CampParticipantCountByCottageIdDto(query.cottageId, campParticipantRepository.countByCottageId(CottageId(query.cottageId)))
+
 }

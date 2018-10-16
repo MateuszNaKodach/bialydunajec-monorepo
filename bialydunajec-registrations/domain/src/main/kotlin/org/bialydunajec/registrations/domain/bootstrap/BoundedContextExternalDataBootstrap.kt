@@ -8,7 +8,7 @@ import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditio
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionRepository
 import org.bialydunajec.registrations.domain.cottage.CottageRepository
-import org.bialydunajec.registrations.domain.camper.CampParticipantRepository
+import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantRepository
 import org.springframework.context.annotation.Configuration
 import java.time.*
 
