@@ -22,6 +22,7 @@ export abstract class RegistrationFormStepAbstractComponent implements OnInit, O
   }
 
   ngOnInit(): void {
+    this.startFormStepInit();
     this.initStepFormControls();
     this.loadStepDataFromSnapshot();
     this.onStepFormDataLoaded();
@@ -31,6 +32,8 @@ export abstract class RegistrationFormStepAbstractComponent implements OnInit, O
     this.stepperSubscription = this.formNavigator.stepperClicks
       .subscribe(stepClicked => this.onSubmitStepForm());
   }
+
+  protected startFormStepInit(): void {}
 
   protected updateMainFormStepStatus() {
     this.mainFormState.updateStepFormStatus(this.stepId, FormStatus[this.stepForm.status]);
@@ -73,7 +76,8 @@ export abstract class RegistrationFormStepAbstractComponent implements OnInit, O
 
   protected abstract initStepFormControls();
 
-  protected onStepFormDataLoaded() {}
+  protected onStepFormDataLoaded() {
+  }
 
   ngOnDestroy(): void {
     this.stepperSubscription.unsubscribe();

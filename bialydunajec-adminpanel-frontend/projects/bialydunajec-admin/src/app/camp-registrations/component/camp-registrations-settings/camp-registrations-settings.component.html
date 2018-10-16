@@ -8,11 +8,11 @@
       [campEditionsObservable]="availableCampEditions"></bda-admin-camp-edition-selection>
   </div>
   <div
-    id="camp-edition-preview"
     class="bda-admin-camp-registrations-settings__form"
     *ngIf="selectedCampRegistrations | async as campEdition"
   >
-    <div class="bda-admin-panel-section-card--preview">
+    <div id="camp-edition-preview"
+         class="bda-admin-panel-section-card--preview">
       <div style="display: flex; justify-content: space-between; align-items: center">
         <h2 style="font-weight: bold; margin: 0">{{RomanNumerals.numberToRoman(campEdition.campRegistrationsEditionId)}}
           Edycja
@@ -67,7 +67,8 @@
             nzTitle="Czy na pewno chcesz rozpocząć teraz zapisy? Umożliwi to przejście do formularza zapisów obozu, jeśli choć jedna chatka jest aktywna."
             [nzLoading]="changingStatusInProgress"
             (nzOnConfirm)="startCampRegistrations()"
-          ><i class="anticon anticon-check"></i>Rozpocznij teraz</button>
+          ><i class="anticon anticon-check"></i>Rozpocznij teraz
+          </button>
         </div>
         <div *ngIf="campRegistrations.status == 'IN_PROGRESS'">
           <button
@@ -76,14 +77,16 @@
             nzTitle="Czy na pewno chcesz wstrzymać zapisy? Nie będzie wtedy możliwy zapis do żadnej chatki."
             [nzLoading]="changingStatusInProgress"
             (nzOnConfirm)="suspendCampRegistrations()"
-          ><i class="anticon anticon-pause"></i>Wstrzymaj</button>
+          ><i class="anticon anticon-pause"></i>Wstrzymaj
+          </button>
           <button
             nz-button nzType="primary" type="button"
             nz-popconfirm
             nzTitle="Czy na pewno chcesz definitywnie zakończyć zapisy? Ich ponowne wznowienie nie będzie możliwe."
             [nzLoading]="changingStatusInProgress"
             (nzOnConfirm)="finishCampRegistrations()"
-          ><i class="anticon anticon-close"></i>Zakończ</button>
+          ><i class="anticon anticon-close"></i>Zakończ
+          </button>
         </div>
         <div *ngIf="campRegistrations.status == 'SUSPENDED'">
           <button
@@ -92,14 +95,16 @@
             nzTitle="Czy na pewno chcesz przywrócić zapisy? Możliwy będzie wtedy zapis na obóz przez formularz."
             [nzLoading]="changingStatusInProgress"
             (nzOnConfirm)="unsuspendCampRegistrations()"
-          ><i class="anticon anticon-rollback"></i>Przywróc po wstrzymaniu</button>
+          ><i class="anticon anticon-rollback"></i>Przywróc po wstrzymaniu
+          </button>
           <button
             nz-button nzType="primary" type="button"
             nz-popconfirm
             nzTitle="Czy na pewno chcesz definitywnie zakończyć zapisy? Ich ponowne wznowienie nie będzie możliwe."
             [nzLoading]="changingStatusInProgress"
             (nzOnConfirm)="finishCampRegistrations()"
-          ><i class="anticon anticon-close"></i>Zakończ</button>
+          ><i class="anticon anticon-close"></i>Zakończ
+          </button>
         </div>
         <div *ngIf="campRegistrations.status == 'FINISHED'">
           <!--<button nz-button nzType="primary" type="button">Przywróc po zakończeniu</button>-->
@@ -123,6 +128,28 @@
         <p><b>ZARCHIWIZOWANE</b> - status ostateczny, obóz został zakończony, a dane personalne uczestników
           zanonimizowane</p>
       </ng-template>
+    </div>
+
+    <div
+      id="regulations-and-agreements"
+      class="bda-admin-panel-section-card"
+    >
+      <h2 style="font-weight: bold">Regulaminy i zgody</h2>
+      <nz-divider></nz-divider>
+      <div>
+        <h3><b>Ustal regulaminy do zaakceptowania przez uczestników Obozu:</b></h3>
+      </div>
+    </div>
+
+    <div
+      id="statistical-questions"
+      class="bda-admin-panel-section-card"
+    >
+      <h2 style="font-weight: bold">Pytania statystyczne</h2>
+      <nz-divider></nz-divider>
+      <div>
+        <h3><b>Określ pytania na jakie chcesz uzyskać odpowiedź przy zapisach uczestników:</b></h3>
+      </div>
     </div>
 
   </div>

@@ -148,7 +148,7 @@
   <section class="bda-personal-data-form__section">
     <bda-section-header
       title="Pytania statystyczne"
-      description="Pomóz nam coraz lepiej Organizować obóz i odpowiedz na kilka pytań."
+      description="Pomóz nam coraz lepiej organizować Obóz i odpowiedz na kilka pytań."
     ></bda-section-header>
     <div
       class="bda-personal-data-form__others-section"
@@ -187,7 +187,7 @@
         [ngClass]="{'bda-invalid-checkbox-field': campRegulations.invalid && campRegulations.touched}"
       >
         <sui-checkbox formControlName="campRegulations">
-          Akceptuję regulamin Obozu i zobowiązuję się do wypełniania jego postanowień.
+          <div [innerHtml]="regulation"></div>
         </sui-checkbox>
       </div>
       <div

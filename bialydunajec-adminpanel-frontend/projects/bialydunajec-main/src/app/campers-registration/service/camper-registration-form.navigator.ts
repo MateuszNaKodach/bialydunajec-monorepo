@@ -34,9 +34,13 @@ export class CamperRegistrationFormNavigator {
     const currentStepOrder = RegistrationFormConfig.STEPS_ORDER.indexOf(currentStepId);
     const isLastStep = currentStepOrder === RegistrationFormConfig.getLastStepOrder();
     if (!isLastStep) {
-      const nextStep = RegistrationFormConfig.getStepConfigById(RegistrationFormConfig.STEPS_ORDER[currentStepOrder + 1]);
+      const nextStep = this.getNextStep(currentStepOrder);
       this.router.navigate(['../' + nextStep.relativeToFormPath], {relativeTo: activatedRoute});
     }
+  }
+
+  getNextStep(currentStepOrder) {
+    return RegistrationFormConfig.getStepConfigById(RegistrationFormConfig.STEPS_ORDER[currentStepOrder + 1]);
   }
 
   navigateToPreviousStep(activatedRoute: ActivatedRoute) {
