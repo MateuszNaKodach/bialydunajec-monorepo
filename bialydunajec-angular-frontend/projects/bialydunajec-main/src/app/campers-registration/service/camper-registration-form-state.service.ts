@@ -90,6 +90,28 @@ export class CamperRegistrationFormStateService {
   constructor() {
   }
 
+  isFormValid() {
+    return Object.values(this.getFormStatus()).find(status => status !== FormStatus.VALID) === undefined;
+  }
+
+  getFormStatus() {
+    return {
+      [StepId.PERSONAL_DATA]: this.getStepFormStatus(StepId.PERSONAL_DATA),
+      [StepId.TRANSPORT]: this.getStepFormStatus(StepId.TRANSPORT),
+      [StepId.SHIRT]: this.getStepFormStatus(StepId.SHIRT),
+      [StepId.COTTAGE]: this.getStepFormStatus(StepId.COTTAGE),
+    };
+  }
+
+  getFormDataSnapshot() {
+    return {
+      [StepId.PERSONAL_DATA]: this.getPersonalFormDataSnapshot(),
+      [StepId.TRANSPORT]: this.getTransportFormDataSnapshot(),
+      [StepId.SHIRT]: this.getShirtFormDataSnapshot(),
+      [StepId.COTTAGE]: this.getCottageFormDataSnapshot()
+    };
+  }
+
   get formStateChanges() {
     return this.formStateSubject.asObservable();
   }
@@ -110,6 +132,14 @@ export class CamperRegistrationFormStateService {
   saveTransportFormData(formState: any) {
     this.formState.get(StepId.TRANSPORT).data = formState;
     this.publishStepFormStateChange(StepId.TRANSPORT, this.formState.get(StepId.TRANSPORT));
+  }
+
+  getShirtFormDataSnapshot() {
+    return {...this.formState.get(StepId.SHIRT).data};
+  }
+
+  getCottageFormDataSnapshot() {
+    return {...this.formState.get(StepId.COTTAGE).data};
   }
 
   getStepFormDataSnapshot(stepId: StepId) {

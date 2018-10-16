@@ -8,8 +8,10 @@
       title="Chatka"
       description="Wybierz chatkę, w której będziesz mieszkać."
     ></bda-section-header>
-    <div style="margin-bottom: 1rem;">
-      <bda-cottage-selection formControlName="cottageId">
+    <div *ngIf="cottages | async as cottagesCards" style="margin-bottom: 1rem;">
+      <bda-cottage-selection
+        [cottages]="cottagesCards"
+        formControlName="cottageId">
       </bda-cottage-selection>
     </div>
     <div *ngIf="cottageId.invalid && cottageId.touched">
