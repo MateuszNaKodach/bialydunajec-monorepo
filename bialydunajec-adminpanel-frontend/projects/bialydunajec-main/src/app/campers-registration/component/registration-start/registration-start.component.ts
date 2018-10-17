@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {InProgressCampRegistrationsEndpoint} from '../../service/rest/in-progress-camp-registrations.endpoint';
+import {CampRegistrationsEndpoint} from '../../service/rest/camp-registrations-endpoint.service';
 import {Observable} from 'rxjs';
 import {RomanNumerals} from '../../../../../../bialydunajec-admin/src/app/shared/helper/RomanNumerals';
 import {CampRegistrationsEditionResponse} from '../../../../../../bialydunajec-admin/src/app/camp-registrations/service/rest/response/camp-registrations-edition.response';
@@ -18,7 +18,7 @@ export class RegistrationStartComponent implements OnInit {
 
   campRegistrations: Observable<CampRegistrationsEditionResponse>;
 
-  constructor(private inProgressCampRegistrationsEndpoint: InProgressCampRegistrationsEndpoint) {
+  constructor(private inProgressCampRegistrationsEndpoint: CampRegistrationsEndpoint) {
   }
 
   ngOnInit() {

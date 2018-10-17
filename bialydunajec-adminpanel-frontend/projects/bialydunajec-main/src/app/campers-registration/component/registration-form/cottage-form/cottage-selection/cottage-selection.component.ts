@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {CottageCardViewModel} from '../cottage-card/cottage-card.view-model';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {InProgressCampRegistrationsEndpoint} from '../../../../service/rest/in-progress-camp-registrations.endpoint';
+import {CampRegistrationsEndpoint} from '../../../../service/rest/camp-registrations-endpoint.service';
 import {Observable} from 'rxjs';
 
 @Component({

@@ -5,7 +5,7 @@ import {CamperRegistrationFormNavigator} from '../../../service/camper-registrat
 import {ActivatedRoute} from '@angular/router';
 import {FormBuilder, Validators} from '@angular/forms';
 import {StepId} from '../registration-form.config';
-import {InProgressCampRegistrationsEndpoint} from '../../../service/rest/in-progress-camp-registrations.endpoint';
+import {CampRegistrationsEndpoint} from '../../../service/rest/camp-registrations-endpoint.service';
 import {
   CamperEducationDto,
   CamperPersonalDataDto,
@@ -31,7 +31,7 @@ export class CottageFormComponent extends RegistrationFormStepAbstractComponent 
     formNavigator: CamperRegistrationFormNavigator,
     stepRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private inProgressCampRegistrationsEndpoint: InProgressCampRegistrationsEndpoint) {
+    private inProgressCampRegistrationsEndpoint: CampRegistrationsEndpoint) {
     super(StepId.COTTAGE, mainFormState, formNavigator, stepRoute);
   }
 
