@@ -8,7 +8,7 @@ import {ShirtFormComponent} from './component/registration-form/shirt-form/shirt
 import {TransportFormComponent} from './component/registration-form/transport-form/transport-form.component';
 import {CottageFormComponent} from './component/registration-form/cottage-form/cottage-form.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {SuiCheckboxModule, SuiSelectModule, SuiMessageModule, SuiModalModule} from 'ng2-semantic-ui';
+import {SuiCheckboxModule, SuiSelectModule, SuiMessageModule, SuiModalModule, SuiDimmerModule} from 'ng2-semantic-ui';
 import {FormNavigationButtonsComponent} from './component/registration-form/form-navigation-buttons/form-navigation-buttons.component';
 import {CamperRegistrationFormStateService} from './service/camper-registration-form-state.service';
 import {CamperRegistrationFormNavigator} from './service/camper-registration-form.navigator';
@@ -27,7 +27,8 @@ import { RegistrationVerificationComponent } from './component/registration-veri
     SuiCheckboxModule,
     SuiSelectModule,
     SuiMessageModule,
-    SuiModalModule
+    SuiModalModule,
+    SuiDimmerModule
   ],
   declarations: [
     RegistrationFormComponent,

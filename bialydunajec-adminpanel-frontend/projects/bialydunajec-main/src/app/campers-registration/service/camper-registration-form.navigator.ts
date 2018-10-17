@@ -19,14 +19,15 @@ export class CamperRegistrationFormNavigator {
     return this.formStepperClickedSubject.asObservable();
   }
 
-  getCurrentStepId() {
-    return RegistrationFormConfig.STEPS_CONFIG
-      .find(step => this.router.url.indexOf(step.relativeToFormPath) !== -1)
-      .stepId;
+  getCurrentStepId(): StepId | null {
+    const currentStep = RegistrationFormConfig.STEPS_CONFIG
+      .find(step => this.router.url.indexOf(step.relativeToFormPath) !== -1);
+    return currentStep ? currentStep.stepId : null;
   }
 
   isCurrentStep(stepId: StepId) {
-    return this.getCurrentStepId() === stepId;
+    const currentStep = this.getCurrentStepId();
+    return stepId && currentStep && currentStep === stepId;
   }
 
   navigateToNextStep(activatedRoute: ActivatedRoute) {
