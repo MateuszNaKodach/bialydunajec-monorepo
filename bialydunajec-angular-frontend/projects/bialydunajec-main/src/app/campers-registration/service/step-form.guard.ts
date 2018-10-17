@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterStateSnapshot} from '@angular/router';
-import {InProgressCampRegistrationsEndpoint} from './rest/in-progress-camp-registrations.endpoint';
+import {CampRegistrationsEndpoint} from './rest/camp-registrations-endpoint.service';
 import {Observable} from 'rxjs';
 import {map, tap} from 'rxjs/operators';
 import {appRoutingPaths} from '../../app-routing.paths';

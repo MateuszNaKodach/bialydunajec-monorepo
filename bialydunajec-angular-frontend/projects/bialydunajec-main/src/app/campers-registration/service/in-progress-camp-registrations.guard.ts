@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterStateSnapshot} from '@angular/router';
 import {AuthService} from '../../../../../bialydunajec-admin/src/app/auth/service/auth.service';
 import {Observable} from 'rxjs';
-import {InProgressCampRegistrationsEndpoint} from './rest/in-progress-camp-registrations.endpoint';
+import {CampRegistrationsEndpoint} from './rest/camp-registrations-endpoint.service';
 import {map, tap} from 'rxjs/operators';
 import {appRoutingPaths} from '../../app-routing.paths';
 import {campersRegistrationRoutingPaths} from '../campers-registration-routing.paths';
@@ -12,7 +12,7 @@ import {campersRegistrationRoutingPaths} from '../campers-registration-routing.p
 })
 export class InProgressCampRegistrationsGuard implements CanActivate, CanActivateChild {
 
-  constructor(private inProgressCampRegistrationsEndpoint: InProgressCampRegistrationsEndpoint, private router: Router) {
+  constructor(private inProgressCampRegistrationsEndpoint: CampRegistrationsEndpoint, private router: Router) {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {

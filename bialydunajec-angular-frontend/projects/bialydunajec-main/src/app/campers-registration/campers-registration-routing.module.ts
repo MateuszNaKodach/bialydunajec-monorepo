@@ -9,6 +9,7 @@ import {CottageFormComponent} from './component/registration-form/cottage-form/c
 import {RegistrationSummaryComponent} from './component/registration-form/registration-summary/registration-summary.component';
 import {RegistrationStartComponent} from './component/registration-start/registration-start.component';
 import {InProgressCampRegistrationsGuard} from './service/in-progress-camp-registrations.guard';
+import {RegistrationVerificationComponent} from './component/registration-verification/registration-verification.component';
 
 const campersRegistrationRoutes: Routes = [
   {
@@ -19,6 +20,10 @@ const campersRegistrationRoutes: Routes = [
   {
     path: campersRegistrationRoutingPaths.start,
     component: RegistrationStartComponent
+  },
+  {
+    path: campersRegistrationRoutingPaths.verification,
+    component: RegistrationVerificationComponent
   },
   {
     path: campersRegistrationRoutingPaths.form,
