@@ -3,7 +3,6 @@
     *ngFor="let step of steps"
     class="step"
     [ngClass]="{'active' : isCurrentStep(step.getStepId()), 'completed ': isStepValid(step.getStepId())}"
-    [routerLink]="['./',step.getRelativeToFormPath()]"
   >
     <i
       *ngIf="step.hasIcon()"
@@ -16,3 +15,8 @@
   </a>
 </div>
 
+
+<!-- STEPPER NAVIGATION:
+    (click)="onStepClicked(step)"
+    [routerLink]="['./',step.getRelativeToFormPath()]"
+    -->

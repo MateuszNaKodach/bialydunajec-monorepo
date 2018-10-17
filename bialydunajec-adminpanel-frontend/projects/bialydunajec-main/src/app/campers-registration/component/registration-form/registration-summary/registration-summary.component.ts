@@ -8,6 +8,10 @@ import {AddressDto} from '../../../../../../../bialydunajec-admin/src/app/shared
 import {CamperRegistrationFormStateService} from '../../../service/camper-registration-form-state.service';
 import {CampRegistrationsEndpoint} from '../../../service/rest/camp-registrations-endpoint.service';
 import {finalize} from 'rxjs/operators';
+import {ErrorObserver} from 'rxjs';
+import {HttpErrorResponse} from '@angular/common/http';
+import {HttpResponseHelper} from '../../../../../../../bialydunajec-admin/src/app/shared/helper/HttpResponseHelper';
+import {RestErrorCode} from '../../../service/rest/response/rest-error.code';
 
 @Component({
   selector: 'bda-registration-summary',
@@ -16,7 +20,10 @@ import {finalize} from 'rxjs/operators';
 })
 export class RegistrationSummaryComponent implements OnInit {
 
+  lastMessage: { additionalClass: string, icon: string, header: string, content: string, };
+
   submittingInProgress = false;
+  registeredSuccessful = false;
 
   constructor(
     private mainFormState: CamperRegistrationFormStateService,
@@ -29,6 +36,7 @@ export class RegistrationSummaryComponent implements OnInit {
 
   private registerCamper() {
     this.submittingInProgress = true;
+    this.lastMessage = null;
 
     const formState = this.mainFormState.getFormDataSnapshot();
     const personalDataState = formState.PERSONAL_DATA;
@@ -69,9 +77,66 @@ export class RegistrationSummaryComponent implements OnInit {
         finalize(() => this.submittingInProgress = false)
       )
       .subscribe(
-        r => console.log(r),
-        e => console.log(e)
+        r => {
+          this.registeredSuccessful = true;
+          this.lastMessage = {
+            additionalClass: 'success',
+            icon: 'check circle outline icon',
+            header: 'Zapisaliśmy Ciebie na Obóz!',
+            content: 'Sprawdź e-mail.'
+          };
+        },
+        e => new RequestErrorObserverBuilder(
+          (restErrors: RestErrorCode[]) => {
+            if (restErrors.includes(RestErrorCode.CAMP_PARTICIPANT_WITH_GIVEN_PESEL_IS_ALREADY_REGISTERED)) {
+
+            }
+            console.log('REST ERROR:', restErrors);
+            this.lastMessage = {
+              additionalClass: 'negative',
+              icon: 'times circle outline icon',
+              header: 'Jesteś już zapisany na Obóz!',
+              content: 'Wygląda na to, że zapisałeś się już wcześniej. Jeśli tego nie zrobiłeś, skontaktuj się z administratorem.'
+            };
+          }
+        )
       );
   }
 
+
 }
+
+export class RequestErrorObserverBuilder {
+  restError: (restErrors: string[] | RestErrorCode[]) => any;
+  networkError: (error) => any;
+  unhandledError: (error) => any;
+
+  private static defaultCallback = error => console.log(error);
+
+  constructor(
+    restError: (restErrors: string[] | RestErrorCode[]) => any = RequestErrorObserverBuilder.defaultCallback,
+    networkError: (error) => any = RequestErrorObserverBuilder.defaultCallback,
+    unhandledError: (error) => any = RequestErrorObserverBuilder.defaultCallback) {
+    this.restError = restError;
+    this.networkError = networkError;
+    this.unhandledError = unhandledError;
+  }
+
+  getRequestErrorObserver() {
+    return (response: HttpErrorResponse) => {
+      const error = response.error;
+      const restErrors = response.error.restErrors;
+      if (HttpResponseHelper.isStatus4xx(response) && restErrors) {
+        this.restError(restErrors);
+      } else if (response.status === 0) {
+        this.networkError(error);
+      } else {
+        this.unhandledError(error);
+      }
+    };
+  }
+}
+
+
+
+

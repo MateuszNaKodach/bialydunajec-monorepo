@@ -5,11 +5,19 @@
   >
   </bda-section-header>
   <div class="bda-registration-summary_content">
-    <div class="ui large text active centered inline loader">
-      <h3>Właśnie zapisujemy Ciebie na Obóz... Daj nam jeszcze chwilkę :)</h3>
+    <div *ngIf="submittingInProgress; else registrationSummary" class="ui large text active centered inline loader">
+      <h4>Właśnie zapisujemy Ciebie na Obóz... Daj nam jeszcze chwilkę :)</h4>
     </div>
     <ng-template #registrationSummary>
-      SUMMARY
+      <sui-message *ngIf="lastMessage" [class]="'icon ' + lastMessage.additionalClass" [isDismissable]="false">
+        <i [class]="lastMessage.icon"></i>
+        <div class="content">
+          <div class="header">
+            {{lastMessage.header}}
+          </div>
+          <p>{{lastMessage.content}}</p>
+        </div>
+      </sui-message>
     </ng-template>
   </div>
 </section>
