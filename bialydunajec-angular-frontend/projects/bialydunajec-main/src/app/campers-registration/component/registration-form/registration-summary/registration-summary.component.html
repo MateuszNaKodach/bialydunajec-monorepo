@@ -1,3 +1,15 @@
-<p>
-  registration-summary works!
-</p>
+<section class="bda-registration-summary">
+  <bda-section-header
+    [title]="'Cześć Anna!'"
+    description="Cieszymy się, że jesteś z nami :) "
+  >
+  </bda-section-header>
+  <div class="bda-registration-summary_content">
+    <div class="ui large text active centered inline loader">
+      <h3>Właśnie zapisujemy Ciebie na Obóz... Daj nam jeszcze chwilkę :)</h3>
+    </div>
+    <ng-template #registrationSummary>
+      SUMMARY
+    </ng-template>
+  </div>
+</section>
