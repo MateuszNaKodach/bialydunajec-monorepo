@@ -15,7 +15,7 @@ internal class CampParticipantRegistrationApplicationService(
 ) : ApplicationService<CampRegistrationsCommand.RegisterCampParticipantCommand> {
 
     override fun process(command: CampRegistrationsCommand.RegisterCampParticipantCommand) =
-            campParticipantFactory.createCampParticipant(command.camperApplication)
+            campParticipantFactory.createCampParticipant(command.campRegistrationsEditionId, command.camperApplication)
                     .let { campParticipantRepository.save(it) }
                     .getAggregateId()
 

@@ -12,6 +12,7 @@ import org.bialydunajec.registrations.domain.cottage.CottageId
 import org.bialydunajec.registrations.domain.cottage.CottageRepository
 import org.bialydunajec.registrations.domain.cottage.specification.CottageFreeSpaceSpecificationFactory
 import org.bialydunajec.registrations.domain.cottage.valueobject.CottageStatus
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -21,7 +22,7 @@ internal class CampRegistrationsDomainModelReader(
         private val campRegistrationsEditionRepository: CampRegistrationsEditionRepository,
         private val academicMinistryRepository: AcademicMinistryRepository,
         private val cottageRepository: CottageRepository,
-        private val campParticipantRepository: CampParticipantRepository,
+        private val campParticipantRepository: CampParticipantReadOnlyRepository,
         private val cottageFreeSpaceSpecificationFactory: CottageFreeSpaceSpecificationFactory
 ) {
 
@@ -79,4 +80,11 @@ internal class CampRegistrationsDomainModelReader(
     fun readFor(query: CampParticipantQuery.CountByCottageId) =
             CampParticipantCountByCottageIdDto(query.cottageId, campParticipantRepository.countByCottageId(CottageId(query.cottageId)))
 
+    fun readFor(query: CampParticipantQuery.All, pageable: Pageable) =
+            campParticipantRepository.findAll(pageable)
+                    .map { CampParticipantDto.from(it.getSnapshot()) }
+
+    fun readFor(query: CampParticipantQuery.ByCottageId, pageable: Pageable) =
+            campParticipantRepository.findAllByCottageId(CottageId(query.cottageId), pageable)
+                    .map { CampParticipantDto.from(it.getSnapshot()) }
 }

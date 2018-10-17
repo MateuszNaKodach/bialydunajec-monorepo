@@ -1,6 +1,7 @@
 package org.bialydunajec.registrations.domain.camper.campparticipant
 
 import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
+import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionRepository
 import org.bialydunajec.registrations.domain.camper.valueobject.CamperApplication
 import org.bialydunajec.registrations.domain.camper.valueobject.StayDuration
@@ -21,12 +22,26 @@ class CampParticipantFactory constructor(
         private val cottageRepository: CottageRepository,
         private val campEditionRepository: CampRegistrationsEditionRepository,
         private val cottageFreeSpaceSpecificationFactory: CottageFreeSpaceSpecificationFactory,
+        private val campParticipantRepository: CampParticipantRepository,
         private val campParticipantIdGenerator: CampParticipantIdGenerator
 ) {
+
+
     fun createCampParticipant(
+            campRegistrationsEditionId: CampRegistrationsEditionId,
             camperApplication: CamperApplication,
             stayDuration: StayDuration? = null
     ): CampParticipant {
+        camperApplication.personalData.pesel?.let {
+            val alreadyRegistered = campParticipantRepository.existsByPeselAndCampRegistrationsEditionId(
+                    camperApplication.personalData.pesel,
+                    campRegistrationsEditionId
+            )
+            if (alreadyRegistered) {
+                throw DomainRuleViolationException.of(CAMP_PARTICIPANT_WITH_GIVEN_PESEL_IS_ALREADY_REGISTERED)
+            }
+        }
+
         val camperCottage = cottageRepository.findByIdAndSpecification(
                 camperApplication.cottageId,
                 ActivatedCottageSpecification().and(cottageFreeSpaceSpecificationFactory.createFor(camperApplication))
@@ -49,5 +64,5 @@ class CampParticipantFactory constructor(
     }
 
     fun recreateFrom(campParticipantRegistration: CampParticipantRegistration) =
-            createCampParticipant(campParticipantRegistration.getCamperApplication())
+            createCampParticipant(campParticipantRegistration.getCampRegistrationsEditionId(), campParticipantRegistration.getCamperApplication())
 }

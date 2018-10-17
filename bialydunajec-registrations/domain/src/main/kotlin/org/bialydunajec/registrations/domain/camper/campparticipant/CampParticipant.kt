@@ -19,7 +19,7 @@ Przemyslec czy to nie powinny byc osobny aggreagate, w sumie CampParticipant dba
  Zmienić na CampParticipant i podmienić z aggregatem CampParticipant!
  Zbieranie danych o konkretnych camperach bedzie tylko read modelem, ile razy np. był na obozie.
  */
-
+//TODO: Zastanowić się czy id CampParticipant nie powinno być różne, np. Camper Id!
 //TODO: Add accepted agreements (modifable for Camp Registrations)
 @Entity
 @Table(

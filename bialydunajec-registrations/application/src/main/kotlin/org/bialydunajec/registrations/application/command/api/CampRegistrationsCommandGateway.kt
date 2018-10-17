@@ -18,8 +18,8 @@ class CampRegistrationsCommandGateway internal constructor(
         private val updateCottageApplicationService: UpdateCottageApplicationService,
         private val activateCottageApplicationService: ActivateCottageApplicationService,
         private val deactivateCottageApplicationService: DeactivateCottageApplicationService,
-        private val campParticipantRegistrationApplicationService: CampParticipantRegistrationApplicationService
-
+        private val campParticipantRegistrationApplicationService: CampParticipantRegistrationApplicationService,
+        private val campParticipantRegistrationConfirmApplicationService: VerifyCampParticipantRegistrationApplicationService
 ) : CommandGateway {
 
     internal fun process(command: CampRegistrationsCommand.CreateCampRegistrationsEdition) =
@@ -68,4 +68,7 @@ class CampRegistrationsCommandGateway internal constructor(
 
     fun process(command: CampRegistrationsCommand.RegisterCampParticipantCommand) =
             campParticipantRegistrationApplicationService.process(command)
+
+    fun process(command: CampRegistrationsCommand.VerifyCampParticipantRegistrationCommand) =
+            campParticipantRegistrationConfirmApplicationService.process(command)
 }

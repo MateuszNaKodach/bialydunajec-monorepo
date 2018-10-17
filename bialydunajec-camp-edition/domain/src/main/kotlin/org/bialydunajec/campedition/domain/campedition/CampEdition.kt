@@ -5,8 +5,10 @@ import org.bialydunajec.campedition.domain.exception.CampEditionDomainRule
 import org.bialydunajec.ddd.domain.base.aggregate.AggregateRoot
 import org.bialydunajec.ddd.domain.base.persistence.Versioned
 import org.bialydunajec.ddd.domain.base.validation.ValidationResult
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.financial.Money
 import org.jetbrains.annotations.NotNull
 import java.time.LocalDate
+import javax.persistence.Embedded
 import javax.persistence.Entity
 import javax.persistence.Table
 import javax.persistence.Version
@@ -19,7 +21,10 @@ class CampEdition constructor(
         private var startDate: LocalDate,
 
         @NotNull
-        private var endDate: LocalDate
+        private var endDate: LocalDate,
+
+        @Embedded
+        private var price: Money? = Money(419) //TODO: Pass to camp registration!
 ) : AggregateRoot<CampEditionId, CampEditionEvent>(campEditionId), Versioned {
 
     @Version
@@ -67,6 +72,7 @@ class CampEdition constructor(
 
     fun getStartDate() = startDate
     fun getEndDate() = endDate
+    fun getPrice() = price
     fun getSnapshot() = CampEditionSnapshot(getAggregateId(), startDate, endDate)
     override fun getVersion() = version
 }

@@ -10,15 +10,15 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
-internal class CampParticipantRegistrationConfirmApplicationService(
+internal class VerifyCampParticipantRegistrationApplicationService(
         private val campParticipantRegistrationRepository: CampParticipantRegistrationRepository
-) : ApplicationService<CampRegistrationsCommand.CampParticipantRegistrationConfirmCommand> {
+) : ApplicationService<CampRegistrationsCommand.VerifyCampParticipantRegistrationCommand> {
 
-    override fun process(command: CampRegistrationsCommand.CampParticipantRegistrationConfirmCommand) {
+    override fun process(command: CampRegistrationsCommand.VerifyCampParticipantRegistrationCommand) {
         val campParticipantRegistration = campParticipantRegistrationRepository.findById(command.campParticipantRegistrationId)
                 ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.CAMP_PARTICIPANT_REGISTRATIONS_TO_CONFIRM_MUST_EXISTS)
 
-        campParticipantRegistration.confirmByCamperWithVerificationCode(command.verificationCode)
+        campParticipantRegistration.verifyByCamperWithCode(command.verificationCode)
 
         campParticipantRegistrationRepository.save(campParticipantRegistration)
     }

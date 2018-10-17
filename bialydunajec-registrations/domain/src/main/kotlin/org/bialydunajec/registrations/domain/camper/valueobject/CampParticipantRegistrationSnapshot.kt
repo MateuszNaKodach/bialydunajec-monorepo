@@ -10,5 +10,6 @@ data class CampParticipantRegistrationSnapshot(
         val campRegistrationsEditionId: CampRegistrationsEditionId,
         val originalCamperApplication: CamperApplication,
         val camperApplication: CamperApplication,
-        val status: RegistrationStatus
+        val status: RegistrationStatus,
+        val verificationCode: String
 )

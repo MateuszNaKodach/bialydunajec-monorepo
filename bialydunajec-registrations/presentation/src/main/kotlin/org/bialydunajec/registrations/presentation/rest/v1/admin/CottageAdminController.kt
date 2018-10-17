@@ -14,7 +14,7 @@ import javax.validation.Valid
 
 @RestController
 @RequestMapping("/rest-api/v1/camp-registrations")
-class CampRegistrationsCottageController(
+class CottageAdminController(
         private val commandGateway: CampRegistrationsCommandGateway,
         private val queryGateway: CampRegistrationsQueryGateway
 ) {

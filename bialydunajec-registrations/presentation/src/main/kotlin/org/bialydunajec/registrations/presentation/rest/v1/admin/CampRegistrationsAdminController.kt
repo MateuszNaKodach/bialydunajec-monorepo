@@ -14,7 +14,7 @@ import java.time.LocalDate
 //TODO: Change to /rest-api/admin/v1
 @RestController
 @RequestMapping("/rest-api/v1/camp-registrations")
-class CampRegistrationsController(
+class CampRegistrationsAdminController(
         private val commandGateway: CampRegistrationsCommandGateway,
         private val queryGateway: CampRegistrationsQueryGateway
 ) {

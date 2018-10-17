@@ -6,4 +6,6 @@ import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticip
 import javax.persistence.Embeddable
 
 @Embeddable
-class CampParticipantRegistrationId(campRegistrationsEditionId: CampRegistrationsEditionId) : AggregateId("$campRegistrationsEditionId-${defaultValue()}")
+class CampParticipantRegistrationId(campParticipantRegistrationId: String) : AggregateId(campParticipantRegistrationId) {
+    constructor(campRegistrationsEditionId: CampRegistrationsEditionId) : this("$campRegistrationsEditionId-${defaultValue()}")
+}

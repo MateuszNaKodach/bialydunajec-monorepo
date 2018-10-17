@@ -2,13 +2,16 @@ package org.bialydunajec.registrations.domain.camper.campparticipantregistration
 
 import org.bialydunajec.ddd.domain.base.aggregate.AuditableAggregateRoot
 import org.bialydunajec.ddd.domain.base.persistence.Versioned
+import org.bialydunajec.ddd.domain.base.validation.ValidationResult
+import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantEvent
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantId
 import org.bialydunajec.registrations.domain.camper.valueobject.CampParticipantRegistrationSnapshot
 import org.bialydunajec.registrations.domain.camper.valueobject.RegistrationStatus
 import org.bialydunajec.registrations.domain.camper.valueobject.CamperApplication
-import org.bialydunajec.registrations.domain.camper.valueobject.ParticipationStatus
+import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule.*
+import java.util.*
 import javax.persistence.*
 import javax.validation.constraints.NotNull
 
@@ -54,7 +57,9 @@ class CampParticipantRegistration private constructor(
 
         @NotNull
         @Enumerated(EnumType.STRING)
-        private var status: RegistrationStatus = RegistrationStatus.WAITING_FOR_CONFIRM
+        private var status: RegistrationStatus = RegistrationStatus.WAITING_FOR_VERIFICATION,
+
+        private val verificationCode: String = UUID.randomUUID().toString()
 ) : AuditableAggregateRoot<CampParticipantRegistrationId, CampParticipantRegistrationEvent>(CampParticipantRegistrationId(campRegistrationsEditionId)), Versioned {
 
     @Version
@@ -66,15 +71,26 @@ class CampParticipantRegistration private constructor(
         )
     }
 
-    fun confirmByCamperWithVerificationCode(verificationCode: String) {
-        this.status = RegistrationStatus.CONFIRMED_BY_CAMPER
-    }
+    fun canVerifyByCamperWithCode(verificationCode: String) =
+            ValidationResult.buffer()
+                    .addViolatedRuleIf(INVALID_CAMP_PARTICIPANT_REGISTRATION_VERIFICATION_CODE, verificationCode != this.verificationCode)
+                    .addViolatedRuleIf(CAMP_PARTICIPANT_REGISTRATION_ALREADY_VERIFIED, status == RegistrationStatus.VERIFIED_BY_CAMPER)
+                    .addViolatedRuleIf(CAMP_PARTICIPANT_REGISTRATION_ALREADY_VERIFIED, status == RegistrationStatus.VERIFIED_BY_AUTHORIZED)
+                    .addViolatedRuleIf(CAMP_PARTICIPANT_REGISTRATION_ALREADY_CANCELLED, status == RegistrationStatus.CANCELLED_BY_CAMPER)
+                    .addViolatedRuleIf(CAMP_PARTICIPANT_REGISTRATION_ALREADY_CANCELLED_BY_AUTHORIZED, status == RegistrationStatus.CANCELLED_BY_AUTHORIZED)
+                    .addViolatedRuleIf(CAMP_PARTICIPANT_REGISTRATION_ALREADY_CANCELLED_BY_DEADLINE, status == RegistrationStatus.CANCELLED_BY_DEADLINE)
+                    .toValidationResult()
 
-    fun cancelByCamper() {
-        this.status = RegistrationStatus.CANCELLED_BY_CAMPER
+
+    fun verifyByCamperWithCode(verificationCode: String) {
+        canVerifyByCamperWithCode(verificationCode)
+                .ifInvalidThrowException()
+
+        this.status = RegistrationStatus.VERIFIED_BY_CAMPER
     }
 
     override fun getVersion() = version
+    fun getCampRegistrationsEditionId() = campRegistrationsEditionId
     fun getCamperApplication() = camperApplication
     fun getSnapshot() =
             CampParticipantRegistrationSnapshot(
@@ -83,7 +99,8 @@ class CampParticipantRegistration private constructor(
                     campRegistrationsEditionId,
                     originalCamperApplication,
                     camperApplication,
-                    status
+                    status,
+                    verificationCode
             )
 
     companion object {

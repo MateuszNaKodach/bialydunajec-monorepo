@@ -7,11 +7,11 @@ import java.time.LocalTime
 import javax.persistence.Embeddable
 
 @Embeddable
-data class StayDuration internal constructor(
-        private val checkInDate: LocalDate? = null,
-        private val checkInTime: LocalTime? = null,
-        private val checkOutDate: LocalDate? = null,
-        private val checkOutTime: LocalTime? = null
+data class StayDuration constructor(
+        val checkInDate: LocalDate? = null,
+        val checkInTime: LocalTime? = null,
+        val checkOutDate: LocalDate? = null,
+        val checkOutTime: LocalTime? = null
 ) {
 
     init {
