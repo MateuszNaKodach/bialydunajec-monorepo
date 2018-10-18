@@ -10,13 +10,18 @@ import {FormInputComponent} from './component/form-input/form-input.component';
 import {HttpClientModule} from '@angular/common/http';
 import { CampRegistrationsReminderComponent } from './component/camp-registrations-reminder/camp-registrations-reminder.component';
 import {SuiCheckboxModule} from 'ng2-semantic-ui';
+import {RECAPTCHA_SETTINGS, RecaptchaModule, RecaptchaSettings} from 'ng-recaptcha';
+import {RecaptchaFormsModule} from 'ng-recaptcha/forms';
+import {environment} from '../../environments/environment';
 
 @NgModule({
   imports: [
     CommonModule,
     FlexLayoutModule,
     HttpClientModule,
-    SuiCheckboxModule
+    SuiCheckboxModule,
+    RecaptchaModule.forRoot(),
+    RecaptchaFormsModule
   ],
   declarations: [
     SectionHeaderComponent,
@@ -37,8 +42,16 @@ import {SuiCheckboxModule} from 'ng2-semantic-ui';
     SocialMediaLinksComponent,
     FormInputComponent,
     HttpClientModule,
-    CampRegistrationsReminderComponent
-  ]
+    CampRegistrationsReminderComponent,
+    RecaptchaModule,
+    RecaptchaFormsModule
+  ],
+  providers: [
+    {
+      provide: RECAPTCHA_SETTINGS,
+      useValue: { siteKey: environment.reCaptcha.siteKey } as RecaptchaSettings,
+    },
+  ],
 })
 export class SharedModule {
 }

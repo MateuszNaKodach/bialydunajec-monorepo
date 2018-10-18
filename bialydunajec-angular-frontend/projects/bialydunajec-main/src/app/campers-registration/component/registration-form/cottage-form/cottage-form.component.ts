@@ -39,7 +39,8 @@ export class CottageFormComponent extends RegistrationFormStepAbstractComponent 
 
   protected initStepFormControls() {
     this.stepForm = this.formBuilder.group({
-        cottageId: [null, [Validators.required]]
+        cottageId: [null, [Validators.required]],
+        reCaptcha: [null, [Validators.required]]
       }
     );
   }
@@ -61,11 +62,15 @@ export class CottageFormComponent extends RegistrationFormStepAbstractComponent 
     return this.stepForm.get('cottageId');
   }
 
+
+  get reCaptcha() {
+    return this.stepForm.get('reCaptcha');
+  }
+
   onClickCampSignUp() {
     this.onSubmitStepForm();
-    this.navigateToFormSummary();
-
     if (this.mainFormState.isFormValid()) {
+      this.navigateToFormSummary();
     } else {
       console.log('FORM INVALID!');
     }
@@ -75,4 +80,7 @@ export class CottageFormComponent extends RegistrationFormStepAbstractComponent 
     this.router.navigate(['../' + campersRegistrationRoutingPaths.summary], {relativeTo: this.stepRoute});
   }
 
+  onReCaptchaResolved(captchaResponse: string) {
+    console.log(`Resolved captcha with response ${captchaResponse}:`);
+  }
 }
