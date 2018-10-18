@@ -1,6 +1,6 @@
 <section class="bda-registration-summary">
   <bda-section-header
-    [title]="'Cześć Anna!'"
+    title="{{'Cześć ' + firstName +'!'}}"
     description="Cieszymy się, że jesteś z nami :) "
   >
   </bda-section-header>
@@ -9,15 +9,25 @@
       <h4>Właśnie zapisujemy Ciebie na Obóz... Daj nam jeszcze chwilkę :)</h4>
     </div>
     <ng-template #registrationSummary>
-      <sui-message *ngIf="lastMessage" [class]="'icon ' + lastMessage.additionalClass" [isDismissable]="false">
-        <i [class]="lastMessage.icon"></i>
-        <div class="content">
-          <div class="header">
-            {{lastMessage.header}}
+      <div style="display: flex; flex-flow: column; width: 100%">
+        <sui-message *ngIf="lastMessage" [class]="'icon ' + lastMessage.additionalClass" [isDismissable]="false"
+                     style="margin-bottom: 1rem;">
+          <i [class]="lastMessage.icon"></i>
+          <div class="content">
+            <div class="header">
+              {{lastMessage.header}}
+            </div>
+            <p>{{lastMessage.content}}</p>
           </div>
-          <p>{{lastMessage.content}}</p>
+        </sui-message>
+        <div *ngIf="registeredSuccessful" style="margin-top: 1rem; text-align: center;">
+          <p>Nie doszedł do Ciebie e-mail weryfikacyjny?</p>
+          <button class="ui basic button orange">Wyślij ponownie</button>
+
+          <p style="margin-top: 2rem;">Wszystko jest w porządku?</p>
+          <a routerLink="/"><button class="ui orange button">Wróc do Strony Głównej</button></a>
         </div>
-      </sui-message>
+      </div>
     </ng-template>
   </div>
 </section>

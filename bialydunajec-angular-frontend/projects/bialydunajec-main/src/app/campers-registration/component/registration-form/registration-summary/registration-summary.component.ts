@@ -25,6 +25,11 @@ export class RegistrationSummaryComponent implements OnInit {
   submittingInProgress = false;
   registeredSuccessful = false;
 
+  showPreviousButton = false;
+  showResendVerificationEmail = false;
+
+  firstName: string;
+
   constructor(
     private mainFormState: CamperRegistrationFormStateService,
     private campRegistrationsEndpoint: CampRegistrationsEndpoint) {
@@ -32,6 +37,7 @@ export class RegistrationSummaryComponent implements OnInit {
 
   ngOnInit() {
     this.registerCamper();
+    this.firstName = this.mainFormState.getPersonalFormDataSnapshot().personalData.firstName;
   }
 
   private registerCamper() {
@@ -83,23 +89,53 @@ export class RegistrationSummaryComponent implements OnInit {
             additionalClass: 'success',
             icon: 'check circle outline icon',
             header: 'Zapisaliśmy Ciebie na Obóz!',
-            content: 'Sprawdź e-mail.'
+            content: 'Właśnie na Twojego maila wysłaliśmy wiadomość (prosimy, sprawdź czy dojdzie w ciągu 5 minut). Prosimy o szczegółowe zapoznanie się z jej treścią, a także o kliknięcie w ciągu trzech dni w przesłany link potwierdzający, Twój zapis na Obóz. Jeśli tego nie zrobisz, to po tym czasie Twoje miejsce skreślimy komuś innemu.'
           };
         },
-        e => new RequestErrorObserverBuilder(
-          (restErrors: RestErrorCode[]) => {
+        new RequestErrorObserverBuilder(
+          (restErrors: string[]) => {
             if (restErrors.includes(RestErrorCode.CAMP_PARTICIPANT_WITH_GIVEN_PESEL_IS_ALREADY_REGISTERED)) {
-
+              this.lastMessage = {
+                additionalClass: 'negative',
+                icon: 'times circle outline icon',
+                header: 'Jesteś już zapisany/-a na Obóz!',
+                content: 'Wygląda na to, że zapisałeś/-aś się już wcześniej. Jeśli tego nie zrobiłeś/-aś, skontaktuj się z administratorem.'
+              };
+              this.showResendVerificationEmail = true;
+            } else if (restErrors.includes(RestErrorCode.COTTAGE_NOT_FOUND)) {
+              this.lastMessage = {
+                additionalClass: 'negative',
+                icon: 'times circle outline icon',
+                header: 'Brak miejsca w wybranej chatce!',
+                content: 'Wygląda na to, że w międzyczasie ktoś Cię wyprzedził :( Jeśli bardzo chcesz zapisać się do tej chatki, spytaj jej szefa o taką możliwość.'
+              };
+              this.showPreviousButton = true;
+            } else if (restErrors.includes(RestErrorCode.CAMP_EDITION_HAS_NOT_IN_PROGRESS_REGISTRATIONS)) {
+              this.lastMessage = {
+                additionalClass: 'negative',
+                icon: 'times circle outline icon',
+                header: 'Zapisy na Obóz są nieaktywne!',
+                content: 'Niestety zapisy na Obóz są teraz nieaktywne :( Spróbuj ponownie później.'
+              };
             }
-            console.log('REST ERROR:', restErrors);
+          },
+          unhandledError => {
             this.lastMessage = {
               additionalClass: 'negative',
               icon: 'times circle outline icon',
-              header: 'Jesteś już zapisany na Obóz!',
-              content: 'Wygląda na to, że zapisałeś się już wcześniej. Jeśli tego nie zrobiłeś, skontaktuj się z administratorem.'
+              header: 'Błąd!',
+              content: 'Niestety...'
+            };
+          },
+          networkError => {
+            this.lastMessage = {
+              additionalClass: 'negative',
+              icon: 'times circle outline icon',
+              header: 'Błąd!',
+              content: 'Niestety...'
             };
           }
-        )
+        ).getRequestErrorObserver()
       );
   }
 
@@ -115,8 +151,8 @@ export class RequestErrorObserverBuilder {
 
   constructor(
     restError: (restErrors: string[] | RestErrorCode[]) => any = RequestErrorObserverBuilder.defaultCallback,
-    networkError: (error) => any = RequestErrorObserverBuilder.defaultCallback,
-    unhandledError: (error) => any = RequestErrorObserverBuilder.defaultCallback) {
+    unhandledError: (error) => any = RequestErrorObserverBuilder.defaultCallback,
+    networkError: (error) => any = RequestErrorObserverBuilder.defaultCallback) {
     this.restError = restError;
     this.networkError = networkError;
     this.unhandledError = unhandledError;
@@ -127,10 +163,13 @@ export class RequestErrorObserverBuilder {
       const error = response.error;
       const restErrors = response.error.restErrors;
       if (HttpResponseHelper.isStatus4xx(response) && restErrors) {
+        console.log('REST ERROR');
         this.restError(restErrors);
       } else if (response.status === 0) {
+        console.log('NETWORK ERROR');
         this.networkError(error);
       } else {
+        console.log('UNHANDLED ERROR');
         this.unhandledError(error);
       }
     };
