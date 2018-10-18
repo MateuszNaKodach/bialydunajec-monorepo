@@ -26,6 +26,11 @@ internal class CampParticipantRegistrationDomainEventListener(
     @Async
     @TransactionalEventListener
     fun handle(event: CampParticipantRegistrationEvent.Created) {
+        fun getRegistrationVerificationUrlFor(campParticipantRegistrationId: CampParticipantRegistrationId, verificationCode: String) =
+                mainFrontendProperties.registrationVerificationUrl
+                        .replace(":campParticipantRegistrationId", campParticipantRegistrationId.toString())
+                        .replace(":verificationCode", verificationCode)
+
         val camperApplication = event.snapshot.camperApplication
         val emailMessage =
                 EmailMessage(
@@ -38,18 +43,14 @@ internal class CampParticipantRegistrationDomainEventListener(
         emailMessageSender.sendEmailMessage(emailMessage)
 
         log.info("Email message sent {}", emailMessage)
-
     }
 
-    @Async
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     @TransactionalEventListener
     fun handle(event: CampParticipantRegistrationEvent.VerifiedByCamper) {
-
+        campParticipantRepository.findById(event.snapshot.campParticipantId)
+                .apply { this?.confirmByCamperWith(event.snapshot.camperApplication) }
     }
 
-    private fun getRegistrationVerificationUrlFor(campParticipantRegistrationId: CampParticipantRegistrationId, verificationCode: String) =
-            mainFrontendProperties.registrationVerificationUrl
-                    .replace(":campParticipantRegistrationId", campParticipantRegistrationId.toString())
-                    .replace(":verificationCode", verificationCode)
 
 }

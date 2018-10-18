@@ -21,6 +21,7 @@ class CampParticipantAdminController(
         private val queryGateway: CampRegistrationsQueryGateway
 ) {
 
+    //TODO: Add filtering by campRegistrationsEditionId
     //COMMAND----------------------------------------------------------------------------------------------------------
     @GetMapping
     fun getCampParticipantsByCottageId(@RequestParam(required = false) cottageId: String?, pageable: Pageable) =

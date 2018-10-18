@@ -77,13 +77,14 @@ class CampParticipant internal constructor(
         registerEvent(CampParticipantEvent.Created(getAggregateId(), getSnapshot()))
     }
 
-    fun accommodateInCottage(cottage: Cottage) {
+    fun changeAccommodation(cottage: Cottage) {
         if (cottage.getCampEditionId() == campRegistrationsEditionId) {
             this.currentCamperData = currentCamperData.copy(cottageId = cottage.getAggregateId())
         }
     }
 
-    fun confirmByCamper() {
+    fun confirmByCamperWith(confirmedApplication: CamperApplication) {
+        this.confirmedApplication = confirmedApplication
         this.participationStatus = ParticipationStatus.CONFIRMED_BY_CAMPER
     }
 
