@@ -1,6 +1,7 @@
 package org.bialydunajec.registrations.domain.camper.campparticipantregistration
 
 import org.bialydunajec.ddd.domain.base.event.DomainEvent
+import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantId
 import org.bialydunajec.registrations.domain.camper.valueobject.CampParticipantRegistrationSnapshot
 
 sealed class CampParticipantRegistrationEvent : DomainEvent<CampParticipantRegistrationId> {
@@ -11,4 +12,9 @@ sealed class CampParticipantRegistrationEvent : DomainEvent<CampParticipantRegis
 
     data class Cancelled(
             override val aggregateId: CampParticipantRegistrationId) : CampParticipantRegistrationEvent()
+
+    data class VerifiedByCamper(
+            override val aggregateId: CampParticipantRegistrationId,
+            val campParticipantId: CampParticipantId
+    ) : CampParticipantRegistrationEvent()
 }

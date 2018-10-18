@@ -68,7 +68,7 @@ class CampParticipant internal constructor(
 
         @NotNull
         @Enumerated(EnumType.STRING)
-        val participationStatus: ParticipationStatus = ParticipationStatus.WAITING_FOR_CONFIRM
+        var participationStatus: ParticipationStatus = ParticipationStatus.WAITING_FOR_CONFIRM
 ) : AuditableAggregateRoot<CampParticipantId, CampParticipantEvent>(campParticipantIdGenerator.generateFrom(currentCamperData.personalData.pesel)), Versioned {
     @Version
     private var version: Long? = null
@@ -83,6 +83,11 @@ class CampParticipant internal constructor(
         }
     }
 
+    fun confirmByCamper() {
+        this.participationStatus = ParticipationStatus.CONFIRMED_BY_CAMPER
+    }
+
+    fun isConfirmed() = participationStatus == ParticipationStatus.CONFIRMED_BY_CAMPER || participationStatus == ParticipationStatus.CONFIRMED_BY_AUTHORIZED
     fun getCottageId() = this.currentCamperData.cottageId
     fun getPersonalData() = currentCamperData.personalData
     fun getHomeAddress() = currentCamperData.homeAddress

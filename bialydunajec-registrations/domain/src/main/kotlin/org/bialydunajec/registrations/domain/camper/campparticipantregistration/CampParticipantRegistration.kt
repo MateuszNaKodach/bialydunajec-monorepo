@@ -87,6 +87,7 @@ class CampParticipantRegistration private constructor(
                 .ifInvalidThrowException()
 
         this.status = RegistrationStatus.VERIFIED_BY_CAMPER
+        registerEvent(CampParticipantRegistrationEvent.VerifiedByCamper(getAggregateId(), campParticipantId))
     }
 
     override fun getVersion() = version
