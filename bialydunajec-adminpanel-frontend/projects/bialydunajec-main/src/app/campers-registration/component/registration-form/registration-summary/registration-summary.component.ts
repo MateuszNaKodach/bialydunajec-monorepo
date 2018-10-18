@@ -89,8 +89,9 @@ export class RegistrationSummaryComponent implements OnInit {
             additionalClass: 'success',
             icon: 'check circle outline icon',
             header: 'Zapisaliśmy Ciebie na Obóz!',
-            content: 'Właśnie na Twojego maila wysłaliśmy wiadomość (prosimy, sprawdź czy dojdzie w ciągu 5 minut). Prosimy o szczegółowe zapoznanie się z jej treścią, a także o kliknięcie w ciągu trzech dni w przesłany link potwierdzający, Twój zapis na Obóz. Jeśli tego nie zrobisz, to po tym czasie Twoje miejsce skreślimy komuś innemu.'
+            content: 'Właśnie na Twojego maila wysłaliśmy wiadomość (prosimy, sprawdź czy dojdzie w ciągu 5 minut). Prosimy o szczegółowe zapoznanie się z jej treścią, a także o kliknięcie w ciągu trzech dni w przesłany link potwierdzający, Twój zapis na Obóz. Jeśli tego nie zrobisz, to po tym czasie Twoje miejsce zwolnimy komuś innemu.'
           };
+          this.mainFormState.clearFormState();
         },
         new RequestErrorObserverBuilder(
           (restErrors: string[]) => {

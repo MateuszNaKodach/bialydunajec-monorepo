@@ -3,89 +3,92 @@ import {StepId} from '../component/registration-form/registration-form.config';
 import {FormStatus} from 'bialydunajec-commons';
 import {Subject} from 'rxjs';
 
+const initialFormState = new Map<string, any>([
+  [
+    StepId.PERSONAL_DATA,
+    {
+      status: FormStatus.UNKNOWN,
+      submitted: false,
+      data: {
+        personalData: {
+          gender: null,
+          firstName: null,
+          lastName: null,
+          pesel: null
+        },
+        homeAddress: {
+          street: null,
+          number: null,
+          postalCode: null,
+          city: null
+        },
+        contact: {
+          email: null,
+          telephone: null,
+        },
+        education: {
+          university: null,
+          faculty: null,
+          fieldOfStudy: null,
+          isRecentHighSchoolGraduate: false,
+          highSchool: null
+        },
+        statistics: {
+          knowAboutCampFrom: null,
+          onCampForTime: null
+        },
+        agreements: {
+          campRegulations: false,
+          camperOwnResponsibility: false,
+          personalDataProcessing: false
+        }
+      }
+    }
+  ],
+  [
+    StepId.TRANSPORT,
+    {
+      status: FormStatus.UNKNOWN,
+      submitted: false,
+      data: {
+        meanOfTransport: null,
+        campTransport: {
+          destinationBusStop: null,
+        }
+      }
+    }
+  ],
+  [
+    StepId.SHIRT,
+    {
+      status: FormStatus.UNKNOWN,
+      submitted: false,
+      data: {
+        color: null,
+        size: null,
+        clothType: null
+      }
+    }
+  ],
+  [
+    StepId.COTTAGE,
+    {
+      status: FormStatus.UNKNOWN,
+      submitted: false,
+      data: {
+        cottageId: null,
+        reCaptcha: null
+      }
+    }
+  ]
+]);
+
 @Injectable()
 export class CamperRegistrationFormStateService {
 
   private formStateSubject = new Subject<{ stepId: StepId, formState: any }>();
 
-  private formState = new Map<string, any>([
-    [
-      StepId.PERSONAL_DATA,
-      {
-        status: FormStatus.UNKNOWN,
-        submitted: false,
-        data: {
-          personalData: {
-            gender: null,
-            firstName: null,
-            lastName: null,
-            pesel: null
-          },
-          homeAddress: {
-            street: null,
-            number: null,
-            postalCode: null,
-            city: null
-          },
-          contact: {
-            email: null,
-            telephone: null,
-          },
-          education: {
-            university: null,
-            faculty: null,
-            fieldOfStudy: null,
-            isRecentHighSchoolGraduate: false,
-            highSchool: null
-          },
-          statistics: {
-            knowAboutCampFrom: null,
-            onCampForTime: null
-          },
-          agreements: {
-            campRegulations: false,
-            camperOwnResponsibility: false,
-            personalDataProcessing: false
-          }
-        }
-      }
-    ],
-    [
-      StepId.TRANSPORT,
-      {
-        status: FormStatus.UNKNOWN,
-        submitted: false,
-        data: {
-          meanOfTransport: null,
-          campTransport: {
-            destinationBusStop: null,
-          }
-        }
-      }
-    ],
-    [
-      StepId.SHIRT,
-      {
-        status: FormStatus.UNKNOWN,
-        submitted: false,
-        data: {
-          color: null,
-          size: null,
-          clothType: null
-        }
-      }
-    ],
-    [
-      StepId.COTTAGE,
-      {
-        status: FormStatus.UNKNOWN,
-        submitted: false,
-        data: {
-          cottageId: null
-        }
-      }
-    ]
-  ]);
+  private formState = initialFormState;
 
   constructor() {
   }
@@ -163,6 +166,10 @@ export class CamperRegistrationFormStateService {
 
   getStepFormStatus(stepId: StepId) {
     return this.formState.get(stepId).status;
+  }
+
+  clearFormState() {
+    this.formState = initialFormState;
   }
 
   private publishStepFormStateChange(stepId: StepId, formState: any) {

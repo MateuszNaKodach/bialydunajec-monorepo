@@ -17,6 +17,7 @@ import { CottageSelectionComponent } from './component/registration-form/cottage
 import { RegistrationSummaryComponent } from './component/registration-form/registration-summary/registration-summary.component';
 import { RegistrationStartComponent } from './component/registration-start/registration-start.component';
 import { RegistrationVerificationComponent } from './component/registration-verification/registration-verification.component';
+import {RecaptchaFormsModule} from 'ng-recaptcha/forms';
 
 @NgModule({
   imports: [
@@ -28,7 +29,8 @@ import { RegistrationVerificationComponent } from './component/registration-veri
     SuiSelectModule,
     SuiMessageModule,
     SuiModalModule,
-    SuiDimmerModule
+    SuiDimmerModule,
+    RecaptchaFormsModule
   ],
   declarations: [
     RegistrationFormComponent,

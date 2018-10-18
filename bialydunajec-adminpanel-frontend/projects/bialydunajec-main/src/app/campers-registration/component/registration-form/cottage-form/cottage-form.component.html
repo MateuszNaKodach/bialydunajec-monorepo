@@ -30,9 +30,12 @@
       </sui-message>
     </div>
   </section>
+  <div style="display: flex; justify-content: flex-end;">
+    <re-captcha formControlName="reCaptcha" (resolved)="onReCaptchaResolved($event)"></re-captcha>
+  </div>
   <bda-form-navigation-buttons
     style="margin-top: 3rem;"
-    [config]='{left: {text: "WSTECZ", disabled: false}, right: {text: "ZAPISZ SIĘ!", disabled: false}}'
+    [config]='{left: {text: "WSTECZ", disabled: false}, right: {text: "ZAPISZ SIĘ!", disabled: reCaptcha.invalid}}'
     (clickRight)="onClickCampSignUp()"
     (clickLeft)="onNavigateToPreviousStep()"
   ></bda-form-navigation-buttons>

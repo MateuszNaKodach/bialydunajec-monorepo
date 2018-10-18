@@ -61,6 +61,12 @@ export class CottageEditComponent implements OnInit, MultiModeForm<CottageEditFo
 
     // TODO: Add campRegistrationsId to all urls - /panel/camp-registrations/{id}/cottages
     // load init form values
+    this.loadCottage();
+    this.availableAcademicMinistries = this.campRegistrationsEndpoint.getAllAcademicMinistries();
+
+  }
+
+  loadCottage() {
     this.route.params
       .pipe(
         flatMap(params => this.campRegistrationsEndpoint
@@ -75,8 +81,6 @@ export class CottageEditComponent implements OnInit, MultiModeForm<CottageEditFo
           this.updateFormValuesWith(CottageEditFormModel.fromDto(response));
         }
       );
-    this.availableAcademicMinistries = this.campRegistrationsEndpoint.getAllAcademicMinistries();
-
   }
 
   updateFormValuesWith(formModel: CottageEditFormModel) {
@@ -147,7 +151,10 @@ export class CottageEditComponent implements OnInit, MultiModeForm<CottageEditFo
       const updateCottageRequest: UpdateCottageRequest = {...this.cottageForm.value};
       this.campRegistrationsEndpoint.updateCottage(this.currentCottageId, updateCottageRequest)
         .pipe(
-          finalize(() => this.submittingInProgress = false)
+          finalize(() => {
+            this.submittingInProgress = false;
+            this.loadCottage();
+          })
         )
         .subscribe(
           response => {

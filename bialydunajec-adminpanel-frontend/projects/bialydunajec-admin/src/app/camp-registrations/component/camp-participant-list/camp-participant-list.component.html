@@ -1,0 +1,50 @@
+<section>
+  <div style="display: flex; justify-content: space-between;">
+    <bda-admin-breadcrumbs
+      [breadcrumbs]="['Zapisy na Obóz','Uczestnicy Obozu']"
+    ></bda-admin-breadcrumbs>
+    <bda-admin-camp-edition-selection
+      (campEditionIdSelected)="onCampEditionIdSelected($event)"
+      [campEditionsObservable]="availableCampEditions"></bda-admin-camp-edition-selection>
+  </div>
+
+  <nz-table class="bda-camp-participant-table" #basicTable [nzData]="campParticipants">
+    <thead>
+    <tr>
+      <th>PESEL</th>
+      <th>Nazwisko</th>
+      <th>Imię</th>
+      <th>Adres</th>
+      <th>Telefon</th>
+      <th>E-mail</th>
+      <th>Status</th>
+      <th nzShowExpand></th>
+    </tr>
+    </thead>
+    <tbody>
+    <ng-template ngFor let-data [ngForOf]="basicTable.data">
+      <tr>
+        <td>{{data.currentCamperData.personalData.pesel}}</td>
+        <td>{{data.currentCamperData.personalData.lastName}}</td>
+        <td>{{data.currentCamperData.personalData.firstName}}</td>
+        <td>{{data.currentCamperData.homeAddress.street +' '+ data.currentCamperData.homeAddress.homeNumber + ', ' +
+          data.currentCamperData.homeAddress.postalCode + ' ' + data.currentCamperData.homeAddress.city
+          }}
+        </td>
+        <td>{{data.currentCamperData.phoneNumber}}</td>
+        <td>{{data.currentCamperData.emailAddress}}</td>
+        <td>{{data.participationStatus}}</td>
+        <td nzShowExpand [(nzExpand)]="data.expand"></td>
+      </tr>
+      <tr [nzExpand]="data.expand">
+        <td [attr.colspan]="20">
+          <div style="display: flex; flex-flow: column;">
+            {{data | json}}
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+    </tbody>
+  </nz-table>
+
+</section>

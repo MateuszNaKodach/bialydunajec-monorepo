@@ -8,6 +8,8 @@ import {UpdateCampRegistrationsTimerRequest} from './request/update-camp-registr
 import {AcademicMinistryResponse} from './response/academic-ministry.response';
 import {CottageResponse} from './response/cottage.response';
 import {UpdateCottageRequest} from './request/update-cottage.request';
+import {PageDto} from './dto/page.dto';
+import {CampParticipantResponse} from './response/camp-participant.response';
 
 @Injectable({
   providedIn: 'root'
@@ -106,7 +108,11 @@ export class CampRegistrationsEndpoint extends AbstractEndpoint {
   }
 
   countCampParticipantsByCottageId(cottageId: string) {
-    return this.httpClient.get<{cottageId: string, campParticipantsCount: number}>(`${this.callsBaseUrl}/camp-participant/count?cottageId=${cottageId}`);
+    return this.httpClient.get<{ cottageId: string, campParticipantsCount: number }>(`${this.callsBaseUrl}/camp-participant/count?cottageId=${cottageId}`);
+  }
+
+  getPageOfAllCampParticipants(page: number, size: number) {
+    return this.httpClient.get<PageDto<CampParticipantResponse>>(`${this.callsBaseUrl}/camp-participant?page=${page}&size=${size}`);
   }
 
 }
