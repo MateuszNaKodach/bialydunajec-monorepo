@@ -1,7 +1,9 @@
 package org.bialydunajec.academicministry.domain
 
 import org.bialydunajec.academicministry.domain.entity.AcademicPriest
+import org.bialydunajec.academicministry.domain.entity.AcademicPriestId
 import org.bialydunajec.academicministry.domain.valueobject.AcademicMinistrySnapshot
+import org.bialydunajec.academicministry.domain.valueobject.AcademicPriestSnapshot
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.SocialMedia
 import org.bialydunajec.ddd.domain.base.aggregate.AggregateRoot
 import org.bialydunajec.ddd.domain.base.persistence.Versioned
@@ -47,7 +49,7 @@ class AcademicMinistry(
     private var version: Long? = null
 
     @OneToMany(cascade = [CascadeType.ALL])
-    private var priests: List<AcademicPriest> = mutableListOf();
+    private var priests: MutableList<AcademicPriest> = mutableListOf();
 
     init {
         registerEvent(AcademicMinistryEvent.AcademicMinistryCreated(getSnapshot()))
@@ -67,6 +69,22 @@ class AcademicMinistry(
 
             registerEvent(AcademicMinistryEvent.AcademicMinistryUpdated(getSnapshot()))
         }
+    }
+
+    fun addNewPriest(priest: AcademicPriestSnapshot) {
+        with(priest) {
+            priests.add(
+                    AcademicPriest(firstName, lastName, personalTitle, emailAddress, phoneNumber, description, photoUrl)
+            )
+        }
+    }
+
+    fun updatePriest(priestId: AcademicPriestId, priest: AcademicPriestSnapshot) {
+        priests.find { it.getAcademicPriestId() == priestId }?.updateWith(priest)
+    }
+
+    fun removePriest(priestId: AcademicPriestId) {
+        priests.removeIf { it.getAcademicPriestId() == priestId }
     }
 
     fun getOfficialName() = officialName

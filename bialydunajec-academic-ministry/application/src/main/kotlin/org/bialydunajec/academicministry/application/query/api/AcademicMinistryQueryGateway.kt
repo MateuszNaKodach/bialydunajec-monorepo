@@ -1,6 +1,6 @@
 package org.bialydunajec.academicministry.application.query.api
 
-import org.bialydunajec.academicministry.application.query.api.dto.AcademicMinistryDto
+import org.bialydunajec.academicministry.application.dto.AcademicMinistryDto
 import org.bialydunajec.academicministry.application.query.readmodel.AcademicMinistryDomainModelReader
 import org.springframework.stereotype.Service
 

@@ -1,4 +1,4 @@
-package org.bialydunajec.academicministry.application.query.api.dto
+package org.bialydunajec.academicministry.application.dto
 
 import org.bialydunajec.academicministry.domain.valueobject.AcademicMinistrySnapshot
 import org.bialydunajec.ddd.application.base.query.api.dto.ExtendedDescriptionDto
