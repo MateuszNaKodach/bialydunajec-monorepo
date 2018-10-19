@@ -8,10 +8,10 @@ import {AcademicMinistryResponse} from './response/academic-ministry.response';
 @Injectable({
   providedIn: 'root'
 })
-export class AcademicMinistryEndpoint extends AbstractEndpoint {
+export class AcademicMinistryAdminEndpoint extends AbstractEndpoint {
 
   constructor(httpClient: HttpClient, authService: AuthService) {
-    super(httpClient, authService, '/rest-api/v1/academic-ministry');
+    super(httpClient, authService, '/rest-api/v1/admin/academic-ministry');
   }
 
   createAcademicMinistry(requestBody: CreateAcademicMinistryRequest) {

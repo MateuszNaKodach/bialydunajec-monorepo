@@ -8,7 +8,11 @@
       [campEditionsObservable]="availableCampEditions"></bda-admin-camp-edition-selection>
   </div>
 
-  <nz-table class="bda-camp-participant-table" #basicTable [nzData]="campParticipants">
+  <nz-table
+    class="bda-camp-participant-table"
+    #basicTable
+    [nzData]="campParticipants"
+    nzNoResult="Jeszcze nikt się nie zapisał. Aktywuj zapisy i czekaj na pierwszych obozowiczów!">
     <thead>
     <tr>
       <th>PESEL</th>

@@ -5,7 +5,7 @@ import {academicMinistryRoutingPaths} from '../../../academic-ministry/academic-
 import {campRegistrationsRoutingPaths} from '../../../camp-registrations/camp-registrations-routing.paths';
 import {Observable} from 'rxjs';
 import {AcademicMinistryResponse} from '../../../academic-ministry/service/rest/response/academic-ministry.response';
-import {AcademicMinistryEndpoint} from '../../../academic-ministry/service/rest/academic-ministry.endpoint';
+import {AcademicMinistryAdminEndpoint} from '../../../academic-ministry/service/rest/academic-ministry.endpoint';
 
 @Component({
   selector: 'bda-admin-panel-layout',
@@ -25,7 +25,7 @@ export class PanelLayoutComponent implements OnInit {
   triggerTemplate = null;
   @ViewChild('trigger') customTrigger: TemplateRef<void>;
 
-  constructor(private academicMinistryEndpoint: AcademicMinistryEndpoint) {
+  constructor(private academicMinistryEndpoint: AcademicMinistryAdminEndpoint) {
   }
 
   ngOnInit() {
