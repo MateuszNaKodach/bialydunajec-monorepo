@@ -1,4 +1,4 @@
-package org.bialydunajec.academicministry.rest.v1.request
+package org.bialydunajec.academicministry.rest.v1.admin.request
 
 import org.bialydunajec.ddd.application.base.query.api.dto.ExtendedDescriptionDto
 import org.bialydunajec.ddd.application.base.query.api.dto.PlaceDto

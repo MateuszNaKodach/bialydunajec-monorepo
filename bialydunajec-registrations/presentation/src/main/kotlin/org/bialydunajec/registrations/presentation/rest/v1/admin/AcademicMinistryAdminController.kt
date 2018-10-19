@@ -7,10 +7,11 @@ import org.bialydunajec.registrations.application.query.api.CampEditionQuery
 import org.bialydunajec.registrations.application.query.api.CampRegistrationsEditionQuery
 import org.bialydunajec.registrations.application.query.api.CampRegistrationsQueryGateway
 import org.bialydunajec.registrations.presentation.rest.v1.admin.request.UpdateCampRegistrationsTimerRequest
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.web.bind.annotation.*
 
 //TODO: Change to /admin-rest-api/v1
-@RestController
+@RestController("registrationsAcademicMinistryAdminController")
 @RequestMapping("/rest-api/v1/camp-registrations")
 class AcademicMinistryAdminController(
         private val commandGateway: CampRegistrationsCommandGateway,

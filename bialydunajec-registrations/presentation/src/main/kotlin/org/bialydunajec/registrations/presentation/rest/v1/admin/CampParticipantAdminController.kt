@@ -23,11 +23,20 @@ class CampParticipantAdminController(
 
     //TODO: Add filtering by campRegistrationsEditionId
     //COMMAND----------------------------------------------------------------------------------------------------------
+    /*
     @GetMapping
     fun getCampParticipantsByCottageId(@RequestParam(required = false) cottageId: String?, pageable: Pageable) =
             when (cottageId) {
                 null -> queryGateway.process(CampParticipantQuery.All(), pageable)
                 else -> queryGateway.process(CampParticipantQuery.ByCottageId(cottageId), pageable)
+            }
+            */
+
+    @GetMapping
+    fun getCampParticipantsByCampRegistrationsId(@RequestParam(required = false) campRegistrationsEditionId: String?, pageable: Pageable) =
+            when (campRegistrationsEditionId) {
+                null -> queryGateway.process(CampParticipantQuery.All(), pageable)
+                else -> queryGateway.process(CampParticipantQuery.ByCampRegistrationsEditionId(campRegistrationsEditionId), pageable)
             }
 
 

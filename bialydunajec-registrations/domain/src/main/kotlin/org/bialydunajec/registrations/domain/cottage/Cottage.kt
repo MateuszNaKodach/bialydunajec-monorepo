@@ -72,6 +72,9 @@ class Cottage internal constructor(
     @Enumerated(EnumType.STRING)
     private var status: CottageStatus = CottageStatus.UNCONFIGURED
 
+    @Embedded
+    private var cottageBoss: CottageBoss? = null
+
     fun update(
             name: String,
             logoImageUrl: Url?,
@@ -184,10 +187,10 @@ class Cottage internal constructor(
 
         if (hasRequiredConfiguration && this.status != CottageStatus.CONFIGURED && this.status != CottageStatus.ACTIVATED) {
             this.status = CottageStatus.CONFIGURED
-            registerEvent(CottageEvents.CottageStatusChanged(getAggregateId(),status))
+            registerEvent(CottageEvents.CottageStatusChanged(getAggregateId(), status))
         } else if (!hasRequiredConfiguration) {
             this.status = CottageStatus.UNCONFIGURED
-            registerEvent(CottageEvents.CottageStatusChanged(getAggregateId(),status))
+            registerEvent(CottageEvents.CottageStatusChanged(getAggregateId(), status))
         }
     }
 

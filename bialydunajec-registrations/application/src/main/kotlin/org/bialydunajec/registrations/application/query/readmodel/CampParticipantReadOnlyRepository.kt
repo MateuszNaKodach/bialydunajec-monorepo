@@ -2,6 +2,7 @@ package org.bialydunajec.registrations.application.query.readmodel
 
 import org.bialydunajec.ddd.domain.base.persistence.ReadOnlyDomainRepository
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.Gender
+import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipant
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantId
 import org.bialydunajec.registrations.domain.cottage.CottageId
@@ -12,6 +13,7 @@ interface CampParticipantReadOnlyRepository : ReadOnlyDomainRepository<CampParti
     fun findAll(pageable: Pageable): Page<CampParticipant>
     fun findAllByCottageId(cottageId: CottageId): Collection<CampParticipant>
     fun findAllByCottageId(cottageId: CottageId, pageable: Pageable): Page<CampParticipant>
+    fun findAllByCampRegistrationsEditionId(campRegistrationsEditionId: CampRegistrationsEditionId, pageable: Pageable): Page<CampParticipant>
     fun countByCottageId(cottageId: CottageId): Long
     fun countByCottageIdAndGender(cottageId: CottageId, gender: Gender): Long
 }

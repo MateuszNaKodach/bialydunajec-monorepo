@@ -24,5 +24,6 @@ class CampRegistrationsQueryGateway internal constructor(private val domainModel
 
     fun process(query: CampParticipantQuery.All, pageable: Pageable) = domainModelReader.readFor(query, pageable)
     fun process(query: CampParticipantQuery.ByCottageId, pageable: Pageable) = domainModelReader.readFor(query, pageable)
+    fun process(query: CampParticipantQuery.ByCampRegistrationsEditionId, pageable: Pageable) = domainModelReader.readFor(query, pageable)
     fun process(query: CampParticipantQuery.CountByCottageId) = domainModelReader.readFor(query)
 }

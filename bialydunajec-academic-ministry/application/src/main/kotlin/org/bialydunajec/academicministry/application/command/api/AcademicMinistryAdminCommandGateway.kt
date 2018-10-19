@@ -7,7 +7,7 @@ import org.bialydunajec.ddd.application.base.command.CommandGateway
 import org.springframework.stereotype.Service
 
 @Service
-class AcademicMinistryCommandGateway internal constructor(
+class AcademicMinistryAdminCommandGateway internal constructor(
         private val createAcademicMinistryApplicationService: CreateAcademicMinistryApplicationService,
         private val updateAcademicMinistryApplicationService: UpdateAcademicMinistryApplicationService,
         private val createAcademicMinistryPriestApplicationService: CreateAcademicMinistryPriestApplicationService

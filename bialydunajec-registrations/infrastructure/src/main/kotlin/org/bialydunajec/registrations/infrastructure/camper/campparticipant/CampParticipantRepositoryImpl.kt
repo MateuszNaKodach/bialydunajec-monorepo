@@ -35,17 +35,21 @@ internal class CampParticipantRepositoryImpl(
     override fun findAllByCottageId(cottageId: CottageId) =
             jpaRepository.findAllByCurrentCamperDataCottageId(cottageId)
 
-    @Cacheable(cacheNames = [CAMP_PARTICIPANT_CACHE], key = "{#root.methodName, #cottageId}")
+    // @Cacheable(cacheNames = [CAMP_PARTICIPANT_CACHE], key = "{#root.methodName, #cottageId}")
     override fun countByCottageId(cottageId: CottageId): Long =
             jpaRepository.countByCurrentCamperDataCottageId(cottageId)
 
-    @Cacheable(cacheNames = [CAMP_PARTICIPANT_CACHE], key = "{#root.methodName, #cottageId, #gender}")
+    // @Cacheable(cacheNames = [CAMP_PARTICIPANT_CACHE], key = "{#root.methodName, #cottageId, #gender}")
     override fun countByCottageIdAndGender(cottageId: CottageId, gender: Gender): Long =
             jpaRepository.countByCurrentCamperDataCottageIdAndCurrentCamperDataPersonalDataGender(cottageId, gender)
 
     @Cacheable(cacheNames = [CAMP_PARTICIPANT_CACHE], key = "{#root.methodName, #cottageId, #pageable}")
     override fun findAllByCottageId(cottageId: CottageId, pageable: Pageable): Page<CampParticipant> =
             jpaRepository.findAllByCottageId(cottageId, pageable)
+
+    @Cacheable(cacheNames = [CAMP_PARTICIPANT_CACHE], key = "{#root.methodName, #campRegistrationsEditionId, #pageable}")
+    override fun findAllByCampRegistrationsEditionId(campRegistrationsEditionId: CampRegistrationsEditionId, pageable: Pageable): Page<CampParticipant>
+            = jpaRepository.findAllByCampRegistrationsEditionId(campRegistrationsEditionId, pageable)
 
     override fun existsByPeselAndCampRegistrationsEditionId(pesel: Pesel, campRegistrationsEditionId: CampRegistrationsEditionId): Boolean =
             jpaRepository.existsByCurrentCamperDataPersonalDataPeselAndCampRegistrationsEditionId(pesel, campRegistrationsEditionId)
@@ -60,6 +64,7 @@ internal class CampParticipantRepositoryImpl(
 internal interface CampParticipantJpaRepository : JpaRepository<CampParticipant, CampParticipantId> {
     fun findAllByCurrentCamperDataCottageId(cottageId: CottageId): Collection<CampParticipant>
     fun findAllByCottageId(cottageId: CottageId, pageable: Pageable): Page<CampParticipant>
+    fun findAllByCampRegistrationsEditionId(campRegistrationsEditionId: CampRegistrationsEditionId, pageable: Pageable): Page<CampParticipant>
     fun countByCurrentCamperDataCottageId(cottageId: CottageId): Long
     fun countByCurrentCamperDataCottageIdAndCurrentCamperDataPersonalDataGender(cottageId: CottageId, gender: Gender): Long
     fun existsByCurrentCamperDataPersonalDataPeselAndCampRegistrationsEditionId(pesel: Pesel, campRegistrationsEditionId: CampRegistrationsEditionId): Boolean

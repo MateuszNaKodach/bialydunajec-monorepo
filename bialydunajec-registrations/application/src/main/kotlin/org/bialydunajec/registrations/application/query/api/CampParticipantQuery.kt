@@ -6,6 +6,7 @@ sealed class CampParticipantQuery : Query {
     class All : CampParticipantQuery()
     class ById(val campParticipantId: String) : CampParticipantQuery()
     class ByCottageId(val cottageId: String) : CampParticipantQuery()
+    class ByCampRegistrationsEditionId(val campRegistrationsEditionId: String) : CampParticipantQuery()
     class CountByCottageId(val cottageId: String) : CampParticipantQuery()
 
 }

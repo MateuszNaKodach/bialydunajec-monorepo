@@ -102,4 +102,8 @@ internal class CampRegistrationsDomainModelReader(
     fun readFor(query: CampParticipantQuery.ByCottageId, pageable: Pageable) =
             campParticipantRepository.findAllByCottageId(CottageId(query.cottageId), pageable)
                     .map { campParticipantDto(it) }
+
+    fun readFor(query: CampParticipantQuery.ByCampRegistrationsEditionId, pageable: Pageable) =
+            campParticipantRepository.findAllByCampRegistrationsEditionId(CampRegistrationsEditionId(query.campRegistrationsEditionId), pageable)
+                    .map { campParticipantDto(it) }
 }
