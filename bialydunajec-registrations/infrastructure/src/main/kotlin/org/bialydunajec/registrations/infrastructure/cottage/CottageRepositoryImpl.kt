@@ -6,14 +6,19 @@ import org.bialydunajec.registrations.domain.cottage.CottageId
 import org.bialydunajec.registrations.domain.cottage.CottageRepository
 import org.bialydunajec.ddd.infrastructure.base.persistence.AbstractDomainRepositoryImpl
 import org.bialydunajec.registrations.domain.cottage.valueobject.CottageStatus
+import org.springframework.cache.annotation.CacheEvict
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
+
+const val COTTAGE_CACHE = "org.bialydunajec.campregistrations.COTTAGE_CACHE"
 
 @Repository
 internal class CottageRepositoryImpl(
         jpaRepository: CottageJpaRepository
 ) : AbstractDomainRepositoryImpl<Cottage, CottageId, CottageJpaRepository>(jpaRepository), CottageRepository {
 
+    @Cacheable(cacheNames = [COTTAGE_CACHE], key = "{#root.methodName,#campRegistrationsEditionId}")
     override fun findAllByCampRegistrationsEditionId(campRegistrationsEditionId: CampRegistrationsEditionId) =
             jpaRepository.findAllByCampRegistrationsEditionId(campRegistrationsEditionId)
 
@@ -25,6 +30,15 @@ internal class CottageRepositoryImpl(
 
     override fun countByCampRegistrationsEditionId(campRegistrationsEditionId: CampRegistrationsEditionId) =
             jpaRepository.countByCampRegistrationsEditionId(campRegistrationsEditionId)
+
+    @CacheEvict(cacheNames = [COTTAGE_CACHE], allEntries = true)
+    override fun save(aggregateRoot: Cottage) =
+            super.save(aggregateRoot)
+
+    @Cacheable(cacheNames = [COTTAGE_CACHE], key = "{#root.methodName,#aggregateId}")
+    override fun findById(aggregateId: CottageId) =
+            super.findById(aggregateId)
+
 }
 
 internal interface CottageJpaRepository : JpaRepository<Cottage, CottageId> {

@@ -13,9 +13,11 @@ import org.bialydunajec.registrations.domain.camper.valueobject.CamperApplicatio
 import org.bialydunajec.registrations.domain.camper.valueobject.CamperEducation
 import org.bialydunajec.registrations.domain.camper.valueobject.CamperPersonalData
 import org.bialydunajec.registrations.domain.camper.valueobject.StayDuration
+import org.bialydunajec.registrations.domain.cottage.Cottage
 import org.bialydunajec.registrations.domain.cottage.CottageId
 import org.bialydunajec.registrations.domain.cottage.valueobject.BankTransferDetails
 import org.bialydunajec.registrations.domain.cottage.valueobject.CampersLimitations
+import org.bialydunajec.registrations.domain.cottage.valueobject.CottageSnapshot
 import org.bialydunajec.registrations.domain.cottage.valueobject.CottageSpace
 
 fun CottageSpace.toDto() =
@@ -87,6 +89,19 @@ fun CamperEducationDto.toValueObject() =
 fun CamperApplication.toDto() =
         CamperApplicationDto(
                 cottageId.toString(),
+                personalData.toDto(),
+                homeAddress.toDto(),
+                phoneNumber.toString(),
+                emailAddress.toString(),
+                camperEducation.toDto()
+        )
+
+fun CamperApplication.toDtoWithCottage(cottage: CottageSnapshot) =
+        CamperApplicationWithCottageDto(
+                CamperApplicationCottageDto(
+                        cottage.cottageId.toString(),
+                        cottage.name
+                ),
                 personalData.toDto(),
                 homeAddress.toDto(),
                 phoneNumber.toString(),

@@ -7,6 +7,7 @@ import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryRe
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionRepository
 import org.bialydunajec.registrations.domain.campedition.specification.InProgressCampRegistrationsSpecification
+import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipant
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantRepository
 import org.bialydunajec.registrations.domain.cottage.CottageId
 import org.bialydunajec.registrations.domain.cottage.CottageRepository
@@ -15,6 +16,7 @@ import org.bialydunajec.registrations.domain.cottage.valueobject.CottageStatus
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+
 
 @Service
 @Transactional(readOnly = true)
@@ -25,6 +27,7 @@ internal class CampRegistrationsDomainModelReader(
         private val campParticipantRepository: CampParticipantReadOnlyRepository,
         private val cottageFreeSpaceSpecificationFactory: CottageFreeSpaceSpecificationFactory
 ) {
+
 
     fun readFor(query: CampRegistrationsEditionQuery.All): Collection<CampRegistrationsEditionDto> =
             campRegistrationsEditionRepository.findAll()
@@ -39,6 +42,7 @@ internal class CampRegistrationsDomainModelReader(
             campRegistrationsEditionRepository.findFirstBySpecification(InProgressCampRegistrationsSpecification())
                     ?.let { CampRegistrationsEditionDto.from(it.getSnapshot()) }
 
+
     fun readFor(query: CampEditionQuery.All): Collection<CampEditionDto> =
             campRegistrationsEditionRepository.findAll()
                     .map { CampEditionDto.from(it.getSnapshot()) }
@@ -48,6 +52,7 @@ internal class CampRegistrationsDomainModelReader(
                     .findById(CampRegistrationsEditionId(query.campRegistrationsEditionId))
                     ?.let { CampEditionDto.from(it.getSnapshot()) }
 
+
     fun readFor(query: AcademicMinistryQuery.All): Collection<AcademicMinistryDto> =
             academicMinistryRepository.findAll()
                     .map { AcademicMinistryDto.from(it.getSnapshot()) }
@@ -56,6 +61,7 @@ internal class CampRegistrationsDomainModelReader(
             academicMinistryRepository
                     .findById(AcademicMinistryId(query.academicMinistryId))
                     ?.let { AcademicMinistryDto.from(it.getSnapshot()) }
+
 
     fun readFor(query: CottageQuery.All): Collection<CottageDto> =
             cottageRepository.findAll()
@@ -77,14 +83,23 @@ internal class CampRegistrationsDomainModelReader(
             cottageRepository.findAllByCampRegistrationsEditionIdAndStatus(CampRegistrationsEditionId(query.campRegistrationsEditionId), CottageStatus.ACTIVATED)
                     .map { CampRegistrationsCottageDto.from(it.getSnapshot(), cottageFreeSpaceSpecificationFactory.createFor(query.camperGender).isSatisfiedBy(it)) }
 
+
     fun readFor(query: CampParticipantQuery.CountByCottageId) =
             CampParticipantCountByCottageIdDto(query.cottageId, campParticipantRepository.countByCottageId(CottageId(query.cottageId)))
 
     fun readFor(query: CampParticipantQuery.All, pageable: Pageable) =
             campParticipantRepository.findAll(pageable)
-                    .map { CampParticipantDto.from(it.getSnapshot()) }
+                    .map { campParticipantDto(it) }
+
+    private fun campParticipantDto(it: CampParticipant): CampParticipantDto {
+        return CampParticipantDto.from(
+                it.getSnapshot(),
+                it.getSnapshot().confirmedApplication?.let { cottageRepository.findById(it.cottageId)?.getSnapshot() },
+                it.getSnapshot().currentCamperData.let { cottageRepository.findById(it.cottageId)!!.getSnapshot() }
+        )
+    }
 
     fun readFor(query: CampParticipantQuery.ByCottageId, pageable: Pageable) =
             campParticipantRepository.findAllByCottageId(CottageId(query.cottageId), pageable)
-                    .map { CampParticipantDto.from(it.getSnapshot()) }
+                    .map { campParticipantDto(it) }
 }

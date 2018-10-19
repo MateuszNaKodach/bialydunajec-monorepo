@@ -10,3 +10,18 @@ data class CamperApplicationDto(
         val emailAddress: String,
         val camperEducation: CamperEducationDto
 )
+
+
+data class CamperApplicationWithCottageDto(
+        val cottage: CamperApplicationCottageDto,
+        val personalData: CamperPersonalDataDto,
+        val homeAddress: AddressDto,
+        val phoneNumber: String,
+        val emailAddress: String,
+        val camperEducation: CamperEducationDto
+)
+
+data class CamperApplicationCottageDto(
+        val cottageId: String,
+        val cottageName: String
+)
