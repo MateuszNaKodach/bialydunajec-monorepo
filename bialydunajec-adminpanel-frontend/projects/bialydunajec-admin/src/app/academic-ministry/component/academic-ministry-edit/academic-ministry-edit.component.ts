@@ -98,9 +98,9 @@ export class AcademicMinistryEditComponent implements OnInit {
       logoImageUrl: [null, []],
       place: this.formBuilder.group({
         address: this.formBuilder.group({
-          street: [null, [Validators.required]],
+          street: [null, []],
           homeNumber: [null, []],
-          city: [null, [Validators.required]],
+          city: [null, []],
           postalCode: [null, []],
         }),
         geoLocation: this.formBuilder.group({

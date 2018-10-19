@@ -9,6 +9,7 @@ import {NewCottageCardComponent} from './component/cottage-list/new-cottage-card
 import {CottageCardComponent} from './component/cottage-list/cottage-card/cottage-card.component';
 import {CottageStatusBadgeComponent} from './component/cottage-status-badge/cottage-status-badge.component';
 import {CampParticipantListComponent} from './component/camp-participant-list/camp-participant-list.component';
+import { ShirtSettingsComponent } from './component/shirt-settings/shirt-settings.component';
 
 @NgModule({
   imports: [
@@ -22,7 +23,8 @@ import {CampParticipantListComponent} from './component/camp-participant-list/ca
     NewCottageCardComponent,
     CottageCardComponent,
     CottageStatusBadgeComponent,
-    CampParticipantListComponent
+    CampParticipantListComponent,
+    ShirtSettingsComponent
   ],
   exports: []
 })

@@ -8,10 +8,22 @@ import {Time} from '@angular/common';
 export class CampParticipantResponse {
   campParticipantId: string;
   campRegistrationsEditionId: string;
-  confirmedApplication?: CamperApplicationDto;
-  currentCamperData: CamperApplicationDto;
+  confirmedApplication?: CamperApplicationWithCottageDto;
+  currentCamperData: CamperApplicationWithCottageDto;
   stayDuration: StayDurationDto;
   participationStatus: string;
+}
+
+export class CamperApplicationWithCottageDto {
+  cottage: {
+    cottageId: string;
+    cottageName: string;
+  };
+  personalData: CamperPersonalDataDto;
+  homeAddress: AddressDto;
+  phoneNumber: String;
+  emailAddress: String;
+  camperEducation: CamperEducationDto;
 }
 
 export class CamperApplicationDto {

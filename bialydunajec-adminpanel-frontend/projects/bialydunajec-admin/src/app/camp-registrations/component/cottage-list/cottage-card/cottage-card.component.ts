@@ -15,6 +15,7 @@ export class CottageCardComponent implements OnInit {
   campRegistrationsRoutingPaths = campRegistrationsRoutingPaths;
   @Input() cottage: CottageResponse;
   campParticipantsPercentByCottageId: Observable<{ cottageId: string, percent: number }>;
+  campParticipantCount: number;
 
   constructor(private campRegistrationsEndpoint: CampRegistrationsEndpoint) {
   }
@@ -23,9 +24,10 @@ export class CottageCardComponent implements OnInit {
     this.campParticipantsPercentByCottageId = this.campRegistrationsEndpoint.countCampParticipantsByCottageId(this.cottage.cottageId)
       .pipe(
         map((response: { cottageId: string, campParticipantsCount: number }) => {
+          this.campParticipantCount = response.campParticipantsCount;
           return {
             cottageId: response.cottageId,
-            percent: (!response.campParticipantsCount || Number.isNaN(response.campParticipantsCount)) ? 0 : Math.round(response.campParticipantsCount / this.cottage.cottageSpace.fullCapacity * 100)
+            percent: this.cottage.cottageSpace.fullCapacity === 0 ? null : (!response.campParticipantsCount || Number.isNaN(response.campParticipantsCount)) ? 0 : Math.round(response.campParticipantsCount / this.cottage.cottageSpace.fullCapacity * 100)
           };
         })
       );

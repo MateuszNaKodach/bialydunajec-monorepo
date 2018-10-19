@@ -55,7 +55,7 @@
         </nz-form-item>
       </div>
 
-      <div class="bda-admin-panel-section-card">
+      <div class="bda-admin-panel-section-card" *ngIf="isEditMode">
         <h3><b>DANE KONTAKTOWE</b></h3>
         <nz-divider></nz-divider>
         <nz-form-item>
@@ -72,7 +72,7 @@
 
             <div class="bda-admin-form-group-address-street">
               <nz-form-item class="bda-admin--form-input-street">
-                <nz-form-label nzFor="street" nzRequired>Ulica</nz-form-label>
+                <nz-form-label nzFor="street">Ulica</nz-form-label>
                 <nz-form-control>
                   <input nz-input formControlName="street" id="street">
                   <nz-form-explain *ngIf="streetFormControl.dirty && streetFormControl.errors">Proszę wypełnić pole.</nz-form-explain>
@@ -94,7 +94,7 @@
                 </nz-form-control>
               </nz-form-item>
               <nz-form-item class="bda-admin-form-input-city">
-                <nz-form-label nzFor="city" nzRequired>Miasto</nz-form-label>
+                <nz-form-label nzFor="city">Miasto</nz-form-label>
                 <nz-form-control>
                   <input nz-input formControlName="city" id="city">
                 </nz-form-control>
@@ -106,7 +106,7 @@
         </div>
       </div>
 
-      <div class="bda-admin-panel-section-card">
+      <div class="bda-admin-panel-section-card" *ngIf="isEditMode">
         <h3><b>OPIS DUSZPASTERSTWA</b></h3>
         <nz-divider></nz-divider>
         <div formGroupName="description">
@@ -139,7 +139,7 @@
 
       </div>
 
-      <div class="bda-admin-panel-section-card">
+      <div class="bda-admin-panel-section-card" *ngIf="isEditMode">
         <h3><b>MEDIA SPOŁECZNOŚCIOWE</b></h3>
         <nz-divider></nz-divider>
 
@@ -187,10 +187,11 @@
         </div>
       </div>
 
-      <div class="bda-admin-panel-section-card">
+      <div class="bda-admin-panel-section-card" *ngIf="isEditMode">
         <h3><b>DUSZPASTERZE</b></h3>
         <nz-divider></nz-divider>
         DODAJ DUSZPASTERZA
+        <bda-admin-academic-priest></bda-admin-academic-priest>
       </div>
     </form>
   </div>
