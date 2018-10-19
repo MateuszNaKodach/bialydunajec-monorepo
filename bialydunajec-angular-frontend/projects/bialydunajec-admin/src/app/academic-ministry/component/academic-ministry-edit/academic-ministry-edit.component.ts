@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {AcademicMinistryEndpoint} from '../../service/rest/academic-ministry.endpoint';
+import {AcademicMinistryAdminEndpoint} from '../../service/rest/academic-ministry.endpoint';
 import {AngularFormHelper} from '../../../../../../bialydunajec-main/src/app/shared/helper/angular-form.helper';
 import {HttpResponseHelper} from '../../../shared/helper/HttpResponseHelper';
 import {filter, finalize, flatMap, tap} from 'rxjs/operators';
@@ -32,7 +32,7 @@ export class AcademicMinistryEditComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private academicMinistryEndpoint: AcademicMinistryEndpoint) {
+    private academicMinistryEndpoint: AcademicMinistryAdminEndpoint) {
   }
 
   initFormSubmitFunctions(createSubmitFn: (...any) => Observable<any>, editSubmitFn: (...any) => Observable<any>) {

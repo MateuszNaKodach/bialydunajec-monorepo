@@ -22,18 +22,16 @@ export class CampParticipantListComponent implements OnInit {
 
   ngOnInit() {
     this.availableCampEditions = this.campRegistrationsEndpoint.getAllCampEditions();
+  }
 
-    this.campRegistrationsEndpoint.getPageOfAllCampParticipants(0, 100)
+  onCampEditionIdSelected(selectedCampEditionId: number) {
+    this.campRegistrationsEndpoint.getPageOfCampParticipantsByCampRegistrationsEditionId(selectedCampEditionId, 0, 100)
       .subscribe(
         (response: PageDto<CampParticipantResponse>) => {
           this.campParticipants = response.content;
           console.log('Camp participants', this.campParticipants);
         }
       );
-  }
-
-  onCampEditionIdSelected(selectedCampEditionId: number) {
-
   }
 
 }

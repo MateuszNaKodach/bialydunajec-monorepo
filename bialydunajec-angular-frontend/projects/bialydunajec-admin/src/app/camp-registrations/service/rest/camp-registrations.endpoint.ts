@@ -115,4 +115,10 @@ export class CampRegistrationsEndpoint extends AbstractEndpoint {
     return this.httpClient.get<PageDto<CampParticipantResponse>>(`${this.callsBaseUrl}/camp-participant?page=${page}&size=${size}`);
   }
 
+  getPageOfCampParticipantsByCampRegistrationsEditionId(campRegistrationsEditionId: number, page: number, size: number) {
+    return this.httpClient.get<PageDto<CampParticipantResponse>>(
+      `${this.callsBaseUrl}/camp-participant?campRegistrationsEditionId=${campRegistrationsEditionId}&page=${page}&size=${size}`
+    );
+  }
+
 }

@@ -1,6 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 @import "variables/fonts";
 @import "variables/dimensions";
+@import "mixins/responsivness";
+
 
 html, body {
   font-size: $root-font-size;
@@ -69,9 +71,12 @@ input, .dropdown {
 }
 
 .bda-page-section {
-  padding-top: $page-section-padding;
-  padding-bottom: $page-section-padding;
   min-height: 70vh;
+
+  @include gt-sm__screen() {
+    padding-top: $page-section-padding;
+    padding-bottom: $page-section-padding;
+  }
 }
 
 
