@@ -9,6 +9,7 @@ import {CottageResponse} from '../../service/rest/response/cottage.response';
 import {tap} from 'rxjs/operators';
 import {AlertViewModel} from '../../../shared/view-model/ng-zorro/alert.view-model';
 import {HttpResponseHelper} from '../../../shared/helper/HttpResponseHelper';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'bda-admin-cottage-list',
@@ -26,14 +27,29 @@ export class CottageListComponent implements OnInit {
 
   lastAlert: AlertViewModel;
 
-  constructor(private campRegistrationsEndpoint: CampRegistrationsEndpoint) {
-  }
+  constructor(
+    private campRegistrationsEndpoint: CampRegistrationsEndpoint,
+    private router: Router,
+    private activatedRoute: ActivatedRoute) {}
 
   ngOnInit() {
     this.availableCampEditions = this.campRegistrationsEndpoint.getAllCampEditions();
   }
 
   onCampEditionIdSelected(selectedCampEditionId: number) {
+    /* FIXME: Add campEditionid as parameter! Or read about queryParamsHandling - nice for different camp-registrations tabs
+    https://angular.io/guide/router
+     */
+    this.router.navigate(
+      ['/panel/camp-registrations/cottages'],
+      {
+        relativeTo: this.activatedRoute,
+        queryParams: {
+          'camp-edition': selectedCampEditionId
+        }
+      }
+    );
+
     this.selectedCampRegistrations = this.campRegistrationsEndpoint.getCampRegistrationsEditionById(selectedCampEditionId)
       .pipe(
         tap(response => this.campRegistrationsId = response.campRegistrationsEditionId)

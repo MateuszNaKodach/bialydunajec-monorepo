@@ -14,6 +14,7 @@
       <th>PESEL</th>
       <th>Nazwisko</th>
       <th>Imię</th>
+      <th>Chatka</th>
       <th>Adres</th>
       <th>Telefon</th>
       <th>E-mail</th>
@@ -27,6 +28,7 @@
         <td>{{data.currentCamperData.personalData.pesel}}</td>
         <td>{{data.currentCamperData.personalData.lastName}}</td>
         <td>{{data.currentCamperData.personalData.firstName}}</td>
+        <td>{{data.currentCamperData.cottage.cottageName}}</td>
         <td>{{data.currentCamperData.homeAddress.street +' '+ data.currentCamperData.homeAddress.homeNumber + ', ' +
           data.currentCamperData.homeAddress.postalCode + ' ' + data.currentCamperData.homeAddress.city
           }}
