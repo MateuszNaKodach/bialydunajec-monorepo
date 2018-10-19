@@ -8,10 +8,21 @@
       [campEditionsObservable]="availableCampEditions"></bda-admin-camp-edition-selection>
   </div>
 
+  <ng-template #showTotal>
+    {{currentPageElements}} z {{total}}
+  </ng-template>
   <nz-table
     class="bda-camp-participant-table"
     #basicTable
     [nzData]="campParticipants"
+    [nzLoading]="tableIsLoading"
+    [nzTotal]="total"
+    [nzShowTotal]="showTotal"
+    [nzPageIndex]="pageIndex"
+    [nzPageSize]="pageSize"
+    [nzFrontPagination]="false"
+    (nzPageIndexChange)="onPageIndexChange($event)"
+    [nzShowQuickJumper]="total > pageSize"
     nzNoResult="Jeszcze nikt się nie zapisał. Aktywuj zapisy i czekaj na pierwszych obozowiczów!">
     <thead>
     <tr>
