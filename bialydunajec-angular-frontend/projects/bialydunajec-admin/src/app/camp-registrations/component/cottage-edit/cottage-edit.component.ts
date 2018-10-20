@@ -127,6 +127,19 @@ export class CottageEditComponent implements OnInit, MultiModeForm<CottageEditFo
         accountOwner: [null, []],
         accountOwnerAddress: [null, []],
         transferTitleTemplate: [null, []]
+      }),
+      cottageBoss: this.formBuilder.group({
+        firstName: [null, []],
+        lastName: [null, []],
+        phoneNumber: [null, []],
+        emailAddress: [null, []],
+        university: [null, []],
+        fieldOfStudy: [null, []],
+        photoUrl: [null, []],
+        personalDescription: this.formBuilder.group({
+          title: [null, []],
+          content: [null, []]
+        })
       })
     });
   }
@@ -379,6 +392,46 @@ export class CottageEditComponent implements OnInit, MultiModeForm<CottageEditFo
 
   get bankTransferDetailsTransferTitleTemplateFormControl() {
     return this.getBankTransferDetailsFormGroupControl('transferTitleTemplate');
+  }
+
+  private getCottageBossFormGroupControl(controlname: string) {
+    return this.cottageForm.get(['cottageBoss', controlname]);
+  }
+
+  get cottageBossFirstNameFormControl() {
+    return this.getCottageBossFormGroupControl('firstName');
+  }
+
+  get cottageBossLastNameFormControl() {
+    return this.getCottageBossFormGroupControl('lastName');
+  }
+
+  get cottageBossPhoneNumberFormControl() {
+    return this.getCottageBossFormGroupControl('phoneNumber');
+  }
+
+  get cottageBossEmailAddressFormControl() {
+    return this.getCottageBossFormGroupControl('emailAddress');
+  }
+
+  get cottageBossUniversityFormControl() {
+    return this.getCottageBossFormGroupControl('university');
+  }
+
+  get cottageBossFieldOfStudyFormControl() {
+    return this.getCottageBossFormGroupControl('fieldOfStudy');
+  }
+
+  get cottageBossPhotoUrlFormControl() {
+    return this.getCottageBossFormGroupControl('photoUrl');
+  }
+
+  get cottageBossPersonalDescriptionTitleFormControl() {
+    return this.getCottageBossFormGroupControl('personalDescription').get('title');
+  }
+
+  get cottageBossPersonalDescriptionContentFormControl() {
+    return this.getCottageBossFormGroupControl('personalDescription').get('content');
   }
 }
 
