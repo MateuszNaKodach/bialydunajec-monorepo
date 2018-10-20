@@ -3,6 +3,8 @@ import {CottageSpaceDto} from '../../service/rest/dto/cottage-space.dto';
 import {CampersLimitationsDto} from '../../service/rest/dto/camper-limitations.dto';
 import {BankTransferDetailsDto} from '../../service/rest/dto/bank-transfer-details.dto';
 import {CottageResponse} from '../../service/rest/response/cottage.response';
+import {ExtendedDescription} from '../../../../../../bialydunajec-main/src/app/shared/model/extended-description.model';
+import {ExtendedDescriptionDto} from '../../../shared/service/rest/dto/extended-description.dto';
 
 export class CottageEditFormModel {
   cottageType: string;
@@ -14,9 +16,19 @@ export class CottageEditFormModel {
   cottageSpace?: CottageSpaceDto;
   campersLimitations?: CampersLimitationsDto;
   bankTransferDetails?: BankTransferDetailsDto;
+  cottageBoss?: CottageBossDto;
 
-
-  constructor(cottageType: string, academicMinistryId: string, name: string, logoImageUrl: string, buildingPhotoUrl: string, place: PlaceDto, cottageSpace: CottageSpaceDto, campersLimitations: CampersLimitationsDto, bankTransferDetails: BankTransferDetailsDto) {
+  constructor(
+    cottageType: string,
+    academicMinistryId: string,
+    name: string,
+    logoImageUrl: string,
+    buildingPhotoUrl: string,
+    place: PlaceDto,
+    cottageSpace: CottageSpaceDto,
+    campersLimitations: CampersLimitationsDto,
+    bankTransferDetails: BankTransferDetailsDto,
+    cottageBoss: CottageBossDto = null) {
     this.cottageType = cottageType;
     this.academicMinistryId = academicMinistryId;
     this.name = name;
@@ -26,6 +38,7 @@ export class CottageEditFormModel {
     this.cottageSpace = cottageSpace == null ? new CottageSpaceDto() : cottageSpace;
     this.campersLimitations = campersLimitations;
     this.bankTransferDetails = bankTransferDetails == null ? new BankTransferDetailsDto() : bankTransferDetails;
+    this.cottageBoss = cottageBoss == null ? new CottageBossDto() : cottageBoss;
   }
 
   static fromDto(dto: CottageResponse) {
@@ -54,7 +67,31 @@ export class CottageEditFormModel {
           max: dto.campersLimitations && dto.campersLimitations.ageRange ? dto.campersLimitations.ageRange.min : null
         }
       },
-      dto.bankTransferDetails
+      dto.bankTransferDetails,
+      dto.cottageBoss
     );
+  }
+}
+
+export class CottageBossDto {
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  emailAddress: string;
+  university: string;
+  fieldOfStudy: string;
+  photoUrl: string;
+  personalDescription: ExtendedDescriptionDto;
+
+
+  constructor(firstName: string = null, lastName: string = null, phoneNumber: string = null, emailAddress: string = null, university: string = null, fieldOfStudy: string = null, photoUrl: string = null, personalDescription: ExtendedDescriptionDto = null) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.phoneNumber = phoneNumber;
+    this.emailAddress = emailAddress;
+    this.university = university;
+    this.fieldOfStudy = fieldOfStudy;
+    this.photoUrl = photoUrl;
+    this.personalDescription = personalDescription == null ? new ExtendedDescriptionDto() : personalDescription;
   }
 }
