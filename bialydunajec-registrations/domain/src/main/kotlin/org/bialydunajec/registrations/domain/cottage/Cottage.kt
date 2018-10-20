@@ -57,7 +57,10 @@ class Cottage internal constructor(
         private var campersLimitations: CampersLimitations? = null,
 
         @Embedded
-        private var bankTransferDetails: BankTransferDetails? = null
+        private var bankTransferDetails: BankTransferDetails? = null,
+
+        @Embedded
+        private var cottageBoss: CottageBoss? = null
 ) : AggregateRoot<CottageId, CottageEvents>(
         when (cottageType) {
             CottageType.STANDALONE -> CottageId.ofStandaloneCottage(campRegistrationsEditionId)
@@ -72,8 +75,6 @@ class Cottage internal constructor(
     @Enumerated(EnumType.STRING)
     private var status: CottageStatus = CottageStatus.UNCONFIGURED
 
-    @Embedded
-    private var cottageBoss: CottageBoss? = null
 
     fun update(
             name: String,
@@ -82,7 +83,8 @@ class Cottage internal constructor(
             place: Place?,
             cottageSpace: CottageSpace,
             campersLimitations: CampersLimitations?,
-            bankTransferDetails: BankTransferDetails?
+            bankTransferDetails: BankTransferDetails?,
+            cottageBoss: CottageBoss?
     ) {
         if (this.name != name) {
             this.name = name
@@ -110,6 +112,9 @@ class Cottage internal constructor(
             canUpdateBankTransferDetails(bankTransferDetails)
                     .ifInvalidThrowException()
             this.bankTransferDetails = bankTransferDetails
+        }
+        if (this.cottageBoss != cottageBoss) {
+            this.cottageBoss = cottageBoss
         }
         updateConfigurationStatus()
 
@@ -220,6 +225,7 @@ class Cottage internal constructor(
     fun getCampersLimitations() = campersLimitations
     fun getBankTransferDetails() = bankTransferDetails
     fun getCottageState() = status
+    fun getCottageBoss() = cottageBoss
     fun getSnapshot() =
             CottageSnapshot(
                     getAggregateId(),
@@ -233,7 +239,8 @@ class Cottage internal constructor(
                     cottageSpace,
                     campersLimitations,
                     bankTransferDetails,
-                    status
+                    status,
+                    cottageBoss
             )
 
     override fun getVersion() = version

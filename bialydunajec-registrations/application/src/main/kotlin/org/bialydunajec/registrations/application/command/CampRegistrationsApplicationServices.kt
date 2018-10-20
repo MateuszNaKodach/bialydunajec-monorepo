@@ -188,7 +188,8 @@ internal class UpdateCottageApplicationService(
                 command.place,
                 command.cottageSpace,
                 command.campersLimitations,
-                command.bankTransferDetails
+                command.bankTransferDetails,
+                command.cottageBoss
         )
 
         cottageRepository.save(cottage)

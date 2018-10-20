@@ -21,6 +21,7 @@ Przemyslec czy to nie powinny byc osobny aggreagate, w sumie CampParticipant dba
  */
 //TODO: Zastanowić się czy id CampParticipant nie powinno być różne, np. Camper Id!
 //TODO: Add accepted agreements (modifable for Camp Registrations)
+//TODO: Moznaby wydzielic accommodation, i to by było w jednym agregacie, który pilnuje też ilości i peselów.
 @Entity
 @Table(
         schema = "camp_registrations",
@@ -89,6 +90,7 @@ class CampParticipant internal constructor(
     }
 
     fun isConfirmed() = participationStatus == ParticipationStatus.CONFIRMED_BY_CAMPER || participationStatus == ParticipationStatus.CONFIRMED_BY_AUTHORIZED
+    fun getCampRegistrationsEditionId() = campRegistrationsEditionId
     fun getCottageId() = this.currentCamperData.cottageId
     fun getPersonalData() = currentCamperData.personalData
     fun getHomeAddress() = currentCamperData.homeAddress

@@ -4,6 +4,7 @@ import org.bialydunajec.ddd.application.base.query.api.dto.PlaceDto
 import org.bialydunajec.ddd.domain.base.validation.constraints.NullOrNotBlank
 import org.bialydunajec.registrations.application.dto.BankTransferDetailsDto
 import org.bialydunajec.registrations.application.dto.CampersLimitationsDto
+import org.bialydunajec.registrations.application.dto.CottageBossDto
 import org.bialydunajec.registrations.application.dto.CottageSpaceDto
 import javax.validation.Valid
 import javax.validation.constraints.NotBlank
@@ -22,5 +23,7 @@ data class UpdateCottageRequest(
         @field:Valid
         val campersLimitations: CampersLimitationsDto?,
         @field:Valid
-        val bankTransferDetails: BankTransferDetailsDto?
+        val bankTransferDetails: BankTransferDetailsDto?,
+        @field:Valid
+        val cottageBoss: CottageBossDto?
 )

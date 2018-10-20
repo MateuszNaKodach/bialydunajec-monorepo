@@ -12,10 +12,10 @@ import javax.persistence.Embedded
 @Embeddable
 data class CottageBoss(
         @Embedded
-        val firstName: FirstName,
+        val firstName: FirstName?,
 
         @Embedded
-        val lastName: LastName,
+        val lastName: LastName?,
 
         @Embedded
         val phoneNumber: PhoneNumber?,

@@ -40,7 +40,8 @@ class CottageAdminController(
                             place = request.place?.toValueObject(),
                             cottageSpace = request.cottageSpace.toValueObject(),
                             campersLimitations = request.campersLimitations?.toValueObject(),
-                            bankTransferDetails = request.bankTransferDetails?.toValueObject()
+                            bankTransferDetails = request.bankTransferDetails?.toValueObject(),
+                            cottageBoss = request.cottageBoss?.toValueObject()
                     )
             )
 

@@ -18,7 +18,8 @@ data class CottageDto(
         val cottageSpace: CottageSpaceDto?,
         val campersLimitations: CampersLimitationsDto?,
         val bankTransferDetails: BankTransferDetailsDto?,
-        val cottageState: String
+        val cottageState: String,
+        val cottageBoss: CottageBossDto?
 ) {
     internal companion object {
         fun from(snapshot: CottageSnapshot) = CottageDto(
@@ -33,7 +34,9 @@ data class CottageDto(
                 cottageSpace = snapshot.cottageSpace?.toDto(),
                 campersLimitations = snapshot.campersLimitations?.toDto(),
                 bankTransferDetails = snapshot.bankTransferDetails?.toDto(),
-                cottageState = snapshot.cottageState.toString()
+                cottageState = snapshot.cottageState.toString(),
+                cottageBoss = snapshot.cottageBoss?.toDto()
         )
     }
 }
+

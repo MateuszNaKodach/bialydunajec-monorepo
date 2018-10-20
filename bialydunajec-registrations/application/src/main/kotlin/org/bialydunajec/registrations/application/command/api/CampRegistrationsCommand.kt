@@ -11,6 +11,7 @@ import org.bialydunajec.registrations.domain.camper.valueobject.CamperApplicatio
 import org.bialydunajec.registrations.domain.cottage.CottageId
 import org.bialydunajec.registrations.domain.cottage.valueobject.BankTransferDetails
 import org.bialydunajec.registrations.domain.cottage.valueobject.CampersLimitations
+import org.bialydunajec.registrations.domain.cottage.valueobject.CottageBoss
 import org.bialydunajec.registrations.domain.cottage.valueobject.CottageSpace
 import java.time.LocalDate
 import java.time.ZonedDateTime
@@ -82,7 +83,8 @@ sealed class CampRegistrationsCommand : Command {
             val place: Place?,
             val cottageSpace: CottageSpace,
             val campersLimitations: CampersLimitations?,
-            val bankTransferDetails: BankTransferDetails?
+            val bankTransferDetails: BankTransferDetails?,
+            val cottageBoss: CottageBoss?
     ) : CampRegistrationsCommand() {
 
     }

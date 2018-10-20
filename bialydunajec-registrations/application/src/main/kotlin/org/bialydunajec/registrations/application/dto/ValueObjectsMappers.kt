@@ -9,16 +9,14 @@ import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.BirthDate
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.FirstName
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.LastName
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.Pesel
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.Url
 import org.bialydunajec.registrations.domain.camper.valueobject.CamperApplication
 import org.bialydunajec.registrations.domain.camper.valueobject.CamperEducation
 import org.bialydunajec.registrations.domain.camper.valueobject.CamperPersonalData
 import org.bialydunajec.registrations.domain.camper.valueobject.StayDuration
 import org.bialydunajec.registrations.domain.cottage.Cottage
 import org.bialydunajec.registrations.domain.cottage.CottageId
-import org.bialydunajec.registrations.domain.cottage.valueobject.BankTransferDetails
-import org.bialydunajec.registrations.domain.cottage.valueobject.CampersLimitations
-import org.bialydunajec.registrations.domain.cottage.valueobject.CottageSnapshot
-import org.bialydunajec.registrations.domain.cottage.valueobject.CottageSpace
+import org.bialydunajec.registrations.domain.cottage.valueobject.*
 
 fun CottageSpace.toDto() =
         CottageSpaceDto(
@@ -124,3 +122,27 @@ fun StayDuration.toDto() =
 
 fun StayDurationDto.toValueObject() =
         StayDuration(checkInDate, checkInTime, checkOutDate, checkOutTime)
+
+fun CottageBoss.toDto() =
+        CottageBossDto(
+                firstName.toStringOrNull(),
+                lastName.toStringOrNull(),
+                phoneNumber.toStringOrNull(),
+                emailAddress.toStringOrNull(),
+                university.toStringOrNull(),
+                fieldOfStudy.toStringOrNull(),
+                photoUrl.toStringOrNull(),
+                personalDescription?.toDto()
+        )
+
+fun CottageBossDto.toValueObject() =
+        CottageBoss(
+                firstName?.let { FirstName(it) },
+                lastName?.let { LastName(it) },
+                phoneNumber?.let { PhoneNumber(it) },
+                emailAddress?.let { EmailAddress(it) },
+                university.toStringOrNull(),
+                fieldOfStudy.toStringOrNull(),
+                photoUrl?.let { Url(it) },
+                personalDescription?.toValueObject()
+        )
