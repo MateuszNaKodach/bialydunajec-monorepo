@@ -8,11 +8,13 @@ import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditio
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionRepository
 import org.bialydunajec.registrations.domain.campedition.specification.InProgressCampRegistrationsSpecification
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipant
-import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantRepository
+import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantReadOnlyRepository
 import org.bialydunajec.registrations.domain.cottage.CottageId
 import org.bialydunajec.registrations.domain.cottage.CottageRepository
 import org.bialydunajec.registrations.domain.cottage.specification.CottageFreeSpaceSpecificationFactory
 import org.bialydunajec.registrations.domain.cottage.valueobject.CottageStatus
+import org.bialydunajec.registrations.domain.shirt.CampEditionShirtReadOnlyRepository
+import org.bialydunajec.registrations.domain.shirt.CampEditionShirtRepository
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -25,6 +27,7 @@ internal class CampRegistrationsDomainModelReader(
         private val academicMinistryRepository: AcademicMinistryRepository,
         private val cottageRepository: CottageRepository,
         private val campParticipantRepository: CampParticipantReadOnlyRepository,
+        private val campEditionShirtRepository: CampEditionShirtReadOnlyRepository,
         private val cottageFreeSpaceSpecificationFactory: CottageFreeSpaceSpecificationFactory
 ) {
 
@@ -106,4 +109,19 @@ internal class CampRegistrationsDomainModelReader(
     fun readFor(query: CampParticipantQuery.ByCampRegistrationsEditionId, pageable: Pageable) =
             campParticipantRepository.findAllByCampRegistrationsEditionId(CampRegistrationsEditionId(query.campRegistrationsEditionId), pageable)
                     .map { campParticipantDto(it) }
+
+    fun readFor(query: CampEditionShirtQuery.ByCampRegistrationsEditionId): CampEditionShirtDto? =
+            campEditionShirtRepository.findByCampRegistrationsEditionId(CampRegistrationsEditionId(query.campRegistrationsEditionId))
+                    ?.getSnapshot()?.toDto()
+
+    fun readFor(query: CampEditionShirtQuery.AvailableSizesByCampRegistrationsEditionId): Collection<ShirtSizeOptionDto> =
+            campEditionShirtRepository.findByCampRegistrationsEditionId(CampRegistrationsEditionId(query.campRegistrationsEditionId))
+                    ?.getSizeOptions()
+                    ?.map { it.toDto() } ?: emptyList()
+
+
+    fun readFor(query: CampEditionShirtQuery.AvailableColorsByCampRegistrationsEditionId): Collection<ShirtColorOptionDto> =
+            campEditionShirtRepository.findByCampRegistrationsEditionId(CampRegistrationsEditionId(query.campRegistrationsEditionId))
+                    ?.getColorOptions()
+                    ?.map { it.toDto() } ?: emptyList()
 }

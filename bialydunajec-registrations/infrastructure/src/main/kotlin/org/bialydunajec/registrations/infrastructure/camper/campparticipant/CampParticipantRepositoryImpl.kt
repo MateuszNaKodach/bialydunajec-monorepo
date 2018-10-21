@@ -6,7 +6,7 @@ import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticip
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantId
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantRepository
 import org.bialydunajec.ddd.infrastructure.base.persistence.AbstractDomainRepositoryImpl
-import org.bialydunajec.registrations.application.query.readmodel.CampParticipantReadOnlyRepository
+import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantReadOnlyRepository
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
 import org.bialydunajec.registrations.domain.cottage.CottageId
 import org.springframework.cache.annotation.CacheEvict

@@ -17,6 +17,9 @@ import org.bialydunajec.registrations.domain.camper.valueobject.StayDuration
 import org.bialydunajec.registrations.domain.cottage.Cottage
 import org.bialydunajec.registrations.domain.cottage.CottageId
 import org.bialydunajec.registrations.domain.cottage.valueobject.*
+import org.bialydunajec.registrations.domain.shirt.CampEditionShirt
+import org.bialydunajec.registrations.domain.shirt.entity.ShirtSizeOption
+import org.bialydunajec.registrations.domain.shirt.valueobject.*
 
 fun CottageSpace.toDto() =
         CottageSpaceDto(
@@ -145,4 +148,31 @@ fun CottageBossDto.toValueObject() =
                 fieldOfStudy.toStringOrNull(),
                 photoUrl?.let { Url(it) },
                 personalDescription?.toValueObject()
+        )
+
+fun ShirtSize.toDto() =
+        ShirtSizeDto(name, width, length)
+
+fun ShirtSizeOptionSnapshot.toDto() =
+        ShirtSizeOptionDto(
+                shirtSizeOptionId.toString(),
+                size.toDto(),
+                available
+        )
+
+fun Color.toDto() =
+        ColorDto(name, hexValue)
+
+fun ColorDto.toValueObject() =
+        Color(name, hexValue)
+
+fun ShirtColorOptionSnapshot.toDto() =
+        ShirtColorOptionDto(shirtSizeOptionId.toString(), color.toDto(), available)
+
+fun CampEditionShirtSnapshot.toDto() =
+        CampEditionShirtDto(
+                campRegistrationsEditionId.toString(),
+                shirtSizesFileUrl.toStringOrNull(),
+                colorOptions.map { it.toDto() },
+                sizeOptions.map { it.toDto() }
         )

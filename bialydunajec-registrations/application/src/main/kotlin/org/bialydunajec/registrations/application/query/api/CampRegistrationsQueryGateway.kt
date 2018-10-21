@@ -1,6 +1,7 @@
 package org.bialydunajec.registrations.application.query.api
 
 import org.bialydunajec.registrations.application.query.readmodel.CampRegistrationsDomainModelReader
+import org.bialydunajec.registrations.domain.shirt.valueobject.ShirtType
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Component
 
@@ -26,4 +27,10 @@ class CampRegistrationsQueryGateway internal constructor(private val domainModel
     fun process(query: CampParticipantQuery.ByCottageId, pageable: Pageable) = domainModelReader.readFor(query, pageable)
     fun process(query: CampParticipantQuery.ByCampRegistrationsEditionId, pageable: Pageable) = domainModelReader.readFor(query, pageable)
     fun process(query: CampParticipantQuery.CountByCottageId) = domainModelReader.readFor(query)
+
+    fun process(query: CampEditionShirtQuery.ByCampRegistrationsEditionId) = domainModelReader.readFor(query)
+    fun process(query: CampEditionShirtQuery.AvailableColorsByCampRegistrationsEditionId) = domainModelReader.readFor(query)
+    fun process(query: CampEditionShirtQuery.AvailableSizesByCampRegistrationsEditionId) = domainModelReader.readFor(query)
+    fun process(query: CampEditionShirtQuery.AvailableTypesByCampRegistrationsEditionId) = ShirtType.values()
+
 }

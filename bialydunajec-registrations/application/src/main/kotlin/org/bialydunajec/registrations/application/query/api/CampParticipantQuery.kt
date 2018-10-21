@@ -8,5 +8,4 @@ sealed class CampParticipantQuery : Query {
     class ByCottageId(val cottageId: String) : CampParticipantQuery()
     class ByCampRegistrationsEditionId(val campRegistrationsEditionId: String) : CampParticipantQuery()
     class CountByCottageId(val cottageId: String) : CampParticipantQuery()
-
 }

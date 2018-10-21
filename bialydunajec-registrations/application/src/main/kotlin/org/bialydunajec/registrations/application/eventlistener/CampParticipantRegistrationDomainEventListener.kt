@@ -49,7 +49,8 @@ internal class CampParticipantRegistrationDomainEventListener(
     @TransactionalEventListener
     fun handle(event: CampParticipantRegistrationEvent.VerifiedByCamper) {
         campParticipantRepository.findById(event.snapshot.campParticipantId)
-                .apply { this?.confirmByCamperWith(event.snapshot.camperApplication) }
+                ?.apply { this.confirmByCamperWith(event.snapshot.camperApplication) }
+                ?.apply { campParticipantRepository.save(this) }
     }
 
 

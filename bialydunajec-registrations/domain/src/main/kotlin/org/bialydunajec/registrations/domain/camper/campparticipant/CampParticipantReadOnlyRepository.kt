@@ -1,4 +1,4 @@
-package org.bialydunajec.registrations.application.query.readmodel
+package org.bialydunajec.registrations.domain.camper.campparticipant
 
 import org.bialydunajec.ddd.domain.base.persistence.ReadOnlyDomainRepository
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.Gender

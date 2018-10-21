@@ -3,20 +3,24 @@ package org.bialydunajec.registrations.domain.shirt
 import org.bialydunajec.ddd.domain.base.aggregate.AuditableAggregateRoot
 import org.bialydunajec.ddd.domain.base.validation.ValidationResult
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.Url
+import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEdition
+import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionEvent
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipant
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantId
 import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule.*
 import org.bialydunajec.registrations.domain.shirt.entity.*
+import org.bialydunajec.registrations.domain.shirt.valueobject.CampEditionShirtSnapshot
 import org.bialydunajec.registrations.domain.shirt.valueobject.Color
 import org.bialydunajec.registrations.domain.shirt.valueobject.ShirtSize
+import org.bialydunajec.registrations.domain.shirt.valueobject.ShirtType
 import javax.persistence.*
 
 @Entity
 @Table(schema = "camp_registrations")
-class CampEditionShirt(
+class CampEditionShirt internal constructor(
         private val campRegistrationsEditionId: CampRegistrationsEditionId,
-        private val shirtSizesFileUrl: Url?
+        private val shirtSizesFileUrl: Url? = null
 ) : AuditableAggregateRoot<CampEditionShirtId, CampEditionShirtEvent>(CampEditionShirtId(campRegistrationsEditionId)) {
 
     @OneToMany(cascade = [CascadeType.ALL])
@@ -59,7 +63,8 @@ class CampEditionShirt(
     fun placeOrder(
             campParticipant: CampParticipant,
             shirtColor: Color,
-            shirtSize: ShirtSize
+            shirtSize: ShirtSize,
+            shirtType: ShirtType
     ) {
         canPlaceOrder(campParticipant, shirtColor, shirtSize)
                 .ifInvalidThrowException();
@@ -68,11 +73,26 @@ class CampEditionShirt(
                 ShirtOrder(
                         campParticipant.getAggregateId(),
                         colorOptions.find { it.getColor().name == shirtColor.name || it.getColor().hexValue == shirtColor.hexValue }!!,
-                        sizeOptions.find { it.getSize().name == shirtSize.name || (it.getSize().length == shirtSize.length && it.getSize().width == shirtSize.width) }!!
+                        sizeOptions.find { it.getSize().name == shirtSize.name || (it.getSize().length == shirtSize.length && it.getSize().width == shirtSize.width) }!!,
+                        shirtType
                 )
         )
     }
 
     fun getCampRegistrationsEditionId() = campRegistrationsEditionId
     fun getShirtSizesFileUrl() = shirtSizesFileUrl
+    fun getSizeOptions() = sizeOptions.map { it.getSnapshot() }
+    fun getColorOptions() = colorOptions.map { it.getSnapshot() }
+    fun getSnapshot() =
+            CampEditionShirtSnapshot(
+                    campRegistrationsEditionId,
+                    shirtSizesFileUrl,
+                    colorOptions.map { it.getSnapshot() },
+                    sizeOptions.map { it.getSnapshot() }
+            )
+
+    companion object {
+        fun createFrom(event: CampRegistrationsEditionEvent.CampRegistrationsCreated) =
+                CampEditionShirt(event.campRegistrationsEditionId)
+    }
 }
