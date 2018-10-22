@@ -168,7 +168,7 @@ export class CamperRegistrationFormStateService {
     return this.formState.get(stepId).status;
   }
 
-  clearFormState() {
+  resetFormState() {
     this.formState = initialFormState;
   }
 

@@ -91,7 +91,7 @@ export class RegistrationSummaryComponent implements OnInit {
             header: 'Zapisaliśmy Ciebie na Obóz!',
             content: 'Właśnie na Twojego maila wysłaliśmy wiadomość (prosimy, sprawdź czy dojdzie w ciągu 5 minut). Prosimy o szczegółowe zapoznanie się z jej treścią, a także o kliknięcie w ciągu trzech dni w przesłany link potwierdzający, Twój zapis na Obóz. Jeśli tego nie zrobisz, to po tym czasie Twoje miejsce zwolnimy komuś innemu.'
           };
-          this.mainFormState.clearFormState();
+          this.mainFormState.resetFormState();
         },
         new RequestErrorObserverBuilder(
           (restErrors: string[]) => {
