@@ -3,11 +3,13 @@ import {HeaderComponent} from './component/header/header.component';
 import {FooterComponent} from './component/footer/footer.component';
 import {SharedModule} from '../shared/shared.module';
 import {AppRoutingModule} from '../app-routing.module';
+import { NotFoundComponent } from './component/not-found/not-found.component';
 
 @NgModule({
   declarations: [
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    NotFoundComponent
   ],
   imports: [
     SharedModule,
@@ -15,7 +17,8 @@ import {AppRoutingModule} from '../app-routing.module';
   ],
   exports: [
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    NotFoundComponent
   ]
 })
 export class CoreModule {

@@ -72,6 +72,7 @@ input, .dropdown {
 
 .bda-page-section {
   min-height: 70vh;
+  padding-top: 30px;
 
   @include gt-sm__screen() {
     padding-top: $page-section-padding;
