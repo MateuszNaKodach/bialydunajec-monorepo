@@ -9,13 +9,17 @@
                 src="assets/images/transport/transport-car.svg">
             </div>
 
-            <div *ngIf="mapType === 'square'" fxLayout="row" class="bda-google-maps-square">Google Map!</div>
+            <div *ngIf="mapType === 'square'" fxLayout="row" class="bda-google-maps-square">
+              <ng-content select=".bda-admin-transport__google-map"></ng-content>
+            </div>
 
           </div>
-          <ng-content></ng-content>
+          <ng-content select=".bda-admin-transport__content"></ng-content>
         </div>
 
-        <div *ngIf="mapType === 'rectangle'" fxLayout="row" class="bda-google-maps-rectangle">Google Map!</div>
+        <div *ngIf="mapType === 'rectangle'" fxLayout="row" class="bda-google-maps-rectangle">
+          <ng-content select=".bda-admin-transport__google-map"></ng-content>
+        </div>
 
       </div>
     </div>

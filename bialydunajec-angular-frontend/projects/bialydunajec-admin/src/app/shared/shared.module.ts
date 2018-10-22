@@ -14,6 +14,8 @@ import { AcademicMinistrySelectionComponent } from './component/academic-ministr
 import { FormInputValueComponent } from './component/form-input-value/form-input-value.component';
 import { HttpResponseAlterComponent } from './component/http-response-alter/http-response-alter.component';
 import {InputExtensionValueAccessor} from './directive/input-extension-value-accessor.extension.directive';
+import { AgmCoreModule } from '@agm/core';
+import {environment} from '../../environments/environment';
 
 registerLocaleData(pl);
 
@@ -24,7 +26,8 @@ registerLocaleData(pl);
     HttpClientModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    BialyDunajecCommonsModule
+    BialyDunajecCommonsModule,
+    AgmCoreModule.forRoot({apiKey: environment.google.maps.apiKey})
   ],
   declarations: [
     FormInputComponent,
@@ -51,7 +54,8 @@ registerLocaleData(pl);
     AcademicMinistrySelectionComponent,
     FormInputValueComponent,
     HttpResponseAlterComponent,
-    InputExtensionValueAccessor
+    InputExtensionValueAccessor,
+    AgmCoreModule
   ],
   providers: [
     {provide: NZ_I18N, useValue: pl_PL},

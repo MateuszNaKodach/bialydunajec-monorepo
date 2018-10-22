@@ -65,6 +65,8 @@
           </nz-form-label>
           <nz-form-control>
             <input *ngIf="showInputs; else nameValueView" nz-input formControlName="name" id="name">
+            <nz-form-explain *ngIf="nameFormControl.dirty && nameFormControl.errors">Proszę wypełnić pole.
+            </nz-form-explain>
           </nz-form-control>
           <ng-template #nameValueView>
             <bda-admin-form-input-value [control]="nameFormControl"></bda-admin-form-input-value>

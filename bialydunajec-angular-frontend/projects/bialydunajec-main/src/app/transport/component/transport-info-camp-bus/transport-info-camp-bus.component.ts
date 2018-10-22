@@ -13,6 +13,9 @@ export class TransportInfoCampBusComponent implements OnInit {
   private wroclawCampBusLine: CampBusLine;
   private opoleCampBusLine: CampBusLine;
 
+  lat: number = 51.678418;
+  lng: number = 7.809007;
+
   constructor(private campTransportService: CampTransportService) {
   }
 
