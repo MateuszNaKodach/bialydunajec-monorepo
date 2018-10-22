@@ -154,8 +154,8 @@
               "projects/bialydunajec-admin/src/styles/theme.less",
               "projects/bialydunajec-admin/src/styles/styles.less"
             ],
-            "scripts": [],
-            "baseHref": "/bd-admin/"
+            "scripts": []
+            //"baseHref": "/bd-admin/"
           },
           "configurations": {
             "production": {

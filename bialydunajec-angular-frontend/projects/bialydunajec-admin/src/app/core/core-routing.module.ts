@@ -9,9 +9,18 @@ import {AcademicMinistryModule} from '../academic-ministry/academic-ministry.mod
 const coreRoutes: Routes = [
   {
     path: coreRoutingPaths.root, component: PanelLayoutComponent, children: [
-      {path: coreRoutingPaths.campRegistrations, loadChildren: () => CampRegistrationsModule},
-      {path: coreRoutingPaths.campEdition, loadChildren: () => CampEditionModule},
-      {path: coreRoutingPaths.academicMinistry, loadChildren: () => AcademicMinistryModule}
+      {
+        path: coreRoutingPaths.campRegistrations,
+        loadChildren: '../camp-registrations/camp-registrations.module#CampRegistrationsModule',
+      },
+      {
+        path: coreRoutingPaths.campEdition,
+        loadChildren: '../camp-edition/camp-edition.module#CampEditionModule',
+      },
+      {
+        path: coreRoutingPaths.academicMinistry,
+        loadChildren: '../academic-ministry/academic-ministry.module#AcademicMinistryModule',
+      }
     ]
   }
 ];

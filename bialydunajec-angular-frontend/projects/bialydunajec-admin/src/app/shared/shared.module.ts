@@ -16,6 +16,7 @@ import { HttpResponseAlterComponent } from './component/http-response-alter/http
 import {InputExtensionValueAccessor} from './directive/input-extension-value-accessor.extension.directive';
 import { AgmCoreModule } from '@agm/core';
 import {environment} from '../../environments/environment';
+import {CurrentUserComponent} from './component/current-user/current-user.component';
 
 registerLocaleData(pl);
 
@@ -38,7 +39,8 @@ registerLocaleData(pl);
     AcademicMinistrySelectionComponent,
     FormInputValueComponent,
     HttpResponseAlterComponent,
-    InputExtensionValueAccessor
+    InputExtensionValueAccessor,
+    CurrentUserComponent
   ],
   exports: [
     CommonModule,
@@ -55,7 +57,8 @@ registerLocaleData(pl);
     FormInputValueComponent,
     HttpResponseAlterComponent,
     InputExtensionValueAccessor,
-    AgmCoreModule
+    AgmCoreModule,
+    CurrentUserComponent
   ],
   providers: [
     {provide: NZ_I18N, useValue: pl_PL},
