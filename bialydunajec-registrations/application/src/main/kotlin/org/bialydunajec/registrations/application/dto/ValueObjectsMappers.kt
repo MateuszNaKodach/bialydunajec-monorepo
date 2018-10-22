@@ -153,6 +153,9 @@ fun CottageBossDto.toValueObject() =
 fun ShirtSize.toDto() =
         ShirtSizeDto(name, width, length)
 
+fun ShirtSizeDto.toValueObject() =
+        ShirtSize(name, width, length)
+
 fun ShirtSizeOptionSnapshot.toDto() =
         ShirtSizeOptionDto(
                 shirtSizeOptionId.toString(),

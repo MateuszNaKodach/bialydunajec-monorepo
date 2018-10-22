@@ -21,7 +21,7 @@ import javax.persistence.*
 
 //TODO: Aby rozpoczać lub skonfigurować zapisy cała reszta musi być finished!!!
 //TODO: CampRegistrationsEdition musi miec jako entity CampRegistrations i dbac np. o daty, zeby rejestracja nie trwała dłużej niz koniec obozu!
-/**
+/** Czy nie zmienic na CampEditionRegistrations --- lepsza nazwa?
  * Camp Edition in Camp Registrations Bounded Context
  */
 @Entity

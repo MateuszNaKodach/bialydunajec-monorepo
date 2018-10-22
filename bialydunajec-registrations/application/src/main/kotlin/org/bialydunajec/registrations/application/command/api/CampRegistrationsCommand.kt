@@ -6,6 +6,7 @@ import org.bialydunajec.ddd.domain.sharedkernel.valueobject.location.Place
 import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryId
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
 import org.bialydunajec.registrations.domain.campedition.valueobject.TimerSettings
+import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantId
 import org.bialydunajec.registrations.domain.camper.campparticipantregistration.CampParticipantRegistrationId
 import org.bialydunajec.registrations.domain.camper.valueobject.CamperApplication
 import org.bialydunajec.registrations.domain.cottage.CottageId
@@ -13,6 +14,12 @@ import org.bialydunajec.registrations.domain.cottage.valueobject.BankTransferDet
 import org.bialydunajec.registrations.domain.cottage.valueobject.CampersLimitations
 import org.bialydunajec.registrations.domain.cottage.valueobject.CottageBoss
 import org.bialydunajec.registrations.domain.cottage.valueobject.CottageSpace
+import org.bialydunajec.registrations.domain.shirt.CampEditionShirtId
+import org.bialydunajec.registrations.domain.shirt.entity.ShirtColorOptionId
+import org.bialydunajec.registrations.domain.shirt.entity.ShirtSizeOptionId
+import org.bialydunajec.registrations.domain.shirt.valueobject.Color
+import org.bialydunajec.registrations.domain.shirt.valueobject.ShirtSize
+import org.bialydunajec.registrations.domain.shirt.valueobject.ShirtType
 import java.time.LocalDate
 import java.time.ZonedDateTime
 
@@ -85,33 +92,56 @@ sealed class CampRegistrationsCommand : Command {
             val campersLimitations: CampersLimitations?,
             val bankTransferDetails: BankTransferDetails?,
             val cottageBoss: CottageBoss?
-    ) : CampRegistrationsCommand() {
-
-    }
+    ) : CampRegistrationsCommand()
 
     data class ActivateCottage constructor(
             val cottageId: CottageId
-    ) : CampRegistrationsCommand() {
-
-    }
+    ) : CampRegistrationsCommand()
 
     data class DeactivateCottage constructor(
             val cottageId: CottageId
-    ) : CampRegistrationsCommand() {
-
-    }
+    ) : CampRegistrationsCommand()
 
     data class RegisterCampParticipantCommand constructor(
             val campRegistrationsEditionId: CampRegistrationsEditionId,
             val camperApplication: CamperApplication
-    ) : CampRegistrationsCommand() {
-
-    }
+    ) : CampRegistrationsCommand()
 
     data class VerifyCampParticipantRegistrationCommand constructor(
             val campParticipantRegistrationId: CampParticipantRegistrationId,
             val verificationCode: String
-    ) : CampRegistrationsCommand() {
+    ) : CampRegistrationsCommand()
 
-    }
+    data class UpdateCampEditionShirt(
+            val campEditionShirtId: CampEditionShirtId,
+            val shirtSizesFileUrl: Url?
+    ) : CampRegistrationsCommand()
+
+    data class AddCampEditionShirtColorOption(
+            val campEditionShirtId: CampEditionShirtId,
+            val color: Color
+    ) : CampRegistrationsCommand()
+
+    data class RemoveCampEditionShirtColorOption(
+            val campEditionShirtId: CampEditionShirtId,
+            val shirtColorOptionId: ShirtColorOptionId
+    ) : CampRegistrationsCommand()
+
+    data class AddCampEditionShirtSizeOption(
+            val campEditionShirtId: CampEditionShirtId,
+            val size: ShirtSize
+    ) : CampRegistrationsCommand()
+
+    data class RemoveCampEditionShirtSizeOption(
+            val campEditionShirtId: CampEditionShirtId,
+            val shirtSizeOptionId: ShirtSizeOptionId
+    ) : CampRegistrationsCommand()
+
+    data class PlaceCampEditionShirtOrder(
+            val campEditionShirtId: CampEditionShirtId,
+            val campParticipantId: CampParticipantId,
+            val color: Color,
+            val size: ShirtSize,
+            val type: ShirtType
+    ) : CampRegistrationsCommand()
 }

@@ -3,11 +3,9 @@ package org.bialydunajec.registrations.domain.shirt
 import org.bialydunajec.ddd.domain.base.aggregate.AuditableAggregateRoot
 import org.bialydunajec.ddd.domain.base.validation.ValidationResult
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.Url
-import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEdition
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionEvent
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipant
-import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantId
 import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule.*
 import org.bialydunajec.registrations.domain.shirt.entity.*
 import org.bialydunajec.registrations.domain.shirt.valueobject.CampEditionShirtSnapshot
@@ -20,7 +18,7 @@ import javax.persistence.*
 @Table(schema = "camp_registrations")
 class CampEditionShirt internal constructor(
         private val campRegistrationsEditionId: CampRegistrationsEditionId,
-        private val shirtSizesFileUrl: Url? = null
+        private var shirtSizesFileUrl: Url? = null
 ) : AuditableAggregateRoot<CampEditionShirtId, CampEditionShirtEvent>(CampEditionShirtId(campRegistrationsEditionId)) {
 
     @OneToMany(cascade = [CascadeType.ALL])
@@ -32,11 +30,37 @@ class CampEditionShirt internal constructor(
     @OneToMany(cascade = [CascadeType.ALL])
     private var orders: MutableList<ShirtOrder> = mutableListOf()
 
+    fun update(
+            shirtSizesFileUrl: Url?
+    ){
+        if(shirtSizesFileUrl != this.shirtSizesFileUrl){
+            this.shirtSizesFileUrl = shirtSizesFileUrl
+        }
+    }
+
+    fun canAddColorOption(shirtColor: Color) =
+            ValidationResult.buffer()
+                    .addViolatedRuleIf(
+                            SHIRT_COLOR_OPTION_CAN_NOT_BE_DUPLICATED, isShirtColorInOptions(shirtColor)
+                    ).toValidationResult()
+
     fun addColorOption(shirtColor: Color) {
+        canAddColorOption(shirtColor)
+                .ifInvalidThrowException()
+
         colorOptions.add(ShirtColorOption(shirtColor))
     }
 
+    fun canAddSizeOption(shirtSize: ShirtSize) =
+            ValidationResult.buffer()
+                    .addViolatedRuleIf(
+                            SHIRT_SIZE_OPTION_CAN_NOT_BE_DUPLICATED, isShirtSizeInOptions(shirtSize)
+                    ).toValidationResult()
+
     fun addSizeOption(shirtSize: ShirtSize) {
+        canAddSizeOption(shirtSize)
+                .ifInvalidThrowException()
+
         sizeOptions.add(ShirtSizeOption(shirtSize))
     }
 
@@ -53,12 +77,18 @@ class CampEditionShirt internal constructor(
                     )
                     .addViolatedRuleIf(
                             SHIRT_ORDER_CAN_ONLY_BE_PLACED_FOR_AVAILABLE_COLOR,
-                            colorOptions.find { it.getColor().name == shirtColor.name || it.getColor().hexValue == shirtColor.hexValue } == null
+                            !isShirtColorInOptions(shirtColor)
                     )
                     .addViolatedRuleIf(
                             SHIRT_ORDER_CAN_ONLY_BE_PLACED_FOR_AVAILABLE_SIZE,
-                            sizeOptions.find { it.getSize().name == shirtSize.name || (it.getSize().length == shirtSize.length && it.getSize().width == shirtSize.width) } == null
+                            !isShirtSizeInOptions(shirtSize)
                     ).toValidationResult()
+
+    private fun isShirtSizeInOptions(shirtSize: ShirtSize) =
+            sizeOptions.find { it.getSize() == shirtSize } != null
+
+    private fun isShirtColorInOptions(shirtColor: Color) =
+            colorOptions.find { it.getColor() == shirtColor } != null
 
     fun placeOrder(
             campParticipant: CampParticipant,
@@ -67,17 +97,18 @@ class CampEditionShirt internal constructor(
             shirtType: ShirtType
     ) {
         canPlaceOrder(campParticipant, shirtColor, shirtSize)
-                .ifInvalidThrowException();
+                .ifInvalidThrowException()
 
         orders.add(
                 ShirtOrder(
                         campParticipant.getAggregateId(),
-                        colorOptions.find { it.getColor().name == shirtColor.name || it.getColor().hexValue == shirtColor.hexValue }!!,
-                        sizeOptions.find { it.getSize().name == shirtSize.name || (it.getSize().length == shirtSize.length && it.getSize().width == shirtSize.width) }!!,
+                        colorOptions.find { it.getColor() == shirtColor }!!,
+                        sizeOptions.find { it.getSize() == shirtSize }!!,
                         shirtType
                 )
         )
     }
+
 
     fun getCampRegistrationsEditionId() = campRegistrationsEditionId
     fun getShirtSizesFileUrl() = shirtSizesFileUrl

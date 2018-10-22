@@ -55,4 +55,9 @@ abstract class AggregateRoot<AggregateIdType : Identifier<*>, EventType : Domain
         this.domainEvents?.clear()
     }
 
+    override fun equals(other: Any?): Boolean = other!=null && this.hashCode() == other.hashCode()
+
+    override fun hashCode(): Int = aggregateId.hashCode()
+
+
 }
