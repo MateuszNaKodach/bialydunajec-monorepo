@@ -1,3 +1,15 @@
-<p>
-  shirt-settings works!
-</p>
+<section>
+  <div style="display: flex; justify-content: space-between;">
+    <bda-admin-breadcrumbs
+      [breadcrumbs]="['Zapisy na Obóz','Ustawienia Koszulek']"
+    ></bda-admin-breadcrumbs>
+    <bda-admin-camp-edition-selection
+      (campEditionIdSelected)="onCampEditionIdSelected($event)"
+      [campEditionsObservable]="availableCampEditions"></bda-admin-camp-edition-selection>
+  </div>
+  <div class="bda-admin-shirt-settings-content">
+    <div class="bda-admin-panel-section-card">
+
+    </div>
+  </div>
+</section>

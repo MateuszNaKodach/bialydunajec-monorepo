@@ -58,8 +58,8 @@ export class RegistrationSummaryComponent implements OnInit {
       personalDataState.education.university,
       personalDataState.education.faculty,
       personalDataState.education.fieldOfStudy,
-      personalDataState.education.isRecentHighSchoolGraduate,
       personalDataState.education.highSchool,
+      personalDataState.education.isRecentHighSchoolGraduate
     );
 
     const camperAddressDto = new AddressDto(

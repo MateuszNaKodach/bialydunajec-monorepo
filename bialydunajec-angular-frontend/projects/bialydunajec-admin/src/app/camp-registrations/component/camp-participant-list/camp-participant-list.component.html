@@ -7,61 +7,61 @@
       (campEditionIdSelected)="onCampEditionIdSelected($event)"
       [campEditionsObservable]="availableCampEditions"></bda-admin-camp-edition-selection>
   </div>
-
-  <ng-template #showTotal>
-    {{currentPageElements}} z {{total}}
-  </ng-template>
-  <nz-table
-    class="bda-camp-participant-table"
-    #basicTable
-    [nzData]="campParticipants"
-    [nzLoading]="tableIsLoading"
-    [nzTotal]="total"
-    [nzShowTotal]="showTotal"
-    [nzPageIndex]="pageIndex"
-    [nzPageSize]="pageSize"
-    [nzFrontPagination]="false"
-    (nzPageIndexChange)="onPageIndexChange($event)"
-    [nzShowQuickJumper]="total > pageSize"
-    nzNoResult="Jeszcze nikt się nie zapisał. Aktywuj zapisy i czekaj na pierwszych obozowiczów!">
-    <thead>
-    <tr>
-      <th>PESEL</th>
-      <th>Nazwisko</th>
-      <th>Imię</th>
-      <th>Chatka</th>
-      <th>Adres</th>
-      <th>Telefon</th>
-      <th>E-mail</th>
-      <th>Status</th>
-      <th nzShowExpand></th>
-    </tr>
-    </thead>
-    <tbody>
-    <ng-template ngFor let-data [ngForOf]="basicTable.data">
-      <tr>
-        <td>{{data.currentCamperData.personalData.pesel}}</td>
-        <td>{{data.currentCamperData.personalData.lastName}}</td>
-        <td>{{data.currentCamperData.personalData.firstName}}</td>
-        <td>{{data.currentCamperData.cottage.cottageName}}</td>
-        <td>{{data.currentCamperData.homeAddress.street +' '+ data.currentCamperData.homeAddress.homeNumber + ', ' +
-          data.currentCamperData.homeAddress.postalCode + ' ' + data.currentCamperData.homeAddress.city
-          }}
-        </td>
-        <td>{{data.currentCamperData.phoneNumber}}</td>
-        <td>{{data.currentCamperData.emailAddress}}</td>
-        <td>{{data.participationStatus}}</td>
-        <td nzShowExpand [(nzExpand)]="data.expand"></td>
-      </tr>
-      <tr [nzExpand]="data.expand">
-        <td [attr.colspan]="20">
-          <div style="display: flex; flex-flow: column;">
-            {{data | json}}
-          </div>
-        </td>
-      </tr>
+  <div>
+    <ng-template #showTotal>
+      {{currentPageElements}} z {{total}}
     </ng-template>
-    </tbody>
-  </nz-table>
-
+    <nz-table
+      class="bda-camp-participant-table"
+      #basicTable
+      [nzData]="campParticipants"
+      [nzLoading]="tableIsLoading"
+      [nzTotal]="total"
+      [nzShowTotal]="showTotal"
+      [nzPageIndex]="pageIndex"
+      [nzPageSize]="pageSize"
+      [nzFrontPagination]="false"
+      (nzPageIndexChange)="onPageIndexChange($event)"
+      [nzShowQuickJumper]="total > pageSize"
+      nzNoResult="Jeszcze nikt się nie zapisał. Aktywuj zapisy i czekaj na pierwszych obozowiczów!">
+      <thead>
+      <tr>
+        <th>PESEL</th>
+        <th>Nazwisko</th>
+        <th>Imię</th>
+        <th>Chatka</th>
+        <th>Adres</th>
+        <th>Telefon</th>
+        <th>E-mail</th>
+        <th>Status</th>
+        <th nzShowExpand></th>
+      </tr>
+      </thead>
+      <tbody>
+      <ng-template ngFor let-data [ngForOf]="basicTable.data">
+        <tr>
+          <td>{{data.currentCamperData.personalData.pesel}}</td>
+          <td>{{data.currentCamperData.personalData.lastName}}</td>
+          <td>{{data.currentCamperData.personalData.firstName}}</td>
+          <td>{{data.currentCamperData.cottage.cottageName}}</td>
+          <td>{{data.currentCamperData.homeAddress.street +' '+ data.currentCamperData.homeAddress.homeNumber + ', ' +
+            data.currentCamperData.homeAddress.postalCode + ' ' + data.currentCamperData.homeAddress.city
+            }}
+          </td>
+          <td>{{data.currentCamperData.phoneNumber}}</td>
+          <td>{{data.currentCamperData.emailAddress}}</td>
+          <td>{{data.participationStatus}}</td>
+          <td nzShowExpand [(nzExpand)]="data.expand"></td>
+        </tr>
+        <tr [nzExpand]="data.expand">
+          <td [attr.colspan]="20">
+            <div style="display: flex; flex-flow: column;">
+              {{data | json}}
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+      </tbody>
+    </nz-table>
+  </div>
 </section>
