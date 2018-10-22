@@ -1,8 +1,14 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule, PreloadAllModules} from '@angular/router';
 import {appRoutingPaths} from './app-routing.paths';
+import {NotFoundComponent} from './core/component/not-found/not-found.component';
 
 const routes: Routes = [
+  {
+    path: appRoutingPaths.root,
+    redirectTo: appRoutingPaths.aboutCamp,
+    pathMatch: 'full'
+  },
   {
     path: appRoutingPaths.aboutCamp,
     loadChildren: './about-camp/about-camp.module#AboutCampModule'
@@ -22,6 +28,14 @@ const routes: Routes = [
   {
     path: appRoutingPaths.campersRegistration,
     loadChildren: './campers-registration/campers-registration.module#CampersRegistrationModule'
+  },
+  {
+    path: appRoutingPaths.notFound,
+    component: NotFoundComponent
+  },
+  {
+    path: '**',
+    redirectTo: appRoutingPaths.notFound
   }
 ];
 

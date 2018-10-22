@@ -1,5 +1,6 @@
 <section>
   <bda-mean-of-transport mapType="rectangle">
+    <img class="bda-admin-transport__image" src="assets/images/transport/transport_car.svg">
     <div fxLayout="column" fxLayoutAlign="flex-start center" class="bda-admin-transport__content">
       <a
         fxFlexAlign="flex-end"
@@ -14,5 +15,15 @@
       ></bda-mean-of-transport-header>
       <bda-camp-sign-up-button text="ZAPISZ SIĘ NA OBÓZ!"></bda-camp-sign-up-button>
     </div>
+    <agm-map
+      [latitude]="49.3683808"
+      [longitude]="20.0042873"
+      [zoom]="11"
+      class="bda-admin-transport__google-map-rectangle"
+    >
+      <agm-marker [latitude]="49.3683808" [longitude]="20.0042873">
+        <agm-info-window>To tutaj odbywa się nasz Obóz. Sprawdź dokładnie gdzie znajduje się Chatka, w której chcesz mieszkać.</agm-info-window>
+      </agm-marker>
+    </agm-map>
   </bda-mean-of-transport>
 </section>

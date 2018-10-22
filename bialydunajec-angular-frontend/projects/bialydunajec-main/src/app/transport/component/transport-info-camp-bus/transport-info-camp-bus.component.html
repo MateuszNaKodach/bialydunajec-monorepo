@@ -1,5 +1,8 @@
 <section>
   <bda-mean-of-transport mapType="square">
+    <div class="bda-admin-transport__image">
+      <img src="assets/images/transport/transport_bus.svg">
+    </div>
     <div fxLayout="column" fxLayoutAlign="center center" class="bda-admin-transport__content">
       <bda-mean-of-transport-header
         title="Autokar Białego Dunajca"
@@ -30,16 +33,17 @@
       </div>
       <bda-camp-sign-up-button text="ZAPISZ SIĘ NA OBÓZ!"></bda-camp-sign-up-button>
     </div>
-      <agm-map
-        class="bda-admin-transport__google-map"
+    <agm-map
+      class="bda-admin-transport__google-map"
+      [latitude]="selectedCampBusLine.origin.geoLocation.latitude"
+      [longitude]="selectedCampBusLine.origin.geoLocation.longitude"
+      [zoom]="13"
+    >
+      <agm-marker
         [latitude]="selectedCampBusLine.origin.geoLocation.latitude"
-        [longitude]="selectedCampBusLine.origin.geoLocation.longitude"
-        [zoom]="13"
-      >
-        <agm-marker
-          [latitude]="selectedCampBusLine.origin.geoLocation.latitude"
-          [longitude]="selectedCampBusLine.origin.geoLocation.longitude">
-        </agm-marker>
-      </agm-map>
+        [longitude]="selectedCampBusLine.origin.geoLocation.longitude">
+        <agm-info-window>Stąd odjeżdża nasz autokar.</agm-info-window>
+      </agm-marker>
+    </agm-map>
   </bda-mean-of-transport>
 </section>
