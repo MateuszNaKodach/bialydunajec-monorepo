@@ -14,6 +14,9 @@ import {RECAPTCHA_SETTINGS, RecaptchaModule, RecaptchaSettings} from 'ng-recaptc
 import {RecaptchaFormsModule} from 'ng-recaptcha/forms';
 import {environment} from '../../environments/environment';
 
+import { AgmCoreModule } from '@agm/core';
+
+
 @NgModule({
   imports: [
     CommonModule,
@@ -21,7 +24,8 @@ import {environment} from '../../environments/environment';
     HttpClientModule,
     SuiCheckboxModule,
     RecaptchaModule.forRoot(),
-    RecaptchaFormsModule
+    RecaptchaFormsModule,
+    AgmCoreModule.forRoot({apiKey: environment.google.maps.apiKey})
   ],
   declarations: [
     SectionHeaderComponent,
@@ -44,12 +48,13 @@ import {environment} from '../../environments/environment';
     HttpClientModule,
     CampRegistrationsReminderComponent,
     RecaptchaModule,
-    RecaptchaFormsModule
+    RecaptchaFormsModule,
+    AgmCoreModule
   ],
   providers: [
     {
       provide: RECAPTCHA_SETTINGS,
-      useValue: { siteKey: environment.reCaptcha.siteKey } as RecaptchaSettings,
+      useValue: { siteKey: environment.google.reCaptcha.siteKey } as RecaptchaSettings,
     },
   ],
 })

@@ -1,6 +1,6 @@
 <section>
   <bda-mean-of-transport mapType="square">
-    <div fxLayout="column" fxLayoutAlign="center center">
+    <div fxLayout="column" fxLayoutAlign="center center" class="bda-admin-transport__content">
       <bda-mean-of-transport-header
         title="Autokar Białego Dunajca"
         description="Specjalny autokar wyjeżdżający z Wrocławia i Opola, który dostarczy Cię bezpośrednio pod Twoją chatkę."
@@ -30,5 +30,16 @@
       </div>
       <bda-camp-sign-up-button text="ZAPISZ SIĘ NA OBÓZ!"></bda-camp-sign-up-button>
     </div>
+      <agm-map
+        class="bda-admin-transport__google-map"
+        [latitude]="selectedCampBusLine.origin.geoLocation.latitude"
+        [longitude]="selectedCampBusLine.origin.geoLocation.longitude"
+        [zoom]="13"
+      >
+        <agm-marker
+          [latitude]="selectedCampBusLine.origin.geoLocation.latitude"
+          [longitude]="selectedCampBusLine.origin.geoLocation.longitude">
+        </agm-marker>
+      </agm-map>
   </bda-mean-of-transport>
 </section>

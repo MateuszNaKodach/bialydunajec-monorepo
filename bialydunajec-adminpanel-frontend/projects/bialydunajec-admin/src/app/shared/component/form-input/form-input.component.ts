@@ -9,6 +9,7 @@ import {AbstractControl} from '@angular/forms';
 })
 export class FormInputComponent extends FormInputAbstractComponent {
 
+  @Input() isEditMode = true;
   @Input() label: string;
   @Input() control: AbstractControl;
   @Input() errorDefs: any;

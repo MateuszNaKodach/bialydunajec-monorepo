@@ -22,14 +22,25 @@ body {
   border: 1px solid #1890ff;
 }
 
-.bda-admin-section-card-action{
+.bda-admin-section-card-action {
   padding-top: 1.5rem;
-  .bda-admin-section-card-action-small-button{
+  .bda-admin-section-card-action-small-button {
     background: lightgrey;
 
-    &:hover{
+    &:hover {
       background: #676767;
     }
+  }
+}
+
+input.ng-invalid.ng-dirty,
+textarea.ng-invalid.ng-dirty {
+  border: 1px solid #f5222d;
+}
+
+.ant-form-explain {
+  * {
+    color: #f5222d !important;
   }
 }
 
