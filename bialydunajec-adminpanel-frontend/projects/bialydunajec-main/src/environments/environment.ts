@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   restApi: {
-    baseUrl: 'http://localhost:3536',
+    baseUrl: 'http://localhost:3344',
     clientId: 'web-angular',
     clientSecret: 'fUMU6AngbLIkfTOAqfifaShzOEMeUQ/cxpij3iwMM30Czj..7ipdLxv6'
   },
