@@ -3,7 +3,7 @@
 
 .bda-not-found {
   background: url('../../../../assets/images/core/404_background.jpg') center/cover;
-  height: 80vh;
+  min-height: 80vh;
   margin-top: 1px;
   display: flex;
   flex-flow: column;

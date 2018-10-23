@@ -3,14 +3,15 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AcademicMinistryAdminEndpoint} from '../../service/rest/academic-ministry.endpoint';
 import {AngularFormHelper} from '../../../../../../bialydunajec-main/src/app/shared/helper/angular-form.helper';
 import {HttpResponseHelper} from '../../../shared/helper/HttpResponseHelper';
-import {filter, finalize, flatMap, tap} from 'rxjs/operators';
+import {finalize, flatMap, tap} from 'rxjs/operators';
 import {CreateAcademicMinistryRequest, UpdateAcademicMinistryRequest} from '../../service/rest/request/create-academic-ministry.request';
-import {ActivatedRoute, Params, Router} from '@angular/router';
+import {ActivatedRoute, Params} from '@angular/router';
 import {AcademicMinistryResponse} from '../../service/rest/response/academic-ministry.response';
 import {AlertViewModel} from '../../../shared/view-model/ng-zorro/alert.view-model';
 import {EditFormMode} from './edit-form.mode';
 import {Observable, Observer} from 'rxjs';
 import {AcademicMinistryEditFormModel} from './academic-ministry-edit.form-model';
+import {NzModalService} from 'ng-zorro-antd';
 
 @Component({
   selector: 'bda-admin-academic-ministry-edit',
@@ -25,6 +26,29 @@ export class AcademicMinistryEditComponent implements OnInit {
   submittingInProgress = false;
   academicMinistryForm: FormGroup;
   // private formConfig = new Map<EditFormMode, {submitFn: () => Observable<any>, submitObserver: Observer<any>}>();
+
+  priestModal = {
+    isVisible: false,
+    formMode: EditFormMode.CREATE,
+    showInputs: true,
+    form: this.formBuilder.group({
+      firstName: [null, []],
+      lastName: [null, []],
+      personalTitle: this.formBuilder.group({
+        name: [null, []],
+        prefix: [null, []],
+        postfix: [null, []]
+      }),
+      emailAddress: [null, []],
+      phoneNumber: [null, []],
+      description: this.formBuilder.group({
+        title: [null, []],
+        content: [null, []]
+      }),
+      photoUrl: [null, []]
+    })
+  };
+
   private formSubmitFn;
   private formSubmitObservers;
   private determineModeFn;
@@ -32,6 +56,7 @@ export class AcademicMinistryEditComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
+    private modalService: NzModalService,
     private academicMinistryEndpoint: AcademicMinistryAdminEndpoint) {
   }
 
@@ -282,5 +307,67 @@ export class AcademicMinistryEditComponent implements OnInit {
 
   get descriptionContentFormControl() {
     return this.academicMinistryForm.get(['description', 'content']);
+  }
+
+  // PRIEST MODAL ------------------------------------------------------------------------
+
+  showPriestModal() {
+    this.priestModal.isVisible = true;
+  }
+
+  hidePriestModal() {
+    this.priestModal.isVisible = false;
+  }
+
+  onSubmitPriestForm() {
+    this.hidePriestModal();
+  }
+
+  onCancelPriestForm() {
+    this.hidePriestModal();
+  }
+
+  get isPriestModalVisible() {
+    return this.priestModal.isVisible;
+  }
+
+  get priestFirstNameFormControl() {
+    return this.priestModal.form.get('firstName');
+  }
+
+  get priestLastNameFormControl() {
+    return this.priestModal.form.get('lastName');
+  }
+
+  get priestPersonalTitleNameFormControl() {
+    return this.priestModal.form.get(['personalTitle', 'name']);
+  }
+
+  get priestPersonalTitlePrefixFormControl() {
+    return this.priestModal.form.get(['personalTitle', 'prefix']);
+  }
+
+  get priestPersonalTitlePostfixFormControl() {
+    return this.priestModal.form.get(['personalTitle', 'postfix']);
+  }
+
+  get priestEmailAddressFormControl() {
+    return this.priestModal.form.get('emailAddress');
+  }
+
+  get priestPhoneNumberFormControl() {
+    return this.priestModal.form.get('phoneNumber');
+  }
+
+  get priestDescriptionTitleFormControl() {
+    return this.priestModal.form.get(['description', 'title']);
+  }
+
+  get priestDescriptionContentFormControl() {
+    return this.priestModal.form.get(['description', 'content']);
+  }
+
+  get priestPhotoUrlFormControl() {
+    return this.priestModal.form.get('photoUrl');
   }
 }

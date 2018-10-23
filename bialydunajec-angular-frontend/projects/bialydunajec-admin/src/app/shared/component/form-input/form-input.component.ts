@@ -3,7 +3,7 @@ import {FormInputAbstractComponent} from 'bialydunajec-commons';
 import {AbstractControl} from '@angular/forms';
 
 @Component({
-  selector: 'bda-admin-form-input',
+  selector: '[bda-admin-form-input]',
   templateUrl: './form-input.component.html',
   styleUrls: ['./form-input.component.less']
 })
@@ -17,5 +17,6 @@ export class FormInputComponent extends FormInputAbstractComponent {
   protected getFormInputProperties(): { abstractControl: AbstractControl; errorDefinitions: any } {
     return {abstractControl: this.control, errorDefinitions: this.errorDefs};
   }
+
 
 }

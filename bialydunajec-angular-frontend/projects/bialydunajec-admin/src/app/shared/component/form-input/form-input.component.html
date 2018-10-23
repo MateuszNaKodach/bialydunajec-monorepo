@@ -1,7 +1,7 @@
 <nz-form-item>
   <nz-form-label *ngIf="label">{{label}}</nz-form-label>
   <nz-form-control>
-    <ng-content *ngIf="isEditMode; else valuePreview"></ng-content>
+    <ng-content *ngIf="isEditMode == true; else valuePreview"></ng-content>
     <nz-form-explain *ngIf="isInvalid()">{{errorMessage}}</nz-form-explain>
   </nz-form-control>
   <ng-template #valuePreview>

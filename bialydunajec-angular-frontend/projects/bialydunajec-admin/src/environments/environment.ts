@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   restApi: {
-    baseUrl: 'http://localhost:3344',
+    //baseUrl: 'http://localhost:3344',
+    baseUrl: 'https://rest.bialydunajec.org',
     clientId: 'web-angular',
     clientSecret: 'fUMU6AngbLIkfTOAqfifaShzOEMeUQ/cxpij3iwMM30Czj..7ipdLxv6'
   },
