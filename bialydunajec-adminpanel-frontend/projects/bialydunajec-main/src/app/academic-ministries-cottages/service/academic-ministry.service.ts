@@ -6,11 +6,12 @@ import {PersonalTitle} from '../../shared/model/personal-title.model';
 import {ExtendedDescription} from '../../shared/model/extended-description.model';
 import {Facebook} from '../../shared/model/facebook.model';
 import {AcademicMinistry} from '../model/academic-ministry.model';
+import {AcademicMinistryEndpoint} from './rest/academic-ministry.endpoint';
 
 @Injectable()
 export class AcademicMinistryService {
 
-  constructor() {
+  constructor(private academicMinistryEndpoint: AcademicMinistryEndpoint) {
   }
 
   getAllAcademicMinistryDetails() {

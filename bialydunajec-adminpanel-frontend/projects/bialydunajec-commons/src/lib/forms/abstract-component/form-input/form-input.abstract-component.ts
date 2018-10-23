@@ -6,8 +6,8 @@ import {FormStatus} from '../../model/form-status.enum';
 
 export abstract class FormInputAbstractComponent implements OnInit, OnDestroy {
 
-  private abstractControl: AbstractControl;
-  private errorDefinitions: any;
+  protected abstractControl: AbstractControl;
+  protected errorDefinitions: any;
 
   errorMessage: string = null;
 
@@ -58,7 +58,7 @@ export abstract class FormInputAbstractComponent implements OnInit, OnDestroy {
   }
 
   isInvalid() {
-    return (this.abstractControl.touched || this.abstractControl.dirty) && this.abstractControl.invalid;
+    return this.abstractControl && (this.abstractControl.touched || this.abstractControl.dirty) && this.abstractControl.invalid;
   }
 
 
