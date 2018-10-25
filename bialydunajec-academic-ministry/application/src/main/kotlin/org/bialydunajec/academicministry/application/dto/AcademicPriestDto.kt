@@ -1,9 +1,12 @@
-package org.bialydunajec.academicministry.rest.v1.admin.request
+package org.bialydunajec.academicministry.application.dto
 
-import org.bialydunajec.academicministry.application.dto.PersonalTitleDto
+import org.bialydunajec.academicministry.domain.valueobject.AcademicPriestSnapshot
 import org.bialydunajec.ddd.application.base.query.api.dto.ExtendedDescriptionDto
+import org.bialydunajec.ddd.application.base.query.api.dto.toDto
+import org.bialydunajec.ddd.domain.extensions.toStringOrNull
 
-internal class CreateAcademicMinistryPriestRequest(
+data class AcademicPriestDto(
+        val academicPriestId: String,
         val firstName: String,
         val lastName: String,
         val personalTitle: PersonalTitleDto?,

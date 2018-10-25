@@ -1,5 +1,5 @@
 server:
-  port: 3536
+  port: 3344
 
 spring:
   profiles:

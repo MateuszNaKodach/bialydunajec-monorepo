@@ -5,9 +5,11 @@ import org.bialydunajec.academicministry.application.command.api.AcademicMinistr
 import org.bialydunajec.academicministry.application.dto.toValueObject
 import org.bialydunajec.academicministry.application.query.api.AcademicMinistryQuery
 import org.bialydunajec.academicministry.application.query.api.AcademicMinistryAdminQueryGateway
+import org.bialydunajec.academicministry.application.query.api.AcademicPriestQuery
 import org.bialydunajec.academicministry.domain.AcademicMinistryId
+import org.bialydunajec.academicministry.domain.entity.AcademicPriestId
 import org.bialydunajec.academicministry.domain.valueobject.AcademicPriestSnapshot
-import org.bialydunajec.academicministry.rest.v1.admin.request.CreateAcademicMinistryPriestRequest
+import org.bialydunajec.academicministry.rest.v1.admin.request.CreateAcademicPriestRequest
 import org.bialydunajec.academicministry.rest.v1.admin.request.CreateAcademicMinistryRequest
 import org.bialydunajec.academicministry.rest.v1.admin.request.UpdateAcademicMinistryRequest
 import org.bialydunajec.ddd.application.base.query.api.dto.toValueObject
@@ -60,23 +62,30 @@ internal class AcademicMinistryAdminController(
             )
 
     @PostMapping("/{academicMinistryId}/priest")
-    fun createAcademicMinistryPriest(@PathVariable academicMinistryId: String, @RequestBody request: CreateAcademicMinistryPriestRequest) =
+    fun createAcademicMinistryPriest(@PathVariable academicMinistryId: String, @RequestBody request: CreateAcademicPriestRequest) =
             with(request) {
                 academicMinistryAdminCommandGateway.process(
                         AcademicMinistryCommand.CreateAcademicMinistryPriest(
                                 AcademicMinistryId(academicMinistryId),
-                                AcademicPriestSnapshot(
-                                        FirstName(firstName),
-                                        LastName(lastName),
-                                        personalTitle?.toValueObject(),
-                                        emailAddress?.let { EmailAddress(it) },
-                                        phoneNumber?.let { PhoneNumber(it) },
-                                        description?.toValueObject(),
-                                        photoUrl?.let { Url(it) }
-                                )
+                                FirstName(firstName),
+                                LastName(lastName),
+                                personalTitle?.toValueObject(),
+                                emailAddress?.let { EmailAddress(it) },
+                                phoneNumber?.let { PhoneNumber(it) },
+                                description?.toValueObject(),
+                                photoUrl?.let { Url(it) }
                         )
                 )
             }
+
+    @DeleteMapping("/{academicMinistryId}/priest/{academicPriestId}")
+    fun removeAcademicMinistryPriest(@PathVariable academicMinistryId: String, @PathVariable academicPriestId: String) =
+                academicMinistryAdminCommandGateway.process(
+                        AcademicMinistryCommand.RemoveAcademicMinistryPriest(
+                                AcademicMinistryId(academicMinistryId),
+                                AcademicPriestId(academicPriestId)
+                        )
+                )
 
 
     //QUERY-------------------------------------------------------------------------------------------------------------
@@ -89,4 +98,8 @@ internal class AcademicMinistryAdminController(
     @GetMapping("/{academicMinistryId}")
     fun getAcademicMinistryById(@PathVariable academicMinistryId: String) =
             academicMinistryAdminQueryGateway.process(AcademicMinistryQuery.ById(academicMinistryId))
+
+    @GetMapping("/{academicMinistryId}/priest")
+    fun getAllAcademicPriestByAcademicMinistryId(@PathVariable academicMinistryId: String) =
+            academicMinistryAdminQueryGateway.process(AcademicPriestQuery.AllByAcademicMinistryId(academicMinistryId))
 }

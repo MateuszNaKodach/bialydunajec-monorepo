@@ -7,7 +7,11 @@ import org.bialydunajec.academicministry.domain.valueobject.AcademicPriestSnapsh
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.SocialMedia
 import org.bialydunajec.ddd.domain.base.aggregate.AggregateRoot
 import org.bialydunajec.ddd.domain.base.persistence.Versioned
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.PhoneNumber
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddress
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.FirstName
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.LastName
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.PersonalTitle
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.Url
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.location.Place
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.notes.ExtendedDescription
@@ -48,8 +52,8 @@ class AcademicMinistry(
     @Version
     private var version: Long? = null
 
-    @OneToMany(cascade = [CascadeType.ALL])
-    private var priests: MutableList<AcademicPriest> = mutableListOf();
+    @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+    private var priests: MutableSet<AcademicPriest> = mutableSetOf()
 
     init {
         registerEvent(AcademicMinistryEvent.AcademicMinistryCreated(getSnapshot()))
@@ -71,12 +75,26 @@ class AcademicMinistry(
         }
     }
 
-    fun addNewPriest(priest: AcademicPriestSnapshot) {
-        with(priest) {
-            priests.add(
-                    AcademicPriest(firstName, lastName, personalTitle, emailAddress, phoneNumber, description, photoUrl)
-            )
-        }
+    fun addNewPriest(
+            firstName: FirstName,
+            lastName: LastName,
+            personalTitle: PersonalTitle?,
+            emailAddress: EmailAddress?,
+            phoneNumber: PhoneNumber?,
+            description: ExtendedDescription?,
+            photoUrl: Url?
+    ) {
+        priests.add(
+                AcademicPriest(
+                        firstName,
+                        lastName,
+                        personalTitle,
+                        emailAddress,
+                        phoneNumber,
+                        description,
+                        photoUrl
+                )
+        )
     }
 
     fun updatePriest(priestId: AcademicPriestId, priest: AcademicPriestSnapshot) {
@@ -109,4 +127,5 @@ class AcademicMinistry(
             photoUrl = photoUrl,
             description = description
     )
+
 }

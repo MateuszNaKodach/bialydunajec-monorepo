@@ -71,5 +71,9 @@ internal class AcademicPriest(
 
     override fun getVersion(): Long? = version
 
-    fun getSnapshot() = AcademicPriestSnapshot(firstName, lastName, personalTitle, emailAddress, phoneNumber, description, photoUrl)
+    fun getSnapshot() = AcademicPriestSnapshot(entityId, firstName, lastName, personalTitle, emailAddress, phoneNumber, description, photoUrl)
+
+    override fun equals(other: Any?): Boolean = other!=null && other.hashCode() == this.hashCode()
+
+    override fun hashCode(): Int = entityId.hashCode()
 }

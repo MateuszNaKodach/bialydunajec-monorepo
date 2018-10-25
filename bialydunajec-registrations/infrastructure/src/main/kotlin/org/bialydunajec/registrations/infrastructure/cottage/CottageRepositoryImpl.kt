@@ -5,6 +5,7 @@ import org.bialydunajec.registrations.domain.cottage.Cottage
 import org.bialydunajec.registrations.domain.cottage.CottageId
 import org.bialydunajec.registrations.domain.cottage.CottageRepository
 import org.bialydunajec.ddd.infrastructure.base.persistence.AbstractDomainRepositoryImpl
+import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryId
 import org.bialydunajec.registrations.domain.cottage.valueobject.CottageStatus
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable
@@ -39,6 +40,10 @@ internal class CottageRepositoryImpl(
     override fun findById(aggregateId: CottageId) =
             super.findById(aggregateId)
 
+    @Cacheable(cacheNames = [COTTAGE_CACHE], key = "{#root.methodName,#academicMinistryId}")
+    override fun findNewestAcademicMinistryCottage(academicMinistryId: AcademicMinistryId): Cottage? =
+            jpaRepository.findFirstByAcademicMinistryIdOrderByCampEditionIdDesc(academicMinistryId)
+
 }
 
 internal interface CottageJpaRepository : JpaRepository<Cottage, CottageId> {
@@ -46,4 +51,5 @@ internal interface CottageJpaRepository : JpaRepository<Cottage, CottageId> {
     fun findAllByCampRegistrationsEditionIdAndStatus(campRegistrationsEditionId: CampRegistrationsEditionId, status: CottageStatus): Collection<Cottage>
     fun findByAggregateIdAndCampRegistrationsEditionId(cottageId: CottageId, campRegistrationsEditionId: CampRegistrationsEditionId): Cottage?
     fun countByCampRegistrationsEditionId(campRegistrationsEditionId: CampRegistrationsEditionId): Long
+    fun findFirstByAcademicMinistryIdOrderByCampEditionIdDesc(academicMinistryId: AcademicMinistryId): Cottage?
 }

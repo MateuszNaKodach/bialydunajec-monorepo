@@ -5,7 +5,11 @@ import org.bialydunajec.academicministry.domain.entity.AcademicPriestId
 import org.bialydunajec.academicministry.domain.valueobject.AcademicPriestSnapshot
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.SocialMedia
 import org.bialydunajec.ddd.application.base.command.Command
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.PhoneNumber
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddress
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.FirstName
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.LastName
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.PersonalTitle
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.Url
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.location.Place
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.notes.ExtendedDescription
@@ -40,12 +44,17 @@ sealed class AcademicMinistryCommand : Command {
 
     data class CreateAcademicMinistryPriest(
             val academicMinistryId: AcademicMinistryId,
-            val priestSnapshot: AcademicPriestSnapshot
+            val firstName: FirstName,
+            val lastName: LastName,
+            val personalTitle: PersonalTitle?,
+            val emailAddress: EmailAddress?,
+            val phoneNumber: PhoneNumber?,
+            val description: ExtendedDescription?,
+            val photoUrl: Url?
     ) : AcademicMinistryCommand()
 
     data class UpdateAcademicMinistryPriest(
             val academicMinistryId: AcademicMinistryId,
-            val academicPriestId: AcademicPriestId,
             val priestSnapshot: AcademicPriestSnapshot
     ) : AcademicMinistryCommand()
 

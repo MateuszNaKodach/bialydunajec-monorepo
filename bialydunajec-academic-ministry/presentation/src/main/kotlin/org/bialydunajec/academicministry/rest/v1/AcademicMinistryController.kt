@@ -2,6 +2,7 @@ package org.bialydunajec.academicministry.rest.v1
 
 import org.bialydunajec.academicministry.application.query.api.AcademicMinistryQuery
 import org.bialydunajec.academicministry.application.query.api.AcademicMinistryQueryGateway
+import org.bialydunajec.academicministry.application.query.api.AcademicPriestQuery
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
@@ -26,4 +27,8 @@ internal class AcademicMinistryController(
     @GetMapping("/{academicMinistryId}")
     fun getAcademicMinistryById(@PathVariable academicMinistryId: String) =
             academicMinistryQueryGateway.process(AcademicMinistryQuery.ById(academicMinistryId))
+
+    @GetMapping("/{academicMinistryId}/priest")
+    fun getAllAcademicPriestByAcademicMinistryId(@PathVariable academicMinistryId: String) =
+            academicMinistryQueryGateway.process(AcademicPriestQuery.AllByAcademicMinistryId(academicMinistryId))
 }
