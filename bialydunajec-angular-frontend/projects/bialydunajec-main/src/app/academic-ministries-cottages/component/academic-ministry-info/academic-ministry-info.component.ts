@@ -4,6 +4,10 @@ import {OptionSelected} from '../../../shared/component/dual-toggle-button/event
 import {AcademicMinistryService} from '../../service/academic-ministry.service';
 import {AcademicMinistry} from '../../model/academic-ministry.model';
 import {academicMinistriesCottagesRoutingPaths} from '../../academic-ministries-cottages-routing.paths';
+import {Observable} from 'rxjs';
+import {AcademicMinistryResponse} from '../../../../../../bialydunajec-admin/src/app/academic-ministry/service/rest/response/academic-ministry.response';
+import {AcademicMinistryEndpoint} from '../../service/rest/academic-ministry.endpoint';
+import {flatMap, tap} from 'rxjs/operators';
 
 const TAB_COTTAGE = 'Chatka';
 const TAB_MINISTRY = 'Duszpasterstwo';
@@ -26,20 +30,31 @@ export class AcademicMinistryInfoComponent implements OnInit {
     }
   };
 
-  academicMinistry: AcademicMinistry;
+  //academicMinistry: AcademicMinistry;
+  academicMinistry$: Observable<AcademicMinistryResponse>;
+
 
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute,
-              private academicMinistryService: AcademicMinistryService) {
+              private academicMinistryService: AcademicMinistryService,
+              private academicMinistryEndpoint: AcademicMinistryEndpoint) {
   }
 
   ngOnInit() {
+    /*
     this.activatedRoute.params
       .subscribe(
         (params: Params) => {
           const academicMinistryId = params[academicMinistriesCottagesRoutingPaths.academicMinistryId];
           this.academicMinistry = this.academicMinistryService.getAcademicMinistryById(academicMinistryId);
         }
+      );
+      */
+    this.academicMinistry$ = this.activatedRoute.params
+      .pipe(
+        flatMap(params =>
+          this.academicMinistryEndpoint.getAcademicMinistryById(params[academicMinistriesCottagesRoutingPaths.academicMinistryId])),
+        tap(r => console.log('RESPONSE', r))
       );
   }
 

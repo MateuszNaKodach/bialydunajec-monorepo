@@ -4,8 +4,7 @@
       [breadcrumbs]="isEditMode ? ['Duszpasterstwa', shortNameFormControl.value ? shortNameFormControl.value : officialNameFormControl.value, 'Edytuj'] : ['Duszpasterstwa', 'Dodaj nowe']"
     ></bda-admin-breadcrumbs>
     <button [disabled]="isEditMode && !academicMinistryForm.dirty" style="margin-left: 2rem" nz-button nzType="primary"
-            [nzLoading]="submittingInProgress" type="submit" form="academic-ministry-form">{{isEditMode ? 'Zatwierdź
-      wszystkie zmiany' : 'Dodaj duszpasterstwo'}}
+            [nzLoading]="submittingInProgress" type="submit" form="academic-ministry-form">{{isEditMode ? 'Zatwierdź wszystkie zmiany' : 'Dodaj duszpasterstwo'}}
     </button>
   </div>
   <nz-form-item>
@@ -204,7 +203,17 @@
       <div class="bda-admin-panel-section-card" *ngIf="isEditMode">
         <h3><b>DUSZPASTERZE</b></h3>
         <nz-divider></nz-divider>
-        <bda-admin-academic-priest></bda-admin-academic-priest>
+        <ng-container
+          *ngIf="academicPriests$ | async as academicPriests">
+          <div
+            *ngFor="let priest of academicPriests"
+            style="margin-bottom: 1rem;">
+            <bda-admin-academic-priest
+              [priest]="priest"
+              (deleteClick)="removeAcademicPriest(priest.academicPriestId)"
+            ></bda-admin-academic-priest>
+          </div>
+        </ng-container>
         <button nz-button nzType="primary" type="button" (click)="showPriestModal()">
           Dodaj duszpasterza
         </button>
@@ -215,18 +224,19 @@
           nzCancelText="Anuluj"
           (nzOnOk)="onSubmitPriestForm()"
           (nzOnCancel)="onCancelPriestForm()"
+          [nzOkLoading]="submittingInProgress"
         >
           <form nz-form [formGroup]="priestModal.form" *ngIf="priestModal.isVisible">
             <nz-form-item>
-              <nz-form-label nzFor="priestFirstName">
+              <nz-form-label nzFor="priestFirstName" nzRequired>
                 <span>Imię i nazwisko</span>
               </nz-form-label>
               <nz-form-control>
-                <div *ngIf="priestModal.showInputs; else priestNameValueView" class="bda-admin-priest-name">
+                <div *ngIf="priestModal.showInputs; else priestNameValueView" class="bda-admin-priest-name"
+                     formGroupName="name">
                   <ng-container formGroupName="personalTitle">
                     <input
                       nz-input
-                      formGroup="personalTitle"
                       formControlName="prefix"
                       placeholder="o."
                       id="priestTitlePrefix">
@@ -252,8 +262,9 @@
                       id="priestTitlePostfix">
                   </ng-container>
                 </div>
-                <nz-form-explain *ngIf="priestFirstNameFormControl.dirty && priestFirstNameFormControl.errors">
-                  Proszę wypełnić pole.
+                <nz-form-explain
+                  *ngIf="priestFirstNameFormControl.dirty && priestFirstNameFormControl.errors || priestLastNameFormControl.dirty && priestLastNameFormControl.errors">
+                  Przynajmniej imię i nazwisko jest wymagane.
                 </nz-form-explain>
               </nz-form-control>
               <ng-template #priestNameValueView>
@@ -307,7 +318,7 @@
             </nz-form-item>
             <nz-form-item class="bda-admin-academic-priest__photo-preview">
               <img
-                [src]="priestPhotoUrlFormControl.value ? priestPhotoUrlFormControl.value : 'assets/images/placeholder/placeholder_church.png'"
+                [src]="priestPhotoUrlFormControl.value ? priestPhotoUrlFormControl.value : 'assets/images/placeholder/placeholder_person.png'"
                 class="img-responsive"
                 alt="Brak obrazu pod wskazanym url.">
             </nz-form-item>

@@ -33,7 +33,9 @@ export class DualToggleButtonComponent implements OnInit, ControlValueAccessor {
     this.optionSelected.emit(new OptionSelected(this.options[option].name));
 
     const selectedValue = this.options[option].value;
-    this.onChange(selectedValue === null ? this.options[option].name : selectedValue);
+    if (this.onChange) {
+      this.onChange(selectedValue === null ? this.options[option].name : selectedValue);
+    }
   }
 
   registerOnChange(fn: any): void {

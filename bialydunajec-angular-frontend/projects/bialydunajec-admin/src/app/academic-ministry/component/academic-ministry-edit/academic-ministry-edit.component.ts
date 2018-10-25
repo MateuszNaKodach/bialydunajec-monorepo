@@ -12,6 +12,10 @@ import {EditFormMode} from './edit-form.mode';
 import {Observable, Observer} from 'rxjs';
 import {AcademicMinistryEditFormModel} from './academic-ministry-edit.form-model';
 import {NzModalService} from 'ng-zorro-antd';
+import {CreateAcademicPriestRequest} from '../../service/rest/request/create-academic-priest.request';
+import {PersonalTitleDto} from '../../service/rest/dto/personal-title.dto';
+import {ExtendedDescriptionDto} from '../../../shared/service/rest/dto/extended-description.dto';
+import {AcademicPriestDto} from '../../service/rest/dto/academic-priest.dto';
 
 @Component({
   selector: 'bda-admin-academic-ministry-edit',
@@ -27,17 +31,19 @@ export class AcademicMinistryEditComponent implements OnInit {
   academicMinistryForm: FormGroup;
   // private formConfig = new Map<EditFormMode, {submitFn: () => Observable<any>, submitObserver: Observer<any>}>();
 
+  academicPriests$: Observable<AcademicPriestDto[]>;
   priestModal = {
     isVisible: false,
     formMode: EditFormMode.CREATE,
     showInputs: true,
     form: this.formBuilder.group({
-      firstName: [null, []],
-      lastName: [null, []],
-      personalTitle: this.formBuilder.group({
-        name: [null, []],
-        prefix: [null, []],
-        postfix: [null, []]
+      name: this.formBuilder.group({
+        firstName: [null, [Validators.required]],
+        lastName: [null, [Validators.required]],
+        personalTitle: this.formBuilder.group({
+          prefix: [null, []],
+          postfix: [null, []]
+        })
       }),
       emailAddress: [null, []],
       phoneNumber: [null, []],
@@ -93,6 +99,7 @@ export class AcademicMinistryEditComponent implements OnInit {
           this.currentAcademicMinistryId = response.academicMinistryId;
           this.academicMinistryForm.patchValue(AcademicMinistryEditFormModel.fromDto(response));
           this.academicMinistryForm.updateValueAndValidity();
+          this.loadPriestsList();
         }
       );
   }
@@ -237,6 +244,10 @@ export class AcademicMinistryEditComponent implements OnInit {
     }
   }
 
+  loadPriestsList() {
+    this.academicPriests$ = this.academicMinistryEndpoint.getAllAcademicPriestByAcademicMinistryId(this.currentAcademicMinistryId);
+  }
+
   get isEditMode() {
     return this.formMode === EditFormMode.EDIT;
   }
@@ -320,7 +331,48 @@ export class AcademicMinistryEditComponent implements OnInit {
   }
 
   onSubmitPriestForm() {
-    this.hidePriestModal();
+    const priestForm = this.priestModal.form;
+    AngularFormHelper.markFormGroupDirty(priestForm);
+    if (priestForm.valid) {
+      const formValue = priestForm.value;
+      const request = new CreateAcademicPriestRequest(
+        formValue.name.firstName,
+        formValue.name.lastName,
+        new PersonalTitleDto(
+          formValue.name.personalTitle.prefix,
+          formValue.name.personalTitle.postfix
+        ),
+        formValue.emailAddress,
+        formValue.phoneNumber,
+        new ExtendedDescriptionDto(
+          formValue.description.title,
+          formValue.description.content
+        ),
+        formValue.photoUrl
+      );
+      this.submittingInProgress = true;
+      this.academicMinistryEndpoint.createAcademicPriest(this.currentAcademicMinistryId, request)
+        .pipe(
+          finalize(() => this.submittingInProgress = false)
+        ).subscribe(
+        r => {
+          console.log(r);
+          this.hidePriestModal();
+          priestForm.reset();
+          this.loadPriestsList();
+        },
+        e => {
+          console.log(e);
+        }
+      );
+    }
+  }
+
+  removeAcademicPriest(academicPriestId: string) {
+    this.academicMinistryEndpoint.removeAcademicPriest(this.currentAcademicMinistryId, academicPriestId)
+      .pipe(
+        tap(() => this.loadPriestsList())
+      ).subscribe();
   }
 
   onCancelPriestForm() {
@@ -332,23 +384,19 @@ export class AcademicMinistryEditComponent implements OnInit {
   }
 
   get priestFirstNameFormControl() {
-    return this.priestModal.form.get('firstName');
+    return this.priestModal.form.get(['name', 'firstName']);
   }
 
   get priestLastNameFormControl() {
-    return this.priestModal.form.get('lastName');
-  }
-
-  get priestPersonalTitleNameFormControl() {
-    return this.priestModal.form.get(['personalTitle', 'name']);
+    return this.priestModal.form.get(['name', 'lastName']);
   }
 
   get priestPersonalTitlePrefixFormControl() {
-    return this.priestModal.form.get(['personalTitle', 'prefix']);
+    return this.priestModal.form.get(['name', 'personalTitle', 'prefix']);
   }
 
   get priestPersonalTitlePostfixFormControl() {
-    return this.priestModal.form.get(['personalTitle', 'postfix']);
+    return this.priestModal.form.get(['name', 'personalTitle', 'postfix']);
   }
 
   get priestEmailAddressFormControl() {

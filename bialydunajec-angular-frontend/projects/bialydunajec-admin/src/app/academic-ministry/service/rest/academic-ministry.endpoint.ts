@@ -4,6 +4,8 @@ import {HttpClient} from '@angular/common/http';
 import {AuthService} from '../../../auth/service/auth.service';
 import {CreateAcademicMinistryRequest, UpdateAcademicMinistryRequest} from './request/create-academic-ministry.request';
 import {AcademicMinistryResponse} from './response/academic-ministry.response';
+import {CreateAcademicPriestRequest} from './request/create-academic-priest.request';
+import {AcademicPriestDto} from './dto/academic-priest.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -31,5 +33,17 @@ export class AcademicMinistryAdminEndpoint extends AbstractEndpoint {
 
   getAcademicMinistryById(academicMinistryId: string) {
     return this.httpClient.get<AcademicMinistryResponse>(`${this.callsBaseUrl}/${academicMinistryId}`);
+  }
+
+  createAcademicPriest(academicMinistryId: string, requestBody: CreateAcademicPriestRequest) {
+    return this.httpClient.post(`${this.callsBaseUrl}/${academicMinistryId}/priest`, requestBody);
+  }
+
+  getAllAcademicPriestByAcademicMinistryId(academicMinistryId: string) {
+    return this.httpClient.get<AcademicPriestDto[]>(`${this.callsBaseUrl}/${academicMinistryId}/priest`);
+  }
+
+  removeAcademicPriest(academicMinistryId: string, academicPriestId: string) {
+    return this.httpClient.delete(`${this.callsBaseUrl}/${academicMinistryId}/priest/${academicPriestId}`);
   }
 }
