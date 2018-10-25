@@ -5,9 +5,9 @@
 
       <header style="padding-top: 30px; padding-bottom: 30px; margin-bottom: 40px">
         <!---TODO: Create social links component!-->
-        <div fxLayout="row" fxLayoutAlign="space-between flex-start">
-          <img [src]="academicMinistry.logoUrl"
-               alt="{{academicMinistry.shortName}} academic ministry logo.">
+        <div fxLayout="row" fxLayoutAlign="space-between flex-start" *ngIf="academicMinistry$ | async as academicMinistry">
+          <img [src]="academicMinistry.logoImageUrl"
+               alt="{{academicMinistry.displayName}} academic ministry logo.">
           <bda-social-media-links></bda-social-media-links>
         </div>
         <div fxLayoutAlign="center">

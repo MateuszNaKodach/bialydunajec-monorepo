@@ -4,6 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {AuthService} from '../../../../../../bialydunajec-admin/src/app/auth/service/auth.service';
 import {AcademicMinistryResponse} from '../../../../../../bialydunajec-admin/src/app/academic-ministry/service/rest/response/academic-ministry.response';
 import {AcademicMinistryNameResponse} from './response/academic-ministry-name.response';
+import {AcademicPriestDto} from '../../../../../../bialydunajec-admin/src/app/academic-ministry/service/rest/dto/academic-priest.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -24,5 +25,9 @@ export class AcademicMinistryEndpoint extends AbstractEndpoint {
 
   getAcademicMinistryById(academicMinistryId: string) {
     return this.httpClient.get<AcademicMinistryResponse>(`${this.callsBaseUrl}/${academicMinistryId}`);
+  }
+
+  getAllAcademicPriestByAcademicMinistryId(academicMinistryId: string) {
+    return this.httpClient.get<AcademicPriestDto[]>(`${this.callsBaseUrl}/${academicMinistryId}/priest`);
   }
 }

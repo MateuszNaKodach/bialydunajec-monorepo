@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {AcademicPriestDto} from '../../service/rest/dto/academic-priest.dto';
 
 @Component({
   selector: 'bda-admin-academic-priest',
@@ -7,7 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AcademicPriestComponent implements OnInit {
 
-  constructor() { }
+  @Input() priest: AcademicPriestDto;
+  @Output() moreClick = new EventEmitter<void>();
+  @Output() editClick = new EventEmitter<void>();
+  @Output() deleteClick = new EventEmitter<void>();
+
+
+  constructor() {
+  }
 
   ngOnInit() {
   }
