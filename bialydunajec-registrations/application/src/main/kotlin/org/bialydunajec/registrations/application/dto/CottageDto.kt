@@ -1,7 +1,7 @@
 package org.bialydunajec.registrations.application.dto
 
-import org.bialydunajec.ddd.application.base.query.api.dto.PlaceDto
-import org.bialydunajec.ddd.application.base.query.api.dto.toDto
+import org.bialydunajec.ddd.application.base.dto.PlaceDto
+import org.bialydunajec.ddd.application.base.dto.toDto
 import org.bialydunajec.ddd.domain.extensions.toStringOrNull
 import org.bialydunajec.registrations.domain.cottage.valueobject.CottageSnapshot
 

@@ -1,9 +1,11 @@
 package org.bialydunajec.registrations.domain.cottage
 
 import org.bialydunajec.ddd.domain.base.aggregate.AggregateRoot
+import org.bialydunajec.ddd.domain.base.aggregate.AuditableAggregateRoot
 import org.bialydunajec.ddd.domain.base.persistence.Versioned
 import org.bialydunajec.ddd.domain.base.validation.ValidationResult
 import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.auditing.Audit
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.Url
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.location.Place
 import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryId
@@ -61,7 +63,7 @@ class Cottage internal constructor(
 
         @Embedded
         private var cottageBoss: CottageBoss? = null
-) : AggregateRoot<CottageId, CottageEvents>(
+) : AuditableAggregateRoot<CottageId, CottageEvents>(
         when (cottageType) {
             CottageType.STANDALONE -> CottageId.ofStandaloneCottage(campRegistrationsEditionId)
             CottageType.ACADEMIC_MINISTRY -> CottageId.ofAcademicMinistryCottage(campRegistrationsEditionId, academicMinistryId
@@ -240,7 +242,8 @@ class Cottage internal constructor(
                     campersLimitations,
                     bankTransferDetails,
                     status,
-                    cottageBoss
+                    cottageBoss,
+                    Audit(getCreatedDate(), getCreatedBy(), getLastModifiedDate(), getLastModifiedBy())
             )
 
     override fun getVersion() = version

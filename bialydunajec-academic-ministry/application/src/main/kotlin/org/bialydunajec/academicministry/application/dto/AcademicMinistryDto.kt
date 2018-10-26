@@ -1,10 +1,10 @@
 package org.bialydunajec.academicministry.application.dto
 
 import org.bialydunajec.academicministry.domain.valueobject.AcademicMinistrySnapshot
-import org.bialydunajec.ddd.application.base.query.api.dto.ExtendedDescriptionDto
-import org.bialydunajec.ddd.application.base.query.api.dto.PlaceDto
-import org.bialydunajec.ddd.application.base.query.api.dto.SocialMediaDto
-import org.bialydunajec.ddd.application.base.query.api.dto.toDto
+import org.bialydunajec.ddd.application.base.dto.ExtendedDescriptionDto
+import org.bialydunajec.ddd.application.base.dto.PlaceDto
+import org.bialydunajec.ddd.application.base.dto.SocialMediaDto
+import org.bialydunajec.ddd.application.base.dto.toDto
 import org.bialydunajec.ddd.domain.extensions.toStringOrNull
 
 data class AcademicMinistryDto(

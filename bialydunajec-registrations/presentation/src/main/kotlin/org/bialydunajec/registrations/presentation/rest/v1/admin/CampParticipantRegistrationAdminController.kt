@@ -4,6 +4,6 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/rest-api/v1/camp-registrations/camp-participant-registration")
+@RequestMapping("/rest-api/v1/admin/camp-registrations/camp-participant-registration")
 class CampParticipantRegistrationAdminController {
 }

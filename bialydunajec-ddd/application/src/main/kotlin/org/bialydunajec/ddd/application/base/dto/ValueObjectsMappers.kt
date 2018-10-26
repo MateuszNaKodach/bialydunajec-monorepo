@@ -1,6 +1,8 @@
-package org.bialydunajec.ddd.application.base.query.api.dto
+package org.bialydunajec.ddd.application.base.dto
 
 import org.bialydunajec.ddd.domain.extensions.toStringOrNull
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.auditing.Audit
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.auditing.Auditor
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.AgeRange
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.*
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.location.*
@@ -75,4 +77,10 @@ fun AgeRange.toDto() =
 
 fun AgeRangeDto.toValueObject() =
         AgeRange(min, max)
+
+fun Audit.toDto() =
+        AuditDto(createdDate, createdBy?.toDto(), lastModifiedDate, lastModifiedBy?.toDto())
+
+fun Auditor.toDto() =
+        AuditorDto(auditorId.toStringOrNull(), firstName.toStringOrNull(), lastName.toStringOrNull(), emailAddress.toStringOrNull())
 

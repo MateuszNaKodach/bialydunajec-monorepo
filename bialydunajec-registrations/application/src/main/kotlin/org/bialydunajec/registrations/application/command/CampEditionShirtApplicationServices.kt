@@ -33,7 +33,22 @@ internal class AddCampEditionShirtColorOptionApplicationService(
     override fun process(command: CampRegistrationsCommand.AddCampEditionShirtColorOption) {
         val campEditionShirt = campEditionShirtRepository.findById(command.campEditionShirtId)
                 ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.SHIRT_TO_UPDATE_MUST_EXISTS)
-        campEditionShirt.addColorOption(command.color)
+        campEditionShirt.addColorOption(command.color, command.available)
+        campEditionShirtRepository.save(campEditionShirt)
+    }
+
+}
+
+@Service
+@Transactional
+internal class UpdateCampEditionShirtColorOptionApplicationService(
+        private val campEditionShirtRepository: CampEditionShirtRepository
+) : ApplicationService<CampRegistrationsCommand.UpdateCampEditionShirtColorOption> {
+
+    override fun process(command: CampRegistrationsCommand.UpdateCampEditionShirtColorOption) {
+        val campEditionShirt = campEditionShirtRepository.findById(command.campEditionShirtId)
+                ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.SHIRT_TO_UPDATE_MUST_EXISTS)
+        campEditionShirt.updateColorOption(command.shirtColorOptionId, command.color, command.available)
         campEditionShirtRepository.save(campEditionShirt)
     }
 
@@ -48,7 +63,23 @@ internal class AddCampEditionShirtSizeOptionApplicationService(
     override fun process(command: CampRegistrationsCommand.AddCampEditionShirtSizeOption) {
         val campEditionShirt = campEditionShirtRepository.findById(command.campEditionShirtId)
                 ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.SHIRT_TO_UPDATE_MUST_EXISTS)
-        campEditionShirt.addSizeOption(command.size)
+        campEditionShirt.addSizeOption(command.size, command.available)
+        campEditionShirtRepository.save(campEditionShirt)
+    }
+
+}
+
+
+@Service
+@Transactional
+internal class UpdateCampEditionShirtSizeOptionApplicationService(
+        private val campEditionShirtRepository: CampEditionShirtRepository
+) : ApplicationService<CampRegistrationsCommand.UpdateCampEditionShirtSizeOption> {
+
+    override fun process(command: CampRegistrationsCommand.UpdateCampEditionShirtSizeOption) {
+        val campEditionShirt = campEditionShirtRepository.findById(command.campEditionShirtId)
+                ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.SHIRT_TO_UPDATE_MUST_EXISTS)
+        campEditionShirt.updateSizeOption(command.shirtSizeOptionId, command.size, command.available)
         campEditionShirtRepository.save(campEditionShirt)
     }
 
@@ -66,7 +97,7 @@ internal class PlaceCampEditionShirtOrderApplicationService(
                 ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.SHIRT_TO_ORDER_MUST_EXISTS)
         val campParticipant = campParticipantRepository.findById(command.campParticipantId)
                 ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.SHIRT_CAN_BE_ORDERED_ONLY_FOR_EXISTING_CAMP_PARTICIPANT)
-        campEditionShirt.placeOrder(campParticipant, command.color, command.size, command.type)
+        campEditionShirt.placeOrder(campParticipant, command.color, command.size)
         campEditionShirtRepository.save(campEditionShirt)
     }
 

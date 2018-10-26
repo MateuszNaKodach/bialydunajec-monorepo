@@ -1,4 +1,4 @@
-package org.bialydunajec.ddd.application.base.query.api.dto
+package org.bialydunajec.ddd.application.base.dto
 
 import org.bialydunajec.ddd.domain.base.validation.constraints.NullOrNotBlank
 

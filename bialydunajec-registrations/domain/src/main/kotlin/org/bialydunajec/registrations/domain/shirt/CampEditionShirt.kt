@@ -32,8 +32,8 @@ class CampEditionShirt internal constructor(
 
     fun update(
             shirtSizesFileUrl: Url?
-    ){
-        if(shirtSizesFileUrl != this.shirtSizesFileUrl){
+    ) {
+        if (shirtSizesFileUrl != this.shirtSizesFileUrl) {
             this.shirtSizesFileUrl = shirtSizesFileUrl
         }
     }
@@ -44,11 +44,20 @@ class CampEditionShirt internal constructor(
                             SHIRT_COLOR_OPTION_CAN_NOT_BE_DUPLICATED, isShirtColorInOptions(shirtColor)
                     ).toValidationResult()
 
-    fun addColorOption(shirtColor: Color) {
+    fun addColorOption(shirtColor: Color, available: Boolean = true) {
         canAddColorOption(shirtColor)
                 .ifInvalidThrowException()
 
-        colorOptions.add(ShirtColorOption(shirtColor))
+        colorOptions.add(ShirtColorOption(shirtColor, available))
+    }
+
+    fun updateColorOption(
+            shirtColorOptionId: ShirtColorOptionId,
+            color: Color,
+            available: Boolean = true) {
+        canAddColorOption(color)
+                .ifInvalidThrowException()
+        colorOptions.find { it.entityId == shirtColorOptionId }?.update(color, available)
     }
 
     fun canAddSizeOption(shirtSize: ShirtSize) =
@@ -57,11 +66,20 @@ class CampEditionShirt internal constructor(
                             SHIRT_SIZE_OPTION_CAN_NOT_BE_DUPLICATED, isShirtSizeInOptions(shirtSize)
                     ).toValidationResult()
 
-    fun addSizeOption(shirtSize: ShirtSize) {
+    fun addSizeOption(shirtSize: ShirtSize, available: Boolean = true) {
         canAddSizeOption(shirtSize)
                 .ifInvalidThrowException()
 
-        sizeOptions.add(ShirtSizeOption(shirtSize))
+        sizeOptions.add(ShirtSizeOption(shirtSize, available))
+    }
+
+    fun updateSizeOption(
+            shirtSizeOptionId: ShirtSizeOptionId,
+            shirtSize: ShirtSize,
+            available: Boolean = true) {
+        canAddSizeOption(shirtSize)
+                .ifInvalidThrowException()
+        sizeOptions.find { it.entityId == shirtSizeOptionId }?.update(shirtSize, available)
     }
 
     //TODO: Externalize filters to hashCode and equals!
@@ -93,8 +111,7 @@ class CampEditionShirt internal constructor(
     fun placeOrder(
             campParticipant: CampParticipant,
             shirtColor: Color,
-            shirtSize: ShirtSize,
-            shirtType: ShirtType
+            shirtSize: ShirtSize
     ) {
         canPlaceOrder(campParticipant, shirtColor, shirtSize)
                 .ifInvalidThrowException()
@@ -103,8 +120,7 @@ class CampEditionShirt internal constructor(
                 ShirtOrder(
                         campParticipant.getAggregateId(),
                         colorOptions.find { it.getColor() == shirtColor }!!,
-                        sizeOptions.find { it.getSize() == shirtSize }!!,
-                        shirtType
+                        sizeOptions.find { it.getSize() == shirtSize }!!
                 )
         )
     }
@@ -116,6 +132,7 @@ class CampEditionShirt internal constructor(
     fun getColorOptions() = colorOptions.map { it.getSnapshot() }
     fun getSnapshot() =
             CampEditionShirtSnapshot(
+                    getAggregateId(),
                     campRegistrationsEditionId,
                     shirtSizesFileUrl,
                     colorOptions.map { it.getSnapshot() },

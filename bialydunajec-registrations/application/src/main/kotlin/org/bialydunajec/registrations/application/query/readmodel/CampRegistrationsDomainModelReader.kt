@@ -86,6 +86,11 @@ internal class CampRegistrationsDomainModelReader(
             cottageRepository.findAllByCampRegistrationsEditionIdAndStatus(CampRegistrationsEditionId(query.campRegistrationsEditionId), CottageStatus.ACTIVATED)
                     .map { CampRegistrationsCottageDto.from(it.getSnapshot(), cottageFreeSpaceSpecificationFactory.createFor(query.camperGender).isSatisfiedBy(it)) }
 
+    fun readFor(query: CottageQuery.NewestByAcademicMinistryId): CottageInfoDto? =
+            cottageRepository.findNewestCottageByAcademicMinistryId(AcademicMinistryId(query.academicMinistryId))
+                    ?.getSnapshot()
+                    ?.let { CottageInfoDto.from(it) }
+
 
     fun readFor(query: CampParticipantQuery.CountByCottageId) =
             CampParticipantCountByCottageIdDto(query.cottageId, campParticipantRepository.countByCottageId(CottageId(query.cottageId)))

@@ -1,5 +1,6 @@
 package org.bialydunajec.registrations.domain.cottage.valueobject
 
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.auditing.Audit
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.Url
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.location.Place
 import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryId
@@ -19,5 +20,6 @@ data class CottageSnapshot internal constructor(
         val campersLimitations: CampersLimitations?,
         val bankTransferDetails: BankTransferDetails?,
         val cottageState: CottageStatus,
-        val cottageBoss: CottageBoss?
+        val cottageBoss: CottageBoss?,
+        val audit: Audit
 )

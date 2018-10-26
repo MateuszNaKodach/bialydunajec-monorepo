@@ -18,10 +18,7 @@ class ShirtOrder(
         private val colorOption: ShirtColorOption,
 
         @OneToOne
-        private val sizeOption: ShirtSizeOption,
-
-        @Enumerated(EnumType.STRING)
-        private val orderedType: ShirtType
+        private val sizeOption: ShirtSizeOption
 ) : IdentifiedEntity<ShirtOrderId> {
 
     @EmbeddedId

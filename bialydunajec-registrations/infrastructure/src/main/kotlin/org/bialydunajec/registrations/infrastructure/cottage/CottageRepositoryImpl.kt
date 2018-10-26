@@ -41,8 +41,8 @@ internal class CottageRepositoryImpl(
             super.findById(aggregateId)
 
     @Cacheable(cacheNames = [COTTAGE_CACHE], key = "{#root.methodName,#academicMinistryId}")
-    override fun findNewestAcademicMinistryCottage(academicMinistryId: AcademicMinistryId): Cottage? =
-            jpaRepository.findFirstByAcademicMinistryIdOrderByCampEditionIdDesc(academicMinistryId)
+    override fun findNewestCottageByAcademicMinistryId(academicMinistryId: AcademicMinistryId): Cottage? =
+            jpaRepository.findFirstByAcademicMinistryIdOrderByCampRegistrationsEditionIdDesc(academicMinistryId)
 
 }
 
@@ -51,5 +51,5 @@ internal interface CottageJpaRepository : JpaRepository<Cottage, CottageId> {
     fun findAllByCampRegistrationsEditionIdAndStatus(campRegistrationsEditionId: CampRegistrationsEditionId, status: CottageStatus): Collection<Cottage>
     fun findByAggregateIdAndCampRegistrationsEditionId(cottageId: CottageId, campRegistrationsEditionId: CampRegistrationsEditionId): Cottage?
     fun countByCampRegistrationsEditionId(campRegistrationsEditionId: CampRegistrationsEditionId): Long
-    fun findFirstByAcademicMinistryIdOrderByCampEditionIdDesc(academicMinistryId: AcademicMinistryId): Cottage?
+    fun findFirstByAcademicMinistryIdOrderByCampRegistrationsEditionIdDesc(academicMinistryId: AcademicMinistryId): Cottage?
 }

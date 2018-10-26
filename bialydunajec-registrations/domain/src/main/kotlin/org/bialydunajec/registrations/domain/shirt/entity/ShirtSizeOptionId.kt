@@ -4,4 +4,4 @@ import org.bialydunajec.ddd.domain.base.valueobject.EntityId
 import javax.persistence.Embeddable
 
 @Embeddable
-class ShirtSizeOptionId : EntityId()
+class ShirtSizeOptionId(shirtSizeOptionId: String = defaultValue()) : EntityId(shirtSizeOptionId)

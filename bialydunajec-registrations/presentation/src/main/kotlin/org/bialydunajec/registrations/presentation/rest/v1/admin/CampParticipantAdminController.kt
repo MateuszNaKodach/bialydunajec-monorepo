@@ -1,21 +1,12 @@
 package org.bialydunajec.registrations.presentation.rest.v1.admin
 
-import org.bialydunajec.ddd.application.base.query.api.dto.toValueObject
-import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.Url
-import org.bialydunajec.registrations.application.command.api.CampRegistrationsCommand
 import org.bialydunajec.registrations.application.command.api.CampRegistrationsCommandGateway
-import org.bialydunajec.registrations.application.dto.CottageDto
 import org.bialydunajec.registrations.application.query.api.*
-import org.bialydunajec.registrations.application.dto.toValueObject
-import org.bialydunajec.registrations.domain.cottage.CottageId
-import org.bialydunajec.registrations.presentation.rest.v1.admin.request.UpdateCottageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.*
-import java.util.Objects.isNull
-import javax.validation.Valid
 
 @RestController
-@RequestMapping("/rest-api/v1/camp-registrations/camp-participant")
+@RequestMapping("/rest-api/v1/admin/camp-registrations/camp-participant")
 class CampParticipantAdminController(
         private val commandGateway: CampRegistrationsCommandGateway,
         private val queryGateway: CampRegistrationsQueryGateway

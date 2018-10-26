@@ -1,6 +1,6 @@
 package org.bialydunajec.registrations.presentation.rest.v1
 
-import org.bialydunajec.ddd.application.base.query.api.dto.toValueObject
+import org.bialydunajec.ddd.application.base.dto.toValueObject
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.PhoneNumber
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddress
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.Gender

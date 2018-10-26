@@ -1,7 +1,6 @@
 package org.bialydunajec.registrations.presentation.rest.v1.request
 
-import org.bialydunajec.ddd.application.base.query.api.dto.AddressDto
-import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddress
+import org.bialydunajec.ddd.application.base.dto.AddressDto
 import org.bialydunajec.registrations.application.dto.CamperEducationDto
 import org.bialydunajec.registrations.application.dto.CamperPersonalDataDto
 

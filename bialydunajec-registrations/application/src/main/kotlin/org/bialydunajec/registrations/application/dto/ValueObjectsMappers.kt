@@ -1,7 +1,7 @@
 package org.bialydunajec.registrations.application.dto
 
-import org.bialydunajec.ddd.application.base.query.api.dto.toDto
-import org.bialydunajec.ddd.application.base.query.api.dto.toValueObject
+import org.bialydunajec.ddd.application.base.dto.toDto
+import org.bialydunajec.ddd.application.base.dto.toValueObject
 import org.bialydunajec.ddd.domain.extensions.toStringOrNull
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.PhoneNumber
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddress
@@ -14,11 +14,8 @@ import org.bialydunajec.registrations.domain.camper.valueobject.CamperApplicatio
 import org.bialydunajec.registrations.domain.camper.valueobject.CamperEducation
 import org.bialydunajec.registrations.domain.camper.valueobject.CamperPersonalData
 import org.bialydunajec.registrations.domain.camper.valueobject.StayDuration
-import org.bialydunajec.registrations.domain.cottage.Cottage
 import org.bialydunajec.registrations.domain.cottage.CottageId
 import org.bialydunajec.registrations.domain.cottage.valueobject.*
-import org.bialydunajec.registrations.domain.shirt.CampEditionShirt
-import org.bialydunajec.registrations.domain.shirt.entity.ShirtSizeOption
 import org.bialydunajec.registrations.domain.shirt.valueobject.*
 
 fun CottageSpace.toDto() =
@@ -151,10 +148,10 @@ fun CottageBossDto.toValueObject() =
         )
 
 fun ShirtSize.toDto() =
-        ShirtSizeDto(name, width, length)
+        ShirtSizeDto(name, type, height, width, length)
 
 fun ShirtSizeDto.toValueObject() =
-        ShirtSize(name, width, length)
+        ShirtSize(name, type, height, width, length)
 
 fun ShirtSizeOptionSnapshot.toDto() =
         ShirtSizeOptionDto(
@@ -170,10 +167,11 @@ fun ColorDto.toValueObject() =
         Color(name, hexValue)
 
 fun ShirtColorOptionSnapshot.toDto() =
-        ShirtColorOptionDto(shirtSizeOptionId.toString(), color.toDto(), available)
+        ShirtColorOptionDto(shirtColorOptionId.toString(), color.toDto(), available)
 
 fun CampEditionShirtSnapshot.toDto() =
         CampEditionShirtDto(
+                campEditionShirtId.toString(),
                 campRegistrationsEditionId.toString(),
                 shirtSizesFileUrl.toStringOrNull(),
                 colorOptions.map { it.toDto() },

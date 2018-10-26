@@ -10,13 +10,17 @@ import javax.persistence.Table
 @Entity
 @Table(schema = "camp_registrations")
 class ShirtSizeOption(
-        private val size: ShirtSize,
-        private val available: Boolean = true
+        private var size: ShirtSize,
+        private var available: Boolean = true
 ) : IdentifiedEntity<ShirtSizeOptionId> {
 
     @EmbeddedId
     override val entityId: ShirtSizeOptionId = ShirtSizeOptionId()
 
+    fun update(size: ShirtSize, available: Boolean){
+        this.size = size
+        this.available = available
+    }
     fun getSize() = size
     fun isAvailable() = available
     fun getSnapshot() = ShirtSizeOptionSnapshot(entityId, size, available)

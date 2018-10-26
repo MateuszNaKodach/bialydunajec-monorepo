@@ -1,6 +1,6 @@
 package org.bialydunajec.registrations.application.dto
 
-import org.bialydunajec.ddd.application.base.query.api.dto.AddressDto
+import org.bialydunajec.ddd.application.base.dto.AddressDto
 
 data class CamperApplicationDto(
         val cottageId: String,

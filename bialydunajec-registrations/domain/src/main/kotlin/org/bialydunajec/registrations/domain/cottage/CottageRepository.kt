@@ -10,5 +10,5 @@ interface CottageRepository : DomainRepository<Cottage, CottageId> {
     fun findAllByCampRegistrationsEditionIdAndStatus(campRegistrationsEditionId: CampRegistrationsEditionId, status: CottageStatus): Collection<Cottage>
     fun findByIdAndCampRegistrationsEditionId(cottageId: CottageId, campRegistrationsEditionId: CampRegistrationsEditionId): Cottage?
     fun countByCampRegistrationsEditionId(campRegistrationsEditionId: CampRegistrationsEditionId): Long
-    fun findNewestAcademicMinistryCottage(academicMinistryId: AcademicMinistryId): Cottage?
+    fun findNewestCottageByAcademicMinistryId(academicMinistryId: AcademicMinistryId): Cottage?
 }

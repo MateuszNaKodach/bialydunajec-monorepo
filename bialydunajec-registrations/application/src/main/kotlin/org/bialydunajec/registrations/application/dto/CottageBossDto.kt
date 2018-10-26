@@ -1,6 +1,6 @@
 package org.bialydunajec.registrations.application.dto
 
-import org.bialydunajec.ddd.application.base.query.api.dto.ExtendedDescriptionDto
+import org.bialydunajec.ddd.application.base.dto.ExtendedDescriptionDto
 
 class CottageBossDto(
         val firstName: String?,

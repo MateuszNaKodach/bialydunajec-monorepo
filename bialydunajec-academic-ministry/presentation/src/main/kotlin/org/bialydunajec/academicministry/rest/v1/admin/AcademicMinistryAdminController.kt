@@ -8,11 +8,10 @@ import org.bialydunajec.academicministry.application.query.api.AcademicMinistryA
 import org.bialydunajec.academicministry.application.query.api.AcademicPriestQuery
 import org.bialydunajec.academicministry.domain.AcademicMinistryId
 import org.bialydunajec.academicministry.domain.entity.AcademicPriestId
-import org.bialydunajec.academicministry.domain.valueobject.AcademicPriestSnapshot
 import org.bialydunajec.academicministry.rest.v1.admin.request.CreateAcademicPriestRequest
 import org.bialydunajec.academicministry.rest.v1.admin.request.CreateAcademicMinistryRequest
 import org.bialydunajec.academicministry.rest.v1.admin.request.UpdateAcademicMinistryRequest
-import org.bialydunajec.ddd.application.base.query.api.dto.toValueObject
+import org.bialydunajec.ddd.application.base.dto.toValueObject
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.PhoneNumber
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddress
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.FirstName

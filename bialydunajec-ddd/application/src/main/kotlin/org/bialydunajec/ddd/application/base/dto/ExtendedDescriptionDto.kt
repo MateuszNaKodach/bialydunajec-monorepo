@@ -1,4 +1,4 @@
-package org.bialydunajec.ddd.application.base.query.api.dto
+package org.bialydunajec.ddd.application.base.dto
 
 data class ExtendedDescriptionDto(
         val title: String?,

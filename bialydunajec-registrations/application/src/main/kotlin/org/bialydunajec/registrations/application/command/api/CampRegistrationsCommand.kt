@@ -119,7 +119,15 @@ sealed class CampRegistrationsCommand : Command {
 
     data class AddCampEditionShirtColorOption(
             val campEditionShirtId: CampEditionShirtId,
-            val color: Color
+            val color: Color,
+            val available: Boolean
+    ) : CampRegistrationsCommand()
+
+    data class UpdateCampEditionShirtColorOption(
+            val campEditionShirtId: CampEditionShirtId,
+            val shirtColorOptionId: ShirtColorOptionId,
+            val color: Color,
+            val available: Boolean
     ) : CampRegistrationsCommand()
 
     data class RemoveCampEditionShirtColorOption(
@@ -129,7 +137,15 @@ sealed class CampRegistrationsCommand : Command {
 
     data class AddCampEditionShirtSizeOption(
             val campEditionShirtId: CampEditionShirtId,
-            val size: ShirtSize
+            val size: ShirtSize,
+            val available: Boolean
+    ) : CampRegistrationsCommand()
+
+    data class UpdateCampEditionShirtSizeOption(
+            val campEditionShirtId: CampEditionShirtId,
+            val shirtSizeOptionId: ShirtSizeOptionId,
+            val size: ShirtSize,
+            val available: Boolean
     ) : CampRegistrationsCommand()
 
     data class RemoveCampEditionShirtSizeOption(
@@ -141,7 +157,6 @@ sealed class CampRegistrationsCommand : Command {
             val campEditionShirtId: CampEditionShirtId,
             val campParticipantId: CampParticipantId,
             val color: Color,
-            val size: ShirtSize,
-            val type: ShirtType
+            val size: ShirtSize
     ) : CampRegistrationsCommand()
 }

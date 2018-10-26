@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*
 
 //TODO: Change to /admin-rest-api/v1
 @RestController("registrationsAcademicMinistryAdminController")
-@RequestMapping("/rest-api/v1/camp-registrations")
+@RequestMapping("/rest-api/v1/admin/camp-registrations")
 class AcademicMinistryAdminController(
         private val commandGateway: CampRegistrationsCommandGateway,
         private val queryGateway: CampRegistrationsQueryGateway

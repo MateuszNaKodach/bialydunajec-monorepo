@@ -1,6 +1,6 @@
 package org.bialydunajec.registrations.presentation.rest.v1.admin.request
 
-import org.bialydunajec.ddd.application.base.query.api.dto.PlaceDto
+import org.bialydunajec.ddd.application.base.dto.PlaceDto
 import org.bialydunajec.ddd.domain.base.validation.constraints.NullOrNotBlank
 import org.bialydunajec.registrations.application.dto.BankTransferDetailsDto
 import org.bialydunajec.registrations.application.dto.CampersLimitationsDto

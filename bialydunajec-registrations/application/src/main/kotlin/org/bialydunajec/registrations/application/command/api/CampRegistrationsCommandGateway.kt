@@ -22,7 +22,9 @@ class CampRegistrationsCommandGateway internal constructor(
         private val campParticipantRegistrationConfirmApplicationService: VerifyCampParticipantRegistrationApplicationService,
         private val updateCampEditionShirtApplicationService: UpdateCampEditionShirtApplicationService,
         private val addCampEditionShirtColorOptionApplicationService: AddCampEditionShirtColorOptionApplicationService,
-        private val addCampEditionShirtSizeOptionApplicationService: AddCampEditionShirtSizeOptionApplicationService
+        private val addCampEditionShirtSizeOptionApplicationService: AddCampEditionShirtSizeOptionApplicationService,
+        private val updateCampEditionShirtSizeOptionApplicationService: UpdateCampEditionShirtSizeOptionApplicationService,
+        private val updateCampEditionShirtColorOptionApplicationService: UpdateCampEditionShirtColorOptionApplicationService
 ) : CommandGateway {
 
     internal fun process(command: CampRegistrationsCommand.CreateCampRegistrationsEdition) =
@@ -76,6 +78,12 @@ class CampRegistrationsCommandGateway internal constructor(
     fun process(command: CampRegistrationsCommand.AddCampEditionShirtColorOption) =
             addCampEditionShirtColorOptionApplicationService.process(command)
 
+    fun process(command: CampRegistrationsCommand.UpdateCampEditionShirtColorOption) =
+            updateCampEditionShirtColorOptionApplicationService.process(command)
+
     fun process(command: CampRegistrationsCommand.AddCampEditionShirtSizeOption) =
             addCampEditionShirtSizeOptionApplicationService.process(command)
+
+    fun process(command: CampRegistrationsCommand.UpdateCampEditionShirtSizeOption) =
+            updateCampEditionShirtSizeOptionApplicationService.process(command)
 }

@@ -10,13 +10,17 @@ import javax.persistence.Table
 @Entity
 @Table(schema = "camp_registrations")
 class ShirtColorOption(
-        private val color: Color,
-        private val available: Boolean = true
+        private var color: Color,
+        private var available: Boolean = true
 ) : IdentifiedEntity<ShirtColorOptionId> {
 
     @EmbeddedId
     override val entityId: ShirtColorOptionId = ShirtColorOptionId()
 
+    fun update(color: Color, available: Boolean) {
+        this.color = color
+        this.available = available
+    }
     fun getColor() = color
     fun isAvailable() = available
     fun getSnapshot() = ShirtColorOptionSnapshot(entityId, color, available)

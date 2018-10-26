@@ -8,4 +8,5 @@ sealed class CottageQuery {
     class AllByCampRegistrationsEditionId(val campRegistrationsEditionId: String) : CottageQuery()
     class AllActiveByCampRegistrationsEditionId(val campRegistrationsEditionId: String, val camperGender: Gender) : CottageQuery()
     class ByIdAndByCampRegistrationsEditionId(val cottageId: String, val campRegistrationsEditionId: String) : CottageQuery()
+    class NewestByAcademicMinistryId(val academicMinistryId: String) : CottageQuery()
 }

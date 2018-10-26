@@ -1,8 +1,8 @@
 package org.bialydunajec.academicministry.rest.v1.admin.request
 
-import org.bialydunajec.ddd.application.base.query.api.dto.ExtendedDescriptionDto
-import org.bialydunajec.ddd.application.base.query.api.dto.PlaceDto
-import org.bialydunajec.ddd.application.base.query.api.dto.SocialMediaDto
+import org.bialydunajec.ddd.application.base.dto.ExtendedDescriptionDto
+import org.bialydunajec.ddd.application.base.dto.PlaceDto
+import org.bialydunajec.ddd.application.base.dto.SocialMediaDto
 import javax.validation.constraints.NotBlank
 
 internal data class CreateAcademicMinistryRequest (
