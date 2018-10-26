@@ -17,7 +17,7 @@ import {CampParticipantResponse} from './response/camp-participant.response';
 export class CampRegistrationsEndpoint extends AbstractEndpoint {
 
   constructor(httpClient: HttpClient, authService: AuthService) {
-    super(httpClient, authService, '/rest-api/v1/camp-registrations');
+    super(httpClient, authService, '/rest-api/v1/admin/camp-registrations');
   }
 
   updateCampRegistrationsTimerById(campRegistrationsEditionId: number, requestBody: UpdateCampRegistrationsTimerRequest) {
@@ -119,6 +119,10 @@ export class CampRegistrationsEndpoint extends AbstractEndpoint {
     return this.httpClient.get<PageDto<CampParticipantResponse>>(
       `${this.callsBaseUrl}/camp-participant?campRegistrationsEditionId=${campRegistrationsEditionId}&page=${page}&size=${size}`
     );
+  }
+
+  getCampEditionShirt(campRegistrationsEditionId: number) {
+    return this.httpClient.get<CottageResponse>(`${this.callsBaseUrl}/camp-shirt/?campRegistrationsEditionId=${campRegistrationsEditionId}`);
   }
 
 }
