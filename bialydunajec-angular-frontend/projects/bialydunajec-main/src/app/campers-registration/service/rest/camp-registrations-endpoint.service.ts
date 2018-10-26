@@ -8,6 +8,7 @@ import {CampRegistrationsEditionResponse} from '../../../../../../bialydunajec-a
 import {CampParticipantRegistrationRequest} from './request/camp-participant-registration.request';
 import {Gender} from '../../../shared/model/gender.enum';
 import {CampRegistrationsCottageResponse} from './response/camp-registrations-cottage.response';
+import {CampEditionShirtDto} from '../../../../../../bialydunajec-admin/src/app/camp-registrations/service/rest/dto/camp-edition-shirt.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -36,5 +37,9 @@ export class CampRegistrationsEndpoint {
 
   getAllCottagesByInProgressCampRegistrations(camperGender: Gender) {
     return this.httpClient.get<CampRegistrationsCottageResponse[]>(`${this.callsBaseUrl}/in-progress/cottage?camperGender=${camperGender}`);
+  }
+
+  getCampEditionShirtByInProgressCampRegistrations() {
+    return this.httpClient.get<CampEditionShirtDto>(`${this.callsBaseUrl}/in-progress/camp-shirt`);
   }
 }

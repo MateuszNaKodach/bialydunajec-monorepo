@@ -6,6 +6,12 @@ import {StepId} from '../registration-form.config';
 import {Gender} from '../../../../shared/model/gender.enum';
 import {CamperRegistrationFormNavigator} from '../../../service/camper-registration-form.navigator';
 import {ActivatedRoute} from '@angular/router';
+import {CampRegistrationsEndpoint} from '../../../service/rest/camp-registrations-endpoint.service';
+import {tap} from 'rxjs/operators';
+import {
+  ShirtColorOptionDto,
+  ShirtSizeOptionDto
+} from '../../../../../../../bialydunajec-admin/src/app/camp-registrations/service/rest/dto/camp-edition-shirt.dto';
 
 @Component({
   selector: 'bda-shirt-form',
@@ -14,12 +20,34 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class ShirtFormComponent extends RegistrationFormStepAbstractComponent {
 
+  private availableShirtColors: ShirtColorOptionDto[] = [];
+  private availableMaleShirtSizes: ShirtSizeOptionDto[] = [];
+  private availableFemaleShirtSizes: ShirtSizeOptionDto[] = [];
+  private availableShirtSizes: ShirtSizeOptionDto[] = [];
+
+
   constructor(
     mainFormState: CamperRegistrationFormStateService,
     formNavigator: CamperRegistrationFormNavigator,
     stepRoute: ActivatedRoute,
+    private campRegistrationsEndpoint: CampRegistrationsEndpoint,
     private formBuilder: FormBuilder) {
     super(StepId.SHIRT, mainFormState, formNavigator, stepRoute);
+  }
+
+  startFormStepInit() {
+    this.campRegistrationsEndpoint.getCampEditionShirtByInProgressCampRegistrations()
+      .pipe(
+        tap(shirt => {
+          this.availableShirtColors = shirt.colorOptions;
+          this.availableFemaleShirtSizes = shirt.sizeOptions.filter(it => it.size.type === 'FEMALE')
+            .sort((n1, n2) => n1.size.height - n2.size.height);
+          this.availableMaleShirtSizes = shirt.sizeOptions.filter(it => it.size.type === 'MALE')
+            .sort((n1, n2) => n1.size.height - n2.size.height);
+          this.availableShirtSizes = shirt.sizeOptions
+            .sort((n1, n2) => n1.size.height - n2.size.height);
+        })
+      ).subscribe();
   }
 
   protected initStepFormControls() {
@@ -47,12 +75,7 @@ export class ShirtFormComponent extends RegistrationFormStepAbstractComponent {
 
   // TODO: On backend option names have to be unique!
   getShirtColorOptions() {
-    return [
-      'czarny',
-      'czerwony',
-      'zielony',
-      'niebieski'
-    ];
+    return this.availableShirtColors.map(c => c.color.name);
   }
 
   getShirtSizeOptions() {

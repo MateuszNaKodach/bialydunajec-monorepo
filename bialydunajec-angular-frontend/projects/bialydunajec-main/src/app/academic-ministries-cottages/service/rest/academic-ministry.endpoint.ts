@@ -3,7 +3,7 @@ import {AbstractEndpoint} from '../../../../../../bialydunajec-admin/src/app/sha
 import {HttpClient} from '@angular/common/http';
 import {AuthService} from '../../../../../../bialydunajec-admin/src/app/auth/service/auth.service';
 import {AcademicMinistryResponse} from '../../../../../../bialydunajec-admin/src/app/academic-ministry/service/rest/response/academic-ministry.response';
-import {AcademicMinistryNameResponse} from './response/academic-ministry-name.response';
+import {AcademicMinistryNameResponse} from './dto/academic-ministry-name.response';
 import {AcademicPriestDto} from '../../../../../../bialydunajec-admin/src/app/academic-ministry/service/rest/dto/academic-priest.dto';
 
 @Injectable({

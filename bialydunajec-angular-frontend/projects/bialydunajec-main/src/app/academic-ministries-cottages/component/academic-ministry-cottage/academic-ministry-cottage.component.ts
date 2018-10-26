@@ -3,6 +3,10 @@ import {CottageService} from '../../service/cottage.service';
 import {ActivatedRoute, Params} from '@angular/router';
 import {academicMinistriesCottagesRoutingPaths} from '../../academic-ministries-cottages-routing.paths';
 import {CottageDetails} from '../../model/cottage-details.model';
+import {CottageEndpoint} from '../../service/rest/cottage.endpoint';
+import {CottageInfoDto} from '../../service/rest/dto/cottage-info.dto';
+import {flatMap, tap} from 'rxjs/operators';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'bda-academic-ministry-cottage',
@@ -11,13 +15,17 @@ import {CottageDetails} from '../../model/cottage-details.model';
 })
 export class AcademicMinistryCottageComponent implements OnInit {
 
-  cottage: CottageDetails;
+  dateFormat = 'DD.MM.YYYY';
+  //cottage: CottageDetails;
+  cottage$: Observable<CottageInfoDto>;
 
-  constructor(private activatedRoute: ActivatedRoute, private cottageService: CottageService) {
+  constructor(private activatedRoute: ActivatedRoute,
+              private cottageService: CottageService,
+              private cottageEndpoint: CottageEndpoint) {
   }
 
   ngOnInit() {
-    this.activatedRoute.parent.params
+    /*this.activatedRoute.parent.params
       .subscribe(
         (params: Params) => {
           console.log('Params:', params);
@@ -25,6 +33,10 @@ export class AcademicMinistryCottageComponent implements OnInit {
           console.log('Academic: ', academicMinistryId);
           this.cottage = this.cottageService.getCottageByAcademicMinistryId(academicMinistryId);
         }
+      );*/
+    this.cottage$ = this.activatedRoute.parent.params
+      .pipe(
+        flatMap(params => this.cottageEndpoint.getNewestCottageByAcademicMinistryId(params['academicMinistryId']))
       );
   }
 
