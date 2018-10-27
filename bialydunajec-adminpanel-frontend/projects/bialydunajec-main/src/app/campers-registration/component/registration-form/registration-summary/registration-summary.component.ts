@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {
   CamperEducationDto,
-  CamperPersonalDataDto,
+  CamperPersonalDataDto, CamperShirtOrderDto,
   CampParticipantRegistrationRequest
 } from '../../../service/rest/request/camp-participant-registration.request';
 import {AddressDto} from '../../../../../../../bialydunajec-admin/src/app/shared/service/rest/dto/address.dto';
@@ -46,6 +46,8 @@ export class RegistrationSummaryComponent implements OnInit {
 
     const formState = this.mainFormState.getFormDataSnapshot();
     const personalDataState = formState.PERSONAL_DATA;
+    const shirtOrderState = formState.SHIRT;
+
 
     const camperPersonalDataDto = new CamperPersonalDataDto(
       personalDataState.personalData.firstName,
@@ -75,7 +77,11 @@ export class RegistrationSummaryComponent implements OnInit {
       camperAddressDto,
       personalDataState.contact.telephone,
       personalDataState.contact.email,
-      camperEducationDto
+      camperEducationDto,
+      new CamperShirtOrderDto(
+        shirtOrderState.color.shirtColorOptionId,
+        shirtOrderState.size.shirtSizeOptionId
+      )
     );
 
     this.campRegistrationsEndpoint.registerCampParticipant(36, request)

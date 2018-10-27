@@ -8,15 +8,24 @@ export class CampParticipantRegistrationRequest {
   phoneNumber: String;
   emailAddress: String;
   camperEducation: CamperEducationDto;
+  shirtOrder: CamperShirtOrderDto;
 
 
-  constructor(cottageId: string, personalData: CamperPersonalDataDto, homeAddress: AddressDto, phoneNumber: String, emailAddress: String, camperEducation: CamperEducationDto) {
+  constructor(
+    cottageId: string,
+    personalData: CamperPersonalDataDto,
+    homeAddress: AddressDto,
+    phoneNumber: String,
+    emailAddress: String,
+    camperEducation: CamperEducationDto,
+    shirtOrder: CamperShirtOrderDto) {
     this.cottageId = cottageId;
     this.personalData = personalData;
     this.homeAddress = homeAddress;
     this.phoneNumber = phoneNumber;
     this.emailAddress = emailAddress;
     this.camperEducation = camperEducation;
+    this.shirtOrder = shirtOrder;
   }
 }
 
@@ -51,5 +60,15 @@ export class CamperEducationDto {
     this.fieldOfStudy = fieldOfStudy;
     this.highSchool = highSchool;
     this.isHighSchoolRecentGraduate = isHighSchoolRecentGraduate;
+  }
+}
+
+export class CamperShirtOrderDto {
+  shirtColorOptionId: string;
+  shirtSizeOptionId: string;
+
+  constructor(shirtColorOptionId: string, shirtSizeOptionId: string) {
+    this.shirtColorOptionId = shirtColorOptionId;
+    this.shirtSizeOptionId = shirtSizeOptionId;
   }
 }
