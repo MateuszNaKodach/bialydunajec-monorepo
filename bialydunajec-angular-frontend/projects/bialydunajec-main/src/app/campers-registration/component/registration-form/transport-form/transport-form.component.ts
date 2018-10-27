@@ -49,7 +49,7 @@ export class TransportFormComponent extends RegistrationFormStepAbstractComponen
 
   selectedTransportType: TransportType;
   showParkingSpaceInfo = false;
-
+//TODO: Change name on originBusStop
   additionalStepFormOptions = new Map<TransportType, FormGroup>([
     [TransportType.CAMP_TRANSPORT, this.formBuilder.group({
       destinationBusStop: [this.getStepFormDataSnapshot().campTransport ? this.getStepFormDataSnapshot().campTransport.destinationBusStop : null, [Validators.required]]
