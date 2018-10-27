@@ -103,12 +103,16 @@ sealed class CampRegistrationsCommand : Command {
     data class RegisterCampParticipantCommand constructor(
             val campRegistrationsEditionId: CampRegistrationsEditionId,
             val camperApplication: CamperApplication,
-            val shirtOrder:CamperShirtOrder
+            val shirtOrder: CamperShirtOrder
     ) : CampRegistrationsCommand()
 
     data class VerifyCampParticipantRegistrationCommand constructor(
             val campParticipantRegistrationId: CampParticipantRegistrationId,
             val verificationCode: String
+    ) : CampRegistrationsCommand()
+
+    data class VerifyCampParticipantRegistrationCommandByAuthorized constructor(
+            val campParticipantRegistrationId: CampParticipantRegistrationId
     ) : CampRegistrationsCommand()
 
     data class UpdateCampEditionShirt(

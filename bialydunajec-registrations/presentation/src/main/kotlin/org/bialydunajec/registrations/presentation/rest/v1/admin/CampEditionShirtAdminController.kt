@@ -2,7 +2,7 @@ package org.bialydunajec.registrations.presentation.rest.v1.admin
 
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.Url
 import org.bialydunajec.registrations.application.command.api.CampRegistrationsCommand
-import org.bialydunajec.registrations.application.command.api.CampRegistrationsCommandGateway
+import org.bialydunajec.registrations.application.command.api.CampRegistrationsAdminCommandGateway
 import org.bialydunajec.registrations.application.dto.toValueObject
 import org.bialydunajec.registrations.application.query.api.CampEditionShirtQuery
 import org.bialydunajec.registrations.application.query.api.CampRegistrationsQueryGateway
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/rest-api/v1/admin/camp-registrations/camp-shirt")
 internal class CampEditionShirtAdminController(
-        private val campRegistrationsCommandGateway: CampRegistrationsCommandGateway,
+        private val campRegistrationsCommandGateway: CampRegistrationsAdminCommandGateway,
         private val campRegistrationsQueryGateway: CampRegistrationsQueryGateway
 ) {
 

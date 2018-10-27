@@ -1,6 +1,6 @@
 package org.bialydunajec.registrations.presentation.rest.v1.admin
 
-import org.bialydunajec.registrations.application.command.api.CampRegistrationsCommandGateway
+import org.bialydunajec.registrations.application.command.api.CampRegistrationsAdminCommandGateway
 import org.bialydunajec.registrations.application.query.api.*
 import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.*
@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/rest-api/v1/admin/camp-registrations/camp-participant")
 class CampParticipantAdminController(
-        private val commandGateway: CampRegistrationsCommandGateway,
+        private val commandGateway: CampRegistrationsAdminCommandGateway,
         private val queryGateway: CampRegistrationsQueryGateway
 ) {
 

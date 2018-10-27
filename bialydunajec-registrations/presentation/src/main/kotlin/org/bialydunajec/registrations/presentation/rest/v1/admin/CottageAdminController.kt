@@ -3,7 +3,7 @@ package org.bialydunajec.registrations.presentation.rest.v1.admin
 import org.bialydunajec.ddd.application.base.dto.toValueObject
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.Url
 import org.bialydunajec.registrations.application.command.api.CampRegistrationsCommand
-import org.bialydunajec.registrations.application.command.api.CampRegistrationsCommandGateway
+import org.bialydunajec.registrations.application.command.api.CampRegistrationsAdminCommandGateway
 import org.bialydunajec.registrations.application.query.api.*
 import org.bialydunajec.registrations.application.dto.toValueObject
 import org.bialydunajec.registrations.domain.cottage.CottageId
@@ -14,7 +14,7 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("/rest-api/v1/admin/camp-registrations")
 class CottageAdminController(
-        private val commandGateway: CampRegistrationsCommandGateway,
+        private val commandGateway: CampRegistrationsAdminCommandGateway,
         private val queryGateway: CampRegistrationsQueryGateway
 ) {
 

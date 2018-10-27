@@ -1,6 +1,7 @@
 package org.bialydunajec.registrations.presentation.rest.v1
 
 import org.bialydunajec.registrations.application.command.api.CampRegistrationsCommand
+import org.bialydunajec.registrations.application.command.api.CampRegistrationsAdminCommandGateway
 import org.bialydunajec.registrations.application.command.api.CampRegistrationsCommandGateway
 import org.bialydunajec.registrations.domain.camper.campparticipantregistration.CampParticipantRegistrationId
 import org.bialydunajec.registrations.presentation.rest.v1.request.VerifyCampParticipantRegistrationRequest

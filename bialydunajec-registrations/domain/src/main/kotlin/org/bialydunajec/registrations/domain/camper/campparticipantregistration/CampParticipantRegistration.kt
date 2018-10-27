@@ -91,6 +91,11 @@ class CampParticipantRegistration private constructor(
         registerEvent(CampParticipantRegistrationEvent.VerifiedByCamper(getAggregateId(), getSnapshot()))
     }
 
+    fun verifyByAuthorized() {
+        this.status = RegistrationStatus.VERIFIED_BY_AUTHORIZED
+        registerEvent(CampParticipantRegistrationEvent.VerifiedByAuthorized(getAggregateId(), getSnapshot()))
+    }
+
     override fun getVersion() = version
     fun getCampRegistrationsEditionId() = campRegistrationsEditionId
     fun getCamperApplication() = camperApplication

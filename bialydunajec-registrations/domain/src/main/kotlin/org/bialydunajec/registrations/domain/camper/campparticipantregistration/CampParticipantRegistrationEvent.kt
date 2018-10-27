@@ -16,4 +16,9 @@ sealed class CampParticipantRegistrationEvent : DomainEvent<CampParticipantRegis
             override val aggregateId: CampParticipantRegistrationId,
             val snapshot: CampParticipantRegistrationSnapshot
     ) : CampParticipantRegistrationEvent()
+
+    data class VerifiedByAuthorized(
+            override val aggregateId: CampParticipantRegistrationId,
+            val snapshot: CampParticipantRegistrationSnapshot
+    ) : CampParticipantRegistrationEvent()
 }

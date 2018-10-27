@@ -41,8 +41,6 @@ internal class CampParticipantRegistrationDomainEventListener(
                             ${getRegistrationVerificationUrlFor(event.snapshot.campParticipantRegistrationId, event.snapshot.verificationCode)}"""
                 )
         emailMessageSender.sendEmailMessage(emailMessage)
-
-        log.info("Email message sent {}", emailMessage)
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -51,6 +49,34 @@ internal class CampParticipantRegistrationDomainEventListener(
         campParticipantRepository.findById(event.snapshot.campParticipantId)
                 ?.apply { this.confirmByCamperWith(event.snapshot.camperApplication) }
                 ?.apply { campParticipantRepository.save(this) }
+                ?.also {
+                    val emailMessage =
+                            EmailMessage(
+                                    it.getEmailAddress(),
+                                    "Obóz w Białym Dunajcu - informacje o obozie",
+                                    """Cześć ${it.getPersonalData().firstName}, potwierdziłeś swoje uczestnictwo, więc
+                                        przesyłamy Ci garść potrzebnych informacji o Obozie:""".trimMargin()
+                            )
+                    emailMessageSender.sendEmailMessage(emailMessage)
+                }
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @TransactionalEventListener
+    fun handle(event: CampParticipantRegistrationEvent.VerifiedByAuthorized) {
+        campParticipantRepository.findById(event.snapshot.campParticipantId)
+                ?.apply { this.confirmByAuthorized() }
+                ?.apply { campParticipantRepository.save(this) }
+                ?.also {
+                    val emailMessage =
+                            EmailMessage(
+                                    it.getEmailAddress(),
+                                    "Obóz w Białym Dunajcu - informacje o obozie",
+                                    """Cześć ${it.getPersonalData().firstName}, administrator potwierdził Twoje uczestnictwo, więc
+                                        przesyłamy Ci garść potrzebnych informacji o Obozie:""".trimMargin()
+                            )
+                    emailMessageSender.sendEmailMessage(emailMessage)
+                }
     }
 
 

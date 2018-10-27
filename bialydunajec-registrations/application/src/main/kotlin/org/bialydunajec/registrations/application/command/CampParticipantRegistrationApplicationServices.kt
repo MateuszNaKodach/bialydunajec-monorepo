@@ -24,3 +24,20 @@ internal class VerifyCampParticipantRegistrationApplicationService(
     }
 
 }
+
+@Service
+@Transactional
+internal class VerifyCampParticipantRegistrationByAuthorizedApplicationService(
+        private val campParticipantRegistrationRepository: CampParticipantRegistrationRepository
+) : ApplicationService<CampRegistrationsCommand.VerifyCampParticipantRegistrationCommandByAuthorized> {
+
+    override fun process(command: CampRegistrationsCommand.VerifyCampParticipantRegistrationCommandByAuthorized) {
+        val campParticipantRegistration = campParticipantRegistrationRepository.findById(command.campParticipantRegistrationId)
+                ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.CAMP_PARTICIPANT_REGISTRATIONS_TO_CONFIRM_MUST_EXISTS)
+
+        campParticipantRegistration.verifyByAuthorized()
+
+        campParticipantRegistrationRepository.save(campParticipantRegistration)
+    }
+
+}

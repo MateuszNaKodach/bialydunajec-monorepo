@@ -90,6 +90,10 @@ class CampParticipant internal constructor(
         this.participationStatus = ParticipationStatus.CONFIRMED_BY_CAMPER
     }
 
+    fun confirmByAuthorized() {
+        this.participationStatus = ParticipationStatus.CONFIRMED_BY_CAMPER
+    }
+
     fun isConfirmed() = participationStatus == ParticipationStatus.CONFIRMED_BY_CAMPER || participationStatus == ParticipationStatus.CONFIRMED_BY_AUTHORIZED
     fun getCampRegistrationsEditionId() = campRegistrationsEditionId
     fun getCottageId() = this.currentCamperData.cottageId
