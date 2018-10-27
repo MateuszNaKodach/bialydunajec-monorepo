@@ -10,5 +10,11 @@ data class CampParticipantRegistrationRequest(
         val homeAddress: AddressDto,
         val phoneNumber: String,
         val emailAddress: String,
-        val camperEducation: CamperEducationDto
+        val camperEducation: CamperEducationDto,
+        val shirtOrder: CamperShirtOrderDto
+)
+
+data class CamperShirtOrderDto(
+        val shirtColorOptionId: String,
+        val shirtSizeOptionId: String
 )

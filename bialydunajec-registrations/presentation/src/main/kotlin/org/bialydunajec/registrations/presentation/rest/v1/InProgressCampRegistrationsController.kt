@@ -12,6 +12,9 @@ import org.bialydunajec.registrations.application.query.api.*
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
 import org.bialydunajec.registrations.domain.camper.valueobject.CamperApplication
 import org.bialydunajec.registrations.domain.cottage.CottageId
+import org.bialydunajec.registrations.domain.shirt.entity.ShirtColorOptionId
+import org.bialydunajec.registrations.domain.shirt.entity.ShirtSizeOptionId
+import org.bialydunajec.registrations.domain.shirt.valueobject.CamperShirtOrder
 import org.bialydunajec.registrations.presentation.rest.v1.request.CampParticipantRegistrationRequest
 import org.springframework.web.bind.annotation.*
 
@@ -40,6 +43,12 @@ class InProgressCampRegistrationsController(
                                             PhoneNumber(phoneNumber),
                                             camperEducation.toValueObject()
                                     )
+                                },
+                                with(request) {
+                                    CamperShirtOrder(
+                                            ShirtColorOptionId(shirtOrder.shirtColorOptionId),
+                                            ShirtSizeOptionId(shirtOrder.shirtSizeOptionId)
+                                    )
                                 }
                         )
                 )
@@ -57,5 +66,11 @@ class InProgressCampRegistrationsController(
                 queryGateway.process(CottageQuery.AllActiveByCampRegistrationsEditionId(it.campRegistrationsEditionId, camperGender))
                         .sortedBy { it.name }
             } ?: emptySet<CampRegistrationsCottageDto>()
+
+    @GetMapping("/camp-shirt")
+    fun getCampEditionShirtByInProgressCampRegistrations() =
+            queryGateway.process(CampRegistrationsEditionQuery.InProgress())?.let {
+                queryGateway.process(CampEditionShirtQuery.ByCampRegistrationsEditionId(it.campRegistrationsEditionId))
+            }
 
 }

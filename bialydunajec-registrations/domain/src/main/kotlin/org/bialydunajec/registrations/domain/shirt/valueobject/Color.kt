@@ -6,7 +6,7 @@ import javax.persistence.Embeddable
 @Embeddable
 class Color(
         val name: String,
-        val hexValue: Int?
+        val hexValue: String?
 ){
 
     override fun equals(other: Any?): Boolean {

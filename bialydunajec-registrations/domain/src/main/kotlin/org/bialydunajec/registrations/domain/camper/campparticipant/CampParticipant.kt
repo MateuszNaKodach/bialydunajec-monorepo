@@ -9,6 +9,7 @@ import org.bialydunajec.registrations.domain.camper.valueobject.CamperApplicatio
 import org.bialydunajec.registrations.domain.camper.valueobject.ParticipationStatus
 import org.bialydunajec.registrations.domain.camper.valueobject.StayDuration
 import org.bialydunajec.registrations.domain.cottage.Cottage
+import org.bialydunajec.registrations.domain.shirt.valueobject.OrderedShirt
 import javax.persistence.*
 import javax.validation.constraints.NotNull
 

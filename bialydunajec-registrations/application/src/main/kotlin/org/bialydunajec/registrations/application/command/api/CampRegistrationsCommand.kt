@@ -17,9 +17,7 @@ import org.bialydunajec.registrations.domain.cottage.valueobject.CottageSpace
 import org.bialydunajec.registrations.domain.shirt.CampEditionShirtId
 import org.bialydunajec.registrations.domain.shirt.entity.ShirtColorOptionId
 import org.bialydunajec.registrations.domain.shirt.entity.ShirtSizeOptionId
-import org.bialydunajec.registrations.domain.shirt.valueobject.Color
-import org.bialydunajec.registrations.domain.shirt.valueobject.ShirtSize
-import org.bialydunajec.registrations.domain.shirt.valueobject.ShirtType
+import org.bialydunajec.registrations.domain.shirt.valueobject.*
 import java.time.LocalDate
 import java.time.ZonedDateTime
 
@@ -104,7 +102,8 @@ sealed class CampRegistrationsCommand : Command {
 
     data class RegisterCampParticipantCommand constructor(
             val campRegistrationsEditionId: CampRegistrationsEditionId,
-            val camperApplication: CamperApplication
+            val camperApplication: CamperApplication,
+            val shirtOrder:CamperShirtOrder
     ) : CampRegistrationsCommand()
 
     data class VerifyCampParticipantRegistrationCommand constructor(

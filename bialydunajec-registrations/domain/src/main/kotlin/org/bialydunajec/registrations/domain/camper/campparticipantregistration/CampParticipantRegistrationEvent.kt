@@ -1,7 +1,6 @@
 package org.bialydunajec.registrations.domain.camper.campparticipantregistration
 
 import org.bialydunajec.ddd.domain.base.event.DomainEvent
-import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantId
 import org.bialydunajec.registrations.domain.camper.valueobject.CampParticipantRegistrationSnapshot
 
 sealed class CampParticipantRegistrationEvent : DomainEvent<CampParticipantRegistrationId> {

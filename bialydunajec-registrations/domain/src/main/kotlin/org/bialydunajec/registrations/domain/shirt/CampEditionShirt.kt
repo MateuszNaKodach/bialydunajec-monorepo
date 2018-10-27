@@ -18,7 +18,8 @@ import javax.persistence.*
 @Table(schema = "camp_registrations")
 class CampEditionShirt internal constructor(
         private val campRegistrationsEditionId: CampRegistrationsEditionId,
-        private var shirtSizesFileUrl: Url? = null
+        private var shirtSizesFileUrl: Url? = null,
+        private var ordersAllowed: Boolean = false
 ) : AuditableAggregateRoot<CampEditionShirtId, CampEditionShirtEvent>(CampEditionShirtId(campRegistrationsEditionId)) {
 
     @OneToMany(cascade = [CascadeType.ALL])
@@ -55,8 +56,11 @@ class CampEditionShirt internal constructor(
             shirtColorOptionId: ShirtColorOptionId,
             color: Color,
             available: Boolean = true) {
+        /*
+                TODO: Jesli wyszuka to sprawdzanie czy nie znalazł właśnie tego co aktualizaujemy
         canAddColorOption(color)
                 .ifInvalidThrowException()
+                */
         colorOptions.find { it.entityId == shirtColorOptionId }?.update(color, available)
     }
 
@@ -77,8 +81,11 @@ class CampEditionShirt internal constructor(
             shirtSizeOptionId: ShirtSizeOptionId,
             shirtSize: ShirtSize,
             available: Boolean = true) {
+        /*
+        TODO: Jesli wyszuka to sprawdzanie czy nie znalazł właśnie tego co aktualizaujemy
         canAddSizeOption(shirtSize)
                 .ifInvalidThrowException()
+                */
         sizeOptions.find { it.entityId == shirtSizeOptionId }?.update(shirtSize, available)
     }
 
@@ -121,6 +128,21 @@ class CampEditionShirt internal constructor(
                         campParticipant.getAggregateId(),
                         colorOptions.find { it.getColor() == shirtColor }!!,
                         sizeOptions.find { it.getSize() == shirtSize }!!
+                )
+        )
+    }
+
+    fun placeOrder(
+            campParticipant: CampParticipant,
+            shirtColorOptionId: ShirtColorOptionId,
+            shirtSizeOptionId: ShirtSizeOptionId
+    ) {
+        // TODO: Check availability!
+        orders.add(
+                ShirtOrder(
+                        campParticipant.getAggregateId(),
+                        colorOptions.find { it.entityId == shirtColorOptionId }!!,
+                        sizeOptions.find { it.entityId == shirtSizeOptionId }!!
                 )
         )
     }
