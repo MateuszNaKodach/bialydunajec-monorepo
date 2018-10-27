@@ -13,11 +13,17 @@
       <bda-form-input
         [control]="color"
         label="Kolor koszulki">
+        <ng-template let-option #colorOptionTemplate>
+          {{ option.color.name }}
+        </ng-template>
         <sui-select
           class="selection"
           formControlName="color"
-          placeholder="Wybierz jedną z opcji">
-          <sui-select-option *ngFor="let option of getShirtColorOptions()"
+          [options]="getShirtColorOptions()"
+          [optionTemplate]="colorOptionTemplate"
+          placeholder="Wybierz jedną z opcji"
+        #colorSelect>
+          <sui-select-option *ngFor="let option of colorSelect.filteredOptions"
                              [value]="option">
           </sui-select-option>
         </sui-select>
@@ -38,12 +44,19 @@
 
       <bda-form-input
         [control]="size"
+        *ngIf="size && shirtSizeOptions.length > 0"
         label="Rozmiar koszulki">
+        <ng-template let-option #sizeOptionTemplate>
+          {{ option.size.name }}
+        </ng-template>
         <sui-select
-          class="selection" 
+          class="selection"
           formControlName="size"
-          placeholder="Wybierz jedną z opcji">
-          <sui-select-option *ngFor="let option of getShirtSizeOptions()"
+          [options]="shirtSizeOptions"
+          [optionTemplate]="sizeOptionTemplate"
+          [placeholder]="clothType.value ? 'Wybierz rozmiar koszulki' : 'Najpierw wybierz rodzaj koszulki'"
+        #sizeSelect>
+          <sui-select-option *ngFor="let option of sizeSelect.filteredOptions"
                              [value]="option">
           </sui-select-option>
         </sui-select>
@@ -55,4 +68,5 @@
     (clickRight)="onSubmitStepForm()"
     (clickLeft)="onNavigateToPreviousStep()"
   ></bda-form-navigation-buttons>
+  {{stepForm.value | json}}
 </form>
