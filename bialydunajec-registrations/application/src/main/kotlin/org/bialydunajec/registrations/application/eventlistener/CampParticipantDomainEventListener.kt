@@ -13,9 +13,11 @@ internal class CampParticipantDomainEventListener(
         private val campParticipantRegistrationRepository: CampParticipantRegistrationRepository
 ) {
 
+    /*
     @TransactionalEventListener
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     fun handle(event: CampParticipantEvent.Created) {
         campParticipantRegistrationRepository.save(CampParticipantRegistration.createFrom(event))
     }
+    */
 }

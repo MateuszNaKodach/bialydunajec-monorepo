@@ -22,13 +22,13 @@ class CampEditionShirt internal constructor(
         private var ordersAllowed: Boolean = false
 ) : AuditableAggregateRoot<CampEditionShirtId, CampEditionShirtEvent>(CampEditionShirtId(campRegistrationsEditionId)) {
 
-    @OneToMany(cascade = [CascadeType.ALL])
+    @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
     private var colorOptions: MutableList<ShirtColorOption> = mutableListOf()
 
-    @OneToMany(cascade = [CascadeType.ALL])
+    @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
     private var sizeOptions: MutableList<ShirtSizeOption> = mutableListOf()
 
-    @OneToMany(cascade = [CascadeType.ALL])
+    @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
     private var orders: MutableList<ShirtOrder> = mutableListOf()
 
     fun update(

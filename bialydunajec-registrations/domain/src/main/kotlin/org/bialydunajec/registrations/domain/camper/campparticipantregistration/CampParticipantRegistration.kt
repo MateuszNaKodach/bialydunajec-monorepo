@@ -8,6 +8,7 @@ import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditio
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantEvent
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantId
 import org.bialydunajec.registrations.domain.camper.valueobject.CampParticipantRegistrationSnapshot
+import org.bialydunajec.registrations.domain.camper.valueobject.CampParticipantSnapshot
 import org.bialydunajec.registrations.domain.camper.valueobject.RegistrationStatus
 import org.bialydunajec.registrations.domain.camper.valueobject.CamperApplication
 import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule.*
@@ -107,6 +108,11 @@ class CampParticipantRegistration private constructor(
     companion object {
         fun createFrom(event: CampParticipantEvent.Created) =
                 with(event.snapshot) {
+                    CampParticipantRegistration(campParticipantId, campRegistrationsEditionId, currentCamperData)
+                }
+
+        fun createFrom(snapshot: CampParticipantSnapshot) =
+                with(snapshot) {
                     CampParticipantRegistration(campParticipantId, campRegistrationsEditionId, currentCamperData)
                 }
     }
