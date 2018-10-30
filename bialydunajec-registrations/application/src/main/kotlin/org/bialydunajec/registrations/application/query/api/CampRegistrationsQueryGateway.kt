@@ -34,5 +34,6 @@ class CampRegistrationsQueryGateway internal constructor(private val domainModel
     fun process(query: CampEditionShirtQuery.AvailableColorsByCampRegistrationsEditionId) = domainModelReader.readFor(query)
     fun process(query: CampEditionShirtQuery.AvailableSizesByCampRegistrationsEditionId) = domainModelReader.readFor(query)
     fun process(query: CampEditionShirtQuery.AvailableTypesByCampRegistrationsEditionId) = ShirtType.values()
+    fun process(query: CampEditionShirtOrderQuery.AllByCampRegistrationsEditionId) = domainModelReader.readFor(query)
 
 }

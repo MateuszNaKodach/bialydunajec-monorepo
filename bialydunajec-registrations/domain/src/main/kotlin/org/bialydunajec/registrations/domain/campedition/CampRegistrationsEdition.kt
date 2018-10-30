@@ -3,6 +3,7 @@ package org.bialydunajec.registrations.domain.campedition
 import org.bialydunajec.ddd.domain.base.aggregate.AggregateRoot
 import org.bialydunajec.ddd.domain.base.persistence.Versioned
 import org.bialydunajec.ddd.domain.base.validation.ValidationResult
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.Url
 import org.bialydunajec.registrations.domain.academicministry.CampRegistrationsAcademicMinistry
 import org.bialydunajec.registrations.domain.campedition.entity.CampRegistrations
 import org.bialydunajec.registrations.domain.campedition.specification.CampRegistrationsHasMinimumCottagesToStartSpecification
@@ -41,6 +42,7 @@ class CampRegistrationsEdition constructor(
     @NotNull
     @OneToOne(cascade = [CascadeType.ALL])
     private var campRegistrations: CampRegistrations = CampRegistrations(campRegistrationsEditionId)
+
 
     init {
         registerEvent(

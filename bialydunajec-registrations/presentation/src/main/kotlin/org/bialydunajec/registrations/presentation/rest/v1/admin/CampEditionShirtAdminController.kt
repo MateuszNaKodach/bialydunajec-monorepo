@@ -23,6 +23,10 @@ internal class CampEditionShirtAdminController(
     fun getCampEditionShirt(@RequestParam campRegistrationsEditionId: String) =
             campRegistrationsQueryGateway.process(CampEditionShirtQuery.ByCampRegistrationsEditionId(campRegistrationsEditionId))
 
+    @GetMapping("/order")
+    fun getCampEditionShirtOrdersByCampRegistrationsEditionId(@RequestParam campRegistrationsEditionId: String) =
+            campRegistrationsQueryGateway.process(CampEditionShirtQuery.ByCampRegistrationsEditionId(campRegistrationsEditionId))
+
 
     @PostMapping("/{campEditionShirtId}")
     fun updateCampEditionShirt(@PathVariable campEditionShirtId: String, @RequestBody request: UpdateCampEditionShirtRequest) =

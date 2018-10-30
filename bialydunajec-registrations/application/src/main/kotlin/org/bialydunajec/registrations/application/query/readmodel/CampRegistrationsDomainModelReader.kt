@@ -129,4 +129,9 @@ internal class CampRegistrationsDomainModelReader(
             campEditionShirtRepository.findByCampRegistrationsEditionId(CampRegistrationsEditionId(query.campRegistrationsEditionId))
                     ?.getColorOptions()
                     ?.map { it.toDto() } ?: emptyList()
+
+    fun readFor(query: CampEditionShirtOrderQuery.AllByCampRegistrationsEditionId): CampEditionShirtDto? =
+            campEditionShirtRepository.findByCampRegistrationsEditionId(CampRegistrationsEditionId(query.campRegistrationsEditionId))
+                    ?.getSnapshot()?.toDto()
+
 }
