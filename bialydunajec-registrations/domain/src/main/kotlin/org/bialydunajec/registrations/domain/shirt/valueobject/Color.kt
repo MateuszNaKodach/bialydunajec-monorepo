@@ -1,10 +1,12 @@
 package org.bialydunajec.registrations.domain.shirt.valueobject
 
 import java.util.*
+import javax.persistence.Column
 import javax.persistence.Embeddable
 
 @Embeddable
 class Color(
+        @Column(name = "color_name")
         val name: String,
         val hexValue: String?
 ){

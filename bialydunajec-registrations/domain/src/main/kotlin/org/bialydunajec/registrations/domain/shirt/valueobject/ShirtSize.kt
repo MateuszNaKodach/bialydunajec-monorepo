@@ -1,12 +1,14 @@
 package org.bialydunajec.registrations.domain.shirt.valueobject
 
 import java.util.*
+import javax.persistence.Column
 import javax.persistence.Embeddable
 import javax.persistence.EnumType
 import javax.persistence.Enumerated
 
 @Embeddable
 class ShirtSize(
+        @Column(name = "size_name")
         val name: String,
         @Enumerated(EnumType.STRING)
         val type: ShirtType,

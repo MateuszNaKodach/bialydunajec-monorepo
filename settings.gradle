@@ -35,7 +35,9 @@ include 'bialydunajec-registrations',
         'bialydunajec-registrations:application',
         'bialydunajec-registrations:presentation',
         'bialydunajec-registrations:domain',
-        'bialydunajec-registrations:infrastructure'
+        'bialydunajec-registrations:infrastructure',
+        'bialydunajec-registrations:messages',
+        'bialydunajec-registrations:read-model'
 
 include 'bialydunajec-authorization:server'
 
