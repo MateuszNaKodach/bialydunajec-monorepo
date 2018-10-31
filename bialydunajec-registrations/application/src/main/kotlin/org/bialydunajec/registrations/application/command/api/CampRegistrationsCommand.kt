@@ -1,6 +1,7 @@
 package org.bialydunajec.registrations.application.command.api
 
 import org.bialydunajec.ddd.application.base.command.Command
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.financial.Money
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.Url
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.location.Place
 import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryId
@@ -25,7 +26,8 @@ sealed class CampRegistrationsCommand : Command {
     internal data class CreateCampRegistrationsEdition(
             val campRegistrationsEditionId: CampRegistrationsEditionId,
             val campEditionStartDate: LocalDate,
-            val campEditionEndDate: LocalDate
+            val campEditionEndDate: LocalDate,
+            val price: Money
     ) : CampRegistrationsCommand()
 
     internal data class UpdateCampRegistrationsEditionDuration(

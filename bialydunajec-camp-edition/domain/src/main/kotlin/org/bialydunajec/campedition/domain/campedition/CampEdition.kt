@@ -24,7 +24,7 @@ class CampEdition constructor(
         private var endDate: LocalDate,
 
         @Embedded
-        private var price: Money? = Money(419) //TODO: Pass to camp registration!
+        private var price: Money //TODO: Pass to camp registration!
 ) : AggregateRoot<CampEditionId, CampEditionEvent>(campEditionId), Versioned {
 
     @Version
@@ -40,7 +40,8 @@ class CampEdition constructor(
                 CampEditionEvent.CampEditionCreated(
                         getAggregateId(),
                         startDate,
-                        endDate
+                        endDate,
+                        price
                 )
         )
     }
@@ -73,6 +74,6 @@ class CampEdition constructor(
     fun getStartDate() = startDate
     fun getEndDate() = endDate
     fun getPrice() = price
-    fun getSnapshot() = CampEditionSnapshot(getAggregateId(), startDate, endDate)
+    fun getSnapshot() = CampEditionSnapshot(getAggregateId(), startDate, endDate, price)
     override fun getVersion() = version
 }

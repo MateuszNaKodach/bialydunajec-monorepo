@@ -8,10 +8,7 @@ import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditio
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipant
 import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule.*
 import org.bialydunajec.registrations.domain.shirt.entity.*
-import org.bialydunajec.registrations.domain.shirt.valueobject.CampEditionShirtSnapshot
-import org.bialydunajec.registrations.domain.shirt.valueobject.Color
-import org.bialydunajec.registrations.domain.shirt.valueobject.ShirtSize
-import org.bialydunajec.registrations.domain.shirt.valueobject.ShirtType
+import org.bialydunajec.registrations.domain.shirt.valueobject.*
 import javax.persistence.*
 
 @Entity
@@ -23,13 +20,13 @@ class CampEditionShirt internal constructor(
 ) : AuditableAggregateRoot<CampEditionShirtId, CampEditionShirtEvent>(CampEditionShirtId(campRegistrationsEditionId)) {
 
     @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
-    private var colorOptions: MutableList<ShirtColorOption> = mutableListOf()
+    private var colorOptions: MutableSet<ShirtColorOption> = mutableSetOf()
 
     @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
-    private var sizeOptions: MutableList<ShirtSizeOption> = mutableListOf()
+    private var sizeOptions: MutableSet<ShirtSizeOption> = mutableSetOf()
 
     @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
-    private var orders: MutableList<ShirtOrder> = mutableListOf()
+    private var orders: MutableSet<ShirtOrder> = mutableSetOf()
 
     fun update(
             shirtSizesFileUrl: Url?
@@ -136,15 +133,15 @@ class CampEditionShirt internal constructor(
             campParticipant: CampParticipant,
             shirtColorOptionId: ShirtColorOptionId,
             shirtSizeOptionId: ShirtSizeOptionId
-    ) {
+    ): ShirtOrderSnapshot {
         // TODO: Check availability!
-        orders.add(
-                ShirtOrder(
-                        campParticipant.getAggregateId(),
-                        colorOptions.find { it.entityId == shirtColorOptionId }!!,
-                        sizeOptions.find { it.entityId == shirtSizeOptionId }!!
-                )
+        val shirtOrder = ShirtOrder(
+                campParticipant.getAggregateId(),
+                colorOptions.find { it.entityId == shirtColorOptionId }!!,
+                sizeOptions.find { it.entityId == shirtSizeOptionId }!!
         )
+        orders.add(shirtOrder)
+        return shirtOrder.getSnapshot()
     }
 
 

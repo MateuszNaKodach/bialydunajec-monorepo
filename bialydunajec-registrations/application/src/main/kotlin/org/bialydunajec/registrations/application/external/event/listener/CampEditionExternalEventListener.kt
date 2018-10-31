@@ -3,6 +3,7 @@ package org.bialydunajec.registrations.application.external.event.listener
 import org.bialydunajec.campedition.messages.event.CampEditionExternalEvent
 import org.bialydunajec.ddd.application.base.external.event.ExternalEvent
 import org.bialydunajec.ddd.application.base.external.event.ExternalEventListener
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.financial.Money
 import org.bialydunajec.registrations.application.command.api.CampRegistrationsCommand
 import org.bialydunajec.registrations.application.command.api.CampRegistrationsAdminCommandGateway
 import org.bialydunajec.registrations.application.external.event.processor.CampEditionExternalEventProcessor
@@ -27,7 +28,8 @@ internal class CampEditionExternalEventListener(
                         CampRegistrationsCommand.CreateCampRegistrationsEdition(
                                 CampRegistrationsEditionId(payload.campEditionId),
                                 payload.startDate,
-                                payload.endDate
+                                payload.endDate,
+                                Money(payload.price)
                         )
                 )
             }

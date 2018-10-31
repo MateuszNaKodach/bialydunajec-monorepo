@@ -22,10 +22,10 @@ class BoundedContextExternalDataBootstrap(
 
 
     fun bootstrap() {
-        val (redemptor, maciejowka) = initAcademicMinistries()
-        val campEdition = initCampEdition()
+        //val (redemptor, maciejowka) = initAcademicMinistries()
+        //val campEdition = initCampEdition()
     }
-
+/*
     private fun initCampEdition(): CampRegistrationsEdition {
         val campEdition36 = campEditionRepository.save(
                 CampRegistrationsEdition(
@@ -65,7 +65,7 @@ class BoundedContextExternalDataBootstrap(
         )
         return Pair(redemptor, maciejowka)
     }
-
+*/
     /*
     @PostConstruct
     fun bootstrap() {

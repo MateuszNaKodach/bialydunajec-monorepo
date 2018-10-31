@@ -3,13 +3,11 @@ package org.bialydunajec.registrations.domain.camper.campparticipant
 import org.bialydunajec.ddd.domain.base.aggregate.AuditableAggregateRoot
 import org.bialydunajec.ddd.domain.base.persistence.Versioned
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
-import org.bialydunajec.registrations.domain.camper.campparticipantregistration.CampParticipantRegistrationId
 import org.bialydunajec.registrations.domain.camper.valueobject.CampParticipantSnapshot
 import org.bialydunajec.registrations.domain.camper.valueobject.CamperApplication
 import org.bialydunajec.registrations.domain.camper.valueobject.ParticipationStatus
 import org.bialydunajec.registrations.domain.camper.valueobject.StayDuration
 import org.bialydunajec.registrations.domain.cottage.Cottage
-import org.bialydunajec.registrations.domain.shirt.valueobject.OrderedShirt
 import javax.persistence.*
 import javax.validation.constraints.NotNull
 
@@ -88,10 +86,12 @@ class CampParticipant internal constructor(
     fun confirmByCamperWith(confirmedApplication: CamperApplication) {
         this.confirmedApplication = confirmedApplication
         this.participationStatus = ParticipationStatus.CONFIRMED_BY_CAMPER
+        registerEvent(CampParticipantEvent.Confirmed(getAggregateId(), getSnapshot()))
     }
 
     fun confirmByAuthorized() {
         this.participationStatus = ParticipationStatus.CONFIRMED_BY_CAMPER
+        registerEvent(CampParticipantEvent.Confirmed(getAggregateId(), getSnapshot()))
     }
 
     fun isConfirmed() = participationStatus == ParticipationStatus.CONFIRMED_BY_CAMPER || participationStatus == ParticipationStatus.CONFIRMED_BY_AUTHORIZED

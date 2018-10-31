@@ -29,7 +29,8 @@ internal class CreateCampRegistrationsEditionApplicationService(
         val newCampEdition = CampRegistrationsEdition(
                 campRegistrationsEditionId = command.campRegistrationsEditionId,
                 editionStartDate = command.campEditionStartDate,
-                editionEndDate = command.campEditionEndDate
+                editionEndDate = command.campEditionEndDate,
+                price = command.price
         )
         campEditionRepository.save(newCampEdition)
     }

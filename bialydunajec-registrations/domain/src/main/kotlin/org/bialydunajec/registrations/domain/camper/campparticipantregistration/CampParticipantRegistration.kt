@@ -3,15 +3,14 @@ package org.bialydunajec.registrations.domain.camper.campparticipantregistration
 import org.bialydunajec.ddd.domain.base.aggregate.AuditableAggregateRoot
 import org.bialydunajec.ddd.domain.base.persistence.Versioned
 import org.bialydunajec.ddd.domain.base.validation.ValidationResult
-import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
-import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantEvent
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantId
 import org.bialydunajec.registrations.domain.camper.valueobject.CampParticipantRegistrationSnapshot
 import org.bialydunajec.registrations.domain.camper.valueobject.CampParticipantSnapshot
 import org.bialydunajec.registrations.domain.camper.valueobject.RegistrationStatus
 import org.bialydunajec.registrations.domain.camper.valueobject.CamperApplication
 import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule.*
+import org.bialydunajec.registrations.domain.shirt.valueobject.ShirtOrderSnapshot
 import java.util.*
 import javax.persistence.*
 import javax.validation.constraints.NotNull
@@ -51,6 +50,10 @@ class CampParticipantRegistration private constructor(
                 AttributeOverride(name = "camperEducation.isHighSchoolRecentGraduate", column = Column(name = "originalApplication_isHighSchoolRecentGraduate"))
         )
         private val originalCamperApplication: CamperApplication,
+
+        @NotNull
+        @Embedded
+        private val shirtOrder: ShirtOrderSnapshot,
 
         @NotNull
         @Embedded
@@ -111,14 +114,9 @@ class CampParticipantRegistration private constructor(
             )
 
     companion object {
-        fun createFrom(event: CampParticipantEvent.Created) =
-                with(event.snapshot) {
-                    CampParticipantRegistration(campParticipantId, campRegistrationsEditionId, currentCamperData)
-                }
-
-        fun createFrom(snapshot: CampParticipantSnapshot) =
-                with(snapshot) {
-                    CampParticipantRegistration(campParticipantId, campRegistrationsEditionId, currentCamperData)
+        fun createFrom(campParticipantSnapshot: CampParticipantSnapshot, shirtOrderSnapshot: ShirtOrderSnapshot) =
+                with(campParticipantSnapshot) {
+                    CampParticipantRegistration(campParticipantId, campRegistrationsEditionId, currentCamperData, shirtOrderSnapshot)
                 }
     }
 }

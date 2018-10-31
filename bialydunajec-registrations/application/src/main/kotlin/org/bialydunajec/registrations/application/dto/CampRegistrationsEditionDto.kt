@@ -9,6 +9,7 @@ data class CampRegistrationsEditionDto(
         val campRegistrationsEditionId: String,
         val editionStartDate: LocalDate,
         val editionEndDate: LocalDate,
+        val editionPrice: Double,
         val campRegistrations: CampRegistrationsDto
 ) {
     companion object {
@@ -18,12 +19,13 @@ data class CampRegistrationsEditionDto(
                         campRegistrationsEditionId = snapshot.campRegistrationsEditionId.toString(),
                         editionStartDate = snapshot.editionStartDate,
                         editionEndDate = snapshot.editionEndDate,
+                        editionPrice = snapshot.editionPrice.getValue().toDouble(),
                         campRegistrations = CampRegistrationsDto.from(snapshot.campRegistrations)
                 )
     }
 }
 
-data class  CampRegistrationsDto(
+data class CampRegistrationsDto(
         val campRegistrationsId: String,
         val status: String,
         val timerStartDate: ZonedDateTime?,
