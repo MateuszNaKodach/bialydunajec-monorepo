@@ -21,6 +21,9 @@ export class CampEditionEditComponent implements OnInit {
   submittingInProgress = false;
   lastAlert: { type: string; message: string; description: string };
 
+  initialPrice = 419;
+  formatterPln = value => `${value} zł`;
+  parserPln = value => value.replace(' zł', '');
 
   constructor(
     private campEditionEndpoint: CampEditionEndpoint) {
@@ -35,9 +38,10 @@ export class CampEditionEditComponent implements OnInit {
     const campEditionId = RomanNumerals.romanToNumber(romanCampEditionNumber);
     const campEditionStartDate = form.value['campEditionDuration'][0];
     const campEditionEndDate = form.value['campEditionDuration'][1];
+    const campEditionPrice = form.value['campEditionPrice'];
 
-    const createCampEditionRequest = new CreateCampEditionRequest(campEditionId, campEditionStartDate, campEditionEndDate);
-    console.log(createCampEditionRequest);
+    const createCampEditionRequest =
+      new CreateCampEditionRequest(campEditionId, campEditionStartDate, campEditionEndDate, campEditionPrice);
     if (form.valid) {
       this.lastAlert = null;
       this.submittingInProgress = true;
