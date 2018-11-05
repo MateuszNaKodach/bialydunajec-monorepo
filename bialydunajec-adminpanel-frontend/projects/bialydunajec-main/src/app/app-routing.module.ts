@@ -6,8 +6,12 @@ import {NotFoundComponent} from './core/component/not-found/not-found.component'
 const routes: Routes = [
   {
     path: appRoutingPaths.root,
-    redirectTo: appRoutingPaths.aboutCamp,
+    redirectTo: appRoutingPaths.campNews,
     pathMatch: 'full'
+  },
+  {
+    path: appRoutingPaths.campNews,
+    loadChildren: './camp-news/camp-news.module#CampNewsModule'
   },
   {
     path: appRoutingPaths.aboutCamp,
