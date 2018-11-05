@@ -15,6 +15,9 @@ import {RecaptchaFormsModule} from 'ng-recaptcha/forms';
 import {environment} from '../../environments/environment';
 
 import { AgmCoreModule } from '@agm/core';
+import { FacebookPageComponent } from './component/facebook/facebook-page/facebook-page.component';
+import {FacebookModule} from 'ngx-facebook';
+import {Facebook} from './model/facebook.model';
 
 
 @NgModule({
@@ -25,7 +28,8 @@ import { AgmCoreModule } from '@agm/core';
     SuiCheckboxModule,
     RecaptchaModule.forRoot(),
     RecaptchaFormsModule,
-    AgmCoreModule.forRoot({apiKey: environment.google.maps.apiKey})
+    AgmCoreModule.forRoot({apiKey: environment.google.maps.apiKey}),
+    FacebookModule.forRoot()
   ],
   declarations: [
     SectionHeaderComponent,
@@ -34,7 +38,8 @@ import { AgmCoreModule } from '@agm/core';
     PhotoInfoCardComponent,
     SocialMediaLinksComponent,
     FormInputComponent,
-    CampRegistrationsReminderComponent
+    CampRegistrationsReminderComponent,
+    FacebookPageComponent
   ],
   exports: [
     CommonModule,
@@ -49,7 +54,8 @@ import { AgmCoreModule } from '@agm/core';
     CampRegistrationsReminderComponent,
     RecaptchaModule,
     RecaptchaFormsModule,
-    AgmCoreModule
+    AgmCoreModule,
+    FacebookModule
   ],
   providers: [
     {
