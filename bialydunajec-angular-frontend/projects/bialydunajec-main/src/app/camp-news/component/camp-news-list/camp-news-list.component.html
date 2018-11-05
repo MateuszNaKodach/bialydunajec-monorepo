@@ -1,0 +1,23 @@
+<section class="bda-faq bda-page-section" fxLayoutAlign="center">
+  <div fxFlex.lt-lg="90%" fxFlex="800px">
+
+    <bda-section-header
+      title="Aktualności Obozowe"
+      description="Zawsze świeże informacje, prosto z obozowego Facebooka."
+      [divider]="true"></bda-section-header>
+
+    <div *ngIf="(campNews$ | async) as campNewsPage; else loader">
+      <div *ngFor="let campNews of campNewsPage.content">
+        <bda-camp-news-item
+          *ngIf="campNews.message"
+          [campNews]="campNews"
+        ></bda-camp-news-item>
+      </div>
+    </div>
+
+    <ng-template #loader>
+      <div class="ui active centered inline loader"></div>
+    </ng-template>
+  </div>
+</section>
+
