@@ -7,7 +7,7 @@
     <div style="width: 100%;">
       <div style="display: flex; justify-content: space-between; align-items: center;">
         <p style="margin: 0;"><b>{{campNews.createdDate | date: 'd.MM.yyyy hh:mm'}}</b></p>
-        <a [href]="'https://www.facebook.com/bialydunajec/posts/' + campNews.id">
+        <!--<a [href]="'https://www.facebook.com/bialydunajec/posts/' + campNews.id">
           <button
             class="ui primary button"
             (mouseover)="mouseOvered=true"
@@ -17,7 +17,7 @@
             <i class="facebook icon"></i>
             Czytaj więcej
           </button>
-        </a>
+        </a>-->
       </div>
       <div class="ui divider"></div>
       <pre style="font: inherit; max-width: 100%; font-size: 1rem; white-space: pre-wrap;">{{campNews.message}}</pre>
