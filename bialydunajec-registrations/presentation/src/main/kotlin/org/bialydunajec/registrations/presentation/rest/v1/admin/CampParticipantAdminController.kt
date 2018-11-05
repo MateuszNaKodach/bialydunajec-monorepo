@@ -23,6 +23,8 @@ class CampParticipantAdminController(
             }
             */
 
+
+    //QUERY------------------------------------------------------------------------------------------------------------
     @GetMapping
     fun getCampParticipantsByCampRegistrationsId(@RequestParam(required = false) campRegistrationsEditionId: String?, pageable: Pageable) =
             when (campRegistrationsEditionId) {
@@ -30,8 +32,6 @@ class CampParticipantAdminController(
                 else -> queryGateway.process(CampParticipantQuery.ByCampRegistrationsEditionId(campRegistrationsEditionId), pageable)
             }
 
-
-    //QUERY------------------------------------------------------------------------------------------------------------
     @GetMapping("/count")
     fun countCampParticipantsByCottageId(@RequestParam cottageId: String) =
             queryGateway.process(CampParticipantQuery.CountByCottageId(cottageId))
