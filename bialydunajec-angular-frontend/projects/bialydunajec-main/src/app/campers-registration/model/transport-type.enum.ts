@@ -1,8 +1,8 @@
 export enum TransportType {
-  PRIVATE_TRANSPORT = 'privateTransport',
-  PRIVATE_CAR = 'privateCar', // TODO: To remove!
-  PUBLIC_TRANSPORT = 'publicTransport',
-  CAMP_TRANSPORT = 'campTransport',
-  HITCH_HIKING = 'hitchHiking',
-  OTHER_TRANSPORT = 'otherTransport'
+  PRIVATE_TRANSPORT = 'PRIVATE_TRANSPORT',
+  PRIVATE_CAR = 'PRIVATE_CAR', // TODO: To remove!
+  PUBLIC_TRANSPORT = 'PUBLIC_TRANSPORT',
+  CAMP_TRANSPORT = 'CAMP_TRANSPORT',
+  HITCH_HIKING = 'HITCH_HIKING',
+  OTHER_TRANSPORT = 'OTHER_TRANSPORT'
 }

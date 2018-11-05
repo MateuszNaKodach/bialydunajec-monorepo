@@ -3,4 +3,5 @@ export class CampEditionResponse {
   campEditionStartDate: Date;
   campEditionEndDate: Date;
   campEditionYear: number;
+  campEditionPrice: number;
 }

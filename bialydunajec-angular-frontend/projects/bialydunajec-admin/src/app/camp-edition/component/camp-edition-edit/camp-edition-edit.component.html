@@ -39,6 +39,21 @@
           </nz-form-control>
         </nz-form-item>
         <nz-form-item>
+          <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired>Cena wyjazdu</nz-form-label>
+          <nz-form-control [nzSm]="10" [nzXs]="24">
+            <nz-input-number
+              #campPriceInput="ngModel"
+              name="campEditionPrice"
+              [(ngModel)]="initialPrice"
+              [nzMin]="1"
+              [nzMax]="999"
+              [nzStep]="1"
+              [nzFormatter]="formatterPln"
+              [nzParser]="parserPln"></nz-input-number>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
           <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 16, offset: 8 }">
             <button nz-button nzType="primary" [nzLoading]="submittingInProgress">Zatwierdź</button>
           </nz-form-control>
