@@ -1,13 +1,14 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 import { CampGalleryRoutingModule } from './camp-gallery-routing.module';
+import { CampGalleryComponent } from './component/camp-gallery/camp-gallery.component';
+import {SharedModule} from '../shared/shared.module';
 
 @NgModule({
   imports: [
-    CommonModule,
+    SharedModule,
     CampGalleryRoutingModule
   ],
-  declarations: []
+  declarations: [CampGalleryComponent]
 })
 export class CampGalleryModule { }
