@@ -1,6 +1,14 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<bda-header></bda-header>
-<main>
-  <router-outlet style="padding-top: 60px;"></router-outlet>
-</main>
-<bda-footer></bda-footer>
+<bda-header (toggleSidebar)="sidebar.toggle()"></bda-header>
+<sui-sidebar-container class="ui bottom attached segment">
+  <sui-sidebar class="inverted vertical" #sidebar style="overflow-y: scroll; position: absolute; height: 100%">
+    <a class="item">1</a>
+    <a class="item">2</a>
+  </sui-sidebar>
+  <sui-sidebar-sibling [isDimmedWhenVisible]="true">
+    <main>
+      <router-outlet style="padding-top: 60px;"></router-outlet>
+    </main>
+    <bda-footer></bda-footer>
+  </sui-sidebar-sibling>
+</sui-sidebar-container>
+

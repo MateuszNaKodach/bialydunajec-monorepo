@@ -4,6 +4,8 @@ import {FooterComponent} from './component/footer/footer.component';
 import {SharedModule} from '../shared/shared.module';
 import {AppRoutingModule} from '../app-routing.module';
 import { NotFoundComponent } from './component/not-found/not-found.component';
+import {SidebarModule} from 'ng-sidebar';
+import {SuiSidebarModule} from 'ng2-semantic-ui';
 
 @NgModule({
   declarations: [
@@ -13,12 +15,16 @@ import { NotFoundComponent } from './component/not-found/not-found.component';
   ],
   imports: [
     SharedModule,
-    AppRoutingModule
+    AppRoutingModule,
+    SidebarModule.forRoot(),
+    SuiSidebarModule
   ],
   exports: [
     HeaderComponent,
     FooterComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    SidebarModule,
+    SuiSidebarModule
   ]
 })
 export class CoreModule {
