@@ -27,6 +27,7 @@
     "core-js": "^2.5.4",
     "less": "^2.7.3",
     "ng-recaptcha": "^4.0.0",
+    "ng-sidebar": "^8.0.0",
     "ng-zorro-antd": "^1.5.0",
     "ng2-semantic-ui": "^0.9.7",
     "ngx-facebook": "^2.4.0",

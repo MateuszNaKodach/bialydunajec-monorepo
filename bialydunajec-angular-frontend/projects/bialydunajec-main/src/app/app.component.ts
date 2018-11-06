@@ -9,6 +9,8 @@ import {SuiLocalizationService} from 'ng2-semantic-ui';
 export class AppComponent {
   title = 'bialydunajec-angular-frontend';
 
+
+
   constructor(public localizationService: SuiLocalizationService) {
   }
 
