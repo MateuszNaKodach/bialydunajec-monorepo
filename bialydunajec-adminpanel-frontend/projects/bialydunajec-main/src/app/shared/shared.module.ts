@@ -18,6 +18,9 @@ import { AgmCoreModule } from '@agm/core';
 import { FacebookPageComponent } from './component/facebook/facebook-page/facebook-page.component';
 import {FacebookModule} from 'ngx-facebook';
 import {Facebook} from './model/facebook.model';
+import {GalleryModule} from '@ngx-gallery/core';
+import {LightboxModule} from '@ngx-gallery/lightbox';
+import {GallerizeModule} from '@ngx-gallery/gallerize';
 
 
 @NgModule({
@@ -29,7 +32,10 @@ import {Facebook} from './model/facebook.model';
     RecaptchaModule.forRoot(),
     RecaptchaFormsModule,
     AgmCoreModule.forRoot({apiKey: environment.google.maps.apiKey}),
-    FacebookModule.forRoot()
+    FacebookModule.forRoot(),
+    GalleryModule.forRoot(),
+    LightboxModule.forRoot(),
+    GallerizeModule
   ],
   declarations: [
     SectionHeaderComponent,
@@ -55,7 +61,10 @@ import {Facebook} from './model/facebook.model';
     RecaptchaModule,
     RecaptchaFormsModule,
     AgmCoreModule,
-    FacebookModule
+    FacebookModule,
+    GalleryModule,
+    LightboxModule,
+    GallerizeModule
   ],
   providers: [
     {
