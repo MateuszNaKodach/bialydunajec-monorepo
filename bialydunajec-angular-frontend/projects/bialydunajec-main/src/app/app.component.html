@@ -1,14 +1,22 @@
-<bda-header (toggleSidebar)="sidebar.toggle()"></bda-header>
-<sui-sidebar-container class="ui bottom attached segment">
-  <sui-sidebar class="inverted vertical" #sidebar style="overflow-y: scroll; position: absolute; height: 100%">
-    <a class="item">1</a>
-    <a class="item">2</a>
-  </sui-sidebar>
-  <sui-sidebar-sibling [isDimmedWhenVisible]="true">
+<bda-header></bda-header>
+<main>
+  <router-outlet style="padding-top: 60px;"></router-outlet>
+</main>
+<bda-footer></bda-footer>
+<!--<ng-sidebar-container>
+  <ng-sidebar
+    [(opened)]="opened"
+    mode="slide"
+    [showBackdrop]="true"
+    [closeOnClickOutside]="true"
+    [closeOnClickBackdrop]="true">
+    <p>Sidebar contents</p>
+  </ng-sidebar>
+  <div ng-sidebar-content>
     <main>
       <router-outlet style="padding-top: 60px;"></router-outlet>
     </main>
     <bda-footer></bda-footer>
-  </sui-sidebar-sibling>
-</sui-sidebar-container>
+  </div>
+</ng-sidebar-container>-->
 
