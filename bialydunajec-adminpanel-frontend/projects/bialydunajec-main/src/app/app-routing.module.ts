@@ -34,6 +34,10 @@ const routes: Routes = [
     loadChildren: './campers-registration/campers-registration.module#CampersRegistrationModule'
   },
   {
+    path: appRoutingPaths.campGallery,
+    loadChildren: './camp-gallery/camp-gallery.module#CampGalleryModule'
+  },
+  {
     path: appRoutingPaths.notFound,
     component: NotFoundComponent
   },
