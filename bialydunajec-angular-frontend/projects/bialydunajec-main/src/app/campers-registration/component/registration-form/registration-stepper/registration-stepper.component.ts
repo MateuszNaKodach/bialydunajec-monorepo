@@ -32,15 +32,15 @@ export class RegistrationStepperComponent implements OnInit {
   }
 
   isCurrentStep(stepId: StepId) {
-    return this.formNavigator.isCurrentStep(stepId);
+    return stepId && this.formNavigator.isCurrentStep(stepId);
   }
 
   isStepInvalid(stepId: StepId) {
-    return this.formStateService.getStepFormStatus(stepId) === FormStatus.INVALID;
+    return stepId && this.formStateService.getStepFormStatus(stepId) === FormStatus.INVALID;
   }
 
   isStepValid(stepId: StepId) {
-    return this.formStateService.getStepFormStatus(stepId) === FormStatus.VALID;
+    return stepId && this.formStateService.getStepFormStatus(stepId) === FormStatus.VALID;
   }
 
   private getCurrentStepId() {

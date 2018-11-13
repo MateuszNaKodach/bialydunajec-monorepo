@@ -3,11 +3,11 @@
     <div class="item">
       <!--FIXME: Find better image scaling than medium class-->
       <div *ngIf="imageSrc && imagePosition == 'left'" fxLayoutAlign="center center">
-        <img class="ui medium rounded image" [src]="imageSrc" alt="">
+        <img class="ui medium image" [src]="imageSrc" alt="">
       </div>
       <ng-content></ng-content>
       <div *ngIf="imageSrc && imagePosition == 'right'" fxLayoutAlign="center center">
-        <img class="ui medium rounded image" [src]="imageSrc" alt="">
+        <img class="ui medium image" [src]="imageSrc" alt="">
       </div>
     </div>
   </div>

@@ -12,6 +12,8 @@ export abstract class RegistrationFormStepAbstractComponent implements OnInit, O
 
   stepForm: FormGroup;
   private stepperSubscription: Subscription;
+  protected composeSubscription = new Subscription();
+
 
   protected constructor(
     protected stepId: StepId,
@@ -22,6 +24,7 @@ export abstract class RegistrationFormStepAbstractComponent implements OnInit, O
   }
 
   ngOnInit(): void {
+    this.startFormStepInit();
     this.initStepFormControls();
     this.loadStepDataFromSnapshot();
     this.onStepFormDataLoaded();
@@ -30,6 +33,9 @@ export abstract class RegistrationFormStepAbstractComponent implements OnInit, O
     }
     this.stepperSubscription = this.formNavigator.stepperClicks
       .subscribe(stepClicked => this.onSubmitStepForm());
+  }
+
+  protected startFormStepInit(): void {
   }
 
   protected updateMainFormStepStatus() {
@@ -68,15 +74,22 @@ export abstract class RegistrationFormStepAbstractComponent implements OnInit, O
   private loadStepDataFromSnapshot() {
     const dataSnapshot = this.getStepFormDataSnapshot();
     Object.keys(this.stepForm.controls)
-      .forEach(controlName => this.stepForm.get(controlName).setValue(dataSnapshot[controlName]));
+      .forEach(controlName => {
+        const formControl = this.stepForm.get(controlName);
+        if (formControl) {
+          formControl.setValue(dataSnapshot[controlName]);
+        }
+      });
   }
 
   protected abstract initStepFormControls();
 
-  protected onStepFormDataLoaded() {}
+  protected onStepFormDataLoaded() {
+  }
 
   ngOnDestroy(): void {
     this.stepperSubscription.unsubscribe();
+    this.composeSubscription.unsubscribe();
   }
 
 }

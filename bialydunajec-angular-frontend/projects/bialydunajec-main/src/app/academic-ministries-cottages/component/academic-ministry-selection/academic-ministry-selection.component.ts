@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {AcademicMinistryCardViewModel} from '../academic-ministry-card/academic-ministry-card.view-model';
 import {AcademicMinistryService} from '../../service/academic-ministry.service';
 
@@ -11,16 +11,18 @@ export class AcademicMinistrySelectionComponent implements OnInit {
 
   @Output() ministrySelected = new EventEmitter<{ id: string, name: string }>();
 
-  academicMinistries: AcademicMinistryCardViewModel[] = [];
+  @Input() academicMinistries: AcademicMinistryCardViewModel[] = [];
 
   constructor(private academicMinistryService: AcademicMinistryService) {
   }
 
   ngOnInit() {
+    /*
     this.academicMinistries = this.academicMinistryService.getAllAcademicMinistry()
       .map(academicMinistry => {
         return {id: academicMinistry.id, name: academicMinistry.shortName, logoUrl: academicMinistry.logoUrl};
       });
+      */
   }
 
   onClick(academicMinistry: AcademicMinistryCardViewModel) {

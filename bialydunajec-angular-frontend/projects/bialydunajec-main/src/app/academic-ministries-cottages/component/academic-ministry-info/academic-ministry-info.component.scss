@@ -1,3 +1,16 @@
+@import '../../../../styles/mixins/responsivness';
+@import '../../../../styles/variables/dimensions';
+
+.bda-academic-ministry-info{
+  width:100%;
+  padding-bottom: 50px;
+
+  @include gt-sm__screen() {
+    width:900px;
+    padding: 2.5rem;
+  }
+}
+
 .bda-ministry-social-links{
   list-style: none;
   background-color: red;

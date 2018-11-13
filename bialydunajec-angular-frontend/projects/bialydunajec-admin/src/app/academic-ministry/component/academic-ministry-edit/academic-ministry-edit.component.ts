@@ -1,16 +1,21 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {AcademicMinistryEndpoint} from '../../service/rest/academic-ministry.endpoint';
+import {AcademicMinistryAdminEndpoint} from '../../service/rest/academic-ministry.endpoint';
 import {AngularFormHelper} from '../../../../../../bialydunajec-main/src/app/shared/helper/angular-form.helper';
 import {HttpResponseHelper} from '../../../shared/helper/HttpResponseHelper';
-import {filter, finalize, flatMap, tap} from 'rxjs/operators';
+import {finalize, flatMap, tap} from 'rxjs/operators';
 import {CreateAcademicMinistryRequest, UpdateAcademicMinistryRequest} from '../../service/rest/request/create-academic-ministry.request';
-import {ActivatedRoute, Params, Router} from '@angular/router';
+import {ActivatedRoute, Params} from '@angular/router';
 import {AcademicMinistryResponse} from '../../service/rest/response/academic-ministry.response';
 import {AlertViewModel} from '../../../shared/view-model/ng-zorro/alert.view-model';
 import {EditFormMode} from './edit-form.mode';
 import {Observable, Observer} from 'rxjs';
 import {AcademicMinistryEditFormModel} from './academic-ministry-edit.form-model';
+import {NzModalService} from 'ng-zorro-antd';
+import {CreateAcademicPriestRequest} from '../../service/rest/request/create-academic-priest.request';
+import {PersonalTitleDto} from '../../service/rest/dto/personal-title.dto';
+import {ExtendedDescriptionDto} from '../../../shared/service/rest/dto/extended-description.dto';
+import {AcademicPriestDto} from '../../service/rest/dto/academic-priest.dto';
 
 @Component({
   selector: 'bda-admin-academic-ministry-edit',
@@ -25,6 +30,31 @@ export class AcademicMinistryEditComponent implements OnInit {
   submittingInProgress = false;
   academicMinistryForm: FormGroup;
   // private formConfig = new Map<EditFormMode, {submitFn: () => Observable<any>, submitObserver: Observer<any>}>();
+
+  academicPriests$: Observable<AcademicPriestDto[]>;
+  priestModal = {
+    isVisible: false,
+    formMode: EditFormMode.CREATE,
+    showInputs: true,
+    form: this.formBuilder.group({
+      name: this.formBuilder.group({
+        firstName: [null, [Validators.required]],
+        lastName: [null, [Validators.required]],
+        personalTitle: this.formBuilder.group({
+          prefix: [null, []],
+          postfix: [null, []]
+        })
+      }),
+      emailAddress: [null, []],
+      phoneNumber: [null, []],
+      description: this.formBuilder.group({
+        title: [null, []],
+        content: [null, []]
+      }),
+      photoUrl: [null, []]
+    })
+  };
+
   private formSubmitFn;
   private formSubmitObservers;
   private determineModeFn;
@@ -32,7 +62,8 @@ export class AcademicMinistryEditComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private academicMinistryEndpoint: AcademicMinistryEndpoint) {
+    private modalService: NzModalService,
+    private academicMinistryEndpoint: AcademicMinistryAdminEndpoint) {
   }
 
   initFormSubmitFunctions(createSubmitFn: (...any) => Observable<any>, editSubmitFn: (...any) => Observable<any>) {
@@ -68,6 +99,7 @@ export class AcademicMinistryEditComponent implements OnInit {
           this.currentAcademicMinistryId = response.academicMinistryId;
           this.academicMinistryForm.patchValue(AcademicMinistryEditFormModel.fromDto(response));
           this.academicMinistryForm.updateValueAndValidity();
+          this.loadPriestsList();
         }
       );
   }
@@ -98,9 +130,9 @@ export class AcademicMinistryEditComponent implements OnInit {
       logoImageUrl: [null, []],
       place: this.formBuilder.group({
         address: this.formBuilder.group({
-          street: [null, [Validators.required]],
+          street: [null, []],
           homeNumber: [null, []],
-          city: [null, [Validators.required]],
+          city: [null, []],
           postalCode: [null, []],
         }),
         geoLocation: this.formBuilder.group({
@@ -212,6 +244,10 @@ export class AcademicMinistryEditComponent implements OnInit {
     }
   }
 
+  loadPriestsList() {
+    this.academicPriests$ = this.academicMinistryEndpoint.getAllAcademicPriestByAcademicMinistryId(this.currentAcademicMinistryId);
+  }
+
   get isEditMode() {
     return this.formMode === EditFormMode.EDIT;
   }
@@ -282,5 +318,104 @@ export class AcademicMinistryEditComponent implements OnInit {
 
   get descriptionContentFormControl() {
     return this.academicMinistryForm.get(['description', 'content']);
+  }
+
+  // PRIEST MODAL ------------------------------------------------------------------------
+
+  showPriestModal() {
+    this.priestModal.isVisible = true;
+  }
+
+  hidePriestModal() {
+    this.priestModal.isVisible = false;
+  }
+
+  onSubmitPriestForm() {
+    const priestForm = this.priestModal.form;
+    AngularFormHelper.markFormGroupDirty(priestForm);
+    if (priestForm.valid) {
+      const formValue = priestForm.value;
+      const request = new CreateAcademicPriestRequest(
+        formValue.name.firstName,
+        formValue.name.lastName,
+        new PersonalTitleDto(
+          formValue.name.personalTitle.prefix,
+          formValue.name.personalTitle.postfix
+        ),
+        formValue.emailAddress,
+        formValue.phoneNumber,
+        new ExtendedDescriptionDto(
+          formValue.description.title,
+          formValue.description.content
+        ),
+        formValue.photoUrl
+      );
+      this.submittingInProgress = true;
+      this.academicMinistryEndpoint.createAcademicPriest(this.currentAcademicMinistryId, request)
+        .pipe(
+          finalize(() => this.submittingInProgress = false)
+        ).subscribe(
+        r => {
+          console.log(r);
+          this.hidePriestModal();
+          priestForm.reset();
+          this.loadPriestsList();
+        },
+        e => {
+          console.log(e);
+        }
+      );
+    }
+  }
+
+  removeAcademicPriest(academicPriestId: string) {
+    this.academicMinistryEndpoint.removeAcademicPriest(this.currentAcademicMinistryId, academicPriestId)
+      .pipe(
+        tap(() => this.loadPriestsList())
+      ).subscribe();
+  }
+
+  onCancelPriestForm() {
+    this.hidePriestModal();
+  }
+
+  get isPriestModalVisible() {
+    return this.priestModal.isVisible;
+  }
+
+  get priestFirstNameFormControl() {
+    return this.priestModal.form.get(['name', 'firstName']);
+  }
+
+  get priestLastNameFormControl() {
+    return this.priestModal.form.get(['name', 'lastName']);
+  }
+
+  get priestPersonalTitlePrefixFormControl() {
+    return this.priestModal.form.get(['name', 'personalTitle', 'prefix']);
+  }
+
+  get priestPersonalTitlePostfixFormControl() {
+    return this.priestModal.form.get(['name', 'personalTitle', 'postfix']);
+  }
+
+  get priestEmailAddressFormControl() {
+    return this.priestModal.form.get('emailAddress');
+  }
+
+  get priestPhoneNumberFormControl() {
+    return this.priestModal.form.get('phoneNumber');
+  }
+
+  get priestDescriptionTitleFormControl() {
+    return this.priestModal.form.get(['description', 'title']);
+  }
+
+  get priestDescriptionContentFormControl() {
+    return this.priestModal.form.get(['description', 'content']);
+  }
+
+  get priestPhotoUrlFormControl() {
+    return this.priestModal.form.get('photoUrl');
   }
 }

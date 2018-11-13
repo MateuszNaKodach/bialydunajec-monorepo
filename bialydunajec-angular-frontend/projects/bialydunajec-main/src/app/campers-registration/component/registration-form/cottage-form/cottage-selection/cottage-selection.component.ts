@@ -1,6 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {CottageCardViewModel} from '../cottage-card/cottage-card.view-model';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {CampRegistrationsEndpoint} from '../../../../service/rest/camp-registrations-endpoint.service';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'bda-cottage-selection',
@@ -16,50 +18,48 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 })
 export class CottageSelectionComponent implements OnInit, ControlValueAccessor {
 
-  cottages = [
+  @Input() cottages: CottageCardViewModel[] = [
     {
       cottageId: '1',
       cottageName: 'Antoni',
-      cottageLogoUrl: 'http://bialydunajec.org:3344/api/v1/academic-ministry/3/logo',
+      cottageLogoUrl: 'assets/images/logo/antoni.png',
       hasSpace: true
     },
     {
       cottageId: '2',
       cottageName: 'Dach',
-      cottageLogoUrl: 'http://bialydunajec.org:3344/api/v1/academic-ministry/6/logo',
+      cottageLogoUrl: 'assets/images/logo/dach.png',
       hasSpace: false
     },
     {
       cottageId: '3',
       cottageName: 'Dominik',
-      cottageLogoUrl: 'http://bialydunajec.org:3344/api/v1/academic-ministry/9/logo',
+      cottageLogoUrl: 'assets/images/logo/dominik.png',
       hasSpace: true
     },
     {
       cottageId: '8',
       cottageName: 'Horeb',
-      cottageLogoUrl: 'http://bialydunajec.org:3344/api/v1/academic-ministry/12/logo',
+      cottageLogoUrl: 'assets/images/logo/horeb.png',
       hasSpace: false
     },
     {
       cottageId: '4',
       cottageName: 'Maciejówka',
-      cottageLogoUrl: 'http://bialydunajec.org:3344/api/v1/academic-ministry/18/logo',
+      cottageLogoUrl: 'assets/images/logo/maciejowka.png',
       hasSpace: false
     },
     {
       cottageId: '5',
       cottageName: 'Redemptor',
-      cottageLogoUrl: 'http://bialydunajec.org:3344/api/v1/academic-ministry/21/logo',
+      cottageLogoUrl: 'assets/images/logo/redemptor.png',
       hasSpace: true
     }
   ];
 
+
   private selectedCottage: CottageCardViewModel;
   private onChange;
-
-  constructor() {
-  }
 
   ngOnInit() {
   }

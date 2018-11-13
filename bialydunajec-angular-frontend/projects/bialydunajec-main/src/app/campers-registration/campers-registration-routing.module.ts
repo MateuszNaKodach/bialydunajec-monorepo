@@ -7,16 +7,29 @@ import {TransportFormComponent} from './component/registration-form/transport-fo
 import {ShirtFormComponent} from './component/registration-form/shirt-form/shirt-form.component';
 import {CottageFormComponent} from './component/registration-form/cottage-form/cottage-form.component';
 import {RegistrationSummaryComponent} from './component/registration-form/registration-summary/registration-summary.component';
+import {RegistrationStartComponent} from './component/registration-start/registration-start.component';
+import {InProgressCampRegistrationsGuard} from './service/in-progress-camp-registrations.guard';
+import {RegistrationVerificationComponent} from './component/registration-verification/registration-verification.component';
 
 const campersRegistrationRoutes: Routes = [
   {
     path: campersRegistrationRoutingPaths.root,
-    redirectTo: campersRegistrationRoutingPaths.form,
+    redirectTo: campersRegistrationRoutingPaths.start,
     pathMatch: 'full'
+  },
+  {
+    path: campersRegistrationRoutingPaths.start,
+    component: RegistrationStartComponent
+  },
+  {
+    path: campersRegistrationRoutingPaths.verification,
+    component: RegistrationVerificationComponent
   },
   {
     path: campersRegistrationRoutingPaths.form,
     component: RegistrationFormComponent,
+    canActivate: [InProgressCampRegistrationsGuard],
+    canActivateChild: [InProgressCampRegistrationsGuard],
     children: [
       {path: '', pathMatch: 'full', redirectTo: campersRegistrationRoutingPaths.personalData},
       {path: campersRegistrationRoutingPaths.personalData, component: PersonalDataFormComponent},

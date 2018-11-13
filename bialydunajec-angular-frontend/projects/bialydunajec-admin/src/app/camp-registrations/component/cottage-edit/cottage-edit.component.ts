@@ -61,6 +61,12 @@ export class CottageEditComponent implements OnInit, MultiModeForm<CottageEditFo
 
     // TODO: Add campRegistrationsId to all urls - /panel/camp-registrations/{id}/cottages
     // load init form values
+    this.loadCottage();
+    this.availableAcademicMinistries = this.campRegistrationsEndpoint.getAllAcademicMinistries();
+
+  }
+
+  loadCottage() {
     this.route.params
       .pipe(
         flatMap(params => this.campRegistrationsEndpoint
@@ -75,8 +81,6 @@ export class CottageEditComponent implements OnInit, MultiModeForm<CottageEditFo
           this.updateFormValuesWith(CottageEditFormModel.fromDto(response));
         }
       );
-    this.availableAcademicMinistries = this.campRegistrationsEndpoint.getAllAcademicMinistries();
-
   }
 
   updateFormValuesWith(formModel: CottageEditFormModel) {
@@ -123,6 +127,19 @@ export class CottageEditComponent implements OnInit, MultiModeForm<CottageEditFo
         accountOwner: [null, []],
         accountOwnerAddress: [null, []],
         transferTitleTemplate: [null, []]
+      }),
+      cottageBoss: this.formBuilder.group({
+        firstName: [null, []],
+        lastName: [null, []],
+        phoneNumber: [null, []],
+        emailAddress: [null, []],
+        university: [null, []],
+        fieldOfStudy: [null, []],
+        photoUrl: [null, []],
+        personalDescription: this.formBuilder.group({
+          title: [null, []],
+          content: [null, []]
+        })
       })
     });
   }
@@ -145,9 +162,12 @@ export class CottageEditComponent implements OnInit, MultiModeForm<CottageEditFo
       this.lastAlert = null;
       this.submittingInProgress = true;
       const updateCottageRequest: UpdateCottageRequest = {...this.cottageForm.value};
-      this.campRegistrationsEndpoint.updateCottage(this.currentCampRegistrationsId, this.currentCottageId, updateCottageRequest)
+      this.campRegistrationsEndpoint.updateCottage(this.currentCottageId, updateCottageRequest)
         .pipe(
-          finalize(() => this.submittingInProgress = false)
+          finalize(() => {
+            this.submittingInProgress = false;
+            this.loadCottage();
+          })
         )
         .subscribe(
           response => {
@@ -190,7 +210,7 @@ export class CottageEditComponent implements OnInit, MultiModeForm<CottageEditFo
 
   activateCottage() {
     this.changedStatusInProgress = true;
-    this.campRegistrationsEndpoint.activateCottage(this.currentCampRegistrationsId, this.currentCottageId)
+    this.campRegistrationsEndpoint.activateCottage(this.currentCottageId)
       .pipe(finalize(() => this.changedStatusInProgress = false))
       .subscribe(
         response => {
@@ -232,7 +252,7 @@ export class CottageEditComponent implements OnInit, MultiModeForm<CottageEditFo
 
   deactivateCottage() {
     this.changedStatusInProgress = true;
-    this.campRegistrationsEndpoint.deactivateCottage(this.currentCampRegistrationsId, this.currentCottageId)
+    this.campRegistrationsEndpoint.deactivateCottage(this.currentCottageId)
       .pipe(finalize(() => this.changedStatusInProgress = false))
       .subscribe(
         response => {
@@ -372,6 +392,46 @@ export class CottageEditComponent implements OnInit, MultiModeForm<CottageEditFo
 
   get bankTransferDetailsTransferTitleTemplateFormControl() {
     return this.getBankTransferDetailsFormGroupControl('transferTitleTemplate');
+  }
+
+  private getCottageBossFormGroupControl(controlname: string) {
+    return this.cottageForm.get(['cottageBoss', controlname]);
+  }
+
+  get cottageBossFirstNameFormControl() {
+    return this.getCottageBossFormGroupControl('firstName');
+  }
+
+  get cottageBossLastNameFormControl() {
+    return this.getCottageBossFormGroupControl('lastName');
+  }
+
+  get cottageBossPhoneNumberFormControl() {
+    return this.getCottageBossFormGroupControl('phoneNumber');
+  }
+
+  get cottageBossEmailAddressFormControl() {
+    return this.getCottageBossFormGroupControl('emailAddress');
+  }
+
+  get cottageBossUniversityFormControl() {
+    return this.getCottageBossFormGroupControl('university');
+  }
+
+  get cottageBossFieldOfStudyFormControl() {
+    return this.getCottageBossFormGroupControl('fieldOfStudy');
+  }
+
+  get cottageBossPhotoUrlFormControl() {
+    return this.getCottageBossFormGroupControl('photoUrl');
+  }
+
+  get cottageBossPersonalDescriptionTitleFormControl() {
+    return this.getCottageBossFormGroupControl('personalDescription').get('title');
+  }
+
+  get cottageBossPersonalDescriptionContentFormControl() {
+    return this.getCottageBossFormGroupControl('personalDescription').get('content');
   }
 }
 

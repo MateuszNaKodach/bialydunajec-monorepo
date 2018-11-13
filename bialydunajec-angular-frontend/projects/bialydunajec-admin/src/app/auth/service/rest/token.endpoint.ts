@@ -34,16 +34,4 @@ export class TokenEndpoint {
       }
     );
   }
-
-  simplePost() {
-    return this.httpClient.post('http://localhost:3536/rest-api/v1/camp-edition', {
-      campEditionId: 40,
-      campEditionStartDate: '2018-01-01',
-      campEditionEndDate: '2018-01-02'
-    });
-  }
-
-  simpleGet() {
-    return this.httpClient.get('http://localhost:3536/rest-api/v1/camp-edition');
-  }
 }

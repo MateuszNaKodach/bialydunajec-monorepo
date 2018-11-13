@@ -1,9 +1,11 @@
-<section fxLayoutAlign="center">
+<section class="bda-academic-ministries bda-page-section" fxLayoutAlign="center">
   <div fxFlex.lt-lg="90%" fxFlex="800px">
     <bda-section-header
       title="Duszpasterstwa i chatki"
       description="Tutaj znajdziesz więcej informacji dotyczących chatek wybranego duszpasterstwa."></bda-section-header>
     <bda-academic-ministry-selection
+      *ngIf="academicMinistries$ | async as academicMinistries"
+      [academicMinistries]="academicMinistries"
       (ministrySelected)="onMinistrySelected($event)"
     ></bda-academic-ministry-selection>
   </div>

@@ -1,7 +1,10 @@
 <nz-form-item>
   <nz-form-label *ngIf="label">{{label}}</nz-form-label>
   <nz-form-control>
-    <ng-content></ng-content>
+    <ng-content *ngIf="isEditMode == true; else valuePreview"></ng-content>
     <nz-form-explain *ngIf="isInvalid()">{{errorMessage}}</nz-form-explain>
   </nz-form-control>
+  <ng-template #valuePreview>
+    <bda-admin-form-input-value [control]="control"></bda-admin-form-input-value>
+  </ng-template>
 </nz-form-item>

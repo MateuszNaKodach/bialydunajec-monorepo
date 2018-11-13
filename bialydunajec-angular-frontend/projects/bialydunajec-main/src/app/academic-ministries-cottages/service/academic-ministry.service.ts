@@ -6,11 +6,12 @@ import {PersonalTitle} from '../../shared/model/personal-title.model';
 import {ExtendedDescription} from '../../shared/model/extended-description.model';
 import {Facebook} from '../../shared/model/facebook.model';
 import {AcademicMinistry} from '../model/academic-ministry.model';
+import {AcademicMinistryEndpoint} from './rest/academic-ministry.endpoint';
 
 @Injectable()
 export class AcademicMinistryService {
 
-  constructor() {
+  constructor(private academicMinistryEndpoint: AcademicMinistryEndpoint) {
   }
 
   getAllAcademicMinistryDetails() {
@@ -19,7 +20,7 @@ export class AcademicMinistryService {
         '3',
         'Franciszkańskie Duszpasterstwo Akademickie Antoni',
         'Antoni',
-        'http://bialydunajec.org:3344/api/v1/academic-ministry/3/logo',
+        'assets/images/logo/antoni.png',
         new Address('al. Kasprowicza', '26', '51-137', 'Wrocław'),
         'http://www.antoni.org.pl/',
         null,
@@ -41,7 +42,7 @@ export class AcademicMinistryService {
         '6',
         'Duszpasterstwo Akademickie Dach',
         'Dach',
-        'http://bialydunajec.org:3344/api/v1/academic-ministry/6/logo',
+        'assets/images/logo/dach.png',
         new Address('ul. Wincentego Stysia', '16', '53-526', 'Wrocław - Parafia św. Ignacego Loyoli'),
         null,
         null,
@@ -51,7 +52,7 @@ export class AcademicMinistryService {
         '9',
         'Dominikańskie Duszpasterstwo Akademickie Dominik',
         'Dominik',
-        'http://bialydunajec.org:3344/api/v1/academic-ministry/9/logo',
+        'assets/images/logo/dominik.png',
         new Address('pl. Dominikański', '2', '50-159', 'Wrocław'),
         null,
         null,
@@ -61,7 +62,7 @@ export class AcademicMinistryService {
         '18',
         'Centralny Ośrodek Duszpasterstwa Akademickiego Maciejówka',
         'Maciejówka',
-        'http://bialydunajec.org:3344/api/v1/academic-ministry/18/logo',
+        'assets/images/logo/maciejowka.png',
         new Address('pl. bp. Nankiera', '17a', '50-140', 'Wrocław'),
         'http://www.maciejowka.org/',
         null,
@@ -71,7 +72,7 @@ export class AcademicMinistryService {
         '21',
         'Duszpasterstwo Akademickie Redemptor',
         'Redemptor',
-        'http://bialydunajec.org:3344/api/v1/academic-ministry/21/logo',
+        'assets/images/logo/redemptor.png',
         new Address('ul. Wittiga', '11', null, 'Wrocław'),
         'da.redemptor.pl',
         new Facebook('https://www.facebook.com/da.redemptor'),
