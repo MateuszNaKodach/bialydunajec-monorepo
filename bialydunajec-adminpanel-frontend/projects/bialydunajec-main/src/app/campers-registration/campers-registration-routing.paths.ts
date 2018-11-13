@@ -6,5 +6,6 @@ export const campersRegistrationRoutingPaths = {
   transport: 'dojazd',
   shirt: 'koszulka-obozowa',
   cottage: 'chatka',
-  summary: 'podsumowanie'
+  summary: 'podsumowanie',
+  verification: 'weryfikacja',
 };

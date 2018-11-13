@@ -15,9 +15,10 @@
   display: grid;
   grid-gap: 1.5rem;
   grid:
-    "   camp      statuses       " 12rem
-    "   timer   statuses       " auto
-    /   2fr       3fr;
+    "   camp    camp      statuses        statuses      statuses        " 12rem
+    "   timer   timer     statuses        statuses      statuses       " auto
+    "   regulations   regulations     regulations        statictics      statictics       " auto
+    /   2fr     2fr     1fr     1fr    4fr    ;
 
   button{
     margin: 1rem;
@@ -32,10 +33,14 @@
   grid-area: timer;
 }
 
-#actions{
-  grid-area: actions;
-}
-
 #statuses{
   grid-area: statuses;
+}
+
+#regulations-and-agreements{
+  grid-area: regulations;
+}
+
+#statistical-questions{
+  grid-area: statictics;
 }

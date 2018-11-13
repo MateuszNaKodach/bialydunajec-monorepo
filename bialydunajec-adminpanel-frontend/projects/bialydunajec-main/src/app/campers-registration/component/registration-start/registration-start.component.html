@@ -1,0 +1,27 @@
+<section class="bda-registration-start bda-page-section">
+  <!--<div class="h1">Twoja przygoda</div>
+  <div class="h2">Właśnie się rozpoczyna</div>-->
+  <div class="bda-registration-start__card">
+    <div *ngIf="campRegistrations | async as registrationsEdition; else noCampRegistrations">
+      <bda-section-header
+        [title]="RomanNumerals.numberToRoman(registrationsEdition.campRegistrationsEditionId) + ' Edycja Obozu'"
+        description="Żeby zapisać się na Obóz wystarczy tylko wypełnić formularz zapisów. Na co czekasz!?"
+      ></bda-section-header>
+      <div class="bda-registration-start__card-content--active">
+        <p>W tym roku Obóz będzie trwał od {{registrationsEdition.editionStartDate | date:'d.MM.yyyy'}} do {{registrationsEdition.editionEndDate | date:'d.MM.yyyy' }}.</p>
+        <a [routerLink]="['../',campersRegistrationRoutingPaths.form]">
+          <button class="ui orange button">FORMULARZ ZAPISÓW</button>
+        </a>
+      </div>
+    </div>
+    <ng-template #noCampRegistrations>
+      <bda-section-header
+        [title]="'Zapisy na Obóz'"
+        description="Aktualnie nie są zaplanowane żadne zapisy na Obóz. Jeśli chcesz zapisz się na nasz newsletter, a poinformujemy Cię gdy tylko będzie znana data rozpoczęcia."
+      ></bda-section-header>
+      <div class="bda-registration-start__card-content--active">
+        <bda-camp-registrations-reminder></bda-camp-registrations-reminder>
+      </div>
+    </ng-template>
+  </div>
+</section>

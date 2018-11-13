@@ -9,7 +9,17 @@ import {SuiLocalizationService} from 'ng2-semantic-ui';
 export class AppComponent {
   title = 'bialydunajec-angular-frontend';
 
+  private _opened = false;
+
+
   constructor(public localizationService: SuiLocalizationService) {
   }
 
+  toggleOpened(): void {
+    this._opened = !this._opened;
+  }
+
+  get opened(): boolean {
+    return this._opened;
+  }
 }

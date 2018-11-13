@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import "variables/fonts";
 @import "variables/dimensions";
+@import "mixins/responsivness";
 
 
 html, body {
@@ -38,6 +39,10 @@ h6 {
   font-size: 0.9286rem;
 }
 
+p{
+  font-size: 1rem;
+}
+
 a {
   color: black;
   font-size: 1rem;
@@ -65,4 +70,27 @@ input, .dropdown {
   height: 3rem;
 }
 
+.bda-page-section {
+  min-height: 70vh;
+  padding-top: 30px;
 
+  @include gt-sm__screen() {
+    padding-top: $page-section-padding;
+    padding-bottom: $page-section-padding;
+  }
+}
+
+.bda-page-section-card {
+  background: white;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.24);
+  width: 100%;
+  padding: 0.75rem;
+
+  @include gt-xs__screen() {
+    padding: 1.5rem;
+  }
+
+
+
+}

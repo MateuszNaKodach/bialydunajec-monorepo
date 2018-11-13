@@ -1,5 +1,8 @@
 export const campRegistrationsRoutingPaths = {
   root: '',
   cottages: 'cottages',
-  editCottage: 'edit'
+  campParticipants: 'camp-participants',
+  editCottage: 'edit',
+  shirtSettings: 'shirt-settings',
+  shirtOrders: 'shirt-orders'
 };

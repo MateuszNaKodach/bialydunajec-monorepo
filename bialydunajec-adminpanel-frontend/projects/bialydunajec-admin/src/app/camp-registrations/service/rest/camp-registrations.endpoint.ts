@@ -8,6 +8,8 @@ import {UpdateCampRegistrationsTimerRequest} from './request/update-camp-registr
 import {AcademicMinistryResponse} from './response/academic-ministry.response';
 import {CottageResponse} from './response/cottage.response';
 import {UpdateCottageRequest} from './request/update-cottage.request';
+import {PageDto} from './dto/page.dto';
+import {CampParticipantResponse} from './response/camp-participant.response';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +17,7 @@ import {UpdateCottageRequest} from './request/update-cottage.request';
 export class CampRegistrationsEndpoint extends AbstractEndpoint {
 
   constructor(httpClient: HttpClient, authService: AuthService) {
-    super(httpClient, authService, '/rest-api/v1/camp-registrations');
+    super(httpClient, authService, '/rest-api/v1/admin/camp-registrations');
   }
 
   updateCampRegistrationsTimerById(campRegistrationsEditionId: number, requestBody: UpdateCampRegistrationsTimerRequest) {
@@ -64,45 +66,63 @@ export class CampRegistrationsEndpoint extends AbstractEndpoint {
 
   createAcademicMinistryCottage(campRegistrationsEditionId: number, academicMinistryId: string) {
     return this.httpClient.post(
-      `${this.callsBaseUrl}/${campRegistrationsEditionId}/cottage/academic-ministry-cottage?academicMinistryId=${academicMinistryId}`
+      `${this.callsBaseUrl}/cottage/academic-ministry-cottage?campRegistrationsEditionId=${campRegistrationsEditionId}&academicMinistryId=${academicMinistryId}`
       , null
     );
   }
 
   createStandaloneCottage(campRegistrationsEditionId: number, cottageName: string) {
     return this.httpClient.post(
-      `${this.callsBaseUrl}/${campRegistrationsEditionId}/cottage/standalone-cottage?cottageName=${cottageName}`,
+      `${this.callsBaseUrl}/cottage/standalone-cottage?campRegistrationsEditionId=${campRegistrationsEditionId}&cottageName=${cottageName}`,
       null
     );
   }
 
-  updateCottage(campRegistrationsEditionId: number, cottageId: string, requestBody: UpdateCottageRequest) {
+  updateCottage(cottageId: string, requestBody: UpdateCottageRequest) {
     return this.httpClient.put(
-      `${this.callsBaseUrl}/${campRegistrationsEditionId}/cottage/${cottageId}`,
+      `${this.callsBaseUrl}/cottage/${cottageId}`,
       requestBody
     );
   }
 
-  activateCottage(campRegistrationsEditionId: number, cottageId: string) {
+  activateCottage(cottageId: string) {
     return this.httpClient.patch(
-      `${this.callsBaseUrl}/${campRegistrationsEditionId}/cottage/${cottageId}/activate`,
+      `${this.callsBaseUrl}/cottage/${cottageId}/activate`,
       null
     );
   }
 
-  deactivateCottage(campRegistrationsEditionId: number, cottageId: string) {
+  deactivateCottage(cottageId: string) {
     return this.httpClient.patch(
-      `${this.callsBaseUrl}/${campRegistrationsEditionId}/cottage/${cottageId}/deactivate`,
+      `${this.callsBaseUrl}/cottage/${cottageId}/deactivate`,
       null
     );
   }
 
   getAllCottagesByCampRegistrationsEditionId(campRegistrationsEditionId: number) {
-    return this.httpClient.get<CottageResponse[]>(`${this.callsBaseUrl}/${campRegistrationsEditionId}/cottage`);
+    return this.httpClient.get<CottageResponse[]>(`${this.callsBaseUrl}/cottage?campRegistrationsEditionId=${campRegistrationsEditionId}`);
   }
 
   getCottagesByIdAndCampRegistrationsEditionId(cottageId: string, campRegistrationsEditionId: number) {
-    return this.httpClient.get<CottageResponse>(`${this.callsBaseUrl}/${campRegistrationsEditionId}/cottage/${cottageId}`);
+    return this.httpClient.get<CottageResponse>(`${this.callsBaseUrl}/cottage/${cottageId}?campRegistrationsEditionId=${campRegistrationsEditionId}`);
+  }
+
+  countCampParticipantsByCottageId(cottageId: string) {
+    return this.httpClient.get<{ cottageId: string, campParticipantsCount: number }>(`${this.callsBaseUrl}/camp-participant/count?cottageId=${cottageId}`);
+  }
+
+  getPageOfAllCampParticipants(page: number, size: number) {
+    return this.httpClient.get<PageDto<CampParticipantResponse>>(`${this.callsBaseUrl}/camp-participant?page=${page}&size=${size}`);
+  }
+
+  getPageOfCampParticipantsByCampRegistrationsEditionId(campRegistrationsEditionId: number, page: number, size: number) {
+    return this.httpClient.get<PageDto<CampParticipantResponse>>(
+      `${this.callsBaseUrl}/camp-participant?campRegistrationsEditionId=${campRegistrationsEditionId}&page=${page}&size=${size}`
+    );
+  }
+
+  getCampEditionShirt(campRegistrationsEditionId: number) {
+    return this.httpClient.get<CottageResponse>(`${this.callsBaseUrl}/camp-shirt/?campRegistrationsEditionId=${campRegistrationsEditionId}`);
   }
 
 }

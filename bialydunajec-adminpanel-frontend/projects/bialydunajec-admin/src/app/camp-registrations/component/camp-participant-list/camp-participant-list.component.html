@@ -1,0 +1,94 @@
+<section>
+  <div style="display: flex; justify-content: space-between;">
+    <bda-admin-breadcrumbs
+      [breadcrumbs]="['Zapisy na Obóz','Uczestnicy Obozu']"
+    ></bda-admin-breadcrumbs>
+    <bda-admin-camp-edition-selection
+      (campEditionIdSelected)="onCampEditionIdSelected($event)"
+      [campEditionsObservable]="availableCampEditions"></bda-admin-camp-edition-selection>
+  </div>
+  <div>
+    <ng-template #showTotal>
+      {{currentPageElements}} z {{total}}
+    </ng-template>
+    <nz-table
+      class="bda-camp-participant-table"
+      #basicTable
+      [nzData]="campParticipants"
+      [nzLoading]="tableIsLoading"
+      [nzTotal]="total"
+      [nzShowTotal]="showTotal"
+      [nzPageIndex]="pageIndex"
+      [nzPageSize]="pageSize"
+      [nzFrontPagination]="false"
+      (nzPageIndexChange)="onPageIndexChange($event)"
+      [nzShowQuickJumper]="total > pageSize"
+      nzNoResult="Jeszcze nikt się nie zapisał. Aktywuj zapisy i czekaj na pierwszych obozowiczów!">
+      <thead>
+      <tr>
+        <th>PESEL</th>
+        <th>Nazwisko</th>
+        <th>Imię</th>
+        <th>Chatka</th>
+        <th>E-mail</th>
+        <th>Status</th>
+        <th>Opłacono</th>
+        <th nzShowExpand></th>
+      </tr>
+      </thead>
+      <tbody>
+      <ng-template ngFor let-data [ngForOf]="basicTable.data">
+        <tr>
+          <td>{{data.currentCamperData.personalData.pesel}}</td>
+          <td>{{data.currentCamperData.personalData.lastName}}</td>
+          <td>{{data.currentCamperData.personalData.firstName}}</td>
+          <td>{{data.currentCamperData.cottage.cottageName}}</td>
+          <td>{{data.currentCamperData.emailAddress}}</td>
+          <td>{{data.participationStatus}}</td>
+          <td>NIE</td>
+          <td nzShowExpand [(nzExpand)]="data.expand"></td>
+        </tr>
+        <tr [nzExpand]="data.expand">
+          <td [attr.colspan]="20">
+            <div class="bda-admin-panel-section-card">
+              <h2><b>{{data.currentCamperData.personalData.firstName}}
+                {{data.currentCamperData.personalData.lastName}}</b></h2>
+              <nz-divider></nz-divider>
+              <div class="bda-admin-camp-participant-details__content">
+                <div *ngIf="data.currentCamperData as camperData">
+                  <p><b>PESEL:</b> {{camperData.personalData.pesel}}</p>
+                  <p><b>Imię:</b> {{camperData.personalData.firstName}}</p>
+                  <p><b>Nazwisko:</b> {{camperData.personalData.lastName}}</p>
+                  <p><b>Płeć:</b> {{camperData.personalData.gender}}</p>
+                  <p><b>Data urodzenia:</b> {{camperData.personalData.birthDate | date:'d.MM.yyyy'}}</p>
+                </div>
+                <div *ngIf="data.currentCamperData as camperData">
+                  <p><b>Email:</b> {{camperData.emailAddress}}</p>
+                  <p><b>Telefon:</b> {{camperData.phoneNumber}}</p>
+                  <b>Adres:</b> {{camperData.homeAddress.street +' '+ camperData.homeAddress.homeNumber + ', ' +
+                  camperData.homeAddress.postalCode + ' ' + camperData.homeAddress.city }}
+                </div>
+                <div *ngIf="data.currentCamperData.camperEducation as camperData">
+                  <p><b>Uczelnia:</b> {{camperData.university}}</p>
+                  <p><b>Wydział:</b> {{camperData.faculty}}</p>
+                  <p><b>Kierunek:</b> {{camperData.fieldOfStudy}}</p>
+                  <p><b>Maturzysta:</b> {{camperData.highSchoolRecentGraduate}}</p>
+                  <p><b>Szkoła średnia:</b> {{camperData.highSchool}}</p>
+                </div>
+              </div>
+              <div class="bda-admin-section-card-action">
+                <button nz-button
+                        class="bda-admin-section-card-action-small-button"><i class="anticon anticon-edit"></i>Edytuj</button>
+                <button nz-button
+                        class="bda-admin-section-card-action-small-button"
+                        nz-popconfirm nzTitle="Czy jesteś pewien, że chcesz usunąć Uczestnika Obozu?"
+                        style="margin-left: 0.5rem;"><i class="anticon anticon-delete"></i>Usuń</button>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+      </tbody>
+    </nz-table>
+  </div>
+</section>

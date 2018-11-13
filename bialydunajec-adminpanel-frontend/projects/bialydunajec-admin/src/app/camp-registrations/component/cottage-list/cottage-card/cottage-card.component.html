@@ -18,7 +18,10 @@
         </nz-form-control>
       </nz-form-item>
     </div>
-    <nz-progress style="justify-self: flex-end; align-self: flex-end" [nzPercent]="68" nzType="circle"></nz-progress>
+    <div style="justify-self: flex-end; align-self: flex-end" *ngIf="campParticipantsPercentByCottageId | async as campParticipants">
+      <nz-progress [nzStatus]="!campParticipants.percent ? 'exception' : ''" [nzPercent]="!campParticipants.percent ? 100 : campParticipants.percent" nzType="circle"></nz-progress>
+      <h3 style="text-align: center; margin-bottom: 0; margin-top: 0.8rem;"><b>Zapisanych:</b> {{campParticipantCount}}/{{cottage.cottageSpace.fullCapacity}}</h3>
+    </div>
   </div>
   <div class="bda-admin-section-card-action">
     <button nz-button nzType="primary"

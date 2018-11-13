@@ -65,6 +65,8 @@
           </nz-form-label>
           <nz-form-control>
             <input *ngIf="showInputs; else nameValueView" nz-input formControlName="name" id="name">
+            <nz-form-explain *ngIf="nameFormControl.dirty && nameFormControl.errors">Proszę wypełnić pole.
+            </nz-form-explain>
           </nz-form-control>
           <ng-template #nameValueView>
             <bda-admin-form-input-value [control]="nameFormControl"></bda-admin-form-input-value>
@@ -355,8 +357,138 @@
       <div class="bda-admin-panel-section-card">
         <h3><b>Szef Chatki</b></h3>
         <nz-divider></nz-divider>
-        <div>
-          DANE SZEFA CHATKI
+        <div formGroupName="cottageBoss">
+          <nz-form-item>
+            <nz-form-label nzFor="cottageBossFirstName">
+              <span>Imię</span>
+            </nz-form-label>
+            <nz-form-control>
+              <input *ngIf="showInputs; else cottageBossFirstNameValueView" nz-input formControlName="firstName"
+                     id="cottageBossFirstName">
+            </nz-form-control>
+            <ng-template #cottageBossFirstNameValueView>
+              <bda-admin-form-input-value
+                [control]="cottageBossFirstNameFormControl"></bda-admin-form-input-value>
+            </ng-template>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label nzFor="cottageBossLastName">
+              <span>Nazwisko</span>
+            </nz-form-label>
+            <nz-form-control>
+              <input *ngIf="showInputs; else cottageBossLastNameValueView" nz-input formControlName="lastName"
+                     id="cottageBossLastName">
+            </nz-form-control>
+            <ng-template #cottageBossLastNameValueView>
+              <bda-admin-form-input-value
+                [control]="cottageBossLastNameFormControl"></bda-admin-form-input-value>
+            </ng-template>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label nzFor="cottageBossPhoneNumber">
+              <span>Numer telefonu</span>
+            </nz-form-label>
+            <nz-form-control>
+              <input *ngIf="showInputs; else cottageBossPhoneNumberValueView" nz-input formControlName="phoneNumber"
+                     id="cottageBossPhoneNumber">
+            </nz-form-control>
+            <ng-template #cottageBossPhoneNumberValueView>
+              <bda-admin-form-input-value
+                [control]="cottageBossPhoneNumberFormControl"></bda-admin-form-input-value>
+            </ng-template>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label nzFor="cottageBossEmailAddress">
+              <span>Adres email</span>
+            </nz-form-label>
+            <nz-form-control>
+              <input *ngIf="showInputs; else cottageBossEmailAddressValueView" nz-input formControlName="emailAddress"
+                     id="cottageBossEmailAddress">
+            </nz-form-control>
+            <ng-template #cottageBossEmailAddressValueView>
+              <bda-admin-form-input-value
+                [control]="cottageBossEmailAddressFormControl"></bda-admin-form-input-value>
+            </ng-template>
+          </nz-form-item>
+
+          <!--
+          <nz-form-item>
+            <nz-form-label nzFor="cottageBossUniversity">
+              <span>Uczelnia</span>
+            </nz-form-label>
+            <nz-form-control>
+              <input *ngIf="showInputs; else cottageBossUniveristyValueView" nz-input formControlName="university"
+                     id="cottageBossUniversity">
+            </nz-form-control>
+            <ng-template #cottageBossUniveristyValueView>
+              <bda-admin-form-input-value
+                [control]="cottageBossUniveristyValueView"></bda-admin-form-input-value>
+            </ng-template>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label nzFor="cottageBossFieldOfStudy">
+              <span>Kierunek studiów</span>
+            </nz-form-label>
+            <nz-form-control>
+              <input *ngIf="showInputs; else cottageBossFieldOfStudyValueView" nz-input formControlName="fieldOfStudy"
+                     id="cottageBossFieldOfStudy">
+            </nz-form-control>
+            <ng-template #cottageBossFieldOfStudyValueView>
+              <bda-admin-form-input-value
+                [control]="cottageBossFieldOfStudyValueView"></bda-admin-form-input-value>
+            </ng-template>
+          </nz-form-item>
+-->
+          <nz-form-item>
+            <nz-form-label nzFor="cottageBossPhotoUrl">
+              <span>Zdjęcie (url)</span>
+            </nz-form-label>
+            <nz-form-control>
+              <input *ngIf="showInputs; else cottageBossPhotoUrlValueView" nz-input formControlName="photoUrl"
+                     id="cottageBossPhotoUrl">
+            </nz-form-control>
+            <ng-template #cottageBossPhotoUrlValueView>
+              <bda-admin-form-input-value
+                [control]="cottageBossPhotoUrlFormControl"></bda-admin-form-input-value>
+            </ng-template>
+          </nz-form-item>
+
+          <!--
+          <div formGroupName="personalDescription">
+            <nz-form-item>
+              <nz-form-label nzFor="cottageBossPersonalDescriptionTitle">
+                <span>Opis - tytuł</span>
+              </nz-form-label>
+              <nz-form-control>
+                <input *ngIf="showInputs; else cottageBossPersonalDescriptionTitleValueView" nz-input formControlName="title"
+                       id="cottageBossPersonalDescriptionTitle">
+              </nz-form-control>
+              <ng-template #cottageBossPersonalDescriptionTitleValueView>
+                <bda-admin-form-input-value
+                  [control]="cottageBossPersonalDescriptionTitleFormControl"></bda-admin-form-input-value>
+              </ng-template>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label nzFor="cottageBossPersonalDescriptionContent">
+                <span>Opis - treść</span>
+              </nz-form-label>
+              <nz-form-control>
+                <textarea
+                  *ngIf="showInputs; else cottageBossPersonalDescriptionContentValueView"
+                  formControlName="content" id="cottageBossPersonalDescriptionContent" nz-input [nzAutosize]="{ minRows: 2, maxRows: 2 }"></textarea>
+              </nz-form-control>
+              <ng-template #cottageBossPersonalDescriptionContentValueView>
+                <bda-admin-form-input-value
+                  [control]="cottageBossPersonalDescriptionContentFormControl"></bda-admin-form-input-value>
+              </ng-template>
+            </nz-form-item>
+          </div>
+-->
         </div>
       </div>
 

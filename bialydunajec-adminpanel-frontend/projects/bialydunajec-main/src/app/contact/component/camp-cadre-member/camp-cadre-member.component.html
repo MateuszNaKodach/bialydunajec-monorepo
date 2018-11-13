@@ -1,15 +1,15 @@
 <div style="margin-bottom: 50px;">
   <bda-photo-info-card
     [imageSrc]="cadreMember.photoUrl ? cadreMember.photoUrl : 'assets/images/placeholder/placeholder_person.jpg'">
-    <div fxLayout="column" fxLayoutAlign="center center" class="content">
-      <h2>{{cadreMember.firstName}} {{cadreMember.lastName}}</h2>
-      <p class="meta">{{cadreMember.responsibility}}</p>
+    <div fxLayout="column" fxLayoutAlign="center center" class="content bda-camp-cadre-member__info">
+      <h2 style="font-size: 2rem;">{{cadreMember.firstName}} {{cadreMember.lastName}}</h2>
+      <p class="meta" style="font-size: 1rem;">{{cadreMember.responsibility}}</p>
 
-      <div style="text-align: center">
-        <p class="meta" style="text-align: center"><b>DA {{cadreMember.academicMinistryName}}</b><br></p>
+      <div style="text-align: center" class="bda-camp-cadre-member__info">
+        <p class="meta" style="text-align: center; font-size: 1rem;"><b>DA {{cadreMember.academicMinistryName}}</b><br></p>
         <div class="ui divider"></div>
-        <p class="meta">{{cadreMember.contactInfo ? cadreMember.contactInfo.phoneNumber : ''}}</p>
-        <p class="meta">{{cadreMember.contactInfo ? cadreMember.contactInfo.emailAddress : ''}}</p>
+        <p class="meta" style="font-size: 1rem;">{{cadreMember.contactInfo ? cadreMember.contactInfo.phoneNumber : ''}}</p>
+        <p class="meta" style="font-size: 1rem;">{{cadreMember.contactInfo ? cadreMember.contactInfo.emailAddress : ''}}</p>
       </div>
     </div>
   </bda-photo-info-card>
