@@ -1,6 +1,7 @@
 package org.bialydunajec.registrations.domain.shirt
 
 import org.bialydunajec.ddd.domain.base.aggregate.AuditableAggregateRoot
+import org.bialydunajec.ddd.domain.base.persistence.Versioned
 import org.bialydunajec.ddd.domain.base.validation.ValidationResult
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.Url
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionEvent
@@ -15,18 +16,18 @@ import javax.persistence.*
 @Table(schema = "camp_registrations")
 class CampEditionShirt internal constructor(
         private val campRegistrationsEditionId: CampRegistrationsEditionId,
-        private var shirtSizesFileUrl: Url? = null,
-        private var ordersAllowed: Boolean = false
-) : AuditableAggregateRoot<CampEditionShirtId, CampEditionShirtEvent>(CampEditionShirtId(campRegistrationsEditionId)) {
+        private var shirtSizesFileUrl: Url? = null//,
+        // private var ordersAllowed: Boolean = false
+) : AuditableAggregateRoot<CampEditionShirtId, CampEditionShirtEvent>(CampEditionShirtId(campRegistrationsEditionId)), Versioned {
+
+    @Version
+    private var version: Long? = null
 
     @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
     private var colorOptions: MutableSet<ShirtColorOption> = mutableSetOf()
 
     @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
     private var sizeOptions: MutableSet<ShirtSizeOption> = mutableSetOf()
-
-    @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
-    private var orders: MutableSet<ShirtOrder> = mutableSetOf()
 
     fun update(
             shirtSizesFileUrl: Url?
@@ -116,16 +117,15 @@ class CampEditionShirt internal constructor(
             campParticipant: CampParticipant,
             shirtColor: Color,
             shirtSize: ShirtSize
-    ) {
+    ): ShirtOrder {
         canPlaceOrder(campParticipant, shirtColor, shirtSize)
                 .ifInvalidThrowException()
 
-        orders.add(
-                ShirtOrder(
-                        campParticipant.getAggregateId(),
-                        colorOptions.find { it.getColor() == shirtColor }!!,
-                        sizeOptions.find { it.getSize() == shirtSize }!!
-                )
+        return ShirtOrder(
+                getAggregateId(),
+                campParticipant.getAggregateId(),
+                colorOptions.find { it.getColor() == shirtColor }!!,
+                sizeOptions.find { it.getSize() == shirtSize }!!
         )
     }
 
@@ -133,15 +133,14 @@ class CampEditionShirt internal constructor(
             campParticipant: CampParticipant,
             shirtColorOptionId: ShirtColorOptionId,
             shirtSizeOptionId: ShirtSizeOptionId
-    ): ShirtOrderSnapshot {
+    ): ShirtOrder {
         // TODO: Check availability!
-        val shirtOrder = ShirtOrder(
+        return ShirtOrder(
+                getAggregateId(),
                 campParticipant.getAggregateId(),
                 colorOptions.find { it.entityId == shirtColorOptionId }!!,
                 sizeOptions.find { it.entityId == shirtSizeOptionId }!!
         )
-        orders.add(shirtOrder)
-        return shirtOrder.getSnapshot()
     }
 
 
@@ -149,6 +148,7 @@ class CampEditionShirt internal constructor(
     fun getShirtSizesFileUrl() = shirtSizesFileUrl
     fun getSizeOptions() = sizeOptions.map { it.getSnapshot() }
     fun getColorOptions() = colorOptions.map { it.getSnapshot() }
+    override fun getVersion() = version
     fun getSnapshot() =
             CampEditionShirtSnapshot(
                     getAggregateId(),

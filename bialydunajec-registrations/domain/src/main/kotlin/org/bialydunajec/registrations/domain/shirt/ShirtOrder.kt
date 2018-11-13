@@ -1,14 +1,25 @@
-package org.bialydunajec.registrations.domain.shirt.entity
+package org.bialydunajec.registrations.domain.shirt
 
+import org.bialydunajec.ddd.domain.base.aggregate.AuditableAggregateRoot
 import org.bialydunajec.ddd.domain.base.persistence.IdentifiedEntity
+import org.bialydunajec.ddd.domain.base.persistence.Versioned
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantId
+import org.bialydunajec.registrations.domain.shirt.entity.ShirtColorOption
+import org.bialydunajec.registrations.domain.shirt.entity.ShirtSizeOption
 import org.bialydunajec.registrations.domain.shirt.valueobject.*
 import javax.persistence.*
 import javax.validation.constraints.NotNull
 
 @Entity
 @Table(schema = "camp_registrations")
-class ShirtOrder(
+class ShirtOrder internal constructor(
+        @NotNull
+        @Embedded
+        @AttributeOverrides(
+                AttributeOverride(name = "aggregateId", column = Column(name = "campEditionShirtId"))
+        )
+        private val campEditionShirtId: CampEditionShirtId,
+
         @NotNull
         @Embedded
         @AttributeOverrides(
@@ -23,15 +34,17 @@ class ShirtOrder(
         @NotNull
         @OneToOne
         private var sizeOption: ShirtSizeOption
-) : IdentifiedEntity<ShirtOrderId> {
+) : AuditableAggregateRoot<ShirtOrderId, ShirtOrderEvent>(ShirtOrderId()), Versioned {
 
-    @EmbeddedId
-    override val entityId: ShirtOrderId = ShirtOrderId()
+    @Version
+    private var version: Long? = null
+
+    override fun getVersion() = version
 
     private var status = OrderStatus.WAITING_FOR_CONFIRM;
 
     fun getSnapshot() =
-            ShirtOrderSnapshot(campParticipantId, colorOption.getColor(), sizeOption.getSize())
+            ShirtOrderSnapshot(campEditionShirtId, campParticipantId, colorOption.getColor(), sizeOption.getSize())
 
     // Snapshot tego jakie były wartości np. kolorów w momencie zamawiania
     @Embedded

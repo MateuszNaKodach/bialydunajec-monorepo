@@ -6,6 +6,7 @@ import org.bialydunajec.registrations.application.command.api.CampRegistrationsC
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantRepository
 import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule
 import org.bialydunajec.registrations.domain.shirt.CampEditionShirtRepository
+import org.bialydunajec.registrations.domain.shirt.ShirtOrderRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -89,7 +90,8 @@ internal class UpdateCampEditionShirtSizeOptionApplicationService(
 @Transactional
 internal class PlaceCampEditionShirtOrderApplicationService(
         private val campParticipantRepository: CampParticipantRepository,
-        private val campEditionShirtRepository: CampEditionShirtRepository
+        private val campEditionShirtRepository: CampEditionShirtRepository,
+        private val shirtOrderRepository: ShirtOrderRepository
 ) : ApplicationService<CampRegistrationsCommand.PlaceCampEditionShirtOrder> {
 
     override fun process(command: CampRegistrationsCommand.PlaceCampEditionShirtOrder) {
@@ -97,8 +99,9 @@ internal class PlaceCampEditionShirtOrderApplicationService(
                 ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.SHIRT_TO_ORDER_MUST_EXISTS)
         val campParticipant = campParticipantRepository.findById(command.campParticipantId)
                 ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.SHIRT_CAN_BE_ORDERED_ONLY_FOR_EXISTING_CAMP_PARTICIPANT)
+
         campEditionShirt.placeOrder(campParticipant, command.color, command.size)
-        campEditionShirtRepository.save(campEditionShirt)
+                .let { shirtOrderRepository.save(it) }
     }
 
 }

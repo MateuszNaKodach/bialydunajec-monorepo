@@ -1,0 +1,11 @@
+package org.bialydunajec.registrations.domain.shirt
+
+import org.bialydunajec.ddd.domain.base.event.DomainEvent
+import org.bialydunajec.registrations.domain.campedition.entity.CampRegistrationsId
+import org.bialydunajec.registrations.domain.campedition.valueobject.TimerSettings
+
+sealed class ShirtOrderEvent(
+        override val aggregateId: ShirtOrderId
+) : DomainEvent<ShirtOrderId> {
+
+}
