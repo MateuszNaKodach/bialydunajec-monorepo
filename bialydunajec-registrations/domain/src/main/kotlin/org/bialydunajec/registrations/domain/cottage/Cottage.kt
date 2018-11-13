@@ -42,11 +42,17 @@ class Cottage internal constructor(
         private var name: String,
 
         @Embedded
-        @AttributeOverrides(AttributeOverride(name = "url", column = Column(name = "logoImageUrl")))
+        @AttributeOverrides(
+                AttributeOverride(name = "url", column = Column(name = "logoImageUrl")),
+                AttributeOverride(name = "pathType", column = Column(name = "logoImageUrlPathType"))
+        )
         private var logoImageUrl: Url? = null,
 
         @Embedded
-        @AttributeOverrides(AttributeOverride(name = "url", column = Column(name = "buildingPhotoUrl")))
+        @AttributeOverrides(
+                AttributeOverride(name = "url", column = Column(name = "buildingPhotoUrl")),
+                AttributeOverride(name = "pathType", column = Column(name = "buildingPhotoUrlPathType"))
+        )
         private var buildingPhotoUrl: Url? = null,
 
         @Embedded

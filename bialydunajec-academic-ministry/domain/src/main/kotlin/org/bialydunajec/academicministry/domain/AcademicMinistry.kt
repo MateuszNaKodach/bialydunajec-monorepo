@@ -29,7 +29,10 @@ class AcademicMinistry(
         private var shortName: String?,
 
         @Embedded
-        @AttributeOverrides(AttributeOverride(name = "url", column = Column(name = "logoImageUrl")))
+        @AttributeOverrides(
+                AttributeOverride(name = "url", column = Column(name = "logoImageUrl")),
+                AttributeOverride(name = "pathType", column = Column(name = "logoImageUrlPathType"))
+        )
         private var logoImageUrl: Url? = null,
 
         @Embedded
@@ -42,7 +45,10 @@ class AcademicMinistry(
         private var emailAddress: EmailAddress? = null,
 
         @Embedded
-        @AttributeOverrides(AttributeOverride(name = "url", column = Column(name = "photoUrl")))
+        @AttributeOverrides(
+                AttributeOverride(name = "url", column = Column(name = "photoUrl")),
+                AttributeOverride(name = "pathType", column = Column(name = "photoUrlPathType"))
+        )
         private var photoUrl: Url? = null,
 
         @Embedded
