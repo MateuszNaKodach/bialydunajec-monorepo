@@ -67,8 +67,7 @@ dependencies {
 
     compile project(':bialydunajec-news:bialydunajec-news-presentation')
     compile project(':bialydunajec-news:bialydunajec-news-infrastructure')
-
-
+    
     compile project(':bialydunajec-camp-edition:bialydunajec-camp-edition-presentation')
     compile project(':bialydunajec-camp-edition:bialydunajec-camp-edition-infrastructure')
 
@@ -78,6 +77,9 @@ dependencies {
     compile project(':bialydunajec-registrations:bialydunajec-registrations-presentation')
     compile project(':bialydunajec-registrations:bialydunajec-registrations-infrastructure')
 
+    compile project(':bialydunajec-users:bialydunajec-users-presentation')
+    compile project(':bialydunajec-users:bialydunajec-users-infrastructure')
+    
     compile project(':bialydunajec-authorization:bialydunajec-authorization-server')
 
     //compile('org.springframework.boot:spring-boot-starter-actuator')

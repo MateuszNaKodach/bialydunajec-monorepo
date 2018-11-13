@@ -5,7 +5,6 @@ import org.bialydunajec.authorization.server.api.dto.exception.AuthorizationErro
 import org.bialydunajec.authorization.server.api.dto.exception.AuthorizationServerException
 import org.springframework.security.crypto.password.PasswordEncoder
 import javax.persistence.Column
-import javax.persistence.Embedded
 import javax.persistence.EmbeddedId
 import javax.persistence.Entity
 import javax.validation.constraints.NotBlank
@@ -21,8 +20,8 @@ internal data class OAuth2User(
         private var emailAddress: String,
 
         @NotBlank
-        @Column(unique = true, updatable = true)
-        private var username: String,
+        @Column(unique = true, updatable = true, nullable = true)
+        private var username: String?,
 
         @NotBlank
         private var password: String,

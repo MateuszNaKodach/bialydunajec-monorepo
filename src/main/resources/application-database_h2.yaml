@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: "jdbc:h2:file:./h2-local;INIT=create schema if not exists CAMP_REGISTRATIONS \\; create schema if not exists CAMP_EDITION \\; create schema if not exists ACADEMIC_MINISTRY" #jdbc:h2:file:~/test => local database | mem:test in-memory
+    url: "jdbc:h2:file:./h2-local;INIT=create schema if not exists CAMP_REGISTRATIONS \\; create schema if not exists CAMP_EDITION \\; create schema if not exists ACADEMIC_MINISTRY \\; create schema if not exists USERS \\; create schema if not exists EMAIL" #jdbc:h2:file:~/test => local database | mem:test in-memory
     username: sa
     password:
     driver-class-name: org.h2.Driver

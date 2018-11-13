@@ -41,6 +41,30 @@ include 'bialydunajec-registrations',
         'bialydunajec-registrations:messages',
         'bialydunajec-registrations:read-model'
 
+include 'bialydunajec-email',
+        'bialydunajec-email:application',
+        'bialydunajec-email:presentation',
+        'bialydunajec-email:domain',
+        'bialydunajec-email:infrastructure',
+        'bialydunajec-email:messages'
+
+include 'bialydunajec-users',
+        'bialydunajec-users:application',
+        'bialydunajec-users:presentation',
+        'bialydunajec-users:domain',
+        'bialydunajec-users:infrastructure',
+        'bialydunajec-users:messages'
+
+
+/*
+include 'bialydunajec-gallery',
+        'bialydunajec-gallery:application',
+        'bialydunajec-gallery:presentation',
+        'bialydunajec-gallery:domain',
+        'bialydunajec-gallery:infrastructure',
+        'bialydunajec-gallery:messages'
+ */
+
 /*
 include 'bialydunajec-faq',
         'bialydunajec-faq:application',

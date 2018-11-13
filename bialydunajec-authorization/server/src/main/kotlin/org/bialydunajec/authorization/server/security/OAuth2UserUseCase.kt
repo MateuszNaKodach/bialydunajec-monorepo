@@ -11,7 +11,7 @@ internal class OAuth2UserCreator(
         private val oAuth2UserRepository: OAuth2UserRepository,
         private val passwordEncoder: PasswordEncoder) {
 
-    fun createOAuth2UserClaims(emailAddress: String, username: String, plainPassword: String) =
+    fun createOAuth2UserClaims(emailAddress: String, username: String?, plainPassword: String) =
             oAuth2UserRepository.save(
                     OAuth2User(
                             emailAddress = emailAddress,
