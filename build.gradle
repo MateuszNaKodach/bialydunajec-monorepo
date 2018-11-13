@@ -58,9 +58,16 @@ dependencies {
     /*
     compile project(':bialydunajec-core:bialydunajec-core-presentation')
     compile project(':bialydunajec-core:bialydunajec-core-infrastructure')
+    
+    compile project(':bialydunajec-faq:bialydunajec-faq-presentation')
+    compile project(':bialydunajec-faq:bialydunajec-faq-infrastructure')
 */
     compile project(':bialydunajec-ddd:bialydunajec-ddd-presentation')
     compile project(':bialydunajec-ddd:bialydunajec-ddd-infrastructure')
+
+    compile project(':bialydunajec-news:bialydunajec-news-presentation')
+    compile project(':bialydunajec-news:bialydunajec-news-infrastructure')
+
 
     compile project(':bialydunajec-camp-edition:bialydunajec-camp-edition-presentation')
     compile project(':bialydunajec-camp-edition:bialydunajec-camp-edition-infrastructure')
@@ -97,4 +104,7 @@ dependencies {
     compileOnly('org.springframework.boot:spring-boot-configuration-processor')
     testCompile('org.springframework.boot:spring-boot-starter-test')
     //testCompile('io.projectreactor:reactor-test')
+
+    //compile('de.flapdoodle.embed:de.flapdoodle.embed.mongo')
+
 }

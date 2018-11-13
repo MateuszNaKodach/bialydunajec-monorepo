@@ -35,6 +35,8 @@ data class CottageSpace(
          */
         val maxMaleTotal: Int? = null,
 
+
+        //TODO: Change it to reservations for highSchoolGraduates, not max!!!!!!!!!!
         /**
          * Amount of all available spaces for this year high school graduates in the cottage.
          * highSchoolRecentGraduatesCapacity =< fullCapacity
@@ -76,7 +78,5 @@ data class CottageSpace(
 
     fun getMaxBy(gender: Gender) = if (gender.isFemale) maxFemaleTotal else maxMaleTotal
 
-    fun getMaxForHighSchoolRecentGraduateBy(gender: Gender) = if (gender.isFemale) maxFemaleHighSchoolRecentGraduates else maxMaleHighSchoolRecentGraduates
-
-    fun getSpaceForCampers() = fullCapacity - reservations
+    fun getSpaceForCampersRegistrations() = fullCapacity - reservations
 }

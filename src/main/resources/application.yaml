@@ -1,6 +1,26 @@
 server:
-  port: 3536
+  port: 3344
 
 spring:
   profiles:
     active: env_dev
+
+  mail:
+    default-encoding: UTF-8
+    host: mail23.mydevil.net
+    username: zapisy@bialydunajec.org
+    password: 4nhvbu3DGqKc21F3uaOf
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    protocol: smtp
+    test-connection: false
+
+  data:
+    web:
+      pageable:
+        default-page-size: 20

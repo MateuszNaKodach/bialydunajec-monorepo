@@ -3,6 +3,8 @@ package org.bialydunajec.registrations.domain.campedition
 import org.bialydunajec.ddd.domain.base.aggregate.AggregateRoot
 import org.bialydunajec.ddd.domain.base.persistence.Versioned
 import org.bialydunajec.ddd.domain.base.validation.ValidationResult
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.financial.Money
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.Url
 import org.bialydunajec.registrations.domain.academicministry.CampRegistrationsAcademicMinistry
 import org.bialydunajec.registrations.domain.campedition.entity.CampRegistrations
 import org.bialydunajec.registrations.domain.campedition.specification.CampRegistrationsHasMinimumCottagesToStartSpecification
@@ -21,7 +23,7 @@ import javax.persistence.*
 
 //TODO: Aby rozpoczać lub skonfigurować zapisy cała reszta musi być finished!!!
 //TODO: CampRegistrationsEdition musi miec jako entity CampRegistrations i dbac np. o daty, zeby rejestracja nie trwała dłużej niz koniec obozu!
-/**
+/** Czy nie zmienic na CampEditionRegistrations --- lepsza nazwa?
  * Camp Edition in Camp Registrations Bounded Context
  */
 @Entity
@@ -32,7 +34,10 @@ class CampRegistrationsEdition constructor(
         private var editionStartDate: LocalDate,
 
         @NotNull
-        private var editionEndDate: LocalDate
+        private var editionEndDate: LocalDate,
+
+        @Embedded
+        private var price: Money
 ) : AggregateRoot<CampRegistrationsEditionId, CampRegistrationsEditionEvent>(campRegistrationsEditionId), Versioned {
 
     @Version
@@ -41,6 +46,7 @@ class CampRegistrationsEdition constructor(
     @NotNull
     @OneToOne(cascade = [CascadeType.ALL])
     private var campRegistrations: CampRegistrations = CampRegistrations(campRegistrationsEditionId)
+
 
     init {
         registerEvent(
@@ -153,6 +159,7 @@ class CampRegistrationsEdition constructor(
 
     fun getCampEditionStartDate() = editionStartDate
     fun getCampEditionEndDate() = editionEndDate
+    fun getPrice() = price
     override fun getVersion() = version
     fun getCampRegistrationsStatus() = campRegistrations.getStatus()
 
@@ -160,6 +167,7 @@ class CampRegistrationsEdition constructor(
             campRegistrationsEditionId = getAggregateId(),
             editionStartDate = editionStartDate,
             editionEndDate = editionEndDate,
+            editionPrice = price,
             campRegistrations = campRegistrations.getSnapshot()
     )
 }

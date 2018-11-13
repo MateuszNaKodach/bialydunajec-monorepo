@@ -8,4 +8,7 @@ import javax.validation.constraints.NotBlank
 data class LastName(
         @NotBlank
         val lastName: String
-): ValueObject
+): ValueObject{
+
+        override fun toString() = lastName
+}

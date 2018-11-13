@@ -19,7 +19,8 @@ internal class CampEditionDomainEventsPropagator(private val externalEventBus: E
                 CampEditionExternalEvent.CampEditionCreated(
                         campEditionId = domainEvent.aggregateId.toString(),
                         startDate = domainEvent.startDate,
-                        endDate = domainEvent.endDate
+                        endDate = domainEvent.endDate,
+                        price = domainEvent.price.getValue().toDouble()
                 )
         )
     }

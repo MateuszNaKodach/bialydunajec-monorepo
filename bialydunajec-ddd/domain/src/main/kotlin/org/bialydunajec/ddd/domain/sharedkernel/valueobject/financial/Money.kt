@@ -78,6 +78,8 @@ class Money private constructor(
 
     fun greaterThan(other: Money) = value > other.value
 
+    fun greaterOrEquals(other: Money) = value >= other.value
+
     fun lessThan(other: Money) = value < other.value
 
     fun lessOrEquals(other: Money) = value <= other.value

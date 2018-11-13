@@ -1,11 +1,17 @@
 package org.bialydunajec.academicministry.domain
 
 import org.bialydunajec.academicministry.domain.entity.AcademicPriest
+import org.bialydunajec.academicministry.domain.entity.AcademicPriestId
 import org.bialydunajec.academicministry.domain.valueobject.AcademicMinistrySnapshot
+import org.bialydunajec.academicministry.domain.valueobject.AcademicPriestSnapshot
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.SocialMedia
 import org.bialydunajec.ddd.domain.base.aggregate.AggregateRoot
 import org.bialydunajec.ddd.domain.base.persistence.Versioned
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.PhoneNumber
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddress
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.FirstName
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.LastName
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.PersonalTitle
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.Url
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.location.Place
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.notes.ExtendedDescription
@@ -46,8 +52,8 @@ class AcademicMinistry(
     @Version
     private var version: Long? = null
 
-    @OneToMany(cascade = [CascadeType.ALL])
-    private var priests: List<AcademicPriest> = mutableListOf();
+    @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+    private var priests: MutableSet<AcademicPriest> = mutableSetOf()
 
     init {
         registerEvent(AcademicMinistryEvent.AcademicMinistryCreated(getSnapshot()))
@@ -67,6 +73,36 @@ class AcademicMinistry(
 
             registerEvent(AcademicMinistryEvent.AcademicMinistryUpdated(getSnapshot()))
         }
+    }
+
+    fun addNewPriest(
+            firstName: FirstName,
+            lastName: LastName,
+            personalTitle: PersonalTitle?,
+            emailAddress: EmailAddress?,
+            phoneNumber: PhoneNumber?,
+            description: ExtendedDescription?,
+            photoUrl: Url?
+    ) {
+        priests.add(
+                AcademicPriest(
+                        firstName,
+                        lastName,
+                        personalTitle,
+                        emailAddress,
+                        phoneNumber,
+                        description,
+                        photoUrl
+                )
+        )
+    }
+
+    fun updatePriest(priestId: AcademicPriestId, priest: AcademicPriestSnapshot) {
+        priests.find { it.getAcademicPriestId() == priestId }?.updateWith(priest)
+    }
+
+    fun removePriest(priestId: AcademicPriestId) {
+        priests.removeIf { it.getAcademicPriestId() == priestId }
     }
 
     fun getOfficialName() = officialName
@@ -91,4 +127,5 @@ class AcademicMinistry(
             photoUrl = photoUrl,
             description = description
     )
+
 }

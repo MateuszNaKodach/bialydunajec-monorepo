@@ -3,14 +3,17 @@ package org.bialydunajec.registrations.domain.camper.valueobject
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.PhoneNumber
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddress
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.location.Address
-import javax.persistence.Embeddable
-import javax.persistence.Embedded
-import javax.persistence.EnumType
-import javax.persistence.Enumerated
+import org.bialydunajec.registrations.domain.cottage.CottageId
+import javax.persistence.*
 import javax.validation.constraints.NotNull
 
 @Embeddable
 data class CamperApplication(
+        @NotNull
+        @Embedded
+        @AttributeOverrides(AttributeOverride(name = "aggregateId", column = Column(name = "cottageId")))
+        val cottageId: CottageId,
+
         @NotNull
         @Embedded
         val personalData: CamperPersonalData,
@@ -29,9 +32,5 @@ data class CamperApplication(
 
         @NotNull
         @Embedded
-        val camperEducation: CamperEducation,
-
-        @NotNull
-        @Enumerated(EnumType.STRING)
-        val status: CamperApplicationStatus = CamperApplicationStatus.WAITING_FOR_CONFIRM
+        val camperEducation: CamperEducation
 )

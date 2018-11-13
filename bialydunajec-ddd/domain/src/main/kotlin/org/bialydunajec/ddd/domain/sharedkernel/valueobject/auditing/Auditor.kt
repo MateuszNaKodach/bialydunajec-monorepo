@@ -13,17 +13,17 @@ import javax.validation.constraints.NotNull
 data class Auditor(
         @Embedded
         @NotNull
-        val auditorId: AggregateId,
+        val auditorId: AggregateId?,
 
         @Embedded
         @NotNull
-        val firstName: FirstName,
+        val firstName: FirstName?,
 
         @Embedded
         @NotNull
-        val lastName: LastName,
+        val lastName: LastName?,
 
         @Embedded
         @NotNull
-        val emailAddress: EmailAddress
+        val emailAddress: EmailAddress?
 ) : ValueObject

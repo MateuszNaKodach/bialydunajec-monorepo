@@ -5,4 +5,6 @@ import java.time.LocalDate
 data class CreateCampEditionRequest(
         val campEditionId: Int,
         val campEditionStartDate: LocalDate,
-        val campEditionEndDate: LocalDate)
+        val campEditionEndDate: LocalDate,
+        val campEditionPrice: Double
+)

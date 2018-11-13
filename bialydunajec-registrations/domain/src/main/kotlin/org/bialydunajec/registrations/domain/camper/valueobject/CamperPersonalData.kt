@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 
 @Embeddable
-data class CamperPersonalData private constructor(
+data class CamperPersonalData constructor(
         @NotNull
         @Embedded
         val firstName: FirstName,
@@ -28,7 +28,7 @@ data class CamperPersonalData private constructor(
 
         @NotNull
         @Embedded
-        val birthdate: BirthDate
+        val birthDate: BirthDate
 ) {
 
     companion object {
@@ -37,14 +37,14 @@ data class CamperPersonalData private constructor(
                 lastName = lastName,
                 gender = gender,
                 pesel = pesel,
-                birthdate = pesel.getBirthDate()
+                birthDate = pesel.getBirthDate()
         )
 
         fun withoutPeselNumber(firstName: FirstName, lastName: LastName, gender: Gender, birthDate: BirthDate) = CamperPersonalData(
                 firstName = firstName,
                 lastName = lastName,
                 gender = gender,
-                birthdate = birthDate
+                birthDate = birthDate
         )
     }
 }

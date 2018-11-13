@@ -6,15 +6,12 @@ import javax.validation.constraints.NotNull
 
 @Embeddable
 data class CamperEducation(
-        @NotNull
         @NotBlank
         val university: String,
 
-        @NotNull
         @NotBlank
         val faculty: String,
 
-        @NotNull
         @NotBlank
         val fieldOfStudy: String,
 

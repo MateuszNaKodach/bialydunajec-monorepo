@@ -3,14 +3,19 @@ package org.bialydunajec.registrations.application.external.event.listener
 import org.bialydunajec.campedition.messages.event.CampEditionExternalEvent
 import org.bialydunajec.ddd.application.base.external.event.ExternalEvent
 import org.bialydunajec.ddd.application.base.external.event.ExternalEventListener
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.financial.Money
 import org.bialydunajec.registrations.application.command.api.CampRegistrationsCommand
-import org.bialydunajec.registrations.application.command.api.CampRegistrationsCommandGateway
+import org.bialydunajec.registrations.application.command.api.CampRegistrationsAdminCommandGateway
+import org.bialydunajec.registrations.application.external.event.processor.CampEditionExternalEventProcessor
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
 import org.springframework.context.event.EventListener
 import org.springframework.stereotype.Component
 
 @Component
-internal class CampEditionExternalEventListener(private val campRegistrationsCommandGateway: CampRegistrationsCommandGateway) : ExternalEventListener {
+internal class CampEditionExternalEventListener(
+        private val campEditionExternalEventProcessor: CampEditionExternalEventProcessor,
+        private val campRegistrationsCommandGateway: CampRegistrationsAdminCommandGateway
+) : ExternalEventListener {
 
     //TODO: Change to ExternalEventProcessors instead of commands!!!
     @EventListener
@@ -18,11 +23,13 @@ internal class CampEditionExternalEventListener(private val campRegistrationsCom
         val payload = externalEvent.payload
         when (payload) {
             is CampEditionExternalEvent.CampEditionCreated -> {
+                campEditionExternalEventProcessor.process(payload)
                 campRegistrationsCommandGateway.process(
                         CampRegistrationsCommand.CreateCampRegistrationsEdition(
                                 CampRegistrationsEditionId(payload.campEditionId),
                                 payload.startDate,
-                                payload.endDate
+                                payload.endDate,
+                                Money(payload.price)
                         )
                 )
             }

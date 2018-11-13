@@ -8,7 +8,7 @@ import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditio
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionRepository
 import org.bialydunajec.registrations.domain.cottage.CottageRepository
-import org.bialydunajec.registrations.domain.camper.CamperRepository
+import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantRepository
 import org.springframework.context.annotation.Configuration
 import java.time.*
 
@@ -17,15 +17,15 @@ class BoundedContextExternalDataBootstrap(
         val campEditionRepository: CampRegistrationsEditionRepository,
         val academicMinistryRepository: AcademicMinistryRepository,
         val cottageRepository: CottageRepository,
-        val camperRepository: CamperRepository
+        val campParticipantRepository: CampParticipantRepository
 ) {
 
 
     fun bootstrap() {
-        val (redemptor, maciejowka) = initAcademicMinistries()
-        val campEdition = initCampEdition()
+        //val (redemptor, maciejowka) = initAcademicMinistries()
+        //val campEdition = initCampEdition()
     }
-
+/*
     private fun initCampEdition(): CampRegistrationsEdition {
         val campEdition36 = campEditionRepository.save(
                 CampRegistrationsEdition(
@@ -65,7 +65,7 @@ class BoundedContextExternalDataBootstrap(
         )
         return Pair(redemptor, maciejowka)
     }
-
+*/
     /*
     @PostConstruct
     fun bootstrap() {

@@ -9,7 +9,8 @@ sealed class CampEditionExternalEvent(
     class CampEditionCreated(
             campEditionId: String,
             val startDate: LocalDate,
-            val endDate: LocalDate
+            val endDate: LocalDate,
+            val price: Double
     ) : CampEditionExternalEvent(campEditionId)
 
     class CampEditionDurationUpdated(

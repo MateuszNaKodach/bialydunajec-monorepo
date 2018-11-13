@@ -17,17 +17,17 @@ internal class CreateAcademicMinistryApplicationService(
 ) : ApplicationService<AcademicMinistryCommand.CreateAcademicMinistry> {
 
     override fun process(command: AcademicMinistryCommand.CreateAcademicMinistry) =
-        AcademicMinistry(
-                officialName = command.officialName,
-                shortName = command.shortName,
-                logoImageUrl = command.logoImageUrl,
-                place = command.place,
-                socialMedia = command.socialMedia,
-                emailAddress = command.emailAddress,
-                photoUrl = command.photoUrl,
-                description = command.description)
-                .let { academicMinistryRepository.save(it) }
-                .getAggregateId()
+            AcademicMinistry(
+                    officialName = command.officialName,
+                    shortName = command.shortName,
+                    logoImageUrl = command.logoImageUrl,
+                    place = command.place,
+                    socialMedia = command.socialMedia,
+                    emailAddress = command.emailAddress,
+                    photoUrl = command.photoUrl,
+                    description = command.description)
+                    .let { academicMinistryRepository.save(it) }
+                    .getAggregateId()
 }
 
 @Service
@@ -51,6 +51,46 @@ internal class UpdateAcademicMinistryApplicationService(
                 description = command.description
         )
         academicMinistry.updateWith(academicMinistryUpdate)
+        academicMinistryRepository.save(academicMinistry)
+    }
+}
+
+@Transactional
+@Service
+internal class CreateAcademicMinistryPriestApplicationService(
+        private val academicMinistryRepository: AcademicMinistryRepository
+) : ApplicationService<AcademicMinistryCommand.CreateAcademicMinistryPriest> {
+
+    override fun process(command: AcademicMinistryCommand.CreateAcademicMinistryPriest) {
+        val academicMinistry = academicMinistryRepository.findById(command.academicMinistryId)
+                ?: throw DomainRuleViolationException.of(AcademicMinistryDomainRule.ACADEMIC_MINISTRY_FOR_PRIEST_MUST_EXISTS)
+
+        with(command) {
+            academicMinistry.addNewPriest(
+                    firstName,
+                    lastName,
+                    personalTitle,
+                    emailAddress,
+                    phoneNumber,
+                    description,
+                    photoUrl
+            )
+        }
+        academicMinistryRepository.save(academicMinistry)
+    }
+}
+
+@Transactional
+@Service
+internal class RemoveAcademicMinistryPriestApplicationService(
+        private val academicMinistryRepository: AcademicMinistryRepository
+) : ApplicationService<AcademicMinistryCommand.RemoveAcademicMinistryPriest> {
+
+    override fun process(command: AcademicMinistryCommand.RemoveAcademicMinistryPriest) {
+        val academicMinistry = academicMinistryRepository.findById(command.academicMinistryId)
+                ?: throw DomainRuleViolationException.of(AcademicMinistryDomainRule.ACADEMIC_MINISTRY_FOR_PRIEST_MUST_EXISTS)
+
+        academicMinistry.removePriest(command.academicPriestId)
         academicMinistryRepository.save(academicMinistry)
     }
 }

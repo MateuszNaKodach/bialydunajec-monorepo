@@ -1,7 +1,7 @@
 package org.bialydunajec.registrations.application.bootstrap
 
 import org.bialydunajec.registrations.application.command.api.CampRegistrationsCommand.*
-import org.bialydunajec.registrations.application.command.api.CampRegistrationsCommandGateway
+import org.bialydunajec.registrations.application.command.api.CampRegistrationsAdminCommandGateway
 import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryId
 import org.bialydunajec.registrations.domain.bootstrap.BoundedContextExternalDataBootstrap
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
@@ -10,12 +10,11 @@ import org.springframework.stereotype.Component
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
-import javax.annotation.PostConstruct
 
 @Component
 internal class H2DatabaseSamplesBootstrap(
         private val boundedContextExternalDataBootstrap: BoundedContextExternalDataBootstrap,
-        private val commandGateway: CampRegistrationsCommandGateway
+        private val commandGateway: CampRegistrationsAdminCommandGateway
 ) {
 
     //@PostConstruct

@@ -29,7 +29,8 @@ internal class CreateCampRegistrationsEditionApplicationService(
         val newCampEdition = CampRegistrationsEdition(
                 campRegistrationsEditionId = command.campRegistrationsEditionId,
                 editionStartDate = command.campEditionStartDate,
-                editionEndDate = command.campEditionEndDate
+                editionEndDate = command.campEditionEndDate,
+                price = command.price
         )
         campEditionRepository.save(newCampEdition)
     }
@@ -188,7 +189,8 @@ internal class UpdateCottageApplicationService(
                 command.place,
                 command.cottageSpace,
                 command.campersLimitations,
-                command.bankTransferDetails
+                command.bankTransferDetails,
+                command.cottageBoss
         )
 
         cottageRepository.save(cottage)
