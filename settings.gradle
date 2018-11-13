@@ -5,11 +5,13 @@ include 'bialydunajec-ddd:application',
         'bialydunajec-ddd:domain',
         'bialydunajec-ddd:infrastructure'
 
+/*
 include 'bialydunajec-core',
         'bialydunajec-core:application',
         'bialydunajec-core:presentation',
         'bialydunajec-core:domain',
         'bialydunajec-core:infrastructure'
+*/
 
 include 'bialydunajec-news',
         'bialydunajec-news:application',
@@ -38,6 +40,14 @@ include 'bialydunajec-registrations',
         'bialydunajec-registrations:infrastructure',
         'bialydunajec-registrations:messages',
         'bialydunajec-registrations:read-model'
+
+/*
+include 'bialydunajec-faq',
+        'bialydunajec-faq:application',
+        'bialydunajec-faq:presentation',
+        'bialydunajec-faq:domain',
+        'bialydunajec-faq:infrastructure'
+*/
 
 include 'bialydunajec-authorization:server'
 
