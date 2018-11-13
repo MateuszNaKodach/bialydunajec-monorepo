@@ -143,7 +143,7 @@ fun CottageBossDto.toValueObject() =
                 emailAddress?.let { EmailAddress(it) },
                 university.toStringOrNull(),
                 fieldOfStudy.toStringOrNull(),
-                photoUrl?.let { Url(it) },
+                photoUrl?.let { Url.ExternalUrl(it) },
                 personalDescription?.toValueObject()
         )
 
