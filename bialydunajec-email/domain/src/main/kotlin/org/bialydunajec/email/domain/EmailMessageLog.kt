@@ -16,8 +16,15 @@ class EmailMessageLog(
         private val recipient: EmailAddress,
         private val subject: String,
         private val content: String,
-        private val emailMessageLogId: EmailMessageLogId
+        emailMessageLogId: EmailMessageLogId
 ) : AuditableAggregateRoot<EmailMessageLogId, EmailMessageLogEvent>(emailMessageLogId), Versioned {
+
+    init {
+        registerEvent(
+                EmailMessageLogEvent.EmailMessageCreated(getAggregateId(), recipient, subject, content)
+        )
+    }
+
     @Version
     private var version: Long? = null
 
@@ -32,12 +39,23 @@ class EmailMessageLog(
     fun markAsSent(currentDateTime: ZonedDateTime) {
         status = EmailStatus.SENT
         sentDate = currentDateTime
+        registerEvent(
+                EmailMessageLogEvent.EmailMessageSentSuccess(getAggregateId(), currentDateTime)
+        )
     }
 
     fun logSendingFailure(error: String) {
         status = EmailStatus.FAIL_TO_SEND
         lastError = error
+        registerEvent(
+                EmailMessageLogEvent.EmailMessageSentFailure(getAggregateId(), error)
+        )
     }
+
+    fun getRecipient() = recipient
+    fun getSubject() = subject
+    fun getContent() = content
+    fun isSent() = status == EmailStatus.SENT
 
     override fun getVersion() = version
 }

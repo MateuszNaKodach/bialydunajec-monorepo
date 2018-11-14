@@ -11,8 +11,6 @@ jar {
 dependencies {
     compile project(':bialydunajec-ddd:bialydunajec-ddd-presentation')
     compile project(':bialydunajec-registrations:bialydunajec-registrations-application')
-    compile project(':bialydunajec-registrations:bialydunajec-registrations-read-model')
-
 
     compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.springframework.boot:spring-boot-starter-webflux')

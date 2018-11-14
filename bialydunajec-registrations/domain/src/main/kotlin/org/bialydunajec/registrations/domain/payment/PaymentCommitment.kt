@@ -14,10 +14,10 @@ import javax.persistence.*
 @Table(schema = "camp_registrations")
 class PaymentCommitment(
         @Embedded
-        val amount: Money,
-        val title: String,
-        val description: String? = null,
-        val deadlineDate: ZonedDateTime? = null
+        var amount: Money,
+        var title: String,
+        var description: String? = null,
+        var deadlineDate: ZonedDateTime? = null
 ) : AuditableAggregateRoot<PaymentCommitmentId, PaymentCommitmentEvent>(PaymentCommitmentId()), Versioned {
     @Version
     private var version: Long? = null

@@ -76,13 +76,15 @@ dependencies {
 
     compile project(':bialydunajec-registrations:bialydunajec-registrations-presentation')
     compile project(':bialydunajec-registrations:bialydunajec-registrations-infrastructure')
+    compile project(':bialydunajec-registrations:bialydunajec-registrations-read-model')
 
     compile project(':bialydunajec-users:bialydunajec-users-presentation')
     compile project(':bialydunajec-users:bialydunajec-users-infrastructure')
 
     compile project(':bialydunajec-email:bialydunajec-email-presentation')
     compile project(':bialydunajec-email:bialydunajec-email-infrastructure')
-    
+    compile project(':bialydunajec-email:bialydunajec-email-read-model')
+
     compile project(':bialydunajec-authorization:bialydunajec-authorization-server')
 
     //compile('org.springframework.boot:spring-boot-starter-actuator')
@@ -110,6 +112,6 @@ dependencies {
     testCompile('org.springframework.boot:spring-boot-starter-test')
     //testCompile('io.projectreactor:reactor-test')
 
-    //compile('de.flapdoodle.embed:de.flapdoodle.embed.mongo')
+    compile('de.flapdoodle.embed:de.flapdoodle.embed.mongo')
 
 }

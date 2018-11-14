@@ -46,7 +46,8 @@ include 'bialydunajec-email',
         'bialydunajec-email:presentation',
         'bialydunajec-email:domain',
         'bialydunajec-email:infrastructure',
-        'bialydunajec-email:messages'
+        'bialydunajec-email:messages',
+        'bialydunajec-email:read-model'
 
 include 'bialydunajec-users',
         'bialydunajec-users:application',
