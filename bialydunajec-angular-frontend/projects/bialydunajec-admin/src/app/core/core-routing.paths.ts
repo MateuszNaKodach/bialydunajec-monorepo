@@ -2,5 +2,6 @@ export const coreRoutingPaths = {
   root: '',
   campRegistrations: 'camp-registrations',
   campEdition: 'camp-editions',
-  academicMinistry: 'academic-ministries'
+  academicMinistry: 'academic-ministries',
+  emailMessage: 'email-message'
 };

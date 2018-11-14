@@ -109,7 +109,7 @@
       </li>
 
       <!--<li nz-submenu>
-        <span title><i class="anticon anticon-mail"></i><span class="nav-text">Wiadomośći SMS</span></span>
+        <span title><i class="anticon anticon-mail"></i><span class="nav-text">Wiadomości SMS</span></span>
         <ul>
           <li nz-menu-item>Wyślij / Zaplanuj SMS</li>
           <li nz-menu-item>Szablony SMS</li>
@@ -120,11 +120,14 @@
       </li>-->
 
       <li nz-submenu>
-        <span title><i class="anticon anticon-mail"></i><span class="nav-text">Wiadomośći Email</span></span>
+        <span title><i class="anticon anticon-mail"></i><span class="nav-text">Wiadomości Email</span></span>
         <ul>
           <li nz-menu-item>Wyślij / Zaplanuj</li>
           <li nz-menu-item>Szablony</li>
-          <li nz-menu-item>Historia</li>
+          <li nz-menu-item
+              [routerLink]="[coreRoutingPaths.emailMessage, emailMessageRoutingPaths.history]">
+            Historia
+          </li>
           <li nz-menu-item>Konfiguracja</li>
         </ul>
       </li>

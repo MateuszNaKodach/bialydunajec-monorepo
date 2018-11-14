@@ -1,6 +1,13 @@
 @import '../../../../styles/responsivness';
 
-.preview-label{
+h2 {
+  //text-transform: uppercase;
+  //font-size: 1.17em;
+  font-weight: bold;
+  margin: 0;
+}
+
+.preview-label {
   color: #1890ff;
   border: 2px solid #1890ff;
   padding: 1px 10px 3px 10px;
@@ -11,36 +18,33 @@
   text-transform: uppercase;
 }
 
-.bda-admin-camp-registrations-settings__form{
+.bda-admin-camp-registrations-settings__form {
   display: grid;
   grid-gap: 1.5rem;
-  grid:
-    "   camp    camp      statuses        statuses      statuses        " 12rem
-    "   timer   timer     statuses        statuses      statuses       " auto
-    "   regulations   regulations     regulations        statictics      statictics       " auto
-    /   2fr     2fr     1fr     1fr    4fr    ;
+  grid: "   camp    camp      statuses        statuses      statuses        " 12rem "   timer   timer     statuses        statuses      statuses       " auto "   regulations   regulations     regulations        statictics      statictics       " auto
+    /   2fr     2fr 1fr 1fr 4fr;
 
-  button{
+  button {
     margin: 1rem;
   }
 }
 
-#camp-edition-preview{
+#camp-edition-preview {
   grid-area: camp;
 }
 
-#timer{
+#timer {
   grid-area: timer;
 }
 
-#statuses{
+#statuses {
   grid-area: statuses;
 }
 
-#regulations-and-agreements{
+#regulations-and-agreements {
   grid-area: regulations;
 }
 
-#statistical-questions{
+#statistical-questions {
   grid-area: statictics;
 }
