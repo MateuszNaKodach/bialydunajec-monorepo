@@ -7,11 +7,11 @@ import org.springframework.data.mongodb.core.mapping.Document
 @Document
 data class EmailMessage(
         @Id
-        val emailMessageLogId: String,
-        var recipient: String,
-        var subject: String,
-        var content: String,
-        var status: String,
+        var emailMessageLogId: String,
+        var recipient: String? = null,
+        var subject: String? = null,
+        var content: String? = null,
+        var status: String? = null,
         var lastError: String? = null,
         var sentDate: String? = null
 )

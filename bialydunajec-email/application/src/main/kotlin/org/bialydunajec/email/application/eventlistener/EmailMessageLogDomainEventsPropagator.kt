@@ -15,7 +15,13 @@ internal class EmailMessageLogDomainEventsPropagator(private val externalEventBu
     fun handleDomainEvent(domainEvent: EmailMessageLogEvent.EmailMessageCreated) {
         with(domainEvent) {
             externalEventBus.send(
-                    EmailMessageExternalEvent.EmailMessageCreated(aggregateId.toString(), recipient.toString(), subject, content)
+                    EmailMessageExternalEvent.EmailMessageCreated(
+                            aggregateId.toString(),
+                            recipient.toString(),
+                            subject,
+                            content,
+                            createdDate
+                    )
             )
         }
     }

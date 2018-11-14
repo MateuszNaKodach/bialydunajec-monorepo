@@ -4,6 +4,7 @@ import org.bialydunajec.ddd.domain.base.aggregate.AuditableAggregateRoot
 import org.bialydunajec.ddd.domain.base.persistence.Versioned
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddress
 import org.bialydunajec.email.domain.valueobject.EmailStatus
+import java.time.ZoneId
 import java.time.ZonedDateTime
 import javax.persistence.*
 
@@ -21,7 +22,13 @@ class EmailMessageLog(
 
     init {
         registerEvent(
-                EmailMessageLogEvent.EmailMessageCreated(getAggregateId(), recipient, subject, content)
+                EmailMessageLogEvent.EmailMessageCreated(
+                        getAggregateId(),
+                        recipient,
+                        subject,
+                        content,
+                        getCreatedDate()
+                )
         )
     }
 

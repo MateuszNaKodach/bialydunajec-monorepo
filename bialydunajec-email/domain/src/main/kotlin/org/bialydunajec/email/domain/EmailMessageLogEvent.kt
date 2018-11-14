@@ -2,6 +2,7 @@ package org.bialydunajec.email.domain
 
 import org.bialydunajec.ddd.domain.base.event.DomainEvent
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddress
+import java.time.Instant
 import java.time.ZonedDateTime
 
 sealed class EmailMessageLogEvent : DomainEvent<EmailMessageLogId> {
@@ -10,7 +11,8 @@ sealed class EmailMessageLogEvent : DomainEvent<EmailMessageLogId> {
             override val aggregateId: EmailMessageLogId,
             val recipient: EmailAddress,
             val subject: String,
-            val content: String
+            val content: String,
+            val createdDate: Instant
     ) : EmailMessageLogEvent()
 
     class EmailMessageSentSuccess(
