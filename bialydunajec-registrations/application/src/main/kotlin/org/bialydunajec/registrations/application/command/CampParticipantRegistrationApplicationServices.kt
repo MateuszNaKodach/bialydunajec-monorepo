@@ -14,7 +14,7 @@ internal class VerifyCampParticipantRegistrationApplicationService(
         private val campParticipantRegistrationRepository: CampParticipantRegistrationRepository
 ) : ApplicationService<CampRegistrationsCommand.VerifyCampParticipantRegistrationCommand> {
 
-    override fun process(command: CampRegistrationsCommand.VerifyCampParticipantRegistrationCommand) {
+    override fun execute(command: CampRegistrationsCommand.VerifyCampParticipantRegistrationCommand) {
         val campParticipantRegistration = campParticipantRegistrationRepository.findById(command.campParticipantRegistrationId)
                 ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.CAMP_PARTICIPANT_REGISTRATIONS_TO_CONFIRM_MUST_EXISTS)
 
@@ -31,7 +31,7 @@ internal class VerifyCampParticipantRegistrationByAuthorizedApplicationService(
         private val campParticipantRegistrationRepository: CampParticipantRegistrationRepository
 ) : ApplicationService<CampRegistrationsCommand.VerifyCampParticipantRegistrationCommandByAuthorized> {
 
-    override fun process(command: CampRegistrationsCommand.VerifyCampParticipantRegistrationCommandByAuthorized) {
+    override fun execute(command: CampRegistrationsCommand.VerifyCampParticipantRegistrationCommandByAuthorized) {
         val campParticipantRegistration = campParticipantRegistrationRepository.findById(command.campParticipantRegistrationId)
                 ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.CAMP_PARTICIPANT_REGISTRATIONS_TO_CONFIRM_MUST_EXISTS)
 

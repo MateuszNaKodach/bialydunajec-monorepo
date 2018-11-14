@@ -21,6 +21,6 @@ class SpringExternalEventBus
 
     override fun send(event: ExternalEvent<*>) {
         eventPublisher.publishEvent(event)
-        log.debug("External event send by SpringExternalEventBus: $event")
+        log.debug("External event sent by SpringExternalEventBus: $event")
     }
 }

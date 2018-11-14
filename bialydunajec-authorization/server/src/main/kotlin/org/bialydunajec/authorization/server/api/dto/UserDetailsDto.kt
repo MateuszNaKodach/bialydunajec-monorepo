@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails
 data class UserDetailsDto(
         private val userId: String,
         private val emailAddress: String,
-        private val username: String,
+        private val username: String?,
         private val password: String,
         private val enabled: Boolean
 ) : UserDetails {
@@ -18,7 +18,7 @@ data class UserDetailsDto(
 
     fun getEmailAddress(): String = emailAddress
 
-    override fun getUsername(): String = username
+    override fun getUsername(): String? = username
 
     override fun getPassword(): String = password
 

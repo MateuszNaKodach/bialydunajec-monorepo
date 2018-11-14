@@ -17,7 +17,7 @@ internal class CurrentUserAdminController(
     /*
     @PutMapping("/password")
     fun changePassword(@RequestBody request: ChangePasswordRequest) =
-            currentUserAdminCommandGateway.process(
+            currentUserAdminCommandGateway.execute(
                     CurrentUserAdminCommand.ChangePassword()
             )
 

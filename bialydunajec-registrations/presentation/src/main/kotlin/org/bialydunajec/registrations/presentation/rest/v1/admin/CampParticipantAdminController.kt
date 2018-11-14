@@ -18,8 +18,8 @@ class CampParticipantAdminController(
     @GetMapping
     fun getCampParticipantsByCottageId(@RequestParam(required = false) cottageId: String?, pageable: Pageable) =
             when (cottageId) {
-                null -> queryGateway.process(CampParticipantQuery.All(), pageable)
-                else -> queryGateway.process(CampParticipantQuery.ByCottageId(cottageId), pageable)
+                null -> queryGateway.execute(CampParticipantQuery.All(), pageable)
+                else -> queryGateway.execute(CampParticipantQuery.ByCottageId(cottageId), pageable)
             }
             */
 

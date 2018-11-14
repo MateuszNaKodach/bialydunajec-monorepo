@@ -79,6 +79,9 @@ dependencies {
 
     compile project(':bialydunajec-users:bialydunajec-users-presentation')
     compile project(':bialydunajec-users:bialydunajec-users-infrastructure')
+
+    compile project(':bialydunajec-email:bialydunajec-email-presentation')
+    compile project(':bialydunajec-email:bialydunajec-email-infrastructure')
     
     compile project(':bialydunajec-authorization:bialydunajec-authorization-server')
 

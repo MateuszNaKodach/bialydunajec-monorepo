@@ -11,9 +11,9 @@ class CampRegistrationsCommandGateway internal constructor(
 ) : CommandGateway {
 
     fun process(command: CampRegistrationsCommand.RegisterCampParticipantCommand) =
-            campParticipantRegistrationApplicationService.process(command)
+            campParticipantRegistrationApplicationService.execute(command)
 
     fun process(command: CampRegistrationsCommand.VerifyCampParticipantRegistrationCommand) =
-            campParticipantRegistrationConfirmApplicationService.process(command)
+            campParticipantRegistrationConfirmApplicationService.execute(command)
 
 }

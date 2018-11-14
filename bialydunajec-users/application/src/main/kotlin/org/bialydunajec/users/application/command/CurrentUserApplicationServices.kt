@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional
 internal class ChangePasswordApplicationService(
 ) : ApplicationService<CurrentUserAdminCommand.ChangePassword> {
 
-    override fun process(command: CurrentUserAdminCommand.ChangePassword) {
+    override fun execute(command: CurrentUserAdminCommand.ChangePassword) {
 
     }
 

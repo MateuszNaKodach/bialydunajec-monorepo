@@ -1,7 +1,8 @@
-package org.bialydunajec.ddd.infrastructure.base.email
+package org.bialydunajec.email.infrastructure
 
-import org.bialydunajec.ddd.application.base.email.EmailMessage
-import org.bialydunajec.ddd.application.base.email.EmailMessageSender
+import org.bialydunajec.ddd.application.base.email.SimpleEmailMessage
+import org.bialydunajec.email.application.EmailMessageSender
+import org.bialydunajec.email.application.EmailSendingResult
 import org.slf4j.LoggerFactory
 import org.springframework.mail.SimpleMailMessage
 import org.springframework.mail.javamail.JavaMailSender
@@ -11,7 +12,7 @@ internal class JavaMailSenderAdapter(private val javaMailSender: JavaMailSender)
 
     private val log = LoggerFactory.getLogger(this.javaClass)
 
-    override fun sendEmailMessage(message: EmailMessage) {
+    override fun sendEmailMessage(message: SimpleEmailMessage): EmailSendingResult {
         val mailMessage =
                 with(message) {
                     SimpleMailMessage()
@@ -22,8 +23,13 @@ internal class JavaMailSenderAdapter(private val javaMailSender: JavaMailSender)
                                 setFrom(InternetAddress("zapisy@bialydunajec.org", "Biały Dunajec - System Zapisów").toString())
                             }
                 }
-        javaMailSender.send(mailMessage)
-
-        log.info("Email message sent {}", message)
+        return try {
+            javaMailSender.send(mailMessage)
+            log.info("Email message sent {}", message)
+            EmailSendingResult.Success()
+        } catch (e: Exception) {
+            log.error("Email message wasn't sent {}", message)
+            EmailSendingResult.Failure(e.localizedMessage)
+        }
     }
 }

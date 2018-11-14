@@ -16,7 +16,7 @@ internal class CreateCampEditionApplicationService(
         private val campEditionRepository: CampEditionRepository
 ) : ApplicationService<CampEditionCommand.CreateCampEdition> {
 
-    override fun process(command: CampEditionCommand.CreateCampEdition) {
+    override fun execute(command: CampEditionCommand.CreateCampEdition) {
         val newCampEdition = CampEdition(
                 campEditionId = command.campEditionId,
                 startDate = command.campEditionStartDate,
@@ -33,7 +33,7 @@ internal class UpdateCampEditionDurationApplicationService(
         private val campEditionRepository: CampEditionRepository
 ) : ApplicationService<CampEditionCommand.UpdateCampEditionDuration> {
 
-    override fun process(command: CampEditionCommand.UpdateCampEditionDuration) {
+    override fun execute(command: CampEditionCommand.UpdateCampEditionDuration) {
         val campEdition = campEditionRepository.findById(command.campEditionId)
                 ?: throw DomainRuleViolationException.of(CampEditionDomainRule.CAMP_EDITION_TO_UPDATE_MUST_EXISTS)
 

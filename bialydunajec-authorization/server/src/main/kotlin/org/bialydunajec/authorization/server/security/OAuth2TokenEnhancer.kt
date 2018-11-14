@@ -34,5 +34,5 @@ internal class OAuth2TokenEnhancer : TokenEnhancer {
         private const val ATTR_LOGGED_USER = "current_user"
     }
 
-    private data class TokenUserInfoDto(val userId: String, val emailAddress: String, val username: String) : Serializable
+    private data class TokenUserInfoDto(val userId: String, val emailAddress: String, val username: String?) : Serializable
 }

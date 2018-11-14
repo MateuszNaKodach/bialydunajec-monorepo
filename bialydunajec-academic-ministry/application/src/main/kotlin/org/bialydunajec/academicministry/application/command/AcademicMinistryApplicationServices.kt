@@ -16,7 +16,7 @@ internal class CreateAcademicMinistryApplicationService(
         private val academicMinistryRepository: AcademicMinistryRepository
 ) : ApplicationService<AcademicMinistryCommand.CreateAcademicMinistry> {
 
-    override fun process(command: AcademicMinistryCommand.CreateAcademicMinistry) =
+    override fun execute(command: AcademicMinistryCommand.CreateAcademicMinistry) =
             AcademicMinistry(
                     officialName = command.officialName,
                     shortName = command.shortName,
@@ -36,7 +36,7 @@ internal class UpdateAcademicMinistryApplicationService(
         private val academicMinistryRepository: AcademicMinistryRepository
 ) : ApplicationService<AcademicMinistryCommand.UpdateAcademicMinistry> {
 
-    override fun process(command: AcademicMinistryCommand.UpdateAcademicMinistry) {
+    override fun execute(command: AcademicMinistryCommand.UpdateAcademicMinistry) {
         val academicMinistry = academicMinistryRepository.findById(command.academicMinistryId)
                 ?: throw DomainRuleViolationException.of(AcademicMinistryDomainRule.ACADEMIC_MINISTRY_TO_UPDATE_MUST_EXISTS)
         val academicMinistryUpdate = AcademicMinistrySnapshot(
@@ -61,7 +61,7 @@ internal class CreateAcademicMinistryPriestApplicationService(
         private val academicMinistryRepository: AcademicMinistryRepository
 ) : ApplicationService<AcademicMinistryCommand.CreateAcademicMinistryPriest> {
 
-    override fun process(command: AcademicMinistryCommand.CreateAcademicMinistryPriest) {
+    override fun execute(command: AcademicMinistryCommand.CreateAcademicMinistryPriest) {
         val academicMinistry = academicMinistryRepository.findById(command.academicMinistryId)
                 ?: throw DomainRuleViolationException.of(AcademicMinistryDomainRule.ACADEMIC_MINISTRY_FOR_PRIEST_MUST_EXISTS)
 
@@ -86,7 +86,7 @@ internal class RemoveAcademicMinistryPriestApplicationService(
         private val academicMinistryRepository: AcademicMinistryRepository
 ) : ApplicationService<AcademicMinistryCommand.RemoveAcademicMinistryPriest> {
 
-    override fun process(command: AcademicMinistryCommand.RemoveAcademicMinistryPriest) {
+    override fun execute(command: AcademicMinistryCommand.RemoveAcademicMinistryPriest) {
         val academicMinistry = academicMinistryRepository.findById(command.academicMinistryId)
                 ?: throw DomainRuleViolationException.of(AcademicMinistryDomainRule.ACADEMIC_MINISTRY_FOR_PRIEST_MUST_EXISTS)
 

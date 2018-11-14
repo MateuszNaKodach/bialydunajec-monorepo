@@ -28,7 +28,7 @@ internal class CampParticipantRegistrationApplicationService(
         private val campParticipationPaymentRepository: CampParticipationPaymentRepository
 ) : ApplicationService<CampRegistrationsCommand.RegisterCampParticipantCommand> {
 
-    override fun process(command: CampRegistrationsCommand.RegisterCampParticipantCommand): CampParticipantId =
+    override fun execute(command: CampRegistrationsCommand.RegisterCampParticipantCommand): CampParticipantId =
             campParticipantFactory.createCampParticipant(command.campRegistrationsEditionId, command.camperApplication)
                     .let { campParticipantRepository.save(it) }
                     .also { campParticipant ->

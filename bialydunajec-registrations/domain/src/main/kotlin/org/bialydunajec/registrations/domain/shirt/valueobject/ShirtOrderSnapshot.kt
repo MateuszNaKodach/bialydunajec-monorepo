@@ -8,12 +8,12 @@ import javax.persistence.*
 class ShirtOrderSnapshot(
         @Embedded
         @AttributeOverrides(
-                AttributeOverride(name = "aggregateId", column = Column(name = "campEditionShirtId"))
+                AttributeOverride(name = "aggregateId", column = Column(name = "shirtOrder_campEditionShirtId"))
         )
         val campEditionShirtId: CampEditionShirtId,
         @Embedded
         @AttributeOverrides(
-                AttributeOverride(name = "aggregateId", column = Column(name = "campParticipantId"))
+                AttributeOverride(name = "aggregateId", column = Column(name = "shirtOrder_campParticipantId"))
         )
         val campParticipantId: CampParticipantId,
         @Embedded

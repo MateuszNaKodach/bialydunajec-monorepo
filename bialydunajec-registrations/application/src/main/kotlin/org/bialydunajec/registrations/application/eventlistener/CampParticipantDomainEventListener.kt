@@ -1,10 +1,8 @@
 package org.bialydunajec.registrations.application.eventlistener
 
-import org.bialydunajec.ddd.application.base.email.EmailMessage
-import org.bialydunajec.ddd.application.base.email.EmailMessageSender
+import org.bialydunajec.ddd.application.base.email.SimpleEmailMessage
+import org.bialydunajec.ddd.application.base.email.EmailMessageSenderPort
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantEvent
-import org.bialydunajec.registrations.domain.camper.campparticipantregistration.CampParticipantRegistration
-import org.bialydunajec.registrations.domain.camper.campparticipantregistration.CampParticipantRegistrationRepository
 import org.bialydunajec.registrations.domain.camper.payment.CampParticipationPaymentRepository
 import org.bialydunajec.registrations.domain.payment.PaymentCommitment
 import org.bialydunajec.registrations.domain.payment.PaymentCommitmentRepository
@@ -17,7 +15,7 @@ import org.springframework.transaction.event.TransactionalEventListener
 internal class CampParticipantDomainEventListener(
         private val campParticipationPaymentRepository: CampParticipationPaymentRepository,
         private val paymentCommitmentRepository: PaymentCommitmentRepository,
-        private val emailMessageSender: EmailMessageSender
+        private val emailMessageSender: EmailMessageSenderPort
 ) {
 
 
@@ -34,7 +32,7 @@ internal class CampParticipantDomainEventListener(
 
         with(event.snapshot.currentCamperData) {
             val emailMessage =
-                    EmailMessage(
+                    SimpleEmailMessage(
                             event.snapshot.currentCamperData.emailAddress,
                             "Obóz w Białym Dunajcu - naliczenie opłaty",
                             """Cześć ${personalData.firstName},

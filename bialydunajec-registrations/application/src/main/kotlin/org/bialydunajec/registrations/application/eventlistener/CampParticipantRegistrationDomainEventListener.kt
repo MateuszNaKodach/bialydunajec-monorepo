@@ -1,12 +1,11 @@
 package org.bialydunajec.registrations.application.eventlistener
 
-import org.bialydunajec.ddd.application.base.email.EmailMessage
-import org.bialydunajec.ddd.application.base.email.EmailMessageSender
+import org.bialydunajec.ddd.application.base.email.SimpleEmailMessage
+import org.bialydunajec.ddd.application.base.email.EmailMessageSenderPort
 import org.bialydunajec.registrations.application.configuration.properties.BialyDunajecMainFrontendProperties
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantRepository
 import org.bialydunajec.registrations.domain.camper.campparticipantregistration.CampParticipantRegistrationEvent
 import org.bialydunajec.registrations.domain.camper.campparticipantregistration.CampParticipantRegistrationId
-import org.bialydunajec.registrations.domain.camper.payment.CampParticipationPaymentRepository
 import org.slf4j.LoggerFactory
 import org.springframework.context.event.EventListener
 import org.springframework.scheduling.annotation.Async
@@ -18,7 +17,7 @@ import org.springframework.transaction.event.TransactionalEventListener
 @Component
 internal class CampParticipantRegistrationDomainEventListener(
         private val mainFrontendProperties: BialyDunajecMainFrontendProperties,
-        private val emailMessageSender: EmailMessageSender,
+        private val emailMessageSender: EmailMessageSenderPort,
         private val campParticipantRepository: CampParticipantRepository
 ) {
 
@@ -34,7 +33,7 @@ internal class CampParticipantRegistrationDomainEventListener(
 
         val camperApplication = event.snapshot.camperApplication
         val emailMessage =
-                EmailMessage(
+                SimpleEmailMessage(
                         camperApplication.emailAddress,
                         "Obóz w Białym Dunajcu - potwierdzenie rejestracji",
                         """Cześć ${camperApplication.personalData.firstName},
@@ -52,7 +51,7 @@ internal class CampParticipantRegistrationDomainEventListener(
                     ?.apply { campParticipantRepository.save(this) }
                     ?.also {
                         val emailMessage =
-                                EmailMessage(
+                                SimpleEmailMessage(
                                         it.getEmailAddress(),
                                         "Obóz w Białym Dunajcu - informacje o obozie",
                                         """Cześć ${it.getPersonalData().firstName}, potwierdziłeś swoje uczestnictwo, więc
@@ -70,7 +69,7 @@ internal class CampParticipantRegistrationDomainEventListener(
                     ?.apply { campParticipantRepository.save(this) }
                     ?.also {
                         val emailMessage =
-                                EmailMessage(
+                                SimpleEmailMessage(
                                         it.getEmailAddress(),
                                         "Obóz w Białym Dunajcu - informacje o obozie",
                                         """Cześć ${it.getPersonalData().firstName}, administrator potwierdził Twoje uczestnictwo, więc

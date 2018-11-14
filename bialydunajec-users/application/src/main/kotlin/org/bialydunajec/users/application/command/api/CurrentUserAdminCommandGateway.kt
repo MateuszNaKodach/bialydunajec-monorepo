@@ -10,5 +10,5 @@ class CurrentUserAdminCommandGateway internal constructor(
 ) : CommandGateway {
 
     fun process(command: CurrentUserAdminCommand.ChangePassword) =
-            changePasswordApplicationService.process(command)
+            changePasswordApplicationService.execute(command)
 }

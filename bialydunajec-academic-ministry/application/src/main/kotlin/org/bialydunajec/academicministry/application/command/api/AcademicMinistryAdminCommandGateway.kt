@@ -16,15 +16,15 @@ class AcademicMinistryAdminCommandGateway internal constructor(
 ) : CommandGateway {
 
     fun process(command: AcademicMinistryCommand.CreateAcademicMinistry) =
-            createAcademicMinistryApplicationService.process(command)
+            createAcademicMinistryApplicationService.execute(command)
 
     fun process(command: AcademicMinistryCommand.UpdateAcademicMinistry) =
-            updateAcademicMinistryApplicationService.process(command)
+            updateAcademicMinistryApplicationService.execute(command)
 
     fun process(command: AcademicMinistryCommand.CreateAcademicMinistryPriest) =
-            createAcademicMinistryPriestApplicationService.process(command)
+            createAcademicMinistryPriestApplicationService.execute(command)
 
     fun process(command: AcademicMinistryCommand.RemoveAcademicMinistryPriest) =
-            removeAcademicMinistryPriestApplicationService.process(command)
+            removeAcademicMinistryPriestApplicationService.execute(command)
 
 }

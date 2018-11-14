@@ -11,6 +11,8 @@ jar {
 dependencies {
     compile project(':bialydunajec-ddd:bialydunajec-ddd-presentation')
     compile project(':bialydunajec-email:bialydunajec-email-application')
+    compile project(':bialydunajec-email:bialydunajec-email-messages')
+
 
     compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.springframework.boot:spring-boot-starter-webflux')

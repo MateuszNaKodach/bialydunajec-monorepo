@@ -10,7 +10,6 @@ import org.springframework.scheduling.annotation.EnableAsync
 
 @SpringBootApplication
 @EnableSpringDataWebSupport
-@EnableAsync
 @EnableMongoRepositories(basePackages = ["org.bialydunajec.registrations.readmodel"])
 @EnableReactiveMongoRepositories(basePackages = ["org.bialydunajec.registrations.readmodel"])
 class BialyDunajecBackendApplication

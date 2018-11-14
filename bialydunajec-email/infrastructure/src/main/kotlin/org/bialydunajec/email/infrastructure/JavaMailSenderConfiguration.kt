@@ -1,4 +1,4 @@
-package org.bialydunajec.ddd.infrastructure.base.email
+package org.bialydunajec.email.infrastructure
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
