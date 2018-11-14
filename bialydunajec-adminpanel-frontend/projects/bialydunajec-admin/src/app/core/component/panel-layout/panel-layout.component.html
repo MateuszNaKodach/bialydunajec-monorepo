@@ -49,7 +49,7 @@
         </ul>
       </li>
 
-      <li nz-submenu (nzOpenChange)="onMenuOpenChange($event)" >
+      <li nz-submenu (nzOpenChange)="onMenuOpenChange($event)">
         <span title><i class="anticon anticon-team"></i><span class="nav-text">Duszpasterstwa</span></span>
         <ul>
           <li
@@ -88,25 +88,43 @@
         <span title><i class="anticon anticon-profile"></i><span class="nav-text">Zapisy na Obóz</span></span>
         <ul>
           <li nz-menu-item [routerLink]="coreRoutingPaths.campRegistrations">Ustawienia Zapisów</li>
-          <li nz-menu-item [routerLink]="[coreRoutingPaths.campRegistrations, campRegistrationsRoutingPaths.cottages]">Chatki Obozowe</li>
+          <li nz-menu-item [routerLink]="[coreRoutingPaths.campRegistrations, campRegistrationsRoutingPaths.cottages]">
+            Chatki Obozowe
+          </li>
           <!--<li nz-menu-item>Zgłoszenia na Obóz</li>-->
-          <li nz-menu-item [routerLink]="[coreRoutingPaths.campRegistrations, campRegistrationsRoutingPaths.campParticipants]">Uczestnicy Obozu</li>
+          <li nz-menu-item
+              [routerLink]="[coreRoutingPaths.campRegistrations, campRegistrationsRoutingPaths.campParticipants]">
+            Uczestnicy Obozu
+          </li>
           <li nz-menu-item>Ustawienia Autokaru</li>
           <li nz-menu-item>Zgłoszenia na Autokar</li>
-          <li nz-menu-item [routerLink]="[coreRoutingPaths.campRegistrations, campRegistrationsRoutingPaths.shirtSettings]">Ustawienia Koszulek</li>
+          <li nz-menu-item
+              [routerLink]="[coreRoutingPaths.campRegistrations, campRegistrationsRoutingPaths.shirtSettings]">
+            Ustawienia Koszulek
+          </li>
           <li nz-menu-item>Zamówienia Koszulek</li>
           <li nz-menu-item>Płatności?</li>
           <li nz-menu-item>Statystyki</li>
         </ul>
       </li>
 
-      <li nz-submenu>
-        <span title><i class="anticon anticon-mail"></i><span class="nav-text">Wiadomość Obozowa</span></span>
+      <!--<li nz-submenu>
+        <span title><i class="anticon anticon-mail"></i><span class="nav-text">Wiadomośći SMS</span></span>
         <ul>
           <li nz-menu-item>Wyślij / Zaplanuj SMS</li>
           <li nz-menu-item>Szablony SMS</li>
           <li nz-menu-item>Wyślij / Zaplanuj Email</li>
           <li nz-menu-item>Szablony Email</li>
+          <li nz-menu-item>Konfiguracja</li>
+        </ul>
+      </li>-->
+
+      <li nz-submenu>
+        <span title><i class="anticon anticon-mail"></i><span class="nav-text">Wiadomośći Email</span></span>
+        <ul>
+          <li nz-menu-item>Wyślij / Zaplanuj</li>
+          <li nz-menu-item>Szablony</li>
+          <li nz-menu-item>Historia</li>
           <li nz-menu-item>Konfiguracja</li>
         </ul>
       </li>
