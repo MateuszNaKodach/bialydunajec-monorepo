@@ -1,7 +1,9 @@
 package org.bialydunajec.email.readmodel
 
+import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
+import org.bialydunajec.ddd.application.base.concurrency.ProcessingSerializedQueue
 import org.bialydunajec.ddd.application.base.external.event.ExternalEvent
 import org.bialydunajec.ddd.application.base.external.event.ExternalEventListener
 import org.bialydunajec.ddd.domain.extensions.toStringOrNull
@@ -11,6 +13,7 @@ import org.springframework.context.event.EventListener
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
+import java.time.ZonedDateTime
 
 const val EMAIL_STATUS_PENDING = "PENDING"
 const val EMAIL_STATUS_SENT = "SENT"
@@ -24,22 +27,30 @@ internal class EmailMessageLogEventsProjection(
 
     private val log = LoggerFactory.getLogger(this.javaClass)
 
-    private val subject = PublishSubject.create<ExternalEvent<*>>().toSerialized()
+    private val processingQueue = ProcessingSerializedQueue<ExternalEvent<*>> { processExternalEvent(it) }
 
     init {
-        subject
-                .observeOn(Schedulers.single())
-                .doOnNext { log.info("Processing event with payload: {}", it.payload) }
-                .subscribe { processExternalEventPayload(it) }
+        //Simple performance test
+        Observable.range(1, 1000)
+                .subscribe {
+                    processExternalEvent(
+                            ExternalEvent(EmailMessageExternalEvent.EmailMessageSentSuccess(
+                                    "email $it",
+                                    ZonedDateTime.now()
+                            )
+                            )
+                    )
+                }
+
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     @EventListener
     override fun handleExternalEvent(externalEvent: ExternalEvent<*>) {
-        subject.onNext(externalEvent)
+        processingQueue.process(externalEvent)
     }
 
-    fun processExternalEventPayload(externalEvent: ExternalEvent<*>) {
+    fun processExternalEvent(externalEvent: ExternalEvent<*>) {
         val payload = externalEvent.payload
         when (payload) {
             is EmailMessageExternalEvent.EmailMessageCreated -> {
@@ -53,6 +64,7 @@ internal class EmailMessageLogEventsProjection(
                                 if (it.status == null) {
                                     it.status = EMAIL_STATUS_PENDING
                                 }
+                                it.createdDate = createdDate.toString()
                             }.also {
                                 emailMessageRepository.save(it)
                             }
@@ -60,6 +72,7 @@ internal class EmailMessageLogEventsProjection(
                     emailMessageStatisticsRepository.findById(DEFAULT_EMAIL_MESSAGE_STATISTICS_ID)
                             .ifPresent {
                                 it.messagesCount++
+                                it.pendingCount++
                                 emailMessageStatisticsRepository.save(it)
                             }
                 }
@@ -79,7 +92,10 @@ internal class EmailMessageLogEventsProjection(
                                         .ifPresent { statistics ->
                                             statistics.sentSuccessCount++
                                             if (it.status == EMAIL_STATUS_FAIL_TO_SEND) {
-                                                statistics.sentSuccessCount--
+                                                statistics.sentFailureCount--
+                                            }
+                                            if (it.status == EMAIL_STATUS_PENDING) {
+                                                statistics.pendingCount--
                                             }
                                             emailMessageStatisticsRepository.save(statistics)
                                         }
@@ -101,6 +117,7 @@ internal class EmailMessageLogEventsProjection(
                     emailMessageStatisticsRepository.findById(DEFAULT_EMAIL_MESSAGE_STATISTICS_ID)
                             .ifPresent {
                                 it.sentFailureCount++
+                                it.pendingCount--
                                 emailMessageStatisticsRepository.save(it)
                             }
                 }

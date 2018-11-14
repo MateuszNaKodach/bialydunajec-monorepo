@@ -14,11 +14,11 @@ dependencies {
 
     compile('org.springframework.boot:spring-boot-starter-data-mongodb-reactive')
 
-    compile('io.reactivex.rxjava2:rxjava:2.2.0')
-    compile('io.reactivex.rxjava2:rxkotlin:2.2.0')
+    compile("io.reactivex.rxjava2:rxjava:${rxJavaVersion}")
+    compile("io.reactivex.rxjava2:rxkotlin:${rxJavaVersion}")
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
     //compile('de.flapdoodle.embed:de.flapdoodle.embed.mongo')
-    
+
     compile('org.springframework.boot:spring-boot-starter-webflux')
 }

@@ -9,13 +9,10 @@ jar {
 }
 
 dependencies {
+    compile project(':bialydunajec-ddd:bialydunajec-ddd-application')
+
     compile('org.springframework.boot:spring-boot-starter-data-mongodb')
-
-    compile('io.reactivex.rxjava2:rxjava:2.2.0')
-    compile('io.reactivex.rxjava2:rxkotlin:2.2.0')
-
     testCompile('org.springframework.boot:spring-boot-starter-test')
-    //compile('de.flapdoodle.embed:de.flapdoodle.embed.mongo')
 
     compile('org.springframework.boot:spring-boot-starter-webflux')
 }

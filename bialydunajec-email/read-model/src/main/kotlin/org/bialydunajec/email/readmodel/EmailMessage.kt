@@ -13,5 +13,6 @@ data class EmailMessage(
         var content: String? = null,
         var status: String? = null,
         var lastError: String? = null,
-        var sentDate: String? = null
+        var sentDate: String? = null,
+        var createdDate: String? = null
 )
