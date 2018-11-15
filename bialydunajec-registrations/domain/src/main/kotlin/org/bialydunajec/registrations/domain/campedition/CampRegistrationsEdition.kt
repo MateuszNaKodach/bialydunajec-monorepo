@@ -167,7 +167,8 @@ class CampRegistrationsEdition constructor(
 
     fun getCampEditionStartDate() = editionStartDate
     fun getCampEditionEndDate() = editionEndDate
-    fun getPrice() = totalPrice
+    fun getTotalPrice() = totalPrice
+    fun getDownPaymentAmount() = downPaymentAmount
     override fun getVersion() = version
     fun getCampRegistrationsStatus() = campRegistrations.getStatus()
 

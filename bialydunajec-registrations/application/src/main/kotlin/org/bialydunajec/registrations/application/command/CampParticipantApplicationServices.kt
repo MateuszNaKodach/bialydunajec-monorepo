@@ -8,9 +8,9 @@ import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticip
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantRepository
 import org.bialydunajec.registrations.domain.camper.campparticipantregistration.CampParticipantRegistration
 import org.bialydunajec.registrations.domain.camper.campparticipantregistration.CampParticipantRegistrationRepository
-import org.bialydunajec.registrations.domain.camper.payment.CampParticipationPaymentFactory
-import org.bialydunajec.registrations.domain.camper.payment.CampParticipationPaymentRepository
+import org.bialydunajec.registrations.domain.payment.CampParticipantCottageAccountFactory
 import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule
+import org.bialydunajec.registrations.domain.payment.CampParticipantCottageAccountRepository
 import org.bialydunajec.registrations.domain.shirt.CampEditionShirtRepository
 import org.bialydunajec.registrations.domain.shirt.ShirtOrderRepository
 import org.springframework.stereotype.Service
@@ -20,12 +20,12 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 internal class CampParticipantRegistrationApplicationService(
         private val campParticipantFactory: CampParticipantFactory,
-        private val campParticipantPaymentFactory: CampParticipationPaymentFactory,
+        private val campParticipantPaymentFactory: CampParticipantCottageAccountFactory,
         private val campParticipantRepository: CampParticipantRepository,
         private val campEditionShirtRepository: CampEditionShirtRepository,
         private val shirtOrderRepository: ShirtOrderRepository,
         private val campParticipantRegistrationRepository: CampParticipantRegistrationRepository,
-        private val campParticipationPaymentRepository: CampParticipationPaymentRepository
+        private val campParticipantCottageAccountRepository: CampParticipantCottageAccountRepository
 ) : ApplicationService<CampRegistrationsCommand.RegisterCampParticipantCommand> {
 
     override fun execute(command: CampRegistrationsCommand.RegisterCampParticipantCommand): CampParticipantId =
@@ -39,8 +39,8 @@ internal class CampParticipantRegistrationApplicationService(
                         campParticipantRegistrationRepository.save(CampParticipantRegistration.createFrom(campParticipant.getSnapshot(), shirtOrder.getSnapshot()))
                     }
                     .also {
-                        val payment = campParticipantPaymentFactory.createFor(it)
-                        campParticipationPaymentRepository.save(payment)
+                        val campParticipantCottageAccount = campParticipantPaymentFactory.createFor(it)
+                        campParticipantCottageAccountRepository.save(campParticipantCottageAccount)
                     }
                     .getAggregateId()
 

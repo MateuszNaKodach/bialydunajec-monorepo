@@ -1,4 +1,4 @@
-package org.bialydunajec.registrations.domain.camper.payment.valueobject
+package org.bialydunajec.registrations.domain.payment.valueobject
 
 internal enum class PaymentStatus {
     UN_PAID,

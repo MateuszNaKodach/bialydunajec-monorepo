@@ -6,7 +6,7 @@ import org.bialydunajec.registrations.domain.camper.campparticipantregistration.
 import org.bialydunajec.registrations.domain.camper.valueobject.CampParticipantSnapshot
 
 sealed class CampParticipantEvent : DomainEvent<CampParticipantId> {
-    data class Created(
+    data class Registered(
             override val aggregateId: CampParticipantId,
             val snapshot: CampParticipantSnapshot
     ) : CampParticipantEvent()

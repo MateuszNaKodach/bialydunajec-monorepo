@@ -1,0 +1,194 @@
+package org.bialydunajec.registrations.domain.payment
+
+import org.bialydunajec.ddd.domain.base.aggregate.AuditableAggregateRoot
+import org.bialydunajec.ddd.domain.base.persistence.Versioned
+import org.bialydunajec.ddd.domain.base.validation.ValidationResult
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.financial.Money
+import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantId
+import org.bialydunajec.registrations.domain.cottage.CottageId
+import org.bialydunajec.registrations.domain.payment.entity.*
+import org.bialydunajec.registrations.domain.payment.valueobject.OperationType
+import javax.persistence.*
+import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule.*
+import org.bialydunajec.registrations.domain.payment.valueobject.AccountConfiguration
+import org.hibernate.annotations.Cascade
+
+
+//TODO: Wysylanie informacji o platnosciach przy potwierdzeniu udziału!
+@Entity
+@Table(schema = "camp_registrations")
+class CampParticipantCottageAccount internal constructor(
+        @Embedded
+        @AttributeOverrides(AttributeOverride(name = "aggregateId", column = Column(name = "campParticipantId")))
+        val campParticipantId: CampParticipantId,
+        @Embedded
+        @AttributeOverrides(AttributeOverride(name = "aggregateId", column = Column(name = "cottageId")))
+        val cottageId: CottageId,
+
+        @OneToOne(cascade = [CascadeType.ALL])
+        internal var campDownPaymentCommitment: CampDownPaymentCommitment?,
+
+        @OneToOne(cascade = [CascadeType.ALL])
+        internal var campParticipationCommitment: CampParticipationCommitment,
+
+        @OneToOne(cascade = [CascadeType.ALL])
+        internal var campBusCommitment: CampBusCommitment? = null
+) : AuditableAggregateRoot<CampParticipantCottageAccountId, CampParticipantCottageAccountEvent>(CampParticipantCottageAccountId()),
+        Versioned {
+
+    @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+    private var operations: MutableSet<AccountOperation> = mutableSetOf()
+
+    @Embedded
+    private var accountConfiguration = AccountConfiguration()
+
+
+    fun canDepositMoney() =
+            ValidationResult.buffer()
+                    .addViolatedRuleIfNot(
+                            DEPOSIT_IS_NOT_ALLOWED_IF_ALL_COMMITMENTS_ARE_PAID,
+                            (campDownPaymentCommitment != null && campDownPaymentCommitment!!.isNotPaid())
+                                    || (campParticipationCommitment.isNotPaid())
+                                    || (campBusCommitment != null && campBusCommitment!!.isNotPaid())
+                    )
+                    .addViolatedRuleIfNot(
+                            DEPOSIT_IS_NOT_ALLOWED_IF_DISABLED_IN_CONFIGURATION,
+                            accountConfiguration.depositEnabled
+                    )
+                    .toValidationResult()
+
+    fun depositMoney(amount: Money, description: String? = null) {
+        canDepositMoney()
+                .ifInvalidThrowException()
+
+        operations.add(AccountOperation(OperationType.PAYMENT, amount, description))
+    }
+
+
+    fun canWithdrawMoney(amount: Money) =
+            ValidationResult.buffer()
+                    .addViolatedRuleIfNot(
+                            WITHDRAW_AMOUNT_HAS_TO_BE_LESS_OR_EQUALS_TO_AVAILABLE_FUNDS,
+                            getAvailableFunds().greaterOrEquals(amount)
+                    )
+                    .addViolatedRuleIfNot(
+                            WITHDRAW_IS_NOT_ALLOWED_IF_DISABLED_IN_CONFIGURATION,
+                            accountConfiguration.withdrawEnabled
+                    )
+                    .toValidationResult()
+
+    fun withdrawMoney(amount: Money, description: String) {
+        canWithdrawMoney(amount)
+                .ifInvalidThrowException()
+
+        operations.add(AccountOperation(OperationType.WITHDRAW, amount, description))
+    }
+
+    fun updateAccountConfiguration(configuration: AccountConfiguration) {
+        val isUpdate = configuration != accountConfiguration
+        if (isUpdate) {
+            this.accountConfiguration = configuration
+        }
+    }
+
+    /**
+     * Suma wpłat i wypłat konta
+     */
+    fun getOperationsBalance() =
+            operations.fold(Money.zero()) { acc, commitmentOperation ->
+                when (commitmentOperation.type) {
+                    OperationType.PAYMENT -> acc.add(commitmentOperation.amount)
+                    OperationType.WITHDRAW -> acc.subtract(commitmentOperation.amount)
+                }
+            }
+
+    /**
+     * Aktualna suma wpłat i wypłat pomniejszona o opłacone zobowiązania
+     */
+    fun getAvailableFunds() = getOperationsBalance()
+            .subtract(campDownPaymentCommitment?.getAmount() ?: Money.zero())
+            .subtract(campParticipationCommitment.getAmount())
+            .subtract(campBusCommitment?.getAmount() ?: Money.zero())
+
+
+    fun canPayForCampDownPaymentWithAccountFunds() =
+            ValidationResult.buffer()
+                    .addViolatedRuleIf(
+                            CAMP_DOWN_PAYMENT_HAS_TO_BE_ON_ACCOUNT_COMMITMENTS,
+                            campDownPaymentCommitment == null
+                    )
+                    .addViolatedRuleIf(
+                            CAMP_DOWN_PAYMENT_COMMITMENT_ALREADY_PAID,
+                            campDownPaymentCommitment != null && campDownPaymentCommitment!!.isPaid()
+                    )
+                    .addViolatedRuleIfNot(
+                            PAYMENT_AMOUNT_HAS_TO_BE_LESS_THAN_AVAILABLE_FUNDS,
+                            campDownPaymentCommitment != null && enoughAvailableFundsToPay(campDownPaymentCommitment!!.getAmount())
+                    )
+                    .toValidationResult()
+
+    fun payForCampDownPaymentWithAccountFunds() {
+        canPayForCampDownPaymentWithAccountFunds()
+                .ifInvalidThrowException()
+
+        campDownPaymentCommitment?.markAsPaid()
+    }
+
+    fun canPayForCampParticipationWithAccountFunds() =
+            ValidationResult.buffer()
+                    .addViolatedRuleIf(
+                            CAMP_PARTICIPATION_DOWN_PAYMENT_HAS_TO_BE_PAID_BEFORE_CAMP_PARTICIPATION_COMMITMENT,
+                            campDownPaymentCommitment != null && campDownPaymentCommitment!!.isNotPaid()
+                    )
+                    .addViolatedRuleIf(
+                            CAMP_PARTICIPATION_COMMITMENT_ALREADY_PAID,
+                            campParticipationCommitment.isPaid()
+                    )
+                    .addViolatedRuleIfNot(
+                            PAYMENT_AMOUNT_HAS_TO_BE_LESS_THAN_AVAILABLE_FUNDS,
+                            enoughAvailableFundsToPay(campParticipationCommitment.getAmount())
+                    )
+                    .toValidationResult()
+
+
+    fun payForCampParticipationWithAccountFunds() {
+        canPayForCampParticipationWithAccountFunds()
+                .ifInvalidThrowException()
+
+        campParticipationCommitment.markAsPaid()
+    }
+
+    fun canPayForCampBusWithAccountFunds() =
+            ValidationResult.buffer()
+                    .addViolatedRuleIf(
+                            CAMP_BUS_HAS_TO_BE_ON_ACCOUNT_COMMITMENTS,
+                            campBusCommitment == null
+                    )
+                    .addViolatedRuleIf(
+                            CAMP_BUS_PAYMENT_ALREADY_PAID,
+                            campBusCommitment != null && campBusCommitment!!.isPaid()
+                    )
+                    .addViolatedRuleIfNot(
+                            PAYMENT_AMOUNT_HAS_TO_BE_LESS_THAN_AVAILABLE_FUNDS,
+                            campBusCommitment != null && enoughAvailableFundsToPay(campBusCommitment!!.getAmount())
+                    )
+                    .toValidationResult()
+
+    fun payForCampBusWithAccountFunds() {
+        canPayForCampBusWithAccountFunds()
+                .ifInvalidThrowException()
+
+        campBusCommitment?.markAsPaid()
+    }
+
+    private fun enoughAvailableFundsToPay(money: Money) = getAvailableFunds().greaterOrEquals(money)
+
+    fun getDownPaymentCommitmentSnapshot() = campDownPaymentCommitment?.getSnapshot()
+    fun getCampParticipationCommitmentSnapshot() = campParticipationCommitment.getSnapshot()
+    fun getCampBusCommitmentSnapshot() = campBusCommitment?.getSnapshot()
+
+    @Version
+    private var version: Long? = null
+
+    override fun getVersion() = version
+}

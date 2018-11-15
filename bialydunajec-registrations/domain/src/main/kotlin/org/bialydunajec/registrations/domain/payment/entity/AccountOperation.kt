@@ -7,14 +7,14 @@ import javax.persistence.*
 
 @Entity
 @Table(schema = "camp_registrations")
-internal class CommitmentOperation(
+internal class AccountOperation(
         @Enumerated(EnumType.STRING)
         val type: OperationType,
         @Embedded
         val amount: Money,
         val description: String?
-) : AuditableEntity<CommitmentOperationId>() {
+) : AuditableEntity<AccountOperationId>() {
 
     @EmbeddedId
-    override val entityId: CommitmentOperationId = CommitmentOperationId()
+    override val entityId: AccountOperationId = AccountOperationId()
 }

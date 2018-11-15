@@ -18,7 +18,9 @@ Przemyslec czy to nie powinny byc osobny aggreagate, w sumie CampParticipant dba
  Zmienić na CampParticipant i podmienić z aggregatem CampParticipant!
  Zbieranie danych o konkretnych camperach bedzie tylko read modelem, ile razy np. był na obozie.
  */
-//TODO: Zastanowić się czy id CampParticipant nie powinno być różne, np. Camper Id!
+//CampParticipantId - to id w trakcie 1 edycji!
+//TODO: Zastanowić się czy id CampParticipant nie powinno być różne, np. Camper Id! Jedno do okreslonego zgloszenia, drugie do sledzenia.
+// Bo jak na razie generowane z peselu ogarnie 1 edycje!!!
 //TODO: Add accepted agreements (modifable for Camp Registrations)
 //TODO: Moznaby wydzielic accommodation, i to by było w jednym agregacie, który pilnuje też ilości i peselów.
 @Entity
@@ -74,7 +76,7 @@ class CampParticipant internal constructor(
     private var version: Long? = null
 
     init {
-        registerEvent(CampParticipantEvent.Created(getAggregateId(), getSnapshot()))
+        registerEvent(CampParticipantEvent.Registered(getAggregateId(), getSnapshot()))
     }
 
     //TODO: Mail o zmianie chaty i naliczeniu płatności!
