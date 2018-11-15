@@ -176,6 +176,7 @@ class CampRegistrationsEdition constructor(
             editionStartDate = editionStartDate,
             editionEndDate = editionEndDate,
             editionPrice = totalPrice,
+            editionDownPaymentAmount = downPaymentAmount,
             campRegistrations = campRegistrations.getSnapshot()
     )
 }

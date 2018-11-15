@@ -10,6 +10,7 @@ data class CampRegistrationsEditionDto(
         val editionStartDate: LocalDate,
         val editionEndDate: LocalDate,
         val editionPrice: Double,
+        val editionDownPaymentAmount: Double?,
         val campRegistrations: CampRegistrationsDto
 ) {
     companion object {
@@ -20,7 +21,8 @@ data class CampRegistrationsEditionDto(
                         editionStartDate = snapshot.editionStartDate,
                         editionEndDate = snapshot.editionEndDate,
                         editionPrice = snapshot.editionPrice.getValue().toDouble(),
-                        campRegistrations = CampRegistrationsDto.from(snapshot.campRegistrations)
+                        campRegistrations = CampRegistrationsDto.from(snapshot.campRegistrations),
+                        editionDownPaymentAmount = snapshot.editionDownPaymentAmount?.getValue()?.toDouble()
                 )
     }
 }

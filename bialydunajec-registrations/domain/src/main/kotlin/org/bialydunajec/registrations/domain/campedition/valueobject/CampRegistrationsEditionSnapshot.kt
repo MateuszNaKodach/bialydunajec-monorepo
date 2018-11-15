@@ -9,5 +9,6 @@ data class CampRegistrationsEditionSnapshot(
         val editionStartDate: LocalDate,
         val editionEndDate: LocalDate,
         val editionPrice: Money,
+        val editionDownPaymentAmount: Money?,
         val campRegistrations: CampRegistrationsSnapshot
 )
