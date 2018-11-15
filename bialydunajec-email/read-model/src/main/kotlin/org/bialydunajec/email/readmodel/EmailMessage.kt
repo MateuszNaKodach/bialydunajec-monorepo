@@ -1,9 +1,11 @@
 package org.bialydunajec.email.readmodel
 
+import com.fasterxml.jackson.annotation.JsonFormat
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
+import java.time.Instant
 
-
+//TODO: Dodac autora wiadomosci, jesli nie bedzie nim nikt, wiadomo, ze system.
 @Document
 data class EmailMessage(
         @Id
@@ -13,6 +15,10 @@ data class EmailMessage(
         var content: String? = null,
         var status: String? = null,
         var lastError: String? = null,
-        var sentDate: String? = null,
-        var createdDate: String? = null
+
+        @JsonFormat(timezone="Europe/Warsaw")
+        var sentDate: Instant? = null,
+
+        @JsonFormat(timezone="Europe/Warsaw")
+        var createdDate: Instant? = null
 )

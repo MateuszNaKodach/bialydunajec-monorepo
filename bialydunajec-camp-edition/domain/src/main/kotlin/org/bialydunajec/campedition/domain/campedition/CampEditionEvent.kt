@@ -12,7 +12,8 @@ sealed class CampEditionEvent(
             campEditionId: CampEditionId,
             val startDate: LocalDate,
             val endDate: LocalDate,
-            val price: Money
+            val totalPrice: Money,
+            val downPaymentAmount: Money?
     ) : CampEditionEvent(campEditionId)
 
     class CampEditionDurationUpdated(

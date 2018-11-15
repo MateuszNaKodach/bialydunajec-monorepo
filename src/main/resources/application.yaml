@@ -24,3 +24,6 @@ spring:
     web:
       pageable:
         default-page-size: 20
+
+  jackson:
+    date-format: yyyy-mm-dd

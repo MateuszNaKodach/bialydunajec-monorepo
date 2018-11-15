@@ -10,8 +10,8 @@ class ProcessingSerializedQueue<T>(
 
     init {
         subject
-                .observeOn(Schedulers.single())
                 .retry()
+                .observeOn(Schedulers.single())
                 .subscribe { onProcess(it) }
     }
 

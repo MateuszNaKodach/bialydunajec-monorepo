@@ -15,7 +15,9 @@ import javax.persistence.*
 class EmailMessageLog(
         @Embedded
         private val recipient: EmailAddress,
+        @Lob
         private val subject: String,
+        @Lob
         private val content: String,
         emailMessageLogId: EmailMessageLogId
 ) : AuditableAggregateRoot<EmailMessageLogId, EmailMessageLogEvent>(emailMessageLogId), Versioned {
@@ -27,7 +29,7 @@ class EmailMessageLog(
                         recipient,
                         subject,
                         content,
-                        getCreatedDate()
+                        getCreatedDate().atZone(ZoneId.systemDefault())
                 )
         )
     }

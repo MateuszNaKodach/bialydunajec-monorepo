@@ -1,10 +1,10 @@
 package org.bialydunajec.ddd.application.base.dto
 
-import java.time.Instant
+import java.time.ZonedDateTime
 
 data class AuditDto (
-        val createdDate: Instant,
+        val createdDate: ZonedDateTime,
         val createdBy: AuditorDto?,
-        val lastModifiedDate: Instant?,
+        val lastModifiedDate: ZonedDateTime?,
         val lastModifiedBy: AuditorDto?
 )

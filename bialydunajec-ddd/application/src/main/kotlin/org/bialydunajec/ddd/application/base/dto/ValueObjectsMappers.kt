@@ -7,6 +7,7 @@ import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.AgeRange
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.*
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.location.*
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.notes.ExtendedDescription
+import java.time.ZoneId
 
 fun Place.toDto() =
         PlaceDto(
@@ -79,7 +80,7 @@ fun AgeRangeDto.toValueObject() =
         AgeRange(min, max)
 
 fun Audit.toDto() =
-        AuditDto(createdDate, createdBy?.toDto(), lastModifiedDate, lastModifiedBy?.toDto())
+        AuditDto(createdDate.atZone(ZoneId.systemDefault()), createdBy?.toDto(), lastModifiedDate?.atZone(ZoneId.systemDefault()), lastModifiedBy?.toDto())
 
 fun Auditor.toDto() =
         AuditorDto(auditorId.toStringOrNull(), firstName.toStringOrNull(), lastName.toStringOrNull(), emailAddress.toStringOrNull())

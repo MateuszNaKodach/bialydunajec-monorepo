@@ -1,6 +1,5 @@
 package org.bialydunajec.email.messages.event
 
-import java.time.Instant
 import java.time.ZonedDateTime
 
 sealed class EmailMessageExternalEvent {
@@ -10,7 +9,7 @@ sealed class EmailMessageExternalEvent {
             val recipientEmailAddress: String,
             val subject: String,
             val content: String,
-            val createdDate: Instant
+            val createdDate: ZonedDateTime
     ) : EmailMessageExternalEvent()
 
     data class EmailMessageSentSuccess(

@@ -27,7 +27,8 @@ sealed class CampRegistrationsCommand : Command {
             val campRegistrationsEditionId: CampRegistrationsEditionId,
             val campEditionStartDate: LocalDate,
             val campEditionEndDate: LocalDate,
-            val price: Money
+            val totalPrice: Money,
+            val downPaymentAmount: Money?
     ) : CampRegistrationsCommand()
 
     internal data class UpdateCampRegistrationsEditionDuration(

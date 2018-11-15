@@ -8,13 +8,10 @@ import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryRe
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEdition
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionRepository
 import org.bialydunajec.registrations.domain.campedition.specification.CampRegistrationsCanStartSpecification
-import org.bialydunajec.registrations.domain.campedition.specification.CampRegistrationsHasMinimumCottagesToStartSpecification
 import org.bialydunajec.registrations.domain.cottage.CottageId
 import org.bialydunajec.registrations.domain.cottage.CottageRepository
 import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
-import org.springframework.context.annotation.Bean
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
@@ -30,7 +27,8 @@ internal class CreateCampRegistrationsEditionApplicationService(
                 campRegistrationsEditionId = command.campRegistrationsEditionId,
                 editionStartDate = command.campEditionStartDate,
                 editionEndDate = command.campEditionEndDate,
-                price = command.price
+                totalPrice = command.totalPrice,
+                downPaymentAmount = command.downPaymentAmount
         )
         campEditionRepository.save(newCampEdition)
     }
