@@ -45,7 +45,7 @@
           <tr>
             <th>Adresat</th>
             <th>Temat</th>
-            <th>Data utworzenia</th>
+            <th>Utworzono</th>
             <th>Wysłano</th>
             <th nzShowExpand></th>
           </tr>
@@ -55,9 +55,11 @@
             <tr>
               <td>{{data.recipient}}</td>
               <td>{{data.subject}}</td>
-              <td>{{data.createdDate}}</td>
-              <td *ngIf="data.status == 'SENT'">Tak ({{data.sentDate}})</td>
-              <td *ngIf="data.status == 'FAIL_TO_SEND'">Nie powiodło się (Spróbuj ponownie)</td>
+              <td>{{data.createdDate  | date:'d.MM.yyyy hh:mm:ss'}}</td>
+              <td *ngIf="data.status == 'SENT'">{{data.sentDate | date:'d.MM.yyyy hh:mm:ss'}}</td>
+              <td *ngIf="data.status == 'FAIL_TO_SEND'">
+                Niepowodzenie
+                <button nz-button class="bda-admin-section-card-action-small-button"><i class="anticon anticon-redo"></i></button></td>
               <td *ngIf="data.status == 'PENDING'">Oczekująca</td>
               <td nzShowExpand [(nzExpand)]="data.expand"></td>
             </tr>
