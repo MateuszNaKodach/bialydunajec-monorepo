@@ -10,7 +10,7 @@ import javax.persistence.*
 
 // TODO: PaymentCommitment bedzie tworzone i przypisywane id po potwierdzeniu uczestnictwa przez emial. Przemyslec czy to dobrze pokazuje model
 @Entity
-@Table(schema = "camp_registrations")
+@Table(schema = "camp_registrations") //TODO: TO jest platnosc za udzial w Obozie z konkretna chatka!!! Jesli zmieni sie chatke to anuluje sie platnosc!
 class CampParticipationPayment internal constructor(
         @Embedded
         @AttributeOverrides(AttributeOverride(name = "aggregateId", column = Column(name = "campParticipantId")))
@@ -19,9 +19,8 @@ class CampParticipationPayment internal constructor(
         @AttributeOverrides(AttributeOverride(name = "aggregateId", column = Column(name = "cottageId")))
         val cottageId: CottageId,
         @Embedded
-        val amount: Money,
+        val initialAmount: Money,
         val description: String? = null,
-
         @Embedded
         var paymentCommitmentId: PaymentCommitmentId? = null
 ) : AuditableAggregateRoot<CampParticipationPaymentId, CampParticipationPaymentEvent>(CampParticipationPaymentId()), Versioned {

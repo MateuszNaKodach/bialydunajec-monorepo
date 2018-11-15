@@ -36,7 +36,7 @@ internal class CampParticipantDomainEventListener(
                             event.snapshot.currentCamperData.emailAddress,
                             "Obóz w Białym Dunajcu - naliczenie opłaty",
                             """Cześć ${personalData.firstName},
-                            została naliczona opłata za wyjazd na Obóz w wysokości: ${paymentCommitment.amount} złotych"""
+                            została naliczona opłata za wyjazd na Obóz w wysokości: ${paymentCommitment.amount.getValue()} złotych"""
                     )
             emailMessageSender.sendEmailMessage(emailMessage)
         }

@@ -77,6 +77,7 @@ class CampParticipant internal constructor(
         registerEvent(CampParticipantEvent.Created(getAggregateId(), getSnapshot()))
     }
 
+    //TODO: Mail o zmianie chaty i naliczeniu płatności!
     fun changeAccommodation(cottage: Cottage) {
         if (cottage.getCampEditionId() == campRegistrationsEditionId) {
             this.currentCamperData = currentCamperData.copy(cottageId = cottage.getAggregateId())

@@ -16,9 +16,11 @@ internal class EmailMessageReadAdminController(
 
     @GetMapping
     fun getAllEmailMessage() = emailMessageRepository.findAll()
+            .sortByDescending { it.createdDate }
 
     @GetMapping("/statistics")
     fun getEmailMessagesStatistics() =
             emailMessageStatisticsRepository.findById(DEFAULT_EMAIL_MESSAGE_STATISTICS_ID)
+
 
 }

@@ -21,7 +21,8 @@ internal class CreateCampEditionApplicationService(
                 campEditionId = command.campEditionId,
                 startDate = command.campEditionStartDate,
                 endDate = command.campEditionEndDate,
-                totalPrice = command.campEditionPrice
+                totalPrice = command.campEditionPrice,
+                downPaymentAmount = command.campEditionDownPaymentAmount
         )
         campEditionRepository.save(newCampEdition)
     }

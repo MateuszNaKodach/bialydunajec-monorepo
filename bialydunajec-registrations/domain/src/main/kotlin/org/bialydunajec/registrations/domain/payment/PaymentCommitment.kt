@@ -9,14 +9,12 @@ import org.bialydunajec.registrations.domain.payment.valueobject.OperationType
 import java.time.ZonedDateTime
 import javax.persistence.*
 
-//TODO: Create payments bounded context!!!
 @Entity
 @Table(schema = "camp_registrations")
 class PaymentCommitment(
         @Embedded
         var amount: Money,
-        var title: String,
-        var description: String? = null,
+        var type: String, //TODO: Taki typ, za co się płaci
         var deadlineDate: ZonedDateTime? = null
 ) : AuditableAggregateRoot<PaymentCommitmentId, PaymentCommitmentEvent>(PaymentCommitmentId()), Versioned {
     @Version
@@ -60,9 +58,8 @@ class PaymentCommitment(
         fun createFrom(payment: CampParticipationPayment) =
                 with(payment) {
                     PaymentCommitment(
-                            amount,
-                            "Opłata za Obóz",
-                            description
+                            initialAmount,
+                            "Opłata za Obóz"
                     )
                 }
 

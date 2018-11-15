@@ -70,9 +70,9 @@ class CampEdition constructor(
 
 
     fun canUpdateTotalPriceAndDownPaymentAmount(totalPrice: Money, downPaymentAmount: Money?) = ValidationResult.buffer()
-            .addViolatedRuleIfNot(
+            .addViolatedRuleIf(
                     CampEditionDomainRule.DOWN_PAYMENT_AMOUNT_HAS_TO_BE_LESS_THAN_TOTAL_PRICE,
-                    downPaymentAmount != null && downPaymentAmount.lessThan(totalPrice)
+                    downPaymentAmount != null && !downPaymentAmount.lessThan(totalPrice)
             )
             .toValidationResult()
 
