@@ -20,8 +20,7 @@ internal class EmailMessageLogEventsProjection(
         when (payload) {
             is EmailMessageLogExternalEvent.EmailMessageCreated -> {
                 with(payload) {
-                    emailMessageRepository.findById(emailMessageLogId)
-                            .orElseGet { EmailMessage(emailMessageLogId) }
+                    emailMessageRepository.findByIdOrCreate(emailMessageLogId)
                             .also {
                                 it.recipient = recipientEmailAddress
                                 it.subject = subject
@@ -44,8 +43,7 @@ internal class EmailMessageLogEventsProjection(
 
             is EmailMessageLogExternalEvent.EmailMessageSentSuccess -> {
                 with(payload) {
-                    emailMessageRepository.findById(emailMessageLogId)
-                            .orElseGet { EmailMessage(emailMessageLogId) }
+                    emailMessageRepository.findByIdOrCreate(emailMessageLogId)
                             .also {
                                 it.status = EMAIL_STATUS_SENT
                                 it.sentDate = sentDate.toInstant()
@@ -66,8 +64,7 @@ internal class EmailMessageLogEventsProjection(
 
             is EmailMessageLogExternalEvent.EmailMessageSentFailure -> {
                 with(payload) {
-                    emailMessageRepository.findById(emailMessageLogId)
-                            .orElseGet { EmailMessage(emailMessageLogId) }
+                    emailMessageRepository.findByIdOrCreate(emailMessageLogId)
                             .also {
                                 it.status = EMAIL_STATUS_FAIL_TO_SEND
                                 it.lastError = lastError

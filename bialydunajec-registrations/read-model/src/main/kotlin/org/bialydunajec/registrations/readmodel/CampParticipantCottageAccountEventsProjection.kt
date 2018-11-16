@@ -5,6 +5,7 @@ import org.bialydunajec.ddd.application.base.external.event.SerializedExternalEv
 import org.bialydunajec.registrations.messages.event.CampParticipantCottageAccountExternalEvent
 import org.springframework.stereotype.Component
 
+//TODO: Listen to camp participant, cottage and payment commitment updates!
 @Component
 internal class CampParticipantCottageAccountEventsProjection(
         private val paymentCommitmentRepository: PaymentCommitmentMongoRepository
@@ -14,12 +15,11 @@ internal class CampParticipantCottageAccountEventsProjection(
         val eventPayload = externalEvent.payload
         when (eventPayload) {
             is CampParticipantCottageAccountExternalEvent.Created -> createProjection(eventPayload)
-            is CampParticipantCottageAccountExternalEvent.CommitmentPaid -> {
-
-            }
+            is CampParticipantCottageAccountExternalEvent.CommitmentPaid -> createProjection(eventPayload)
         }
     }
 
+    //TODO: Add possibility to update existing projection from only paid!
     private fun createProjection(eventPayload: CampParticipantCottageAccountExternalEvent.Created) {
         fun getPaymentCommitmentReadModelFrom(paymentCommitmentSnapshot: CampParticipantCottageAccountExternalEvent.Created.PaymentCommitmentSnapshot) =
                 paymentCommitmentSnapshot.let {
@@ -61,6 +61,15 @@ internal class CampParticipantCottageAccountEventsProjection(
                     ?.let { getPaymentCommitmentReadModelFrom(it) }
                     ?.let { paymentCommitmentRepository.save(it) }
         }
-
     }
+
+    fun createProjection(eventPayload: CampParticipantCottageAccountExternalEvent.CommitmentPaid) {
+        paymentCommitmentRepository.findById(eventPayload.paymentCommitmentId)
+                .ifPresent {
+                    it.isPaid = true
+                    paymentCommitmentRepository.save(it)
+                }
+    }
+
+
 }

@@ -11,13 +11,18 @@ internal data class PaymentCommitment(
         val type: Type?,
         val campRegistrationsEditionId: String?,
         val campParticipant: CampParticipant?,
-        val cottage: Cottage?,
-        val amount: Double?,
+        var cottage: Cottage?,
+        var amount: Double?,
         //val currency: String,
-        val description: String?,
-        val deadlineDate: Instant?,
-        val isPaid: Boolean?
+        var description: String?,
+        var deadlineDate: Instant?,
+        var isPaid: Boolean?
 ) {
+
+    companion object {
+        fun onlyId(paymentCommitmentId: String) =
+                PaymentCommitment(paymentCommitmentId, null, null, null, null, null, null, null, null)
+    }
 
     internal enum class Type {
         CAMP_DOWN_PAYMENT,
@@ -27,10 +32,10 @@ internal data class PaymentCommitment(
 
     internal data class CampParticipant(
             val campParticipantId: String,
-            val firstName: String?,
-            val lastName: String?,
-            val emailAddress: String?,
-            val phoneNumber: String?
+            var firstName: String?,
+            var lastName: String?,
+            var emailAddress: String?,
+            var phoneNumber: String?
     )
 /*
     internal data class CampParticipantCottageAccount(
@@ -40,7 +45,7 @@ internal data class PaymentCommitment(
 
     internal data class Cottage(
             val cottageId: String,
-            val name: String
+            var name: String
     )
 }
 
