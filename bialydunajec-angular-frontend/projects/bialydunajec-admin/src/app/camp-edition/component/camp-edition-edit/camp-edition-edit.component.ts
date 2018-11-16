@@ -8,6 +8,8 @@ import {finalize, tap} from 'rxjs/operators';
 import {NzNotificationService} from 'ng-zorro-antd';
 import {HttpErrorResponse} from '@angular/common/http';
 import {HttpResponseHelper} from '../../../shared/helper/HttpResponseHelper';
+import {AuthService} from '../../../auth/service/auth.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'bda-admin-camp-edition-edit',
@@ -21,12 +23,12 @@ export class CampEditionEditComponent implements OnInit {
   submittingInProgress = false;
   lastAlert: { type: string; message: string; description: string };
 
+  initialDownPaymentAmount = 99;
   initialPrice = 419;
   formatterPln = value => `${value} zł`;
   parserPln = value => value.replace(' zł', '');
 
-  constructor(
-    private campEditionEndpoint: CampEditionEndpoint) {
+  constructor(private campEditionEndpoint: CampEditionEndpoint, private router: Router) {
   }
 
   ngOnInit() {
@@ -39,9 +41,10 @@ export class CampEditionEditComponent implements OnInit {
     const campEditionStartDate = form.value['campEditionDuration'][0];
     const campEditionEndDate = form.value['campEditionDuration'][1];
     const campEditionPrice = form.value['campEditionPrice'];
+    const campEditionDownPaymentAmount = form.value['downPaymentAmount'];
 
     const createCampEditionRequest =
-      new CreateCampEditionRequest(campEditionId, campEditionStartDate, campEditionEndDate, campEditionPrice);
+      new CreateCampEditionRequest(campEditionId, campEditionStartDate, campEditionEndDate, campEditionPrice, campEditionDownPaymentAmount);
     if (form.valid) {
       this.lastAlert = null;
       this.submittingInProgress = true;
@@ -57,6 +60,7 @@ export class CampEditionEditComponent implements OnInit {
               message: `${romanCampEditionNumber} Edycja Obozu`,
               description: 'została poprawnie utworzona!'
             };
+            this.router.navigate(['/panel/camp-editions']);
           },
           (response: HttpErrorResponse) => {
             console.log(response);
