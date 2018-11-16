@@ -32,7 +32,8 @@ internal class CampParticipantDomainEventListener(
 
 
         //TODO: Tworzenie całego maila o zapisaniu się!
-        if (campParticipantAccount.getDownPaymentCommitmentSnapshot() != null) {
+        val downPaymentCommitmentSnapshot = campParticipantAccount.getDownPaymentCommitmentSnapshot()
+        if (downPaymentCommitmentSnapshot != null) {
             with(campParticipantAccount) {
                 val emailMessage =
                         SimpleEmailMessage(
@@ -40,7 +41,7 @@ internal class CampParticipantDomainEventListener(
                                 "Obóz w Białym Dunajcu - ważne informacje",
                                 """
                                 Cześć ${campParticipantPersonalData.firstName},
-                                bardzo cieszymy się, że potwierdziłeś udział w Obozie!
+                                bardzo cieszymy się, że ${if (campParticipantPersonalData.gender == Gender.MALE) "potwierdziłeś" else "potwierdziłaś"} Twój zapis na Obóz!
                                 Prosimy o bardzo dokładne zapoznanie się z treścią tej wiadomości.
                                 Znajdziesz tutaj wszystkie informacje potrzebne, aby bez problemu pojechać na Obóz.
                                 Na końcu maila znajduje się także instrukcja płatności.
@@ -50,11 +51,12 @@ internal class CampParticipantDomainEventListener(
 
 
                                 Prosimy Ciebie jeszcze, żebyś w ciągu tygodnia od dostania tej wiadomości ${if (campParticipantPersonalData.gender == Gender.MALE) "wpłacił" else "wpłaciła"} zadatek w wysokości
-                                została naliczona opłata za wyjazd na Obóz w wysokości: ${campParticipantAccount.getDownPaymentCommitmentSnapshot()?.amount} złotych.
+                                została naliczona opłata za wyjazd na Obóz w wysokości: ${downPaymentCommitmentSnapshot.amount.getValue()} złotych.
                                 Wpłaty należy dokonać na konto Twojej Chatki: ${cottage.getBankTransferDetails()?.accountNumber}
+                                Najlepiej jak w tytule przelewu wpiszesz: "${campParticipantPersonalData.firstName} ${campParticipantPersonalData.lastName} - ${event.snapshot.campRegistrationsEditionId} Biały Dunajec"
                                 Jeśli tego nie zrobisz, niestety będziemy musieli zwolnić Twoje miejsce komuś innemu :(
 
-                                Zadatek jest częścią opłaty za cały Obóz, więc zostanie Ci już do zapłacenia tylko ${campParticipantAccount.getCampParticipationCommitmentSnapshot().amount} złotych w trakcie Obozu.
+                                Zadatek jest częścią opłaty za cały Obóz, więc zostanie Ci już do zapłacenia tylko ${campParticipantAccount.getCampParticipationCommitmentSnapshot().amount.getValue()} złotych w trakcie Obozu.
 
 
                                 Do zobaczenia już niedługo!

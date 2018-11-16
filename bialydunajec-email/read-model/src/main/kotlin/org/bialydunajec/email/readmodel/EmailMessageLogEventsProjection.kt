@@ -1,15 +1,9 @@
 package org.bialydunajec.email.readmodel
 
-import org.bialydunajec.ddd.application.base.concurrency.ProcessingSerializedQueue
 import org.bialydunajec.ddd.application.base.external.event.ExternalEvent
-import org.bialydunajec.ddd.application.base.external.event.ExternalEventListener
-import org.bialydunajec.ddd.domain.extensions.toStringOrNull
+import org.bialydunajec.ddd.application.base.external.event.SerializedExternalEventListener
 import org.bialydunajec.email.messages.event.EmailMessageExternalEvent
-import org.slf4j.LoggerFactory
-import org.springframework.context.event.EventListener
 import org.springframework.stereotype.Component
-import org.springframework.transaction.annotation.Propagation
-import org.springframework.transaction.annotation.Transactional
 
 const val EMAIL_STATUS_PENDING = "PENDING"
 const val EMAIL_STATUS_SENT = "SENT"
@@ -19,19 +13,9 @@ const val EMAIL_STATUS_FAIL_TO_SEND = "FAIL_TO_SEND"
 internal class EmailMessageLogEventsProjection(
         private val emailMessageRepository: EmailMessageRepository,
         private val emailMessageStatisticsRepository: EmailMessageStatisticsRepository
-) : ExternalEventListener {
+) : SerializedExternalEventListener() {
 
-    private val log = LoggerFactory.getLogger(this.javaClass)
-
-    private val processingQueue = ProcessingSerializedQueue<ExternalEvent<*>> { processExternalEvent(it) }
-
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    @EventListener
-    override fun handleExternalEvent(externalEvent: ExternalEvent<*>) {
-        processingQueue.process(externalEvent)
-    }
-
-    fun processExternalEvent(externalEvent: ExternalEvent<*>) {
+    override fun processExternalEvent(externalEvent: ExternalEvent<*>) {
         val payload = externalEvent.payload
         when (payload) {
             is EmailMessageExternalEvent.EmailMessageCreated -> {

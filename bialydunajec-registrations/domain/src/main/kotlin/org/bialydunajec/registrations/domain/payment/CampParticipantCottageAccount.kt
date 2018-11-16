@@ -11,7 +11,6 @@ import org.bialydunajec.registrations.domain.payment.valueobject.OperationType
 import javax.persistence.*
 import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule.*
 import org.bialydunajec.registrations.domain.payment.valueobject.AccountConfiguration
-import org.hibernate.annotations.Cascade
 
 
 //TODO: Wysylanie informacji o platnosciach przy potwierdzeniu udziału!

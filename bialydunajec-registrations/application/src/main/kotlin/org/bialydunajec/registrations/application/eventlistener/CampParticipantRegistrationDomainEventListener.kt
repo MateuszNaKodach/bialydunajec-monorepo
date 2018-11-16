@@ -49,7 +49,7 @@ internal class CampParticipantRegistrationDomainEventListener(
             campParticipantRepository.findById(event.snapshot.campParticipantId)
                     ?.apply { this.confirmByCamperWith(event.snapshot.camperApplication) }
                     ?.apply { campParticipantRepository.save(this) }
-                    ?.also {
+                    /*?.also {
                         val emailMessage =
                                 SimpleEmailMessage(
                                         it.getEmailAddress(),
@@ -58,7 +58,7 @@ internal class CampParticipantRegistrationDomainEventListener(
                                         przesyłamy Ci garść potrzebnych informacji o Obozie:""".trimMargin()
                                 )
                         emailMessageSender.sendEmailMessage(emailMessage)
-                    }
+                    }*/
 
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -67,7 +67,7 @@ internal class CampParticipantRegistrationDomainEventListener(
             campParticipantRepository.findById(event.snapshot.campParticipantId)
                     ?.apply { this.confirmByAuthorized() }
                     ?.apply { campParticipantRepository.save(this) }
-                    ?.also {
+                    /*?.also {
                         val emailMessage =
                                 SimpleEmailMessage(
                                         it.getEmailAddress(),
@@ -76,7 +76,7 @@ internal class CampParticipantRegistrationDomainEventListener(
                                         przesyłamy Ci garść potrzebnych informacji o Obozie:""".trimMargin()
                                 )
                         emailMessageSender.sendEmailMessage(emailMessage)
-                    }
+                    }*/
 
 
 }
