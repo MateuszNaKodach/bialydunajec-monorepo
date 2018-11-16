@@ -39,5 +39,5 @@ testem.log
 Thumbs.db
 
 #CSS
-*.css
+#*.css
 *.css.map
