@@ -19,27 +19,46 @@ import org.bialydunajec.registrations.domain.payment.valueobject.AccountConfigur
 class CampParticipantCottageAccount internal constructor(
         @Embedded
         @AttributeOverrides(AttributeOverride(name = "aggregateId", column = Column(name = "campParticipantId")))
-        val campParticipantId: CampParticipantId,
+        private val campParticipantId: CampParticipantId,
         @Embedded
         @AttributeOverrides(AttributeOverride(name = "aggregateId", column = Column(name = "cottageId")))
-        val cottageId: CottageId,
+        private val cottageId: CottageId,
 
         @OneToOne(cascade = [CascadeType.ALL])
-        internal var campDownPaymentCommitment: CampDownPaymentCommitment?,
+        private var campDownPaymentCommitment: CampDownPaymentCommitment?,
 
         @OneToOne(cascade = [CascadeType.ALL])
-        internal var campParticipationCommitment: CampParticipationCommitment,
+        private var campParticipationCommitment: CampParticipationCommitment,
 
         @OneToOne(cascade = [CascadeType.ALL])
-        internal var campBusCommitment: CampBusCommitment? = null
+        private var campBusCommitment: CampBusCommitment? = null //TODO: Skasowac jak ktos zrezygnuje z usa!
 ) : AuditableAggregateRoot<CampParticipantCottageAccountId, CampParticipantCottageAccountEvent>(CampParticipantCottageAccountId()),
         Versioned {
+
+    init {
+        registerEvent(
+                CampParticipantCottageAccountEvent.Created(
+                        getAggregateId(),
+                        campParticipantId,
+                        cottageId,
+                        getCampDownPaymentCommitmentSnapshot(),
+                        getCampParticipationCommitmentSnapshot(),
+                        getCampBusCommitmentSnapshot()
+                )
+        )
+    }
 
     @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
     private var operations: MutableSet<AccountOperation> = mutableSetOf()
 
     @Embedded
-    private var accountConfiguration = AccountConfiguration()
+    private var configuration = AccountConfiguration()
+
+    /**
+     * Change to false when camp participant move to another cottage.
+     * //TODO: Find better name, because when is not active sbd will think that any operation is not permitted.
+     */
+    private var isActiveCampParticipantAccount = true
 
 
     fun canDepositMoney() =
@@ -52,7 +71,7 @@ class CampParticipantCottageAccount internal constructor(
                     )
                     .addViolatedRuleIfNot(
                             DEPOSIT_IS_NOT_ALLOWED_IF_DISABLED_IN_CONFIGURATION,
-                            accountConfiguration.depositEnabled
+                            configuration.depositEnabled
                     )
                     .toValidationResult()
 
@@ -60,7 +79,12 @@ class CampParticipantCottageAccount internal constructor(
         canDepositMoney()
                 .ifInvalidThrowException()
 
-        operations.add(AccountOperation(OperationType.PAYMENT, amount, description))
+        AccountOperation(OperationType.DEPOSIT, amount, description)
+                .also {
+                    operations.add(it)
+                }.also {
+                    registerEvent(CampParticipantCottageAccountEvent.MoneyDeposited(getAggregateId(), it.amount, it.description, it.getCreatedDate()))
+                }
     }
 
 
@@ -72,7 +96,7 @@ class CampParticipantCottageAccount internal constructor(
                     )
                     .addViolatedRuleIfNot(
                             WITHDRAW_IS_NOT_ALLOWED_IF_DISABLED_IN_CONFIGURATION,
-                            accountConfiguration.withdrawEnabled
+                            configuration.withdrawEnabled
                     )
                     .toValidationResult()
 
@@ -80,15 +104,24 @@ class CampParticipantCottageAccount internal constructor(
         canWithdrawMoney(amount)
                 .ifInvalidThrowException()
 
-        operations.add(AccountOperation(OperationType.WITHDRAW, amount, description))
+        AccountOperation(OperationType.WITHDRAW, amount, description)
+                .also {
+                    operations.add(it)
+                }.also {
+                    registerEvent(CampParticipantCottageAccountEvent.MoneyWithdrawn(getAggregateId(), it.amount, it.description
+                            ?: "", it.getCreatedDate()))
+                }
     }
 
+    /*
+    //TODO: Consider change operation permitions only on account for new cottage
     fun updateAccountConfiguration(configuration: AccountConfiguration) {
-        val isUpdate = configuration != accountConfiguration
+        val isUpdate = configuration != this.configuration
         if (isUpdate) {
-            this.accountConfiguration = configuration
+            this.configuration = configuration
         }
     }
+    */
 
     /**
      * Suma wpłat i wypłat konta
@@ -96,7 +129,7 @@ class CampParticipantCottageAccount internal constructor(
     fun getOperationsBalance() =
             operations.fold(Money.zero()) { acc, commitmentOperation ->
                 when (commitmentOperation.type) {
-                    OperationType.PAYMENT -> acc.add(commitmentOperation.amount)
+                    OperationType.DEPOSIT -> acc.add(commitmentOperation.amount)
                     OperationType.WITHDRAW -> acc.subtract(commitmentOperation.amount)
                 }
             }
@@ -130,7 +163,11 @@ class CampParticipantCottageAccount internal constructor(
         canPayForCampDownPaymentWithAccountFunds()
                 .ifInvalidThrowException()
 
-        campDownPaymentCommitment?.markAsPaid()
+        campDownPaymentCommitment
+                ?.apply { markAsPaid() }
+                ?.also {
+                    registerEvent(CampParticipantCottageAccountEvent.CommitmentPaid(getAggregateId(), it.entityId))
+                }
     }
 
     fun canPayForCampParticipationWithAccountFunds() =
@@ -154,7 +191,11 @@ class CampParticipantCottageAccount internal constructor(
         canPayForCampParticipationWithAccountFunds()
                 .ifInvalidThrowException()
 
-        campParticipationCommitment.markAsPaid()
+        campParticipationCommitment
+                .apply { markAsPaid() }
+                .also {
+                    registerEvent(CampParticipantCottageAccountEvent.CommitmentPaid(getAggregateId(), it.entityId))
+                }
     }
 
     fun canPayForCampBusWithAccountFunds() =
@@ -177,12 +218,16 @@ class CampParticipantCottageAccount internal constructor(
         canPayForCampBusWithAccountFunds()
                 .ifInvalidThrowException()
 
-        campBusCommitment?.markAsPaid()
+        campBusCommitment
+                ?.apply { markAsPaid() }
+                ?.also {
+                    registerEvent(CampParticipantCottageAccountEvent.CommitmentPaid(getAggregateId(), it.entityId))
+                }
     }
 
     private fun enoughAvailableFundsToPay(money: Money) = getAvailableFunds().greaterOrEquals(money)
 
-    fun getDownPaymentCommitmentSnapshot() = campDownPaymentCommitment?.getSnapshot()
+    fun getCampDownPaymentCommitmentSnapshot() = campDownPaymentCommitment?.getSnapshot()
     fun getCampParticipationCommitmentSnapshot() = campParticipationCommitment.getSnapshot()
     fun getCampBusCommitmentSnapshot() = campBusCommitment?.getSnapshot()
 

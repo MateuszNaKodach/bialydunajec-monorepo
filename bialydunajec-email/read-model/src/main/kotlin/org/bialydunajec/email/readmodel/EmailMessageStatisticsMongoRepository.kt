@@ -4,11 +4,11 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.data.mongodb.repository.MongoRepository
 import javax.annotation.PostConstruct
 
-interface EmailMessageStatisticsRepository : MongoRepository<EmailMessageStatistics, String>
+interface EmailMessageStatisticsMongoRepository : MongoRepository<EmailMessageStatistics, String>
 
 
 @Configuration
-class BootEmailMessageLog(val repository: EmailMessageStatisticsRepository) {
+class BootEmailMessageLog(val repository: EmailMessageStatisticsMongoRepository) {
 
 
     @PostConstruct

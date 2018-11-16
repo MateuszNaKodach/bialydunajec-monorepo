@@ -2,7 +2,7 @@ package org.bialydunajec.email.messages.event
 
 import java.time.ZonedDateTime
 
-sealed class EmailMessageExternalEvent {
+sealed class EmailMessageLogExternalEvent {
 
     data class EmailMessageCreated(
             val emailMessageLogId: String,
@@ -10,15 +10,15 @@ sealed class EmailMessageExternalEvent {
             val subject: String,
             val content: String,
             val createdDate: ZonedDateTime
-    ) : EmailMessageExternalEvent()
+    ) : EmailMessageLogExternalEvent()
 
     data class EmailMessageSentSuccess(
             val emailMessageLogId: String,
             val sentDate: ZonedDateTime
-    ) : EmailMessageExternalEvent()
+    ) : EmailMessageLogExternalEvent()
 
     data class EmailMessageSentFailure(
             val emailMessageLogId: String,
             val lastError: String
-    ) : EmailMessageExternalEvent()
+    ) : EmailMessageLogExternalEvent()
 }

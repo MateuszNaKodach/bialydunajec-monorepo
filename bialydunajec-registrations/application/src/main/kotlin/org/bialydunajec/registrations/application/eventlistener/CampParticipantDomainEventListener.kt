@@ -32,7 +32,7 @@ internal class CampParticipantDomainEventListener(
 
 
         //TODO: Tworzenie całego maila o zapisaniu się!
-        val downPaymentCommitmentSnapshot = campParticipantAccount.getDownPaymentCommitmentSnapshot()
+        val downPaymentCommitmentSnapshot = campParticipantAccount.getCampDownPaymentCommitmentSnapshot()
         if (downPaymentCommitmentSnapshot != null) {
             with(campParticipantAccount) {
                 val emailMessage =

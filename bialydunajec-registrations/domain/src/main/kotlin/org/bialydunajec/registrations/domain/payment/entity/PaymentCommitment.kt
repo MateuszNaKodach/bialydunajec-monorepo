@@ -4,6 +4,7 @@ import org.bialydunajec.ddd.domain.base.persistence.AuditableEntity
 import org.bialydunajec.ddd.domain.base.persistence.Versioned
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.financial.Money
 import org.bialydunajec.registrations.domain.payment.valueobject.PaymentCommitmentSnapshot
+import java.time.Instant
 import java.time.ZonedDateTime
 import javax.persistence.*
 
@@ -19,7 +20,7 @@ internal abstract class PaymentCommitment internal constructor(
         )
         private val initialAmount: Money,
         private val description: String?,
-        private var deadlineDate: ZonedDateTime?
+        private var deadlineDate: Instant?
 ) : AuditableEntity<PaymentCommitmentId>(), Versioned {
     @EmbeddedId
     override val entityId: PaymentCommitmentId = PaymentCommitmentId()

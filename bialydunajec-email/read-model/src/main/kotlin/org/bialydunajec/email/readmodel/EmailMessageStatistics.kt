@@ -5,7 +5,7 @@ import org.springframework.data.mongodb.core.mapping.Document
 
 const val DEFAULT_EMAIL_MESSAGE_STATISTICS_ID: String = "EMAIL_STATISTICS";
 
-@Document
+@Document("emailMessageStatisticsReadModel")
 data class EmailMessageStatistics(
         @Id
         val periodId: String = DEFAULT_EMAIL_MESSAGE_STATISTICS_ID,

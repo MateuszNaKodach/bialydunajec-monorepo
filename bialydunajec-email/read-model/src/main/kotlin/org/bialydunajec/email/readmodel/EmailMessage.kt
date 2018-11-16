@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document
 import java.time.Instant
 
 //TODO: Dodac autora wiadomosci, jesli nie bedzie nim nikt, wiadomo, ze system.
-@Document
+@Document("emailMessageLogReadModels")
 data class EmailMessage(
         @Id
         var emailMessageLogId: String,

@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
 
 //TODO: Add logic for recording event to internal storage
+//TODO: Consider solution - one thread for one aggregate. Also one method for one aggregate type in listeners
 abstract class SerializedExternalEventListener : ExternalEventListener {
 
     protected val log: Logger = LoggerFactory.getLogger(this.javaClass)

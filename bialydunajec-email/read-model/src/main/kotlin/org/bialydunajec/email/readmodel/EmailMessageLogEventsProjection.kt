@@ -2,7 +2,7 @@ package org.bialydunajec.email.readmodel
 
 import org.bialydunajec.ddd.application.base.external.event.ExternalEvent
 import org.bialydunajec.ddd.application.base.external.event.SerializedExternalEventListener
-import org.bialydunajec.email.messages.event.EmailMessageExternalEvent
+import org.bialydunajec.email.messages.event.EmailMessageLogExternalEvent
 import org.springframework.stereotype.Component
 
 const val EMAIL_STATUS_PENDING = "PENDING"
@@ -11,14 +11,14 @@ const val EMAIL_STATUS_FAIL_TO_SEND = "FAIL_TO_SEND"
 
 @Component
 internal class EmailMessageLogEventsProjection(
-        private val emailMessageRepository: EmailMessageRepository,
-        private val emailMessageStatisticsRepository: EmailMessageStatisticsRepository
+        private val emailMessageRepository: EmailMessageMongoRepository,
+        private val emailMessageStatisticsRepository: EmailMessageStatisticsMongoRepository
 ) : SerializedExternalEventListener() {
 
     override fun processExternalEvent(externalEvent: ExternalEvent<*>) {
         val payload = externalEvent.payload
         when (payload) {
-            is EmailMessageExternalEvent.EmailMessageCreated -> {
+            is EmailMessageLogExternalEvent.EmailMessageCreated -> {
                 with(payload) {
                     emailMessageRepository.findById(emailMessageLogId)
                             .orElseGet { EmailMessage(emailMessageLogId) }
@@ -42,7 +42,7 @@ internal class EmailMessageLogEventsProjection(
                 }
             }
 
-            is EmailMessageExternalEvent.EmailMessageSentSuccess -> {
+            is EmailMessageLogExternalEvent.EmailMessageSentSuccess -> {
                 with(payload) {
                     emailMessageRepository.findById(emailMessageLogId)
                             .orElseGet { EmailMessage(emailMessageLogId) }
@@ -64,7 +64,7 @@ internal class EmailMessageLogEventsProjection(
                 }
             }
 
-            is EmailMessageExternalEvent.EmailMessageSentFailure -> {
+            is EmailMessageLogExternalEvent.EmailMessageSentFailure -> {
                 with(payload) {
                     emailMessageRepository.findById(emailMessageLogId)
                             .orElseGet { EmailMessage(emailMessageLogId) }
