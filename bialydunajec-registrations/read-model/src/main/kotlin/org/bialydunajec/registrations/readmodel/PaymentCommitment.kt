@@ -1,5 +1,6 @@
 package org.bialydunajec.registrations.readmodel
 
+import com.fasterxml.jackson.annotation.JsonFormat
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 import java.time.Instant
@@ -15,6 +16,8 @@ internal data class PaymentCommitment(
         var amount: Double?,
         //val currency: String,
         var description: String?,
+
+        @JsonFormat(timezone="Europe/Warsaw")
         var deadlineDate: Instant?,
         var isPaid: Boolean?
 ) {

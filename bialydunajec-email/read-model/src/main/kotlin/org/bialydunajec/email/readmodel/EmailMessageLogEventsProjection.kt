@@ -20,7 +20,7 @@ internal class EmailMessageLogEventsProjection(
         when (payload) {
             is EmailMessageLogExternalEvent.EmailMessageCreated -> {
                 with(payload) {
-                    emailMessageRepository.findByIdOrCreate(emailMessageLogId)
+                    emailMessageRepository.findById(emailMessageLogId).orElseGet { EmailMessage(emailMessageLogId) }
                             .also {
                                 it.recipient = recipientEmailAddress
                                 it.subject = subject
@@ -28,7 +28,7 @@ internal class EmailMessageLogEventsProjection(
                                 if (it.status == null) {
                                     it.status = EMAIL_STATUS_PENDING
                                 }
-                                it.createdDate = createdDate?.toInstant()
+                                it.createdDate = createdDate.toInstant()
                             }.also {
                                 emailMessageRepository.save(it)
                             }
@@ -43,7 +43,7 @@ internal class EmailMessageLogEventsProjection(
 
             is EmailMessageLogExternalEvent.EmailMessageSentSuccess -> {
                 with(payload) {
-                    emailMessageRepository.findByIdOrCreate(emailMessageLogId)
+                    emailMessageRepository.findById(emailMessageLogId).orElseGet { EmailMessage(emailMessageLogId) }
                             .also {
                                 it.status = EMAIL_STATUS_SENT
                                 it.sentDate = sentDate.toInstant()
@@ -64,7 +64,7 @@ internal class EmailMessageLogEventsProjection(
 
             is EmailMessageLogExternalEvent.EmailMessageSentFailure -> {
                 with(payload) {
-                    emailMessageRepository.findByIdOrCreate(emailMessageLogId)
+                    emailMessageRepository.findById(emailMessageLogId).orElseGet { EmailMessage(emailMessageLogId) }
                             .also {
                                 it.status = EMAIL_STATUS_FAIL_TO_SEND
                                 it.lastError = lastError

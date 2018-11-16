@@ -65,7 +65,7 @@ internal class CampParticipantDomainEventListener(
                                 organizatorzy Obozu Duszpasterstw Akademickich Wrocławia i Opola w Białym Dunajcu
 
 
-                                Jeśli masz jakieś pytania śmiało pisz do szefa swojej chatki ${if (cottage.getCottageBoss()?.emailAddress != null) "na adres: ${cottage.getCottageBoss()?.emailAddress}" else "!"}
+                                Jeśli masz jakieś pytania śmiało pisz do szefa swojej chatki${if (cottage.getCottageBoss()?.emailAddress != null) " na adres: ${cottage.getCottageBoss()?.emailAddress}" else "!"}
                             """
                         )
                 emailMessageSender.sendEmailMessage(emailMessage)

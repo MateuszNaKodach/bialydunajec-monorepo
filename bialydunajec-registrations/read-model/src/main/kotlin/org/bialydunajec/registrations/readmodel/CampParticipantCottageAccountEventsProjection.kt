@@ -21,11 +21,13 @@ internal class CampParticipantCottageAccountEventsProjection(
 
     //TODO: Add possibility to update existing projection from only paid!
     private fun createProjection(eventPayload: CampParticipantCottageAccountExternalEvent.Created) {
-        fun getPaymentCommitmentReadModelFrom(paymentCommitmentSnapshot: CampParticipantCottageAccountExternalEvent.Created.PaymentCommitmentSnapshot) =
+        fun getPaymentCommitmentReadModelFrom(
+                paymentCommitmentSnapshot: CampParticipantCottageAccountExternalEvent.Created.PaymentCommitmentSnapshot,
+                paymentType: PaymentCommitment.Type) =
                 paymentCommitmentSnapshot.let {
                     PaymentCommitment(
                             it.paymentCommitmentId,
-                            PaymentCommitment.Type.CAMP_DOWN_PAYMENT,
+                            paymentType,
                             eventPayload.campRegistrationsEditionId,
                             eventPayload.campParticipant?.let { camper ->
                                 PaymentCommitment.CampParticipant(
@@ -51,14 +53,14 @@ internal class CampParticipantCottageAccountEventsProjection(
 
         with(eventPayload) {
             campDownPaymentCommitmentSnapshot
-                    ?.let { getPaymentCommitmentReadModelFrom(it) }
+                    ?.let { getPaymentCommitmentReadModelFrom(it,PaymentCommitment.Type.CAMP_DOWN_PAYMENT) }
                     ?.let { paymentCommitmentRepository.save(it) }
 
-            getPaymentCommitmentReadModelFrom(campParticipationCommitmentSnapshot)
+            getPaymentCommitmentReadModelFrom(campParticipationCommitmentSnapshot,PaymentCommitment.Type.CAMP_PARTICIPATION)
                     .let { paymentCommitmentRepository.save(it) }
 
             campBusCommitmentSnapshot
-                    ?.let { getPaymentCommitmentReadModelFrom(it) }
+                    ?.let { getPaymentCommitmentReadModelFrom(it,PaymentCommitment.Type.CAMP_BUS) }
                     ?.let { paymentCommitmentRepository.save(it) }
         }
     }
