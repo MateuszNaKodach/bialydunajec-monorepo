@@ -6,7 +6,7 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 @Component({
   selector: 'bda-admin-academic-ministry-selection',
   templateUrl: './academic-ministry-selection.component.html',
-  styleUrls: ['./academic-ministry-selection.component.css'],
+  styleUrls: ['./academic-ministry-selection.component.less'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
