@@ -55,8 +55,8 @@
             <tr>
               <td>{{data.recipient}}</td>
               <td>{{data.subject}}</td>
-              <td>{{data.createdDate  | date:'d.MM.yyyy hh:mm:ss'}}</td>
-              <td *ngIf="data.status == 'SENT'">{{data.sentDate | date:'d.MM.yyyy hh:mm:ss'}}</td>
+              <td>{{data.createdDate  | date:'d.MM.yyyy HH:mm:ss'}}</td>
+              <td *ngIf="data.status == 'SENT'">{{data.sentDate | date:'d.MM.yyyy HH:mm:ss'}}</td>
               <td *ngIf="data.status == 'FAIL_TO_SEND'">
                 Niepowodzenie
                 <button nz-button class="bda-admin-section-card-action-small-button"><i class="anticon anticon-redo"></i></button></td>
