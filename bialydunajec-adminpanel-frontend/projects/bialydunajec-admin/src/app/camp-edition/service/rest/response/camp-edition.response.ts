@@ -4,4 +4,5 @@ export class CampEditionResponse {
   campEditionEndDate: Date;
   campEditionYear: number;
   campEditionPrice: number;
+  campEditionDownPaymentAmount?: number;
 }

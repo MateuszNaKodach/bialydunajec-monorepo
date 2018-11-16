@@ -14,7 +14,7 @@
     <div id="camp-edition-preview"
          class="bda-admin-panel-section-card--preview">
       <div style="display: flex; justify-content: space-between; align-items: center">
-        <h2 style="font-weight: bold; margin: 0">{{RomanNumerals.numberToRoman(campEdition.campRegistrationsEditionId)}}
+        <h2>{{RomanNumerals.numberToRoman(campEdition.campRegistrationsEditionId)}}
           Edycja
           Obozu</h2>
         <label class="preview-label">podgląd</label>
@@ -23,6 +23,8 @@
       <div>
         <h3><b>Czas trwania Obozu:</b> od {{campEdition.editionStartDate | date:'d.MM.yyyy'}} do
           {{campEdition.editionEndDate | date:'d.MM.yyyy' }}</h3>
+        <h3><b>Cena wyjazdu:</b> {{campEdition.editionPrice}} zł</h3>
+        <h3><b>Kwota zadatku:</b> {{campEdition.editionDownPaymentAmount}} zł</h3>
       </div>
     </div>
 

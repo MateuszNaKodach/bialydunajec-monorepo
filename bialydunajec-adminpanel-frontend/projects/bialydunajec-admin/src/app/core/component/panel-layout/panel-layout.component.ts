@@ -6,6 +6,7 @@ import {campRegistrationsRoutingPaths} from '../../../camp-registrations/camp-re
 import {Observable} from 'rxjs';
 import {AcademicMinistryResponse} from '../../../academic-ministry/service/rest/response/academic-ministry.response';
 import {AcademicMinistryAdminEndpoint} from '../../../academic-ministry/service/rest/academic-ministry.endpoint';
+import {emailMessageRoutingPaths} from '../../../email-message/email-message-routing.paths';
 
 @Component({
   selector: 'bda-admin-panel-layout',
@@ -18,6 +19,7 @@ export class PanelLayoutComponent implements OnInit {
   academicMinistryRoutingPaths = academicMinistryRoutingPaths;
   campEditionRoutingPaths = campEditionRoutingPaths;
   campRegistrationsRoutingPaths = campRegistrationsRoutingPaths;
+  emailMessageRoutingPaths = emailMessageRoutingPaths;
 
   academicMinistries: Observable<AcademicMinistryResponse[]>;
 

@@ -1,0 +1,80 @@
+<section>
+  <div style="display: flex; justify-content: space-between;">
+    <bda-admin-breadcrumbs
+      [breadcrumbs]="['Wiadomości Email','Historia']"
+    ></bda-admin-breadcrumbs>
+  </div>
+  <div class="bda-admin-email-history__content">
+
+    <div
+      id="messages-search"
+      class="bda-admin-panel-section-card"
+      *ngIf="emailStatistics$ | async as emailStatistics">
+      <h2>Podsumowanie</h2>
+      <nz-divider></nz-divider>
+      <h3><b>Wszystkich wiadomości:</b> {{emailStatistics.messagesCount}}</h3>
+      <h3><b>Wysłanych:</b> {{emailStatistics.sentSuccessCount}}</h3>
+      <h3><b>Błąd wysyłania:</b> {{emailStatistics.sentFailureCount}}</h3>
+      <h3><b>Oczekujących:</b> {{emailStatistics.pendingCount}}</h3>
+
+    </div>
+
+
+    <div
+      id="messages-statistics"
+      class="bda-admin-panel-section-card">
+      <h2>Przeszukaj wiadomości</h2>
+      <nz-divider></nz-divider>
+      Szukaj
+    </div>
+
+    <div
+      id="messages-list"
+      class="bda-admin-panel-section-card"
+      *ngIf="emailMessages$ | async as emailMessages">
+      <h2>Wysłane wiadomości e-mail</h2>
+      <nz-divider></nz-divider>
+      <div>
+        <nz-table
+          class="bda-camp-participant-table"
+          #emailMessagesTable
+          [nzData]="emailMessages"
+          [nzTotal]="emailMessages.size"
+          nzNoResult="Z systemu nie wysłano jeszcze żadnych wiadomości email!">
+          <thead>
+          <tr>
+            <th>Adresat</th>
+            <th>Temat</th>
+            <th>Utworzono</th>
+            <th>Wysłano</th>
+            <th nzShowExpand></th>
+          </tr>
+          </thead>
+          <tbody>
+          <ng-template ngFor let-data [ngForOf]="emailMessagesTable.data">
+            <tr>
+              <td>{{data.recipient}}</td>
+              <td>{{data.subject}}</td>
+              <td>{{data.createdDate  | date:'d.MM.yyyy HH:mm:ss'}}</td>
+              <td *ngIf="data.status == 'SENT'">{{data.sentDate | date:'d.MM.yyyy HH:mm:ss'}}</td>
+              <td *ngIf="data.status == 'FAIL_TO_SEND'">
+                Niepowodzenie
+                <button nz-button class="bda-admin-section-card-action-small-button"><i class="anticon anticon-redo"></i></button></td>
+              <td *ngIf="data.status == 'PENDING'">Oczekująca</td>
+              <td nzShowExpand [(nzExpand)]="data.expand"></td>
+            </tr>
+            <tr [nzExpand]="data.expand">
+              <td [attr.colspan]="20">
+                <p><b>Treść wiadomości:</b></p>
+                {{data.content}}
+              </td>
+            </tr>
+          </ng-template>
+          </tbody>
+        </nz-table>
+      </div>
+
+
+    </div>
+  </div>
+</section>

@@ -20,6 +20,10 @@ const coreRoutes: Routes = [
       {
         path: coreRoutingPaths.academicMinistry,
         loadChildren: '../academic-ministry/academic-ministry.module#AcademicMinistryModule',
+      },
+      {
+        path: coreRoutingPaths.emailMessage,
+        loadChildren: '../email-message/email-message.module#EmailMessageModule',
       }
     ]
   }
