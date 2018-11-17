@@ -3,5 +3,6 @@ export const coreRoutingPaths = {
   campRegistrations: 'camp-registrations',
   campEdition: 'camp-editions',
   academicMinistry: 'academic-ministries',
-  emailMessage: 'email-message'
+  emailMessage: 'email-message',
+  payments: 'payments'
 };

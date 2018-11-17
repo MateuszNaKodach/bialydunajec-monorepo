@@ -1,13 +1,14 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 import { PaymentsRoutingModule } from './payments-routing.module';
+import { PaymentsListComponent } from './component/payments-list/payments-list.component';
+import {SharedModule} from '../shared/shared.module';
 
 @NgModule({
   imports: [
-    CommonModule,
+    SharedModule,
     PaymentsRoutingModule
   ],
-  declarations: []
+  declarations: [PaymentsListComponent]
 })
 export class PaymentsModule { }

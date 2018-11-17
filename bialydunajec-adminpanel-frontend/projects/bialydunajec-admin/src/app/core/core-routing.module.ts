@@ -24,6 +24,10 @@ const coreRoutes: Routes = [
       {
         path: coreRoutingPaths.emailMessage,
         loadChildren: '../email-message/email-message.module#EmailMessageModule',
+      },
+      {
+        path: coreRoutingPaths.payments,
+        loadChildren: '../payments/payments.module#PaymentsModule',
       }
     ]
   }

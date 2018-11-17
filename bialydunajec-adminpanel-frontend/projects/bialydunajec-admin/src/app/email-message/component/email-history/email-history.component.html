@@ -11,7 +11,7 @@
       class="bda-admin-panel-section-card"
       *ngIf="emailStatistics$ | async as emailStatistics">
       <h2>Podsumowanie</h2>
-      <nz-divider></nz-divider>
+      <nz-divider style="margin-bottom: 1rem;"></nz-divider>
       <h3><b>Wszystkich wiadomości:</b> {{emailStatistics.messagesCount}}</h3>
       <h3><b>Wysłanych:</b> {{emailStatistics.sentSuccessCount}}</h3>
       <h3><b>Błąd wysyłania:</b> {{emailStatistics.sentFailureCount}}</h3>
@@ -58,15 +58,14 @@
               <td>{{data.createdDate  | date:'d.MM.yyyy HH:mm:ss'}}</td>
               <td *ngIf="data.status == 'SENT'">{{data.sentDate | date:'d.MM.yyyy HH:mm:ss'}}</td>
               <td *ngIf="data.status == 'FAIL_TO_SEND'">
-                Niepowodzenie
-                <button nz-button class="bda-admin-section-card-action-small-button"><i class="anticon anticon-redo"></i></button></td>
+                Niepowodzenie<button nz-button style="display: inline-flex; align-items: center; margin-left: 1rem;">Ponów <i class="anticon material-icons">repeat</i></button></td>
               <td *ngIf="data.status == 'PENDING'">Oczekująca</td>
               <td nzShowExpand [(nzExpand)]="data.expand"></td>
             </tr>
             <tr [nzExpand]="data.expand">
               <td [attr.colspan]="20">
                 <p><b>Treść wiadomości:</b></p>
-                {{data.content}}
+                <pre style="font: inherit; max-width: 100%; font-size: 1rem; white-space: pre-wrap;">{{data.content}}</pre>
               </td>
             </tr>
           </ng-template>
