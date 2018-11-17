@@ -1,0 +1,65 @@
+<section>
+  <div style="display: flex; justify-content: space-between;">
+    <bda-admin-breadcrumbs
+      [breadcrumbs]="['Zapisy na Obóz','Płatności']"
+    ></bda-admin-breadcrumbs>
+    <bda-admin-camp-edition-selection
+      (campEditionIdSelected)="onCampEditionIdSelected($event)"
+      [campEditionsObservable]="availableCampEditions"></bda-admin-camp-edition-selection>
+  </div>
+  <div class="bda-admin-payments-list__content">
+    <div
+      id="messages-list"
+      class="bda-admin-panel-section-card"
+      *ngIf="paymentCommitments$ | async as paymentCommitments">
+      <h2>Naliczone opłaty</h2>
+      <nz-divider></nz-divider>
+      <div>
+        <nz-table
+          class="bda-camp-participant-table"
+          #paymentCommitmentsTable
+          [nzData]="paymentCommitments"
+          [nzTotal]="paymentCommitments.size"
+          nzNoResult="Nie zostały naliczone jeszcze żadne opłaty dla uczestników wybranej Edycji Obozu.">
+          <thead>
+          <tr>
+            <th>Uczestnik</th>
+            <th>Chatka</th>
+            <th>Rodzaj</th>
+            <th>Kwota</th>
+            <th>Opłacono</th> <!--Moze napisac: Status i bedzie OPLACONO, NIE OPLACONO, KONTO NIEAKTYWNE-->
+            <th>Termin płatności</th>
+            <th nzShowExpand></th>
+          </tr>
+          </thead>
+          <tbody>
+          <ng-template ngFor let-data [ngForOf]="paymentCommitmentsTable.data">
+            <tr>
+              <td nz-tooltip [nzTitle]="'PESEL: ' + data.campParticipant.pesel +
+              ' E-mail: ' + data.campParticipant.emailAddress" nzPlacement="topLeft">{{data.campParticipant.firstName}} {{data.campParticipant.lastName}}</td>
+              <td>{{data.cottage.name}}</td>
+              <td>{{data.type}}</td>
+              <td>{{data.amount}} zł</td>
+              <td>{{data.isPaid ? "TAK (" + (data.paidDate | date:'d.MM.yyyy HH:mm:ss') + ")" : "NIE"}}</td>
+              <td>{{data.deadlineDate ? (data.deadlineDate | date:'d.MM.yyyy HH:mm:ss') : "Nie określono"}}</td>
+              <td nzShowExpand [(nzExpand)]="data.expand"></td>
+            </tr>
+            <tr [nzExpand]="data.expand">
+              <td [attr.colspan]="20">
+                <p *ngIf="data.description"><b>Opis:</b> {{data.description}}</p>
+                <button nz-button nzType="primary" class="mat-icon-button"
+                  (click)="showPayForCommitmentConfirmation(data)"><i class="material-icons" >attach_money</i>Zaksięguj wpłatę</button>
+                <button nz-button nzType="default" class="mat-icon-button" style="margin-left: 1rem;"
+                (click)="showCancelCommitmentConfirmation(data)"><i class="material-icons">money_off</i>Anuluj opłatę</button>
+              </td>
+            </tr>
+          </ng-template>
+          </tbody>
+        </nz-table>
+      </div>
+
+
+    </div>
+  </div>
+</section>
+
