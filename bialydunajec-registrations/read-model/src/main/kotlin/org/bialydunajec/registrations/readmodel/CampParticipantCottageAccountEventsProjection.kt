@@ -47,7 +47,8 @@ internal class CampParticipantCottageAccountEventsProjection(
                             it.amount,
                             it.description,
                             it.deadlineDate,
-                            it.paid
+                            it.paid,
+                            null
                     )
                 }
 
@@ -69,6 +70,7 @@ internal class CampParticipantCottageAccountEventsProjection(
         paymentCommitmentRepository.findById(eventPayload.paymentCommitmentId)
                 .ifPresent {
                     it.isPaid = true
+                    it.paidDate = eventPayload.paidDate
                     paymentCommitmentRepository.save(it)
                 }
     }

@@ -15,6 +15,9 @@ import org.bialydunajec.registrations.domain.cottage.valueobject.BankTransferDet
 import org.bialydunajec.registrations.domain.cottage.valueobject.CampersLimitations
 import org.bialydunajec.registrations.domain.cottage.valueobject.CottageBoss
 import org.bialydunajec.registrations.domain.cottage.valueobject.CottageSpace
+import org.bialydunajec.registrations.domain.payment.CampParticipantCottageAccountId
+import org.bialydunajec.registrations.domain.payment.entity.PaymentCommitmentId
+import org.bialydunajec.registrations.domain.payment.valueobject.PaymentCommitmentType
 import org.bialydunajec.registrations.domain.shirt.CampEditionShirtId
 import org.bialydunajec.registrations.domain.shirt.entity.ShirtColorOptionId
 import org.bialydunajec.registrations.domain.shirt.entity.ShirtSizeOptionId
@@ -165,4 +168,19 @@ sealed class CampRegistrationsCommand : Command {
             val color: Color,
             val size: ShirtSize
     ) : CampRegistrationsCommand()
+
+    data class DepositMoney(
+            val campParticipantCottageAccountId: CampParticipantCottageAccountId,
+            val money: Money
+    ): CampRegistrationsCommand()
+
+    data class PayCommitmentAndDepositMoney(
+            val campParticipantCottageAccountId: CampParticipantCottageAccountId,
+            val type: PaymentCommitmentType
+    ): CampRegistrationsCommand()
+
+    data class PayCommitmentWithAccountFunds(
+            val campParticipantCottageAccountId: CampParticipantCottageAccountId,
+            val type: PaymentCommitmentType
+    ): CampRegistrationsCommand()
 }

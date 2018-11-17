@@ -166,7 +166,7 @@ class CampParticipantCottageAccount internal constructor(
         campDownPaymentCommitment
                 ?.apply { markAsPaid() }
                 ?.also {
-                    registerEvent(CampParticipantCottageAccountEvent.CommitmentPaid(getAggregateId(), it.entityId))
+                    registerEvent(CampParticipantCottageAccountEvent.CommitmentPaid(getAggregateId(), it.entityId, it.getPaidDate()!!))
                 }
     }
 
@@ -194,7 +194,7 @@ class CampParticipantCottageAccount internal constructor(
         campParticipationCommitment
                 .apply { markAsPaid() }
                 .also {
-                    registerEvent(CampParticipantCottageAccountEvent.CommitmentPaid(getAggregateId(), it.entityId))
+                    registerEvent(CampParticipantCottageAccountEvent.CommitmentPaid(getAggregateId(), it.entityId, it.getPaidDate()!!))
                 }
     }
 
@@ -221,7 +221,7 @@ class CampParticipantCottageAccount internal constructor(
         campBusCommitment
                 ?.apply { markAsPaid() }
                 ?.also {
-                    registerEvent(CampParticipantCottageAccountEvent.CommitmentPaid(getAggregateId(), it.entityId))
+                    registerEvent(CampParticipantCottageAccountEvent.CommitmentPaid(getAggregateId(), it.entityId, it.getPaidDate()!!))
                 }
     }
 

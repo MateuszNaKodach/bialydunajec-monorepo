@@ -23,7 +23,8 @@ class CampRegistrationsAdminCommandGateway internal constructor(
         private val addCampEditionShirtColorOptionApplicationService: AddCampEditionShirtColorOptionApplicationService,
         private val addCampEditionShirtSizeOptionApplicationService: AddCampEditionShirtSizeOptionApplicationService,
         private val updateCampEditionShirtSizeOptionApplicationService: UpdateCampEditionShirtSizeOptionApplicationService,
-        private val updateCampEditionShirtColorOptionApplicationService: UpdateCampEditionShirtColorOptionApplicationService
+        private val updateCampEditionShirtColorOptionApplicationService: UpdateCampEditionShirtColorOptionApplicationService,
+        private val payCommitmentAndDepositMoneyApplicationService: PayCommitmentAndDepositMoneyApplicationService
 ) : CommandGateway {
 
     internal fun process(command: CampRegistrationsCommand.CreateCampRegistrationsEdition) =
@@ -82,4 +83,17 @@ class CampRegistrationsAdminCommandGateway internal constructor(
 
     fun process(command: CampRegistrationsCommand.UpdateCampEditionShirtSizeOption) =
             updateCampEditionShirtSizeOptionApplicationService.execute(command)
+
+
+    fun process(command: CampRegistrationsCommand.DepositMoney){
+        throw NotImplementedError("CampRegistrationsCommand.DepositMoney processing not implemented!")
+    }
+
+    fun process(command: CampRegistrationsCommand.PayCommitmentAndDepositMoney) =
+            payCommitmentAndDepositMoneyApplicationService.execute(command)
+
+    fun process(command: CampRegistrationsCommand.PayCommitmentWithAccountFunds){
+        throw NotImplementedError("CampRegistrationsCommand.PayCommitmentWithAccountFunds processing not implemented!")
+    }
+
 }

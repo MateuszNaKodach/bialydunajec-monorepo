@@ -7,9 +7,11 @@ import java.time.ZonedDateTime
 
 data class PaymentCommitmentSnapshot(
         val paymentCommitmentId: PaymentCommitmentId,
+        val type: PaymentCommitmentType,
         val initialAmount: Money,
         val description: String?,
         val deadlineDate: Instant?,
         val amount: Money,
-        val paid: Boolean
+        val paid: Boolean,
+        val paidDate: Instant?
 )

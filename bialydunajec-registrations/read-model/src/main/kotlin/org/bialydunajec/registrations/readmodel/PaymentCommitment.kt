@@ -19,12 +19,13 @@ internal data class PaymentCommitment(
 
         @JsonFormat(timezone="Europe/Warsaw")
         var deadlineDate: Instant?,
-        var isPaid: Boolean?
+        var isPaid: Boolean?,
+        var paidDate: Instant?
 ) {
 
     companion object {
         fun onlyId(paymentCommitmentId: String) =
-                PaymentCommitment(paymentCommitmentId, null, null, null, null, null, null, null, null)
+                PaymentCommitment(paymentCommitmentId, null, null, null, null, null, null, null, null, null)
     }
 
     internal enum class Type {

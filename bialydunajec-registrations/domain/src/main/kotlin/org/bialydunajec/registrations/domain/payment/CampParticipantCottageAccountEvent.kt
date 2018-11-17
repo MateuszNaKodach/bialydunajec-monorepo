@@ -34,6 +34,7 @@ sealed class CampParticipantCottageAccountEvent : DomainEvent<CampParticipantCot
 
     data class CommitmentPaid(
             override val aggregateId: CampParticipantCottageAccountId,
-            val paymentCommitmentId: PaymentCommitmentId
+            val paymentCommitmentId: PaymentCommitmentId,
+            val paidDate: Instant
     ) : CampParticipantCottageAccountEvent()
 }

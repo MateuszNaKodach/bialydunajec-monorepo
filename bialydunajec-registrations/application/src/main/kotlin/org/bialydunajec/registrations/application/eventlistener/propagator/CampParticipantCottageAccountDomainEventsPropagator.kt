@@ -72,7 +72,8 @@ internal class CampParticipantCottageAccountDomainEventsPropagator(
             externalEventBus.send(
                     CampParticipantCottageAccountExternalEvent.CommitmentPaid(
                             aggregateId.toString(),
-                            paymentCommitmentId.toString()
+                            paymentCommitmentId.toString(),
+                            paidDate
                     )
             )
         }

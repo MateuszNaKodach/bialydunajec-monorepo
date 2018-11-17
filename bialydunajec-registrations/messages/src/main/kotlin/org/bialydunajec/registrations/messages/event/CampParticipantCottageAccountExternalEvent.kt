@@ -52,6 +52,7 @@ sealed class CampParticipantCottageAccountExternalEvent {
 
     data class CommitmentPaid(
             val campParticipantCottageAccountId: String,
-            val paymentCommitmentId: String
+            val paymentCommitmentId: String,
+            val paidDate: Instant
     ) : CampParticipantCottageAccountExternalEvent()
 }

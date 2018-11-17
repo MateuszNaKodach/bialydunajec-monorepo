@@ -4,6 +4,7 @@ import org.bialydunajec.ddd.domain.base.persistence.AuditableEntity
 import org.bialydunajec.ddd.domain.base.persistence.Versioned
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.financial.Money
 import org.bialydunajec.registrations.domain.payment.valueobject.PaymentCommitmentSnapshot
+import org.bialydunajec.registrations.domain.payment.valueobject.PaymentCommitmentType
 import java.time.Instant
 import java.time.ZonedDateTime
 import javax.persistence.*
@@ -20,7 +21,8 @@ internal abstract class PaymentCommitment internal constructor(
         )
         private val initialAmount: Money,
         private val description: String?,
-        private var deadlineDate: Instant?
+        private var deadlineDate: Instant?,
+        private val type: PaymentCommitmentType
 ) : AuditableEntity<PaymentCommitmentId>(), Versioned {
     @EmbeddedId
     override val entityId: PaymentCommitmentId = PaymentCommitmentId()
@@ -33,6 +35,7 @@ internal abstract class PaymentCommitment internal constructor(
     private var amount: Money = initialAmount
 
     private var paid: Boolean = false
+    private var paidDate: Instant? = null
 
     @Version
     private var version: Long? = null
@@ -45,12 +48,14 @@ internal abstract class PaymentCommitment internal constructor(
     fun isNotPaid() = !paid
     fun markAsPaid() {
         paid = true
+        paidDate = Instant.now()
     }
 
     fun getPaidAmount() = if (paid) amount else Money.zero()
+    fun getPaidDate() = paidDate
 
     override fun getVersion() = version
 
     fun getSnapshot() =
-            PaymentCommitmentSnapshot(entityId, initialAmount, description, deadlineDate, amount, paid)
+            PaymentCommitmentSnapshot(entityId, type, initialAmount, description, deadlineDate, amount, paid, paidDate)
 }
