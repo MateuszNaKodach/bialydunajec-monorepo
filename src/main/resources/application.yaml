@@ -8,8 +8,6 @@ spring:
   mail:
     default-encoding: UTF-8
     host: mail23.mydevil.net
-    username: zapisy@bialydunajec.org
-    password: 4nhvbu3DGqKc21F3uaOf
     port: 587
     properties:
       mail:

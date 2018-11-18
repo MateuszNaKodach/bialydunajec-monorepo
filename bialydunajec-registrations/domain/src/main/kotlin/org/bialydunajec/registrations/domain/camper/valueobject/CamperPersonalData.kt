@@ -28,7 +28,7 @@ data class CamperPersonalData constructor(
 
         @NotNull
         @Embedded
-        val birthDate: BirthDate
+        val birthDate: BirthDate? = pesel?.getBirthDate()
 ) {
 
     companion object {

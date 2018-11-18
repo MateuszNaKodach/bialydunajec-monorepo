@@ -13,8 +13,8 @@ class ShirtSize(
         @Enumerated(EnumType.STRING)
         val type: ShirtType,
         val height: Double?,
-        val width: Double?,
-        val length: Double?
+        val width: Double? = null,
+        val length: Double? = null
 ) {
 
     override fun equals(other: Any?): Boolean {

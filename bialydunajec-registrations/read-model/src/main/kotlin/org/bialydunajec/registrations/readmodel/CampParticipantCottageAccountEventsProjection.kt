@@ -32,12 +32,14 @@ internal class CampParticipantCottageAccountEventsProjection(
                             eventPayload.campParticipant?.let { camper ->
                                 PaymentCommitment.CampParticipant(
                                         camper.campParticipantId,
+                                        camper.pesel,
                                         camper.firstName,
                                         camper.lastName,
                                         camper.emailAddress,
                                         camper.phoneNumber
                                 )
                             },
+                            eventPayload.campParticipantCottageAccountId,
                             eventPayload.cottage?.let { cottage ->
                                 PaymentCommitment.Cottage(
                                         cottage.cottageId,

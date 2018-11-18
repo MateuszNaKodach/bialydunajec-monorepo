@@ -17,16 +17,6 @@ internal class DevEnvironmentBootstrap(val authorizationServerFacade: Authorizat
 
     @PostConstruct
     fun bootstrap() {
-        try {
-            authorizationServerFacade.findUserByUsernameOrEmailAddress(UserByUsernameOrEmailAddressQuery("mate96"))
-        } catch (e: Exception) {
-            authorizationServerFacade.createUserCredentials(
-                    CreateUserCredentialsCommand(
-                            "nmateusz96@gmail.com",
-                            "mate96",
-                            "test1234"
-                    )
-            )
-        }
+
     }
 }

@@ -64,7 +64,7 @@ fun BankTransferDetailsDto.toValueObject() =
         )
 
 fun CamperPersonalData.toDto() =
-        CamperPersonalDataDto(firstName = firstName.toString(), lastName = lastName.toString(), gender = gender, pesel = pesel.toStringOrNull(), birthDate = birthDate.toLocalDate())
+        CamperPersonalDataDto(firstName = firstName.toString(), lastName = lastName.toString(), gender = gender, pesel = pesel.toStringOrNull(), birthDate = birthDate?.toLocalDate())
 
 fun CamperPersonalDataDto.toValueObject(): CamperPersonalData {
     val pesel = pesel?.let { Pesel(it) }

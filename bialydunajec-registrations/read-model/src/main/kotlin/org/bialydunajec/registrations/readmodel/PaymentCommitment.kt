@@ -12,6 +12,7 @@ internal data class PaymentCommitment(
         val type: Type?,
         val campRegistrationsEditionId: String?,
         val campParticipant: CampParticipant?,
+        val campParticipantCottageAccountId: String?,
         var cottage: Cottage?,
         var amount: Double?,
         //val currency: String,
@@ -20,12 +21,14 @@ internal data class PaymentCommitment(
         @JsonFormat(timezone="Europe/Warsaw")
         var deadlineDate: Instant?,
         var isPaid: Boolean?,
+
+        @JsonFormat(timezone="Europe/Warsaw")
         var paidDate: Instant?
 ) {
 
     companion object {
         fun onlyId(paymentCommitmentId: String) =
-                PaymentCommitment(paymentCommitmentId, null, null, null, null, null, null, null, null, null)
+                PaymentCommitment(paymentCommitmentId, null, null, null, null, null, null, null, null, null,null)
     }
 
     internal enum class Type {
@@ -36,6 +39,7 @@ internal data class PaymentCommitment(
 
     internal data class CampParticipant(
             val campParticipantId: String,
+            var pesel: String?,
             var firstName: String?,
             var lastName: String?,
             var emailAddress: String?,

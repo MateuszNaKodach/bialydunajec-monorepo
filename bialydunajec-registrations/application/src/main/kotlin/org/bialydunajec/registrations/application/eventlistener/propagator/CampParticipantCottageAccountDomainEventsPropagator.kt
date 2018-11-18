@@ -44,6 +44,7 @@ internal class CampParticipantCottageAccountDomainEventsPropagator(
                             campParticipant?.let {
                                 CampParticipantCottageAccountExternalEvent.Created.CampParticipant(
                                         it.getAggregateId().toString(),
+                                        it.getPersonalData().pesel.toStringOrNull(),
                                         it.getPersonalData().firstName.toStringOrNull(),
                                         it.getPersonalData().lastName.toStringOrNull(),
                                         it.getEmailAddress().toStringOrNull(),

@@ -29,6 +29,7 @@ sealed class CampParticipantCottageAccountExternalEvent {
 
         class CampParticipant(
                 val campParticipantId: String,
+                val pesel: String?,
                 val firstName: String?,
                 val lastName: String?,
                 val emailAddress: String?,

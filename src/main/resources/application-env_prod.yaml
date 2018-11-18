@@ -2,6 +2,9 @@ spring:
   profiles:
     include:
       - database_h2
+  mail:
+    username: zapisy@bialydunajec.org
+    password: 4nhvbu3DGqKc21F3uaOf
 
 bialydunajec:
   oauth2:
