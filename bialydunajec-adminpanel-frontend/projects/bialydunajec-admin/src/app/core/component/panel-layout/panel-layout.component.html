@@ -12,7 +12,9 @@
     </div>
     <ul nz-menu [nzTheme]="'dark'" [nzMode]="'inline'" [nzInlineCollapsed]="isCollapsed">
 
-      <li nz-menu-item><span><i class="anticon anticon-home"></i><span class="nav-text">Twój Kokpit</span></span></li>
+      <li nz-menu-item
+          [routerLink]="[coreRoutingPaths.dashboard]"
+      ><span><i class="anticon anticon-home"></i><span class="nav-text">Twój Kokpit</span></span></li>
 
       <li nz-submenu>
         <span title><i class="anticon anticon-compass"></i><span class="nav-text">Edycja Obozu</span></span>

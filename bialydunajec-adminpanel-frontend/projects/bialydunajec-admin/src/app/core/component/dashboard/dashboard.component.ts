@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {environment} from '../../../../environments/environment';
 
 @Component({
   selector: 'bda-admin-dashboard',
@@ -7,7 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor() { }
+  environment = environment;
+
+  constructor() {
+  }
 
   ngOnInit() {
   }
