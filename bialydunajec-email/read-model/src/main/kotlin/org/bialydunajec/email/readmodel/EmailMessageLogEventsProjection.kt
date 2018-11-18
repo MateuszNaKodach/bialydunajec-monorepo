@@ -12,7 +12,8 @@ const val EMAIL_STATUS_FAIL_TO_SEND = "FAIL_TO_SEND"
 @Component
 internal class EmailMessageLogEventsProjection(
         private val emailMessageRepository: EmailMessageMongoRepository,
-        private val emailMessageStatisticsRepository: EmailMessageStatisticsMongoRepository
+        private val emailMessageStatisticsRepository: EmailMessageStatisticsMongoRepository,
+        private val emailMessageLogEventStream: EmailMessageLogEventStream
 ) : SerializedExternalEventListener() {
 
     override fun processExternalEvent(externalEvent: ExternalEvent<*>) {
@@ -38,6 +39,8 @@ internal class EmailMessageLogEventsProjection(
                                 it.messagesCount++
                                 emailMessageStatisticsRepository.save(it)
                             }
+                }.also {
+                    emailMessageLogEventStream.updateStreamWith(emailMessageRepository.findAll())
                 }
             }
 
@@ -59,6 +62,8 @@ internal class EmailMessageLogEventsProjection(
                                             emailMessageStatisticsRepository.save(statistics)
                                         }
                             }
+                }.also {
+                    emailMessageLogEventStream.updateStreamWith(emailMessageRepository.findAll())
                 }
             }
 
@@ -77,10 +82,10 @@ internal class EmailMessageLogEventsProjection(
                                 it.sentFailureCount++
                                 emailMessageStatisticsRepository.save(it)
                             }
+                }.also {
+                    emailMessageLogEventStream.updateStreamWith(emailMessageRepository.findAll())
                 }
             }
         }
-
-        log.info("Projected external event with payload: {}", externalEvent.payload.toString())
     }
 }

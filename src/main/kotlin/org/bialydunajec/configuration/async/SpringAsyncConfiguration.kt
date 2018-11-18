@@ -7,6 +7,9 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.core.task.SimpleAsyncTaskExecutor
 import org.springframework.scheduling.annotation.AsyncConfigurer
 import org.springframework.scheduling.annotation.EnableAsync
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor
+import org.springframework.web.reactive.config.CorsRegistry
+import org.springframework.web.reactive.config.WebFluxConfigurer
 import java.util.concurrent.Executor
 
 
@@ -16,9 +19,14 @@ internal class SpringAsyncConfiguration : AsyncConfigurer {
 
     private val log = LoggerFactory.getLogger(this.javaClass)
 
-    override fun getAsyncExecutor(): Executor {
-        return taskExecutor()
-    }
+    override fun getAsyncExecutor(): Executor =
+       ThreadPoolTaskExecutor().apply {
+            setCorePoolSize(7)
+            setMaxPoolSize(42)
+            setQueueCapacity(11)
+            setThreadNamePrefix("threadPoolExecutor-")
+            initialize()
+        }
 
     override fun getAsyncUncaughtExceptionHandler(): AsyncUncaughtExceptionHandler =
             AsyncUncaughtExceptionHandler { ex, method, params ->
@@ -27,6 +35,19 @@ internal class SpringAsyncConfiguration : AsyncConfigurer {
 
     @Bean
     fun taskExecutor(): Executor {
-        return SimpleAsyncTaskExecutor()
+        return asyncExecutor
+    }
+}
+
+@Configuration
+class WebConfig: WebFluxConfigurer
+{
+    override fun addCorsMappings(registry: CorsRegistry)
+    {
+        registry.addMapping("/**")
+                .allowCredentials(true)
+                .allowedOrigins("*") // any host or put domain(s) here
+                .allowedMethods("POST, GET, PUT, OPTIONS, DELETE, PATCH") // put the http verbs you want allow
+                .allowedHeaders("x-requested-with, authorization, Content-Type, Authorization, credential, X-XSRF-TOKEN") // put the http headers you want allow
     }
 }

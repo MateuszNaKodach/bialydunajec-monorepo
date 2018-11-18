@@ -1,8 +1,10 @@
 package org.bialydunajec.email.readmodel.rest.v1
 
-import org.bialydunajec.email.readmodel.EmailMessageMongoRepository
-import org.bialydunajec.email.readmodel.EmailMessageStatisticsMongoRepository
-import org.bialydunajec.email.readmodel.DEFAULT_EMAIL_MESSAGE_STATISTICS_ID
+import io.reactivex.BackpressureStrategy
+import io.reactivex.Flowable
+import io.reactivex.subjects.BehaviorSubject
+import org.bialydunajec.email.readmodel.*
+import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -11,15 +13,22 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 internal class EmailMessageReadAdminController(
         private val emailMessageRepository: EmailMessageMongoRepository,
-        private val emailMessageStatisticsRepository: EmailMessageStatisticsMongoRepository
+        private val emailMessageStatisticsRepository: EmailMessageStatisticsMongoRepository,
+        private val emailMessageLogEventStream: EmailMessageLogEventStream
 ) {
 
     @GetMapping
-    fun getAllEmailMessage() = emailMessageRepository.findAll()
+    fun getAllEmailMessage(): Collection<EmailMessage> = emailMessageRepository.findAll()
             .sortedByDescending { it.createdDate }
 
     @GetMapping("/statistics")
     fun getEmailMessagesStatistics() =
             emailMessageStatisticsRepository.findById(DEFAULT_EMAIL_MESSAGE_STATISTICS_ID)
+
+    val subject = BehaviorSubject.create<Collection<EmailMessage>>().toSerialized()
+
+    @GetMapping(value = ["/stream"], produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
+    fun streamAllEmailMessages(): Flowable<Collection<EmailMessage>> =
+            emailMessageLogEventStream.observeStreamUpdates()
 
 }
