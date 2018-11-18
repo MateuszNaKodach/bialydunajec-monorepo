@@ -33,6 +33,7 @@
     "material-icons": "^0.2.3",
     "moment": "^2.22.2",
     "moment-timezone": "^0.5.23",
+    "ng-event-source": "^1.0.14",
     "ng-mat-icons": "^1.0.0",
     "ng-recaptcha": "^4.0.0",
     "ng-sidebar": "^8.0.0",

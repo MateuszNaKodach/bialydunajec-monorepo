@@ -1,5 +1,6 @@
 export const coreRoutingPaths = {
   root: '',
+  dashboard: 'dashboard',
   campRegistrations: 'camp-registrations',
   campEdition: 'camp-editions',
   academicMinistry: 'academic-ministries',
