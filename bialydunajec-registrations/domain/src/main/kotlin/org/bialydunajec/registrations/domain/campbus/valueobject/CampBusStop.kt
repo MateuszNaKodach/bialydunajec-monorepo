@@ -11,10 +11,10 @@ import javax.persistence.Lob
 data class CampBusStop(
         @Embedded
         val place: Place?,
-        val date: Instant? = null,
+        val dateTime: Instant? = null,
 
         @Lob
         val notes: String? = null
 ) {
-    fun isPlanned() = nonNull(place) && nonNull(date)
+    fun isPlanned() = nonNull(place) && nonNull(dateTime)
 }

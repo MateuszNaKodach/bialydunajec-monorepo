@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository
 internal class CampParticipantCottageAccountRepositoryImpl(
         jpaRepository: CampParticipantCottageAccountJpaRepository
 ) : AbstractDomainRepositoryImpl<CampParticipantCottageAccount, CampParticipantCottageAccountId, CampParticipantCottageAccountJpaRepository>(jpaRepository),
-        CampParticipantCottageAccountRepository, CampParticipantCottageAccountReadOnlyRepository {
+        CampParticipantCottageAccountRepository {
 
     override fun findByCampParticipantIdAndCottageId(campParticipantId: CampParticipantId, cottageId: CottageId) = jpaRepository.findByCampParticipantIdAndCottageId(campParticipantId, cottageId)
 }

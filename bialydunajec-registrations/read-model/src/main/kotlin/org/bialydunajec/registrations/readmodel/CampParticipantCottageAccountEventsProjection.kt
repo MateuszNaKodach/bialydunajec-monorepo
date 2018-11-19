@@ -6,6 +6,7 @@ import org.bialydunajec.registrations.messages.event.CampParticipantCottageAccou
 import org.springframework.stereotype.Component
 
 //TODO: Listen to camp participant, cottage and payment commitment updates!
+//TODO: Zapisywanie eventów dałoby możliwośc przeprocesowania ich wszystkich jeszcze raz i odtworzenia widoków.
 @Component
 internal class CampParticipantCottageAccountEventsProjection(
         private val paymentCommitmentRepository: PaymentCommitmentMongoRepository

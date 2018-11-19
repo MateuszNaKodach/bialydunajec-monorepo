@@ -14,7 +14,7 @@ import javax.persistence.*
 @Table(schema = "email")
 class EmailMessageLog(
         @Embedded
-        private val recipient: EmailAddress,
+        private var recipient: EmailAddress,
         @Lob
         private val subject: String,
         @Lob

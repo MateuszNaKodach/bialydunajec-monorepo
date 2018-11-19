@@ -77,12 +77,14 @@ internal class EmailMessageLogEventsProjection(
                                 it.lastError = lastError
                             }.also {
                                 emailMessageRepository.save(it)
-                            }.takeIf { statusBeforeProjection != EMAIL_STATUS_FAIL_TO_SEND }.also {
-                                emailMessageStatisticsRepository.findById(DEFAULT_EMAIL_MESSAGE_STATISTICS_ID)
-                                        .ifPresent { statistics ->
-                                            statistics.sentFailureCount++
-                                            emailMessageStatisticsRepository.save(statistics)
-                                        }
+                            }.also {
+                                if (statusBeforeProjection != EMAIL_STATUS_FAIL_TO_SEND) {
+                                    emailMessageStatisticsRepository.findById(DEFAULT_EMAIL_MESSAGE_STATISTICS_ID)
+                                            .ifPresent { statistics ->
+                                                statistics.sentFailureCount++
+                                                emailMessageStatisticsRepository.save(statistics)
+                                            }
+                                }
                             }
                 }.also {
                     emailMessageLogEventStream.updateStreamWith(externalEvent)

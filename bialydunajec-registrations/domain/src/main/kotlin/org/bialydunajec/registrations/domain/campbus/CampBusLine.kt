@@ -13,6 +13,7 @@ import javax.persistence.*
 @Table(schema = "camp_registrations")
 class CampBusLine internal constructor(
         campBusLineId: CampBusLineId,
+
         @Embedded
         val campRegistrationsEditionId: CampRegistrationsEditionId,
 
@@ -25,11 +26,12 @@ class CampBusLine internal constructor(
         var additionalNotes: String?,
 
         @Embedded
-        var coordinatorContact: CoordinatorContact?
+        var coordinatorContact: CoordinatorContact?,
+
+        @Embedded
+        private var timetable: CampBusTimetable? = null
 ) : AuditableAggregateRoot<CampBusLineId, CampBusEvent>(campBusLineId), Versioned {
 
-    @Embedded
-    private var timetable: CampBusTimetable? = null
 
     @Version
     private var version: Long? = null
@@ -39,4 +41,8 @@ class CampBusLine internal constructor(
     fun getOrigin() = timetable?.origin
     fun getDestination() = timetable?.destination
 
+    companion object {
+        fun createFor(campRegistrationsEditionId: CampRegistrationsEditionId, campBusTimetable: CampBusTimetable) =
+                null
+    }
 }
