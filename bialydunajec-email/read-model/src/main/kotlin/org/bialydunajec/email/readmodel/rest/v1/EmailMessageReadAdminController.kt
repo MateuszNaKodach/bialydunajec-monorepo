@@ -1,7 +1,5 @@
 package org.bialydunajec.email.readmodel.rest.v1
 
-import io.reactivex.BackpressureStrategy
-import io.reactivex.Flowable
 import io.reactivex.subjects.BehaviorSubject
 import org.bialydunajec.email.readmodel.*
 import org.springframework.http.MediaType
@@ -27,8 +25,8 @@ internal class EmailMessageReadAdminController(
 
     val subject = BehaviorSubject.create<Collection<EmailMessage>>().toSerialized()
 
-    @GetMapping(value = ["/stream"], produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
-    fun streamAllEmailMessages(): Flowable<Collection<EmailMessage>> =
-            emailMessageLogEventStream.observeStreamUpdates()
+    @GetMapping(value = ["/projected-events-stream"], produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
+    fun getProjectedEventsStream() =
+            emailMessageLogEventStream.streamingEvents()
 
 }

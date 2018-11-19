@@ -40,7 +40,7 @@ internal class EmailMessageLogEventsProjection(
                                 emailMessageStatisticsRepository.save(it)
                             }
                 }.also {
-                    emailMessageLogEventStream.updateStreamWith(emailMessageRepository.findAll())
+                    emailMessageLogEventStream.updateStreamWith(externalEvent)
                 }
             }
 
@@ -63,27 +63,29 @@ internal class EmailMessageLogEventsProjection(
                                         }
                             }
                 }.also {
-                    emailMessageLogEventStream.updateStreamWith(emailMessageRepository.findAll())
+                    emailMessageLogEventStream.updateStreamWith(externalEvent)
                 }
             }
 
             is EmailMessageLogExternalEvent.EmailMessageSentFailure -> {
                 with(payload) {
+                    var statusBeforeProjection: String? = null;
                     emailMessageRepository.findById(emailMessageLogId).orElseGet { EmailMessage(emailMessageLogId) }
                             .also {
+                                statusBeforeProjection = it.status;
                                 it.status = EMAIL_STATUS_FAIL_TO_SEND
                                 it.lastError = lastError
                             }.also {
                                 emailMessageRepository.save(it)
-                            }
-
-                    emailMessageStatisticsRepository.findById(DEFAULT_EMAIL_MESSAGE_STATISTICS_ID)
-                            .ifPresent {
-                                it.sentFailureCount++
-                                emailMessageStatisticsRepository.save(it)
+                            }.takeIf { statusBeforeProjection != EMAIL_STATUS_FAIL_TO_SEND }.also {
+                                emailMessageStatisticsRepository.findById(DEFAULT_EMAIL_MESSAGE_STATISTICS_ID)
+                                        .ifPresent { statistics ->
+                                            statistics.sentFailureCount++
+                                            emailMessageStatisticsRepository.save(statistics)
+                                        }
                             }
                 }.also {
-                    emailMessageLogEventStream.updateStreamWith(emailMessageRepository.findAll())
+                    emailMessageLogEventStream.updateStreamWith(externalEvent)
                 }
             }
         }

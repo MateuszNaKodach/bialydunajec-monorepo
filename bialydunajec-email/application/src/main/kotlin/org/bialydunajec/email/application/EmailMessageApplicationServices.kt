@@ -87,4 +87,45 @@ internal class ResendEmailMessageApplicationService(
     }
 }
 
+@Service
+@Transactional
+internal class ForwardEmailMessageApplicationService(
+        private val emailMessageSender: EmailMessageSender,
+        private val emailMessageLogRepository: EmailMessageLogRepository,
+        private val clock: Clock
+) : ApplicationService<EmailCommand.ForwardEmailCommand> {
+
+    override fun execute(command: EmailCommand.ForwardEmailCommand) {
+        val messageToForward = emailMessageLogRepository.findById(command.emailMessageLogId)
+                ?: throw DomainRuleViolationException.of(EmailMessageDomainRule.EMAIL_MESSAGE_TO_RESEND_MUST_EXISTS)
+
+        with(messageToForward) {
+            command.recipients.forEach { recipient ->
+                val emailMessage = SimpleEmailMessage(recipient, getSubject(), getContent())
+                val emailSendingResult = emailMessageSender.sendEmailMessage(emailMessage)
+
+                val emailMessageLog = with(emailMessage) {
+                    EmailMessageLog(
+                            recipient,
+                            subject,
+                            content,
+                            EmailMessageLogId()
+                    )
+                }
+
+                when (emailSendingResult) {
+                    is EmailSendingResult.Success -> {
+                        emailMessageLog.markAsSent(clock.currentDateTime())
+                    }
+                    is EmailSendingResult.Failure -> {
+                        emailMessageLog.logSendingFailure(emailSendingResult.errorMessage)
+                    }
+                }
+
+                emailMessageLogRepository.save(emailMessageLog)
+            }
+        }
+    }
+}
+
 
