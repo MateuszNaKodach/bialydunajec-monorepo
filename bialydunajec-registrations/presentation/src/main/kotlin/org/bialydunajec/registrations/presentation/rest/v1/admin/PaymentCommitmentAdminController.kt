@@ -23,7 +23,7 @@ internal class PaymentCommitmentAdminController(
 
     @PostMapping("/camp-bus/payment")
     fun payForCampBus(@RequestBody request: PayCommitmentBody) =
-            payForCommitment(request, PaymentCommitmentType.CAMP_BUS)
+            payForCommitment(request, PaymentCommitmentType.CAMP_BUS_SEAT)
 
 
     private fun payForCommitment(request: PayCommitmentBody, type: PaymentCommitmentType) =

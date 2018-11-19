@@ -2,25 +2,41 @@ package org.bialydunajec.registrations.domain.campbus
 
 import org.bialydunajec.ddd.domain.base.aggregate.AuditableAggregateRoot
 import org.bialydunajec.ddd.domain.base.persistence.Versioned
-import org.bialydunajec.ddd.domain.sharedkernel.valueobject.financial.Money
 import org.bialydunajec.registrations.domain.campbus.valueobject.CampBusLineId
+import org.bialydunajec.registrations.domain.campbus.valueobject.CampBusStop
+import org.bialydunajec.registrations.domain.campbus.valueobject.CampBusTimetable
+import org.bialydunajec.registrations.domain.campbus.valueobject.CoordinatorContact
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
 import javax.persistence.*
 
 @Entity
 @Table(schema = "camp_registrations")
-class CampBusLine(
-        campBusId: CampBusLineId,
+class CampBusLine internal constructor(
+        campBusLineId: CampBusLineId,
         @Embedded
         val campRegistrationsEditionId: CampRegistrationsEditionId,
-        val busName: String?,
-        val description: String?,
-        val oneWayCost: Money
-) : AuditableAggregateRoot<CampBusLineId, CampBusEvent>(campBusId), Versioned {
+
+        var busName: String?,
+
+        @Lob
+        var description: String?,
+
+        @Lob
+        var additionalNotes: String?,
+
+        @Embedded
+        var coordinatorContact: CoordinatorContact?
+) : AuditableAggregateRoot<CampBusLineId, CampBusEvent>(campBusLineId), Versioned {
+
+    @Embedded
+    private var timetable: CampBusTimetable? = null
 
     @Version
     private var version: Long? = null
 
     override fun getVersion() = version
+
+    fun getOrigin() = timetable?.origin
+    fun getDestination() = timetable?.destination
 
 }

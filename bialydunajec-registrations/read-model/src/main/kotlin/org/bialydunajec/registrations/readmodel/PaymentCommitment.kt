@@ -34,7 +34,7 @@ internal data class PaymentCommitment(
     internal enum class Type {
         CAMP_DOWN_PAYMENT,
         CAMP_PARTICIPATION,
-        CAMP_BUS
+        CAMP_BUS_SEAT
     }
 
     internal data class CampParticipant(

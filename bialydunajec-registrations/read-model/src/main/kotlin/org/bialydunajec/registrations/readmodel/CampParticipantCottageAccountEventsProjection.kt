@@ -63,7 +63,7 @@ internal class CampParticipantCottageAccountEventsProjection(
                     .let { paymentCommitmentRepository.save(it) }
 
             campBusCommitmentSnapshot
-                    ?.let { getPaymentCommitmentReadModelFrom(it,PaymentCommitment.Type.CAMP_BUS) }
+                    ?.let { getPaymentCommitmentReadModelFrom(it,PaymentCommitment.Type.CAMP_BUS_SEAT) }
                     ?.let { paymentCommitmentRepository.save(it) }
         }
     }

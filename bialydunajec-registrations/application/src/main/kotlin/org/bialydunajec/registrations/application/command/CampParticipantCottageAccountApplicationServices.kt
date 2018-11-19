@@ -31,7 +31,7 @@ internal class PayCommitmentAndDepositMoneyApplicationService(
                             }
                             payForCampParticipationWithAccountFunds()
                         }
-                        PaymentCommitmentType.CAMP_BUS -> {
+                        PaymentCommitmentType.CAMP_BUS_SEAT -> {
                             getCampBusCommitmentSnapshot()?.let {
                                 depositMoney(it.amount, "Kwota zdeponowana przy opłaceniu Autokaru Obozowego.")
                             }
