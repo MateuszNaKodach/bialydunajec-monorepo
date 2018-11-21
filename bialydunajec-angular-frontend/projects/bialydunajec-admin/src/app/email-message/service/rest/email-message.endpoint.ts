@@ -5,6 +5,7 @@ import {AuthService} from '../../../auth/service/auth.service';
 import {EmailMessageReadModel} from './read-model/email-message.read-model';
 import {EmailStatisticsReadModel} from './read-model/email-statistics.read-model';
 import {ForwardEmailMessageRequest} from './request/forward-email-message.request';
+import {SendEmailMessageRequest} from './request/send-email-message.request';
 
 @Injectable({
   providedIn: 'root'
@@ -29,5 +30,9 @@ export class EmailMessageEndpoint extends AbstractEndpoint {
 
   forwardEmailMessage(emailMessageLogId: string, requestBody: ForwardEmailMessageRequest) {
     return this.httpClient.post(`${this.callsBaseUrl}/${emailMessageLogId}/forward`, requestBody);
+  }
+
+  sendEmailMessage(requestBody: SendEmailMessageRequest) {
+    return this.httpClient.post(`${this.callsBaseUrl}`, requestBody);
   }
 }

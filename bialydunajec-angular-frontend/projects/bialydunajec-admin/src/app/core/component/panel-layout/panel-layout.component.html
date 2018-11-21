@@ -26,8 +26,8 @@
           </li>
           <!--<li nz-menu-item>Planer Edycji</li>-->
           <!--<li nz-menu-item>Program Obozu</li>-->
-       </ul>
-     </li>
+        </ul>
+      </li>
 
 
       <!--<li nz-submenu>
@@ -37,12 +37,12 @@
         </ul>
       </li>-->
 
-      <li nz-submenu>
+      <!--<li nz-submenu>
         <span title><i class="anticon anticon-question-circle-o"></i><span class="nav-text">O Obozie</span></span>
         <ul>
           <li nz-menu-item>FAQ</li>
         </ul>
-      </li>
+      </li>-->
 
       <!--<li nz-submenu>
         <span title><i class="anticon anticon-car"></i><span class="nav-text">Dojazd</span></span>
@@ -98,15 +98,23 @@
               [routerLink]="[coreRoutingPaths.campRegistrations, campRegistrationsRoutingPaths.campParticipants]">
             Uczestnicy Obozu
           </li>
-          <li nz-menu-item>Ustawienia Autokaru</li>
-          <li nz-menu-item>Zgłoszenia na Autokar</li>
+          <!--<li nz-menu-item>Ustawienia Autokaru</li>
+          <li nz-menu-item>Zgłoszenia na Autokar</li>-->
           <li nz-menu-item
               [routerLink]="[coreRoutingPaths.campRegistrations, campRegistrationsRoutingPaths.shirtSettings]">
             Ustawienia Koszulek
           </li>
-          <li nz-menu-item>Zamówienia Koszulek</li>
-          <li nz-menu-item [routerLink]="[coreRoutingPaths.payments]">Płatności</li>
-          <li nz-menu-item>Statystyki</li>
+          <li nz-menu-item
+              [routerLink]="[coreRoutingPaths.campRegistrations, campRegistrationsRoutingPaths.shirtOrders]">
+            Zamówienia Koszulek
+          </li>
+          <li nz-menu-item
+              [routerLink]="[coreRoutingPaths.payments]">Płatności
+          </li>
+          <li nz-menu-item
+              [routerLink]="[coreRoutingPaths.campRegistrations, campRegistrationsRoutingPaths.statistics]">
+            Statystyki
+          </li>
         </ul>
       </li>
 
@@ -130,7 +138,10 @@
               [routerLink]="[coreRoutingPaths.emailMessage, emailMessageRoutingPaths.history]">
             Historia
           </li>
-          <li nz-menu-item>Nowa wiadomość</li>
+          <li nz-menu-item
+              [routerLink]="[coreRoutingPaths.emailMessage, emailMessageRoutingPaths.createMessage]">
+            Utwórz wiadomość
+          </li>
           <!--<li nz-menu-item>Konfiguracja</li>-->
         </ul>
       </li>
