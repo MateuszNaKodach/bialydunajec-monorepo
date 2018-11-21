@@ -24,18 +24,18 @@
             Dodaj
             nową
           </li>
-          <li nz-menu-item>Planer Edycji</li>
-          <li nz-menu-item>Program Obozu</li>
-        </ul>
-      </li>
+          <!--<li nz-menu-item>Planer Edycji</li>-->
+          <!--<li nz-menu-item>Program Obozu</li>-->
+       </ul>
+     </li>
 
 
-      <li nz-submenu>
+      <!--<li nz-submenu>
         <span title><i class="anticon anticon-facebook"></i><span class="nav-text">Aktualności</span></span>
         <ul>
           <li nz-menu-item>Ustawienia</li>
         </ul>
-      </li>
+      </li>-->
 
       <li nz-submenu>
         <span title><i class="anticon anticon-question-circle-o"></i><span class="nav-text">O Obozie</span></span>
@@ -44,12 +44,12 @@
         </ul>
       </li>
 
-      <li nz-submenu>
+      <!--<li nz-submenu>
         <span title><i class="anticon anticon-car"></i><span class="nav-text">Dojazd</span></span>
         <ul>
           <li nz-menu-item>Ustawienia</li>
         </ul>
-      </li>
+      </li>-->
 
       <li nz-submenu (nzOpenChange)="onMenuOpenChange($event)">
         <span title><i class="anticon anticon-team"></i><span class="nav-text">Duszpasterstwa</span></span>
@@ -71,20 +71,20 @@
         </ul>
       </li>
 
-      <li nz-submenu>
+      <!--<li nz-submenu>
         <span title><i class="anticon anticon-picture"></i><span class="nav-text">Galeria</span></span>
         <ul>
           <li nz-menu-item>Albumy</li>
           <li nz-menu-item>Ustawienia</li>
         </ul>
-      </li>
+      </li>-->
 
-      <li nz-submenu>
+      <!--<li nz-submenu>
         <span title><i class="anticon anticon-solution"></i><span class="nav-text">Kadra Obozowa</span></span>
         <ul>
           <li nz-menu-item>Kontakt</li>
         </ul>
-      </li>
+      </li>-->
 
       <li nz-submenu>
         <span title><i class="anticon anticon-profile"></i><span class="nav-text">Zapisy na Obóz</span></span>
@@ -124,13 +124,14 @@
       <li nz-submenu>
         <span title><i class="anticon anticon-mail"></i><span class="nav-text">Wiadomości Email</span></span>
         <ul>
-          <li nz-menu-item>Wyślij / Zaplanuj</li>
-          <li nz-menu-item>Szablony</li>
+          <!--<li nz-menu-item>Wyślij / Zaplanuj</li>-->
+          <!--<li nz-menu-item>Szablony</li>-->
           <li nz-menu-item
               [routerLink]="[coreRoutingPaths.emailMessage, emailMessageRoutingPaths.history]">
             Historia
           </li>
-          <li nz-menu-item>Konfiguracja</li>
+          <li nz-menu-item>Nowa wiadomość</li>
+          <!--<li nz-menu-item>Konfiguracja</li>-->
         </ul>
       </li>
 
@@ -139,7 +140,7 @@
         <ul>
           <li nz-menu-item>Twój Profil</li>
           <li nz-menu-item>Wszyscy Użytkownicy</li>
-          <li nz-menu-item>Uprawnienia</li>
+          <!--<li nz-menu-item>Uprawnienia</li>-->
         </ul>
       </li>
     </ul>

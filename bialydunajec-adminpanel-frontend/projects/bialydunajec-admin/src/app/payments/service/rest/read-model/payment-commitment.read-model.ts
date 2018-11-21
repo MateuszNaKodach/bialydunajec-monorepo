@@ -30,5 +30,5 @@ export class CottageReadModel {
 export enum PaymentCommitmentType {
   CAMP_DOWN_PAYMENT = 'CAMP_DOWN_PAYMENT',
   CAMP_PARTICIPATION = 'CAMP_PARTICIPATION',
-  CAMP_BUS = 'CAMP_BUS'
+  CAMP_BUS_SEAT = 'CAMP_BUS_SEAT'
 }

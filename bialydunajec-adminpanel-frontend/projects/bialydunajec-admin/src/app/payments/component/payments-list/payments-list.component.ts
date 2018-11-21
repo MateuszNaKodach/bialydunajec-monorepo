@@ -47,7 +47,7 @@ export class PaymentsListComponent implements OnInit {
         const requestBody = new PayCommitmentRequest(data.campParticipantCottageAccountId, false);
         let request: Observable<Object> = null;
         switch (data.type) {
-          case PaymentCommitmentType.CAMP_BUS: {
+          case PaymentCommitmentType.CAMP_BUS_SEAT: {
             request = this.paymentCommitmentEndpoint.payForCampBus(requestBody);
             break;
           }
