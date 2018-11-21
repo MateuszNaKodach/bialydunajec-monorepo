@@ -1,6 +1,7 @@
 package org.bialydunajec.rest.v1.dev
 
 import com.devskiller.jfairy.Fairy
+import com.devskiller.jfairy.producer.person.PersonProperties
 import org.bialydunajec.academicministry.application.command.api.AcademicMinistryAdminCommandGateway
 import org.bialydunajec.academicministry.application.command.api.AcademicMinistryCommand
 import org.bialydunajec.academicministry.application.query.api.AcademicMinistryQuery
@@ -54,6 +55,8 @@ class DummyDatabaseInitializator(
 ) {
 
     private val fairy = Fairy.create(Locale.forLanguageTag("PL"))
+
+    private val personProperties = arrayOf(PersonProperties.ageBetween(18,26))
 
     fun initialize() {
         listOf(
@@ -142,7 +145,7 @@ class DummyDatabaseInitializator(
 
         campRegistrationsQueryGateway.process(CottageQuery.AllByCampRegistrationsEditionId("36"))
                 .forEachIndexed { index, it ->
-                    val cottageBoss = fairy.person()
+                    val cottageBoss = fairy.person(*personProperties)
 
                     campRegistrationsAdminCommandGateway.process(
                             CampRegistrationsCommand.UpdateCottage(
@@ -270,8 +273,8 @@ class DummyDatabaseInitializator(
         campRegistrationsQueryGateway.process(CottageQuery.All())
                 .filter { it.cottageState == "ACTIVATED" }
                 .forEach {
-                    for (x in 0..fairy.baseProducer().randomBetween(0, 3)) {
-                        val person = fairy.person()
+                    for (x in 0..fairy.baseProducer().randomBetween(0, 8)) {
+                        val person = fairy.person(*personProperties)
                         CampRegistrationsCommand.RegisterCampParticipantCommand(
                                 CampRegistrationsEditionId(36),
                                 CamperApplication(

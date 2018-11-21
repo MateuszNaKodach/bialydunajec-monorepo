@@ -22,20 +22,20 @@ internal class PayCommitmentAndDepositMoneyApplicationService(
                         PaymentCommitmentType.CAMP_DOWN_PAYMENT -> {
                             getCampDownPaymentCommitmentSnapshot()?.let {
                                 depositMoney(it.amount, "Kwota zdeponowana przy zapłacie zadatku.")
+                                payForCampDownPaymentWithAccountFunds()
                             }
-                            payForCampDownPaymentWithAccountFunds()
                         }
                         PaymentCommitmentType.CAMP_PARTICIPATION -> {
                             getCampParticipationCommitmentSnapshot().let {
                                 depositMoney(it.amount, "Kwota zdeponowana przy zapłacie reszty kwoty za udział w Obozie.")
+                                payForCampParticipationWithAccountFunds()
                             }
-                            payForCampParticipationWithAccountFunds()
                         }
                         PaymentCommitmentType.CAMP_BUS_SEAT -> {
                             getCampBusCommitmentSnapshot()?.let {
                                 depositMoney(it.amount, "Kwota zdeponowana przy opłaceniu Autokaru Obozowego.")
+                                payForCampBusWithAccountFunds()
                             }
-                            payForCampBusWithAccountFunds()
                         }
                     }
                 }?.also {

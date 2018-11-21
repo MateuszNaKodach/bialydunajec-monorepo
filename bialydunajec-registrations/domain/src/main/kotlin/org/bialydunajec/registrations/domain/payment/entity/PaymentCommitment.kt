@@ -40,9 +40,10 @@ internal abstract class PaymentCommitment internal constructor(
     @Version
     private var version: Long? = null
 
-    fun getInitialAmount() = initialAmount
-    fun getDescription() = description
-    fun getDeadlineDate() = deadlineDate
+    internal fun getInitialAmount() = initialAmount
+    internal fun getDescription() = description
+    internal fun getDeadlineDate() = deadlineDate
+    internal fun getType() = type
     fun getAmount() = amount
     fun isPaid() = paid
     fun isNotPaid() = !paid

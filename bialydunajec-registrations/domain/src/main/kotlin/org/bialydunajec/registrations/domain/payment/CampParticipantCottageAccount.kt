@@ -83,7 +83,7 @@ class CampParticipantCottageAccount internal constructor(
                 .also {
                     operations.add(it)
                 }.also {
-                    registerEvent(CampParticipantCottageAccountEvent.MoneyDeposited(getAggregateId(), it.amount, it.description, it.getCreatedDate()))
+                    registerEvent(CampParticipantCottageAccountEvent.MoneyDeposited(getAggregateId(), it.amount, it.description, it.getCreatedDate(), campParticipantId))
                 }
     }
 
@@ -109,7 +109,7 @@ class CampParticipantCottageAccount internal constructor(
                     operations.add(it)
                 }.also {
                     registerEvent(CampParticipantCottageAccountEvent.MoneyWithdrawn(getAggregateId(), it.amount, it.description
-                            ?: "", it.getCreatedDate()))
+                            ?: "", it.getCreatedDate(), campParticipantId))
                 }
     }
 
@@ -138,9 +138,9 @@ class CampParticipantCottageAccount internal constructor(
      * Aktualna suma wpłat i wypłat pomniejszona o opłacone zobowiązania
      */
     fun getAvailableFunds() = getOperationsBalance()
-            .subtract(campDownPaymentCommitment?.getAmount() ?: Money.zero())
-            .subtract(campParticipationCommitment.getAmount())
-            .subtract(campBusCommitment?.getAmount() ?: Money.zero())
+            .subtract(campDownPaymentCommitment?.takeIf { it.isPaid() }?.getAmount() ?: Money.zero())
+            .subtract(campParticipationCommitment.takeIf { it.isPaid() }?.getAmount() ?: Money.zero())
+            .subtract(campBusCommitment?.takeIf { it.isPaid() }?.getAmount() ?: Money.zero())
 
 
     fun canPayForCampDownPaymentWithAccountFunds() =
@@ -166,7 +166,7 @@ class CampParticipantCottageAccount internal constructor(
         campDownPaymentCommitment
                 ?.apply { markAsPaid() }
                 ?.also {
-                    registerEvent(CampParticipantCottageAccountEvent.CommitmentPaid(getAggregateId(), it.entityId, it.getPaidDate()!!))
+                    registerEvent(CampParticipantCottageAccountEvent.CommitmentPaid(getAggregateId(), it.entityId, it.getPaidDate()!!, campParticipantId, it.getType()))
                 }
     }
 
@@ -194,7 +194,7 @@ class CampParticipantCottageAccount internal constructor(
         campParticipationCommitment
                 .apply { markAsPaid() }
                 .also {
-                    registerEvent(CampParticipantCottageAccountEvent.CommitmentPaid(getAggregateId(), it.entityId, it.getPaidDate()!!))
+                    registerEvent(CampParticipantCottageAccountEvent.CommitmentPaid(getAggregateId(), it.entityId, it.getPaidDate()!!, campParticipantId, it.getType()))
                 }
     }
 
@@ -221,7 +221,7 @@ class CampParticipantCottageAccount internal constructor(
         campBusCommitment
                 ?.apply { markAsPaid() }
                 ?.also {
-                    registerEvent(CampParticipantCottageAccountEvent.CommitmentPaid(getAggregateId(), it.entityId, it.getPaidDate()!!))
+                    registerEvent(CampParticipantCottageAccountEvent.CommitmentPaid(getAggregateId(), it.entityId, it.getPaidDate()!!, campParticipantId, it.getType()))
                 }
     }
 

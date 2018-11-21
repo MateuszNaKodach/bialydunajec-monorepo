@@ -17,7 +17,7 @@ internal class GlobalExceptionRestController {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler
     fun processDomainRuleViolationException(domainRuleViolationException: DomainRuleViolationException): RestErrorDto {
-        log.debug("DomainRuleViolationException occurs: {}", domainRuleViolationException)
+        log.info("DomainRuleViolationException occurs: {}", domainRuleViolationException)
         return domainRuleViolationException.toDto()
     }
 }

@@ -1,4 +1,4 @@
-package org.bialydunajec.registrations.readmodel
+package org.bialydunajec.registrations.readmodel.payment
 
 import com.fasterxml.jackson.annotation.JsonFormat
 import org.springframework.data.annotation.Id
@@ -28,7 +28,7 @@ internal data class PaymentCommitment(
 
     companion object {
         fun onlyId(paymentCommitmentId: String) =
-                PaymentCommitment(paymentCommitmentId, null, null, null, null, null, null, null, null, null,null)
+                PaymentCommitment(paymentCommitmentId, null, null, null, null, null, null, null, null, null, null)
     }
 
     internal enum class Type {

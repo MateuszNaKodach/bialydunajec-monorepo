@@ -6,7 +6,7 @@ data class CampParticipantDto(
         val confirmedApplication: CamperApplicationWithCottageDto?,
         val currentCamperData: CamperApplicationWithCottageDto,
         val stayDuration: StayDurationDto,
-        val participationStatus: String
+        val participationStatus: ParticipationStatusDto
 ) {
 
     companion object {

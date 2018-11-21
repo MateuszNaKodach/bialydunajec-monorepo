@@ -1,4 +1,4 @@
-package org.bialydunajec.registrations.readmodel
+package org.bialydunajec.registrations.readmodel.payment
 
 import org.bialydunajec.ddd.application.base.external.event.ExternalEvent
 import org.bialydunajec.ddd.application.base.external.event.SerializedExternalEventListener
@@ -57,14 +57,14 @@ internal class CampParticipantCottageAccountEventsProjection(
 
         with(eventPayload) {
             campDownPaymentCommitmentSnapshot
-                    ?.let { getPaymentCommitmentReadModelFrom(it,PaymentCommitment.Type.CAMP_DOWN_PAYMENT) }
+                    ?.let { getPaymentCommitmentReadModelFrom(it, PaymentCommitment.Type.CAMP_DOWN_PAYMENT) }
                     ?.let { paymentCommitmentRepository.save(it) }
 
-            getPaymentCommitmentReadModelFrom(campParticipationCommitmentSnapshot,PaymentCommitment.Type.CAMP_PARTICIPATION)
+            getPaymentCommitmentReadModelFrom(campParticipationCommitmentSnapshot, PaymentCommitment.Type.CAMP_PARTICIPATION)
                     .let { paymentCommitmentRepository.save(it) }
 
             campBusCommitmentSnapshot
-                    ?.let { getPaymentCommitmentReadModelFrom(it,PaymentCommitment.Type.CAMP_BUS_SEAT) }
+                    ?.let { getPaymentCommitmentReadModelFrom(it, PaymentCommitment.Type.CAMP_BUS_SEAT) }
                     ?.let { paymentCommitmentRepository.save(it) }
         }
     }

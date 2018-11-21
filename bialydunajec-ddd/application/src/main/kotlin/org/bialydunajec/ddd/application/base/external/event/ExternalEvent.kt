@@ -1,8 +1,12 @@
 package org.bialydunajec.ddd.application.base.external.event
 
 import org.bialydunajec.ddd.application.base.external.ExternalMessage
+import java.time.Instant
 
-class ExternalEvent<PayloadType : Any>(payload: PayloadType, val eventType: String = toEventName(payload::class.simpleName)) : ExternalMessage<PayloadType>(payload) {
+class ExternalEvent<PayloadType : Any>(
+        payload: PayloadType,
+        val eventOccurredAt: Instant = Instant.now(),
+        val eventType: String = toEventName(payload::class.simpleName)) : ExternalMessage<PayloadType>(payload) {
 
     companion object {
         private fun toEventName(text: String?) =

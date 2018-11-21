@@ -22,6 +22,13 @@ fun ShirtType.toDto() =
 fun ShirtTypeDto.toValueObject() =
         ShirtType.values().find { it.name == name }!!
 
+fun ParticipationStatus.toDto() =
+        ParticipationStatusDto.values().find { it.name == name }!!
+
+fun ParticipationStatusDto.toValueObject() =
+        ParticipationStatus.values().find { it.name == name }!!
+
+
 fun CottageSpace.toDto() =
         CottageSpaceDto(
                 fullCapacity,
@@ -212,7 +219,7 @@ fun CampParticipantDto.Companion.from(snapshot: CampParticipantSnapshot,
                     confirmedCottage?.let { confirmedApplication?.toDtoWithCottage(confirmedCottage) },
                     currentCamperData.toDtoWithCottage(currentCottage),
                     stayDuration.toDto(),
-                    participationStatus.toString()
+                    participationStatus.toDto()
             )
         }
 

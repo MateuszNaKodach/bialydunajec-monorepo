@@ -1,4 +1,4 @@
-package org.bialydunajec.registrations.readmodel
+package org.bialydunajec.registrations.readmodel.payment
 
 import org.springframework.data.mongodb.repository.MongoRepository
 

@@ -28,9 +28,9 @@ class Money private constructor(
     constructor(value: BigDecimal, currencyCode: String = MONEY_DEFAULT_CURRENCY_CODE) : this(value.setScale(2, RoundingMode.HALF_EVEN), Currency.getInstance(currencyCode))
 
     init {
-        if (value.isNegative()) {
-            throw DomainRuleViolationException.of(SharedKernelDomainError.MONEY_VALUE_CANNOT_BE_NEGATIVE_NUMBER)
-        }
+       // if (value.isNegative()) {
+       //     throw DomainRuleViolationException.of(SharedKernelDomainError.MONEY_VALUE_CANNOT_BE_NEGATIVE_NUMBER)
+       // }
     }
 
     fun multiplyBy(multiplier: Double): Money {

@@ -23,8 +23,6 @@ internal class EmailMessageReadAdminController(
     fun getEmailMessagesStatistics() =
             emailMessageStatisticsRepository.findById(DEFAULT_EMAIL_MESSAGE_STATISTICS_ID)
 
-    val subject = BehaviorSubject.create<Collection<EmailMessage>>().toSerialized()
-
     @GetMapping(value = ["/projected-events-stream"], produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
     fun getProjectedEventsStream() =
             emailMessageLogEventStream.streamingEvents()
