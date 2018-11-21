@@ -1,6 +1,6 @@
 package org.bialydunajec.registrations.presentation.rest.v1.admin.request
 
-import org.bialydunajec.registrations.application.dto.ColorDto
+import org.bialydunajec.registrations.dto.ColorDto
 
 data class UpdateCampEditionShirtColorOptionRequest(
         val color: ColorDto,

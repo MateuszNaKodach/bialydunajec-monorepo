@@ -14,7 +14,7 @@ import org.bialydunajec.registrations.domain.cottage.CottageRepository
 import org.bialydunajec.registrations.domain.cottage.specification.CottageFreeSpaceSpecificationFactory
 import org.bialydunajec.registrations.domain.cottage.valueobject.CottageStatus
 import org.bialydunajec.registrations.domain.shirt.CampEditionShirtReadOnlyRepository
-import org.bialydunajec.registrations.domain.shirt.CampEditionShirtRepository
+import org.bialydunajec.registrations.dto.*
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

@@ -1,8 +1,8 @@
 package org.bialydunajec.registrations.presentation.rest.v1.request
 
-import org.bialydunajec.ddd.application.base.dto.AddressDto
-import org.bialydunajec.registrations.application.dto.CamperEducationDto
-import org.bialydunajec.registrations.application.dto.CamperPersonalDataDto
+import org.bialydunajec.ddd.base.dto.AddressDto
+import org.bialydunajec.registrations.dto.CamperEducationDto
+import org.bialydunajec.registrations.dto.CamperPersonalDataDto
 
 data class CampParticipantRegistrationRequest(
         val cottageId: String,

@@ -1,6 +1,7 @@
 package org.bialydunajec.academicministry.application.dto
 
-import org.bialydunajec.ddd.application.base.dto.ExtendedDescriptionDto
+import org.bialydunajec.ddd.base.dto.ExtendedDescriptionDto
+
 
 data class AcademicPriestDto(
         val academicPriestId: String,

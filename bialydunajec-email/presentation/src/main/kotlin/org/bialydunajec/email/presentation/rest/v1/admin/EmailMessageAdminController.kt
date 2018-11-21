@@ -16,7 +16,7 @@ internal class EmailMessageAdminController(private val commandGateway: EmailComm
     @PostMapping
     fun sendEmailMessage(@RequestBody body: SendEmailMessageRequest) =
             with(body) {
-                emailAddresses.forEach {
+                emailAddresses.toSet().forEach {
                     commandGateway.process(
                             EmailCommand.SendEmailCommand(
                                     EmailMessage(

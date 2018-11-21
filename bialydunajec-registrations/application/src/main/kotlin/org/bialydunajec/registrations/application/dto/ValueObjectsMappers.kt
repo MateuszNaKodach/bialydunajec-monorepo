@@ -5,10 +5,7 @@ import org.bialydunajec.ddd.application.base.dto.toValueObject
 import org.bialydunajec.ddd.domain.extensions.toStringOrNull
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.PhoneNumber
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddress
-import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.BirthDate
-import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.FirstName
-import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.LastName
-import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.Pesel
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.*
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.Url
 import org.bialydunajec.registrations.domain.academicministry.valueobject.AcademicMinistrySnapshot
 import org.bialydunajec.registrations.domain.campedition.valueobject.CampRegistrationsEditionSnapshot
@@ -17,6 +14,13 @@ import org.bialydunajec.registrations.domain.camper.valueobject.*
 import org.bialydunajec.registrations.domain.cottage.CottageId
 import org.bialydunajec.registrations.domain.cottage.valueobject.*
 import org.bialydunajec.registrations.domain.shirt.valueobject.*
+import org.bialydunajec.registrations.dto.*
+
+fun ShirtType.toDto() =
+        ShirtTypeDto.values().find { it.name == name }!!
+
+fun ShirtTypeDto.toValueObject() =
+        ShirtType.values().find { it.name == name }!!
 
 fun CottageSpace.toDto() =
         CottageSpaceDto(
@@ -64,14 +68,14 @@ fun BankTransferDetailsDto.toValueObject() =
         )
 
 fun CamperPersonalData.toDto() =
-        CamperPersonalDataDto(firstName = firstName.toString(), lastName = lastName.toString(), gender = gender, pesel = pesel.toStringOrNull(), birthDate = birthDate?.toLocalDate())
+        CamperPersonalDataDto(firstName = firstName.toString(), lastName = lastName.toString(), gender = gender.toDto(), pesel = pesel.toStringOrNull(), birthDate = birthDate?.toLocalDate())
 
 fun CamperPersonalDataDto.toValueObject(): CamperPersonalData {
     val pesel = pesel?.let { Pesel(it) }
     return CamperPersonalData(
             firstName = FirstName(firstName),
             lastName = LastName(lastName),
-            gender = gender,
+            gender = gender.toValueObject(),
             pesel = pesel,
             birthDate = birthDate?.let { BirthDate(it) }
                     ?: pesel!!.getBirthDate() // TODO: Add validation for DTO - PESEL or BirthDate
@@ -148,10 +152,10 @@ fun CottageBossDto.toValueObject() =
         )
 
 fun ShirtSize.toDto() =
-        ShirtSizeDto(name, type, height, width, length)
+        ShirtSizeDto(name, type.toDto(), height, width, length)
 
 fun ShirtSizeDto.toValueObject() =
-        ShirtSize(name, type, height, width, length)
+        ShirtSize(name, type.toValueObject(), height, width, length)
 
 fun ShirtSizeOptionSnapshot.toDto() =
         ShirtSizeOptionDto(
@@ -199,8 +203,8 @@ fun CampRegistrationsEditionSnapshot.toDto() =
         )
 
 fun CampParticipantDto.Companion.from(snapshot: CampParticipantSnapshot,
-                                      confirmedCottage: CottageSnapshot?,
-                                      currentCottage: CottageSnapshot) =
+                                                                         confirmedCottage: CottageSnapshot?,
+                                                                         currentCottage: CottageSnapshot) =
         with(snapshot) {
             CampParticipantDto(
                     campParticipantId.toString(),

@@ -1,8 +1,9 @@
 package org.bialydunajec.academicministry.rest.v1.admin.request
 
-import org.bialydunajec.ddd.application.base.dto.ExtendedDescriptionDto
-import org.bialydunajec.ddd.application.base.dto.PlaceDto
-import org.bialydunajec.ddd.application.base.dto.SocialMediaDto
+import org.bialydunajec.ddd.base.dto.ExtendedDescriptionDto
+import org.bialydunajec.ddd.base.dto.PlaceDto
+import org.bialydunajec.ddd.base.dto.SocialMediaDto
+
 
 internal data class UpdateAcademicMinistryRequest (
         val officialName: String,

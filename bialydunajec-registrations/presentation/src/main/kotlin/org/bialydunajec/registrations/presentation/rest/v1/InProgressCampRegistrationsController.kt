@@ -5,9 +5,8 @@ import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.PhoneNumber
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddress
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.Gender
 import org.bialydunajec.registrations.application.command.api.CampRegistrationsCommand
-import org.bialydunajec.registrations.application.command.api.CampRegistrationsAdminCommandGateway
 import org.bialydunajec.registrations.application.command.api.CampRegistrationsCommandGateway
-import org.bialydunajec.registrations.application.dto.CampRegistrationsCottageDto
+import org.bialydunajec.registrations.dto.CampRegistrationsCottageDto
 import org.bialydunajec.registrations.application.dto.toValueObject
 import org.bialydunajec.registrations.application.query.api.*
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
