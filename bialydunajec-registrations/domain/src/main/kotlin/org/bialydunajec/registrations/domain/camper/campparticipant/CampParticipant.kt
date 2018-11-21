@@ -93,7 +93,7 @@ class CampParticipant internal constructor(
     }
 
     fun confirmByAuthorized() {
-        this.participationStatus = ParticipationStatus.CONFIRMED_BY_CAMPER
+        this.participationStatus = ParticipationStatus.CONFIRMED_BY_AUTHORIZED
         registerEvent(CampParticipantEvent.Confirmed(getAggregateId(), getSnapshot()))
     }
 

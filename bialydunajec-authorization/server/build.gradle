@@ -9,12 +9,16 @@ jar {
 }
 
 dependencies {
+    //implementation project(':bialydunajec-ddd:bialydunajec-ddd-application')
+    //implementation project(':bialydunajec-ddd:bialydunajec-ddd-infrastructure')
+
+
     implementation('org.springframework.boot:spring-boot-starter-cache')
     implementation('org.springframework.boot:spring-boot-starter-data-jpa')
     implementation('org.springframework.boot:spring-boot-starter-mail')
     implementation('org.springframework.boot:spring-boot-starter-quartz')
     implementation('org.springframework.boot:spring-boot-starter-security')
-    compile("org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:${oAuth2AutoconfigureVersion}")
+    implementation("org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:${oAuth2AutoconfigureVersion}")
     implementation('org.springframework.boot:spring-boot-starter-web')
     implementation('org.springframework.boot:spring-boot-starter-webflux')
     implementation('com.fasterxml.jackson.module:jackson-module-kotlin')

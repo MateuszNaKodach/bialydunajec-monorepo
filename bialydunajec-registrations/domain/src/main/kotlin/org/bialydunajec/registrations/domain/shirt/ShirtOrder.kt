@@ -41,10 +41,7 @@ class ShirtOrder internal constructor(
 
     override fun getVersion() = version
 
-    private var status = OrderStatus.WAITING_FOR_CONFIRM;
-
-    fun getSnapshot() =
-            ShirtOrderSnapshot(campEditionShirtId, campParticipantId, colorOption.getColor(), sizeOption.getSize())
+    private var status = OrderStatus.WAITING_FOR_CONFIRM
 
     // Snapshot tego jakie były wartości np. kolorów w momencie zamawiania
     @Embedded
@@ -59,5 +56,10 @@ class ShirtOrder internal constructor(
     )
     private val orderedSize: ShirtSize = sizeOption.getSize()
 
+    init {
+        registerEvent(ShirtOrderEvent.OrderPlaced(getAggregateId(), getSnapshot()))
+    }
 
+    fun getSnapshot() =
+            ShirtOrderSnapshot(campEditionShirtId, campParticipantId, colorOption.getColor(), sizeOption.getSize())
 }

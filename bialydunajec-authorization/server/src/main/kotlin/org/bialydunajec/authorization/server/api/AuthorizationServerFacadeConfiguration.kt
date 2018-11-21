@@ -9,12 +9,17 @@ import org.springframework.security.crypto.password.PasswordEncoder
 internal class AuthorizationServerFacadeConfiguration {
 
     @Bean
-    fun authorizationServerFacade(passwordEncoder: PasswordEncoder, oAuth2UserRepository: OAuth2UserRepository) =
+    fun authorizationServerFacade(
+            passwordEncoder: PasswordEncoder,
+            oAuth2UserRepository: OAuth2UserRepository
+          //  emailMessageSenderPort: EmailMessageSenderPort
+    ) =
             AuthorizationServerFacade(
                     oAuth2UserCreator = OAuth2UserCreator(oAuth2UserRepository, passwordEncoder),
                     oAuth2UserFinder = OAuth2UserFinder(oAuth2UserRepository),
                     oAuth2UserUpdater = OAuth2UserUpdater(oAuth2UserRepository, passwordEncoder),
                     currentUserGetter = OAuth2CurrentUserGetter(oAuth2UserRepository)
+                    //resetOAuth2UserPasswordEmailSender = ResetOAuth2UserPasswordEmailSender(oAuth2UserRepository, emailMessageSenderPort)
             )
 
 }

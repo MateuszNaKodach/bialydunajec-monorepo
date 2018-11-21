@@ -83,6 +83,10 @@ class Cottage internal constructor(
     @Enumerated(EnumType.STRING)
     private var status: CottageStatus = CottageStatus.UNCONFIGURED
 
+    init {
+        registerEvent(CottageEvents.CottageCreated(getAggregateId(), getSnapshot()))
+    }
+
 
     fun update(
             name: String,
@@ -124,8 +128,9 @@ class Cottage internal constructor(
         if (this.cottageBoss != cottageBoss) {
             this.cottageBoss = cottageBoss
         }
-        updateConfigurationStatus()
 
+        registerEvent(CottageEvents.CottageUpdated(getAggregateId(), getSnapshot()))
+        updateConfigurationStatus()
     }
 
     fun updateName(name: String) {
