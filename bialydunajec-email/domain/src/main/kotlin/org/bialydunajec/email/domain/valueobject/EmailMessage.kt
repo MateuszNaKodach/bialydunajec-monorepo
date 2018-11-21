@@ -7,5 +7,5 @@ class EmailMessage(
         val recipient: EmailAddress,
         val subject: String,
         val content: String,
-        val emailMessageLogId: EmailMessageLogId? = null
+        val emailMessageLogId: EmailMessageLogId? = null //TODO: Change for tracking code, because tracking code will be one for many mails
 )

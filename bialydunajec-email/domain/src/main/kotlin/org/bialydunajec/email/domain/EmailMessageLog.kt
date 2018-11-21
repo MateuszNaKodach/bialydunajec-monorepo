@@ -45,7 +45,7 @@ class EmailMessageLog(
 
     private var sentDate: ZonedDateTime? = null
 
-    fun markAsSent(currentDateTime: ZonedDateTime) {
+    fun logSendingSuccess(currentDateTime: ZonedDateTime) {
         status = EmailStatus.SENT
         sentDate = currentDateTime
         registerEvent(

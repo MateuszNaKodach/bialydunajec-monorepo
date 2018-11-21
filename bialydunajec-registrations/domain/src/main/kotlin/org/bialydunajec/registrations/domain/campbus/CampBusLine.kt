@@ -2,10 +2,8 @@ package org.bialydunajec.registrations.domain.campbus
 
 import org.bialydunajec.ddd.domain.base.aggregate.AuditableAggregateRoot
 import org.bialydunajec.ddd.domain.base.persistence.Versioned
-import org.bialydunajec.registrations.domain.campbus.valueobject.CampBusLineId
-import org.bialydunajec.registrations.domain.campbus.valueobject.CampBusStop
-import org.bialydunajec.registrations.domain.campbus.valueobject.CampBusTimetable
-import org.bialydunajec.registrations.domain.campbus.valueobject.CoordinatorContact
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.financial.Money
+import org.bialydunajec.registrations.domain.campbus.valueobject.*
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
 import javax.persistence.*
 
@@ -35,6 +33,10 @@ class CampBusLine internal constructor(
 
     @Version
     private var version: Long? = null
+
+   fun createSeatReservations(seats: Int? = null, oneWayCost: Money? = null, status: CampBusSeatReservationsStatus = CampBusSeatReservationsStatus.INACTIVE) =
+            CampBusSeatReservations(getAggregateId(), seats, oneWayCost, status)
+
 
     override fun getVersion() = version
 

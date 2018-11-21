@@ -20,7 +20,7 @@ internal class SendEmailMessageApplicationService(
         private val clock: Clock
 ) : ApplicationService<EmailCommand.SendEmailCommand> {
 
-    override fun execute(command: EmailCommand.SendEmailCommand) {
+    override fun execute(command: EmailCommand.SendEmailCommand): EmailMessageLogId {
         val emailMessage = with(command.emailMessage) {
             SimpleEmailMessage(
                     recipient,
@@ -41,14 +41,14 @@ internal class SendEmailMessageApplicationService(
 
         when (emailSendingResult) {
             is EmailSendingResult.Success -> {
-                emailMessageLog.markAsSent(clock.currentDateTime())
+                emailMessageLog.logSendingSuccess(clock.currentDateTime())
             }
             is EmailSendingResult.Failure -> {
                 emailMessageLog.logSendingFailure(emailSendingResult.errorMessage)
             }
         }
 
-        emailMessageLogRepository.save(emailMessageLog)
+        return emailMessageLogRepository.save(emailMessageLog).getAggregateId()
     }
 }
 
@@ -75,7 +75,7 @@ internal class ResendEmailMessageApplicationService(
 
             when (emailSendingResult) {
                 is EmailSendingResult.Success -> {
-                    emailMessage.markAsSent(clock.currentDateTime())
+                    emailMessage.logSendingSuccess(clock.currentDateTime())
                 }
                 is EmailSendingResult.Failure -> {
                     emailMessage.logSendingFailure(emailSendingResult.errorMessage)
@@ -115,7 +115,7 @@ internal class ForwardEmailMessageApplicationService(
 
                 when (emailSendingResult) {
                     is EmailSendingResult.Success -> {
-                        emailMessageLog.markAsSent(clock.currentDateTime())
+                        emailMessageLog.logSendingSuccess(clock.currentDateTime())
                     }
                     is EmailSendingResult.Failure -> {
                         emailMessageLog.logSendingFailure(emailSendingResult.errorMessage)
