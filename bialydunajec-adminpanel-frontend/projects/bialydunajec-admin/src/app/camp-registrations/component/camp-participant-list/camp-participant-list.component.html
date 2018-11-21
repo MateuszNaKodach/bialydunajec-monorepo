@@ -7,22 +7,13 @@
       (campEditionIdSelected)="onCampEditionIdSelected($event)"
       [campEditionsObservable]="availableCampEditions"></bda-admin-camp-edition-selection>
   </div>
-  <div>
-    <ng-template #showTotal>
-      {{currentPageElements}} z {{total}}
-    </ng-template>
+  <div class="bda-admin-panel-section-card">
     <nz-table
       class="bda-camp-participant-table"
       #basicTable
       [nzData]="campParticipants"
       [nzLoading]="tableIsLoading"
-      [nzTotal]="total"
-      [nzShowTotal]="showTotal"
-      [nzPageIndex]="pageIndex"
-      [nzPageSize]="pageSize"
-      [nzFrontPagination]="false"
-      (nzPageIndexChange)="onPageIndexChange($event)"
-      [nzShowQuickJumper]="total > pageSize"
+      [nzTotal]="campParticipants.length"
       nzNoResult="Jeszcze nikt się nie zapisał. Aktywuj zapisy i czekaj na pierwszych obozowiczów!">
       <thead>
       <tr>
@@ -31,8 +22,9 @@
         <th>Imię</th>
         <th>Chatka</th>
         <th>E-mail</th>
-        <th>Status</th>
-        <th>Opłacono</th>
+        <th>Potwierdzony</th>
+        <th>Opłacono zadatek</th>
+        <th>Opłacono udział</th>
         <th nzShowExpand></th>
       </tr>
       </thead>
@@ -44,13 +36,14 @@
           <td>{{data.currentCamperData.personalData.firstName}}</td>
           <td>{{data.currentCamperData.cottage.cottageName}}</td>
           <td>{{data.currentCamperData.emailAddress}}</td>
-          <td>{{data.participationStatus}}</td>
-          <td>NIE</td>
+          <td>{{data.participationStatus == 'CONFIRMED_BY_CAMPER' ? 'TAK' : (data.participationStatus == 'CONFIRMED_BY_AUTHORIZED' ? 'TAK (administracyjnie)' : 'NIE')}}</td>
+          <td>{{data.downPaymentPaidDate ? 'TAK' : 'NIE'}}</td>
+          <td>{{data.campParticipationPaidDate ? 'TAK' : 'NIE'}}</td>
           <td nzShowExpand [(nzExpand)]="data.expand"></td>
         </tr>
         <tr [nzExpand]="data.expand">
           <td [attr.colspan]="20">
-            <div class="bda-admin-panel-section-card">
+            <div style="padding: 2rem;">
               <h2><b>{{data.currentCamperData.personalData.firstName}}
                 {{data.currentCamperData.personalData.lastName}}</b></h2>
               <nz-divider></nz-divider>
@@ -78,11 +71,16 @@
               </div>
               <div class="bda-admin-section-card-action">
                 <button nz-button
-                        class="bda-admin-section-card-action-small-button"><i class="anticon anticon-edit"></i>Edytuj</button>
+                        *ngIf="data.participationStatus == 'WAITING_FOR_CONFIRM'"
+                        nzType="primary"
+                        type="button"><i class="anticon anticon-check"></i>Potwierdź uczestnictwo</button>
                 <button nz-button
-                        class="bda-admin-section-card-action-small-button"
-                        nz-popconfirm nzTitle="Czy jesteś pewien, że chcesz usunąć Uczestnika Obozu?"
-                        style="margin-left: 0.5rem;"><i class="anticon anticon-delete"></i>Usuń</button>
+                        style="margin-left: 0.5rem;"><i class="anticon anticon-form"></i>Zmień wprowadzone dane</button>
+                <button nz-button
+                        style="margin-left: 0.5rem;"><i class="anticon anticon-home"></i>Przepisz do innej chatki</button>
+                <button nz-button
+                        nz-popconfirm nzTitle="Czy jesteś pewien, że chcesz wypisać uczestnika z udziału w Obozie?"
+                        style="margin-left: 0.5rem;"><i class="anticon anticon-close"></i>Wypisz z Obozu</button>
               </div>
             </div>
           </td>

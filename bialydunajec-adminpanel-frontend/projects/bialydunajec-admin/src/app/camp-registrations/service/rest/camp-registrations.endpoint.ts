@@ -10,6 +10,7 @@ import {CottageResponse} from './response/cottage.response';
 import {UpdateCottageRequest} from './request/update-cottage.request';
 import {PageDto} from './dto/page.dto';
 import {CampParticipantResponse} from './response/camp-participant.response';
+import {environment} from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -118,6 +119,12 @@ export class CampRegistrationsEndpoint extends AbstractEndpoint {
   getPageOfCampParticipantsByCampRegistrationsEditionId(campRegistrationsEditionId: number, page: number, size: number) {
     return this.httpClient.get<PageDto<CampParticipantResponse>>(
       `${this.callsBaseUrl}/camp-participant?campRegistrationsEditionId=${campRegistrationsEditionId}&page=${page}&size=${size}`
+    );
+  }
+
+  getCampParticipantsByCampRegistrationsEditionId(campRegistrationsEditionId: number) {
+    return this.httpClient.get<CampParticipantResponse[]>(
+      `${environment.restApi.baseUrl}/rest-api/v1/admin/camp-participant?campRegistrationsEditionId=${campRegistrationsEditionId}`
     );
   }
 

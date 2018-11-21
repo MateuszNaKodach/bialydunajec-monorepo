@@ -67,10 +67,10 @@ export class PaymentsListComponent implements OnInit {
     });
   }
 
-  showCancelCommitmentConfirmation(data: PaymentCommitmentReadModel) {
+  showCancelCommitmentPaymentConfirmation(data: PaymentCommitmentReadModel) {
     this.modalService.confirm({
-      nzTitle: '<i>Czy na pewno chcesz anulować tą opłatę?</i>',
-      nzContent: '<b>Po anulowaniu opłaty uczestnik Obozu zostanie poinformowany o tym wiadomością e-mail.</b>',
+      nzTitle: '<i>Czy na pewno chcesz oznaczyć zobowiązanie jako nieopłacone?</i>',
+      nzContent: '<b>Po anulowaniu wpłaty uczestnik Obozu zostanie poinformowany o tym wiadomością e-mail.</b>',
       nzOnOk: () => {
 
       }
