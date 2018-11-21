@@ -20,7 +20,9 @@ enum class CampRegistrationsDomainRule : DomainRule {
     FINISHED_CAMP_REGISTRATIONS_CANNOT_START,
     IN_PROGRESS_CAMP_REGISTRATIONS_CANNOT_START,
 
-    ONLY_ONE_CAMP_REGISTRATIONS_CAN_BE_IN_PROGRESS_IN_THE_SAME_TIME,
+    ONLY_ONE_CAMP_REGISTRATIONS_CAN_BE_IN_PROGRESS_IN_THE_SAME_TIME{
+        override fun getDescription(): String? = "Tylko jedne zapisy na obóz mogą być aktywne w tym samym czasie."
+    },
     CAMP_REGISTERS_HAS_TO_HAVE_CONFIGURED_TIMER_TO_START_BY_TIMER,
     CAMP_REGISTERS_HAS_TO_NOT_BE_IN_PROGRESS_TO_START_BY_TIMER,
     CAMP_REGISTERS_HAS_ALREADY_STARTED,
@@ -79,5 +81,5 @@ enum class CampRegistrationsDomainRule : DomainRule {
     CAMP_PARTICIPANT_CAN_RESERVE_SEAT_WHEN_RESERVATIONS_ARE_INACTIVE;
 
     override fun getRuleName() = name
-    override fun getDescription() = null
+    override fun getDescription():String? = null
 }

@@ -1,5 +1,6 @@
 package org.bialydunajec.rest.v1.dev
 
+import com.devskiller.jfairy.Fairy
 import org.bialydunajec.academicministry.application.command.api.AcademicMinistryAdminCommandGateway
 import org.bialydunajec.academicministry.application.command.api.AcademicMinistryCommand
 import org.bialydunajec.academicministry.application.query.api.AcademicMinistryQuery
@@ -39,6 +40,7 @@ import org.bialydunajec.registrations.domain.shirt.valueobject.ShirtSize
 import org.bialydunajec.registrations.domain.shirt.valueobject.ShirtType
 import org.springframework.stereotype.Service
 import java.time.LocalDate
+import java.util.*
 
 @Service
 class DummyDatabaseInitializator(
@@ -50,6 +52,8 @@ class DummyDatabaseInitializator(
         private val campRegistrationsCommandGateway: CampRegistrationsCommandGateway,
         private val campRegistrationsQueryGateway: CampRegistrationsQueryGateway
 ) {
+
+    private val fairy = Fairy.create(Locale.forLanguageTag("PL"))
 
     fun initialize() {
         listOf(
@@ -99,6 +103,34 @@ class DummyDatabaseInitializator(
                         emailAddress = EmailAddress("duszpasterz@da.redemptor.pl"),
                         photoUrl = null,
                         description = null
+                ),
+                AcademicMinistryCommand.CreateAcademicMinistry(
+                        officialName = "Duszpasterstwo Akademickie Wawrzyny",
+                        shortName = "Wawrzyny",
+                        logoImageUrl = Url.ExternalUrl("//lh3.googleusercontent.com/JrCyiqJqLmDtzmfrlaCOAH5B32aJ1i4GO7Us9SZAF0Y0xMGaSsQv2fP-jO0ePOkPunTkUvKuykb4UC-I=w175-h130-rw"),
+                        place = Place(
+                                Address(Street("Odona Bujwida"), HomeNumber("51"), CityName("Wrocław"), PostalCode("50-345"))
+                        ),
+                        socialMedia = SocialMedia(
+                                WebPage("http://wawrzyny.wroc.pl/")
+                        ),
+                        emailAddress = EmailAddress("wawrzyny@wawrzyny.wroc.pl"),
+                        photoUrl = null,
+                        description = null
+                ),
+                AcademicMinistryCommand.CreateAcademicMinistry(
+                        officialName = "Centralny Ośrodek Duszpasterstwa Akademickiego Maciejówka",
+                        shortName = "Maciejówka",
+                        logoImageUrl = Url.ExternalUrl("//lh3.googleusercontent.com/e1DLOGY5DO3Rg_EOPQ5GyfxvMh4GnIXwCOa4OLRBMnFm6um1oY4LCjIFPAg0rakRNWJcSLZAZYoajCdq=w175-h128-rw"),
+                        place = Place(
+                                Address(Street("Nankiera"), HomeNumber("17a"), CityName("Wrocław"), PostalCode("50-140"))
+                        ),
+                        socialMedia = SocialMedia(
+                                WebPage("http://www.maciejowka.org/")
+                        ),
+                        emailAddress = EmailAddress("ks.malinski@gmail.com"),
+                        photoUrl = null,
+                        description = null
                 )
         ).forEach { academicMinistryAdminCommandGateway.process(it) }
 
@@ -109,7 +141,9 @@ class DummyDatabaseInitializator(
                 }
 
         campRegistrationsQueryGateway.process(CottageQuery.AllByCampRegistrationsEditionId("36"))
-                .forEach {
+                .forEachIndexed { index, it ->
+                    val cottageBoss = fairy.person()
+
                     campRegistrationsAdminCommandGateway.process(
                             CampRegistrationsCommand.UpdateCottage(
                                     cottageId = CottageId(it.cottageId),
@@ -117,21 +151,21 @@ class DummyDatabaseInitializator(
                                     logoImageUrl = it.logoImageUrl?.let { imageUrl -> Url.ExternalUrl(imageUrl) },
                                     buildingPhotoUrl = it.buildingPhotoUrl?.let { imageUrl -> Url.ExternalUrl(imageUrl) },
                                     place = Place(
-                                            Address(Street("Jana Pawła II"), HomeNumber("${it.cottageId}12a"), CityName("Biały Dunajec"))
+                                            Address(Street("Jana Pawła II"), HomeNumber(index.toString()), CityName("Biały Dunajec"))
                                     ),
-                                    cottageSpace = CottageSpace(15, 0),
+                                    cottageSpace = CottageSpace(fairy.baseProducer().randomBetween(40, 70), 0),
                                     campersLimitations = null,
                                     bankTransferDetails = BankTransferDetails(
-                                            "${it.cottageId} 1234 5667",
-                                            "Jan${it.cottageId} Kowalski",
-                                            "ul. Testowa 12/${it.cottageId}A, 12-345 Testowo Małe",
+                                            fairy.iban().ibanNumber.drop(2),
+                                            "${cottageBoss.firstName} ${cottageBoss.lastName}",
+                                            "ul. ${cottageBoss.address.street} ${cottageBoss.address.streetNumber}, ${cottageBoss.address.postalCode} ${cottageBoss.address.city}",
                                             "Biały Dunajec 2018 <IMIE i NAZWISKO>"
                                     ),
                                     cottageBoss = CottageBoss(
-                                            firstName = FirstName("Jan${it.cottageId}"),
-                                            lastName = LastName("Kowalski"),
-                                            phoneNumber = PhoneNumber("123-456-789"),
-                                            emailAddress = EmailAddress("chatka${it.cottageId}@bialydunajec.org"),
+                                            firstName = FirstName(cottageBoss.firstName),
+                                            lastName = LastName(cottageBoss.lastName),
+                                            phoneNumber = PhoneNumber(cottageBoss.telephoneNumber),
+                                            emailAddress = EmailAddress(cottageBoss.email),
                                             university = "Politechnika Wrocławska",
                                             fieldOfStudy = "Zarządzanie",
                                             photoUrl = null,
@@ -140,19 +174,62 @@ class DummyDatabaseInitializator(
                             )
                     )
 
-                    campRegistrationsAdminCommandGateway.process(CampRegistrationsCommand.ActivateCottage(CottageId(it.cottageId)))
                 }
+
+        campRegistrationsQueryGateway.process(CottageQuery.AllByCampRegistrationsEditionId("36")).forEach {
+            campRegistrationsAdminCommandGateway.process(CampRegistrationsCommand.ActivateCottage(CottageId(it.cottageId)))
+        }
 
 
         listOf(
                 CampRegistrationsCommand.AddCampEditionShirtSizeOption(
                         CampEditionShirtId(36),
-                        ShirtSize("ExampleSize", ShirtType.MALE, 123.0),
+                        ShirtSize("S", ShirtType.MALE, 164.0, 46.0, 68.0),
                         true
                 ),
                 CampRegistrationsCommand.AddCampEditionShirtSizeOption(
                         CampEditionShirtId(36),
-                        ShirtSize("ExampleSize", ShirtType.FEMALE, 123.0),
+                        ShirtSize("M", ShirtType.MALE, 170.0, 51.0, 71.0),
+                        true
+                ),
+                CampRegistrationsCommand.AddCampEditionShirtSizeOption(
+                        CampEditionShirtId(36),
+                        ShirtSize("L", ShirtType.MALE, 176.0),
+                        true
+                ),
+                CampRegistrationsCommand.AddCampEditionShirtSizeOption(
+                        CampEditionShirtId(36),
+                        ShirtSize("XL", ShirtType.MALE, 182.0, null, 76.0),
+                        true
+                ),
+                CampRegistrationsCommand.AddCampEditionShirtSizeOption(
+                        CampEditionShirtId(36),
+                        ShirtSize("XXL", ShirtType.MALE, 188.0),
+                        false
+                ),
+                CampRegistrationsCommand.AddCampEditionShirtSizeOption(
+                        CampEditionShirtId(36),
+                        ShirtSize("S", ShirtType.FEMALE, 158.0),
+                        true
+                ),
+                CampRegistrationsCommand.AddCampEditionShirtSizeOption(
+                        CampEditionShirtId(36),
+                        ShirtSize("L", ShirtType.FEMALE, 164.0),
+                        true
+                ),
+                CampRegistrationsCommand.AddCampEditionShirtSizeOption(
+                        CampEditionShirtId(36),
+                        ShirtSize("M", ShirtType.FEMALE, 170.0),
+                        true
+                ),
+                CampRegistrationsCommand.AddCampEditionShirtSizeOption(
+                        CampEditionShirtId(36),
+                        ShirtSize("XL", ShirtType.FEMALE, 176.0),
+                        true
+                ),
+                CampRegistrationsCommand.AddCampEditionShirtSizeOption(
+                        CampEditionShirtId(36),
+                        ShirtSize("XXL", ShirtType.FEMALE, 182.0),
                         true
                 )
         ).forEach { campRegistrationsAdminCommandGateway.process(it) }
@@ -168,6 +245,21 @@ class DummyDatabaseInitializator(
                         CampEditionShirtId(36),
                         Color("czerwony", null),
                         true
+                ),
+                CampRegistrationsCommand.AddCampEditionShirtColorOption(
+                        CampEditionShirtId(36),
+                        Color("niebieski", null),
+                        true
+                ),
+                CampRegistrationsCommand.AddCampEditionShirtColorOption(
+                        CampEditionShirtId(36),
+                        Color("zielony", null),
+                        true
+                ),
+                CampRegistrationsCommand.AddCampEditionShirtColorOption(
+                        CampEditionShirtId(36),
+                        Color("burgundowy", null),
+                        true
                 )
         ).forEach { campRegistrationsAdminCommandGateway.process(it) }
 
@@ -176,34 +268,40 @@ class DummyDatabaseInitializator(
         val campShirt = campRegistrationsQueryGateway.process(CampEditionShirtQuery.ByCampRegistrationsEditionId("36"))
 
         campRegistrationsQueryGateway.process(CottageQuery.All())
-                .first().let {
-                    CampRegistrationsCommand.RegisterCampParticipantCommand(
-                            CampRegistrationsEditionId(36),
-                            CamperApplication(
-                                    CottageId(it.cottageId),
-                                    CamperPersonalData(
-                                            FirstName("Antoni"),
-                                            LastName("Antoniewicz"),
-                                            Gender.MALE,
-                                            Pesel("97031986579")
-                                    ),
-                                    Address(Street("św. Anotniego"), HomeNumber("12/33"), CityName("Wrocław"), PostalCode("51-123")),
-                                            EmailAddress ("anotni.antoniewicz@niepodam.pl"),
-                                    PhoneNumber("660123123"),
-                                    CamperEducation(
-                                            "Politechnika Wrocławska",
-                                            "Podstawowych Problemów Techniki",
-                                            "Informatyka",
-                                            null,
-                                            false
-                                    )
-                            ),
-                            CamperShirtOrder(
-                                    ShirtColorOptionId(campShirt!!.colorOptions.first().shirtColorOptionId),
-                                    ShirtSizeOptionId(campShirt!!.sizeOptions.first().shirtSizeOptionId)
-                            )
-                    ).let { registration -> campRegistrationsCommandGateway.process(registration) }
+                .filter { it.cottageState == "ACTIVATED" }
+                .forEach {
+                    for (x in 0..fairy.baseProducer().randomBetween(0, 3)) {
+                        val person = fairy.person()
+                        CampRegistrationsCommand.RegisterCampParticipantCommand(
+                                CampRegistrationsEditionId(36),
+                                CamperApplication(
+                                        CottageId(it.cottageId),
+                                        CamperPersonalData(
+                                                FirstName(person.firstName),
+                                                LastName(person.lastName),
+                                                if (person.isMale) Gender.MALE else Gender.FEMALE,
+                                                Pesel(person.nationalIdentificationNumber)
+                                        ),
+                                        Address(Street(person.address.street), HomeNumber("${person.address.streetNumber} / ${person.address.apartmentNumber}"), CityName(person.address.city), PostalCode(person.address.postalCode)),
+                                        EmailAddress(person.email),
+                                        PhoneNumber(person.telephoneNumber),
+                                        CamperEducation(
+                                                "Politechnika Wrocławska",
+                                                "Podstawowych Problemów Techniki",
+                                                "Informatyka",
+                                                null,
+                                                fairy.baseProducer().trueOrFalse()
+                                        )
+                                ),
+                                CamperShirtOrder(
+                                        ShirtColorOptionId(campShirt!!.colorOptions.random().shirtColorOptionId),
+                                        ShirtSizeOptionId(campShirt!!.sizeOptions.random().shirtSizeOptionId)
+                                )
+                        ).let { registration -> campRegistrationsCommandGateway.process(registration) }
+                    }
                 }
 
     }
 }
+
+

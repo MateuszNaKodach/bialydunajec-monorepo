@@ -129,8 +129,9 @@ class Cottage internal constructor(
             this.cottageBoss = cottageBoss
         }
 
-        registerEvent(CottageEvents.CottageUpdated(getAggregateId(), getSnapshot()))
         updateConfigurationStatus()
+
+        registerEvent(CottageEvents.CottageUpdated(getAggregateId(), getSnapshot()))
     }
 
     fun updateName(name: String) {
