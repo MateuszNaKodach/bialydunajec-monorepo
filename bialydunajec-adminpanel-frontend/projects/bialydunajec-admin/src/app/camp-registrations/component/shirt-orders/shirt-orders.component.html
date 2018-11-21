@@ -1,0 +1,13 @@
+<section>
+  <div style="display: flex; justify-content: space-between;">
+    <bda-admin-breadcrumbs
+      [breadcrumbs]="['Zapisy na Obóz','Zamówienia Koszulek']"
+    ></bda-admin-breadcrumbs>
+    <bda-admin-camp-edition-selection
+      (campEditionIdSelected)="onCampEditionIdSelected($event)"
+      [campEditionsObservable]="availableCampEditions$"></bda-admin-camp-edition-selection>
+  </div>
+  <div>
+
+  </div>
+</section>
