@@ -7,7 +7,7 @@
   <div class="bda-admin-create-message__content">
     <div
       class="bda-admin-panel-section-card">
-      <h2>Wysyłanie nowej wiadomości</h2>
+      <h2><b>Wysyłanie nowej wiadomości</b></h2>
       <nz-divider></nz-divider>
 
       <div
@@ -20,11 +20,11 @@
                            style="min-height: 320px; max-height: 320px; overflow-y: scroll; padding-right: 2rem;">
 
             <nz-form-control
+              style="margin-bottom: 1rem;"
               *ngFor="let control of recipientsFormControls;let i = index"
               [formGroupName]="i">
               <div style="display: flex; justify-content: space-between; align-items: center">
                 <!--<input nz-input placeholder="Imię i nazwisko" formControlName="name">-->
-                <p style="margin: 0;"><b>{{i+1}}.</b></p>
                 <input nz-input placeholder="Adres email" style="margin-left: 1rem;" formControlName="emailAddress">
                 <i
                   class="material-icons dynamic-delete-button"

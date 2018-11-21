@@ -37,8 +37,7 @@
         <button
           *ngIf="newMessagesAvailable"
           nz-button class="mat-icon-button"
-          (click)="loadEmailMessages()"><i class="anticon material-icons">replay</i> Odśwież
-        </button>
+          (click)="loadEmailMessages()"><i class="anticon material-icons">replay</i> Pojawiły się nowe wiadomości. Odśwież</button>
       </div>
       <nz-divider></nz-divider>
       <div>
@@ -82,9 +81,11 @@
                 <pre
                   style="font: inherit; max-width: 100%; font-size: 1rem; white-space: pre-wrap;">{{data.content}}</pre>
 
-                <button nz-button nzType="primary"
+               <!--
+               TODO: Message forward
+               <button nz-button nzType="primary"
                         (click)="forwardEmailMessage(data)"><i class="anticon anticon-mail"></i>Przekaż wiadomość
-                </button>
+                </button>-->
               </td>
             </tr>
           </ng-template>

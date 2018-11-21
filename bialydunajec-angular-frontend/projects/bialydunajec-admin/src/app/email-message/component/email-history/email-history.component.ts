@@ -19,6 +19,8 @@ export class EmailHistoryComponent implements OnInit, OnDestroy {
   emailStatistics$: Observable<EmailStatisticsReadModel>;
   newMessagesAvailable = false;
 
+  private eventSource: EventSourcePolyfill;
+
 
   constructor(private emailMessageEndpoint: EmailMessageEndpoint, private ngZone: NgZone) {
   }
@@ -40,11 +42,11 @@ export class EmailHistoryComponent implements OnInit, OnDestroy {
   }
 
   private observeEmailMessagesProjectedEvents() {
-    const eventSource = new EventSourcePolyfill(
+    this.eventSource = new EventSourcePolyfill(
       `${environment.restApi.baseUrl}/rest-api/v1/admin/email-message/projected-events-stream`, {}
     );
-    console.log(eventSource);
-    eventSource.onmessage = (event => {
+    console.log(this.eventSource);
+    this.eventSource.onmessage = (event => {
       const data: any = JSON.parse(event.data);
       /*this.ngZone.run(() => {
         console.log(event);
@@ -80,6 +82,7 @@ export class EmailHistoryComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    this.eventSource.close();
   }
 
 }

@@ -27,9 +27,9 @@
             <th>Chatka</th>
             <th>Rodzaj</th>
             <th>Kwota</th>
-            <th>Opłacono</th> <!--Moze napisac: Status i bedzie OPLACONO, NIE OPLACONO, KONTO NIEAKTYWNE-->
             <th>Termin płatności</th>
-            <th nzShowExpand></th>
+            <th>Opłacono</th> <!--Moze napisac: Status i bedzie OPLACONO, NIE OPLACONO, KONTO NIEAKTYWNE-->
+            <th></th>
           </tr>
           </thead>
           <tbody>
@@ -38,13 +38,20 @@
               <td nz-tooltip [nzTitle]="'PESEL: ' + data.campParticipant.pesel +
               ' E-mail: ' + data.campParticipant.emailAddress" nzPlacement="topLeft">{{data.campParticipant.firstName}} {{data.campParticipant.lastName}}</td>
               <td>{{data.cottage.name}}</td>
-              <td>{{data.type}}</td>
+              <td *ngIf="data.type == 'CAMP_DOWN_PAYMENT'">Zadatek</td>
+              <td *ngIf="data.type == 'CAMP_PARTICIPATION'">Udział w Obozie</td>
+              <td *ngIf="data.type == 'CAMP_BUS_SEAT'">Autokar Obozowy</td>
               <td>{{data.amount}} zł</td>
-              <td>{{data.isPaid ? "TAK (" + (data.paidDate | date:'d.MM.yyyy HH:mm:ss') + ")" : "NIE"}}</td>
               <td>{{data.deadlineDate ? (data.deadlineDate | date:'d.MM.yyyy HH:mm:ss') : "Nie określono"}}</td>
-              <td nzShowExpand [(nzExpand)]="data.expand"></td>
+              <td>{{data.paid ? "TAK (" + (data.paidDate | date:'d.MM.yyyy HH:mm:ss') + ")" : "NIE"}}</td>
+              <td>
+                <button *ngIf="!data.paid" nz-button nzType="primary" class="mat-icon-button"
+                        (click)="showPayForCommitmentConfirmation(data)"><i class="material-icons" >attach_money</i>Zaksięguj wpłatę</button>
+                <!--<button *ngIf="data.paid" nz-button nzType="default" class="mat-icon-button" style="margin-left: 1rem;"
+                        (click)="showCancelCommitmentPaymentConfirmation(data)"><i class="material-icons">money_off</i>Usuń wpłatę</button>-->
+              </td>
             </tr>
-            <tr [nzExpand]="data.expand">
+            <!--<tr [nzExpand]="data.expand">
               <td [attr.colspan]="20">
                 <p *ngIf="data.description"><b>Opis:</b> {{data.description}}</p>
                 <button nz-button nzType="primary" class="mat-icon-button"
@@ -52,7 +59,7 @@
                 <button nz-button nzType="default" class="mat-icon-button" style="margin-left: 1rem;"
                 (click)="showCancelCommitmentConfirmation(data)"><i class="material-icons">money_off</i>Anuluj opłatę</button>
               </td>
-            </tr>
+            </tr>-->
           </ng-template>
           </tbody>
         </nz-table>
