@@ -3,7 +3,8 @@ rootProject.name = 'bialydunajec-backend'
 include 'bialydunajec-ddd:application',
         'bialydunajec-ddd:presentation',
         'bialydunajec-ddd:domain',
-        'bialydunajec-ddd:infrastructure'
+        'bialydunajec-ddd:infrastructure',
+        'bialydunajec-ddd:dto'
 
 /*
 include 'bialydunajec-core',
@@ -39,6 +40,7 @@ include 'bialydunajec-registrations',
         'bialydunajec-registrations:domain',
         'bialydunajec-registrations:infrastructure',
         'bialydunajec-registrations:messages',
+        'bialydunajec-registrations:dto',
         'bialydunajec-registrations:read-model'
 
 include 'bialydunajec-email',

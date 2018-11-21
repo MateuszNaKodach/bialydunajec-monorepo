@@ -1,9 +1,6 @@
 package org.bialydunajec.registrations.application.dto
 
 import org.bialydunajec.ddd.application.base.dto.PlaceDto
-import org.bialydunajec.ddd.application.base.dto.toDto
-import org.bialydunajec.ddd.domain.extensions.toStringOrNull
-import org.bialydunajec.registrations.domain.cottage.valueobject.CottageSnapshot
 
 
 data class CampRegistrationsCottageDto(
@@ -16,16 +13,6 @@ data class CampRegistrationsCottageDto(
         val place: PlaceDto?,
         val hasSpace: Boolean
 ) {
-    internal companion object {
-        fun from(snapshot: CottageSnapshot, hasSpace: Boolean) = CampRegistrationsCottageDto(
-                cottageId = snapshot.cottageId.toString(),
-                cottageType = snapshot.cottageType.toString(),
-                academicMinistryId = snapshot.academicMinistryId.toStringOrNull(),
-                name = snapshot.name,
-                logoImageUrl = snapshot.logoImageUrl.toStringOrNull(),
-                buildingPhotoUrl = snapshot.buildingPhotoUrl.toStringOrNull(),
-                place = snapshot.place?.toDto(),
-                hasSpace = hasSpace
-        )
+    companion object {
     }
 }

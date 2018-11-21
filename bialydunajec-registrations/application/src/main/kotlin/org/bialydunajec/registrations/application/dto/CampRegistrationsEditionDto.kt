@@ -1,6 +1,5 @@
 package org.bialydunajec.registrations.application.dto
 
-import org.bialydunajec.registrations.domain.campedition.valueobject.CampRegistrationsEditionSnapshot
 import org.bialydunajec.registrations.domain.campedition.valueobject.CampRegistrationsSnapshot
 import java.time.LocalDate
 import java.time.ZonedDateTime
@@ -14,16 +13,6 @@ data class CampRegistrationsEditionDto(
         val campRegistrations: CampRegistrationsDto
 ) {
     companion object {
-        fun from(
-                snapshot: CampRegistrationsEditionSnapshot) =
-                CampRegistrationsEditionDto(
-                        campRegistrationsEditionId = snapshot.campRegistrationsEditionId.toString(),
-                        editionStartDate = snapshot.editionStartDate,
-                        editionEndDate = snapshot.editionEndDate,
-                        editionPrice = snapshot.editionPrice.getValue().toDouble(),
-                        campRegistrations = CampRegistrationsDto.from(snapshot.campRegistrations),
-                        editionDownPaymentAmount = snapshot.editionDownPaymentAmount?.getValue()?.toDouble()
-                )
     }
 }
 
@@ -38,16 +27,5 @@ data class CampRegistrationsDto(
         val lastFinishedAt: ZonedDateTime?
 ) {
     companion object {
-        fun from(snapshot: CampRegistrationsSnapshot) =
-                CampRegistrationsDto(
-                        campRegistrationsId = snapshot.campRegistrationsId.toString(),
-                        status = snapshot.status.name,
-                        timerStartDate = snapshot.timerSettings?.startDate,
-                        timerEndDate = snapshot.timerSettings?.endDate,
-                        lastStartedAt = snapshot.lastStartedAt,
-                        lastSuspendAt = snapshot.lastSuspendAt,
-                        lastUnsuspendAt = snapshot.lastUnsuspendAt,
-                        lastFinishedAt = snapshot.lastFinishedAt
-                )
     }
 }

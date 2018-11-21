@@ -14,6 +14,7 @@ dependencies {
     compile project(':bialydunajec-camp-edition:bialydunajec-camp-edition-messages')
     compile project(':bialydunajec-academic-ministry:bialydunajec-academic-ministry-messages')
     compile project(':bialydunajec-registrations:bialydunajec-registrations-messages')
+    compile project(':bialydunajec-registrations:bialydunajec-registrations-dto')
 
 
 
