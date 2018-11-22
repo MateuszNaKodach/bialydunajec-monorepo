@@ -8,7 +8,21 @@
       [campEditionsObservable]="availableCampEditions$"></bda-admin-camp-edition-selection>
   </div>
   <div>
-
+    <div class="bda-admin-panel-section-card">
+      <h2><b>Zestawienia uczestników obozu z podziałem na chatki</b></h2>
+      <nz-divider></nz-divider>
+      <ngx-charts-bar-vertical
+        [view]="view"
+        [results]="single"
+        [gradient]="gradient"
+        [xAxis]="showXAxis"
+        [yAxis]="showYAxis"
+        [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel"
+        [xAxisLabel]="xAxisLabel"
+        [yAxisLabel]="yAxisLabel">
+      </ngx-charts-bar-vertical>
+    </div>
   </div>
 </section>
 
