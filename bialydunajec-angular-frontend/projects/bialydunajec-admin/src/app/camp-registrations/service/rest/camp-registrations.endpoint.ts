@@ -132,4 +132,9 @@ export class CampRegistrationsEndpoint extends AbstractEndpoint {
     return this.httpClient.get<CottageResponse>(`${this.callsBaseUrl}/camp-shirt/?campRegistrationsEditionId=${campRegistrationsEditionId}`);
   }
 
+  getCampRegistrationsStatisticsByCampRegistrationsEditionId(campRegistrationsEditionId: number) {
+    return this.httpClient.get<any>(
+      `${environment.restApi.baseUrl}/rest-api/v1/admin/camp-registrations-statistics/${campRegistrationsEditionId}`
+    );
+  }
 }
