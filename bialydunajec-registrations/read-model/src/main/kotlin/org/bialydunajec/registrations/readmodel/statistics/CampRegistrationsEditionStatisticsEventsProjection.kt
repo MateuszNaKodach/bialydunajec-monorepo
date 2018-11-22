@@ -28,7 +28,8 @@ internal class CampRegistrationsEditionStatisticsEventsProjection(
                 eventStream.updateStreamWith(externalEvent)
             }
             is CottageExternalEvent.CottageUpdated -> {
-                //TODO: Handle update!
+                createProjection(eventPayload)
+                eventStream.updateStreamWith(externalEvent)
             }
             is CampParticipantExternalEvent.CampParticipantRegistered -> {
                 createProjection(eventPayload, externalEvent.eventOccurredAt)
@@ -48,6 +49,15 @@ internal class CampRegistrationsEditionStatisticsEventsProjection(
     }
 
     private fun createProjection(eventPayload: CottageExternalEvent.CottageCreated) {
+        campRegistrationsEditionStatisticsRepository.findByCampRegistrationsEditionId(eventPayload.snapshot.campRegistrationsEditionId)
+                ?.also {
+                    it.calculateWith(eventPayload)
+                }?.also {
+                    campRegistrationsEditionStatisticsRepository.save(it)
+                }
+    }
+
+    private fun createProjection(eventPayload: CottageExternalEvent.CottageUpdated) {
         campRegistrationsEditionStatisticsRepository.findByCampRegistrationsEditionId(eventPayload.snapshot.campRegistrationsEditionId)
                 ?.also {
                     it.calculateWith(eventPayload)

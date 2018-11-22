@@ -78,7 +78,9 @@ enum class CampRegistrationsDomainRule : DomainRule {
 
 
     ONE_CAMP_PARTICIPANT_CAN_RESERVE_ONLY_ONE_SEAT,
-    CAMP_PARTICIPANT_CAN_RESERVE_SEAT_WHEN_RESERVATIONS_ARE_INACTIVE;
+    CAMP_PARTICIPANT_CAN_RESERVE_SEAT_WHEN_RESERVATIONS_ARE_INACTIVE,
+
+    CAMP_PARTICIPANT_TO_UNREGISTER__MUST_EXISTS;
 
     override fun getRuleName() = name
     override fun getDescription():String? = null

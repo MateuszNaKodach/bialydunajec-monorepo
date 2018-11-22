@@ -46,3 +46,21 @@ internal class CampParticipantRegistrationApplicationService(
 
 
 }
+
+@Service
+@Transactional
+internal class UnregisterCampParticipantApplicationService(
+        private val campParticipantRepository: CampParticipantRepository
+) : ApplicationService<CampRegistrationsCommand.UnregisterCampParticipantByAuthorizedCommand> {
+
+    override fun execute(command: CampRegistrationsCommand.UnregisterCampParticipantByAuthorizedCommand) {
+        val campParticipant = campParticipantRepository.findById(command.campParticipantId)
+                ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.CAMP_PARTICIPANT_TO_UNREGISTER__MUST_EXISTS)
+
+        campParticipant.unregisterByAuthorized()
+
+        campParticipantRepository.save(campParticipant)
+        campParticipantRepository.delete(campParticipant)
+    }
+
+}

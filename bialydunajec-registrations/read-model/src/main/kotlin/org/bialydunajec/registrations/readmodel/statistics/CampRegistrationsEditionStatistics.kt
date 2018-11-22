@@ -34,6 +34,17 @@ internal class CampRegistrationsEditionStatistics(
         }
     }
 
+    fun calculateWith(eventPayload: CottageExternalEvent.CottageUpdated) {
+        eventPayload.snapshot.let { cottageSnapshot ->
+            val cottageStats = cottagesStats.find { it.cottageId == cottageSnapshot.cottageId }
+            cottageStats?.apply {
+                cottageName = cottageSnapshot.name
+                academicMinistryId = cottageSnapshot.academicMinistryId
+                cottageSpace = cottageSnapshot.cottageSpace
+            }
+        }
+    }
+
     fun calculateWith(eventPayload: CampParticipantExternalEvent.CampParticipantRegistered) {
         registeredCampParticipants += 1
         with(eventPayload.snapshot.currentCamperData) {

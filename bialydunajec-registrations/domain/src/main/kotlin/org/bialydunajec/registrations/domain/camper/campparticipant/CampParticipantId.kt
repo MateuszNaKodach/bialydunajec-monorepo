@@ -24,4 +24,4 @@ class CamperTrackingCode(private val camperTrackingCode: String) {
 }
 
 @Embeddable
-class CampParticipantId : AggregateId()
+class CampParticipantId(campParticipantId: String = AggregateId.defaultValue()) : AggregateId(campParticipantId)

@@ -406,6 +406,7 @@ class DummyDatabaseInitializator(
 
         campRegistrationsQueryGateway.process(CottageQuery.All())
                 .filter { it.cottageState == "ACTIVATED" }
+                .parallelStream()
                 .forEach {
                     for (x in 0..fairy.baseProducer().randomBetween(0, 8)) {
                         val person = fairy.person(*personProperties)

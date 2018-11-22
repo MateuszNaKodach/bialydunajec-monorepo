@@ -100,6 +100,11 @@ class CampParticipant internal constructor(
         registerEvent(CampParticipantEvent.Confirmed(getAggregateId(), getSnapshot()))
     }
 
+    fun unregisterByAuthorized(){
+        this.participationStatus = ParticipationStatus.UNREGISTERED_BY_AUTHORIZED
+        registerEvent(CampParticipantEvent.Unregistered(getAggregateId(), getSnapshot()))
+    }
+
     fun isConfirmed() = participationStatus == ParticipationStatus.CONFIRMED_BY_CAMPER || participationStatus == ParticipationStatus.CONFIRMED_BY_AUTHORIZED
     fun getCampRegistrationsEditionId() = campRegistrationsEditionId
     fun getCottageId() = this.currentCamperData.cottageId

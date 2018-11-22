@@ -1,7 +1,9 @@
 package org.bialydunajec.registrations.presentation.rest.v1.admin
 
 import org.bialydunajec.registrations.application.command.api.CampRegistrationsAdminCommandGateway
+import org.bialydunajec.registrations.application.command.api.CampRegistrationsCommand
 import org.bialydunajec.registrations.application.query.api.*
+import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantId
 import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.*
 
@@ -14,15 +16,9 @@ class CampParticipantAdminController(
 
     //TODO: Add filtering by campRegistrationsEditionId
     //COMMAND----------------------------------------------------------------------------------------------------------
-    /*
-    @GetMapping
-    fun getCampParticipantsByCottageId(@RequestParam(required = false) cottageId: String?, pageable: Pageable) =
-            when (cottageId) {
-                null -> queryGateway.execute(CampParticipantQuery.All(), pageable)
-                else -> queryGateway.execute(CampParticipantQuery.ByCottageId(cottageId), pageable)
-            }
-            */
-
+    @DeleteMapping("/{campParticipantId}")
+    fun cancelParticipation(@PathVariable campParticipantId: String) =
+            commandGateway.process(CampRegistrationsCommand.UnregisterCampParticipantByAuthorizedCommand(CampParticipantId(campParticipantId)))
 
     //QUERY------------------------------------------------------------------------------------------------------------
     @GetMapping
@@ -35,4 +31,13 @@ class CampParticipantAdminController(
     @GetMapping("/count")
     fun countCampParticipantsByCottageId(@RequestParam cottageId: String) =
             queryGateway.process(CampParticipantQuery.CountByCottageId(cottageId))
+
+    /*
+  @GetMapping
+  fun getCampParticipantsByCottageId(@RequestParam(required = false) cottageId: String?, pageable: Pageable) =
+          when (cottageId) {
+              null -> queryGateway.execute(CampParticipantQuery.All(), pageable)
+              else -> queryGateway.execute(CampParticipantQuery.ByCottageId(cottageId), pageable)
+          }
+          */
 }

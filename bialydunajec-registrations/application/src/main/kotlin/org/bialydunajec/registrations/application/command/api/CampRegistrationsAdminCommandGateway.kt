@@ -19,6 +19,7 @@ class CampRegistrationsAdminCommandGateway internal constructor(
         private val activateCottageApplicationService: ActivateCottageApplicationService,
         private val deactivateCottageApplicationService: DeactivateCottageApplicationService,
         private val authorizedCampParticipantRegistrationConfirmApplicationService: VerifyCampParticipantRegistrationByAuthorizedApplicationService,
+        private val unregisterCampParticipantApplicationService: UnregisterCampParticipantApplicationService,
         private val updateCampEditionShirtApplicationService: UpdateCampEditionShirtApplicationService,
         private val addCampEditionShirtColorOptionApplicationService: AddCampEditionShirtColorOptionApplicationService,
         private val addCampEditionShirtSizeOptionApplicationService: AddCampEditionShirtSizeOptionApplicationService,
@@ -68,6 +69,8 @@ class CampRegistrationsAdminCommandGateway internal constructor(
     fun process(command: CampRegistrationsCommand.VerifyCampParticipantRegistrationCommandByAuthorized) =
             authorizedCampParticipantRegistrationConfirmApplicationService.execute(command)
 
+    fun process(command: CampRegistrationsCommand.UnregisterCampParticipantByAuthorizedCommand) =
+            unregisterCampParticipantApplicationService.execute(command)
 
     fun process(command: CampRegistrationsCommand.UpdateCampEditionShirt) =
             updateCampEditionShirtApplicationService.execute(command)
