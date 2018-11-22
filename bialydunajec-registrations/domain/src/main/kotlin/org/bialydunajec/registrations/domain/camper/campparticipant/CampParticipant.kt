@@ -31,7 +31,7 @@ Przemyslec czy to nie powinny byc osobny aggreagate, w sumie CampParticipant dba
         ]
 )
 class CampParticipant internal constructor(
-        campParticipantIdGenerator: CampParticipantIdGenerator,
+        camperTrackingCodeGenerator: CamperTrackingCodeGenerator,
 
         @NotNull
         @Embedded
@@ -71,9 +71,12 @@ class CampParticipant internal constructor(
         @NotNull
         @Enumerated(EnumType.STRING)
         var participationStatus: ParticipationStatus = ParticipationStatus.WAITING_FOR_CONFIRM
-) : AuditableAggregateRoot<CampParticipantId, CampParticipantEvent>(campParticipantIdGenerator.generateFrom(currentCamperData.personalData.pesel)), Versioned {
+) : AuditableAggregateRoot<CampParticipantId, CampParticipantEvent>(CampParticipantId()), Versioned {
     @Version
     private var version: Long? = null
+
+    @Embedded
+    private var camperTrackingCode: CamperTrackingCode = camperTrackingCodeGenerator.generateFrom(currentCamperData.personalData.pesel)
 
     init {
         registerEvent(CampParticipantEvent.Registered(getAggregateId(), getSnapshot()))

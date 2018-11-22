@@ -56,7 +56,7 @@ class DummyDatabaseInitializator(
 
     private val fairy = Fairy.create(Locale.forLanguageTag("PL"))
 
-    private val personProperties = arrayOf(PersonProperties.ageBetween(18,26))
+    private val personProperties = arrayOf(PersonProperties.ageBetween(18, 26))
 
     fun initialize() {
         listOf(
@@ -134,8 +134,142 @@ class DummyDatabaseInitializator(
                         emailAddress = EmailAddress("ks.malinski@gmail.com"),
                         photoUrl = null,
                         description = null
+                ),
+                AcademicMinistryCommand.CreateAcademicMinistry(
+                        officialName = "Salezjańskie Duszpasterstwo Akademickie MOST",
+                        shortName = "Most",
+                        logoImageUrl = Url.ExternalUrl("//lh3.googleusercontent.com/Q2wNM_M1JuWMH5mOX-QqSbFeckKs7Ix71Xi0m-VjuVm4Y_dpfHK2WYVvLzSKxC-JOobz_JezNNXSVxd1=w175-h128-rw"),
+                        place = Place(
+                                Address(Street("Grunwaldzki"), HomeNumber("3"), CityName("Wrocław"), PostalCode("50-377"))
+                        ),
+                        socialMedia = SocialMedia(
+                                WebPage("http://www.most.salezjanie.pl")
+                        ),
+                        emailAddress = EmailAddress("longus.sdb@gmail.com"),
+                        photoUrl = null,
+                        description = null
+                ),
+                AcademicMinistryCommand.CreateAcademicMinistry(
+                        officialName = "Franciszkańskie Duszpasterstwo Akademickie \"Antoni\"",
+                        shortName = "Anotni",
+                        logoImageUrl = Url.ExternalUrl("//lh3.googleusercontent.com/hJrcjzSbQwt2QMB7ZquZB91-0ORqbxaJKUUnIy2JEO6CBD4fUCuD8FmDY95D_RF5em_gy_ub1xPg5UOD=w175-h128-rw"),
+                        place = Place(
+                                Address(Street("Kasprowicza"), HomeNumber("26"), CityName("Wrocław"), PostalCode("51-001"))
+                        ),
+                        socialMedia = SocialMedia(
+                                WebPage("www.antoni.org.pl/")
+                        ),
+                        emailAddress = EmailAddress("oskarofm@op.pl"),
+                        photoUrl = null,
+                        description = null
+                ),
+                AcademicMinistryCommand.CreateAcademicMinistry(
+                        officialName = "Salezjańskie Duszpasterstwo Akademickie HOREB",
+                        shortName = "Horeb",
+                        logoImageUrl = Url.ExternalUrl("//lh3.googleusercontent.com/2o2vZtcccsloq2mp5IsC5I0RPqjHYdNtjIeCB4iBcyMixzuDaWFKYUfEDhTFsntsAFOKSOlmZqjIO12I=w175-h128-rw"),
+                        place = Place(
+                                Address(Street("Bolesława Prusa"), HomeNumber("78"), CityName("Wrocław"), PostalCode("50-318"))
+                        ),
+                        socialMedia = SocialMedia(
+                                WebPage("http://www.horeb.salezjanie.pl")
+                        ),
+                        emailAddress = EmailAddress("sdahoreb@gmail.com"),
+                        photoUrl = null,
+                        description = null
+                ),
+                AcademicMinistryCommand.CreateAcademicMinistry(
+                        officialName = "Xaverianum",
+                        shortName = "Xaverianum",
+                        logoImageUrl = Url.ExternalUrl("//lh3.googleusercontent.com/7FY-bdfg7KSwFzSq1Dif-6dwDs27n_l-a0Ft4VJeoFwx-pW1IMcux8szPIJzFwgdbrX0PdlYY5pvbcOp=w175-h130-rw"),
+                        place = Place(
+                                Address(Street("o. Józefa Czaplaka"), HomeNumber("1A"), CityName("Opole"), PostalCode("45-055"))
+                        ),
+                        socialMedia = SocialMedia(
+                                WebPage("http://xaverianum.pl")
+                        ),
+                        emailAddress = EmailAddress("xaverianum.opole@gmail.com"),
+                        photoUrl = null,
+                        description = null
+                ),
+                AcademicMinistryCommand.CreateAcademicMinistry(
+                        officialName = "Duszpasterstwo Akademickie Dominik",
+                        shortName = "Dominik",
+                        logoImageUrl = Url.ExternalUrl("//lh3.googleusercontent.com/ipDlsAC1V_HZI2dcrfbHSNjo4XrTwHQTLu5HBEpdoTuNSLfffWVRLOC-SG0oRaLQch8gSmfOmGE9UDKz=w175-h130-rw"),
+                        place = Place(
+                                Address(Street("Dominikański"), HomeNumber("2"), CityName("Wrocław"), PostalCode("50-159"))
+                        ),
+                        socialMedia = SocialMedia(
+                                WebPage("http://dadominik.pl/")
+                        ),
+                        emailAddress = EmailAddress("administrator@dadominik.pl"),
+                        photoUrl = null,
+                        description = null
+                ),
+                AcademicMinistryCommand.CreateAcademicMinistry(
+                        officialName = "Jezuickie Duszpasterstwo Akademickie DACH",
+                        shortName = "Dach",
+                        logoImageUrl = Url.ExternalUrl("//lh3.googleusercontent.com/FqAhfKQJ0_eFgZ-eSIPgqSscDkR--lqHNANL3X8nwCN6C8XxdwM-H7SptaS8-Cu4tKMSzXMlhlcL2i-S=w175-h130-rw"),
+                        place = Place(
+                                Address(Street("Wincentego Stysia"), HomeNumber("16"), CityName("Wrocław"), PostalCode("53-110"))
+                        ),
+                        socialMedia = SocialMedia(
+                                WebPage("http://www.dadach.pl/")
+                        ),
+                        emailAddress = null,
+                        photoUrl = null,
+                        description = null
+                ),
+                AcademicMinistryCommand.CreateAcademicMinistry(
+                        officialName = "Góra św. Anny",
+                        shortName = null,
+                        logoImageUrl = Url.ExternalUrl("//lh3.googleusercontent.com/VTnZ1lyholovO6vp0lYixUQJmP17pYKMf-ejd2GBxSqSLNVbMBkDGczDYs-emqWFApCHlg-j7oMoQw0v=w175-h128-rw"),
+                        place = Place(
+                                Address(Street("Jana Pawła II"), HomeNumber("7"), CityName("Góra Świętej Anny"), PostalCode("47-154"))
+                        ),
+                        socialMedia = SocialMedia(
+                                WebPage("http://www.swanna.org")
+                        ),
+                        emailAddress = EmailAddress("duszpasterstwo.swanna@gmail.com"),
+                        photoUrl = null,
+                        description = null
+                ),
+                AcademicMinistryCommand.CreateAcademicMinistry(
+                        officialName = "Duszpasterstwo Akademickie \"Karmel\"",
+                        shortName = "Karmel",
+                        logoImageUrl = Url.ExternalUrl("//lh3.googleusercontent.com/43OZOCd1oYBqDOIp4u_JKXJZAedg9Xw7fs1DHPlqDeq74yHfVaQ_rdmz2hp56sz2iLuMQlMA-UISXH8y=w175-h130-rw"),
+                        place = null,
+                        socialMedia = SocialMedia(
+                                WebPage("http://www.da.karmel.pl")
+                        ),
+                        emailAddress = null,
+                        photoUrl = null,
+                        description = null
+                ),
+                AcademicMinistryCommand.CreateAcademicMinistry(
+                        officialName = "Duszpasterstwo Akademickie \"Przystań\"",
+                        shortName = "Przystań",
+                        logoImageUrl = Url.ExternalUrl("//lh3.googleusercontent.com/eXQfxqNuhAoxFirpkMNeXuWe3WeluC8rZEWDlaUTVdu9HQN8b7f1kKt_0dTWZmtuxDnh3dV2VJWap_eJ=w175-h128-rw"),
+                        place = null,
+                        socialMedia = SocialMedia(
+                                WebPage("http://da-przystan.wroclaw.pl/")
+                        ),
+                        emailAddress = null,
+                        photoUrl = null,
+                        description = null
+                ),
+                AcademicMinistryCommand.CreateAcademicMinistry(
+                        officialName = "Franciszkańskie Duszpasterstwo Akademickie \"Porcjunkula\"",
+                        shortName = "Porcjunkula",
+                        logoImageUrl = Url.ExternalUrl("//lh3.googleusercontent.com/lIksuDzDy_ceLfzqFnloVniiG1XKOJegXwFtxuJYlBEFwX9bJPEdL1RqrtysIvYazQ3IOmYGuOT-6IH6=w175-h128-rw"),
+                        place = null,
+                        socialMedia = SocialMedia(
+                                WebPage("http://porcjunkula.org/")
+                        ),
+                        emailAddress = null,
+                        photoUrl = null,
+                        description = null
                 )
-        ).forEach { academicMinistryAdminCommandGateway.process(it) }
+        ).sortedBy { it.shortName }.forEach { academicMinistryAdminCommandGateway.process(it) }
 
         academicMinistryQueryGateway.process(AcademicMinistryQuery.All())
                 .forEach {

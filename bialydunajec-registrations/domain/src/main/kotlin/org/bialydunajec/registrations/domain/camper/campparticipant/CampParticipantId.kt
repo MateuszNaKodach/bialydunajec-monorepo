@@ -3,6 +3,7 @@ package org.bialydunajec.registrations.domain.camper.campparticipant
 import org.bialydunajec.ddd.domain.base.valueobject.AggregateId
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.Pesel
 import org.springframework.stereotype.Component
+import javax.persistence.Column
 import javax.persistence.Embeddable
 
 interface PeselEncoder {
@@ -11,11 +12,16 @@ interface PeselEncoder {
 }
 
 @Component
-class CampParticipantIdGenerator(private val peselEncoder: PeselEncoder) {
+class CamperTrackingCodeGenerator(private val peselEncoder: PeselEncoder) {
     fun generateFrom(pesel: Pesel?) =
-            CampParticipantId(pesel?.let { peselEncoder.encode(it) }
+            CamperTrackingCode(pesel?.let { peselEncoder.encode(it) }
                     ?: AggregateId.defaultValue())
 }
 
 @Embeddable
-class CampParticipantId internal constructor(campParticipantId: String) : AggregateId(campParticipantId)
+class CamperTrackingCode(private val camperTrackingCode: String) {
+    override fun toString() = camperTrackingCode
+}
+
+@Embeddable
+class CampParticipantId : AggregateId()

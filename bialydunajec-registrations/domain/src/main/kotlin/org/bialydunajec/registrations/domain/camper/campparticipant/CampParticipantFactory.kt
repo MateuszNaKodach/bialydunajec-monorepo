@@ -7,7 +7,6 @@ import org.bialydunajec.registrations.domain.camper.valueobject.CamperApplicatio
 import org.bialydunajec.registrations.domain.camper.valueobject.StayDuration
 import org.bialydunajec.registrations.domain.campedition.specification.InProgressCampRegistrationsSpecification
 import org.bialydunajec.registrations.domain.camper.campparticipantregistration.CampParticipantRegistration
-import org.bialydunajec.registrations.domain.camper.campparticipantregistration.CampParticipantRegistrationEvent
 import org.bialydunajec.registrations.domain.cottage.CottageRepository
 import org.bialydunajec.registrations.domain.cottage.specification.ActivatedCottageSpecification
 import org.bialydunajec.registrations.domain.cottage.specification.CottageFreeSpaceSpecificationFactory
@@ -23,7 +22,7 @@ class CampParticipantFactory constructor(
         private val campEditionRepository: CampRegistrationsEditionRepository,
         private val cottageFreeSpaceSpecificationFactory: CottageFreeSpaceSpecificationFactory,
         private val campParticipantRepository: CampParticipantRepository,
-        private val campParticipantIdGenerator: CampParticipantIdGenerator
+        private val camperTrackingCodeGenerator: CamperTrackingCodeGenerator
 ) {
 
 
@@ -34,7 +33,7 @@ class CampParticipantFactory constructor(
     ): CampParticipant {
         camperApplication.personalData.pesel?.let {
             val alreadyRegistered = campParticipantRepository.existsByPeselAndCampRegistrationsEditionId(
-                    camperApplication.personalData.pesel,
+                    it,
                     campRegistrationsEditionId
             )
             if (alreadyRegistered) {
@@ -53,7 +52,7 @@ class CampParticipantFactory constructor(
         ) ?: throw DomainRuleViolationException.of(CAMP_EDITION_HAS_NOT_IN_PROGRESS_REGISTRATIONS)
 
         return CampParticipant(
-                campParticipantIdGenerator = campParticipantIdGenerator,
+                camperTrackingCodeGenerator = camperTrackingCodeGenerator,
                 campRegistrationsEditionId = campEditionWithInProgressRegistrations.getAggregateId(),
                 currentCamperData = camperApplication,
                 stayDuration = stayDuration ?: StayDuration(
