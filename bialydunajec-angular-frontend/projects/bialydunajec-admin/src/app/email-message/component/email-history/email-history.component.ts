@@ -60,6 +60,7 @@ export class EmailHistoryComponent implements OnInit, OnDestroy {
         case EventType.EMAIL_MESSAGE_SENT_SUCCESS: {
           const emailMessage = this.emailMessages.find(it => it.emailMessageLogId === data.payload.emailMessageLogId);
           emailMessage.status = 'SENT';
+          emailMessage.sentDate = data.payload.sentDate;
           break;
         }
         case EventType.EMAIL_MESSAGE_CREATED: {
