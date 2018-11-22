@@ -61,5 +61,5 @@ class ShirtOrder internal constructor(
     }
 
     fun getSnapshot() =
-            ShirtOrderSnapshot(campEditionShirtId, campParticipantId, colorOption.getColor(), sizeOption.getSize())
+            ShirtOrderSnapshot(campEditionShirtId, campParticipantId, colorOption.getSnapshot(), sizeOption.getSnapshot())
 }

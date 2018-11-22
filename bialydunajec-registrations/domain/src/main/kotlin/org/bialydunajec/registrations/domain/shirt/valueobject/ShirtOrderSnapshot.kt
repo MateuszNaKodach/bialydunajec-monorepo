@@ -17,7 +17,7 @@ class ShirtOrderSnapshot(
         )
         val campParticipantId: CampParticipantId,
         @Embedded
-        val color: Color,
+        val colorOption: ShirtColorOptionSnapshot,
         @Embedded
-        val size: ShirtSize
+        val sizeOption: ShirtSizeOptionSnapshot
 )
