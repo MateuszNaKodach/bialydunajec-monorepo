@@ -10,9 +10,10 @@ class ProcessingSerializedQueue<T>(
 
     init {
         subject
+                .doOnNext { onProcess(it) }
                 .retry()
                 .observeOn(Schedulers.single())
-                .subscribe { onProcess(it) }
+                .subscribe()
     }
 
     fun process(element: T) {
