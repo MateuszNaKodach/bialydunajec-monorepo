@@ -19,6 +19,12 @@ export class CampParticipantListComponent implements OnInit, OnDestroy {
   availableCampEditions: Observable<CampEditionResponse[]>;
   campParticipants: CampParticipantResponse[] = [];
 
+  //Chart UI
+  campParticipantsByCottageStats: any[] = [];
+  campCapacity = 0;
+  registeredCampParticipants = 0;
+
+  //Table UI
   currentCampEdition: number;
   tableIsLoading = false;
   newCampParticipantRegistered = false;
@@ -35,14 +41,21 @@ export class CampParticipantListComponent implements OnInit, OnDestroy {
 
   onCampEditionIdSelected(selectedCampEditionId: number) {
     this.currentCampEdition = selectedCampEditionId;
-    this.updateCampRegistrationsTable(selectedCampEditionId);
+    this.updateCampRegistrationsTable();
+    this.loadCampRegistrationsEditionStats();
   }
 
-  private updateCampRegistrationsTable(selectedCampEditionId: number) {
-    this.updateCampRegistrations(selectedCampEditionId);
+  private updateCampRegistrationsTable() {
+    this.updateCampRegistrations(this.currentCampEdition);
+  }
+
+  private onCampRegistrationsReload() {
+    this.updateCampRegistrationsTable();
+    this.loadCampRegistrationsEditionStats();
   }
 
   private updateCampRegistrations(selectedCampEditionId: number) {
+    this.newCampParticipantRegistered = false;
     this.tableIsLoading = true;
     this.campRegistrationsEndpoint.getCampParticipantsByCampRegistrationsEditionId(selectedCampEditionId)
       .pipe(
@@ -57,6 +70,19 @@ export class CampParticipantListComponent implements OnInit, OnDestroy {
       );
   }
 
+  loadCampRegistrationsEditionStats() {
+    this.campRegistrationsEndpoint.getCampRegistrationsStatisticsByCampRegistrationsEditionId(this.currentCampEdition)
+      .subscribe(response => {
+        const stats = response.cottagesStats;
+        this.campCapacity = response.campCapacity;
+        this.registeredCampParticipants = response.registeredCampParticipants;
+        this.campParticipantsByCottageStats = stats
+          .map(it => {
+            return {name: it.cottageName, value: it.maleCampParticipantsAmount + it.femaleCampParticipantsAmount};
+          });
+      });
+  }
+
   private observeCampParticipantProjectedEvents() {
     this.eventSource = new EventSourcePolyfill(
       `${environment.restApi.baseUrl}/rest-api/v1/admin/camp-participant/projected-events-stream`, {}
@@ -67,7 +93,7 @@ export class CampParticipantListComponent implements OnInit, OnDestroy {
       switch (data.eventType) {
         case EventType.CAMP_PARTICIPANT_CONFIRMED: {
           const campParticipant = this.campParticipants.find(it => it.campParticipantId === data.payload.campParticipantId);
-          campParticipant.participationStatus = data.payload.participationStatus;
+          campParticipant.participationStatus = data.payload.snapshot.participationStatus;
           break;
         }
         case EventType.COMMITMENT_PAID: {

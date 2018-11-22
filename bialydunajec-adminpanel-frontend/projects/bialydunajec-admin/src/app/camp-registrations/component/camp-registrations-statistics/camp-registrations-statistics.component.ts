@@ -13,18 +13,7 @@ export class CampRegistrationsStatisticsComponent implements OnInit {
   availableCampEditions$: Observable<CampEditionResponse[]>;
   currentCampEdition: number;
 
-  single: any[] = [];
-  view: any[] = [700, 400];
-
-  // options
-  showXAxis = true;
-  showYAxis = true;
-  gradient = false;
-  showXAxisLabel = true;
-  xAxisLabel = 'Chatka';
-  showYAxisLabel = true;
-  yAxisLabel = 'Liczba uczestników';
-
+  campParticipantsByCottageStats: any[] = [];
 
   constructor(private campRegistrationsEndpoint: CampRegistrationsEndpoint) {
   }
@@ -42,9 +31,10 @@ export class CampRegistrationsStatisticsComponent implements OnInit {
     this.campRegistrationsEndpoint.getCampRegistrationsStatisticsByCampRegistrationsEditionId(this.currentCampEdition)
       .subscribe(response => {
         const stats = response.cottagesStats;
-        this.single = stats.map(s => {
-          return {name: s.cottageName, value: s.maleCampParticipantsAmount + s.femaleCampParticipantsAmount};
-        });
+        this.campParticipantsByCottageStats = stats
+          .map(it => {
+            return {name: it.cottageName, value: it.maleCampParticipantsAmount + it.femaleCampParticipantsAmount};
+          });
       });
   }
 

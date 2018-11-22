@@ -11,6 +11,7 @@ import {UpdateCottageRequest} from './request/update-cottage.request';
 import {PageDto} from './dto/page.dto';
 import {CampParticipantResponse} from './response/camp-participant.response';
 import {environment} from '../../../../environments/environment';
+import {ShirtOrderReadModel} from './response/shirt-order.read-model';
 
 @Injectable({
   providedIn: 'root'
@@ -135,6 +136,12 @@ export class CampRegistrationsEndpoint extends AbstractEndpoint {
   getCampRegistrationsStatisticsByCampRegistrationsEditionId(campRegistrationsEditionId: number) {
     return this.httpClient.get<any>(
       `${environment.restApi.baseUrl}/rest-api/v1/admin/camp-registrations-statistics/${campRegistrationsEditionId}`
+    );
+  }
+
+  getShirtOrdersByCampRegistrationsEditionId(campRegistrationsEditionId: number) {
+    return this.httpClient.get<ShirtOrderReadModel[]>(
+      `${environment.restApi.baseUrl}/rest-api/v1/admin/shirt-order?campRegistrationsEditionId=${campRegistrationsEditionId}`
     );
   }
 }
