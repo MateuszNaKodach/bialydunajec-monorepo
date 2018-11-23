@@ -109,7 +109,8 @@
                   <button nz-button
                           *ngIf="data.participationStatus == 'WAITING_FOR_CONFIRM'"
                           nzType="primary"
-                          type="button"><i class="anticon anticon-check"></i>Potwierdź uczestnictwo
+                          nz-popconfirm nzTitle="Czy jesteś pewien, że chcesz potwierdzić uczestnictwo w Obozie? Uczestnik zostanie o tym poinformowany wiadomością email."
+                          type="button" (nzOnConfirm)="verifyCampParticipantRegistrationByAuthorized(data)"><i class="anticon anticon-check"></i>Potwierdź uczestnictwo
                   </button>
                   <button nz-button
                           style="margin-left: 0.5rem;"><i class="anticon anticon-form"></i>Zmień wprowadzone dane

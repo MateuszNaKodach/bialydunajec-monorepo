@@ -83,6 +83,12 @@ export class CampParticipantListComponent implements OnInit, OnDestroy {
       });
   }
 
+  verifyCampParticipantRegistrationByAuthorized(campParticipant: CampParticipantResponse) {
+    //TODO: Error handling!
+    this.campRegistrationsEndpoint.verifyCampParticipantRegistrationByAuthorized(campParticipant.campParticipantRegistrationId)
+      .subscribe();
+  }
+
   private observeCampParticipantProjectedEvents() {
     this.eventSource = new EventSourcePolyfill(
       `${environment.restApi.baseUrl}/rest-api/v1/admin/camp-participant/projected-events-stream`, {}

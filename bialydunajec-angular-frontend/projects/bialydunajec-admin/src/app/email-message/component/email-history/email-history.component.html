@@ -25,27 +25,67 @@
       class="bda-admin-panel-section-card">
       <h2>Wyszukiwanie wiadomości</h2>
       <nz-divider></nz-divider>
-      Szukaj
+      <form nz-form class="ant-advanced-search-form" #f="ngForm" (ngSubmit)="onSubmitSearch(f)">
+        <div class="bda-search-table-controls">
+          <nz-form-item>
+            <nz-form-label>Adresat</nz-form-label>
+            <nz-form-control>
+              <input
+                ngModel
+                #recipientAdressInput="ngModel"
+                name="recipientAddress"
+                nz-input>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label>Temat</nz-form-label>
+            <nz-form-control>
+              <input
+                ngModel
+                #subjectInput="ngModel"
+                name="subject"
+                nz-input>
+            </nz-form-control>
+          </nz-form-item>
+          <!--<nz-form-item>
+            <nz-form-control>
+              <label nz-checkbox ngModel name="onlySentFailure">Tylko niewysłane</label>
+            </nz-form-control>
+          </nz-form-item>-->
+        </div>
+        <div style="display:flex; justify-content: space-between;">
+          <div>
+            <p *ngIf="searchingActive" style="display: inline-block; font-weight: bold">Wyświetlono
+              {{emailMessagesSearchResult.length}} wyników wyszukiwania.</p>
+          </div>
+          <div>
+            <button nz-button [nzType]="'primary'" type="submit">Wyszukaj</button>
+            <button nz-button (click)="resetSearchResult(f)" type="button" style="margin-left: 1rem;">Resetuj</button>
+          </div>
+        </div>
+      </form>
     </div>
 
     <div
       id="messages-list"
       class="bda-admin-panel-section-card"
-      *ngIf="emailMessages">
+      *ngIf="emailMessagesSearchResult">
       <div style="display: flex; align-items: center;">
         <h2 style="display: inline-block; margin-right: 1rem; ">Wysłane wiadomości e-mail</h2>
         <button
           *ngIf="newMessagesAvailable"
           nz-button class="mat-icon-button"
-          (click)="loadEmailMessages()"><i class="anticon material-icons">replay</i> Pojawiły się nowe wiadomości. Odśwież</button>
+          (click)="reloadEmailMessages()"><i class="anticon material-icons">replay</i> Pojawiły się nowe wiadomości.
+          Odśwież
+        </button>
       </div>
       <nz-divider></nz-divider>
       <div>
         <nz-table
           class="bda-camp-participant-table"
           #emailMessagesTable
-          [nzData]="emailMessages"
-          [nzTotal]="emailMessages.length"
+          [nzData]="emailMessagesSearchResult"
+          [nzTotal]="emailMessagesSearchResult.length"
           nzNoResult="Z systemu nie wysłano jeszcze żadnych wiadomości email!">
           <thead>
           <tr>
@@ -81,11 +121,11 @@
                 <pre
                   style="font: inherit; max-width: 100%; font-size: 1rem; white-space: pre-wrap;">{{data.content}}</pre>
 
-               <!--
-               TODO: Message forward
-               <button nz-button nzType="primary"
-                        (click)="forwardEmailMessage(data)"><i class="anticon anticon-mail"></i>Przekaż wiadomość
-                </button>-->
+                <!--
+                TODO: Message forward
+                <button nz-button nzType="primary"
+                         (click)="forwardEmailMessage(data)"><i class="anticon anticon-mail"></i>Przekaż wiadomość
+                 </button>-->
               </td>
             </tr>
           </ng-template>
