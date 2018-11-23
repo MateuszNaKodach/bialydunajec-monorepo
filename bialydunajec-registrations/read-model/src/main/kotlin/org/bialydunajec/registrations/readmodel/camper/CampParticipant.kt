@@ -15,6 +15,8 @@ internal data class CampParticipant(
 
         val campRegistrationsEditionId: String,
 
+        var campParticipantRegistrationId: String?,
+
         var confirmedApplication: CamperApplicationWithCottageDto?,
 
         var currentCamperData: CamperApplicationWithCottageDto,
@@ -24,18 +26,18 @@ internal data class CampParticipant(
 
         var participationStatus: ParticipationStatusDto,
 
-        @JsonFormat(timezone="Europe/Warsaw")
+        @JsonFormat(timezone = "Europe/Warsaw")
         var registrationDate: Instant?,
 
-        @JsonFormat(timezone="Europe/Warsaw")
+        @JsonFormat(timezone = "Europe/Warsaw")
         var confirmationDate: Instant?,
 
-        @JsonFormat(timezone="Europe/Warsaw")
+        @JsonFormat(timezone = "Europe/Warsaw")
         var downPaymentPaidDate: Instant?,
 
-        @JsonFormat(timezone="Europe/Warsaw")
+        @JsonFormat(timezone = "Europe/Warsaw")
         var campBusSeatPaidDate: Instant?,
 
-        @JsonFormat(timezone="Europe/Warsaw")
+        @JsonFormat(timezone = "Europe/Warsaw")
         var campParticipationPaidDate: Instant?
 )

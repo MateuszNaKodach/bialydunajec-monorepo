@@ -77,8 +77,15 @@ internal class CampParticipantDomainEventListener(
 
     @TransactionalEventListener
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    fun handle(event: CampParticipantEvent.Unregistered) {
+    fun handleUnregisteredToDeleteShirtOrder(event: CampParticipantEvent.Unregistered) {
+        println("CAMP PARTICIPANT UNREGISTERED!!!")
         //TODO: Delete shirt order, paymetns commitment, update camp participant registration to indicate that was deleted
         //TODO: Update read models!!!
+    }
+
+    @TransactionalEventListener
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    fun handleUnregisteredToPaymentsCommitments(event: CampParticipantEvent.Unregistered) {
+
     }
 }

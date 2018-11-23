@@ -39,6 +39,7 @@ internal class CampParticipantEventsProjection(
             CampParticipant(
                     campParticipantId,
                     campRegistrationsEditionId,
+                    eventPayload.campParticipantRegistrationId,
                     confirmedApplication,
                     currentCamperData,
                     stayDuration,
