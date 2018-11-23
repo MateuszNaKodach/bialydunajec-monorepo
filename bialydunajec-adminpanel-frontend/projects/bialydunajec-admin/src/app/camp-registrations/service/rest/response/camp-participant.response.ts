@@ -8,6 +8,7 @@ import {Time} from '@angular/common';
 export class CampParticipantResponse {
   campParticipantId: string;
   campRegistrationsEditionId: string;
+  campParticipantRegistrationId: string;
   confirmedApplication?: CamperApplicationWithCottageDto;
   currentCamperData: CamperApplicationWithCottageDto;
   stayDuration: StayDurationDto;

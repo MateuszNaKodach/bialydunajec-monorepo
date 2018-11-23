@@ -6,6 +6,7 @@ import {EmailStatisticsReadModel} from '../../service/rest/read-model/email-stat
 import {EventSourcePolyfill} from 'ng-event-source';
 import {environment} from '../../../../environments/environment';
 import {EventType} from '../../service/rest/event/event-type';
+import {FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'bda-admin-email-history',
@@ -14,13 +15,13 @@ import {EventType} from '../../service/rest/event/event-type';
 })
 export class EmailHistoryComponent implements OnInit, OnDestroy {
 
-  private subscription: Subscription;
-  emailMessages: EmailMessageReadModel[];
+  private emailMessages: EmailMessageReadModel[];
+  emailMessagesSearchResult: EmailMessageReadModel[];
   emailStatistics$: Observable<EmailStatisticsReadModel>;
   newMessagesAvailable = false;
+  searchingActive = false;
 
   private eventSource: EventSourcePolyfill;
-
 
   constructor(private emailMessageEndpoint: EmailMessageEndpoint, private ngZone: NgZone) {
   }
@@ -74,15 +75,50 @@ export class EmailHistoryComponent implements OnInit, OnDestroy {
 
   private loadEmailMessages() {
     this.newMessagesAvailable = false;
-    this.subscription = this.emailMessageEndpoint.getAllEmailMessage().subscribe(messages => this.emailMessages = messages);
+    this.emailMessageEndpoint.getAllEmailMessage().subscribe(messages => {
+      this.emailMessages = messages;
+      this.emailMessagesSearchResult = messages;
+    });
+  }
+
+  private reloadEmailMessages() {
+    this.newMessagesAvailable = false;
+    this.emailMessageEndpoint.getAllEmailMessage().subscribe(messages => this.emailMessages = messages);
   }
 
   private loadEmailStatistics() {
     this.emailStatistics$ = this.emailMessageEndpoint.getEmailMessagesStatistics();
   }
 
+  onSubmitSearch(form: FormGroup) {
+    const formValue = form.value;
+    const recipientAddress = formValue['recipientAddress'];
+    const subject = formValue['subject'];
+    const onlySentFailure = formValue['onlySentFailure'];
+
+    if (!subject && !recipientAddress) {
+      this.resetSearchResult(form);
+    } else {
+      this.emailMessagesSearchResult =
+        this.emailMessages.filter(m => (recipientAddress && m.recipient.includes(recipientAddress)) || (subject && m.subject.includes(subject)));
+      /*if (onlySentFailure === true) {
+        this.emailMessagesSearchResult =
+          this.emailMessagesSearchResult.filter(m => m.status != 'SENT');
+      }*/
+
+      this.searchingActive = true;
+    }
+
+  }
+
+
+  resetSearchResult(form: FormGroup) {
+    form.reset();
+    this.emailMessagesSearchResult = this.emailMessages;
+    this.searchingActive = false;
+  }
+
   ngOnDestroy() {
-    this.subscription.unsubscribe();
     this.eventSource.close();
   }
 

@@ -123,25 +123,32 @@ export class CampRegistrationsEndpoint extends AbstractEndpoint {
     );
   }
 
-  getCampParticipantsByCampRegistrationsEditionId(campRegistrationsEditionId: number) {
+  getCampParticipantsByCampRegistrationsEditionId(campRegistrationsEditionId: number | string) {
     return this.httpClient.get<CampParticipantResponse[]>(
       `${environment.restApi.baseUrl}/rest-api/v1/admin/camp-participant?campRegistrationsEditionId=${campRegistrationsEditionId}`
     );
   }
 
-  getCampEditionShirt(campRegistrationsEditionId: number) {
+  getCampEditionShirt(campRegistrationsEditionId: number | string) {
     return this.httpClient.get<CottageResponse>(`${this.callsBaseUrl}/camp-shirt/?campRegistrationsEditionId=${campRegistrationsEditionId}`);
   }
 
-  getCampRegistrationsStatisticsByCampRegistrationsEditionId(campRegistrationsEditionId: number) {
+  getCampRegistrationsStatisticsByCampRegistrationsEditionId(campRegistrationsEditionId: number | string) {
     return this.httpClient.get<any>(
       `${environment.restApi.baseUrl}/rest-api/v1/admin/camp-registrations-statistics/${campRegistrationsEditionId}`
     );
   }
 
-  getShirtOrdersByCampRegistrationsEditionId(campRegistrationsEditionId: number) {
+  getShirtOrdersByCampRegistrationsEditionId(campRegistrationsEditionId: number | string) {
     return this.httpClient.get<ShirtOrderReadModel[]>(
       `${environment.restApi.baseUrl}/rest-api/v1/admin/shirt-order?campRegistrationsEditionId=${campRegistrationsEditionId}`
+    );
+  }
+
+  verifyCampParticipantRegistrationByAuthorized(campParticipantRegistrationId: string) {
+    return this.httpClient.patch(
+      `${environment.restApi.baseUrl}/rest-api/v1/admin/camp-registrations/camp-participant-registration/${campParticipantRegistrationId}/verification`,
+      {}
     );
   }
 }
