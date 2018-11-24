@@ -19,7 +19,7 @@ import {RegistrationFormStepAbstractComponent} from '../registration-form-step.a
 })
 export class PersonalDataFormComponent extends RegistrationFormStepAbstractComponent {
 
-  regulation = `Akceptuję <a>regulamin</a> Obozu i zobowiązuję się do wypełniania jego postanowień.`;
+  regulation = `Akceptuję <b><a target="_blank" rel="noopener noreferrer" href="assets/documents/REGULAMIN_BD_DLA_UCZESTNIKA.pdf">regulamin</a></b> Obozu i zobowiązuję się do wypełniania jego postanowień.`;
 
   campInfoOptions = ['Ze szkoły', 'Z uczelni', 'Od znajomych', 'Z facebooka'];
   whichOneGoForCamp = ['pierwszy', 'drugi', 'trzeci', 'czwarty', 'piąty', 'szósty', 'siódmy', 'ósmy'];

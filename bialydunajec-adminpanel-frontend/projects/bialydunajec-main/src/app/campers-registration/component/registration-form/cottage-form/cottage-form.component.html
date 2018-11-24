@@ -8,13 +8,33 @@
       title="Chatka"
       description="Wybierz chatkę, w której będziesz mieszkać."
     ></bda-section-header>
-    <div *ngIf="cottages | async as cottagesCards" style="margin-bottom: 1rem;">
-      <bda-cottage-selection
-        [cottages]="cottagesCards"
-        formControlName="cottageId">
-      </bda-cottage-selection>
+    <div *ngIf="camperGender; else noGenderAlert">
+      <div *ngIf="cottages | async as cottagesCards" style="margin-bottom: 1rem;">
+        <bda-cottage-selection
+          [cottages]="cottagesCards"
+          formControlName="cottageId">
+        </bda-cottage-selection>
+      </div>
+      <div *ngIf="cottageId.invalid && cottageId.touched">
+        <sui-message
+          [isDismissable]="false"
+          style="margin: 5rem 2rem;"
+          class="negative message icon">
+          <i class="times circle red icon"></i>
+          <div class="content">
+            <div class="header">
+              Chatka nie została wybrana.
+            </div>
+            <p>Proszę wybrać chatkę, w której spędzisz czas obozu. Jeśli jeszcze nie wiesz na co się zdecydować, więcej
+              informacji o chatkach możesz przeczytać tutaj.</p>
+          </div>
+        </sui-message>
+      </div>
+      <div style="display: flex; justify-content: flex-end;">
+        <re-captcha formControlName="reCaptcha" (resolved)="onReCaptchaResolved($event)"></re-captcha>
+      </div>
     </div>
-    <div *ngIf="cottageId.invalid && cottageId.touched">
+    <ng-template #noGenderAlert>
       <sui-message
         [isDismissable]="false"
         style="margin: 5rem 2rem;"
@@ -22,17 +42,13 @@
         <i class="times circle red icon"></i>
         <div class="content">
           <div class="header">
-            Chatka nie została wybrana.
+            Nie podano wszystkich wymaganych danych.
           </div>
-          <p>Proszę wybrać chatkę, w której spędzisz czas obozu. Jeśli jeszcze nie wiesz na co się zdecydować, więcej
-            informacji o chatkach możesz przeczytać tutaj.</p>
+          <p>Zanim wybierzesz chatkę i zapiszesz się na Obóz, prosimy o wypełnienie poprzednich etapów formularza.</p>
         </div>
       </sui-message>
-    </div>
+    </ng-template>
   </section>
-  <div style="display: flex; justify-content: flex-end;">
-    <re-captcha formControlName="reCaptcha" (resolved)="onReCaptchaResolved($event)"></re-captcha>
-  </div>
   <bda-form-navigation-buttons
     style="margin-top: 3rem;"
     [config]='{left: {text: "WSTECZ", disabled: false}, right: {text: "ZAPISZ SIĘ!", disabled: reCaptcha.invalid}}'
