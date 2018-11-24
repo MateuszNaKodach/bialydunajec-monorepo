@@ -29,13 +29,13 @@ export class CampCadreService {
       'bbasd-sss-ccccc-angela',
       'Angelika',
       'Majda',
-      'Rzecznik Obozu',
+      'Szef Kultularnych',
       'Stygmatyk',
       'https://bialydunajec.org/images/stories/kontakty/kadra_glowna/kulturalna.jpg',
       null,
       new ExtendedDescription('Aloha!', 'To nie ja jestem szefem wszystkich szefów... :( Lorem Ipsum jest tekstem stosowanym jako przykładowy wypełniacz w przemyśle poligraficznym. Został po raz pierwszy użyty w XV w. przez nieznanego drukarza do wypełnienia tekstem próbnej książki. Pięć wieków później zaczął być używany przemyśle elektronicznym, pozostając praktycznie niezmienionym. Spopularyzował się w latach 60. XX w. wraz z publikacją arkuszy Letrasetu, zawierających fragmenty Lorem Ipsum, a ostatnio z zawierającym różne wersje Lorem Ipsum oprogramowaniem przeznaczonym do realizacji druków na komputerach osobistych, jak Aldus PageMaker')
     ),
-    new CadreMember(
+    /*new CadreMember(
       'bbasd-asdasd-ccccc-sawcia',
       'Test',
       'SkądOnTutajBezZdjęcia',
@@ -43,7 +43,7 @@ export class CampCadreService {
       'Nieznane',
       null,
       new ContactInfo('camper@bialydunajec.org')
-    ),
+    ),*/
   ];
 
   constructor() {

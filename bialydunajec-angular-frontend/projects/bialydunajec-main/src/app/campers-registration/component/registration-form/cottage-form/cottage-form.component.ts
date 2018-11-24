@@ -47,15 +47,21 @@ export class CottageFormComponent extends RegistrationFormStepAbstractComponent 
 
   startFormStepInit() {
     const camperGender = this.mainFormState.getPersonalFormDataSnapshot().personalData.gender;
-    this.cottages = this.inProgressCampRegistrationsEndpoint.getAllCottagesByInProgressCampRegistrations(camperGender)
-      .pipe(
-        map(
-          (response: CampRegistrationsCottageResponse[]) =>
-            response.map(cottage => new CottageCardViewModel(
-              cottage.cottageId, cottage.name, cottage.logoImageUrl, cottage.hasSpace
-            ))
-        )
-      );
+    if (camperGender) {
+      this.cottages = this.inProgressCampRegistrationsEndpoint.getAllCottagesByInProgressCampRegistrations(camperGender)
+        .pipe(
+          map(
+            (response: CampRegistrationsCottageResponse[]) =>
+              response.map(cottage => new CottageCardViewModel(
+                cottage.cottageId, cottage.name, cottage.logoImageUrl, cottage.hasSpace
+              ))
+          )
+        );
+    }
+  }
+
+  get camperGender() {
+    return this.mainFormState.getPersonalFormDataSnapshot().personalData.gender;
   }
 
   get cottageId() {

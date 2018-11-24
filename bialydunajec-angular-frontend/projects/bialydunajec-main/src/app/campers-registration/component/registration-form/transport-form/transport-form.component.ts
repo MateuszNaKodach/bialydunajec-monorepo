@@ -41,7 +41,7 @@ export class TransportFormComponent extends RegistrationFormStepAbstractComponen
           {id: '2', name: 'Pociągiem / autobusem', transportType: TransportType.PUBLIC_TRANSPORT},
           {id: '3', name: 'Rowerem', transportType: TransportType.PRIVATE_TRANSPORT},
           {id: '4', name: 'Na stopa', transportType: TransportType.HITCH_HIKING},
-          {id: '5', name: 'Autokarem Białego Dunajca (+55 zł)', transportType: TransportType.CAMP_TRANSPORT}
+          {id: '5', name: 'Autokarem Białego Dunajca', transportType: TransportType.CAMP_TRANSPORT}
         ]
       }
     }
@@ -49,6 +49,7 @@ export class TransportFormComponent extends RegistrationFormStepAbstractComponen
 
   selectedTransportType: TransportType;
   showParkingSpaceInfo = false;
+  showCampBusLaterReservationsInfo = false;
 //TODO: Change name on originBusStop
   additionalStepFormOptions = new Map<TransportType, FormGroup>([
     [TransportType.CAMP_TRANSPORT, this.formBuilder.group({
@@ -83,8 +84,11 @@ export class TransportFormComponent extends RegistrationFormStepAbstractComponen
   private showAdditionalContentForTransportType(transportType: TransportType) {
     this.stepForm.removeControl(TransportType.CAMP_TRANSPORT);
     this.showParkingSpaceInfo = false;
+    this.showCampBusLaterReservationsInfo = false;
     if (transportType === TransportType.CAMP_TRANSPORT) {
-      this.stepForm.addControl(TransportType.CAMP_TRANSPORT, this.additionalStepFormOptions.get(TransportType.CAMP_TRANSPORT));
+      this.showCampBusLaterReservationsInfo = true;
+      // TODO: Implement bus registrations
+      // this.stepForm.addControl(TransportType.CAMP_TRANSPORT, this.additionalStepFormOptions.get(TransportType.CAMP_TRANSPORT));
     } else if (transportType === TransportType.PRIVATE_CAR) { // TODO: Change for additional message without new TransportType!
       this.showParkingSpaceInfo = true;
     }
