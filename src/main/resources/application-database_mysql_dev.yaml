@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: "jdbc:mysql://mysql23.mydevil.net:3306/m1194_bialydunajec_dev"
+    username: m1194_bialy_dev
+    password: JadeNa35Bialy!
+    #driver-class-name: com.mysql.jdbc.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update

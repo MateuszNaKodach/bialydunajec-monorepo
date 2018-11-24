@@ -101,7 +101,7 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-webflux')
     compile('com.fasterxml.jackson.module:jackson-module-kotlin')
    // compile('org.springframework.data:spring-data-rest-hal-browser')
-    compile('org.springframework.retry:spring-retry')
+    //compile('org.springframework.retry:spring-retry')
 
     //Swagger 2 - REST Api documentation
     compile("io.springfox:springfox-swagger2:${swaggerVersion}")
@@ -110,7 +110,7 @@ dependencies {
     //Fake data generator
     compile group: 'com.devskiller', name: 'jfairy', version: '0.6.2'
 
-    runtime('org.springframework.boot:spring-boot-devtools')
+    //runtime('org.springframework.boot:spring-boot-devtools')
     runtime('com.h2database:h2')
     runtime('mysql:mysql-connector-java')
 
@@ -118,6 +118,6 @@ dependencies {
     testCompile('org.springframework.boot:spring-boot-starter-test')
     //testCompile('io.projectreactor:reactor-test')
 
-    compile('de.flapdoodle.embed:de.flapdoodle.embed.mongo')
+    //compile('de.flapdoodle.embed:de.flapdoodle.embed.mongo')
 
 }
