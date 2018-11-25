@@ -55,8 +55,8 @@
         </div>
         <div style="display:flex; justify-content: space-between;">
           <div>
-            <p *ngIf="searchingActive" style="display: inline-block; font-weight: bold">Wyświetlono
-              {{emailMessagesSearchResult.length}} wyników wyszukiwania.</p>
+            <p *ngIf="searchingActive" style="display: inline-block; font-weight: bold">
+              Liczba znalezionych wiadomości wg. podanych kryteriów wyszukiwania: {{emailMessagesSearchResult.length}}</p>
           </div>
           <div>
             <button nz-button [nzType]="'primary'" type="submit">Wyszukaj</button>
