@@ -3,7 +3,7 @@ server:
 
 spring:
   profiles:
-    active: env_dev
+    active: env_local
 
   mail:
     default-encoding: UTF-8

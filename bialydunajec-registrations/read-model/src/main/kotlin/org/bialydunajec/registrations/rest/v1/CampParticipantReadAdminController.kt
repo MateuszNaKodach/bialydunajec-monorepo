@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RequestMapping("/rest-api/v1/admin/camp-participant")
 @RestController
-internal class CampParticipantReadAdminController(
+internal class CampParticipantReadController(
         private val camParticipantMongoRepository: CampParticipantMongoRepository,
         private val campParticipantEventStream: CampParticipantEventStream
 ) {

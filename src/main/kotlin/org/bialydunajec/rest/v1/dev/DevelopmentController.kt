@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
-@Profile(ProfileName.DEVELOPMENT_ENVIRONMENT)
+@Profile(value = [ProfileName.DEVELOPMENT_ENVIRONMENT, ProfileName.LOCAL_ENVIRONMENT])
 @RequestMapping("/rest-api/v1/development")
 @RestController
 internal class DevelopmentController(
