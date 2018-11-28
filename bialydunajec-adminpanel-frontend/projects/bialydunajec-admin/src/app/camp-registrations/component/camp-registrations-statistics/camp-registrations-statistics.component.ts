@@ -15,6 +15,8 @@ export class CampRegistrationsStatisticsComponent implements OnInit {
 
   campParticipantsByCottageStats: any[] = [];
 
+  cottagesFillRatio: any[] = [];
+
   constructor(private campRegistrationsEndpoint: CampRegistrationsEndpoint) {
   }
 
@@ -34,6 +36,11 @@ export class CampRegistrationsStatisticsComponent implements OnInit {
         this.campParticipantsByCottageStats = stats
           .map(it => {
             return {name: it.cottageName, value: it.maleCampParticipantsAmount + it.femaleCampParticipantsAmount};
+          });
+        this.cottagesFillRatio = stats
+          .map(it => {
+            const value = it.cottageFillRatio == 'Infinity' ? 1 : it.cottageFillRatio;
+            return {name: it.cottageName, value: value};
           });
       });
   }
