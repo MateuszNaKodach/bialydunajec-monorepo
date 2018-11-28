@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {
   CamperEducationDto,
   CamperPersonalDataDto, CamperShirtOrderDto,
-  CampParticipantRegistrationRequest
+  CampParticipantRegistrationRequest, StatisticalAnswersDto
 } from '../../../service/rest/request/camp-participant-registration.request';
 import {AddressDto} from '../../../../../../../bialydunajec-admin/src/app/shared/service/rest/dto/address.dto';
 import {CamperRegistrationFormStateService} from '../../../service/camper-registration-form-state.service';
@@ -81,7 +81,12 @@ export class RegistrationSummaryComponent implements OnInit {
       new CamperShirtOrderDto(
         shirtOrderState.color.shirtColorOptionId,
         shirtOrderState.size.shirtSizeOptionId
-      )
+      ),
+      new StatisticalAnswersDto(
+        personalDataState.statistics.knowAboutCampFrom,
+        personalDataState.statistics.onCampForTime
+      ),
+      formState.TRANSPORT.meanOfTransport
     );
 
     this.campRegistrationsEndpoint.registerCampParticipant(36, request)
@@ -150,9 +155,9 @@ export class RegistrationSummaryComponent implements OnInit {
 }
 
 export class RequestErrorObserverBuilder {
-  restError: (restErrors: string[] | RestErrorCode[]) => any;
-  networkError: (error) => any;
-  unhandledError: (error) => any;
+  private readonly restError: (restErrors: string[] | RestErrorCode[]) => any;
+  private readonly networkError: (error) => any;
+  private readonly unhandledError: (error) => any;
 
   private static defaultCallback = error => console.log(error);
 
@@ -163,6 +168,10 @@ export class RequestErrorObserverBuilder {
     this.restError = restError;
     this.networkError = networkError;
     this.unhandledError = unhandledError;
+  }
+
+  static anyError(callback: (error) => any) {
+    return new RequestErrorObserverBuilder(callback, callback, callback);
   }
 
   getRequestErrorObserver() {

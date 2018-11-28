@@ -7,23 +7,37 @@
       (campEditionIdSelected)="onCampEditionIdSelected($event)"
       [campEditionsObservable]="availableCampEditions$"></bda-admin-camp-edition-selection>
   </div>
-  <div>
+  <div class="bda-admin-camp-registrations-statistics">
     <div class="bda-admin-panel-section-card">
       <h2><b>Zestawienia uczestników obozu z podziałem na chatki</b></h2>
       <nz-divider></nz-divider>
-      <ngx-charts-bar-vertical
-        [view]="[700, 400]"
-        [results]="campParticipantsByCottageStats"
-        [gradient]="false"
-        [xAxis]="true"
-        [yAxis]="true"
-        scheme="fire"
-        [barPadding]="16"
-        [showXAxisLabel]="true"
-        [showYAxisLabel]="true"
-        xAxisLabel="Chatka"
-        yAxisLabel="Liczba zapisanych uczestników">
-      </ngx-charts-bar-vertical>
+      <div style="width: 100%; height: 90%;">
+        <ngx-charts-bar-vertical
+          [results]="campParticipantsByCottageStats"
+          [gradient]="false"
+          [xAxis]="true"
+          [yAxis]="true"
+          scheme="fire"
+          [barPadding]="16"
+          [showXAxisLabel]="true"
+          [showYAxisLabel]="true"
+          xAxisLabel="Chatka"
+          yAxisLabel="Liczba zapisanych uczestników">
+        </ngx-charts-bar-vertical>
+      </div>
+    </div>
+    <div class="bda-admin-panel-section-card">
+      <h2><b>Procent zapełnienia każdej z chatek</b></h2>
+      <nz-divider></nz-divider>
+      <div style="width: 100%; height: 90%;">
+        <ngx-charts-pie-grid
+          [results]="cottagesFillRatio"
+          [designatedTotal]="1"
+          [tooltipDisabled]="true"
+          label="Procent"
+          scheme="fire">
+        </ngx-charts-pie-grid>
+      </div>
     </div>
   </div>
 </section>

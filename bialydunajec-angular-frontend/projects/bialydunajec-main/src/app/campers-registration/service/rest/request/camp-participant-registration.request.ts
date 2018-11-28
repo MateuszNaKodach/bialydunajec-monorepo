@@ -5,20 +5,15 @@ export class CampParticipantRegistrationRequest {
   cottageId: string;
   personalData: CamperPersonalDataDto;
   homeAddress: AddressDto;
-  phoneNumber: String;
-  emailAddress: String;
+  phoneNumber: string;
+  emailAddress: string;
   camperEducation: CamperEducationDto;
   shirtOrder: CamperShirtOrderDto;
+  statisticalAnswers: StatisticalAnswersDto;
+  meanOfTransport: string;
 
 
-  constructor(
-    cottageId: string,
-    personalData: CamperPersonalDataDto,
-    homeAddress: AddressDto,
-    phoneNumber: String,
-    emailAddress: String,
-    camperEducation: CamperEducationDto,
-    shirtOrder: CamperShirtOrderDto) {
+  constructor(cottageId: string, personalData: CamperPersonalDataDto, homeAddress: AddressDto, phoneNumber: string, emailAddress: string, camperEducation: CamperEducationDto, shirtOrder: CamperShirtOrderDto, statisticalAnswers: StatisticalAnswersDto, meanOfTransport: string) {
     this.cottageId = cottageId;
     this.personalData = personalData;
     this.homeAddress = homeAddress;
@@ -26,6 +21,8 @@ export class CampParticipantRegistrationRequest {
     this.emailAddress = emailAddress;
     this.camperEducation = camperEducation;
     this.shirtOrder = shirtOrder;
+    this.statisticalAnswers = statisticalAnswers;
+    this.meanOfTransport = meanOfTransport;
   }
 }
 
@@ -33,11 +30,11 @@ export class CamperPersonalDataDto {
   firstName: string;
   lastName: string;
   gender: Gender;
-  pesel?: String;
+  pesel?: string;
   birthDate: Date;
 
 
-  constructor(firstName: string, lastName: string, gender: Gender, pesel: String, birthDate: Date = null) {
+  constructor(firstName: string, lastName: string, gender: Gender, pesel: string, birthDate: Date = null) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.gender = gender;
@@ -72,3 +69,14 @@ export class CamperShirtOrderDto {
     this.shirtSizeOptionId = shirtSizeOptionId;
   }
 }
+
+export class StatisticalAnswersDto {
+  knowAboutCampFrom: string;
+  onCampForTime: number;
+
+  constructor(knowAboutCampFrom: string, onCampForTime: number) {
+    this.knowAboutCampFrom = knowAboutCampFrom;
+    this.onCampForTime = onCampForTime;
+  }
+}
+
