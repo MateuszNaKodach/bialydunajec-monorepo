@@ -16,6 +16,7 @@ repositories {
 
 dependencies {
     testImplementation group: 'io.gatling.highcharts', name: 'gatling-charts-highcharts', version: '3.0.1.1'
+    testImplementation("com.devskiller:jfairy:0.6.2")
 }
 
 task loadTest(type: JavaExec) {
@@ -28,9 +29,9 @@ task loadTest(type: JavaExec) {
     ]
     main = "io.gatling.app.Gatling"
     args = [
-            "--simulation", "org.bialydunajec.loadtest.gatling.BlazeMeterGatlingTest",
+            "--simulation", "org.bialydunajec.loadtest.gatling.CampParticipantRegistrationGatlingTest",
             "--results-folder", "${buildDir}/gatling-results",
             "--binaries-folder", sourceSets.test.output.classesDirs.toString(),
-            "--bodies-folder", sourceSets.test.resources.srcDirs.toList().first().toString() + "/gatling/bodies",
+            "--bodies-folder", sourceSets.test.resources.srcDirs.first().toString() + "\\gatling\\bodies",
     ]
 }

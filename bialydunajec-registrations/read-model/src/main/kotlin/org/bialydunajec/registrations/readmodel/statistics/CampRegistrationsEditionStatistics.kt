@@ -1,9 +1,13 @@
 package org.bialydunajec.registrations.readmodel.statistics
 
 import org.bialydunajec.ddd.base.dto.GenderDto
+import org.bialydunajec.registrations.dto.ColorDto
 import org.bialydunajec.registrations.dto.CottageSpaceDto
+import org.bialydunajec.registrations.dto.ShirtSizeDto
+import org.bialydunajec.registrations.dto.ShirtTypeDto
 import org.bialydunajec.registrations.messages.event.CampParticipantExternalEvent
 import org.bialydunajec.registrations.messages.event.CottageExternalEvent
+import org.bialydunajec.registrations.messages.event.ShirtOrderExternalEvent
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 
@@ -23,9 +27,11 @@ internal class CampRegistrationsEditionStatistics(
             var cottageSpace: CottageSpaceDto?,
             var maleCampParticipantsAmount: Int = 0,
             var femaleCampParticipantsAmount: Int = 0,
-            var highSchoolRecentGraduatesAmount: Int = 0
+            var highSchoolRecentGraduatesAmount: Int = 0,
+            val shirtOrdersStats: CottageShirtOrdersStats = CottageShirtOrdersStats()
     ) {
         fun getCampParticipantsAmount() = maleCampParticipantsAmount + femaleCampParticipantsAmount
+        fun getCottageFillRatio() = getCampParticipantsAmount().div(cottageSpace?.fullCapacity?.toDouble() ?: 0.0)
     }
 
     fun calculateWith(eventPayload: CottageExternalEvent.CottageCreated) {
@@ -61,6 +67,44 @@ internal class CampRegistrationsEditionStatistics(
         }
     }
 
+    fun calculateWith(eventPayload: ShirtOrderExternalEvent.OrderPlaced) {
+        val cottageStats = cottagesStats.find { it.cottageId == eventPayload.campParticipant.cottage.cottageId }
+        cottageStats?.shirtOrdersStats?.calculateWith(eventPayload)
+    }
+
     fun getCampCapacity() = cottagesStats.map { it.cottageSpace?.fullCapacity ?: 0 }.sum()
+    fun getCampFillRatio() = registeredCampParticipants.toDouble().div(cottagesStats.map {
+        it.cottageSpace?.fullCapacity ?: 0
+    }.sum().toDouble())
 
 }
+
+internal class CottageShirtOrdersStats(
+        val shirtColorOptionStats: MutableList<ShirtColorOptionStats> = mutableListOf<ShirtColorOptionStats>(),
+        val shirtSizeOptionStats: MutableList<ShirtSizeOptionStats> = mutableListOf<ShirtSizeOptionStats>()
+) {
+    fun calculateWith(eventPayload: ShirtOrderExternalEvent.OrderPlaced) {
+        val shirtColorOptionStats: ShirtColorOptionStats =
+                shirtColorOptionStats.find { it.shirtColorOptionId == eventPayload.shirtOrder.shirtColorOptionId }
+                        ?: ShirtColorOptionStats(eventPayload.shirtOrder.shirtColorOptionId, eventPayload.shirtOrder.colorName, 0).apply { shirtColorOptionStats.add(this) }
+        shirtColorOptionStats.ordersAmount++
+
+        val shirtSizeOptionStats: ShirtSizeOptionStats =
+                shirtSizeOptionStats.find { it.shirtSizeOptionId == eventPayload.shirtOrder.shirtSizeOptionId }
+                        ?: ShirtSizeOptionStats(eventPayload.shirtOrder.shirtSizeOptionId, eventPayload.shirtOrder.sizeName, eventPayload.shirtOrder.shirtType, 0).apply { shirtSizeOptionStats.add(this) }
+        shirtSizeOptionStats.ordersAmount++
+    }
+}
+
+internal class ShirtColorOptionStats(
+        val shirtColorOptionId: String,
+        var colorName: String,
+        var ordersAmount: Int = 0
+)
+
+internal class ShirtSizeOptionStats(
+        val shirtSizeOptionId: String,
+        var sizeName: String,
+        var shirtType: ShirtTypeDto,
+        var ordersAmount: Int = 0
+)

@@ -9,14 +9,21 @@ import org.springframework.stereotype.Component
 //TODO: Zapisywanie eventów dałoby możliwośc przeprocesowania ich wszystkich jeszcze raz i odtworzenia widoków.
 @Component
 internal class CampParticipantCottageAccountEventsProjection(
-        private val paymentCommitmentRepository: PaymentCommitmentMongoRepository
+        private val paymentCommitmentRepository: PaymentCommitmentMongoRepository,
+        private val eventStream: CampParticipantCottageAccountEventStream
 ) : SerializedExternalEventListener() {
 
     override fun processExternalEvent(externalEvent: ExternalEvent<*>) {
         val eventPayload = externalEvent.payload
         when (eventPayload) {
-            is CampParticipantCottageAccountExternalEvent.Created -> createProjection(eventPayload)
-            is CampParticipantCottageAccountExternalEvent.CommitmentPaid -> createProjection(eventPayload)
+            is CampParticipantCottageAccountExternalEvent.Created -> {
+                createProjection(eventPayload)
+                eventStream.updateStreamWith(externalEvent)
+            }
+            is CampParticipantCottageAccountExternalEvent.CommitmentPaid -> {
+                createProjection(eventPayload)
+                eventStream.updateStreamWith(externalEvent)
+            }
         }
     }
 
@@ -76,6 +83,14 @@ internal class CampParticipantCottageAccountEventsProjection(
                     it.paidDate = eventPayload.paidDate
                     paymentCommitmentRepository.save(it)
                 }
+
+        if (eventPayload.commitmentType == PaymentCommitment.Type.CAMP_DOWN_PAYMENT.name) {
+            val campParticipantPaymentCommitments = paymentCommitmentRepository.findAllByCampParticipantCampParticipantId(eventPayload.campParticipantId)
+            campParticipantPaymentCommitments.forEach {
+                it.campDownPaymentIsPaid = true
+            }
+            paymentCommitmentRepository.saveAll(campParticipantPaymentCommitments)
+        }
     }
 
 

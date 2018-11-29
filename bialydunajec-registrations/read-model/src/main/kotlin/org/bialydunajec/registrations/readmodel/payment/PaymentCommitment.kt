@@ -23,7 +23,8 @@ internal data class PaymentCommitment(
         var isPaid: Boolean?,
 
         @JsonFormat(timezone="Europe/Warsaw")
-        var paidDate: Instant?
+        var paidDate: Instant?,
+        var campDownPaymentIsPaid: Boolean? = null
 ) {
 
     companion object {

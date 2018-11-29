@@ -1,6 +1,8 @@
 package org.bialydunajec.registrations.application.command
 
 import org.bialydunajec.ddd.application.base.ApplicationService
+import org.bialydunajec.ddd.application.base.concurrency.ProcessingSerializedQueue
+import org.bialydunajec.ddd.application.base.external.event.ExternalEvent
 import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
 import org.bialydunajec.registrations.application.command.api.CampRegistrationsCommand
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantFactory
@@ -16,8 +18,8 @@ import org.bialydunajec.registrations.domain.shirt.ShirtOrderRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
-@Service
 @Transactional
+@Service
 internal class CampParticipantRegistrationApplicationService(
         private val campParticipantFactory: CampParticipantFactory,
         private val campParticipantPaymentFactory: CampParticipantCottageAccountFactory,
@@ -28,22 +30,27 @@ internal class CampParticipantRegistrationApplicationService(
         private val campParticipantCottageAccountRepository: CampParticipantCottageAccountRepository
 ) : ApplicationService<CampRegistrationsCommand.RegisterCampParticipantCommand> {
 
-    override fun execute(command: CampRegistrationsCommand.RegisterCampParticipantCommand): CampParticipantId =
-            campParticipantFactory.createCampParticipant(command.campRegistrationsEditionId, command.camperApplication)
-                    .let { campParticipantRepository.save(it) }
-                    .also { campParticipant ->
-                        val campEditionShirt = campEditionShirtRepository.findByCampRegistrationsEditionId(command.campRegistrationsEditionId)
-                                ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.SHIRT_TO_ORDER_MUST_EXISTS)
-                        val shirtOrder = campEditionShirt.placeOrder(campParticipant, command.shirtOrder.shirtColorOptionId, command.shirtOrder.shirtSizeOptionId)
-                        shirtOrderRepository.save(shirtOrder)
-                        campParticipantRegistrationRepository.save(CampParticipantRegistration.createFrom(campParticipant.getSnapshot(), shirtOrder.getSnapshot()))
-                    }
-                    .also {
-                        val campParticipantCottageAccount = campParticipantPaymentFactory.createFor(it)
-                        campParticipantCottageAccountRepository.save(campParticipantCottageAccount)
-                    }
-                    .getAggregateId()
+    private val processingQueue = ProcessingSerializedQueue<CampRegistrationsCommand.RegisterCampParticipantCommand> { processCommand(it) }
 
+    override fun execute(command: CampRegistrationsCommand.RegisterCampParticipantCommand) =
+            processingQueue.process(command)
+
+    fun processCommand(command: CampRegistrationsCommand.RegisterCampParticipantCommand){
+        campParticipantFactory.createCampParticipant(command.campRegistrationsEditionId, command.camperApplication)
+                .let { campParticipantRepository.save(it) }
+                .also { campParticipant ->
+                    val campEditionShirt = campEditionShirtRepository.findByCampRegistrationsEditionId(command.campRegistrationsEditionId)
+                            ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.SHIRT_TO_ORDER_MUST_EXISTS)
+                    val shirtOrder = campEditionShirt.placeOrder(campParticipant, command.shirtOrder.shirtColorOptionId, command.shirtOrder.shirtSizeOptionId)
+                    shirtOrderRepository.save(shirtOrder)
+                    campParticipantRegistrationRepository.save(CampParticipantRegistration.createFrom(campParticipant.getSnapshot(), shirtOrder.getSnapshot()))
+                }
+                .also {
+                    val campParticipantCottageAccount = campParticipantPaymentFactory.createFor(it)
+                    campParticipantCottageAccountRepository.save(campParticipantCottageAccount)
+                }
+                .getAggregateId()
+    }
 
 }
 

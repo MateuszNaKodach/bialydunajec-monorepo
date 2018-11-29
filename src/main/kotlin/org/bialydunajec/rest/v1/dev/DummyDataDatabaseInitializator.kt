@@ -401,11 +401,14 @@ class DummyDatabaseInitializator(
         ).forEach { campRegistrationsAdminCommandGateway.process(it) }
 
         campRegistrationsAdminCommandGateway.process(CampRegistrationsCommand.StartCampRegistrationsNow(36))
+    }
 
+    fun registerDummyCampers(){
         val campShirt = campRegistrationsQueryGateway.process(CampEditionShirtQuery.ByCampRegistrationsEditionId("36"))
 
         campRegistrationsQueryGateway.process(CottageQuery.All())
                 .filter { it.cottageState == "ACTIVATED" }
+                .filter { it.name != "Redemptor" }
                 .parallelStream()
                 .forEach {
                     for (x in 0..fairy.baseProducer().randomBetween(0, 8)) {
@@ -439,6 +442,40 @@ class DummyDatabaseInitializator(
                     }
                 }
 
+
+        campRegistrationsQueryGateway.process(CottageQuery.All())
+                .find { it.name == "Redemptor"  }
+                ?.let {
+                    for (x in 0..26) {
+                        val person = fairy.person(*personProperties)
+                        CampRegistrationsCommand.RegisterCampParticipantCommand(
+                                CampRegistrationsEditionId(36),
+                                CamperApplication(
+                                        CottageId(it.cottageId),
+                                        CamperPersonalData(
+                                                FirstName(person.firstName),
+                                                LastName(person.lastName),
+                                                if (person.isMale) Gender.MALE else Gender.FEMALE,
+                                                Pesel(person.nationalIdentificationNumber)
+                                        ),
+                                        Address(Street(person.address.street), HomeNumber("${person.address.streetNumber} / ${person.address.apartmentNumber}"), CityName(person.address.city), PostalCode(person.address.postalCode)),
+                                        EmailAddress(person.email),
+                                        PhoneNumber(person.telephoneNumber),
+                                        CamperEducation(
+                                                "Politechnika Wrocławska",
+                                                "Podstawowych Problemów Techniki",
+                                                "Informatyka",
+                                                null,
+                                                fairy.baseProducer().trueOrFalse()
+                                        )
+                                ),
+                                CamperShirtOrder(
+                                        ShirtColorOptionId(campShirt!!.colorOptions.random().shirtColorOptionId),
+                                        ShirtSizeOptionId(campShirt!!.sizeOptions.random().shirtSizeOptionId)
+                                )
+                        ).let { registration -> campRegistrationsCommandGateway.process(registration) }
+                    }
+                }
     }
 }
 

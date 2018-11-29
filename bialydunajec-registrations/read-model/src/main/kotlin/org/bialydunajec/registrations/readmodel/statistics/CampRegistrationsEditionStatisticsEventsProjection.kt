@@ -2,10 +2,7 @@ package org.bialydunajec.registrations.readmodel.statistics
 
 import org.bialydunajec.ddd.application.base.external.event.ExternalEvent
 import org.bialydunajec.ddd.application.base.external.event.SerializedExternalEventListener
-import org.bialydunajec.registrations.messages.event.CampParticipantCottageAccountExternalEvent
-import org.bialydunajec.registrations.messages.event.CampParticipantExternalEvent
-import org.bialydunajec.registrations.messages.event.CampRegistrationsEditionExternalEvent
-import org.bialydunajec.registrations.messages.event.CottageExternalEvent
+import org.bialydunajec.registrations.messages.event.*
 import org.bialydunajec.registrations.readmodel.camper.CampParticipant
 import org.springframework.stereotype.Component
 import java.time.Instant
@@ -33,6 +30,10 @@ internal class CampRegistrationsEditionStatisticsEventsProjection(
             }
             is CampParticipantExternalEvent.CampParticipantRegistered -> {
                 createProjection(eventPayload, externalEvent.eventOccurredAt)
+                eventStream.updateStreamWith(externalEvent)
+            }
+            is ShirtOrderExternalEvent.OrderPlaced -> {
+                createProjection(eventPayload)
                 eventStream.updateStreamWith(externalEvent)
             }
         }
@@ -69,6 +70,15 @@ internal class CampRegistrationsEditionStatisticsEventsProjection(
 
     private fun createProjection(eventPayload: CampParticipantExternalEvent.CampParticipantRegistered, eventOccurredAt: Instant) {
         campRegistrationsEditionStatisticsRepository.findByCampRegistrationsEditionId(eventPayload.snapshot.campRegistrationsEditionId)
+                ?.also {
+                    it.calculateWith(eventPayload)
+                }?.also {
+                    campRegistrationsEditionStatisticsRepository.save(it)
+                }
+    }
+
+    private fun createProjection(eventPayload: ShirtOrderExternalEvent.OrderPlaced) {
+        campRegistrationsEditionStatisticsRepository.findByCampRegistrationsEditionId(eventPayload.campRegistrationsEditionId)
                 ?.also {
                     it.calculateWith(eventPayload)
                 }?.also {

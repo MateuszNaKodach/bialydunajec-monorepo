@@ -6,13 +6,14 @@ import io.gatling.http.Predef._
 import io.gatling.http.protocol.HttpProtocolBuilder
 
 class BlazeMeterGatlingTest extends Simulation {
-  private val baseUrl = "https://rest.bialydunajec.org"
-  //private val basicAuthHeader = "Basic YmxhemU6UTF3MmUzcjQ="
-  //private val authPass = "Q1w2e3r4"
-  private val contentType = "application/json"
-  private val endpoint = "/rest-api/v1/camp-edition"
-  //private val authUser= "blaze"
-  private val requestCount = 2
+  //private val baseUrl = "https://rest.bialydunajec.org"
+  private val baseUrl = "https://new.bialydunajec.org"
+  private val contentType = "text/html"
+  //private val endpoint = "/rest-api/v1/camp-edition"
+  private val endpoint = "/aktualnosci"
+
+
+  private val requestCount = 100
 
 
   val httpProtocol: HttpProtocolBuilder = http
@@ -26,11 +27,12 @@ class BlazeMeterGatlingTest extends Simulation {
   val headers_0 = Map("Expect" -> "100-continue")
 
   val scn: ScenarioBuilder = scenario("RecordedSimulation")
-    .exec(http("request_0")
+    .exec(http("main_page_request")
       .get(endpoint)
       //.headers(headers_0)
       //.basicAuth(authUser, authPass)
       .check(status.is(200)))
+
 
   setUp(scn.inject(atOnceUsers(requestCount))).protocols(httpProtocol)
 }

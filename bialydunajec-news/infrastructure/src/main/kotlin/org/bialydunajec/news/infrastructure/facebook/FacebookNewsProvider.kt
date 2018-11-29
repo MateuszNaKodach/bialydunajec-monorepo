@@ -19,11 +19,13 @@ open class FacebookNewsProvider(private val facebookClient: FacebookClient) : Ca
 
     @Cacheable(cacheNames = [FACEBOOK_NEWS_SPRING_CACHE], key = "{#root.methodName}")
     override fun getCampNewsPage(limit: Int?, after: String?): CampNewsPageDto {
+        log.info("Downloading facebook posts...")
         val feed = facebookClient.fetchConnection(
                 "bialydunajec/posts",
                 Post::class.java,
                 Parameter.with("fields", "id,message,full_picture,name,created_time,description")
         )
+        log.info("Facebook posts downloaded...")
         val content = feed.data.map { CampNewsDto(it.id, it.message, NewsPictureDto(it.fullPicture, it.name, it.description), it.createdTime.toInstant()) }
         return CampNewsPageDto(content, NewsPagingDto(PagingCursorsDto(feed.beforeCursor, feed.afterCursor)))
     }
