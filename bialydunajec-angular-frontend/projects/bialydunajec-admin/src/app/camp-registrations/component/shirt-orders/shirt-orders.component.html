@@ -45,7 +45,7 @@
               <td *ngIf="data.selectedOptions.shirtType == 'FEMALE'">Damska {{data.selectedOptions.sizeName}}</td>
               <td *ngIf="data.selectedOptions.shirtType == 'UNISEX'">Unisex {{data.selectedOptions.sizeName}}</td>
               <td>{{data.selectedOptions.colorName}}</td>
-              <td>{{data.campParticipant.participationStatus == 'CONFIRMED_BY_CAMPER' ? 'TAK' : (data.participationStatus == 'CONFIRMED_BY_AUTHORIZED' ? 'TAK (administracyjnie)' : 'NIE')}}</td>
+              <td>{{data.campParticipant.participationStatus == ParticipationStatusDto.CONFIRMED_BY_CAMPER ? 'TAK' : (data.campParticipant.participationStatus == ParticipationStatusDto.CONFIRMED_BY_AUTHORIZED ? 'TAK (administracyjnie)' : 'NIE')}}</td>
             </tr>
           </ng-template>
           </tbody>

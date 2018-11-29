@@ -116,6 +116,7 @@ export class PaymentsListComponent implements OnInit, OnDestroy {
 
 
   onSelectedPaymentCommitmentTypeChange($event) {
+    this.reloadPaymentCommitments();
     this.filteredPaymentCommitments = this.paymentCommitments.filter(it => it.type === this.selectedPaymentCommitmentType);
   }
 
@@ -128,7 +129,10 @@ export class PaymentsListComponent implements OnInit, OnDestroy {
       const data: any = JSON.parse(event.data);
       switch (data.eventType) {
         case EventType.COMMITMENT_PAID: {
-          console.log('PAID!');
+          const payment = this.filteredPaymentCommitments.find(it => it.paymentCommitmentId === data.payload.paymentCommitmentId);
+          payment.paidDate = data.createdDate;
+          payment.paid = true;
+          console.log('PAID', payment);
           break;
         }
       }
