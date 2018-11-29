@@ -8,7 +8,7 @@ export class PaymentCommitmentReadModel {
   amount: number;
   description: string;
   deadlineDate: Date;
-  isPaid: boolean;
+  paid: boolean;
   paidDate: Date;
 }
 

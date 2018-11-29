@@ -54,12 +54,19 @@ export class EmailHistoryComponent implements OnInit, OnDestroy {
       });*/
       switch (data.eventType) {
         case EventType.EMAIL_MESSAGE_SENT_FAILURE: {
-          const emailMessage = this.emailMessages.find(it => it.emailMessageLogId === data.payload.emailMessageLogId);
+          let emailMessage = this.emailMessages.find(it => it.emailMessageLogId === data.payload.emailMessageLogId);
+          emailMessage.status = 'FAIL_TO_SEND';
+
+          emailMessage = this.emailMessagesSearchResult.find(it => it.emailMessageLogId === data.payload.emailMessageLogId);
           emailMessage.status = 'FAIL_TO_SEND';
           break;
         }
         case EventType.EMAIL_MESSAGE_SENT_SUCCESS: {
-          const emailMessage = this.emailMessages.find(it => it.emailMessageLogId === data.payload.emailMessageLogId);
+          let emailMessage = this.emailMessages.find(it => it.emailMessageLogId === data.payload.emailMessageLogId);
+          emailMessage.status = 'SENT';
+          emailMessage.sentDate = data.payload.sentDate;
+
+          emailMessage = this.emailMessagesSearchResult.find(it => it.emailMessageLogId === data.payload.emailMessageLogId);
           emailMessage.status = 'SENT';
           emailMessage.sentDate = data.payload.sentDate;
           break;

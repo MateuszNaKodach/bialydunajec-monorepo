@@ -38,7 +38,7 @@
             <th>Chatka</th>
             <!--<th>Rodzaj</th>-->
             <th>Kwota</th>
-            <th>Termin płatności</th>
+            <!--<th>Termin płatności</th>-->
             <th>Opłacono</th> <!--Moze napisac: Status i bedzie OPLACONO, NIE OPLACONO, KONTO NIEAKTYWNE-->
             <th></th>
           </tr>
@@ -55,7 +55,7 @@
               <td *ngIf="data.type == 'CAMP_PARTICIPATION'">Udział w Obozie</td>
               <td *ngIf="data.type == 'CAMP_BUS_SEAT'">Autokar Obozowy</td>-->
               <td>{{data.amount}} zł</td>
-              <td>{{data.deadlineDate ? (data.deadlineDate | date:'d.MM.yyyy HH:mm:ss') : "Nie określono"}}</td>
+              <!--<td>{{data.deadlineDate ? (data.deadlineDate | date:'d.MM.yyyy HH:mm:ss') : "Nie określono"}}</td>-->
               <td>{{data.paid ? "TAK (" + (data.paidDate | date:'d.MM.yyyy HH:mm:ss') + ")" : "NIE"}}</td>
               <td>
                 <button
