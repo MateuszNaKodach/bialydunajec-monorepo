@@ -31,6 +31,80 @@
     <div id="camp-participants-search" class="bda-admin-panel-section-card">
       <h2>Wyszukiwanie uczestnika</h2>
       <nz-divider></nz-divider>
+      <form nz-form class="ant-advanced-search-form" #f="ngForm" (ngSubmit)="onSubmitSearch(f)">
+        <div class="bda-search-table-controls">
+          <nz-form-item>
+            <nz-form-label>Imię</nz-form-label>
+            <nz-form-control>
+              <input
+                ngModel
+                #subjectInput="ngModel"
+                name="firstName"
+                nz-input>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label>Nazwisko</nz-form-label>
+            <nz-form-control>
+              <input
+                ngModel
+                #subjectInput="ngModel"
+                name="lastName"
+                nz-input>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label>PESEL</nz-form-label>
+            <nz-form-control>
+              <input
+                ngModel
+                #recipientAdressInput="ngModel"
+                name="pesel"
+                nz-input>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label>Adres e-mail</nz-form-label>
+            <nz-form-control>
+              <input
+                ngModel
+                #subjectInput="ngModel"
+                name="emailAddress"
+                nz-input>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label>Numer telefonu</nz-form-label>
+            <nz-form-control>
+              <input
+                ngModel
+                #subjectInput="ngModel"
+                name="phoneNumber"
+                nz-input>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label>Chatka</nz-form-label>
+            <nz-form-control>
+              <input
+                ngModel
+                #subjectInput="ngModel"
+                name="cottage"
+                nz-input>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div style="display:flex; justify-content: space-between;">
+          <div>
+            <p *ngIf="searchingActive" style="display: inline-block; font-weight: bold">
+              Liczba znalezionych uczestników wg. podanych kryteriów wyszukiwania: {{campParticipantsSearchResult.length}}</p>
+          </div>
+          <div>
+            <button nz-button [nzType]="'primary'" type="submit">Wyszukaj</button>
+            <button nz-button (click)="resetSearchResult(f)" type="button" style="margin-left: 1rem;">Resetuj</button>
+          </div>
+        </div>
+      </form>
     </div>
 
     <div id="camp-participants" class="bda-admin-panel-section-card">
@@ -45,9 +119,9 @@
       <nz-table
         class="bda-camp-participant-table"
         #basicTable
-        [nzData]="campParticipants"
+        [nzData]="campParticipantsSearchResult"
         [nzLoading]="tableIsLoading"
-        [nzTotal]="campParticipants.length"
+        [nzTotal]="campParticipantsSearchResult.length"
         nzNoResult="Jeszcze nikt się nie zapisał. Aktywuj zapisy i czekaj na pierwszych obozowiczów!">
         <thead>
         <tr>
