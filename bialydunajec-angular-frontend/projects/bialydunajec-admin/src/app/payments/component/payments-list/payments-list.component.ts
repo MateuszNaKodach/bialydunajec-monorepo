@@ -8,10 +8,10 @@ import {NzModalService} from 'ng-zorro-antd';
 import {PayCommitmentRequest} from '../../service/rest/request/pay-commitment.request';
 import {AlertViewModel} from '../../../shared/view-model/ng-zorro/alert.view-model';
 import {tap} from 'rxjs/operators';
-import {RequestErrorObserverBuilder} from '../../../../../../bialydunajec-main/src/app/campers-registration/component/registration-form/registration-summary/registration-summary.component';
 import {EventSourcePolyfill} from 'ng-event-source';
 import {environment} from '../../../../environments/environment';
 import {EventType} from '../../../email-message/service/rest/event/event-type';
+import {RequestErrorObserverBuilder} from '../../../shared/helper/RequestErrorObserverBuilder';
 
 @Component({
   selector: 'bda-admin-payments-list',

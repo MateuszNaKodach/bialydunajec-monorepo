@@ -8,6 +8,7 @@ import {EventSourcePolyfill} from 'ng-event-source';
 import {environment} from '../../../../environments/environment';
 import {EventType} from '../../../email-message/service/rest/event/event-type';
 import {PaymentCommitmentType} from '../../../payments/service/rest/read-model/payment-commitment.read-model';
+import {FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'bda-admin-camp-participant-list',
@@ -17,7 +18,9 @@ import {PaymentCommitmentType} from '../../../payments/service/rest/read-model/p
 export class CampParticipantListComponent implements OnInit, OnDestroy {
 
   availableCampEditions: Observable<CampEditionResponse[]>;
-  campParticipants: CampParticipantResponse[] = [];
+  private campParticipants: CampParticipantResponse[] = [];
+  campParticipantsSearchResult: CampParticipantResponse[] = [];
+
 
   //Chart UI
   campParticipantsByCottageStats: any[] = [];
@@ -28,6 +31,8 @@ export class CampParticipantListComponent implements OnInit, OnDestroy {
   currentCampEdition: number;
   tableIsLoading = false;
   newCampParticipantRegistered = false;
+  searchingActive = false;
+
 
   private eventSource: EventSourcePolyfill;
 
@@ -66,6 +71,9 @@ export class CampParticipantListComponent implements OnInit, OnDestroy {
       .subscribe(
         (response: CampParticipantResponse[]) => {
           this.campParticipants = response;
+          if (!this.searchingActive) {
+            this.campParticipantsSearchResult = this.campParticipants;
+          }
         }
       );
   }
@@ -98,27 +106,19 @@ export class CampParticipantListComponent implements OnInit, OnDestroy {
       const data: any = JSON.parse(event.data);
       switch (data.eventType) {
         case EventType.CAMP_PARTICIPANT_CONFIRMED: {
-          const campParticipant = this.campParticipants.find(it => it.campParticipantId === data.payload.campParticipantId);
+          let campParticipant = this.campParticipants.find(it => it.campParticipantId === data.payload.campParticipantId);
+          campParticipant.participationStatus = data.payload.snapshot.participationStatus;
+
+          campParticipant = this.campParticipantsSearchResult.find(it => it.campParticipantId === data.payload.campParticipantId);
           campParticipant.participationStatus = data.payload.snapshot.participationStatus;
           break;
         }
         case EventType.COMMITMENT_PAID: {
-          const campParticipant = this.campParticipants.find(it => it.campParticipantId === data.payload.campParticipantId);
+          let campParticipant = this.campParticipants.find(it => it.campParticipantId === data.payload.campParticipantId);
+          this.updateCampParticipantFromEventData(data, campParticipant);
+          campParticipant = this.campParticipantsSearchResult.find(it => it.campParticipantId === data.payload.campParticipantId);
+          this.updateCampParticipantFromEventData(data, campParticipant);
 
-          switch (data.payload.commitmentType) {
-            case PaymentCommitmentType.CAMP_BUS_SEAT: {
-              campParticipant.campBusSeatPaidDate = data.payload.paidDate;
-              break;
-            }
-            case PaymentCommitmentType.CAMP_DOWN_PAYMENT: {
-              campParticipant.downPaymentPaidDate = data.payload.paidDate;
-              break;
-            }
-            case PaymentCommitmentType.CAMP_PARTICIPATION: {
-              campParticipant.campParticipationPaidDate = data.payload.paidDate;
-              break;
-            }
-          }
           break;
         }
         case EventType.CAMP_PARTICIPANT_REGISTERED: {
@@ -127,6 +127,57 @@ export class CampParticipantListComponent implements OnInit, OnDestroy {
         }
       }
     });
+  }
+
+  private updateCampParticipantFromEventData(data: any, campParticipant) {
+    switch (data.payload.commitmentType) {
+      case PaymentCommitmentType.CAMP_BUS_SEAT: {
+        campParticipant.campBusSeatPaidDate = data.payload.paidDate;
+        break;
+      }
+      case PaymentCommitmentType.CAMP_DOWN_PAYMENT: {
+        campParticipant.downPaymentPaidDate = data.payload.paidDate;
+        break;
+      }
+      case PaymentCommitmentType.CAMP_PARTICIPATION: {
+        campParticipant.campParticipationPaidDate = data.payload.paidDate;
+        break;
+      }
+    }
+  }
+
+  onSubmitSearch(form: FormGroup) {
+    const formValue = form.value;
+    const firstName = formValue['firstName'];
+    const lastName = formValue['lastName'];
+    const pesel = formValue['pesel'];
+    const phoneNumber = formValue['phoneNumber'];
+    const emailAddress = formValue['emailAddress'];
+    const cottage = formValue['cottage'];
+
+
+    if (!firstName && !lastName && !pesel && !phoneNumber && !emailAddress && !cottage) {
+      this.resetSearchResult(form);
+    } else {
+      this.campParticipantsSearchResult =
+        this.campParticipants.filter(c => {
+          const personalData = c.currentCamperData.personalData;
+          return (firstName && personalData.firstName.toLowerCase().includes(firstName.toLowerCase()))
+            || (lastName && personalData.lastName.toLowerCase().includes(lastName.toLowerCase()))
+            || (pesel && personalData.pesel && personalData.pesel.toLowerCase().includes(pesel.toLowerCase()))
+            || (phoneNumber && c.currentCamperData.phoneNumber.toLowerCase().includes(phoneNumber.toLowerCase()))
+            || (emailAddress && c.currentCamperData.emailAddress.toLowerCase().includes(emailAddress.toLowerCase()))
+            || (cottage && c.currentCamperData.cottage.cottageName.toLowerCase().includes(cottage.toLowerCase()));
+        });
+      this.searchingActive = true;
+    }
+  }
+
+
+  resetSearchResult(form: FormGroup) {
+    form.reset();
+    this.campParticipantsSearchResult = this.campParticipants;
+    this.searchingActive = false;
   }
 
   ngOnDestroy(): void {
