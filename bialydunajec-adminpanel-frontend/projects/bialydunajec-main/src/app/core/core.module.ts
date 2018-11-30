@@ -6,12 +6,16 @@ import {AppRoutingModule} from '../app-routing.module';
 import {NotFoundComponent} from './component/not-found/not-found.component';
 import {SidebarModule} from 'ng-sidebar';
 import {SuiSidebarModule} from 'ng2-semantic-ui';
+import { BottomBarMenuComponent } from './component/bottom-bar-menu/bottom-bar-menu.component';
+import { MoreMenuOptionsComponent } from './component/more-menu-options/more-menu-options.component';
 
 @NgModule({
   declarations: [
     HeaderComponent,
     FooterComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    BottomBarMenuComponent,
+    MoreMenuOptionsComponent
   ],
   imports: [
     SharedModule,
@@ -24,7 +28,9 @@ import {SuiSidebarModule} from 'ng2-semantic-ui';
     FooterComponent,
     NotFoundComponent,
     SidebarModule,
-    SuiSidebarModule
+    SuiSidebarModule,
+    BottomBarMenuComponent,
+    MoreMenuOptionsComponent
   ]
 })
 export class CoreModule {

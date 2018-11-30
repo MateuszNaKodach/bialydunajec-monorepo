@@ -7,7 +7,7 @@
       [divider]="true"></bda-section-header>
 
     <div *ngIf="(campNews$ | async) as campNewsPage; else loader">
-      <div *ngFor="let campNews of campNewsPage.content">
+      <div *ngFor="let campNews of campNewsPage">
         <bda-camp-news-item
           *ngIf="campNews.message"
           [campNews]="campNews"

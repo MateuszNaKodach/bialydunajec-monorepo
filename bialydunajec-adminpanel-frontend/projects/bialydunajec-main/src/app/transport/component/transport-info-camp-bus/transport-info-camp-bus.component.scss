@@ -1,4 +1,18 @@
+@import "../../../../styles/mixins/responsivness";
+
+
 agm-map{
   height: 100%;
   width: 100%;
+}
+
+.origin-selection-button{
+  width: 100%; margin-top: 2rem; margin-bottom: 1rem;
+}
+
+.camp-bus-details{
+  @include gt-sm__screen() {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
 }
