@@ -1,4 +1,5 @@
 @import "../../../../styles/variables/fonts";
+@import "../../../../styles/mixins/responsivness";
 
 .bda-header {
   background-color: white;
@@ -10,8 +11,16 @@
 
 .bda-header-content {
   height: 100%;
-  width: 80%;
-  margin: auto;
+  width: 100%;
+  margin: 0;
+  padding-left: 10px;
+  padding-right: 10px;
+
+  @include gt-md__screen() {
+    height: 100%;
+    width: 80%;
+    margin: auto;
+  }
 }
 
 .bda-navigation {

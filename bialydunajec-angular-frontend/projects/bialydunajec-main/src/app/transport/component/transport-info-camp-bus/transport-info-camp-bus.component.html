@@ -10,11 +10,11 @@
         description="Specjalny autokar wyjeżdżający z Wrocławia i Opola, który dostarczy Cię bezpośrednio pod Twoją chatkę."
       ></bda-mean-of-transport-header>
       <bda-dual-toggle-button
-        style="width: 100%; margin-top: 2rem; margin-bottom: 1rem;"
+        class="origin-selection-button"
         [selected]="'left'"
         [options]="{ left: { name: 'Wrocław'}, right: { name: 'Opole' } }"
         (optionSelected)="selectBusFrom($event.name)"></bda-dual-toggle-button>
-      <div style="padding-left: 2rem; padding-right: 2rem;">
+      <div class="camp-bus-details">
         <p><b>Koszt:</b> {{selectedCampBusLine.oneWayCost.toString()}} (w jedną stronę)</p>
         <p><b>Data:</b> {{selectedCampBusLine.origin.when | date: 'dd.MM.yyyy'}}, godz:
           {{selectedCampBusLine.origin.when |
