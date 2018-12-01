@@ -3,6 +3,9 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../../service/auth.service';
 import {AngularFormHelper} from '../../../../../../bialydunajec-main/src/app/shared/helper/angular-form.helper';
 import {Router} from '@angular/router';
+import {environment} from '../../../../environments/environment';
+import {HttpClient} from '@angular/common/http';
+import {finalize} from 'rxjs/operators';
 
 @Component({
   selector: 'bda-admin-login-form',
@@ -11,12 +14,13 @@ import {Router} from '@angular/router';
 })
 export class LoginFormComponent implements OnInit, OnDestroy {
 
+  environment = environment;
   authInProgress = false;
   loginErrorMessage: string;
   loginForm: FormGroup;
   private userAuthenticationSubscription;
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router) {
+  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router, private httpClient: HttpClient) {
   }
 
   ngOnInit() {
@@ -62,6 +66,21 @@ export class LoginFormComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.userAuthenticationSubscription.unsubscribe();
+  }
+
+
+  isDatabaseInitialized = false;
+  databaseInitializatingInProgress = false;
+
+  initDatabase() {
+    this.databaseInitializatingInProgress = true;
+    this.httpClient.get(`${environment.restApi.baseUrl}/rest-api/v1/development/db-init`)
+      .pipe(
+        finalize(() => {
+          this.databaseInitializatingInProgress = false;
+        })
+      )
+      .subscribe(_ => this.isDatabaseInitialized = true);
   }
 
 }

@@ -54,4 +54,8 @@
     </form>
   </nz-card>
   <a class="bda-main-page-link">← Powrót do Strony Głównej</a>
+  <div *ngIf="!environment.production" style="margin-top: 2rem; display: flex; flex-flow: column; justify-content: center">
+    <h3>Witaj wszechomocny Twórco systemu!</h3>
+    <button nz-button nzType="primary" [disabled]="isDatabaseInitialized" (click)="initDatabase()" [nzLoading]="databaseInitializatingInProgress">Załaduj spreparowane dane.</button>
+  </div>
 </div>

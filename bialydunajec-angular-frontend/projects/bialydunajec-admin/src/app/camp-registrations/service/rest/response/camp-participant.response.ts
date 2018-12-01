@@ -8,10 +8,16 @@ import {Time} from '@angular/common';
 export class CampParticipantResponse {
   campParticipantId: string;
   campRegistrationsEditionId: string;
+  campParticipantRegistrationId: string;
   confirmedApplication?: CamperApplicationWithCottageDto;
   currentCamperData: CamperApplicationWithCottageDto;
   stayDuration: StayDurationDto;
-  participationStatus: string;
+  participationStatus: ParticipationStatusDto;
+  registrationDate: Date;
+  confirmationDate: Date;
+  downPaymentPaidDate: Date;
+  campBusSeatPaidDate: Date;
+  campParticipationPaidDate: Date;
 }
 
 export class CamperApplicationWithCottageDto {
@@ -24,6 +30,12 @@ export class CamperApplicationWithCottageDto {
   phoneNumber: String;
   emailAddress: String;
   camperEducation: CamperEducationDto;
+}
+
+export enum ParticipationStatusDto {
+  WAITING_FOR_CONFIRM = 'WAITING_FOR_CONFIRM',
+  CONFIRMED_BY_CAMPER = 'CONFIRMED_BY_CAMPER',
+  CONFIRMED_BY_AUTHORIZED = 'CONFIRMED_BY_AUTHORIZED'
 }
 
 export class CamperApplicationDto {

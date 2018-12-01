@@ -17,11 +17,20 @@
     <ng-template #noCampRegistrations>
       <bda-section-header
         [title]="'Zapisy na Obóz'"
+        description="Aktualnie nie są zaplanowane żadne zapisy na Obóz."
+      ></bda-section-header>
+      <div class="bda-registration-start__card-content--active">
+        <p>Obserwuj nasz profil na Facebooku, a powiadomimy Cię, gdy tylko będzie znana data zapisów na kolejną Edycję Obozu.</p>
+      </div>
+      <!--
+      <bda-section-header
+        [title]="'Zapisy na Obóz'"
         description="Aktualnie nie są zaplanowane żadne zapisy na Obóz. Jeśli chcesz zapisz się na nasz newsletter, a poinformujemy Cię gdy tylko będzie znana data rozpoczęcia."
       ></bda-section-header>
       <div class="bda-registration-start__card-content--active">
         <bda-camp-registrations-reminder></bda-camp-registrations-reminder>
       </div>
+      -->
     </ng-template>
   </div>
 </section>

@@ -34,7 +34,7 @@ $footer-background-color: #ececec;
 }
 
 .bda-footer_copyright {
-  height: 6rem;
+  height: 50px;
   color: #8b8b8b;
   padding: 2rem;
   width: 100%;
@@ -49,6 +49,10 @@ $footer-background-color: #ececec;
 
   @include gt-sm__screen() {
     padding: 2rem 16rem;
+  }
+
+  @include gt-md__screen() {
+    height: 6rem;
   }
 }
 

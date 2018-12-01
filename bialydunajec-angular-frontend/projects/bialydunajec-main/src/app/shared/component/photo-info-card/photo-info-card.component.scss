@@ -1,6 +1,20 @@
+@import "../../../../styles/mixins/responsivness";
+
+
 .bda-photo-info-card {
-  min-width: 650px;
   width: 100%;
   min-height: 300px;
   overflow: hidden;
+
+  @include gt-sm__screen() {
+    min-width: 650px;
+  }
+}
+
+.bda-photo-info-card__content{
+  padding-top: 2rem;
+
+  @include gt-sm__screen() {
+    padding-top: 0;
+  }
 }

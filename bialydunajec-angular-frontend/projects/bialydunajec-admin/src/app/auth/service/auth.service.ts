@@ -4,6 +4,8 @@ import {Subject} from 'rxjs';
 import {AuthState} from './auth.state';
 import {TokenResponse} from './rest/response/token.response';
 import {HttpResponseHelper} from '../../shared/helper/HttpResponseHelper';
+import {HttpClient} from '@angular/common/http';
+import {environment} from '../../../environments/environment';
 
 const CURRENT_USER_TOKEN_KEY = 'org.bialydunajec.current_user_token';
 
@@ -15,7 +17,7 @@ export class AuthService {
   localStorage: Storage;
   private authenticationSubject = new Subject<AuthState>();
 
-  constructor(private authRestCalls: TokenEndpoint) {
+  constructor(private authRestCalls: TokenEndpoint, private httpClient: HttpClient) {
   }
 
   login(usernameOrEmail: string, password: string, rememberMe: boolean) {

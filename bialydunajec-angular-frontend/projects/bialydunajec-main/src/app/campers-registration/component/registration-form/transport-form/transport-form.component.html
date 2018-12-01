@@ -37,6 +37,23 @@
         </sui-message>
       </ng-template>
 
+      <ng-template [ngIf]="showCampBusLaterReservationsInfo">
+        <sui-message
+          [isDismissable]="false"
+          class="icon"
+        >
+          <i class="exclamation circle icon"></i>
+          <div class="content">
+            <div class="header">
+              WAŻNE INFORMACJE!
+            </div>
+            <p>Wybranie tej opcji nie jest równoznaczne z zarezerwowaniem miejsca w autokarze. Służy organizatorom jedynie do oszacowania ilości
+            miejsc w autokarach. Zapisy na autokar zostaną przeprowadzone w późniejszym terminie, o czym uczestnicy zostaną poinformowani wiadomością email i na facebookowym profilu Obozu.</p>
+          </div>
+        </sui-message>
+      </ng-template>
+
+      <!--
       <bda-form-input
         *ngIf="selectedTransportType===TransportType.CAMP_TRANSPORT"
         [control]="campTransportDestinationBusStop"
@@ -52,6 +69,7 @@
           </div>
         </div>
       </bda-form-input>
+      -->
     </div>
   </section>
   <bda-form-navigation-buttons

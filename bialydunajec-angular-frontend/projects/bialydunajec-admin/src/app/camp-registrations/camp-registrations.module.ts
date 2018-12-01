@@ -10,11 +10,15 @@ import {CottageCardComponent} from './component/cottage-list/cottage-card/cottag
 import {CottageStatusBadgeComponent} from './component/cottage-status-badge/cottage-status-badge.component';
 import {CampParticipantListComponent} from './component/camp-participant-list/camp-participant-list.component';
 import { ShirtSettingsComponent } from './component/shirt-settings/shirt-settings.component';
+import { ShirtOrdersComponent } from './component/shirt-orders/shirt-orders.component';
+import { CampRegistrationsStatisticsComponent } from './component/camp-registrations-statistics/camp-registrations-statistics.component';
+import {NgxChartsModule} from '@swimlane/ngx-charts';
 
 @NgModule({
   imports: [
     CampRegistrationsRoutingModule,
-    SharedModule
+    SharedModule,
+    NgxChartsModule
   ],
   declarations: [
     CampRegistrationsSettingsComponent,
@@ -24,7 +28,9 @@ import { ShirtSettingsComponent } from './component/shirt-settings/shirt-setting
     CottageCardComponent,
     CottageStatusBadgeComponent,
     CampParticipantListComponent,
-    ShirtSettingsComponent
+    ShirtSettingsComponent,
+    ShirtOrdersComponent,
+    CampRegistrationsStatisticsComponent
   ],
   exports: []
 })
