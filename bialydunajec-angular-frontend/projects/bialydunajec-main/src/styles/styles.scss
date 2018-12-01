@@ -95,7 +95,7 @@ input, .dropdown {
 }
 
 .bottom-nav {
-  @include bottom-nav($background-color: #FE9A76, $active-color: #FFFFFF, $inactive-color: #E0E0E0, $hide-inactive-labels: true);
+  @include bottom-nav($background-color: #f2711c, $active-color: #FFFFFF, $inactive-color: #E0E0E0, $hide-inactive-labels: true);
 
   @include gt-md__screen() {
     display: none;
