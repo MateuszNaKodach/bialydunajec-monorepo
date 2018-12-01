@@ -1,3 +1,4 @@
 export const emailMessageRoutingPaths = {
-  history: 'history'
+  history: 'history',
+  createMessage: 'create-message'
 };

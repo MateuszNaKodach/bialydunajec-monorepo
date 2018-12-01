@@ -5,6 +5,8 @@ import {AuthService} from '../../../auth/service/auth.service';
 import {CampEditionShirtDto} from './dto/camp-edition-shirt.dto';
 import {CampEditionShirtSizeRequest} from './request/camp-edition-shirt-size.request';
 import {CampEditionShirtColorRequest} from './request/camp-edition-shirt-color.request';
+import {environment} from '../../../../environments/environment';
+import {ShirtOrderReadModel} from './response/shirt-order.read-model';
 
 @Injectable({
   providedIn: 'root'

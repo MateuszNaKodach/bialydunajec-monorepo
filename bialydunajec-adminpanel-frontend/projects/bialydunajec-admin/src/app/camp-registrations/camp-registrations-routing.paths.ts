@@ -4,5 +4,6 @@ export const campRegistrationsRoutingPaths = {
   campParticipants: 'camp-participants',
   editCottage: 'edit',
   shirtSettings: 'shirt-settings',
-  shirtOrders: 'shirt-orders'
+  shirtOrders: 'shirt-orders',
+  statistics: 'statistics'
 };

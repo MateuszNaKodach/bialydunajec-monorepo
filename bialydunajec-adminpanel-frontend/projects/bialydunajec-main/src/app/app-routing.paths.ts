@@ -7,5 +7,6 @@ export const appRoutingPaths = {
   campGallery: 'galeria',
   contact: 'kontakt',
   campersRegistration: 'zapisy',
-  notFound: '404'
+  notFound: '404',
+  more: 'wiecej'
 };

@@ -2,7 +2,7 @@
 @import "variables/fonts";
 @import "variables/dimensions";
 @import "mixins/responsivness";
-
+@import '~material-bottom-nav/bottom-nav';
 
 html, body {
   font-size: $root-font-size;
@@ -39,7 +39,7 @@ h6 {
   font-size: 0.9286rem;
 }
 
-p{
+p {
   font-size: 1rem;
 }
 
@@ -71,8 +71,9 @@ input, .dropdown {
 }
 
 .bda-page-section {
-  min-height: 70vh;
+  min-height: 80vh;
   padding-top: 30px;
+  padding-bottom: 4rem;
 
   @include gt-sm__screen() {
     padding-top: $page-section-padding;
@@ -91,6 +92,18 @@ input, .dropdown {
     padding: 1.5rem;
   }
 
+}
 
+.bottom-nav {
+  @include bottom-nav($background-color: #f2711c, $active-color: #FFFFFF, $inactive-color: #E0E0E0, $hide-inactive-labels: true);
 
+  @include gt-md__screen() {
+    display: none;
+  }
+
+  a {
+    &:hover {
+      color: white;
+    }
+  }
 }

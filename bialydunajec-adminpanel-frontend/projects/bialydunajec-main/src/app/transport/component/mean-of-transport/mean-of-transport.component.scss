@@ -1,16 +1,72 @@
+@import "../../../../styles/mixins/responsivness";
+
+
 .bda-mean-of-transport-card {
   width: 100%;
   overflow: hidden;
+  background: white;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.24);
 }
 
-.bda-google-maps-square {
-  width: 295px;
-  height: 295px;
+.bda-mean-of-transport-square {
+  display: grid;
+  grid:
+    "   icon                " auto
+    "   info                " auto
+    "   google-map          " 24rem
+    /   1fr       ;
+
+  @include gt-xs__screen() {
+    grid:
+      "   icon    info            " auto
+      "   google-map   info        " 24rem
+    /   1fr     2fr   ;
+  }
+}
+
+.bda-mean-of-transport-rectangle {
+  display: grid;
+  grid:
+    "   icon                " auto
+    "   info                " auto
+    "   google-map          " 24rem
+    /   1fr       ;
+
+  @include gt-xs__screen() {
+    grid:
+      "   icon    info            " auto
+      "   google-map   google-map        " 24rem
+    /   1fr     2fr   ;
+  }
+}
+
+#transport-icon-container{
+  grid-area: icon;
+  background-color: orange;
+  //padding: 70px;
+  //display: none;
+  padding: 5rem;
+
+  @include gt-xs__screen() {
+   display: flex;
+    flex-flow: column;
+    justify-content: center;
+    padding: 2rem;
+  }
+
+  @include gt-sm__screen() {
+    padding: 4rem;
+  }
+
+}
+
+#transport-info-container{
+  grid-area: info;
+}
+
+#google-maps{
+  grid-area: google-map;
   background-color: darkgray;
 }
 
-.bda-google-maps-rectangle {
-  width: 100%;
-  height: 295px;
-  background-color: darkgray;
-}

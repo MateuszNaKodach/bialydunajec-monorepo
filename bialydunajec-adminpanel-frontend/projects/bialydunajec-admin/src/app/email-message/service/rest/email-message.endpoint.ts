@@ -2,11 +2,10 @@ import {Injectable} from '@angular/core';
 import {AbstractEndpoint} from '../../../shared/service/rest/abstract.endpoint';
 import {HttpClient} from '@angular/common/http';
 import {AuthService} from '../../../auth/service/auth.service';
-import {CreateCampEditionRequest} from '../../../camp-edition/service/rest/request/create-camp-edition.request';
-import {UpdateCampEditionDurationRequest} from '../../../camp-edition/service/rest/request/update-camp-edition-duration.request';
-import {CampEditionResponse} from '../../../camp-edition/service/rest/response/camp-edition.response';
 import {EmailMessageReadModel} from './read-model/email-message.read-model';
 import {EmailStatisticsReadModel} from './read-model/email-statistics.read-model';
+import {ForwardEmailMessageRequest} from './request/forward-email-message.request';
+import {SendEmailMessageRequest} from './request/send-email-message.request';
 
 @Injectable({
   providedIn: 'root'
@@ -23,5 +22,17 @@ export class EmailMessageEndpoint extends AbstractEndpoint {
 
   getEmailMessagesStatistics() {
     return this.httpClient.get<EmailStatisticsReadModel>(`${this.callsBaseUrl}/statistics`);
+  }
+
+  resendEmailMessage(emailMessageLogId: string) {
+    return this.httpClient.put(`${this.callsBaseUrl}/${emailMessageLogId}/resend`, {});
+  }
+
+  forwardEmailMessage(emailMessageLogId: string, requestBody: ForwardEmailMessageRequest) {
+    return this.httpClient.post(`${this.callsBaseUrl}/${emailMessageLogId}/forward`, requestBody);
+  }
+
+  sendEmailMessage(requestBody: SendEmailMessageRequest) {
+    return this.httpClient.post(`${this.callsBaseUrl}`, requestBody);
   }
 }

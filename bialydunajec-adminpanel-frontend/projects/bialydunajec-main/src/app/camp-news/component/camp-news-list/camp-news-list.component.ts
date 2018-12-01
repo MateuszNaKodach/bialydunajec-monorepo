@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {CampNewsEndpoint} from '../../service/rest/camp-news.endpoint';
-import {CampNewsPageDto} from '../../service/rest/dto/camp-news-page.dto';
+import {CampNewsDto, CampNewsPageDto} from '../../service/rest/dto/camp-news-page.dto';
 import {Observable} from 'rxjs';
+import {map, take} from 'rxjs/operators';
 
 @Component({
   selector: 'bda-camp-news-list',
@@ -10,13 +11,16 @@ import {Observable} from 'rxjs';
 })
 export class CampNewsListComponent implements OnInit {
 
-  campNews$: Observable<CampNewsPageDto>;
+  campNews$: Observable<CampNewsDto[]>;
 
   constructor(private campNewsEndpoint: CampNewsEndpoint) {
   }
 
   ngOnInit() {
-    this.campNews$ = this.campNewsEndpoint.getLastCampNews();
+    this.campNews$ = this.campNewsEndpoint.getLastCampNews()
+      .pipe(
+        map(it => it.content.slice(0, 5))
+      );
   }
 
 }

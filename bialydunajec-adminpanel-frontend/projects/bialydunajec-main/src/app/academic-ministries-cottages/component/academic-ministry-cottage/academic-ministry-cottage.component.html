@@ -1,7 +1,7 @@
 <section>
   <div *ngIf="cottage$ | async as cottage; else emptyCottageInfo" fxLayout="column" fxLayoutAlign="flex-start center">
 
-    <bda-photo-info-card [imageSrc]="cottage.buildingPhotoUrl">
+    <bda-photo-info-card [imageSrc]="cottage.buildingPhotoUrl ? cottage.buildingPhotoUrl : 'assets/images/placeholder/placeholder_church.png'">
       <div fxLayout="column" fxLayoutAlign="center center" class="content">
         <h2>Chatka {{cottage.name}}</h2>
         <i class="huge map signs icon" style="margin: 10px"></i>
@@ -52,7 +52,7 @@
 
 
     <div *ngIf="cottage.cottageBoss; else emptyCottageBossInfo" style="margin-top: 80px;">
-      <bda-photo-info-card [imageSrc]="cottage.cottageBoss.photoUrl" imagePosition="right">
+      <bda-photo-info-card [imageSrc]="cottage.cottageBoss.photoUrl ? cottage.cottageBoss.photoUrl : 'assets/images/placeholder/placeholder_person.jpg'" imagePosition="right">
         <div fxLayout="column" fxLayoutAlign="center center" class="content">
           <h3>{{cottage.cottageBoss.firstName}} {{cottage.cottageBoss.lastName}}</h3>
           <p class="meta">Szef chatki</p>

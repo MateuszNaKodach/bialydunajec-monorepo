@@ -5,7 +5,7 @@
       <div *ngIf="imageSrc && imagePosition == 'left'" fxLayoutAlign="center center">
         <img class="ui medium image" [src]="imageSrc" alt="">
       </div>
-      <ng-content></ng-content>
+      <ng-content class="bda-photo-info-card__content"></ng-content>
       <div *ngIf="imageSrc && imagePosition == 'right'" fxLayoutAlign="center center">
         <img class="ui medium image" [src]="imageSrc" alt="">
       </div>
