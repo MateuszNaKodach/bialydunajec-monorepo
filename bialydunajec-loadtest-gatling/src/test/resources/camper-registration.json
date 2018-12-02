@@ -1,5 +1,5 @@
 {
-  "cottageId": "36-ACADEMIC_MINISTRY-042e70fb-7756-4318-88c8-6b2f018221ee",
+  "cottageId": "36-ACADEMIC_MINISTRY-5416fd8c-a9b4-412c-b3b8-13d65bf14c8b",
   "personalData": {
     "firstName": "Test",
     "lastName": "Testowy",
@@ -23,7 +23,7 @@
     "isHighSchoolRecentGraduate": false
   },
   "shirtOrder": {
-    "shirtColorOptionId": "fbeb15c9-5255-48ee-97ee-0f62dee9d309",
-    "shirtSizeOptionId": "9cef2d60-3f8d-48fd-862d-9d70601488ff"
+    "shirtColorOptionId": "e75ce3f7-8932-47d1-8c35-f09d4fcd8e83",
+    "shirtSizeOptionId": "d971de52-4683-4f3a-ac23-7f9f65a210a5"
   }
 }

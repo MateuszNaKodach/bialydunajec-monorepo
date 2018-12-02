@@ -12,6 +12,7 @@ import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.transaction.event.TransactionPhase
 import org.springframework.transaction.event.TransactionalEventListener
 
 @Component
@@ -23,8 +24,10 @@ internal class CampParticipantRegistrationDomainEventListener(
 
     private val log = LoggerFactory.getLogger(this.javaClass)
 
-    @Async
-    @EventListener
+    //@Async
+    //@EventListener
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @TransactionalEventListener
     fun handle(event: CampParticipantRegistrationEvent.Created) {
         fun getRegistrationVerificationUrlFor(campParticipantRegistrationId: CampParticipantRegistrationId, verificationCode: String) =
                 mainFrontendProperties.registrationVerificationUrl
@@ -39,6 +42,19 @@ internal class CampParticipantRegistrationDomainEventListener(
                         """Cześć ${camperApplication.personalData.firstName},
                             aby potwierdzić zapis na Obóz, kliknij w link:
                             ${getRegistrationVerificationUrlFor(event.snapshot.campParticipantRegistrationId, event.snapshot.verificationCode)}"""
+                )
+        emailMessageSender.sendEmailMessage(emailMessage)
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_ROLLBACK)
+    fun handleCampParticipantRegistrationError(event: CampParticipantRegistrationEvent.Created) {
+        val camperApplication = event.snapshot.camperApplication
+        val emailMessage =
+                SimpleEmailMessage(
+                        camperApplication.emailAddress,
+                        "Obóz w Białym Dunajcu - rejestracja nie powiodła się",
+                        """Cześć ${camperApplication.personalData.firstName}, niestety Twój zapis na obóz się nie powiódł. Ktoś musiał zająć Twoje miejsce..."""
                 )
         emailMessageSender.sendEmailMessage(emailMessage)
     }

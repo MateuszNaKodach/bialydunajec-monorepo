@@ -8,6 +8,7 @@ import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditio
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionRepository
 import org.bialydunajec.registrations.domain.campedition.specification.InProgressCampRegistrationsSpecification
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipant
+import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantId
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantReadOnlyRepository
 import org.bialydunajec.registrations.domain.cottage.CottageId
 import org.bialydunajec.registrations.domain.cottage.CottageRepository
@@ -91,6 +92,9 @@ internal class CampRegistrationsDomainModelReader(
                     ?.getSnapshot()
                     ?.let { it.toCottageInfoDto() }
 
+    fun readFor(query: CampParticipantQuery.ById) =
+            campParticipantRepository.findById(CampParticipantId(query.campParticipantId))
+                    ?.let { campParticipantDto(it) }
 
     fun readFor(query: CampParticipantQuery.CountByCottageId) =
             CampParticipantCountByCottageIdDto(query.cottageId, campParticipantRepository.countByCottageId(CottageId(query.cottageId)))

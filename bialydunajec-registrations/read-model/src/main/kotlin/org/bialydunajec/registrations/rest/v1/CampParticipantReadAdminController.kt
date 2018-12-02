@@ -4,10 +4,7 @@ import org.bialydunajec.registrations.readmodel.camper.CampParticipantEventStrea
 import org.bialydunajec.registrations.readmodel.camper.CampParticipantMongoRepository
 import org.bialydunajec.registrations.readmodel.payment.PaymentCommitmentMongoRepository
 import org.springframework.http.MediaType
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RequestMapping("/rest-api/v1/admin/camp-participant")
 @RestController
@@ -19,6 +16,10 @@ internal class CampParticipantReadController(
     @GetMapping
     fun getAllCampParticipant(@RequestParam campRegistrationsEditionId: String) =
             camParticipantMongoRepository.findAllByCampRegistrationsEditionId(campRegistrationsEditionId)
+
+    @GetMapping("/{campParticipantId}")
+    fun getCampParticipantById(@PathVariable campParticipantId: String) =
+            camParticipantMongoRepository.findById(campParticipantId)
 
     @GetMapping(value = ["/projected-events-stream"], produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
     fun getProjectedEventsStream() =

@@ -2,11 +2,9 @@ package org.bialydunajec.registrations.application.command
 
 import org.bialydunajec.ddd.application.base.ApplicationService
 import org.bialydunajec.ddd.application.base.concurrency.ProcessingSerializedQueue
-import org.bialydunajec.ddd.application.base.external.event.ExternalEvent
 import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
 import org.bialydunajec.registrations.application.command.api.CampRegistrationsCommand
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantFactory
-import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantId
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantRepository
 import org.bialydunajec.registrations.domain.camper.campparticipantregistration.CampParticipantRegistration
 import org.bialydunajec.registrations.domain.camper.campparticipantregistration.CampParticipantRegistrationRepository
@@ -68,6 +66,23 @@ internal class UnregisterCampParticipantApplicationService(
 
         campParticipantRepository.save(campParticipant)
         campParticipantRepository.delete(campParticipant)
+    }
+
+}
+
+@Service
+@Transactional
+internal class CorrectCampParticipantRegistrationDataApplicationService(
+        private val campParticipantRepository: CampParticipantRepository
+) : ApplicationService<CampRegistrationsCommand.CorrectCampParticipantRegistrationDataCommand> {
+
+    override fun execute(command: CampRegistrationsCommand.CorrectCampParticipantRegistrationDataCommand) {
+        val campParticipant = campParticipantRepository.findById(command.campParticipantId)
+                ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.CAMP_PARTICIPANT_MUST_EXISTS_TO_UPDATE_REGISTRATION_DATA)
+
+        campParticipant
+
+        campParticipantRepository.save(campParticipant)
     }
 
 }

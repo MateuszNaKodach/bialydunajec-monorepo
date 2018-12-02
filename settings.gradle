@@ -58,7 +58,6 @@ include 'bialydunajec-users',
         'bialydunajec-users:infrastructure',
         'bialydunajec-users:messages'
 
-
 /*
 include 'bialydunajec-gallery',
         'bialydunajec-gallery:application',
@@ -66,7 +65,7 @@ include 'bialydunajec-gallery',
         'bialydunajec-gallery:domain',
         'bialydunajec-gallery:infrastructure',
         'bialydunajec-gallery:messages'
- */
+*/
 
 /*
 include 'bialydunajec-faq',

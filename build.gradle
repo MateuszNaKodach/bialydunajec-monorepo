@@ -42,7 +42,7 @@ allprojects {
     }
 }
 
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1.1-SNAPSHOT'
 
 buildscript {
     repositories {
@@ -85,6 +85,9 @@ dependencies {
     compile project(':bialydunajec-users:bialydunajec-users-presentation')
     compile project(':bialydunajec-users:bialydunajec-users-infrastructure')
 
+    //compile project(':bialydunajec-gallery:bialydunajec-gallery-presentation')
+    //compile project(':bialydunajec-gallery:bialydunajec-gallery-infrastructure')
+    
     compile project(':bialydunajec-email:bialydunajec-email-presentation')
     compile project(':bialydunajec-email:bialydunajec-email-infrastructure')
     compile project(':bialydunajec-email:bialydunajec-email-read-model')
