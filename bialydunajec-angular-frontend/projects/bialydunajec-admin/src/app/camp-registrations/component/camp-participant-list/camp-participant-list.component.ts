@@ -9,6 +9,7 @@ import {environment} from '../../../../environments/environment';
 import {EventType} from '../../../email-message/service/rest/event/event-type';
 import {PaymentCommitmentType} from '../../../payments/service/rest/read-model/payment-commitment.read-model';
 import {FormGroup} from '@angular/forms';
+import {campRegistrationsRoutingPaths} from '../../camp-registrations-routing.paths';
 
 @Component({
   selector: 'bda-admin-camp-participant-list',
@@ -16,6 +17,8 @@ import {FormGroup} from '@angular/forms';
   styleUrls: ['./camp-participant-list.component.less']
 })
 export class CampParticipantListComponent implements OnInit, OnDestroy {
+
+  campRegistrationsRoutingPaths = campRegistrationsRoutingPaths;
 
   availableCampEditions: Observable<CampEditionResponse[]>;
   private campParticipants: CampParticipantResponse[] = [];
@@ -162,12 +165,12 @@ export class CampParticipantListComponent implements OnInit, OnDestroy {
       this.campParticipantsSearchResult =
         this.campParticipants.filter(c => {
           const personalData = c.currentCamperData.personalData;
-          return (firstName && personalData.firstName.toLowerCase().includes(firstName.toLowerCase()))
-            || (lastName && personalData.lastName.toLowerCase().includes(lastName.toLowerCase()))
-            || (pesel && personalData.pesel && personalData.pesel.toLowerCase().includes(pesel.toLowerCase()))
-            || (phoneNumber && c.currentCamperData.phoneNumber.toLowerCase().includes(phoneNumber.toLowerCase()))
-            || (emailAddress && c.currentCamperData.emailAddress.toLowerCase().includes(emailAddress.toLowerCase()))
-            || (cottage && c.currentCamperData.cottage.cottageName.toLowerCase().includes(cottage.toLowerCase()));
+          return !((firstName && !personalData.firstName.toLowerCase().includes(firstName.toLowerCase()))
+            || (lastName && !personalData.lastName.toLowerCase().includes(lastName.toLowerCase()))
+            || (pesel && !personalData.pesel && personalData.pesel.toLowerCase().includes(pesel.toLowerCase()))
+            || (phoneNumber && !c.currentCamperData.phoneNumber.toLowerCase().includes(phoneNumber.toLowerCase()))
+            || (emailAddress && !c.currentCamperData.emailAddress.toLowerCase().includes(emailAddress.toLowerCase()))
+            || (cottage && !c.currentCamperData.cottage.cottageName.toLowerCase().includes(cottage.toLowerCase())));
         });
       this.searchingActive = true;
     }
