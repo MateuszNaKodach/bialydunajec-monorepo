@@ -37,12 +37,13 @@
       </div>
     </div>
     <agm-map
-      class="bda-admin-transport__google-map"
+      class="bda-admin-transport__google-map bda-camp-bus-departure-map"
       [latitude]="selectedCampBusLine.origin.geoLocation.latitude"
       [longitude]="selectedCampBusLine.origin.geoLocation.longitude"
       [zoom]="13"
     >
       <agm-marker
+        class="bda-camp-bus-departure-marker"
         [latitude]="selectedCampBusLine.origin.geoLocation.latitude"
         [longitude]="selectedCampBusLine.origin.geoLocation.longitude">
         <agm-info-window>Stąd odjeżdża nasz autokar.</agm-info-window>
