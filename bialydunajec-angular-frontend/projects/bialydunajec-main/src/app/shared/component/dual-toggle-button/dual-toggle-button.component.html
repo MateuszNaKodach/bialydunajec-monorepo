@@ -1,14 +1,14 @@
 <div class="ui large buttons bda-dual-button-group">
   <button
     type="button"
-    class="ui button bda-dual-button"
+    class="ui button bda-dual-button bda-dual-button-left"
     [ngClass]="(this.selected == 'left') ? selectionColor : ''"
     (click)="onOptionSelected('left')"
   ><i *ngIf="options.left.icon" class="icon" [ngClass]="options.left.icon"></i>{{options.left.name}}
   </button>
   <button
     type="button"
-    class="ui button bda-dual-button"
+    class="ui button bda-dual-button bda-dual-button-right"
     [ngClass]="(this.selected == 'right') ? selectionColor : ''"
     (click)="onOptionSelected('right')"
   ><i *ngIf="options.right.icon" class="icon" [ngClass]="options.right.icon"></i>{{options.right.name}}

@@ -1,7 +1,8 @@
 <div class="bda-cottage-selection">
   <bda-cottage-card
-    *ngFor="let cottage of cottages"
+    *ngFor="let cottage of cottages; let i = index"
     [cottageViewModel]="cottage"
+    [id]="'cottage'+i"
     [selected]="isSelectedCottage(cottage.cottageId)"
     (click)="onCottageClicked(cottage)"
   ></bda-cottage-card>

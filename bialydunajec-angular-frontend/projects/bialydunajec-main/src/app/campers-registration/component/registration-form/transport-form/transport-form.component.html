@@ -14,9 +14,9 @@
         [control]="meanOfTransport"
       >
         <sui-select class="selection" [formControlName]="formConfig.controls.meanOfTransport.name"
-                    [placeholder]="formConfig.controls.meanOfTransport.placeholder">
-          <sui-select-option *ngFor="let option of meanOfTransportOptions"
-                             [value]="option">
+                    [placeholder]="formConfig.controls.meanOfTransport.placeholder" id="meanOfTransport-selection">
+          <sui-select-option *ngFor="let option of meanOfTransportOptions; let i = index"
+                             [value]="option" [id]="'meanOfTransport'+i">
           </sui-select-option>
         </sui-select>
       </bda-form-input>
