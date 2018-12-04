@@ -21,10 +21,11 @@
           formControlName="color"
           [options]="getShirtColorOptions()"
           [optionTemplate]="colorOptionTemplate"
+          id="color-selection"
           placeholder="Wybierz jedną z opcji"
         #colorSelect>
-          <sui-select-option *ngFor="let option of colorSelect.filteredOptions"
-                             [value]="option">
+          <sui-select-option *ngFor="let option of colorSelect.filteredOptions; let i = index"
+                             [value]="option" [id]="'color'+i">
           </sui-select-option>
         </sui-select>
       </bda-form-input>
@@ -52,12 +53,13 @@
         <sui-select
           class="selection"
           formControlName="size"
+          id="size-selection"
           [options]="shirtSizeOptions"
           [optionTemplate]="sizeOptionTemplate"
           [placeholder]="clothType.value ? 'Wybierz rozmiar koszulki' : 'Najpierw wybierz rodzaj koszulki'"
         #sizeSelect>
-          <sui-select-option *ngFor="let option of sizeSelect.filteredOptions"
-                             [value]="option">
+          <sui-select-option *ngFor="let option of sizeSelect.filteredOptions; let i = index"
+                             [value]="option" [id]="'size'+i">
           </sui-select-option>
         </sui-select>
       </bda-form-input>

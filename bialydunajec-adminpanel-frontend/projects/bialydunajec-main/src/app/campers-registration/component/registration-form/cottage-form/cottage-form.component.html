@@ -30,7 +30,7 @@
           </div>
         </sui-message>
       </div>
-      <div style="display: flex; justify-content: flex-end;">
+      <div style="display: flex; justify-content: flex-end;" *ngIf="environment.google.reCaptcha.enabled">
         <re-captcha formControlName="reCaptcha" (resolved)="onReCaptchaResolved($event)"></re-captcha>
       </div>
     </div>

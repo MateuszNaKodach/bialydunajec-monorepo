@@ -11,6 +11,7 @@ export const environment = {
   },
   google: {
     reCaptcha: {
+      enabled: false,
       siteKey: '6LeDQXEUAAAAAKZZBSr_C197Mlz3nr1RR_yIU48l'
     },
     maps: {

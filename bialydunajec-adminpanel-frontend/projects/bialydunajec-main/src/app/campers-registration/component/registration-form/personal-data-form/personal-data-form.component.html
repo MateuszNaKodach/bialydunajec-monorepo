@@ -26,19 +26,19 @@
         <bda-form-input
           [control]="firstName"
           label="Imię">
-          <input type="text" formControlName="firstName" placeholder="Mateusz">
+          <input type="text" formControlName="firstName" placeholder="Mateusz" id="firstName-input">
         </bda-form-input>
         <bda-form-input
           [control]="lastName"
           label="Nazwisko">
-          <input type="text" formControlName="lastName" placeholder="Nowak">
+          <input type="text" formControlName="lastName" placeholder="Nowak" id="lastName-input">
         </bda-form-input>
         <bda-form-input
           [control]="pesel"
           label="Pesel"
           [errorDefs]="{invalidPesel: 'Niepoprawny numer PESEL'}"
         >
-          <input type="text" formControlName="pesel" placeholder="99010112345" maxlength="11">
+          <input type="text" formControlName="pesel" placeholder="99010112345" maxlength="11" id="pesel-input">
         </bda-form-input>
       </div>
 
@@ -52,13 +52,13 @@
               style="flex: 12; margin-right: 10px"
               [control]="street"
               label="Ulica">
-              <input type="text" formControlName="street" placeholder="Przykładowa">
+              <input type="text" formControlName="street" placeholder="Przykładowa" id="street-input">
             </bda-form-input>
             <bda-form-input
               style="flex: 5; margin-left: 10px"
               [control]="number"
               label="Nr domu">
-              <input type="text" formControlName="number" placeholder="192a/2">
+              <input type="text" formControlName="number" placeholder="192a/2" id="number-input">
             </bda-form-input>
           </div>
 
@@ -67,13 +67,13 @@
               style="flex: 5; margin-right: 10px"
               [control]="postalCode"
               label="Kod pocztowy">
-              <input type="text" formControlName="postalCode" placeholder="12-345">
+              <input type="text" formControlName="postalCode" placeholder="12-345" id="postalCode-input">
             </bda-form-input>
             <bda-form-input
               style="flex: 12; margin-left: 10px"
               [control]="city"
               label="Miasto">
-              <input type="text" formControlName="city" placeholder="Wrocław">
+              <input type="text" formControlName="city" placeholder="Wrocław" id="city-input">
             </bda-form-input>
           </div>
 
@@ -88,13 +88,13 @@
             label="Email"
             [errorDefs]="{email: 'Niepoprawny adres email'}"
           >
-            <input type="email" formControlName="email" placeholder="jan.kowalski@test.com">
+            <input type="email" formControlName="email" placeholder="jan.kowalski@test.com" id="email-input">
           </bda-form-input>
 
           <bda-form-input
             [control]="phoneNumber"
             label="Telefon">
-            <input type="tel" formControlName="telephone" placeholder="000-000-000">
+            <input type="tel" formControlName="telephone" placeholder="Preferowany format: 000-000-000" id="phoneNumber-input">
           </bda-form-input>
 
         </div>
@@ -117,29 +117,29 @@
         <bda-form-input
           [control]="university"
           label="Uczelnia">
-          <input type="text" formControlName="university" placeholder="Politechnika Wrocławska">
+          <input type="text" formControlName="university" placeholder="Politechnika Wrocławska" id="university-input">
         </bda-form-input>
         <bda-form-input
           [control]="faculty"
           label="Wydział">
-          <input type="text" formControlName="faculty" placeholder="Informatyki i Zarządzania">
+          <input type="text" formControlName="faculty" placeholder="Informatyki i Zarządzania" id="faculty-input">
         </bda-form-input>
         <bda-form-input
           [control]="fieldOfStudy"
           label="Kierunek">
-          <input type="text" formControlName="fieldOfStudy" placeholder="Informatyka">
+          <input type="text" formControlName="fieldOfStudy" placeholder="Informatyka" id="fieldOfStudy-input">
         </bda-form-input>
       </div>
       <div class="bda-personal-data-form__high-school-section">
         <div class="field">
-          <sui-checkbox formControlName="isRecentHighSchoolGraduate">
-            <b>Jestem maturzystą</b>
+          <sui-checkbox formControlName="isRecentHighSchoolGraduate" id="isRecentHighSchoolGraduate-checkbox">
+            <b>Jestem tegorocznym maturzystą</b>
           </sui-checkbox>
         </div>
         <bda-form-input
           [control]="highSchool"
           label="Szkoła średnia">
-          <input type="tel" formControlName="highSchool" placeholder="Liceum Ogólnokształcące nr II we Wrocławiu">
+          <input type="text" formControlName="highSchool" placeholder="Liceum Ogólnokształcące nr II we Wrocławiu" id="highSchool-input">
         </bda-form-input>
       </div>
     </div>
@@ -158,18 +158,18 @@
         <bda-form-input
           [control]="knowAboutCampFrom"
           label="Skąd dowiedziałeś się po raz pierwszy o obozie?">
-          <sui-select class="selection" formControlName="knowAboutCampFrom" placeholder="Wybierz jedną z opcji">
-            <sui-select-option *ngFor="let option of campInfoOptions"
-                               [value]="option">
+          <sui-select class="selection" formControlName="knowAboutCampFrom" placeholder="Wybierz jedną z opcji" id="knowAboutCampFrom-selection">
+            <sui-select-option *ngFor="let option of campInfoOptions; let i = index"
+                               [value]="option" [id]="'knownAboutCampFrom'+i">
             </sui-select-option>
           </sui-select>
         </bda-form-input>
         <bda-form-input
           [control]="onCampForTime"
           label="Który raz jedziesz na obóz?">
-          <sui-select class="selection" formControlName="onCampForTime" placeholder="Wybierz jedną z opcji">
-            <sui-select-option *ngFor="let option of whichOneGoForCamp"
-                               [value]="option">
+          <sui-select class="selection" formControlName="onCampForTime" placeholder="Wybierz jedną z opcji" id="onCampForTime-selection">
+            <sui-select-option *ngFor="let option of whichOneGoForCamp; let i = index"
+                               [value]="option" [id]="'onCampForTime'+i">
             </sui-select-option>
           </sui-select>
         </bda-form-input>
@@ -186,7 +186,7 @@
         class="bda-agreement-checkbox"
         [ngClass]="{'bda-invalid-checkbox-field': campRegulations.invalid && campRegulations.touched}"
       >
-        <sui-checkbox formControlName="campRegulations">
+        <sui-checkbox formControlName="campRegulations" id="campRegulations-checkbox">
           <div [innerHtml]="regulation"></div>
         </sui-checkbox>
       </div>
@@ -194,7 +194,7 @@
         class="bda-agreement-checkbox"
         [ngClass]="{'bda-invalid-checkbox-field': camperOwnResponsibility.invalid && camperOwnResponsibility.touched}"
       >
-        <sui-checkbox formControlName="camperOwnResponsibility">
+        <sui-checkbox formControlName="camperOwnResponsibility" id="camperOwnResponsibility-checkbox">
           Oświadczam, że wyjeżdżam na Obóz na własną odpowiedzialność. Organizatorzy nie ponoszą żadnej
           odpowiedzialności za straty majątkowe, uszkodzenia ciała czy inne wypadki. Organizatorzy informują, że
           uczestnik jest ubezpieczany przez organizatorów od NNW jedynie na terenie RP.
@@ -204,7 +204,7 @@
         class="bda-agreement-checkbox"
         [ngClass]="{'bda-invalid-checkbox-field': personalDataProcessing.invalid && personalDataProcessing.touched}"
       >
-        <sui-checkbox formControlName="personalDataProcessing">
+        <sui-checkbox formControlName="personalDataProcessing"  id="personalDataProcessing-checkbox">
           Zapoznałem (-am) się z treścią <b><a target="_blank" rel="noopener noreferrer" href="assets/documents/KLAUZULA_INFORMACYJNA.pdf">klauzuli informacyjnej</a></b>, w tym z informacją o celach i sposobach przetwarzania
           moich danych osobowych oraz prawach przysługujących mi w związku z przetwarzaniem danych osobowych przez Obóz.
         </sui-checkbox>

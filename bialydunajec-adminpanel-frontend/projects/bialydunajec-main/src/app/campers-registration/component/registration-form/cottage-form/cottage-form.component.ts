@@ -17,6 +17,7 @@ import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {CampRegistrationsCottageResponse} from '../../../service/rest/response/camp-registrations-cottage.response';
 import {campersRegistrationRoutingPaths} from '../../../campers-registration-routing.paths';
+import {environment} from '../../../../../environments/environment';
 
 @Component({
   selector: 'bda-cottage-form',
@@ -25,6 +26,7 @@ import {campersRegistrationRoutingPaths} from '../../../campers-registration-rou
 })
 export class CottageFormComponent extends RegistrationFormStepAbstractComponent {
 
+  environment = environment;
   cottages: Observable<CottageCardViewModel[]>;
 
   constructor(
@@ -40,7 +42,7 @@ export class CottageFormComponent extends RegistrationFormStepAbstractComponent 
   protected initStepFormControls() {
     this.stepForm = this.formBuilder.group({
         cottageId: [null, [Validators.required]],
-        reCaptcha: [null, [Validators.required]]
+        reCaptcha: [null, environment.google.reCaptcha.enabled ? [Validators.required] : []]
       }
     );
   }
