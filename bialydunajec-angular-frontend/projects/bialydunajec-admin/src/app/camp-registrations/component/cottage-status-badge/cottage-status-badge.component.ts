@@ -6,7 +6,7 @@ import {Component, Input, OnInit} from '@angular/core';
     <label
       class="bda-admin-cottage-status-label"
       [ngClass]="{'configured': cottageStatus === 'CONFIGURED', 'unconfigured': cottageStatus === 'UNCONFIGURED','activated': cottageStatus === 'ACTIVATED'}">
-      {{cottageStatus}}</label>
+      {{getCottageStatusInPolish(cottageStatus)}}</label>
   `,
   styles: [`
     .bda-admin-cottage-status-label {
@@ -43,6 +43,20 @@ export class CottageStatusBadgeComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  getCottageStatusInPolish(status: string) {
+    switch (status) {
+      case 'UNCONFIGURED': {
+        return 'NIESKONFIGUROWANA';
+      }
+      case 'CONFIGURED': {
+        return 'SKONFIGUROWANA';
+      }
+      case 'ACTIVATED': {
+        return 'AKTYWNA';
+      }
+    }
   }
 
 }

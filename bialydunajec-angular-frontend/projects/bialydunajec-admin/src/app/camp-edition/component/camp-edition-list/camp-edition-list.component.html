@@ -11,7 +11,6 @@
     </button>
   </div>
   <div class="bda-admin-camp-edition-list" *ngIf="campEditions | async as campEditionsList">
-    <div>
       <div
         *ngFor="let campEdition of campEditionsList"
         class="bda-admin-panel-section-card">
@@ -35,7 +34,6 @@
                   style="margin-left: 0.5rem;"><i class="anticon anticon-delete"></i></button>
         </div>
       </div>
-    </div>
   </div>
   <ng-template #emptyCampListInstructions>
     <bda-admin-first-camp-edition-instruction></bda-admin-first-camp-edition-instruction>

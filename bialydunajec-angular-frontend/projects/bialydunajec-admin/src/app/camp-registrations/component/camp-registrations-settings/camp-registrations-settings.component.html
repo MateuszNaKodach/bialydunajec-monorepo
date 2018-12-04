@@ -51,9 +51,10 @@
       <div style="margin-bottom: 1rem;">
         <h3><b>Aktualny status zapisów:</b></h3>
         <div [ngSwitch]="campRegistrations.status" #statusTemplate style="text-align: center">
-          <h3 *ngSwitchCase="'UNCONFIGURED_TIMER'" style="color: red;"><b>NIESKONFIGUROWANY PRZEŁĄCZNIK CZASOWY</b></h3>
-          <h3 *ngSwitchCase="'CONFIGURED_TIMER'" style="color: greenyellow;"><b>SKONFIGUROWANY PRZEŁĄCZNIK CZASOWY</b>
-          </h3>
+          <!--<h3 *ngSwitchCase="'UNCONFIGURED_TIMER'" style="color: red;"><b>NIESKONFIGUROWANY PRZEŁĄCZNIK CZASOWY</b></h3>
+          <h3 *ngSwitchCase="'CONFIGURED_TIMER'" style="color: greenyellow;"><b>SKONFIGUROWANY PRZEŁĄCZNIK CZASOWY</b></h3>-->
+          <h3 *ngSwitchCase="'UNCONFIGURED_TIMER'" style="color: red;"><b>NIE ROZPOCZĘTE</b></h3>
+          <h3 *ngSwitchCase="'CONFIGURED_TIMER'" style="color: greenyellow;"><b>NIE ROZPOCZĘTE</b></h3>
           <h3 *ngSwitchCase="'IN_PROGRESS'" style="color: green;"><b>W TRAKCIE</b></h3>
           <h3 *ngSwitchCase="'SUSPENDED'" style="color: yellow;"><b>WSTRZYMANE</b></h3>
           <h3 *ngSwitchCase="'FINISHED'" style="color: blueviolet;"><b>ZAKOŃCZONE</b></h3>
@@ -121,15 +122,16 @@
       </nz-alert>
       <ng-template #campRegistrationStatusesDescription>
         <p>Zapisy mogą przyjmować następujące statusy:</p>
-        <p><b>NIESKONFIGUROWANY PRZEŁĄCZNIK CZASOWY</b> - nie ustalono kiedy należy uruchomić zapisy</p>
-        <p><b>SKONFIGUROWANY PRZEŁĄCZNIK CZASOWY</b> - zapisy rozpoczną się i skończą wg. ustalonych ram czasowych</p>
-        <p><b>W TRAKCIE</b> - aktualnie aktywne zapisy. Zostały rozpoczęte ręcznie lub przez Przełącznik Czasowy</p>
+        <!--<p><b>NIESKONFIGUROWANY PRZEŁĄCZNIK CZASOWY</b> - nie ustalono kiedy należy uruchomić zapisy</p>
+        <p><b>SKONFIGUROWANY PRZEŁĄCZNIK CZASOWY</b> - zapisy rozpoczną się i skończą wg. ustalonych ram czasowych</p>-->
+        <p><b>NIE ROZPOCZĘTE</b> - zapisy nie zostały jeszcze rozpoczęte. Aby było to możliwe zakończ wszystkie inne trwające zapisy.</p>
+        <p><b>W TRAKCIE</b> - aktualnie aktywne zapisy.</p>
         <p><b>WSTRZYMANE</b> - zapisy zostały zawieszone przez administratora. Aby kontunować konieczne jest ręczne
           przywrócenie</p>
-        <p><b>ZAKOŃCZONE</b> - zapisy zostały zakończone ręcznie lub przez Przełącznik Czasowy, mogą zostać ręcznie
+        <p><b>ZAKOŃCZONE</b> - zapisy zostały zakończone, mogą zostać ręcznie
           przywrócone</p>
-        <p><b>ZARCHIWIZOWANE</b> - status ostateczny, obóz został zakończony, a dane personalne uczestników
-          zanonimizowane</p>
+        <!--<p><b>ZARCHIWIZOWANE</b> - status ostateczny, obóz został zakończony, a dane personalne uczestników
+          zanonimizowane</p>-->
       </ng-template>
     </div>
 
