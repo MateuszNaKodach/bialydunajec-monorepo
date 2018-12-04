@@ -403,7 +403,7 @@ class DummyDatabaseInitializator(
         campRegistrationsAdminCommandGateway.process(CampRegistrationsCommand.StartCampRegistrationsNow(36))
     }
 
-    fun registerDummyCampers(){
+    fun registerDummyCampers() {
         val campShirt = campRegistrationsQueryGateway.process(CampEditionShirtQuery.ByCampRegistrationsEditionId("36"))
 
         campRegistrationsQueryGateway.process(CottageQuery.All())
@@ -438,13 +438,13 @@ class DummyDatabaseInitializator(
                                         ShirtColorOptionId(campShirt!!.colorOptions.random().shirtColorOptionId),
                                         ShirtSizeOptionId(campShirt!!.sizeOptions.random().shirtSizeOptionId)
                                 )
-                        ).let { registration -> campRegistrationsCommandGateway.process(registration) }
+                        ).let { registration -> campRegistrationsCommandGateway.process(registration, false) }
                     }
                 }
 
 
         campRegistrationsQueryGateway.process(CottageQuery.All())
-                .find { it.name == "Redemptor"  }
+                .find { it.name == "Redemptor" }
                 ?.let {
                     for (x in 0..26) {
                         val person = fairy.person(*personProperties)
@@ -473,7 +473,7 @@ class DummyDatabaseInitializator(
                                         ShirtColorOptionId(campShirt!!.colorOptions.random().shirtColorOptionId),
                                         ShirtSizeOptionId(campShirt!!.sizeOptions.random().shirtSizeOptionId)
                                 )
-                        ).let { registration -> campRegistrationsCommandGateway.process(registration) }
+                        ).let { registration -> campRegistrationsCommandGateway.process(registration, false) }
                     }
                 }
     }
