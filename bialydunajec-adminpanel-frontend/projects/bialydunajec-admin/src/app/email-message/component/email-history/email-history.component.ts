@@ -107,7 +107,7 @@ export class EmailHistoryComponent implements OnInit, OnDestroy {
       this.resetSearchResult(form);
     } else {
       this.emailMessagesSearchResult =
-        this.emailMessages.filter(m => (recipientAddress && m.recipient.toLowerCase().includes(recipientAddress.toLowerCase())) || (subject && m.subject.toLowerCase().includes(subject.toLowerCase())));
+        this.emailMessages.filter(m => !(recipientAddress && !m.recipient.toLowerCase().includes(recipientAddress.toLowerCase())) || (subject && !m.subject.toLowerCase().includes(subject.toLowerCase())));
       /*if (onlySentFailure === true) {
         this.emailMessagesSearchResult =
           this.emailMessagesSearchResult.filter(m => m.status != 'SENT');

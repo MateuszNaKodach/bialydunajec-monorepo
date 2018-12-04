@@ -167,7 +167,7 @@ export class CampParticipantListComponent implements OnInit, OnDestroy {
           const personalData = c.currentCamperData.personalData;
           return !((firstName && !personalData.firstName.toLowerCase().includes(firstName.toLowerCase()))
             || (lastName && !personalData.lastName.toLowerCase().includes(lastName.toLowerCase()))
-            || (pesel && !personalData.pesel && personalData.pesel.toLowerCase().includes(pesel.toLowerCase()))
+            || (pesel && personalData.pesel && !personalData.pesel.toLowerCase().includes(pesel.toLowerCase()))
             || (phoneNumber && !c.currentCamperData.phoneNumber.toLowerCase().includes(phoneNumber.toLowerCase()))
             || (emailAddress && !c.currentCamperData.emailAddress.toLowerCase().includes(emailAddress.toLowerCase()))
             || (cottage && !c.currentCamperData.cottage.cottageName.toLowerCase().includes(cottage.toLowerCase())));

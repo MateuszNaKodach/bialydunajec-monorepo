@@ -13,7 +13,7 @@ const coreRoutes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: coreRoutingPaths.dashboard
+        redirectTo: coreRoutingPaths.campEdition
       },
       {
         path: coreRoutingPaths.dashboard,

@@ -36,6 +36,7 @@ export class CampParticipantEditComponent implements OnInit {
   ngOnInit() {
     this.initDetermineModeFunction();
     const submitPipeOperators = [finalize(() => this.submittingInProgress = false)];
+    /*
     this.initFormSubmitFunctions(
       (createAcademicMinistryRequest: CreateAcademicMinistryRequest) =>
         this.academicMinistryEndpoint.createAcademicMinistry(createAcademicMinistryRequest)
@@ -44,6 +45,7 @@ export class CampParticipantEditComponent implements OnInit {
         this.academicMinistryEndpoint.updateAcademicMinistryById(academicMinistryId, updateAcademicMinistryRequest)
           .pipe(...submitPipeOperators)
     );
+    */
     this.initForm();
     this.loadInitFormValues();
   }

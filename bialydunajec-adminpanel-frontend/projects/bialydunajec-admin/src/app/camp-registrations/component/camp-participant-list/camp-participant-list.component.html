@@ -4,12 +4,12 @@
       <bda-admin-breadcrumbs
         [breadcrumbs]="['Zapisy na Obóz','Uczestnicy Obozu']"
       ></bda-admin-breadcrumbs>
-      <button
+      <!--<button
         style="margin-left: 2rem;"
         nz-button
         nzType="primary"
         [routerLink]="['../',campRegistrationsRoutingPaths.campParticipants, 'new']">Zapisz nową osobę
-      </button>
+      </button>-->
     </div>
     <bda-admin-camp-edition-selection
       (campEditionIdSelected)="onCampEditionIdSelected($event)"
@@ -46,7 +46,7 @@
             <nz-form-control>
               <input
                 ngModel
-                #subjectInput="ngModel"
+                #firstNameInput="ngModel"
                 name="firstName"
                 nz-input>
             </nz-form-control>
@@ -56,7 +56,7 @@
             <nz-form-control>
               <input
                 ngModel
-                #subjectInput="ngModel"
+                #lastNameInput="ngModel"
                 name="lastName"
                 nz-input>
             </nz-form-control>
@@ -66,7 +66,7 @@
             <nz-form-control>
               <input
                 ngModel
-                #recipientAdressInput="ngModel"
+                #peselInput="ngModel"
                 name="pesel"
                 nz-input>
             </nz-form-control>
@@ -76,7 +76,7 @@
             <nz-form-control>
               <input
                 ngModel
-                #subjectInput="ngModel"
+                #emailAddressInput="ngModel"
                 name="emailAddress"
                 nz-input>
             </nz-form-control>
@@ -86,7 +86,7 @@
             <nz-form-control>
               <input
                 ngModel
-                #subjectInput="ngModel"
+                #phoneNumberInput="ngModel"
                 name="phoneNumber"
                 nz-input>
             </nz-form-control>
@@ -96,7 +96,7 @@
             <nz-form-control>
               <input
                 ngModel
-                #subjectInput="ngModel"
+                #cottageInput="ngModel"
                 name="cottage"
                 nz-input>
             </nz-form-control>
