@@ -57,6 +57,11 @@ export class FaqService {
       questions: [
         {
           id: '1',
+          content: ' Ile kosztuje udział w Obozie?',
+          answer: ' 419zł - cena obejmuje zakwaterowanie, wyżywienie, ubezpieczenie - cena nie obejmuje dojazdu do Białego Dunajca oraz kosztów przejazdów na obozie, opłat za bilety wstępu do TPN, itp. Wcześniej w ramach potwierdzenia udziału wpłacany jest zadatek w wysokości 99 zł.'
+        },
+        {
+          id: '1',
           content: ' Do kiedy należy wpłacić zadatek?',
           answer: 'Zadatek należy wpłacić w terminie 7 dni od rejestracji. W przypadku braku wpłaty w terminie, miejsce zostaje oznaczone jako zwolnione! Zadatek zaliczany jest oczywiście na poczet ceny obozu.'
         },

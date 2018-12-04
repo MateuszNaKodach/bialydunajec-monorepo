@@ -1,9 +1,15 @@
-<div class="bda-admin-current-user">
+<div class="bda-admin-current-user" style="display: flex; align-items: center">
   <bda-admin-user-avatar
     [userViewModel]="{userId: currentUser.userId, displayName: currentUser.username, emailAddress: currentUser.emailAddress }"
     tooltipPlacement="none"
   ></bda-admin-user-avatar>
-  <nz-dropdown>
+
+  <button
+    style="margin-left: 2rem"
+    nz-button
+    nzType="basic"
+    (click)="onClickLogout()"><i nz-icon type="logout" theme="outline"></i>Wyloguj</button>
+  <!--<nz-dropdown>
     <a nz-dropdown style="font-size: 1.2rem;">
       <i class="anticon medium anticon-setting"></i>
     </a>
@@ -15,5 +21,5 @@
         <a (click)="onClickLogout()">Wyloguj</a>
       </li>
     </ul>
-  </nz-dropdown>
+  </nz-dropdown>-->
 </div>

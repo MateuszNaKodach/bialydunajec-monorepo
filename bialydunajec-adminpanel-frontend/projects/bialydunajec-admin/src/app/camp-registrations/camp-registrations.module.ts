@@ -13,6 +13,7 @@ import { ShirtSettingsComponent } from './component/shirt-settings/shirt-setting
 import { ShirtOrdersComponent } from './component/shirt-orders/shirt-orders.component';
 import { CampRegistrationsStatisticsComponent } from './component/camp-registrations-statistics/camp-registrations-statistics.component';
 import {NgxChartsModule} from '@swimlane/ngx-charts';
+import { CampParticipantEditComponent } from './component/camp-participant-edit/camp-participant-edit.component';
 
 @NgModule({
   imports: [
@@ -30,7 +31,8 @@ import {NgxChartsModule} from '@swimlane/ngx-charts';
     CampParticipantListComponent,
     ShirtSettingsComponent,
     ShirtOrdersComponent,
-    CampRegistrationsStatisticsComponent
+    CampRegistrationsStatisticsComponent,
+    CampParticipantEditComponent
   ],
   exports: []
 })

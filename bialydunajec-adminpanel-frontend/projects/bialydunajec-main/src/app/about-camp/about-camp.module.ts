@@ -5,6 +5,7 @@ import {SuiAccordionModule, SuiSearchModule} from 'ng2-semantic-ui';
 import {FaqCategoryComponent} from './component/faq/faq-category/faq-category.component';
 import {FaqService} from './service/faq.service';
 import {AboutCampRoutingModule} from './about-camp-routing.module';
+import { PacklistComponent } from './component/packlist/packlist.component';
 
 @NgModule({
   imports: [
@@ -13,7 +14,7 @@ import {AboutCampRoutingModule} from './about-camp-routing.module';
     SuiSearchModule,
     AboutCampRoutingModule
   ],
-  declarations: [FaqComponent, FaqCategoryComponent],
+  declarations: [FaqComponent, FaqCategoryComponent, PacklistComponent],
   providers: [FaqService]
 })
 export class AboutCampModule {

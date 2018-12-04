@@ -17,6 +17,7 @@ import {InputExtensionValueAccessor} from './directive/input-extension-value-acc
 import { AgmCoreModule } from '@agm/core';
 import {environment} from '../../environments/environment';
 import {CurrentUserComponent} from './component/current-user/current-user.component';
+import { FirstCampEditionInstructionComponent } from './component/instruction/first-camp-edition-instruction/first-camp-edition-instruction.component';
 
 registerLocaleData(pl);
 
@@ -40,7 +41,8 @@ registerLocaleData(pl);
     FormInputValueComponent,
     HttpResponseAlterComponent,
     InputExtensionValueAccessor,
-    CurrentUserComponent
+    CurrentUserComponent,
+    FirstCampEditionInstructionComponent
   ],
   exports: [
     CommonModule,
@@ -58,7 +60,8 @@ registerLocaleData(pl);
     HttpResponseAlterComponent,
     InputExtensionValueAccessor,
     AgmCoreModule,
-    CurrentUserComponent
+    CurrentUserComponent,
+    FirstCampEditionInstructionComponent
   ],
   providers: [
     {provide: NZ_I18N, useValue: pl_PL},
