@@ -8,10 +8,7 @@ import org.bialydunajec.ddd.domain.base.validation.ValidationResult
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.financial.Money
 import org.jetbrains.annotations.NotNull
 import java.time.LocalDate
-import javax.persistence.Embedded
-import javax.persistence.Entity
-import javax.persistence.Table
-import javax.persistence.Version
+import javax.persistence.*
 
 @Entity
 @Table(schema = "camp_edition")
@@ -24,7 +21,18 @@ class CampEdition constructor(
         private var endDate: LocalDate,
 
         @Embedded
-        private var price: Money //TODO: Pass to camp registration!
+        @AttributeOverrides(
+                AttributeOverride(name = "value", column = Column(name = "totalPrice_value")),
+                AttributeOverride(name = "currency", column = Column(name = "totalPrice_currency"))
+        )
+        private var totalPrice: Money,
+
+        @Embedded
+        @AttributeOverrides(
+                AttributeOverride(name = "value", column = Column(name = "downPaymentAmount_value")),
+                AttributeOverride(name = "currency", column = Column(name = "downPaymentAmount_currency"))
+        )
+        private var downPaymentAmount: Money? = null
 ) : AggregateRoot<CampEditionId, CampEditionEvent>(campEditionId), Versioned {
 
     @Version
@@ -35,13 +43,16 @@ class CampEdition constructor(
     init {
         canInit(startDate, endDate)
                 .ifInvalidThrowException()
+        canUpdateTotalPriceAndDownPaymentAmount(totalPrice, downPaymentAmount)
+                .ifInvalidThrowException()
 
         registerEvent(
                 CampEditionEvent.CampEditionCreated(
                         getAggregateId(),
                         startDate,
                         endDate,
-                        price
+                        totalPrice,
+                        downPaymentAmount
                 )
         )
     }
@@ -54,6 +65,14 @@ class CampEdition constructor(
             .addViolatedRuleIfNot(
                     CampEditionDomainRule.CAMP_EDITION_END_DATE_HAS_TO_BE_AFTER_START_DATE,
                     endDate.isAfter(startDate)
+            )
+            .toValidationResult()
+
+
+    fun canUpdateTotalPriceAndDownPaymentAmount(totalPrice: Money, downPaymentAmount: Money?) = ValidationResult.buffer()
+            .addViolatedRuleIf(
+                    CampEditionDomainRule.DOWN_PAYMENT_AMOUNT_HAS_TO_BE_LESS_THAN_TOTAL_PRICE,
+                    downPaymentAmount != null && !downPaymentAmount.lessThan(totalPrice)
             )
             .toValidationResult()
 
@@ -73,7 +92,7 @@ class CampEdition constructor(
 
     fun getStartDate() = startDate
     fun getEndDate() = endDate
-    fun getPrice() = price
-    fun getSnapshot() = CampEditionSnapshot(getAggregateId(), startDate, endDate, price)
+    fun getPrice() = totalPrice
+    fun getSnapshot() = CampEditionSnapshot(getAggregateId(), startDate, endDate, totalPrice, downPaymentAmount)
     override fun getVersion() = version
 }

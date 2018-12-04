@@ -18,7 +18,9 @@ Przemyslec czy to nie powinny byc osobny aggreagate, w sumie CampParticipant dba
  Zmienić na CampParticipant i podmienić z aggregatem CampParticipant!
  Zbieranie danych o konkretnych camperach bedzie tylko read modelem, ile razy np. był na obozie.
  */
-//TODO: Zastanowić się czy id CampParticipant nie powinno być różne, np. Camper Id!
+//CampParticipantId - to id w trakcie 1 edycji!
+//TODO: Zastanowić się czy id CampParticipant nie powinno być różne, np. Camper Id! Jedno do okreslonego zgloszenia, drugie do sledzenia.
+// Bo jak na razie generowane z peselu ogarnie 1 edycje!!!
 //TODO: Add accepted agreements (modifable for Camp Registrations)
 //TODO: Moznaby wydzielic accommodation, i to by było w jednym agregacie, który pilnuje też ilości i peselów.
 @Entity
@@ -29,7 +31,7 @@ Przemyslec czy to nie powinny byc osobny aggreagate, w sumie CampParticipant dba
         ]
 )
 class CampParticipant internal constructor(
-        campParticipantIdGenerator: CampParticipantIdGenerator,
+        camperTrackingCodeGenerator: CamperTrackingCodeGenerator,
 
         @NotNull
         @Embedded
@@ -69,14 +71,18 @@ class CampParticipant internal constructor(
         @NotNull
         @Enumerated(EnumType.STRING)
         var participationStatus: ParticipationStatus = ParticipationStatus.WAITING_FOR_CONFIRM
-) : AuditableAggregateRoot<CampParticipantId, CampParticipantEvent>(campParticipantIdGenerator.generateFrom(currentCamperData.personalData.pesel)), Versioned {
+) : AuditableAggregateRoot<CampParticipantId, CampParticipantEvent>(CampParticipantId()), Versioned {
     @Version
     private var version: Long? = null
 
+    @Embedded
+    private var camperTrackingCode: CamperTrackingCode = camperTrackingCodeGenerator.generateFrom(currentCamperData.personalData.pesel)
+
     init {
-        registerEvent(CampParticipantEvent.Created(getAggregateId(), getSnapshot()))
+        registerEvent(CampParticipantEvent.Registered(getAggregateId(), getSnapshot()))
     }
 
+    //TODO: Mail o zmianie chaty i naliczeniu płatności!
     fun changeAccommodation(cottage: Cottage) {
         if (cottage.getCampEditionId() == campRegistrationsEditionId) {
             this.currentCamperData = currentCamperData.copy(cottageId = cottage.getAggregateId())
@@ -90,8 +96,17 @@ class CampParticipant internal constructor(
     }
 
     fun confirmByAuthorized() {
-        this.participationStatus = ParticipationStatus.CONFIRMED_BY_CAMPER
+        this.participationStatus = ParticipationStatus.CONFIRMED_BY_AUTHORIZED
         registerEvent(CampParticipantEvent.Confirmed(getAggregateId(), getSnapshot()))
+    }
+
+    fun unregisterByAuthorized(){
+        this.participationStatus = ParticipationStatus.UNREGISTERED_BY_AUTHORIZED
+        registerEvent(CampParticipantEvent.Unregistered(getAggregateId(), getSnapshot()))
+    }
+
+    fun correctRegistrationData(){
+        // FIXME: If is verified
     }
 
     fun isConfirmed() = participationStatus == ParticipationStatus.CONFIRMED_BY_CAMPER || participationStatus == ParticipationStatus.CONFIRMED_BY_AUTHORIZED

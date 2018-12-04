@@ -6,5 +6,6 @@ data class CreateCampEditionRequest(
         val campEditionId: Int,
         val campEditionStartDate: LocalDate,
         val campEditionEndDate: LocalDate,
-        val campEditionPrice: Double
+        val campEditionPrice: Double,
+        val campEditionDownPaymentAmount: Double?
 )

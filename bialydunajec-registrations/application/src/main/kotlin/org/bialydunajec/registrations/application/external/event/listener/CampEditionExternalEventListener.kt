@@ -29,7 +29,8 @@ internal class CampEditionExternalEventListener(
                                 CampRegistrationsEditionId(payload.campEditionId),
                                 payload.startDate,
                                 payload.endDate,
-                                Money(payload.price)
+                                Money(payload.totalPrice),
+                                payload.downPaymentAmount?.let { Money(it) }
                         )
                 )
             }

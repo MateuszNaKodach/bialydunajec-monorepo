@@ -34,8 +34,8 @@ class CottageAdminController(
                     CampRegistrationsCommand.UpdateCottage(
                             cottageId = CottageId(cottageId),
                             name = request.name,
-                            logoImageUrl = request.logoImageUrl?.let { Url(it) },
-                            buildingPhotoUrl = request.buildingPhotoUrl?.let { Url(it) },
+                            logoImageUrl = request.logoImageUrl?.let { Url.ExternalUrl(it) },
+                            buildingPhotoUrl = request.buildingPhotoUrl?.let { Url.ExternalUrl(it) },
                             place = request.place?.toValueObject(),
                             cottageSpace = request.cottageSpace.toValueObject(),
                             campersLimitations = request.campersLimitations?.toValueObject(),

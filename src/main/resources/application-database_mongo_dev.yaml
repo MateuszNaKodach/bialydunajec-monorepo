@@ -1,0 +1,4 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://mo1194_bialy_dev:JadeNa35Bialy!@mongo23.mydevil.net:27017/mo1194_bialy_dev

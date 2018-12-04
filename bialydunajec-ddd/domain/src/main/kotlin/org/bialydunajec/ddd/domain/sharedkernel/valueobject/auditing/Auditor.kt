@@ -9,6 +9,7 @@ import javax.persistence.Embeddable
 import javax.persistence.Embedded
 import javax.validation.constraints.NotNull
 
+//TODO: Change to only userId
 @Embeddable
 data class Auditor(
         @Embedded

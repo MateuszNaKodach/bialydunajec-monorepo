@@ -9,4 +9,5 @@ jar {
 }
 
 dependencies {
+    compile project(':bialydunajec-registrations:bialydunajec-registrations-dto')
 }

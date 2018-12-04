@@ -1,49 +1,88 @@
 package org.bialydunajec.registrations.application.command
 
 import org.bialydunajec.ddd.application.base.ApplicationService
+import org.bialydunajec.ddd.application.base.concurrency.ProcessingSerializedQueue
 import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
 import org.bialydunajec.registrations.application.command.api.CampRegistrationsCommand
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantFactory
-import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantId
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantRepository
 import org.bialydunajec.registrations.domain.camper.campparticipantregistration.CampParticipantRegistration
 import org.bialydunajec.registrations.domain.camper.campparticipantregistration.CampParticipantRegistrationRepository
-import org.bialydunajec.registrations.domain.camper.payment.CampParticipationPaymentFactory
-import org.bialydunajec.registrations.domain.camper.payment.CampParticipationPaymentRepository
+import org.bialydunajec.registrations.domain.payment.CampParticipantCottageAccountFactory
 import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule
+import org.bialydunajec.registrations.domain.payment.CampParticipantCottageAccountRepository
 import org.bialydunajec.registrations.domain.shirt.CampEditionShirtRepository
+import org.bialydunajec.registrations.domain.shirt.ShirtOrderRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
-@Service
 @Transactional
+@Service
 internal class CampParticipantRegistrationApplicationService(
         private val campParticipantFactory: CampParticipantFactory,
-        private val campParticipantPaymentFactory: CampParticipationPaymentFactory,
+        private val campParticipantPaymentFactory: CampParticipantCottageAccountFactory,
         private val campParticipantRepository: CampParticipantRepository,
         private val campEditionShirtRepository: CampEditionShirtRepository,
+        private val shirtOrderRepository: ShirtOrderRepository,
         private val campParticipantRegistrationRepository: CampParticipantRegistrationRepository,
-        private val campParticipationPaymentRepository: CampParticipationPaymentRepository
+        private val campParticipantCottageAccountRepository: CampParticipantCottageAccountRepository
 ) : ApplicationService<CampRegistrationsCommand.RegisterCampParticipantCommand> {
 
-    override fun process(command: CampRegistrationsCommand.RegisterCampParticipantCommand): CampParticipantId =
-            campParticipantFactory.createCampParticipant(command.campRegistrationsEditionId, command.camperApplication)
-                    .let { campParticipantRepository.save(it) }
-                    .also { campParticipant ->
-                        /* FIXME: Coś jest nie tak, bo tworzę i modyfikuję agregat, przez zmianę czegoś, np. dodanie nowej koszulki bedzie blad transakcji
-                            zrobić tak, że ShirtOrder jest innym agregatem.
-                        */
-                        val campEditionShirt = campEditionShirtRepository.findByCampRegistrationsEditionId(command.campRegistrationsEditionId)
-                                ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.SHIRT_TO_ORDER_MUST_EXISTS)
-                        val placedOrderSnapshot = campEditionShirt.placeOrder(campParticipant, command.shirtOrder.shirtColorOptionId, command.shirtOrder.shirtSizeOptionId)
-                        campEditionShirtRepository.save(campEditionShirt)
-                        campParticipantRegistrationRepository.save(CampParticipantRegistration.createFrom(campParticipant.getSnapshot(), placedOrderSnapshot))
-                    }
-                    .also {
-                        val payment = campParticipantPaymentFactory.createFor(it)
-                        campParticipationPaymentRepository.save(payment)
-                    }
-                    .getAggregateId()
+    private val processingQueue = ProcessingSerializedQueue<CampRegistrationsCommand.RegisterCampParticipantCommand> { processCommand(it) }
 
+    override fun execute(command: CampRegistrationsCommand.RegisterCampParticipantCommand) =
+            processingQueue.process(command)
+
+    fun processCommand(command: CampRegistrationsCommand.RegisterCampParticipantCommand){
+        campParticipantFactory.createCampParticipant(command.campRegistrationsEditionId, command.camperApplication)
+                .let { campParticipantRepository.save(it) }
+                .also { campParticipant ->
+                    val campEditionShirt = campEditionShirtRepository.findByCampRegistrationsEditionId(command.campRegistrationsEditionId)
+                            ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.SHIRT_TO_ORDER_MUST_EXISTS)
+                    val shirtOrder = campEditionShirt.placeOrder(campParticipant, command.shirtOrder.shirtColorOptionId, command.shirtOrder.shirtSizeOptionId)
+                    shirtOrderRepository.save(shirtOrder)
+                    campParticipantRegistrationRepository.save(CampParticipantRegistration.createFrom(campParticipant.getSnapshot(), shirtOrder.getSnapshot()))
+                }
+                .also {
+                    val campParticipantCottageAccount = campParticipantPaymentFactory.createFor(it)
+                    campParticipantCottageAccountRepository.save(campParticipantCottageAccount)
+                }
+                .getAggregateId()
+    }
+
+}
+
+@Service
+@Transactional
+internal class UnregisterCampParticipantApplicationService(
+        private val campParticipantRepository: CampParticipantRepository
+) : ApplicationService<CampRegistrationsCommand.UnregisterCampParticipantByAuthorizedCommand> {
+
+    override fun execute(command: CampRegistrationsCommand.UnregisterCampParticipantByAuthorizedCommand) {
+        val campParticipant = campParticipantRepository.findById(command.campParticipantId)
+                ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.CAMP_PARTICIPANT_TO_UNREGISTER__MUST_EXISTS)
+
+        campParticipant.unregisterByAuthorized()
+
+        campParticipantRepository.save(campParticipant)
+        campParticipantRepository.delete(campParticipant)
+    }
+
+}
+
+@Service
+@Transactional
+internal class CorrectCampParticipantRegistrationDataApplicationService(
+        private val campParticipantRepository: CampParticipantRepository
+) : ApplicationService<CampRegistrationsCommand.CorrectCampParticipantRegistrationDataCommand> {
+
+    override fun execute(command: CampRegistrationsCommand.CorrectCampParticipantRegistrationDataCommand) {
+        val campParticipant = campParticipantRepository.findById(command.campParticipantId)
+                ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.CAMP_PARTICIPANT_MUST_EXISTS_TO_UPDATE_REGISTRATION_DATA)
+
+        campParticipant
+
+        campParticipantRepository.save(campParticipant)
+    }
 
 }

@@ -1,18 +1,3 @@
-version = '0.0.1-SNAPSHOT'
-
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
-        classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
-        classpath("org.jetbrains.kotlin:kotlin-noarg:${kotlinVersion}")
-    }
-}
-
 allprojects {
     apply plugin: 'kotlin'
     apply plugin: 'kotlin-spring'
@@ -43,16 +28,35 @@ allprojects {
         maven { url "https://repo.spring.io/snapshot" }
     }
 
-    dependencies{
+    dependencies {
         compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
         compile("org.jetbrains.kotlin:kotlin-reflect")
 
+        //JAVA 9 integration
         compile("javax.xml.bind:jaxb-api:${jaxbApiVersion}")
+        compile('javax.activation:activation:1.1')
+        compile('org.glassfish.jaxb:jaxb-runtime:2.3.0')
 
         testCompile("org.spockframework:spock-core:${spockVersion}")
         testCompile("org.spockframework:spock-spring:${spockVersion}")
     }
 }
+
+version = '0.0.1.1-SNAPSHOT'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
+        classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
+        classpath("org.jetbrains.kotlin:kotlin-noarg:${kotlinVersion}")
+    }
+}
+
 
 dependencies {
     /*
@@ -68,7 +72,6 @@ dependencies {
     compile project(':bialydunajec-news:bialydunajec-news-presentation')
     compile project(':bialydunajec-news:bialydunajec-news-infrastructure')
 
-
     compile project(':bialydunajec-camp-edition:bialydunajec-camp-edition-presentation')
     compile project(':bialydunajec-camp-edition:bialydunajec-camp-edition-infrastructure')
 
@@ -77,6 +80,17 @@ dependencies {
 
     compile project(':bialydunajec-registrations:bialydunajec-registrations-presentation')
     compile project(':bialydunajec-registrations:bialydunajec-registrations-infrastructure')
+    compile project(':bialydunajec-registrations:bialydunajec-registrations-read-model')
+
+    compile project(':bialydunajec-users:bialydunajec-users-presentation')
+    compile project(':bialydunajec-users:bialydunajec-users-infrastructure')
+
+    //compile project(':bialydunajec-gallery:bialydunajec-gallery-presentation')
+    //compile project(':bialydunajec-gallery:bialydunajec-gallery-infrastructure')
+    
+    compile project(':bialydunajec-email:bialydunajec-email-presentation')
+    compile project(':bialydunajec-email:bialydunajec-email-infrastructure')
+    compile project(':bialydunajec-email:bialydunajec-email-read-model')
 
     compile project(':bialydunajec-authorization:bialydunajec-authorization-server')
 
@@ -87,17 +101,20 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-hateoas')
     compile('org.springframework.boot:spring-boot-starter-mail')
     compile('org.springframework.boot:spring-boot-starter-quartz')
-    compile('org.springframework.boot:spring-boot-starter-web')
-    //compile('org.springframework.boot:spring-boot-starter-webflux')
+    //compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.springframework.boot:spring-boot-starter-webflux')
     compile('com.fasterxml.jackson.module:jackson-module-kotlin')
-   // compile('org.springframework.data:spring-data-rest-hal-browser')
-    compile('org.springframework.retry:spring-retry')
+    // compile('org.springframework.data:spring-data-rest-hal-browser')
+    //compile('org.springframework.retry:spring-retry')
 
     //Swagger 2 - REST Api documentation
     compile("io.springfox:springfox-swagger2:${swaggerVersion}")
     compile("io.springfox:springfox-swagger-ui:${swaggerVersion}")
 
-    runtime('org.springframework.boot:spring-boot-devtools')
+    //Fake data generator
+    compile("com.devskiller:jfairy:${jfairyVersion}")
+
+    //runtime('org.springframework.boot:spring-boot-devtools')
     runtime('com.h2database:h2')
     runtime('mysql:mysql-connector-java')
 
@@ -105,6 +122,5 @@ dependencies {
     testCompile('org.springframework.boot:spring-boot-starter-test')
     //testCompile('io.projectreactor:reactor-test')
 
-    //compile('de.flapdoodle.embed:de.flapdoodle.embed.mongo')
-
+    compile('de.flapdoodle.embed:de.flapdoodle.embed.mongo')
 }

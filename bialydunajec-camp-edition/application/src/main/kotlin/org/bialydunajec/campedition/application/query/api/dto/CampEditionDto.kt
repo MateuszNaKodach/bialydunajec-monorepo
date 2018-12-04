@@ -8,7 +8,8 @@ data class CampEditionDto(
         val campEditionStartDate: LocalDate,
         val campEditionEndDate: LocalDate,
         val campEditionYear: Int,
-        val campEditionPrice: Double
+        val campEditionPrice: Double,
+        val campEditionDownPaymentAmount: Double?
 ) {
     internal companion object {
         fun from(campEdition: CampEditionSnapshot) = CampEditionDto(
@@ -16,7 +17,8 @@ data class CampEditionDto(
                 campEditionStartDate = campEdition.startDate,
                 campEditionEndDate = campEdition.endDate,
                 campEditionYear = campEdition.startDate.year,
-                campEditionPrice = campEdition.price.getValue().toDouble()
+                campEditionPrice = campEdition.price.getValue().toDouble(),
+                campEditionDownPaymentAmount = campEdition.downPaymentAmount?.getValue()?.toDouble()
         )
     }
 }

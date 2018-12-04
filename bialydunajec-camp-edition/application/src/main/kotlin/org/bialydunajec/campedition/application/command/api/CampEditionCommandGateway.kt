@@ -12,11 +12,11 @@ class CampEditionCommandGateway internal constructor(
 ) : CommandGateway {
 
     fun process(command: CampEditionCommand.CreateCampEdition) =
-            createCampEditionApplicationService.process(command)
+            createCampEditionApplicationService.execute(command)
 
 
     fun process(command: CampEditionCommand.UpdateCampEditionDuration) =
-            updateCampEditionDurationApplicationService.process(command)
+            updateCampEditionDurationApplicationService.execute(command)
 
 
 }

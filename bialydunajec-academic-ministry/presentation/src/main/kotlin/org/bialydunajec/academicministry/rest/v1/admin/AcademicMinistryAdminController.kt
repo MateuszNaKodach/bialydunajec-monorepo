@@ -35,11 +35,11 @@ internal class AcademicMinistryAdminController(
                     AcademicMinistryCommand.CreateAcademicMinistry(
                             officialName = request.officialName,
                             shortName = request.shortName,
-                            logoImageUrl = request.logoImageUrl?.let { Url(it) },
+                            logoImageUrl = request.logoImageUrl?.let { Url.ExternalUrl(it) },
                             place = request.place?.toValueObject(),
                             socialMedia = request.socialMedia.toValueObject(),
                             emailAddress = request.emailAddress?.let { EmailAddress(it) },
-                            photoUrl = request.photoUrl?.let { Url(it) },
+                            photoUrl = request.photoUrl?.let { Url.ExternalUrl(it) },
                             description = request.description?.toValueObject()
                     )
             )
@@ -51,11 +51,11 @@ internal class AcademicMinistryAdminController(
                             academicMinistryId = AcademicMinistryId(academicMinistryId),
                             officialName = request.officialName,
                             shortName = request.shortName,
-                            logoImageUrl = request.logoImageUrl?.let { Url(it) },
+                            logoImageUrl = request.logoImageUrl?.let { Url.ExternalUrl(it) },
                             place = request.place?.toValueObject(),
                             socialMedia = request.socialMedia.toValueObject(),
                             emailAddress = request.emailAddress?.let { EmailAddress(it) },
-                            photoUrl = request.photoUrl?.let { Url(it) },
+                            photoUrl = request.photoUrl?.let { Url.ExternalUrl(it) },
                             description = request.description?.toValueObject()
                     )
             )
@@ -72,7 +72,7 @@ internal class AcademicMinistryAdminController(
                                 emailAddress?.let { EmailAddress(it) },
                                 phoneNumber?.let { PhoneNumber(it) },
                                 description?.toValueObject(),
-                                photoUrl?.let { Url(it) }
+                                photoUrl?.let { Url.ExternalUrl(it) }
                         )
                 )
             }

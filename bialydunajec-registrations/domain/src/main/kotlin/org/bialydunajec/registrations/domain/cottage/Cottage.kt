@@ -42,11 +42,17 @@ class Cottage internal constructor(
         private var name: String,
 
         @Embedded
-        @AttributeOverrides(AttributeOverride(name = "url", column = Column(name = "logoImageUrl")))
+        @AttributeOverrides(
+                AttributeOverride(name = "url", column = Column(name = "logoImageUrl")),
+                AttributeOverride(name = "pathType", column = Column(name = "logoImageUrlPathType"))
+        )
         private var logoImageUrl: Url? = null,
 
         @Embedded
-        @AttributeOverrides(AttributeOverride(name = "url", column = Column(name = "buildingPhotoUrl")))
+        @AttributeOverrides(
+                AttributeOverride(name = "url", column = Column(name = "buildingPhotoUrl")),
+                AttributeOverride(name = "pathType", column = Column(name = "buildingPhotoUrlPathType"))
+        )
         private var buildingPhotoUrl: Url? = null,
 
         @Embedded
@@ -76,6 +82,10 @@ class Cottage internal constructor(
 
     @Enumerated(EnumType.STRING)
     private var status: CottageStatus = CottageStatus.UNCONFIGURED
+
+    init {
+        registerEvent(CottageEvents.CottageCreated(getAggregateId(), getSnapshot()))
+    }
 
 
     fun update(
@@ -118,8 +128,10 @@ class Cottage internal constructor(
         if (this.cottageBoss != cottageBoss) {
             this.cottageBoss = cottageBoss
         }
+
         updateConfigurationStatus()
 
+        registerEvent(CottageEvents.CottageUpdated(getAggregateId(), getSnapshot()))
     }
 
     fun updateName(name: String) {

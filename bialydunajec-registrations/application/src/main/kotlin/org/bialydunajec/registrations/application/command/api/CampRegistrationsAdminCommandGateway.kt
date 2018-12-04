@@ -19,67 +19,88 @@ class CampRegistrationsAdminCommandGateway internal constructor(
         private val activateCottageApplicationService: ActivateCottageApplicationService,
         private val deactivateCottageApplicationService: DeactivateCottageApplicationService,
         private val authorizedCampParticipantRegistrationConfirmApplicationService: VerifyCampParticipantRegistrationByAuthorizedApplicationService,
+        private val unregisterCampParticipantApplicationService: UnregisterCampParticipantApplicationService,
+        private val updateCampParticipantRegistrationDataApplicationService: CorrectCampParticipantRegistrationDataApplicationService,
         private val updateCampEditionShirtApplicationService: UpdateCampEditionShirtApplicationService,
         private val addCampEditionShirtColorOptionApplicationService: AddCampEditionShirtColorOptionApplicationService,
         private val addCampEditionShirtSizeOptionApplicationService: AddCampEditionShirtSizeOptionApplicationService,
         private val updateCampEditionShirtSizeOptionApplicationService: UpdateCampEditionShirtSizeOptionApplicationService,
-        private val updateCampEditionShirtColorOptionApplicationService: UpdateCampEditionShirtColorOptionApplicationService
+        private val updateCampEditionShirtColorOptionApplicationService: UpdateCampEditionShirtColorOptionApplicationService,
+        private val payCommitmentAndDepositMoneyApplicationService: PayCommitmentAndDepositMoneyApplicationService
 ) : CommandGateway {
 
     internal fun process(command: CampRegistrationsCommand.CreateCampRegistrationsEdition) =
-            createCampRegistrationsEditionApplicationService.process(command)
+            createCampRegistrationsEditionApplicationService.execute(command)
 
     internal fun process(command: CampRegistrationsCommand.UpdateCampRegistrationsEditionDuration) =
-            updateCampRegistrationsEditionDurationApplicationService.process(command)
+            updateCampRegistrationsEditionDurationApplicationService.execute(command)
 
 
     fun process(command: CampRegistrationsCommand.UpdateCampRegistrationsTimer) =
-            setupCampRegistrationsApplicationService.process(command)
+            setupCampRegistrationsApplicationService.execute(command)
 
     fun process(command: CampRegistrationsCommand.StartCampRegistrationsNow) =
-            startCampRegistrationsNowApplicationService.process(command)
+            startCampRegistrationsNowApplicationService.execute(command)
 
     fun process(command: CampRegistrationsCommand.SuspendCampRegistrationsNow) =
-            suspendCampRegistrationsNowApplicationService.process(command)
+            suspendCampRegistrationsNowApplicationService.execute(command)
 
     fun process(command: CampRegistrationsCommand.UnsuspendCampRegistrationsNow) =
-            unsuspendCampRegistrationsNowApplicationService.process(command)
+            unsuspendCampRegistrationsNowApplicationService.execute(command)
 
     fun process(command: CampRegistrationsCommand.FinishCampRegistrationsNow) =
-            finishCampRegistrationsNowApplicationService.process(command)
+            finishCampRegistrationsNowApplicationService.execute(command)
 
     fun process(command: CampRegistrationsCommand.CreateAcademicMinistryCottage) =
-            createAcademicMinistryCottageApplicationService.process(command)
+            createAcademicMinistryCottageApplicationService.execute(command)
 
 
     fun process(command: CampRegistrationsCommand.CreateStandaloneCottage) =
-            standaloneCottageApplicationService.process(command)
+            standaloneCottageApplicationService.execute(command)
 
     fun process(command: CampRegistrationsCommand.UpdateCottage) =
-            updateCottageApplicationService.process(command)
+            updateCottageApplicationService.execute(command)
 
     fun process(command: CampRegistrationsCommand.ActivateCottage) =
-            activateCottageApplicationService.process(command)
+            activateCottageApplicationService.execute(command)
 
     fun process(command: CampRegistrationsCommand.DeactivateCottage) =
-            deactivateCottageApplicationService.process(command)
+            deactivateCottageApplicationService.execute(command)
 
     fun process(command: CampRegistrationsCommand.VerifyCampParticipantRegistrationCommandByAuthorized) =
-            authorizedCampParticipantRegistrationConfirmApplicationService.process(command)
+            authorizedCampParticipantRegistrationConfirmApplicationService.execute(command)
 
+    fun process(command: CampRegistrationsCommand.UnregisterCampParticipantByAuthorizedCommand) =
+            unregisterCampParticipantApplicationService.execute(command)
+
+    fun process(command: CampRegistrationsCommand.CorrectCampParticipantRegistrationDataCommand) =
+            updateCampParticipantRegistrationDataApplicationService.execute(command)
 
     fun process(command: CampRegistrationsCommand.UpdateCampEditionShirt) =
-            updateCampEditionShirtApplicationService.process(command)
+            updateCampEditionShirtApplicationService.execute(command)
 
     fun process(command: CampRegistrationsCommand.AddCampEditionShirtColorOption) =
-            addCampEditionShirtColorOptionApplicationService.process(command)
+            addCampEditionShirtColorOptionApplicationService.execute(command)
 
     fun process(command: CampRegistrationsCommand.UpdateCampEditionShirtColorOption) =
-            updateCampEditionShirtColorOptionApplicationService.process(command)
+            updateCampEditionShirtColorOptionApplicationService.execute(command)
 
     fun process(command: CampRegistrationsCommand.AddCampEditionShirtSizeOption) =
-            addCampEditionShirtSizeOptionApplicationService.process(command)
+            addCampEditionShirtSizeOptionApplicationService.execute(command)
 
     fun process(command: CampRegistrationsCommand.UpdateCampEditionShirtSizeOption) =
-            updateCampEditionShirtSizeOptionApplicationService.process(command)
+            updateCampEditionShirtSizeOptionApplicationService.execute(command)
+
+
+    fun process(command: CampRegistrationsCommand.DepositMoney){
+        throw NotImplementedError("CampRegistrationsCommand.DepositMoney processing not implemented!")
+    }
+
+    fun process(command: CampRegistrationsCommand.PayCommitmentAndDepositMoney) =
+            payCommitmentAndDepositMoneyApplicationService.execute(command)
+
+    fun process(command: CampRegistrationsCommand.PayCommitmentWithAccountFunds){
+        throw NotImplementedError("CampRegistrationsCommand.PayCommitmentWithAccountFunds processing not implemented!")
+    }
+
 }

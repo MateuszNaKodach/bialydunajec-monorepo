@@ -14,7 +14,6 @@ import javax.validation.constraints.NotEmpty
 /*
 FIXME: Name changed from AcademicMinistry to CampRegistrationsAcademicMinistry because of:
 java.lang.ClassCastException: org.bialydunajec.registrations.domain.academicministry.AcademicMinistry cannot be cast to org.bialydunajec.academicministry.domain.AcademicMinistry
-
  */
 @Entity
 @Table(schema = "camp_registrations")
@@ -29,9 +28,9 @@ class CampRegistrationsAcademicMinistry(
         private var logoImageUrl: Url? = null
 ) : AggregateRoot<AcademicMinistryId, AcademicMinistryEvent>(academicMinistryId) {
 
-    fun getOfficialName() = officialName
-    fun getShortName() = shortName
-    fun getLogoImageUrl() = logoImageUrl
+    init{
+        registerEvent(AcademicMinistryEvent.AcademicMinistryCreated(getAggregateId(),getSnapshot()))
+    }
 
     fun updateWith(officialName: String,
                    shortName: String?,
@@ -39,8 +38,14 @@ class CampRegistrationsAcademicMinistry(
         this.officialName = officialName
         this.shortName = shortName
         this.logoImageUrl = logoImageUrl
+
+        registerEvent(AcademicMinistryEvent.AcademicMinistryUpdated(getAggregateId(),getSnapshot()))
     }
 
+
+    fun getOfficialName() = officialName
+    fun getShortName() = shortName
+    fun getLogoImageUrl() = logoImageUrl
     fun getSnapshot() =
             AcademicMinistrySnapshot(
                     academicMinistryId = getAggregateId(),

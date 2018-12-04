@@ -4,10 +4,8 @@ import org.bialydunajec.ddd.domain.base.aggregate.AggregateRoot
 import org.bialydunajec.ddd.domain.base.persistence.Versioned
 import org.bialydunajec.ddd.domain.base.validation.ValidationResult
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.financial.Money
-import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.Url
 import org.bialydunajec.registrations.domain.academicministry.CampRegistrationsAcademicMinistry
 import org.bialydunajec.registrations.domain.campedition.entity.CampRegistrations
-import org.bialydunajec.registrations.domain.campedition.specification.CampRegistrationsHasMinimumCottagesToStartSpecification
 import org.bialydunajec.registrations.domain.campedition.valueobject.TimerSettings
 import org.bialydunajec.registrations.domain.cottage.Cottage
 import org.bialydunajec.registrations.domain.cottage.valueobject.CottageType
@@ -18,7 +16,6 @@ import java.time.ZonedDateTime
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionEvent.*
 import org.bialydunajec.registrations.domain.campedition.specification.CampRegistrationsCanStartSpecification
 import org.bialydunajec.registrations.domain.campedition.valueobject.CampRegistrationsEditionSnapshot
-import org.springframework.data.jpa.domain.Specification
 import javax.persistence.*
 
 //TODO: Aby rozpoczać lub skonfigurować zapisy cała reszta musi być finished!!!
@@ -37,7 +34,18 @@ class CampRegistrationsEdition constructor(
         private var editionEndDate: LocalDate,
 
         @Embedded
-        private var price: Money
+        @AttributeOverrides(
+                AttributeOverride(name = "value", column = Column(name = "totalPrice_value")),
+                AttributeOverride(name = "currency", column = Column(name = "totalPrice_currency"))
+        )
+        private var totalPrice: Money,
+
+        @Embedded
+        @AttributeOverrides(
+                AttributeOverride(name = "value", column = Column(name = "downPaymentAmount_value")),
+                AttributeOverride(name = "currency", column = Column(name = "downPaymentAmount_currency"))
+        )
+        private var downPaymentAmount: Money?
 ) : AggregateRoot<CampRegistrationsEditionId, CampRegistrationsEditionEvent>(campRegistrationsEditionId), Versioned {
 
     @Version
@@ -159,7 +167,8 @@ class CampRegistrationsEdition constructor(
 
     fun getCampEditionStartDate() = editionStartDate
     fun getCampEditionEndDate() = editionEndDate
-    fun getPrice() = price
+    fun getTotalPrice() = totalPrice
+    fun getDownPaymentAmount() = downPaymentAmount
     override fun getVersion() = version
     fun getCampRegistrationsStatus() = campRegistrations.getStatus()
 
@@ -167,7 +176,8 @@ class CampRegistrationsEdition constructor(
             campRegistrationsEditionId = getAggregateId(),
             editionStartDate = editionStartDate,
             editionEndDate = editionEndDate,
-            editionPrice = price,
+            editionPrice = totalPrice,
+            editionDownPaymentAmount = downPaymentAmount,
             campRegistrations = campRegistrations.getSnapshot()
     )
 }

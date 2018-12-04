@@ -1,0 +1,29 @@
+{
+  "cottageId": "36-ACADEMIC_MINISTRY-5416fd8c-a9b4-412c-b3b8-13d65bf14c8b",
+  "personalData": {
+    "firstName": "Test",
+    "lastName": "Testowy",
+    "gender": "MALE",
+    "pesel": "75032497551",
+    "birthDate": null
+  },
+  "homeAddress": {
+    "homeNumber": "12",
+    "postalCode": "51-123",
+    "street": "Testowa",
+    "city": "Wrocław"
+  },
+  "phoneNumber": "123-123-123",
+  "emailAddress": "janina.kowalska@niepodam.pl",
+  "camperEducation": {
+    "university": "Testowa Uczelnia",
+    "faculty": "Testowy Wydział",
+    "fieldOfStudy": "Testowy Kierunek",
+    "highSchool": null,
+    "isHighSchoolRecentGraduate": false
+  },
+  "shirtOrder": {
+    "shirtColorOptionId": "e75ce3f7-8932-47d1-8c35-f09d4fcd8e83",
+    "shirtSizeOptionId": "d971de52-4683-4f3a-ac23-7f9f65a210a5"
+  }
+}

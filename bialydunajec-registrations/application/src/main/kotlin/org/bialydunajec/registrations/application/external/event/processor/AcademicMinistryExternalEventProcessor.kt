@@ -25,7 +25,7 @@ internal class AcademicMinistryExternalEventProcessor(
                         academicMinistryId = AcademicMinistryId(eventPayload.academicMinistryId),
                         officialName = eventPayload.officialName,
                         shortName = eventPayload.shortName,
-                        logoImageUrl = eventPayload.logoImageUrl?.let { Url(it) }
+                        logoImageUrl = eventPayload.logoImageUrl?.let { Url.ExternalUrl(it) }
                 )
         )
     }
@@ -37,7 +37,7 @@ internal class AcademicMinistryExternalEventProcessor(
         academicMinistry.updateWith(
                 eventPayload.officialName,
                 eventPayload.shortName,
-                eventPayload.logoImageUrl?.let { Url(it) }
+                eventPayload.logoImageUrl?.let { Url.ExternalUrl(it) }
         )
 
         academicMinistryRepository.save(academicMinistry)

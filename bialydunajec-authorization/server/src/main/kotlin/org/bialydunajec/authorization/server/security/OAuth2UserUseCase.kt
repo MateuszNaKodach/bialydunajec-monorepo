@@ -11,7 +11,7 @@ internal class OAuth2UserCreator(
         private val oAuth2UserRepository: OAuth2UserRepository,
         private val passwordEncoder: PasswordEncoder) {
 
-    fun createOAuth2UserClaims(emailAddress: String, username: String, plainPassword: String) =
+    fun createOAuth2UserClaims(emailAddress: String, username: String?, plainPassword: String) =
             oAuth2UserRepository.save(
                     OAuth2User(
                             emailAddress = emailAddress,
@@ -23,7 +23,7 @@ internal class OAuth2UserCreator(
 }
 
 @Service
-internal class OAuth2UserFinder(private val oAuth2UserUserRepository: OAuth2UserRepository)  {
+internal class OAuth2UserFinder(private val oAuth2UserUserRepository: OAuth2UserRepository) {
 
     fun findByUsernameOrEmailAddress(usernameOrEmailAddress: String): OAuth2User =
             oAuth2UserUserRepository.findByUsernameOrEmailAddress(usernameOrEmailAddress, usernameOrEmailAddress)
@@ -79,4 +79,14 @@ internal class OAuth2UserUpdater(
     private fun tryToFindOAuth2UserById(userId: OAuth2UserId) = oAuth2UserRepository.findById(userId)
             .orElseThrow { AuthorizationServerException.of(AuthorizationErrorCode.USER_CREDENTIALS_NOT_FOUND) }
 
+}
+
+internal class ResetOAuth2UserPasswordEmailSender(
+        private val oAuth2UserRepository: OAuth2UserRepository
+       // private val emailMessageSender: EmailMessageSenderPort
+) {
+
+    fun sendResetUserPasswordEmailMessage(userId: String) {
+
+    }
 }

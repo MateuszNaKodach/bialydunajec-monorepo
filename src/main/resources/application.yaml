@@ -3,13 +3,11 @@ server:
 
 spring:
   profiles:
-    active: env_dev
+    active: env_local
 
   mail:
     default-encoding: UTF-8
     host: mail23.mydevil.net
-    username: zapisy@bialydunajec.org
-    password: 4nhvbu3DGqKc21F3uaOf
     port: 587
     properties:
       mail:
@@ -24,3 +22,6 @@ spring:
     web:
       pageable:
         default-page-size: 20
+
+  jackson:
+    date-format: yyyy-mm-dd

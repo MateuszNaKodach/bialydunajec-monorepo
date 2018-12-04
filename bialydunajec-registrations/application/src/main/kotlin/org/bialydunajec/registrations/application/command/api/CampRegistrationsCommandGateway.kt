@@ -10,10 +10,10 @@ class CampRegistrationsCommandGateway internal constructor(
         private val campParticipantRegistrationConfirmApplicationService: VerifyCampParticipantRegistrationApplicationService
 ) : CommandGateway {
 
-    fun process(command: CampRegistrationsCommand.RegisterCampParticipantCommand) =
-            campParticipantRegistrationApplicationService.process(command)
+    fun process(command: CampRegistrationsCommand.RegisterCampParticipantCommand, asynchronous: Boolean = true) =
+            if (asynchronous) campParticipantRegistrationApplicationService.execute(command) else campParticipantRegistrationApplicationService.processCommand(command)
 
     fun process(command: CampRegistrationsCommand.VerifyCampParticipantRegistrationCommand) =
-            campParticipantRegistrationConfirmApplicationService.process(command)
+            campParticipantRegistrationConfirmApplicationService.execute(command)
 
 }

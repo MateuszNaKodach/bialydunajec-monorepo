@@ -6,7 +6,7 @@ data class CreateUserCredentialsCommand(
         @NotBlank
         val emailAddress: String,
         @NotBlank
-        val username: String,
+        val username: String?,
         @NotBlank
         val password: String
 )

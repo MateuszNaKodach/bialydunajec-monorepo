@@ -19,9 +19,17 @@ class CampEditionController(
     //COMMAND----------------------------------------------------------------------------------------------------------
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun createCampEdition(@RequestBody request: CreateCampEditionRequest) = campEditionCommandGateway.process(
-            CampEditionCommand.CreateCampEdition.from(request.campEditionId, request.campEditionStartDate, request.campEditionEndDate, request.campEditionPrice)
-    )
+    fun createCampEdition(@RequestBody request: CreateCampEditionRequest) =
+            with(request) {
+                CampEditionCommand.CreateCampEdition.from(
+                        campEditionId,
+                        campEditionStartDate,
+                        campEditionEndDate,
+                        campEditionPrice,
+                        campEditionDownPaymentAmount
+                )
+            }.let { campEditionCommandGateway.process(it) }
+
 
     @PatchMapping("/{campEditionId}/duration")
     fun updateCampEditionDurationById(@PathVariable campEditionId: Int, @RequestBody request: UpdateCampEditionDurationRequest) = campEditionCommandGateway.process(

@@ -10,7 +10,13 @@ jar {
 
 dependencies {
     compile project(':bialydunajec-ddd:bialydunajec-ddd-domain')
+    compile project(':bialydunajec-email:bialydunajec-email-messages')
+    compile project(':bialydunajec-ddd:bialydunajec-ddd-dto')
 
+
+    compile("io.reactivex.rxjava2:rxjava:${rxJavaVersion}")
+    compile("io.reactivex.rxjava2:rxkotlin:${rxJavaVersion}")
+    
     compile('org.springframework.boot:spring-boot-starter-validation')
     implementation('org.springframework.boot:spring-boot-starter-cache')
 

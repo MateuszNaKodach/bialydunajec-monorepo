@@ -10,11 +10,24 @@ sealed class CampEditionCommand : Command {
             val campEditionId: CampEditionId,
             val campEditionStartDate: LocalDate,
             val campEditionEndDate: LocalDate,
-            val campEditionPrice: Money
+            val campEditionPrice: Money,
+            val campEditionDownPaymentAmount: Money?
     ) : CampEditionCommand() {
         companion object {
-            fun from(campEditionNumber: Int, campEditionStartDate: LocalDate, campEditionEndDate: LocalDate, campEditionPrice: Double) =
-                    CreateCampEdition(CampEditionId(campEditionNumber), campEditionStartDate, campEditionEndDate, Money(campEditionPrice))
+            fun from(
+                    campEditionNumber: Int,
+                    campEditionStartDate: LocalDate,
+                    campEditionEndDate: LocalDate,
+                    campEditionPrice: Double,
+                    campEditionDownPaymentAmount: Double?
+            ) =
+                    CreateCampEdition(
+                            CampEditionId(campEditionNumber),
+                            campEditionStartDate,
+                            campEditionEndDate,
+                            Money(campEditionPrice),
+                            campEditionDownPaymentAmount?.let { Money(it) }
+                    )
         }
     }
 

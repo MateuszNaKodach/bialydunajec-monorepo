@@ -1,9 +1,6 @@
 package org.bialydunajec.authorization.server.api
 
-import org.bialydunajec.authorization.server.api.command.CreateUserCredentialsCommand
-import org.bialydunajec.authorization.server.api.command.UpdateUserEmailAddressCommand
-import org.bialydunajec.authorization.server.api.command.UpdateUserPasswordCommand
-import org.bialydunajec.authorization.server.api.command.UpdateUserUsernameCommand
+import org.bialydunajec.authorization.server.api.command.*
 import org.bialydunajec.authorization.server.api.dto.UserDetailsDto
 import org.bialydunajec.authorization.server.api.query.UserByIdQuery
 import org.bialydunajec.authorization.server.api.query.UserByUsernameOrEmailAddressQuery
@@ -14,6 +11,7 @@ class AuthorizationServerFacade internal constructor(
         private val oAuth2UserFinder: OAuth2UserFinder,
         private val oAuth2UserUpdater: OAuth2UserUpdater,
         private val currentUserGetter: OAuth2CurrentUserGetter
+       // private val resetOAuth2UserPasswordEmailSender: ResetOAuth2UserPasswordEmailSender
 ) {
 
     fun createUserCredentials(command: CreateUserCredentialsCommand) =
@@ -43,6 +41,10 @@ class AuthorizationServerFacade internal constructor(
                 newUsername = command.username
         )
     }
+
+   // fun sendResetUserPasswordEmailMessage(command: SendResetUserPasswordEmailMessageCommand) {
+   //     resetOAuth2UserPasswordEmailSender.sendResetUserPasswordEmailMessage(command.userId)
+   // }
 
     fun findUserById(query: UserByIdQuery) =
             UserDetailsDto.createFrom(oAuth2UserFinder.findByUserId(OAuth2UserId(query.userId)).getSnapshot())

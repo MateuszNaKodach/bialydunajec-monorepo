@@ -8,13 +8,10 @@ import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryRe
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEdition
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionRepository
 import org.bialydunajec.registrations.domain.campedition.specification.CampRegistrationsCanStartSpecification
-import org.bialydunajec.registrations.domain.campedition.specification.CampRegistrationsHasMinimumCottagesToStartSpecification
 import org.bialydunajec.registrations.domain.cottage.CottageId
 import org.bialydunajec.registrations.domain.cottage.CottageRepository
 import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
-import org.springframework.context.annotation.Bean
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
@@ -25,12 +22,13 @@ internal class CreateCampRegistrationsEditionApplicationService(
         private val campEditionRepository: CampRegistrationsEditionRepository
 ) : ApplicationService<CampRegistrationsCommand.CreateCampRegistrationsEdition> {
 
-    override fun process(command: CampRegistrationsCommand.CreateCampRegistrationsEdition) {
+    override fun execute(command: CampRegistrationsCommand.CreateCampRegistrationsEdition) {
         val newCampEdition = CampRegistrationsEdition(
                 campRegistrationsEditionId = command.campRegistrationsEditionId,
                 editionStartDate = command.campEditionStartDate,
                 editionEndDate = command.campEditionEndDate,
-                price = command.price
+                totalPrice = command.totalPrice,
+                downPaymentAmount = command.downPaymentAmount
         )
         campEditionRepository.save(newCampEdition)
     }
@@ -42,7 +40,7 @@ internal class UpdateCampRegistrationsEditionDurationApplicationService(
         private val campEditionRepository: CampRegistrationsEditionRepository
 ) : ApplicationService<CampRegistrationsCommand.UpdateCampRegistrationsEditionDuration> {
 
-    override fun process(command: CampRegistrationsCommand.UpdateCampRegistrationsEditionDuration) {
+    override fun execute(command: CampRegistrationsCommand.UpdateCampRegistrationsEditionDuration) {
         val campEdition = campEditionRepository.findById(command.campRegistrationsEditionId)
                 ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.CAMP_EDITION_NOT_FOUND)
         campEdition.updateCampEditionDuration(command.campEditionStartDate, command.campEditionEndDate)
@@ -57,7 +55,7 @@ internal class SetupCampRegistrationsApplicationService(
         private val clock: Clock
 ) : ApplicationService<CampRegistrationsCommand.UpdateCampRegistrationsTimer> {
 
-    override fun process(command: CampRegistrationsCommand.UpdateCampRegistrationsTimer) {
+    override fun execute(command: CampRegistrationsCommand.UpdateCampRegistrationsTimer) {
         val campEdition = campEditionRepository.findById(command.campRegistrationsEditionId)
                 ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.CAMP_EDITION_NOT_FOUND)
         campEdition.updateCampRegistrationsTimer(command.timerSettings, clock.currentDateTime())
@@ -73,7 +71,7 @@ internal class StartCampRegistrationsNowApplicationService(
         private val clock: Clock
 ) : ApplicationService<CampRegistrationsCommand.StartCampRegistrationsNow> {
 
-    override fun process(command: CampRegistrationsCommand.StartCampRegistrationsNow) {
+    override fun execute(command: CampRegistrationsCommand.StartCampRegistrationsNow) {
         val campEdition = campEditionRepository.findById(command.campRegistrationsEditionId)
                 ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.CAMP_EDITION_NOT_FOUND)
 
@@ -90,7 +88,7 @@ internal class SuspendCampRegistrationsNowApplicationService(
         private val clock: Clock
 ) : ApplicationService<CampRegistrationsCommand.SuspendCampRegistrationsNow> {
 
-    override fun process(command: CampRegistrationsCommand.SuspendCampRegistrationsNow) {
+    override fun execute(command: CampRegistrationsCommand.SuspendCampRegistrationsNow) {
         val campEdition = campEditionRepository.findById(command.campRegistrationsEditionId)
                 ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.CAMP_EDITION_NOT_FOUND)
 
@@ -107,7 +105,7 @@ internal class UnsuspendCampRegistrationsNowApplicationService(
         private val clock: Clock
 ) : ApplicationService<CampRegistrationsCommand.UnsuspendCampRegistrationsNow> {
 
-    override fun process(command: CampRegistrationsCommand.UnsuspendCampRegistrationsNow) {
+    override fun execute(command: CampRegistrationsCommand.UnsuspendCampRegistrationsNow) {
         val campEdition = campEditionRepository.findById(command.campRegistrationsEditionId)
                 ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.CAMP_EDITION_NOT_FOUND)
 
@@ -124,7 +122,7 @@ internal class FinishCampRegistrationsNowApplicationService(
         private val clock: Clock
 ) : ApplicationService<CampRegistrationsCommand.FinishCampRegistrationsNow> {
 
-    override fun process(command: CampRegistrationsCommand.FinishCampRegistrationsNow) {
+    override fun execute(command: CampRegistrationsCommand.FinishCampRegistrationsNow) {
         val campEdition = campEditionRepository.findById(command.campRegistrationsEditionId)
                 ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.CAMP_EDITION_NOT_FOUND)
 
@@ -143,7 +141,7 @@ internal class CreateAcademicMinistryCottageApplicationService(
         private val cottageRepository: CottageRepository
 ) : ApplicationService<CampRegistrationsCommand.CreateAcademicMinistryCottage> {
 
-    override fun process(command: CampRegistrationsCommand.CreateAcademicMinistryCottage): CottageId {
+    override fun execute(command: CampRegistrationsCommand.CreateAcademicMinistryCottage): CottageId {
         val campEdition = campEditionRepository.findById(command.campRegistrationsEditionId)
                 ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.CAMP_EDITION_NOT_FOUND)
         val academicMinistry = academicMinistryRepository.findById(command.academicMinistryId)
@@ -162,7 +160,7 @@ internal class CreateStandaloneCottageApplicationService(
         private val cottageRepository: CottageRepository
 ) : ApplicationService<CampRegistrationsCommand.CreateStandaloneCottage> {
 
-    override fun process(command: CampRegistrationsCommand.CreateStandaloneCottage): CottageId {
+    override fun execute(command: CampRegistrationsCommand.CreateStandaloneCottage): CottageId {
         val campEdition = campEditionRepository.findById(command.campRegistrationsEditionId)
                 ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.CAMP_EDITION_NOT_FOUND)
 
@@ -178,7 +176,7 @@ internal class UpdateCottageApplicationService(
         private val cottageRepository: CottageRepository
 ) : ApplicationService<CampRegistrationsCommand.UpdateCottage> {
 
-    override fun process(command: CampRegistrationsCommand.UpdateCottage) {
+    override fun execute(command: CampRegistrationsCommand.UpdateCottage) {
         val cottage = cottageRepository.findById(command.cottageId)
                 ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.COTTAGE_NOT_FOUND)
 
@@ -203,7 +201,7 @@ internal class ActivateCottageApplicationService(
         private val cottageRepository: CottageRepository
 ) : ApplicationService<CampRegistrationsCommand.ActivateCottage> {
 
-    override fun process(command: CampRegistrationsCommand.ActivateCottage) {
+    override fun execute(command: CampRegistrationsCommand.ActivateCottage) {
         val cottage = cottageRepository.findById(command.cottageId)
                 ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.COTTAGE_NOT_FOUND)
         cottage.activate()
@@ -217,7 +215,7 @@ internal class DeactivateCottageApplicationService(
         private val cottageRepository: CottageRepository
 ) : ApplicationService<CampRegistrationsCommand.DeactivateCottage> {
 
-    override fun process(command: CampRegistrationsCommand.DeactivateCottage) {
+    override fun execute(command: CampRegistrationsCommand.DeactivateCottage) {
         val cottage = cottageRepository.findById(command.cottageId)
                 ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.COTTAGE_NOT_FOUND)
         cottage.deactivate()

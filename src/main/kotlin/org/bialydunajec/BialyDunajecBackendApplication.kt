@@ -5,14 +5,12 @@ import org.springframework.boot.runApplication
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories
 import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRepositories
 import org.springframework.data.web.config.EnableSpringDataWebSupport
-import org.springframework.scheduling.annotation.EnableAsync
 
 
 @SpringBootApplication
 @EnableSpringDataWebSupport
-@EnableAsync
-@EnableMongoRepositories(basePackages = ["org.bialydunajec.registrations.readmodel"])
-@EnableReactiveMongoRepositories(basePackages = ["org.bialydunajec.registrations.readmodel"])
+@EnableMongoRepositories(basePackages = ["org.bialydunajec.registrations.readmodel","org.bialydunajec.email.readmodel"])
+@EnableReactiveMongoRepositories(basePackages = ["org.bialydunajec.email.readmodel"])
 class BialyDunajecBackendApplication
 
 

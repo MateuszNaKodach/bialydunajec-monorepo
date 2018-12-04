@@ -15,6 +15,9 @@ import org.bialydunajec.registrations.domain.cottage.valueobject.BankTransferDet
 import org.bialydunajec.registrations.domain.cottage.valueobject.CampersLimitations
 import org.bialydunajec.registrations.domain.cottage.valueobject.CottageBoss
 import org.bialydunajec.registrations.domain.cottage.valueobject.CottageSpace
+import org.bialydunajec.registrations.domain.payment.CampParticipantCottageAccountId
+import org.bialydunajec.registrations.domain.payment.entity.PaymentCommitmentId
+import org.bialydunajec.registrations.domain.payment.valueobject.PaymentCommitmentType
 import org.bialydunajec.registrations.domain.shirt.CampEditionShirtId
 import org.bialydunajec.registrations.domain.shirt.entity.ShirtColorOptionId
 import org.bialydunajec.registrations.domain.shirt.entity.ShirtSizeOptionId
@@ -27,7 +30,8 @@ sealed class CampRegistrationsCommand : Command {
             val campRegistrationsEditionId: CampRegistrationsEditionId,
             val campEditionStartDate: LocalDate,
             val campEditionEndDate: LocalDate,
-            val price: Money
+            val totalPrice: Money,
+            val downPaymentAmount: Money?
     ) : CampRegistrationsCommand()
 
     internal data class UpdateCampRegistrationsEditionDuration(
@@ -108,6 +112,12 @@ sealed class CampRegistrationsCommand : Command {
             val shirtOrder: CamperShirtOrder
     ) : CampRegistrationsCommand()
 
+    data class CorrectCampParticipantRegistrationDataCommand constructor(
+            val campParticipantId: CampParticipantId,
+            val camperApplication: CamperApplication,
+            val shirtOrder: CamperShirtOrder
+    ) : CampRegistrationsCommand()
+
     data class VerifyCampParticipantRegistrationCommand constructor(
             val campParticipantRegistrationId: CampParticipantRegistrationId,
             val verificationCode: String
@@ -115,6 +125,10 @@ sealed class CampRegistrationsCommand : Command {
 
     data class VerifyCampParticipantRegistrationCommandByAuthorized constructor(
             val campParticipantRegistrationId: CampParticipantRegistrationId
+    ) : CampRegistrationsCommand()
+
+    data class UnregisterCampParticipantByAuthorizedCommand constructor(
+            val campParticipantId: CampParticipantId
     ) : CampRegistrationsCommand()
 
     data class UpdateCampEditionShirt(
@@ -164,4 +178,19 @@ sealed class CampRegistrationsCommand : Command {
             val color: Color,
             val size: ShirtSize
     ) : CampRegistrationsCommand()
+
+    data class DepositMoney(
+            val campParticipantCottageAccountId: CampParticipantCottageAccountId,
+            val money: Money
+    ): CampRegistrationsCommand()
+
+    data class PayCommitmentAndDepositMoney(
+            val campParticipantCottageAccountId: CampParticipantCottageAccountId,
+            val type: PaymentCommitmentType
+    ): CampRegistrationsCommand()
+
+    data class PayCommitmentWithAccountFunds(
+            val campParticipantCottageAccountId: CampParticipantCottageAccountId,
+            val type: PaymentCommitmentType
+    ): CampRegistrationsCommand()
 }

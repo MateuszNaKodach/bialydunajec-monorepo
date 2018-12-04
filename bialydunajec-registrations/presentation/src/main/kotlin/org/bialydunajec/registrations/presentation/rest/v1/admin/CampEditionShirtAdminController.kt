@@ -33,7 +33,7 @@ internal class CampEditionShirtAdminController(
             campRegistrationsCommandGateway.process(
                     CampRegistrationsCommand.UpdateCampEditionShirt(
                             CampEditionShirtId(campEditionShirtId),
-                            request.shirtSizesFileUrl?.let { Url(it) }
+                            request.shirtSizesFileUrl?.let { Url.ExternalUrl(it) }
                     )
             )
 
