@@ -9,7 +9,7 @@ describe('camp participant registration by form', () => {
     page = new CampRegistrationsPage();
   });
 
-  it(' user should can register for a camp if fill only required inputs in form', () => {
+  it(' user should be registered for a camp if all required inputs in form are filled properly', () => {
     page.navigateToRegistrationsStart();
 
     page.getSignUpFormButton().click();
@@ -70,7 +70,7 @@ describe('camp participant registration by form', () => {
   });
 
 
-  it(' user cannot register if all required agreements are not checked', () => {
+  it('user should not be registered if all required agreements are not checked', () => {
     page.navigateToRegistrationsStart();
 
     page.getSignUpFormButton().click();
@@ -99,10 +99,11 @@ describe('camp participant registration by form', () => {
     page.getOnCampForTimeSelection().click();
     element(by.id('onCampForTime1')).click();
 
+    page.getCampRegulationsCheckbox().click();
+
     page.getNextStepButton().click();
 
     expect(browser.getCurrentUrl()).toContain('/zapisy/formularz/dane-osobowe');
-
   });
 
 });

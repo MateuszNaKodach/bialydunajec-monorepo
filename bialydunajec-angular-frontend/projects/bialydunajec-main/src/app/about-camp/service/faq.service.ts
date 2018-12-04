@@ -53,7 +53,7 @@ export class FaqService {
     },
     {
       id: '2',
-      name: 'Opłaty i inne kwestie finansowe',
+      name: 'Kwestie finansowe',
       questions: [
         {
           id: '1',
