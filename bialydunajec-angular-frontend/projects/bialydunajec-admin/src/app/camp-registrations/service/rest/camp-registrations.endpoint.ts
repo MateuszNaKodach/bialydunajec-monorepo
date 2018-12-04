@@ -129,6 +129,12 @@ export class CampRegistrationsEndpoint extends AbstractEndpoint {
     );
   }
 
+  getCampParticipantById(campParticipantId: string) {
+    return this.httpClient.get<CampParticipantResponse[]>(
+      `${environment.restApi.baseUrl}/rest-api/v1/admin/camp-participant/${campParticipantId}`
+    );
+  }
+
   getCampEditionShirt(campRegistrationsEditionId: number | string) {
     return this.httpClient.get<CottageResponse>(`${this.callsBaseUrl}/camp-shirt/?campRegistrationsEditionId=${campRegistrationsEditionId}`);
   }
