@@ -50,7 +50,8 @@ class InProgressCampRegistrationsController(
                                             ShirtSizeOptionId(shirtOrder.shirtSizeOptionId)
                                     )
                                 }
-                        )
+                        ),
+                        false
                 )
             }
 

@@ -27,6 +27,5 @@ bialydunajec:
     access-token: "EAAD8VBKY89IBAIA1pwlPdGEI6ZC3oDFQCQuZAv4iI9MCj5OZBE9RbxudiFbe7PKx5gOEvFsZCcQDPX8V6UIGb0X2XzafTRhAkA11aLPM7VdCrjQpODp0qQkIbuUgdnjCBPGAAqzzDa4YWqVjV9nBd4vo2tXtwiHsB9RFwiQg8AZDZD"
   frontend:
     main:
-      base-url: "http://localhost:4201"
-      registration-verification-url: "http://localhost:4201/zapisy/weryfikacja?zgloszenie=:campParticipantRegistrationId&kod-weryfikacyjny=:verificationCode"
-
+      base-url: "https://new.bialydunajec.org"
+      registration-verification-url: "https://new.bialydunajec.org/zapisy/weryfikacja?zgloszenie=:campParticipantRegistrationId&kod-weryfikacyjny=:verificationCode"
