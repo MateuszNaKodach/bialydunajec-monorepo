@@ -1,10 +1,10 @@
 version = '0.0.1-SNAPSHOT'
 
 dependencies {
-    implementation('org.springframework.boot:spring-boot-starter-webflux')
-    implementation('com.fasterxml.jackson.module:jackson-module-kotlin')
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
+    compile('org.springframework.boot:spring-boot-starter-webflux')
+    compile('com.fasterxml.jackson.module:jackson-module-kotlin')
+    compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    compile("org.jetbrains.kotlin:kotlin-reflect")
     compileOnly('org.springframework.boot:spring-boot-configuration-processor')
-    testImplementation('org.springframework.boot:spring-boot-starter-test')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
 }

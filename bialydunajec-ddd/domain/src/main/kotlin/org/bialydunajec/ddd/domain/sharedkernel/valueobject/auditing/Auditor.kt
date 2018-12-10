@@ -9,22 +9,11 @@ import javax.persistence.Embeddable
 import javax.persistence.Embedded
 import javax.validation.constraints.NotNull
 
-//TODO: Change to only userId
 @Embeddable
 data class Auditor(
         @Embedded
         @NotNull
-        val auditorId: AggregateId?,
-
-        @Embedded
-        @NotNull
-        val firstName: FirstName?,
-
-        @Embedded
-        @NotNull
-        val lastName: LastName?,
-
-        @Embedded
-        @NotNull
-        val emailAddress: EmailAddress?
-) : ValueObject
+        val auditorId: AggregateId?
+) : ValueObject {
+    constructor(audtiorId: String) : this(AggregateId(audtiorId))
+}

@@ -1,7 +1,9 @@
 package org.bialydunajec.authorization.server.security
 
+import org.bialydunajec.authorization.server.api.dto.UserDetailsDto
 import org.bialydunajec.authorization.server.api.dto.exception.AuthorizationErrorCode
 import org.bialydunajec.authorization.server.api.dto.exception.AuthorizationServerException
+import org.springframework.security.authentication.AnonymousAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -37,7 +39,7 @@ internal class OAuth2UserFinder(private val oAuth2UserUserRepository: OAuth2User
 @Service
 internal class OAuth2CurrentUserGetter(private val oAuth2UserUserRepository: OAuth2UserRepository) {
 
-    fun getCurrentUser(): OAuth2User {
+    fun tryGetCurrentUser(): OAuth2User {
         var loggedUserUsername: String? = null
         val context = SecurityContextHolder.getContext()
         if (context != null) {
@@ -50,6 +52,17 @@ internal class OAuth2CurrentUserGetter(private val oAuth2UserUserRepository: OAu
                 ?: throw AuthorizationServerException.of(AuthorizationErrorCode.NO_LOGGED_USER)
         else
             throw AuthorizationServerException.of(AuthorizationErrorCode.NO_LOGGED_USER)
+    }
+
+    fun getCurrentUser(): UserDetailsDto? {
+        val context = SecurityContextHolder.getContext()
+        if (context != null) {
+            val authentication = context.authentication
+            if (authentication != null && authentication.isAuthenticated && !(authentication is AnonymousAuthenticationToken)) {
+                return authentication.principal as UserDetailsDto
+            }
+        }
+        return null
     }
 }
 
@@ -83,7 +96,7 @@ internal class OAuth2UserUpdater(
 
 internal class ResetOAuth2UserPasswordEmailSender(
         private val oAuth2UserRepository: OAuth2UserRepository
-       // private val emailMessageSender: EmailMessageSenderPort
+        // private val emailMessageSender: EmailMessageSenderPort
 ) {
 
     fun sendResetUserPasswordEmailMessage(userId: String) {

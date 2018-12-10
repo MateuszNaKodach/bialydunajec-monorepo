@@ -11,7 +11,7 @@ class AuthorizationServerFacade internal constructor(
         private val oAuth2UserFinder: OAuth2UserFinder,
         private val oAuth2UserUpdater: OAuth2UserUpdater,
         private val currentUserGetter: OAuth2CurrentUserGetter
-       // private val resetOAuth2UserPasswordEmailSender: ResetOAuth2UserPasswordEmailSender
+        // private val resetOAuth2UserPasswordEmailSender: ResetOAuth2UserPasswordEmailSender
 ) {
 
     fun createUserCredentials(command: CreateUserCredentialsCommand) =
@@ -42,9 +42,9 @@ class AuthorizationServerFacade internal constructor(
         )
     }
 
-   // fun sendResetUserPasswordEmailMessage(command: SendResetUserPasswordEmailMessageCommand) {
-   //     resetOAuth2UserPasswordEmailSender.sendResetUserPasswordEmailMessage(command.userId)
-   // }
+    // fun sendResetUserPasswordEmailMessage(command: SendResetUserPasswordEmailMessageCommand) {
+    //     resetOAuth2UserPasswordEmailSender.sendResetUserPasswordEmailMessage(command.userId)
+    // }
 
     fun findUserById(query: UserByIdQuery) =
             UserDetailsDto.createFrom(oAuth2UserFinder.findByUserId(OAuth2UserId(query.userId)).getSnapshot())
@@ -52,7 +52,8 @@ class AuthorizationServerFacade internal constructor(
     fun findUserByUsernameOrEmailAddress(query: UserByUsernameOrEmailAddressQuery) =
             UserDetailsDto.createFrom(oAuth2UserFinder.findByUsernameOrEmailAddress(query.usernameOrEmailAddress).getSnapshot())
 
-    fun getCurrentUser() = UserDetailsDto.createFrom(currentUserGetter.getCurrentUser().getSnapshot())
+    fun tryGetCurrentUser() = UserDetailsDto.createFrom(currentUserGetter.tryGetCurrentUser().getSnapshot())
 
+    fun getCurrentUser() = currentUserGetter.getCurrentUser()
 
 }

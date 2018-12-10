@@ -18,7 +18,7 @@ dependencies {
     compile("io.reactivex.rxjava2:rxkotlin:${rxJavaVersion}")
     
     compile('org.springframework.boot:spring-boot-starter-validation')
-    implementation('org.springframework.boot:spring-boot-starter-cache')
+    compile('org.springframework.boot:spring-boot-starter-cache')
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }

@@ -8,22 +8,21 @@ import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedBy
 import org.springframework.data.annotation.LastModifiedDate
+import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.Instant
 import javax.persistence.*
 
 @MappedSuperclass
+@EntityListeners(AuditingEntityListener::class)
 abstract class AuditableAggregateRoot<AggregateIdType : AggregateId, EventType : DomainEvent<AggregateIdType>>(
         aggregateId: AggregateIdType,
-        @CreatedDate
+        //@CreatedDate
         private val createdDate: Instant = Instant.now(),
 
         @CreatedBy
         @Embedded
         @AttributeOverrides(
-                AttributeOverride(name = "auditorId.aggregateId", column = Column(name = "createdBy_auditorId")),
-                AttributeOverride(name = "firstName.firstName", column = Column(name = "createdBy_firstName")),
-                AttributeOverride(name = "lastName.lastName", column = Column(name = "createdBy_lastName")),
-                AttributeOverride(name = "emailAddress.email", column = Column(name = "createdBy_emailAddress"))
+                AttributeOverride(name = "auditorId.aggregateId", column = Column(name = "createdBy_auditorId"))
         )
         private var createdBy: Auditor? = null
 
@@ -35,10 +34,7 @@ abstract class AuditableAggregateRoot<AggregateIdType : AggregateId, EventType :
     @LastModifiedBy
     @Embedded
     @AttributeOverrides(
-            AttributeOverride(name = "auditorId.aggregateId", column = Column(name = "lastModifiedBy_auditorId")),
-            AttributeOverride(name = "firstName.firstName", column = Column(name = "lastModifiedBy_firstName")),
-            AttributeOverride(name = "lastName.lastName", column = Column(name = "lastModifiedBy_lastName")),
-            AttributeOverride(name = "emailAddress.email", column = Column(name = "lastModifiedBy_emailAddress"))
+            AttributeOverride(name = "auditorId.aggregateId", column = Column(name = "lastModifiedBy_auditorId"))
     )
     private var lastModifiedBy: Auditor? = null
 

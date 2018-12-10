@@ -12,7 +12,7 @@ import javax.persistence.Version
 
 @MappedSuperclass
 abstract class AuditableEntity<EntityIdType: EntityId>(
-        @CreatedDate
+        //@CreatedDate
         private val createdDate: Instant = Instant.now(),
 
         @CreatedBy

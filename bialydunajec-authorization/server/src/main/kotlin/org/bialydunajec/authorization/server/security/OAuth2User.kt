@@ -11,7 +11,7 @@ import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 
 @Entity
-internal data class OAuth2User(
+data class OAuth2User(
         @EmbeddedId
         private val oAuth2UserId: OAuth2UserId = OAuth2UserId(),
 

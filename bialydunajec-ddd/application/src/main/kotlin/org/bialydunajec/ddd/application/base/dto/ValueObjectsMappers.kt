@@ -91,5 +91,5 @@ fun Audit.toDto() =
         AuditDto(createdDate.atZone(ZoneId.systemDefault()), createdBy?.toDto(), lastModifiedDate?.atZone(ZoneId.systemDefault()), lastModifiedBy?.toDto())
 
 fun Auditor.toDto() =
-        AuditorDto(auditorId.toStringOrNull(), firstName.toStringOrNull(), lastName.toStringOrNull(), emailAddress.toStringOrNull())
+        AuditorDto(auditorId.toStringOrNull())
 

@@ -1,6 +1,6 @@
 package org.bialydunajec.authorization.server.security
 
-internal data class OAuth2UserSnapshot(
+data class OAuth2UserSnapshot(
         val userId: String,
         val emailAddress: String,
         val username: String?,

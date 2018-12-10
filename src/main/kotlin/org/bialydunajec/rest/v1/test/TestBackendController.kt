@@ -25,7 +25,7 @@ class TestBackendController(
     fun getUser(@CurrentUser currentUser: UserDetailsDto?) = currentUser
 
     @GetMapping("/user-facade")
-    fun getUserFacade() = authorizationServerFacade.getCurrentUser()
+    fun getUserFacade() = authorizationServerFacade.tryGetCurrentUser()
 
     @GetMapping("/email")
     fun sendEmail() {

@@ -16,7 +16,7 @@ repositories {
 
 dependencies {
     testImplementation group: 'io.gatling.highcharts', name: 'gatling-charts-highcharts', version: '3.0.1.1'
-    testImplementation("com.devskiller:jfairy:0.6.2")
+    testCompile("com.devskiller:jfairy:0.6.2")
 }
 
 task loadTest(type: JavaExec) {

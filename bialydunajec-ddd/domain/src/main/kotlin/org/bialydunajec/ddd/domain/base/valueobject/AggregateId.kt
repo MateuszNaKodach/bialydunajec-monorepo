@@ -5,7 +5,7 @@ import javax.persistence.Column
 import javax.persistence.MappedSuperclass
 
 @MappedSuperclass
-abstract class AggregateId(
+open class AggregateId(
         @Column(unique = true, updatable = false, insertable = false)
         private val aggregateId: String = defaultValue()
 ) : Identifier<String> {
