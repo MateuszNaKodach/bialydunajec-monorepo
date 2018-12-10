@@ -151,7 +151,7 @@ class DummyDatabaseInitializator(
                 ),
                 AcademicMinistryCommand.CreateAcademicMinistry(
                         officialName = "Franciszkańskie Duszpasterstwo Akademickie \"Antoni\"",
-                        shortName = "Anotni",
+                        shortName = "Antoni",
                         logoImageUrl = Url.ExternalUrl("//lh3.googleusercontent.com/hJrcjzSbQwt2QMB7ZquZB91-0ORqbxaJKUUnIy2JEO6CBD4fUCuD8FmDY95D_RF5em_gy_ub1xPg5UOD=w175-h128-rw"),
                         place = Place(
                                 Address(Street("Kasprowicza"), HomeNumber("26"), CityName("Wrocław"), PostalCode("51-001"))
@@ -286,7 +286,7 @@ class DummyDatabaseInitializator(
                                     cottageId = CottageId(it.cottageId),
                                     name = it.name,
                                     logoImageUrl = it.logoImageUrl?.let { imageUrl -> Url.ExternalUrl(imageUrl) },
-                                    buildingPhotoUrl = it.buildingPhotoUrl?.let { imageUrl -> Url.ExternalUrl(imageUrl) },
+                                    buildingPhotoUrl = getCottagePhotoByName(it.name)?.let { imageUrl -> Url.ExternalUrl(imageUrl) },
                                     place = Place(
                                             Address(Street("Jana Pawła II"), HomeNumber(index.toString()), CityName("Biały Dunajec"))
                                     ),
@@ -477,6 +477,19 @@ class DummyDatabaseInitializator(
                     }
                 }
     }
+
+    fun getCottagePhotoByName(cottageName: String) =
+            when (cottageName) {
+                "Antoni" -> "//lh3.googleusercontent.com/3NHirbJGbj9_86U1VjatAKnyI3sjN_onqqc0Y5pHHaoUDsqYL_vJ-O6-UHoC2BoR4I6czIBbe2fYuLBL=w172-h220-rw"
+                "Dach" -> "//lh3.googleusercontent.com/RCJT6gev0Y3lnOfm6En49w8_7ccbpQOtHCo-AkJbk5C2yWD4eAd43VBmYZZ-niiStZ3y_o19DRB4HMMQ=w173-h220-rw"
+                "Horeb" -> "//lh3.googleusercontent.com/h3S9DrwD403Qx3X_zBSVruKIcAlkIyyYuhZeob_oswFv5WKlFrdH1Q3Ty8LsxVw7mbavqpxZV1p0REbs=w172-h220-rw"
+                "Karmel" -> "//lh3.googleusercontent.com/6AVh0G1FAv759AXuFjrqV-9R68c5QzJ1f4H80lI3guJ9pXGmq2B6yNldLIiUl48WBOWFnZ2bqUO74Pbi=w172-h220-rw"
+                "Maciejówka" -> "//lh3.googleusercontent.com/AjQ_fCIl6wo48HGGGGyBTgb23FIvAg5IpOXYhJr9PQWg-HUJ8ZAstnHrc99qzb_CkncUAZlwguUir67d=w172-h220-rw"
+                "Most" -> "//lh3.googleusercontent.com/wBPwG8GaGL7qsHlR3YfVdW8PMiOI91-VjbtBkOR9xnLGihH8JFgPwTqmgpfmgfogIpztxJ7JN5gkpSo8=w172-h220-rw"
+                "Porcjunkula" -> "//lh3.googleusercontent.com/Fr9xWONUrdxsVBawf9Z0aqnYtmqw_iOj1oyM6AZtZrS7eED91j21BZ4tXTJ8TKoDToRFexcSZf2LyyDl=w172-h220-rw"
+                "Redemptor" -> "//lh3.googleusercontent.com/PNfl1W-UPauu8Xcom5xR7J5h1xHh-Bx4x3DJhw91nsfTgwgzBq_-hRrWXiAULB53jSJiG9PHTjw3QF_J=w172-h220-rw"
+                else -> null
+            }
 }
 
 
