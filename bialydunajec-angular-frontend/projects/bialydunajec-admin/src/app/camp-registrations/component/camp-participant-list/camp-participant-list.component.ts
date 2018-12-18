@@ -10,6 +10,7 @@ import {EventType} from '../../../email-message/service/rest/event/event-type';
 import {PaymentCommitmentType} from '../../../payments/service/rest/read-model/payment-commitment.read-model';
 import {FormGroup} from '@angular/forms';
 import {campRegistrationsRoutingPaths} from '../../camp-registrations-routing.paths';
+import {AuthService} from '../../../auth/service/auth.service';
 
 @Component({
   selector: 'bda-admin-camp-participant-list',
@@ -39,7 +40,7 @@ export class CampParticipantListComponent implements OnInit, OnDestroy {
 
   private eventSource: EventSourcePolyfill;
 
-  constructor(private campRegistrationsEndpoint: CampRegistrationsEndpoint) {
+  constructor(private campRegistrationsEndpoint: CampRegistrationsEndpoint, private authService: AuthService) {
   }
 
   ngOnInit() {
@@ -102,7 +103,11 @@ export class CampParticipantListComponent implements OnInit, OnDestroy {
 
   private observeCampParticipantProjectedEvents() {
     this.eventSource = new EventSourcePolyfill(
-      `${environment.restApi.baseUrl}/rest-api/v1/admin/camp-participant/projected-events-stream`, {}
+      `${environment.restApi.baseUrl}/rest-api/v1/admin/camp-participant/projected-events-stream`, {
+        headers: {
+          'Authorization': `bearer ${this.authService.userOAuthToken.access_token}`
+        }
+      }
     );
 
     this.eventSource.onmessage = (event => {

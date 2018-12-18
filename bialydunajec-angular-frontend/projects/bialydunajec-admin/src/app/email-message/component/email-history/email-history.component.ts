@@ -7,6 +7,7 @@ import {EventSourcePolyfill} from 'ng-event-source';
 import {environment} from '../../../../environments/environment';
 import {EventType} from '../../service/rest/event/event-type';
 import {FormGroup} from '@angular/forms';
+import {AuthService} from '../../../auth/service/auth.service';
 
 @Component({
   selector: 'bda-admin-email-history',
@@ -23,7 +24,7 @@ export class EmailHistoryComponent implements OnInit, OnDestroy {
 
   private eventSource: EventSourcePolyfill;
 
-  constructor(private emailMessageEndpoint: EmailMessageEndpoint, private ngZone: NgZone) {
+  constructor(private emailMessageEndpoint: EmailMessageEndpoint, private authService: AuthService) {
   }
 
   resendEmailMessage(emailMessageReadModel: EmailMessageReadModel) {
@@ -44,7 +45,11 @@ export class EmailHistoryComponent implements OnInit, OnDestroy {
 
   private observeEmailMessagesProjectedEvents() {
     this.eventSource = new EventSourcePolyfill(
-      `${environment.restApi.baseUrl}/rest-api/v1/admin/email-message/projected-events-stream`, {}
+      `${environment.restApi.baseUrl}/rest-api/v1/admin/email-message/projected-events-stream`, {
+        headers: {
+          'Authorization': `bearer ${this.authService.userOAuthToken.access_token}`
+        }
+      }
     );
     console.log(this.eventSource);
     this.eventSource.onmessage = (event => {

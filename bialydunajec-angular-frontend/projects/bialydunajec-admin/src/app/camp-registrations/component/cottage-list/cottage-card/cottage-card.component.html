@@ -19,7 +19,7 @@
       </nz-form-item>
     </div>
     <div style="justify-self: flex-end; align-self: flex-end" *ngIf="campParticipantsPercentByCottageId | async as campParticipants">
-      <nz-progress [nzStatus]="!campParticipants.percent ? 'exception' : ''" [nzPercent]="!campParticipants.percent ? 100 : campParticipants.percent" nzType="circle"></nz-progress>
+      <nz-progress [nzStatus]="!campParticipants.percent ? '' : ''" [nzPercent]="!campParticipants.percent ? 0 : campParticipants.percent" nzType="circle"></nz-progress>
       <h3 style="text-align: center; margin-bottom: 0; margin-top: 0.8rem;"><b>Zapisanych:</b> {{campParticipantCount}}/{{cottage.cottageSpace.fullCapacity}}</h3>
     </div>
   </div>
@@ -34,6 +34,8 @@
     <button nz-button
             class="bda-admin-section-card-action-small-button"
             nz-popconfirm nzTitle="Czy jesteś pewien, że chcesz usunąć Chatkę?"
+            (nzOnConfirm)="deleteConfirm.emit()"
+            *ngIf="campParticipantCount == 0"
             style="margin-left: 0.5rem;"><i class="anticon anticon-delete"></i></button>
   </div>
 </div>

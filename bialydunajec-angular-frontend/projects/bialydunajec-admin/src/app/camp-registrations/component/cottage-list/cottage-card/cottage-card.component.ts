@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {CottageResponse} from '../../../service/rest/response/cottage.response';
 import {campRegistrationsRoutingPaths} from '../../../camp-registrations-routing.paths';
 import {Observable} from 'rxjs';
@@ -14,6 +14,7 @@ export class CottageCardComponent implements OnInit {
 
   campRegistrationsRoutingPaths = campRegistrationsRoutingPaths;
   @Input() cottage: CottageResponse;
+  @Output() deleteConfirm = new EventEmitter();
   campParticipantsPercentByCottageId: Observable<{ cottageId: string, percent: number }>;
   campParticipantCount: number;
 

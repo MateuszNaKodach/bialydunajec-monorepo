@@ -11,7 +11,7 @@
           *ngIf="academicMinistry$ | async as academicMinistry">
           <img [src]="academicMinistry.logoImageUrl"
                alt="{{academicMinistry.displayName}} academic ministry logo.">
-          <bda-social-media-links style="padding-right: 30px;"></bda-social-media-links>
+          <bda-social-media-links style="padding-right: 30px;" [socialMedia]="academicMinistry.socialMedia"></bda-social-media-links>
         </div>
         <div fxLayoutAlign="center">
           <bda-dual-toggle-button

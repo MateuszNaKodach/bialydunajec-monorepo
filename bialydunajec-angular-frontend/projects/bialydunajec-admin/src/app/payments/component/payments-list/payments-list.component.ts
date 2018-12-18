@@ -12,6 +12,7 @@ import {EventSourcePolyfill} from 'ng-event-source';
 import {environment} from '../../../../environments/environment';
 import {EventType} from '../../../email-message/service/rest/event/event-type';
 import {RequestErrorObserverBuilder} from '../../../shared/helper/RequestErrorObserverBuilder';
+import {AuthService} from '../../../auth/service/auth.service';
 
 @Component({
   selector: 'bda-admin-payments-list',
@@ -34,7 +35,8 @@ export class PaymentsListComponent implements OnInit, OnDestroy {
   constructor(
     private paymentCommitmentEndpoint: PaymentCommitmentEndpoint,
     private campRegistrationsEndpoint: CampRegistrationsEndpoint,
-    private modalService: NzModalService
+    private modalService: NzModalService,
+    private authService: AuthService
   ) {
   }
 
@@ -122,7 +124,11 @@ export class PaymentsListComponent implements OnInit, OnDestroy {
 
   observePaymentCommitmentsProjectedEvents() {
     this.eventSource = new EventSourcePolyfill(
-      `${environment.restApi.baseUrl}/rest-api/v1/admin/payment-commitment/projected-events-stream`, {}
+      `${environment.restApi.baseUrl}/rest-api/v1/admin/payment-commitment/projected-events-stream`, {
+        headers: {
+          'Authorization': `bearer ${this.authService.userOAuthToken.access_token}`
+        }
+      }
     );
     console.log(this.eventSource);
     this.eventSource.onmessage = (event => {

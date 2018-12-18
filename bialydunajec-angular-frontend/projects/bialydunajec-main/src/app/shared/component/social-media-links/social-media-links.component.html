@@ -1,14 +1,23 @@
 <div class="bda-social-media-links">
-  <a class="tiny ui icon button grey bda-social-media-link">
+  <a target="_blank" rel="noopener noreferrer"
+     [href]="socialMedia.webPageUrl"
+     class="tiny ui icon button grey bda-social-media-link" *ngIf="socialMedia.webPageUrl">
     <i class="globe icon"></i>
   </a>
-  <a class="tiny ui icon button grey bda-social-media-link">
+  <a target="_blank" rel="noopener noreferrer"
+     [href]="socialMedia.facebookPageUrl"
+     class="tiny ui icon button grey bda-social-media-link" *ngIf="socialMedia.facebookPageUrl">
     <i class="facebook square icon"></i>
   </a>
-  <a class="tiny ui icon button grey bda-social-media-link">
+  <a
+    target="_blank" rel="noopener noreferrer"
+    [href]="socialMedia.instagramUrl"
+    class="tiny ui icon button grey bda-social-media-link" *ngIf="socialMedia.instagramUrl">
     <i class="instagram icon"></i>
   </a>
-  <a class="tiny ui icon button grey bda-social-media-link">
+  <a target="_blank" rel="noopener noreferrer"
+     [href]="socialMedia.youTubeChannelUrl"
+     class="tiny ui icon button grey bda-social-media-link" *ngIf="socialMedia.youTubeChannelUrl">
     <i class="youtube icon"></i>
   </a>
 </div>

@@ -30,7 +30,8 @@ export class CottageListComponent implements OnInit {
   constructor(
     private campRegistrationsEndpoint: CampRegistrationsEndpoint,
     private router: Router,
-    private activatedRoute: ActivatedRoute) {}
+    private activatedRoute: ActivatedRoute) {
+  }
 
   ngOnInit() {
     this.availableCampEditions = this.campRegistrationsEndpoint.getAllCampEditions();
@@ -100,6 +101,45 @@ export class CottageListComponent implements OnInit {
     }
   };
 
+  private cottageDeletionObserver: Observer<any> = {
+    next: response => {
+      this.lastAlert = {
+        type: 'success',
+        message: 'Chatka została usunięta',
+        description: 'Chatka została nieodwracalnie usunięta!'
+      };
+      this.updateCottages(this.campRegistrationsId);
+    },
+    error: response => {
+      console.log(response);
+      const error = response.error;
+      const restErrors = response.error.restErrors;
+      if (HttpResponseHelper.isStatus4xx(response) && restErrors) {
+        this.lastAlert = {
+          type: 'error',
+          message: 'Chatka nie może być usunięta',
+          description: 'Próba usunięcia chatki nie powiodła się z powodu złamania reguł: ' +
+            restErrors.map((e: string) => ` ${e}`)
+        };
+      } else if (response.status === 0) {
+        this.lastAlert = {
+          type: 'error',
+          message: 'Chatka nie może być usunięta',
+          description: 'Próba usunięcia chatki nie powiodła się z powodu braku odpowiedzi serwera. '
+        };
+      } else {
+        this.lastAlert = {
+          type: 'error',
+          message: 'Chatka nie może być usunięta',
+          description: `Próba usunięcia chatki nie powiodła się z powodu błędu 
+                  (jeśli nie wiesz co zrobić, to skontaktuj się z administratorem): \n ${error.message}`
+        };
+      }
+    },
+    complete: () => {
+    }
+  };
+
   onSubmittedNewAcademicMinistryCottage(event: { selectedAcademicMinistryId: string }) {
     this.lastAlert = null;
     this.campRegistrationsEndpoint.createAcademicMinistryCottage(this.campRegistrationsId, event.selectedAcademicMinistryId)
@@ -110,5 +150,14 @@ export class CottageListComponent implements OnInit {
     this.lastAlert = null;
     this.campRegistrationsEndpoint.createStandaloneCottage(this.campRegistrationsId, event.cottageName)
       .subscribe(this.cottageCreationObserver);
+  }
+
+  onDeleteConfirm(cottage: CottageResponse) {
+    this.lastAlert = null;
+    this.campRegistrationsEndpoint.deleteCottage(cottage.cottageId)
+      .pipe(
+        tap(_ => this.updateCottages(this.campRegistrationsId))
+      )
+      .subscribe(this.cottageDeletionObserver);
   }
 }
