@@ -7,7 +7,7 @@ export const environment = {
   },
   google: {
     reCaptcha: {
-      enabled: false,
+      enabled: true,
       siteKey: '6LeDQXEUAAAAAKZZBSr_C197Mlz3nr1RR_yIU48l'
     },
     maps: {

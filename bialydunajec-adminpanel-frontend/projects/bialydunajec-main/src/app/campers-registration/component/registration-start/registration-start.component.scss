@@ -53,7 +53,7 @@
   }
 }
 
-.bda-registration-start__card-content--active{
+.bda-registration-start__card-content--active {
   display: flex;
   flex-flow: column;
   align-items: center;
@@ -61,4 +61,15 @@
   height: 100%;
   padding-top: 1rem;
   padding-bottom: 1rem;
+}
+
+.fb-page-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+
+  @include gt-sm__screen() {
+    width: 25rem;
+  }
 }

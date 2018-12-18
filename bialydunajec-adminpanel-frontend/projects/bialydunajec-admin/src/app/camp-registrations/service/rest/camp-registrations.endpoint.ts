@@ -87,6 +87,12 @@ export class CampRegistrationsEndpoint extends AbstractEndpoint {
     );
   }
 
+  deleteCottage(cottageId: string) {
+    return this.httpClient.delete(
+      `${this.callsBaseUrl}/cottage/${cottageId}`
+    );
+  }
+
   activateCottage(cottageId: string) {
     return this.httpClient.patch(
       `${this.callsBaseUrl}/cottage/${cottageId}/activate`,

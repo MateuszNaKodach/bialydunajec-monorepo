@@ -22,6 +22,7 @@
       <bda-admin-cottage-card
         *ngFor="let cottage of cottages"
         [cottage]="cottage"
+        (deleteConfirm)="onDeleteConfirm(cottage)"
       ></bda-admin-cottage-card>
     </ng-container>
     <bda-admin-new-cottage-card

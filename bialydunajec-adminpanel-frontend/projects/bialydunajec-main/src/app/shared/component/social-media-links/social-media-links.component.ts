@@ -8,7 +8,7 @@ import {SocialMediaLinkViewModel} from './social-media-links.view-model';
 })
 export class SocialMediaLinksComponent implements OnInit {
 
-  @Input() socialMedia: SocialMediaLinkViewModel[];
+  @Input() socialMedia: any; //SocialMediaLinkViewModel[]
 
   constructor() {
   }
