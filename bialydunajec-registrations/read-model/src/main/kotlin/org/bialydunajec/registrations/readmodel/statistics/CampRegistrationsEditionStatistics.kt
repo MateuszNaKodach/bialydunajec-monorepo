@@ -40,6 +40,10 @@ internal class CampRegistrationsEditionStatistics(
         }
     }
 
+    fun removeCottageStats(cottageId: String) {
+        cottagesStats.removeIf { it.cottageId == cottageId }
+    }
+
     fun calculateWith(eventPayload: CottageExternalEvent.CottageUpdated) {
         eventPayload.snapshot.let { cottageSnapshot ->
             val cottageStats = cottagesStats.find { it.cottageId == cottageSnapshot.cottageId }

@@ -8,6 +8,9 @@ enum class CampRegistrationsDomainRule : DomainRule {
     CAMP_REGISTRATIONS_NOT_FOUND,
     CAMP_EDITION_NOT_FOUND,
     IN_PROGRESS_CAMP_REGISTRATIONS_NOT_FOUND,
+    COTTAGE_WITH_CAMP_PARTICIPANTS_CANNOT_BE_DELETED {
+        override fun getDescription(): String? = "Chatka nie może być usunięta, jesli są do niej zapisani obozowicze."
+    },
 
     CAMP_EDITION_HAS_NOT_IN_PROGRESS_REGISTRATIONS,
     NO_DEFINED_ACADEMIC_MINISTRY_FOR_COTTAGE,
@@ -20,7 +23,7 @@ enum class CampRegistrationsDomainRule : DomainRule {
     FINISHED_CAMP_REGISTRATIONS_CANNOT_START,
     IN_PROGRESS_CAMP_REGISTRATIONS_CANNOT_START,
 
-    ONLY_ONE_CAMP_REGISTRATIONS_CAN_BE_IN_PROGRESS_IN_THE_SAME_TIME{
+    ONLY_ONE_CAMP_REGISTRATIONS_CAN_BE_IN_PROGRESS_IN_THE_SAME_TIME {
         override fun getDescription(): String? = "Tylko jedne zapisy na obóz mogą być aktywne w tym samym czasie."
     },
     CAMP_REGISTERS_HAS_TO_HAVE_CONFIGURED_TIMER_TO_START_BY_TIMER,
@@ -85,5 +88,5 @@ enum class CampRegistrationsDomainRule : DomainRule {
     CAMP_PARTICIPANT_TO_UNREGISTER__MUST_EXISTS;
 
     override fun getRuleName() = name
-    override fun getDescription():String? = null
+    override fun getDescription(): String? = null
 }

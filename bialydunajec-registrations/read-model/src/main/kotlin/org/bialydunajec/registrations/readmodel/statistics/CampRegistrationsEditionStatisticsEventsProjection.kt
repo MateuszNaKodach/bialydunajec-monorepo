@@ -65,7 +65,6 @@ internal class CampRegistrationsEditionStatisticsEventsProjection(
                 }?.also {
                     campRegistrationsEditionStatisticsRepository.save(it)
                 }
-
     }
 
     private fun createProjection(eventPayload: CampParticipantExternalEvent.CampParticipantRegistered, eventOccurredAt: Instant) {

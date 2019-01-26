@@ -14,7 +14,7 @@ bialydunajec:
     - client-id: "web-angular"
       client-secret: "fUMU6AngbLIkfTOAqfifaShzOEMeUQ/cxpij3iwMM30Czj..7ipdLxv6"
       authorized-grant-types: password, client_credentials, refresh_token
-      access-token-validity-seconds: 3600 # 3600 seconds = 60 minutes
+      access-token-validity-seconds: 7776000 # 3600 seconds = 60 minutes
       refresh-token-validity-seconds: 7776000 # 7776000 seconds = 129 600 minutes = 2 160 hours = 90 days
       scopes: allmighty
     - client-id: "mobile-android"

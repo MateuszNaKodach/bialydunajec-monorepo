@@ -46,4 +46,6 @@ internal class CottageDomainEventsPropagator(
         }
     }
 
+   //TODO: Handle deleted cottage
+
 }

@@ -106,6 +106,10 @@ sealed class CampRegistrationsCommand : Command {
             val cottageId: CottageId
     ) : CampRegistrationsCommand()
 
+    data class DeleteCottage constructor(
+            val cottageId: CottageId
+    ) : CampRegistrationsCommand()
+
     data class RegisterCampParticipantCommand constructor(
             val campRegistrationsEditionId: CampRegistrationsEditionId,
             val camperApplication: CamperApplication,

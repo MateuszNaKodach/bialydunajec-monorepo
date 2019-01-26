@@ -8,6 +8,7 @@ import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryRe
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEdition
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionRepository
 import org.bialydunajec.registrations.domain.campedition.specification.CampRegistrationsCanStartSpecification
+import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantRepository
 import org.bialydunajec.registrations.domain.cottage.CottageId
 import org.bialydunajec.registrations.domain.cottage.CottageRepository
 import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
+
 //TODO: Add checking camp edition state if any other is in progress
 @Service
 @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -220,5 +222,28 @@ internal class DeactivateCottageApplicationService(
                 ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.COTTAGE_NOT_FOUND)
         cottage.deactivate()
         cottageRepository.save(cottage)
+    }
+}
+
+@Service
+@Transactional
+internal class DeleteCottageApplicationService(
+        private val cottageRepository: CottageRepository,
+        private val campParticipantRepository: CampParticipantRepository
+) : ApplicationService<CampRegistrationsCommand.DeleteCottage> {
+
+    override fun execute(command: CampRegistrationsCommand.DeleteCottage) {
+        val cottage = cottageRepository.findById(command.cottageId)
+                ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.COTTAGE_NOT_FOUND)
+
+        campParticipantRepository.countByCottageId(cottage.getAggregateId())
+                .takeIf { it > 0 }
+                ?.run { throw DomainRuleViolationException.of(CampRegistrationsDomainRule.COTTAGE_WITH_CAMP_PARTICIPANTS_CANNOT_BE_DELETED) }
+
+        cottage.delete()
+
+        cottageRepository.save(cottage).let {
+            cottageRepository.delete(it)
+        }
     }
 }

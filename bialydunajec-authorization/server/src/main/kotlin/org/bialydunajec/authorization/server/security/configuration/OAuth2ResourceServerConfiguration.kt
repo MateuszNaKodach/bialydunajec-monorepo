@@ -17,7 +17,7 @@ internal class OAuth2ResourceServerConfiguration : ResourceServerConfigurerAdapt
                 .authorizeRequests()
                 .antMatchers("/", "/h2-console/**", "/swagger-ui.html", "/oauth/token", "api/v1/user-account")
                 .permitAll()
-                .antMatchers("/api/v1/admin/**")
+                .antMatchers("/rest-api/v1/admin/**")
                 .authenticated()
                 .antMatchers("/api/v1/campers-register/in-progress/**").permitAll()
         //.access("#oauth2.isClient()");
