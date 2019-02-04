@@ -27,6 +27,8 @@ include 'bialydunajec-camp-edition',
         'bialydunajec-camp-edition:infrastructure',
         'bialydunajec-camp-edition:messages'
 
+include 'bialydunajec-camp-schedule'
+
 include 'bialydunajec-academic-ministry',
         'bialydunajec-academic-ministry:application',
         'bialydunajec-academic-ministry:presentation',
