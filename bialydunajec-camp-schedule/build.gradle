@@ -3,7 +3,7 @@ version = '0.0.1-SNAPSHOT'
 dependencies {
     compile project(':bialydunajec-camp-schedule:bialydunajec-camp-schedule-presentation')
     compile project(':bialydunajec-camp-schedule:bialydunajec-camp-schedule-infrastructure')
-    compile project(':bialydunajec-camp-schedule:bialydunajec-camp-schedule-read-model')
+    //compile project(':bialydunajec-camp-schedule:bialydunajec-camp-schedule-read-model')
 
 
     compile('org.springframework.boot:spring-boot-starter-webflux')
@@ -12,4 +12,6 @@ dependencies {
     compile("org.jetbrains.kotlin:kotlin-reflect")
     compileOnly('org.springframework.boot:spring-boot-configuration-processor')
     testCompile('org.springframework.boot:spring-boot-starter-test')
+
+    runtime('com.h2database:h2')
 }
