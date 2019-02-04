@@ -27,7 +27,14 @@ include 'bialydunajec-camp-edition',
         'bialydunajec-camp-edition:infrastructure',
         'bialydunajec-camp-edition:messages'
 
-include 'bialydunajec-camp-schedule'
+include 'bialydunajec-camp-schedule',
+        'bialydunajec-camp-schedule:application',
+        'bialydunajec-camp-schedule:presentation',
+        'bialydunajec-camp-schedule:domain',
+        'bialydunajec-camp-schedule:infrastructure',
+        'bialydunajec-camp-schedule:messages',
+        'bialydunajec-camp-schedule:dto',
+        'bialydunajec-camp-schedule:read-model'
 
 include 'bialydunajec-academic-ministry',
         'bialydunajec-academic-ministry:application',
