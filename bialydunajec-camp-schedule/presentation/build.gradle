@@ -13,8 +13,8 @@ dependencies {
     compile project(':bialydunajec-camp-schedule:bialydunajec-camp-schedule-application')
     compile project(':bialydunajec-camp-schedule:bialydunajec-camp-schedule-messages')
 
+    compile project(':bialydunajec-camp-edition:bialydunajec-camp-edition-messages')
 
-    //compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.springframework.boot:spring-boot-starter-webflux')
     compile('com.fasterxml.jackson.module:jackson-module-kotlin')
 

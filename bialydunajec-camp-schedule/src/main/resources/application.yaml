@@ -1,0 +1,19 @@
+
+
+spring:
+  application:
+    name: bialydunajec-camp-schedule_${spring.profiles.active}
+  main:
+    web-application-type: reactive
+  profiles:
+    active: "command,query"
+
+#axon:
+#  axonserver:
+#    servers: localhost:8024
+server:
+  port: 3344
+
+axon:
+  serializer:
+    events: jackson
