@@ -75,6 +75,10 @@ dependencies {
     compile project(':bialydunajec-camp-edition:bialydunajec-camp-edition-presentation')
     compile project(':bialydunajec-camp-edition:bialydunajec-camp-edition-infrastructure')
 
+    compile project(':bialydunajec-camp-schedule:bialydunajec-camp-schedule-presentation')
+    compile project(':bialydunajec-camp-schedule:bialydunajec-camp-schedule-infrastructure')
+    compile project(':bialydunajec-camp-schedule:bialydunajec-camp-schedule-read-model')
+
     compile project(':bialydunajec-academic-ministry:bialydunajec-academic-ministry-presentation')
     compile project(':bialydunajec-academic-ministry:bialydunajec-academic-ministry-infrastructure')
 

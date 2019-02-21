@@ -23,7 +23,7 @@ internal class CampEditionExternalEventListener(
         val payload = externalEvent.payload
         when (payload) {
             is CampEditionExternalEvent.CampEditionCreated -> {
-                campEditionExternalEventProcessor.process(payload)
+                //TODO: Change to processor!!! Not create commands! campEditionExternalEventProcessor.process(payload)
                 campRegistrationsCommandGateway.process(
                         CampRegistrationsCommand.CreateCampRegistrationsEdition(
                                 CampRegistrationsEditionId(payload.campEditionId),
