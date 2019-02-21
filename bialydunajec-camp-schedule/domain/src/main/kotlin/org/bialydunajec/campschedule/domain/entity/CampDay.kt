@@ -1,29 +1,89 @@
 package org.bialydunajec.campschedule.domain.entity
 
+import org.axonframework.commandhandling.CommandHandler
+import org.axonframework.eventsourcing.EventSourcingHandler
 import org.axonframework.modelling.command.EntityId
+import org.bialydunajec.campschedule.domain.CampEditionScheduleCommand
+import org.bialydunajec.campschedule.domain.CampEditionScheduleEvent
 import org.bialydunajec.campschedule.domain.valueobject.CampDayId
+import org.bialydunajec.campschedule.domain.valueobject.CampDayStatus
 import java.time.LocalDate
-import java.time.temporal.ChronoUnit
+import org.axonframework.modelling.command.AggregateLifecycle.apply as applyEvent
 
 class CampDay(
         @EntityId
-        val campDayTimetableId: CampDayId,
+        val campDayId: CampDayId,
         var date: LocalDate,
-        var dayActivities: MutableList<DayActivity> = mutableListOf()
+        var dayActivities: MutableList<DayActivity> = mutableListOf(),
+        var status: CampDayStatus = CampDayStatus.SCHEDULED
 ) {
 
-        override fun equals(other: Any?): Boolean {
-                if (this === other) return true
-                if (javaClass != other?.javaClass) return false
+    fun isCancelled() = status == CampDayStatus.CANCELLED
 
-                other as CampDay
+    fun cancel() {
+        status = CampDayStatus.CANCELLED
+    }
 
-                if (campDayTimetableId != other.campDayTimetableId) return false
-
-                return true
+    @CommandHandler
+    fun handle(command: CampEditionScheduleCommand.ScheduleCampDayActivity) {
+        command.run {
+            applyEvent(CampEditionScheduleEvent.CampDayActivityScheduled(campEditionScheduleId, campDayId, dayActivityId, dayActivityDetails))
         }
+    }
 
-        override fun hashCode(): Int {
-                return campDayTimetableId.hashCode()
+    @EventSourcingHandler
+    private fun on(event: CampEditionScheduleEvent.CampDayActivityScheduled) {
+        if (event.campDayId == campDayId) {
+            event.run {
+                dayActivities.add(DayActivity(dayActivityId, dayActivityDetails))
+            }
         }
+    }
+
+    @CommandHandler
+    fun handle(command: CampEditionScheduleCommand.RescheduleCampDayActivity) {
+        command.run {
+            applyEvent(CampEditionScheduleEvent.CampDayActivityRescheduled(campEditionScheduleId, campDayId, dayActivityId, dayActivityDetails))
+        }
+    }
+
+    @EventSourcingHandler
+    private fun on(event: CampEditionScheduleEvent.CampDayActivityRescheduled) {
+        if (event.campDayId == campDayId) {
+            event.run {
+                dayActivities.find { it.dayActivityId == event.dayActivityId }
+                        ?.let { it.details = event.dayActivityDetails }
+            }
+        }
+    }
+
+    @CommandHandler
+    fun handle(command: CampEditionScheduleCommand.CancelCampDayActivity) {
+        command.run {
+            dayActivities.find { it.dayActivityId == command.dayActivityId }
+                    ?.let {
+                        applyEvent(CampEditionScheduleEvent.CampDayActivityCancelled(campEditionScheduleId, campDayId, dayActivityId, it.details))
+                    }
+        }
+    }
+
+    @EventSourcingHandler
+    private fun on(event: CampEditionScheduleEvent.CampDayActivityCancelled) {
+        dayActivities.removeIf { it.dayActivityId == event.dayActivityId }
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as CampDay
+
+        if (campDayId != other.campDayId) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return campDayId.hashCode()
+    }
 }

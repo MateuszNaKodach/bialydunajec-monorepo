@@ -5,7 +5,7 @@ import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolation
 import java.lang.RuntimeException
 
 sealed class ValidationResult {
-    class Valid : ValidationResult()
+    object Valid : ValidationResult()
     class Invalid(val violatedRules: Set<DomainRule>) : ValidationResult()
 
     fun isValid() =
@@ -44,7 +44,7 @@ sealed class ValidationResult {
                 addViolatedRuleIf(violatedRule, !violationCondition)
 
         fun addViolatedRules(violatedRules: Collection<DomainRule>) = also { this.violatedRules.addAll(violatedRules) }
-        fun toValidationResult() = if (violatedRules.isEmpty()) Valid() else Invalid(violatedRules)
+        fun toValidationResult() = if (violatedRules.isEmpty()) Valid else Invalid(violatedRules)
     }
 
     companion object {
@@ -60,3 +60,15 @@ class CheckDomainRule(private val domainRule: DomainRule, private val domainRule
             ).toValidationResult()
             .ifInvalidThrowException()
 }
+
+
+object DomainRuleChecker {
+
+    fun check(domainRule: DomainRule, domainRuleCondition: () -> Boolean?): DomainRuleChecker? =
+            if (domainRuleCondition()?.not() ?: false) {
+                throw DomainRuleViolationException.of(domainRule)
+            } else DomainRuleChecker
+
+
+}
+

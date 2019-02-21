@@ -14,7 +14,7 @@ dependencies {
     compile project(':bialydunajec-camp-schedule:bialydunajec-camp-schedule-messages')
 
     compile project(':bialydunajec-camp-edition:bialydunajec-camp-edition-messages')
-
+    
     compile('org.springframework.boot:spring-boot-starter-cache')
     compile('org.springframework.boot:spring-boot-starter-validation')
 

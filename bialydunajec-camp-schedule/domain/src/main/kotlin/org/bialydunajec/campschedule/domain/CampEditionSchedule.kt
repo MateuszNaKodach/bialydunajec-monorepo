@@ -3,17 +3,16 @@ package org.bialydunajec.campschedule.domain
 import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.eventsourcing.EventSourcingHandler
 import org.axonframework.modelling.command.AggregateIdentifier
-import org.axonframework.modelling.command.AggregateLifecycle.apply
+import org.axonframework.modelling.command.AggregateLifecycle.apply as applyEvent
 import org.axonframework.modelling.command.AggregateMember
 import org.axonframework.modelling.command.ForwardMatchingInstances
 import org.axonframework.spring.stereotype.Aggregate
 import org.bialydunajec.campschedule.domain.entity.CampDay
-import org.bialydunajec.campschedule.domain.exception.CampEditionScheduleDomainRule
+import org.bialydunajec.campschedule.domain.exception.CampEditionScheduleDomainRule.*
 import org.bialydunajec.campschedule.domain.valueobject.CampEditionScheduleId
-import org.bialydunajec.ddd.domain.base.validation.CheckDomainRule
-import org.bialydunajec.ddd.domain.base.validation.ValidationResult
+import org.bialydunajec.ddd.domain.base.validation.DomainRuleChecker
 import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
-import java.lang.IllegalStateException
+import java.time.LocalDate
 
 @Aggregate
 internal class CampEditionSchedule() {
@@ -21,35 +20,64 @@ internal class CampEditionSchedule() {
     @AggregateIdentifier
     private lateinit var campEditionScheduleId: CampEditionScheduleId
 
+    private lateinit var campEditionStartDate: LocalDate
+
+    private lateinit var campEditionEndDate: LocalDate
+
     @AggregateMember(eventForwardingMode = ForwardMatchingInstances::class)
     private var days: MutableList<CampDay> = mutableListOf()
 
     @CommandHandler
     constructor(command: CampEditionScheduleCommand.StartCampEditionScheduling) : this() {
-        apply(CampEditionScheduleEvent.CampEditionSchedulingStarted(command.campEditionScheduleId))
+        command.run {
+            applyEvent(CampEditionScheduleEvent.CampEditionSchedulingStarted(campEditionScheduleId, campEditionStartDate, campEditionEndDate))
+        }
     }
 
     @EventSourcingHandler
     private fun on(event: CampEditionScheduleEvent.CampEditionSchedulingStarted) {
         campEditionScheduleId = event.campEditionScheduleId
+        campEditionStartDate = event.campEditionStartDate
+        campEditionEndDate = event.campEditionEndDate
     }
 
     @CommandHandler
-    fun handle(command: CampEditionScheduleCommand.ScheduleNewCampDay) {
+    fun handle(command: CampEditionScheduleCommand.ScheduleCampDay) {
         command.run {
-            CheckDomainRule(
-                    CampEditionScheduleDomainRule.CAMP_DAY_DATE_CAN_NOT_BE_DUPLICATED_IN_ONE_SCHEDULE,
-                    days.none { it.date == date }
-            ).ifViolatedThrowException()
+            DomainRuleChecker
+                    .check(CAMP_DAY_DATE_CAN_NOT_BE_DUPLICATED_IN_ONE_SCHEDULE) { days.filter { it.isCancelled().not() }.none { it.date == date } }
+                    ?.check(CAMP_DAY_CAN_NOT_BE_SCHEDULE_BEFORE_CAMP_EDITION_START) { !date.isBefore(campEditionStartDate) }
+                    ?.check(CAMP_DAY_CAN_NOT_BE_SCHEDULE_AFTER_CAMP_EDITION_END) { !date.isAfter(campEditionEndDate) }
 
-            apply(CampEditionScheduleEvent.NewCampDayScheduled(campEditionScheduleId, campDayId, date))
+            applyEvent(CampEditionScheduleEvent.CampDayScheduled(campEditionScheduleId, campDayId, date))
         }
     }
 
     @EventSourcingHandler
-    private fun on(event: CampEditionScheduleEvent.NewCampDayScheduled) {
+    private fun on(event: CampEditionScheduleEvent.CampDayScheduled) {
         event.run {
-            days.add(CampDay(campDayId, date))
+            days.find { event.campDayId == it.campDayId && it.isCancelled() }
+                    ?.let {
+                        days.add(CampDay(event.campDayId, it.date))
+                        days.remove(it)
+                    } ?: days.add(CampDay(campDayId, date))
+        }
+    }
+
+    @CommandHandler
+    fun handle(command: CampEditionScheduleCommand.CancelCampDay) {
+        command.run {
+            days.find { it.campDayId == command.campDayId && it.isCancelled().not() }
+                    ?.let {
+                        applyEvent(CampEditionScheduleEvent.CampDayCancelled(campEditionScheduleId, campDayId, it.date))
+                    } ?: throw DomainRuleViolationException.of(DAY_TO_CANCEL_MUST_EXISTS)
+        }
+    }
+
+    @EventSourcingHandler
+    private fun on(event: CampEditionScheduleEvent.CampDayCancelled) {
+        event.run {
+            days.find { it.campDayId == event.campDayId }?.cancel()
         }
     }
 
