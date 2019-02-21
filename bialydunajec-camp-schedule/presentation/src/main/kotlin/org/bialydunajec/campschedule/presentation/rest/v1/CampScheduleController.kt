@@ -12,12 +12,12 @@ import java.util.concurrent.CompletableFuture
 @RequestMapping("/rest-api/v1/camp-schedule")
 internal class CampScheduleController(val commandGateway: CommandGateway) {
 
-
+/*
     @PostMapping
     fun startCampScheduling(): CompletableFuture<CampEditionScheduleId> =
             commandGateway.send<CampEditionScheduleId>(
                     CampEditionScheduleCommand.StartCampEditionScheduling(CampEditionScheduleId(36))
             )
-
+*/
 
 }
