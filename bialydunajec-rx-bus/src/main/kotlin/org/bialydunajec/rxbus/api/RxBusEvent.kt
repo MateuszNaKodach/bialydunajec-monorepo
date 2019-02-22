@@ -1,12 +1,11 @@
-package org.bialydunajec.ddd.application.base.external.event
+package org.bialydunajec.rxbus.api
 
-import org.bialydunajec.ddd.application.base.external.ExternalMessage
 import java.time.Instant
 
-class ExternalEvent<PayloadType : Any>(
+class RxBusEvent<PayloadType : Any>(
         payload: PayloadType,
         val eventOccurredAt: Instant = Instant.now(),
-        val eventType: String = toEventName(payload::class.simpleName)) : ExternalMessage<PayloadType>(payload) {
+        val eventType: String = toEventName(payload::class.simpleName)) : RxBusMessage<PayloadType>(payload) {
 
     companion object {
         private fun toEventName(text: String?) =
@@ -17,4 +16,3 @@ class ExternalEvent<PayloadType : Any>(
     }
 
 }
-
