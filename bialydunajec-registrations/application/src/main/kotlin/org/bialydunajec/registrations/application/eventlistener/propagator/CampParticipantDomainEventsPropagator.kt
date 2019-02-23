@@ -1,6 +1,6 @@
 package org.bialydunajec.registrations.application.eventlistener.propagator
 
-import org.bialydunajec.ddd.application.base.external.event.ExternalEventBus
+import org.bialydunajec.ddd.application.base.external.event.ExternalEventPublisher
 import org.bialydunajec.ddd.domain.extensions.toStringOrNull
 import org.bialydunajec.registrations.application.dto.from
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantEvent
@@ -14,7 +14,7 @@ import org.springframework.transaction.event.TransactionalEventListener
 
 @Component
 internal class CampParticipantDomainEventsPropagator(
-        private val externalEventBus: ExternalEventBus,
+        private val externalEventBus: ExternalEventPublisher,
         private val cottageRepository: CottageRepository,
         private val campParticipantRegistrationRepository: CampParticipantRegistrationRepository
 ) {

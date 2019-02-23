@@ -1,9 +1,8 @@
 package org.bialydunajec.registrations.application.eventlistener.propagator
 
-import org.bialydunajec.ddd.application.base.external.event.ExternalEventBus
+import org.bialydunajec.ddd.application.base.external.event.ExternalEventPublisher
 import org.bialydunajec.ddd.domain.extensions.toStringOrNull
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantReadOnlyRepository
-import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantRepository
 import org.bialydunajec.registrations.domain.cottage.CottageRepository
 import org.bialydunajec.registrations.domain.payment.CampParticipantCottageAccountEvent
 import org.bialydunajec.registrations.domain.payment.valueobject.PaymentCommitmentSnapshot
@@ -14,7 +13,7 @@ import org.springframework.transaction.event.TransactionalEventListener
 
 @Component
 internal class CampParticipantCottageAccountDomainEventsPropagator(
-        private val externalEventBus: ExternalEventBus,
+        private val externalEventBus: ExternalEventPublisher,
         private val campParticipantRepository: CampParticipantReadOnlyRepository,
         private val cottageRepository: CottageRepository
 ) {

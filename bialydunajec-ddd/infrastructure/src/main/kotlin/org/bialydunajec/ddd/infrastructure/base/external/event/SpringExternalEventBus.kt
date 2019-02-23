@@ -1,7 +1,7 @@
 package org.bialydunajec.ddd.infrastructure.base.external.event
 
 import org.bialydunajec.ddd.application.base.external.event.ExternalEvent
-import org.bialydunajec.ddd.application.base.external.event.ExternalEventBus
+import org.bialydunajec.ddd.application.base.external.event.ExternalEventPublisher
 import org.slf4j.LoggerFactory
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.context.ApplicationEventPublisherAware
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component
 
 @Component
 class SpringExternalEventBus
-    : ExternalEventBus, ApplicationEventPublisherAware {
+    : ExternalEventPublisher, ApplicationEventPublisherAware {
 
     private val log = LoggerFactory.getLogger(this.javaClass)
 

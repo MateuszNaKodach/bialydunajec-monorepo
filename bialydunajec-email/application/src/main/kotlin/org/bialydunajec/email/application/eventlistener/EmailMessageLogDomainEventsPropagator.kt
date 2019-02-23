@@ -1,6 +1,6 @@
 package org.bialydunajec.email.application.eventlistener
 
-import org.bialydunajec.ddd.application.base.external.event.ExternalEventBus
+import org.bialydunajec.ddd.application.base.external.event.ExternalEventPublisher
 import org.bialydunajec.email.domain.EmailMessageLogEvent
 import org.bialydunajec.email.messages.event.EmailMessageLogExternalEvent
 import org.springframework.scheduling.annotation.Async
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component
 import org.springframework.transaction.event.TransactionalEventListener
 
 @Component
-internal class EmailMessageLogDomainEventsPropagator(private val externalEventBus: ExternalEventBus) {
+internal class EmailMessageLogDomainEventsPropagator(private val externalEventBus: ExternalEventPublisher) {
 
     @Async
     @TransactionalEventListener

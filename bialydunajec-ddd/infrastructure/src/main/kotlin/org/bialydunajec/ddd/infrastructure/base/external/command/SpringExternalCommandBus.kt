@@ -2,8 +2,6 @@ package org.bialydunajec.ddd.infrastructure.base.external.command
 
 import org.bialydunajec.ddd.application.base.external.command.ExternalCommand
 import org.bialydunajec.ddd.application.base.external.command.ExternalCommandBus
-import org.bialydunajec.ddd.application.base.external.event.ExternalEvent
-import org.bialydunajec.ddd.application.base.external.event.ExternalEventBus
 import org.slf4j.LoggerFactory
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.context.ApplicationEventPublisherAware

@@ -2,13 +2,13 @@ package org.bialydunajec.campedition.application.eventlistener
 
 import org.bialydunajec.campedition.domain.campedition.CampEditionEvent
 import org.bialydunajec.campedition.messages.event.CampEditionExternalEvent
-import org.bialydunajec.ddd.application.base.external.event.ExternalEventBus
+import org.bialydunajec.ddd.application.base.external.event.ExternalEventPublisher
 import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Component
 import org.springframework.transaction.event.TransactionalEventListener
 
 @Component
-internal class CampEditionDomainEventsPropagator(private val externalEventBus: ExternalEventBus) {
+internal class CampEditionDomainEventsPropagator(private val externalEventBus: ExternalEventPublisher) {
 
     @Async
     @TransactionalEventListener
