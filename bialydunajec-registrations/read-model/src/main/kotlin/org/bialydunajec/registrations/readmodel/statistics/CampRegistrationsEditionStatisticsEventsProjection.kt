@@ -1,17 +1,42 @@
 package org.bialydunajec.registrations.readmodel.statistics
 
 import org.bialydunajec.ddd.application.base.external.event.ExternalEvent
+import org.bialydunajec.ddd.application.base.external.event.ExternalEventSubscriber
 import org.bialydunajec.ddd.application.base.external.event.SerializedExternalEventListener
+import org.bialydunajec.ddd.application.base.external.event.SpringSerializedExternalEventListener
 import org.bialydunajec.registrations.messages.event.*
-import org.bialydunajec.registrations.readmodel.camper.CampParticipant
 import org.springframework.stereotype.Component
 import java.time.Instant
 
 @Component
 internal class CampRegistrationsEditionStatisticsEventsProjection(
         private val eventStream: CampRegistrationsEditionStatisticsEventStream,
-        private val campRegistrationsEditionStatisticsRepository: CampRegistrationsEditionStatisticsMongoRepository
+        private val campRegistrationsEditionStatisticsRepository: CampRegistrationsEditionStatisticsMongoRepository,
+        eventSubscriber: ExternalEventSubscriber
 ) : SerializedExternalEventListener() {
+
+
+    init {
+        eventSubscriber.subscribe<CampRegistrationsEditionExternalEvent.CampRegistrationsCreated> {
+            processingQueue.process(it)
+        }
+
+        eventSubscriber.subscribe<CottageExternalEvent.CottageCreated> {
+            processingQueue.process(it)
+        }
+
+        eventSubscriber.subscribe<CottageExternalEvent.CottageUpdated> {
+            processingQueue.process(it)
+        }
+
+        eventSubscriber.subscribe<CampParticipantExternalEvent.CampParticipantRegistered> {
+            processingQueue.process(it)
+        }
+
+        eventSubscriber.subscribe<ShirtOrderExternalEvent.OrderPlaced> {
+            processingQueue.process(it)
+        }
+    }
 
     override fun processExternalEvent(externalEvent: ExternalEvent<*>) {
         val eventPayload = externalEvent.payload

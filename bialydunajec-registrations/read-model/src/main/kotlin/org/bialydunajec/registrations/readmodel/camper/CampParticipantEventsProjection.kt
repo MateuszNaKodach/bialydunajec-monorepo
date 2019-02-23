@@ -1,7 +1,9 @@
 package org.bialydunajec.registrations.readmodel.camper
 
 import org.bialydunajec.ddd.application.base.external.event.ExternalEvent
+import org.bialydunajec.ddd.application.base.external.event.ExternalEventSubscriber
 import org.bialydunajec.ddd.application.base.external.event.SerializedExternalEventListener
+import org.bialydunajec.ddd.application.base.external.event.SpringSerializedExternalEventListener
 import org.bialydunajec.registrations.messages.event.CampParticipantCottageAccountExternalEvent
 import org.bialydunajec.registrations.messages.event.CampParticipantExternalEvent
 import org.bialydunajec.registrations.readmodel.payment.PaymentCommitment
@@ -13,8 +15,24 @@ import java.time.Instant
 internal class CampParticipantEventsProjection(
         private val campParticipantMongoRepository: CampParticipantMongoRepository,
         private val campParticipantEventStream: CampParticipantEventStream,
-        private val paymentCommitmentMongoRepository: PaymentCommitmentMongoRepository
+        private val paymentCommitmentMongoRepository: PaymentCommitmentMongoRepository,
+        eventSubscriber: ExternalEventSubscriber
 ) : SerializedExternalEventListener() {
+
+    init {
+        eventSubscriber.subscribe<CampParticipantExternalEvent.CampParticipantRegistered> {
+            processingQueue.process(it)
+        }
+
+        eventSubscriber.subscribe<CampParticipantExternalEvent.CampParticipantConfirmed> {
+            processingQueue.process(it)
+        }
+
+        eventSubscriber.subscribe<CampParticipantCottageAccountExternalEvent.CommitmentPaid> {
+            processingQueue.process(it)
+        }
+    }
+
 
     override fun processExternalEvent(externalEvent: ExternalEvent<*>) {
         val eventPayload = externalEvent.payload

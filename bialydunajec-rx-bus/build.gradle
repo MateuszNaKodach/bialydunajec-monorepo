@@ -1,0 +1,15 @@
+version = '0.0.1-SNAPSHOT'
+
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
+
+dependencies {
+    compile("io.reactivex.rxjava2:rxjava:${rxJavaVersion}")
+    compile("io.reactivex.rxjava2:rxkotlin:${rxJavaVersion}")
+    compile "com.jakewharton.rxrelay2:rxrelay:${rxRelayVersion}"
+}

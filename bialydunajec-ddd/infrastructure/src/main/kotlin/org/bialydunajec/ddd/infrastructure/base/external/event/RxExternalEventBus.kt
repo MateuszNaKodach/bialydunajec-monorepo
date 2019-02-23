@@ -6,8 +6,10 @@ import org.bialydunajec.ddd.application.base.external.event.ExternalEventSubscri
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import org.bialydunajec.rxbus.api.RxEventBus
+import org.springframework.context.annotation.Primary
 
 
+@Primary
 @Component
 class RxExternalEventBus
     : ExternalEventPublisher, ExternalEventSubscriber {
@@ -18,13 +20,21 @@ class RxExternalEventBus
 
     override fun send(event: ExternalEvent<*>) {
         eventPublisher.publishEvent(event)
-        log.debug("External event publisher by RxExternalEventBus: $event")
+        log.debug("External event published by RxExternalEventBus: $event")
     }
 
-    override fun <EventType : ExternalEvent<*>> subscribe(eventType: Class<EventType>, consumer: (EventType) -> Unit) {
-        eventPublisher.subscribeEvent(eventType){
+    override fun <PayloadType : Any> subscribe(consumer: (ExternalEvent<PayloadType>) -> Unit) {
+        eventPublisher.subscribeEvent<ExternalEvent<PayloadType>>{
             log.debug("External event consumed by RxExternalEventBus: $it")
             consumer(it)
         }
     }
+}
+
+fun main() {
+    val bus = RxExternalEventBus()
+
+    bus.subscribe<String>{println(it)}
+
+    bus.send("asd")
 }

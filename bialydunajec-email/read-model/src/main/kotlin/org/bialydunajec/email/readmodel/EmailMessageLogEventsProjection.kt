@@ -1,7 +1,9 @@
 package org.bialydunajec.email.readmodel
 
 import org.bialydunajec.ddd.application.base.external.event.ExternalEvent
+import org.bialydunajec.ddd.application.base.external.event.ExternalEventSubscriber
 import org.bialydunajec.ddd.application.base.external.event.SerializedExternalEventListener
+import org.bialydunajec.ddd.application.base.external.event.SpringSerializedExternalEventListener
 import org.bialydunajec.email.messages.event.EmailMessageLogExternalEvent
 import org.springframework.stereotype.Component
 
@@ -13,8 +15,23 @@ const val EMAIL_STATUS_FAIL_TO_SEND = "FAIL_TO_SEND"
 internal class EmailMessageLogEventsProjection(
         private val emailMessageRepository: EmailMessageMongoRepository,
         private val emailMessageStatisticsRepository: EmailMessageStatisticsMongoRepository,
-        private val emailMessageLogEventStream: EmailMessageLogEventStream
+        private val emailMessageLogEventStream: EmailMessageLogEventStream,
+        eventSubscriber: ExternalEventSubscriber
 ) : SerializedExternalEventListener() {
+
+    init {
+        eventSubscriber.subscribe<EmailMessageLogExternalEvent.EmailMessageCreated> {
+            processingQueue.process(it)
+        }
+
+        eventSubscriber.subscribe<EmailMessageLogExternalEvent.EmailMessageSentSuccess> {
+            processingQueue.process(it)
+        }
+
+        eventSubscriber.subscribe<EmailMessageLogExternalEvent.EmailMessageSentFailure> {
+            processingQueue.process(it)
+        }
+    }
 
     override fun processExternalEvent(externalEvent: ExternalEvent<*>) {
         val payload = externalEvent.payload

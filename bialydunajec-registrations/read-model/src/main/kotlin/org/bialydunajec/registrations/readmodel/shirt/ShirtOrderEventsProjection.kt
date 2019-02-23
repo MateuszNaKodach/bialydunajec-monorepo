@@ -1,7 +1,10 @@
 package org.bialydunajec.registrations.readmodel.shirt
 
 import org.bialydunajec.ddd.application.base.external.event.ExternalEvent
+import org.bialydunajec.ddd.application.base.external.event.ExternalEventSubscriber
 import org.bialydunajec.ddd.application.base.external.event.SerializedExternalEventListener
+import org.bialydunajec.ddd.application.base.external.event.SpringSerializedExternalEventListener
+import org.bialydunajec.email.messages.event.EmailMessageLogExternalEvent
 import org.bialydunajec.registrations.messages.event.CampParticipantExternalEvent
 import org.bialydunajec.registrations.messages.event.ShirtOrderExternalEvent
 import org.springframework.stereotype.Component
@@ -9,8 +12,19 @@ import org.springframework.stereotype.Component
 @Component
 internal class ShirtOrderEventsProjection(
         private val shirtOrderMongoRepository: ShirtOrderMongoRepository,
-        private val shirtOrderEventStream: ShirtOrderEventStream
+        private val shirtOrderEventStream: ShirtOrderEventStream,
+        eventSubscriber: ExternalEventSubscriber
 ) : SerializedExternalEventListener() {
+
+    init {
+        eventSubscriber.subscribe<ShirtOrderExternalEvent.OrderPlaced> {
+            processingQueue.process(it)
+        }
+
+        eventSubscriber.subscribe<CampParticipantExternalEvent.CampParticipantConfirmed> {
+            processingQueue.process(it)
+        }
+    }
 
     override fun processExternalEvent(externalEvent: ExternalEvent<*>) {
         val eventPayload = externalEvent.payload

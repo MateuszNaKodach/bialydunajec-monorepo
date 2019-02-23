@@ -4,16 +4,17 @@ import com.jakewharton.rxrelay2.PublishRelay
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
+@PublishedApi
 internal class RxBus {
 
-    private val disposables = mutableMapOf<Any, CompositeDisposable>()
-    private val publisher = PublishRelay.create<Any>().toSerialized()
+    val disposables = mutableMapOf<Any, CompositeDisposable>()
+    val publisher = PublishRelay.create<Any>().toSerialized()
 
     fun publish(message: Any) =
             publisher.accept(message)
 
-    fun <MessageType> subscribe(messageType: Class<MessageType>, consumer: (MessageType) -> Unit) {
-        val observer = publisher.ofType(messageType)
+    inline fun <reified MessageType> subscribe(noinline consumer: (MessageType) -> Unit) {
+        val observer = publisher.ofType(MessageType::class.java)
                 .retry()
                 .observeOn(Schedulers.newThread())
                 .subscribe(consumer)

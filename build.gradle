@@ -59,15 +59,8 @@ buildscript {
 
 
 dependencies {
-    /*
-    compile project(':bialydunajec-core:bialydunajec-core-presentation')
-    compile project(':bialydunajec-core:bialydunajec-core-infrastructure')
-    
-    compile project(':bialydunajec-faq:bialydunajec-faq-presentation')
-    compile project(':bialydunajec-faq:bialydunajec-faq-infrastructure')
-*/
-    compile project(':bialydunajec-ddd:bialydunajec-ddd-presentation')
-    compile project(':bialydunajec-ddd:bialydunajec-ddd-infrastructure')
+    //compile project(':bialydunajec-ddd:bialydunajec-ddd-presentation')
+    //compile project(':bialydunajec-ddd:bialydunajec-ddd-infrastructure')
 
     compile project(':bialydunajec-news:bialydunajec-news-presentation')
     compile project(':bialydunajec-news:bialydunajec-news-infrastructure')
@@ -75,9 +68,12 @@ dependencies {
     compile project(':bialydunajec-camp-edition:bialydunajec-camp-edition-presentation')
     compile project(':bialydunajec-camp-edition:bialydunajec-camp-edition-infrastructure')
 
-    compile project(':bialydunajec-camp-schedule:bialydunajec-camp-schedule-presentation')
-    compile project(':bialydunajec-camp-schedule:bialydunajec-camp-schedule-infrastructure')
-    compile project(':bialydunajec-camp-schedule:bialydunajec-camp-schedule-read-model')
+    //compile project(':bialydunajec-camp-schedule:bialydunajec-camp-schedule-presentation')
+    //compile project(':bialydunajec-camp-schedule:bialydunajec-camp-schedule-infrastructure')
+    //compile project(':bialydunajec-camp-schedule:bialydunajec-camp-schedule-read-model')
+
+    //compile project(':bialydunajec-faq:bialydunajec-faq-presentation')
+    //compile project(':bialydunajec-faq:bialydunajec-faq-infrastructure')
 
     compile project(':bialydunajec-academic-ministry:bialydunajec-academic-ministry-presentation')
     compile project(':bialydunajec-academic-ministry:bialydunajec-academic-ministry-infrastructure')
