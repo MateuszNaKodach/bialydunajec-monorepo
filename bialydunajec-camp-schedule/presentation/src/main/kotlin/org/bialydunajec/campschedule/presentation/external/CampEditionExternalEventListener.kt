@@ -14,7 +14,7 @@ internal class CampEditionExternalEventListener internal constructor(
 ) : SerializedExternalEventListener() {
 
     init {
-        eventSubscriber.subscribe(CampEditionExternalEvent.CampEditionCreated::class.java) {
+        eventSubscriber.subscribe(CampEditionExternalEvent.CampEditionCreated::class) {
             processingQueue.process(it)
         }
     }

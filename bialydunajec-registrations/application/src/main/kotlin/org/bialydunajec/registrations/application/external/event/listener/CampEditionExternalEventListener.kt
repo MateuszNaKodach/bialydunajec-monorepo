@@ -22,7 +22,7 @@ internal class CampEditionExternalEventListener(
 ) : ExternalEventListener {
 
     init {
-        externalEventSubscriber.subscribe(CampEditionExternalEvent.CampEditionCreated::class.java) {
+        externalEventSubscriber.subscribe(CampEditionExternalEvent.CampEditionCreated::class) {
             val payload = it.payload
             campRegistrationsCommandGateway.process(
                     CampRegistrationsCommand.CreateCampRegistrationsEdition(
@@ -35,7 +35,7 @@ internal class CampEditionExternalEventListener(
             )
         }
 
-        externalEventSubscriber.subscribe(CampEditionExternalEvent.CampEditionDurationUpdated::class.java) {
+        externalEventSubscriber.subscribe(CampEditionExternalEvent.CampEditionDurationUpdated::class) {
             val payload = it.payload
             campRegistrationsCommandGateway.process(
                     CampRegistrationsCommand.UpdateCampRegistrationsEditionDuration(

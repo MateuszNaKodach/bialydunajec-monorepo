@@ -20,15 +20,15 @@ internal class EmailMessageLogEventsProjection(
 ) : SerializedExternalEventListener() {
 
     init {
-        eventSubscriber.subscribe(EmailMessageLogExternalEvent.EmailMessageCreated::class.java) {
+        eventSubscriber.subscribe(EmailMessageLogExternalEvent.EmailMessageCreated::class) {
             processingQueue.process(it)
         }
 
-        eventSubscriber.subscribe(EmailMessageLogExternalEvent.EmailMessageSentSuccess::class.java) {
+        eventSubscriber.subscribe(EmailMessageLogExternalEvent.EmailMessageSentSuccess::class) {
             processingQueue.process(it)
         }
 
-        eventSubscriber.subscribe(EmailMessageLogExternalEvent.EmailMessageSentFailure::class.java) {
+        eventSubscriber.subscribe(EmailMessageLogExternalEvent.EmailMessageSentFailure::class) {
             processingQueue.process(it)
         }
     }

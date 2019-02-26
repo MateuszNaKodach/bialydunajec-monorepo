@@ -20,15 +20,15 @@ internal class CampParticipantEventsProjection(
 ) : SerializedExternalEventListener() {
 
     init {
-        eventSubscriber.subscribe(CampParticipantExternalEvent.CampParticipantRegistered::class.java) {
+        eventSubscriber.subscribe(CampParticipantExternalEvent.CampParticipantRegistered::class) {
             processingQueue.process(it)
         }
 
-        eventSubscriber.subscribe(CampParticipantExternalEvent.CampParticipantConfirmed::class.java) {
+        eventSubscriber.subscribe(CampParticipantExternalEvent.CampParticipantConfirmed::class) {
             processingQueue.process(it)
         }
 
-        eventSubscriber.subscribe(CampParticipantCottageAccountExternalEvent.CommitmentPaid::class.java) {
+        eventSubscriber.subscribe(CampParticipantCottageAccountExternalEvent.CommitmentPaid::class) {
             processingQueue.process(it)
         }
     }
