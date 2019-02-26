@@ -17,11 +17,11 @@ internal class CampParticipantCottageAccountEventsProjection(
 ) : SerializedExternalEventListener() {
 
     init {
-        eventSubscriber.subscribe<CampParticipantCottageAccountExternalEvent.Created> {
+        eventSubscriber.subscribe(CampParticipantCottageAccountExternalEvent.Created::class.java) {
             processingQueue.process(it)
         }
 
-        eventSubscriber.subscribe<CampParticipantCottageAccountExternalEvent.CommitmentPaid> {
+        eventSubscriber.subscribe(CampParticipantCottageAccountExternalEvent.CommitmentPaid::class.java) {
             processingQueue.process(it)
         }
     }

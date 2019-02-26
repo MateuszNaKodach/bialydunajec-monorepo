@@ -23,18 +23,12 @@ class RxExternalEventBus
         log.debug("External event published by RxExternalEventBus: $event")
     }
 
-    override fun <PayloadType : Any> subscribe(consumer: (ExternalEvent<PayloadType>) -> Unit) {
+    override fun <PayloadType : Any> subscribe(payloadClass: Class<PayloadType>, consumer: (ExternalEvent<PayloadType>) -> Unit) {
         eventPublisher.subscribeEvent<ExternalEvent<PayloadType>>{
-            log.debug("External event consumed by RxExternalEventBus: $it")
-            consumer(it)
+            if(it.getPayloadClass() == payloadClass){
+                consumer(it)
+                log.debug("External event consumed by RxExternalEventBus: $it")
+            }
         }
     }
-}
-
-fun main() {
-    val bus = RxExternalEventBus()
-
-    bus.subscribe<String>{println(it)}
-
-    bus.send("asd")
 }

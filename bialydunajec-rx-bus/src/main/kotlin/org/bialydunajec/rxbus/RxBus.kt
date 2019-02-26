@@ -13,7 +13,7 @@ internal class RxBus {
     fun publish(message: Any) =
             publisher.accept(message)
 
-    inline fun <reified MessageType> subscribe(noinline consumer: (MessageType) -> Unit) {
+    inline fun <reified MessageType : Any> subscribe(noinline consumer: (MessageType) -> Unit) {
         val observer = publisher.ofType(MessageType::class.java)
                 .retry()
                 .observeOn(Schedulers.newThread())

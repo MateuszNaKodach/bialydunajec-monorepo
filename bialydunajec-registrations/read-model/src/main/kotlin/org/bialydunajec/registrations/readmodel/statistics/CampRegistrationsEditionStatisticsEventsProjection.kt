@@ -17,23 +17,23 @@ internal class CampRegistrationsEditionStatisticsEventsProjection(
 
 
     init {
-        eventSubscriber.subscribe<CampRegistrationsEditionExternalEvent.CampRegistrationsCreated> {
+        eventSubscriber.subscribe(CampRegistrationsEditionExternalEvent.CampRegistrationsCreated::class.java) {
             processingQueue.process(it)
         }
 
-        eventSubscriber.subscribe<CottageExternalEvent.CottageCreated> {
+        eventSubscriber.subscribe(CottageExternalEvent.CottageCreated::class.java) {
             processingQueue.process(it)
         }
 
-        eventSubscriber.subscribe<CottageExternalEvent.CottageUpdated> {
+        eventSubscriber.subscribe(CottageExternalEvent.CottageUpdated::class.java) {
             processingQueue.process(it)
         }
 
-        eventSubscriber.subscribe<CampParticipantExternalEvent.CampParticipantRegistered> {
+        eventSubscriber.subscribe(CampParticipantExternalEvent.CampParticipantRegistered::class.java) {
             processingQueue.process(it)
         }
 
-        eventSubscriber.subscribe<ShirtOrderExternalEvent.OrderPlaced> {
+        eventSubscriber.subscribe(ShirtOrderExternalEvent.OrderPlaced::class.java) {
             processingQueue.process(it)
         }
     }

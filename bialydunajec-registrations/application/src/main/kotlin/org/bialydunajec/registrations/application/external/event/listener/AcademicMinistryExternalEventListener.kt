@@ -15,11 +15,11 @@ internal class AcademicMinistryExternalEventListener(
 ): ExternalEventListener {
 
     init{
-        externalEventSubscriber.subscribe<AcademicMinistryExternalEvent.AcademicMinistryCreated> {
+        externalEventSubscriber.subscribe(AcademicMinistryExternalEvent.AcademicMinistryCreated::class.java) {
             academicMinistryExternalEventProcessor.process(it.payload)
         }
 
-        externalEventSubscriber.subscribe<AcademicMinistryExternalEvent.AcademicMinistryUpdated> {
+        externalEventSubscriber.subscribe(AcademicMinistryExternalEvent.AcademicMinistryUpdated::class.java) {
             academicMinistryExternalEventProcessor.process(it.payload)
         }
     }

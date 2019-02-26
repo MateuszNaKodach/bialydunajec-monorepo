@@ -17,11 +17,11 @@ internal class ShirtOrderEventsProjection(
 ) : SerializedExternalEventListener() {
 
     init {
-        eventSubscriber.subscribe<ShirtOrderExternalEvent.OrderPlaced> {
+        eventSubscriber.subscribe(ShirtOrderExternalEvent.OrderPlaced::class.java) {
             processingQueue.process(it)
         }
 
-        eventSubscriber.subscribe<CampParticipantExternalEvent.CampParticipantConfirmed> {
+        eventSubscriber.subscribe(CampParticipantExternalEvent.CampParticipantConfirmed::class.java) {
             processingQueue.process(it)
         }
     }

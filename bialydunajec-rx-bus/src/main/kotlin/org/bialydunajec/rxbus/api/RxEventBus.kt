@@ -14,7 +14,7 @@ class RxEventBus internal constructor(@PublishedApi internal val rxBus: RxBus) {
     fun publishEvent(message: Any) =
             rxBus.publish(message)
 
-    inline fun <reified MessageType> subscribeEvent(noinline consumer: (MessageType) -> Unit) {
+    inline fun <reified MessageType : Any> subscribeEvent(noinline consumer: (MessageType) -> Unit) {
         rxBus.subscribe<MessageType>(consumer)
     }
 
