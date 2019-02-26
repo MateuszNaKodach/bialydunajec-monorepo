@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.core.task.AsyncTaskExecutor
 import org.springframework.scheduling.annotation.AsyncConfigurer
 import org.springframework.scheduling.annotation.EnableAsync
+import org.springframework.scheduling.annotation.EnableScheduling
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor
 import org.springframework.web.reactive.config.CorsRegistry
 import org.springframework.web.reactive.config.WebFluxConfigurer
@@ -14,11 +15,13 @@ import java.util.concurrent.Executor
 
 
 @EnableAsync
+@EnableScheduling
 @Configuration
 internal class SpringAsyncConfiguration : AsyncConfigurer {
 
     private val log = LoggerFactory.getLogger(this.javaClass)
 
+    @Bean(name = ["taskExecutor","asyncExecutor"])
     override fun getAsyncExecutor(): Executor =
        ThreadPoolTaskExecutor().apply {
             setCorePoolSize(7)
