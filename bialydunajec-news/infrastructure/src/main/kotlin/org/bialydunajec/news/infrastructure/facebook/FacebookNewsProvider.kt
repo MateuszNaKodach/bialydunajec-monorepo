@@ -31,7 +31,7 @@ open class FacebookNewsProvider(private val facebookClient: FacebookClient) : Ca
     }
 
     @CacheEvict(cacheNames = [FACEBOOK_NEWS_SPRING_CACHE], allEntries = true)
-    @Scheduled(cron = "0 0 3 ? * * *")
+    @Scheduled(cron = "0 0 3 * * *")
     open fun cacheEvict(){
         log.info("Facebook news cache evicted!")
     }

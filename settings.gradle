@@ -67,6 +67,8 @@ include 'bialydunajec-users',
         'bialydunajec-users:infrastructure',
         'bialydunajec-users:messages'
 
+include 'bialydunajec-rx-bus'
+
 /*
 include 'bialydunajec-gallery',
         'bialydunajec-gallery:application',

@@ -1,6 +1,6 @@
 package org.bialydunajec.registrations.application.eventlistener.propagator
 
-import org.bialydunajec.ddd.application.base.external.event.ExternalEventBus
+import org.bialydunajec.ddd.application.base.external.event.ExternalEventPublisher
 import org.bialydunajec.ddd.domain.extensions.toStringOrNull
 import org.bialydunajec.registrations.application.dto.toDto
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantReadOnlyRepository
@@ -9,15 +9,13 @@ import org.bialydunajec.registrations.domain.shirt.ShirtOrderEvent
 import org.bialydunajec.registrations.messages.event.ShirtOrderExternalEvent
 import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Component
-import org.springframework.transaction.annotation.Propagation
-import org.springframework.transaction.annotation.Transactional
 import org.springframework.transaction.event.TransactionalEventListener
 
 @Component
 internal class ShirtOrderDomainEventsPropagator(
         private val campParticipantReadOnlyRepository: CampParticipantReadOnlyRepository,
         private val cottageRepository: CottageRepository,
-        private val externalEventBus: ExternalEventBus
+        private val externalEventBus: ExternalEventPublisher
 ) {
 
     @Async

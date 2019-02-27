@@ -1,6 +1,6 @@
 package org.bialydunajec.ddd.application.base.external.event
 
-interface ExternalEventBus {
+interface ExternalEventPublisher {
     fun send(event: Any) {
         send(ExternalEvent(event))
     }

@@ -1,7 +1,9 @@
 package org.bialydunajec.registrations.readmodel.payment
 
 import org.bialydunajec.ddd.application.base.external.event.ExternalEvent
+import org.bialydunajec.ddd.application.base.external.event.ExternalEventSubscriber
 import org.bialydunajec.ddd.application.base.external.event.SerializedExternalEventListener
+import org.bialydunajec.ddd.application.base.external.event.SpringSerializedExternalEventListener
 import org.bialydunajec.registrations.messages.event.CampParticipantCottageAccountExternalEvent
 import org.springframework.stereotype.Component
 
@@ -10,8 +12,19 @@ import org.springframework.stereotype.Component
 @Component
 internal class CampParticipantCottageAccountEventsProjection(
         private val paymentCommitmentRepository: PaymentCommitmentMongoRepository,
-        private val eventStream: CampParticipantCottageAccountEventStream
+        private val eventStream: CampParticipantCottageAccountEventStream,
+        eventSubscriber: ExternalEventSubscriber
 ) : SerializedExternalEventListener() {
+
+    init {
+        eventSubscriber.subscribe(CampParticipantCottageAccountExternalEvent.Created::class) {
+            processingQueue.process(it)
+        }
+
+        eventSubscriber.subscribe(CampParticipantCottageAccountExternalEvent.CommitmentPaid::class) {
+            processingQueue.process(it)
+        }
+    }
 
     override fun processExternalEvent(externalEvent: ExternalEvent<*>) {
         val eventPayload = externalEvent.payload

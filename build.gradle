@@ -59,26 +59,12 @@ buildscript {
 
 
 dependencies {
-    /*
-    compile project(':bialydunajec-core:bialydunajec-core-presentation')
-    compile project(':bialydunajec-core:bialydunajec-core-infrastructure')
-    
-    compile project(':bialydunajec-faq:bialydunajec-faq-presentation')
-    compile project(':bialydunajec-faq:bialydunajec-faq-infrastructure')
-*/
-    compile project(':bialydunajec-ddd:bialydunajec-ddd-presentation')
-    compile project(':bialydunajec-ddd:bialydunajec-ddd-infrastructure')
-
     compile project(':bialydunajec-news:bialydunajec-news-presentation')
     compile project(':bialydunajec-news:bialydunajec-news-infrastructure')
 
     compile project(':bialydunajec-camp-edition:bialydunajec-camp-edition-presentation')
     compile project(':bialydunajec-camp-edition:bialydunajec-camp-edition-infrastructure')
-
-    compile project(':bialydunajec-camp-schedule:bialydunajec-camp-schedule-presentation')
-    compile project(':bialydunajec-camp-schedule:bialydunajec-camp-schedule-infrastructure')
-    compile project(':bialydunajec-camp-schedule:bialydunajec-camp-schedule-read-model')
-
+    
     compile project(':bialydunajec-academic-ministry:bialydunajec-academic-ministry-presentation')
     compile project(':bialydunajec-academic-ministry:bialydunajec-academic-ministry-infrastructure')
 
@@ -88,9 +74,6 @@ dependencies {
 
     compile project(':bialydunajec-users:bialydunajec-users-presentation')
     compile project(':bialydunajec-users:bialydunajec-users-infrastructure')
-
-    //compile project(':bialydunajec-gallery:bialydunajec-gallery-presentation')
-    //compile project(':bialydunajec-gallery:bialydunajec-gallery-infrastructure')
     
     compile project(':bialydunajec-email:bialydunajec-email-presentation')
     compile project(':bialydunajec-email:bialydunajec-email-infrastructure')
@@ -98,18 +81,22 @@ dependencies {
 
     compile project(':bialydunajec-authorization:bialydunajec-authorization-server')
 
-    //compile('org.springframework.boot:spring-boot-starter-actuator')
-    //compile('org.springframework.boot:spring-boot-starter-cache')
+    //compile project(':bialydunajec-camp-schedule:bialydunajec-camp-schedule-presentation')
+    //compile project(':bialydunajec-camp-schedule:bialydunajec-camp-schedule-infrastructure')
+    //compile project(':bialydunajec-camp-schedule:bialydunajec-camp-schedule-read-model')
+
+    //compile project(':bialydunajec-faq:bialydunajec-faq-presentation')
+    //compile project(':bialydunajec-faq:bialydunajec-faq-infrastructure')
+
+    //compile project(':bialydunajec-gallery:bialydunajec-gallery-presentation')
+    //compile project(':bialydunajec-gallery:bialydunajec-gallery-infrastructure')
+    
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
-    //compile('org.springframework.boot:spring-boot-starter-data-rest')
     compile('org.springframework.boot:spring-boot-starter-hateoas')
     compile('org.springframework.boot:spring-boot-starter-mail')
     compile('org.springframework.boot:spring-boot-starter-quartz')
-    //compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.springframework.boot:spring-boot-starter-webflux')
     compile('com.fasterxml.jackson.module:jackson-module-kotlin')
-    // compile('org.springframework.data:spring-data-rest-hal-browser')
-    //compile('org.springframework.retry:spring-retry')
 
     //Swagger 2 - REST Api documentation
     compile("io.springfox:springfox-swagger2:${swaggerVersion}")
@@ -118,13 +105,12 @@ dependencies {
     //Fake data generator
     compile("com.devskiller:jfairy:${jfairyVersion}")
 
-    //runtime('org.springframework.boot:spring-boot-devtools')
     runtime('com.h2database:h2')
     runtime('mysql:mysql-connector-java')
 
     compileOnly('org.springframework.boot:spring-boot-configuration-processor')
     testCompile('org.springframework.boot:spring-boot-starter-test')
-    //testCompile('io.projectreactor:reactor-test')
+    testCompile('io.projectreactor:reactor-test')
 
     compile('de.flapdoodle.embed:de.flapdoodle.embed.mongo')
 }

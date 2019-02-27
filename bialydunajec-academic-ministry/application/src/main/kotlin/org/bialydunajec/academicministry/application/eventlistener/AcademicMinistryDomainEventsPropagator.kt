@@ -2,14 +2,13 @@ package org.bialydunajec.academicministry.application.eventlistener
 
 import org.bialydunajec.academicministry.domain.AcademicMinistryEvent
 import org.bialydunajec.academicministry.messages.event.AcademicMinistryExternalEvent
-import org.bialydunajec.ddd.application.base.external.event.ExternalEventBus
-import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.Url
+import org.bialydunajec.ddd.application.base.external.event.ExternalEventPublisher
 import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Component
 import org.springframework.transaction.event.TransactionalEventListener
 
 @Component
-internal class AcademicMinistryDomainEventsPropagator(private val externalEventBus: ExternalEventBus) {
+internal class AcademicMinistryDomainEventsPropagator(private val externalEventBus: ExternalEventPublisher) {
 
     @Async
     @TransactionalEventListener

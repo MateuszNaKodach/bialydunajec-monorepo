@@ -3,24 +3,24 @@ package org.bialydunajec.registrations.application.external.event.listener
 import org.bialydunajec.academicministry.messages.event.AcademicMinistryExternalEvent
 import org.bialydunajec.ddd.application.base.external.event.ExternalEvent
 import org.bialydunajec.ddd.application.base.external.event.ExternalEventListener
+import org.bialydunajec.ddd.application.base.external.event.SpringExternalEventListener
+import org.bialydunajec.ddd.application.base.external.event.ExternalEventSubscriber
 import org.bialydunajec.registrations.application.external.event.processor.AcademicMinistryExternalEventProcessor
-import org.springframework.context.event.EventListener
 import org.springframework.stereotype.Component
 
 @Component
 internal class AcademicMinistryExternalEventListener(
-        private val academicMinistryExternalEventProcessor: AcademicMinistryExternalEventProcessor
-) : ExternalEventListener {
+        private val academicMinistryExternalEventProcessor: AcademicMinistryExternalEventProcessor,
+        externalEventSubscriber: ExternalEventSubscriber
+): ExternalEventListener {
 
-    @EventListener
-    override fun handleExternalEvent(externalEvent: ExternalEvent<*>) {
-        val payload = externalEvent.payload
-        when (payload) {
-            is AcademicMinistryExternalEvent.AcademicMinistryCreated ->
-                academicMinistryExternalEventProcessor.process(payload)
+    init{
+        externalEventSubscriber.subscribe(AcademicMinistryExternalEvent.AcademicMinistryCreated::class) {
+            academicMinistryExternalEventProcessor.process(it.payload)
+        }
 
-            is AcademicMinistryExternalEvent.AcademicMinistryUpdated ->
-                academicMinistryExternalEventProcessor.process(payload)
+        externalEventSubscriber.subscribe(AcademicMinistryExternalEvent.AcademicMinistryUpdated::class) {
+            academicMinistryExternalEventProcessor.process(it.payload)
         }
     }
 }
