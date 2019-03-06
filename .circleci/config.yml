@@ -45,5 +45,8 @@ jobs:
     # run tests!
     - run: ./gradlew test
 
+    # build application .jar artifact
+    - run: ./gradlew build -x test
+
     - store_artifacts:
         path: build/libs/bialydunajec-backend-0.0.1.1-SNAPSHOT.jar
