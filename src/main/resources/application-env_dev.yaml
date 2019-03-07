@@ -1,9 +1,11 @@
+server:
+  port: 4455
 spring:
   profiles:
     include:
-    - database_h2_local_file
-    - database_mongo_dev
-    - mail_log
+      - mail_log
+      - database_h2_local_file
+  #    - database_mongo_dev
   mail:
     username: dev.zapisy@bialydunajec.org
     password: 4tFhHO2LseTJ714UV1Q5
@@ -11,21 +13,21 @@ spring:
 bialydunajec:
   oauth2:
     clients:
-    - client-id: "web-angular"
-      client-secret: "fUMU6AngbLIkfTOAqfifaShzOEMeUQ/cxpij3iwMM30Czj..7ipdLxv6"
-      authorized-grant-types: password, client_credentials, refresh_token
-      access-token-validity-seconds: 7776000 # 3600 seconds = 60 minutes
-      refresh-token-validity-seconds: 7776000 # 7776000 seconds = 129 600 minutes = 2 160 hours = 90 days
-      scopes: allmighty
-    - client-id: "mobile-android"
-      client-secret: "AndekfUMU6bLIkfTOAqfifaShzOEMeUQ/cxpij3MobiwMM30Czj..7ipdLxv6"
-      authorized-grant-types: password, client_credentials, refresh_token
-      access-token-validity-seconds: 3600 # 3600 seconds = 60 minutes
-      refresh-token-validity-seconds: 7776000 # 7776000 seconds = 129 600 minutes = 2 160 hours = 90 days
-      scopes: allmighty
+      - client-id: "web-angular"
+        client-secret: "fUMU6AngbLIkfTOAqfifaShzOEMeUQ/cxpij3iwMM30Czj..7ipdLxv6"
+        authorized-grant-types: password, client_credentials, refresh_token
+        access-token-validity-seconds: 7776000 # 3600 seconds = 60 minutes
+        refresh-token-validity-seconds: 7776000 # 7776000 seconds = 129 600 minutes = 2 160 hours = 90 days
+        scopes: allmighty
+      - client-id: "mobile-android"
+        client-secret: "AndekfUMU6bLIkfTOAqfifaShzOEMeUQ/cxpij3MobiwMM30Czj..7ipdLxv6"
+        authorized-grant-types: password, client_credentials, refresh_token
+        access-token-validity-seconds: 3600 # 3600 seconds = 60 minutes
+        refresh-token-validity-seconds: 7776000 # 7776000 seconds = 129 600 minutes = 2 160 hours = 90 days
+        scopes: allmighty
   facebook:
     access-token: "EAAD8VBKY89IBAIA1pwlPdGEI6ZC3oDFQCQuZAv4iI9MCj5OZBE9RbxudiFbe7PKx5gOEvFsZCcQDPX8V6UIGb0X2XzafTRhAkA11aLPM7VdCrjQpODp0qQkIbuUgdnjCBPGAAqzzDa4YWqVjV9nBd4vo2tXtwiHsB9RFwiQg8AZDZD"
   frontend:
     main:
-      base-url: "https://new.bialydunajec.org"
-      registration-verification-url: "https://new.bialydunajec.org/zapisy/weryfikacja?zgloszenie=:campParticipantRegistrationId&kod-weryfikacyjny=:verificationCode"
+      base-url: "https://dev.bialydunajec.org"
+      registration-verification-url: "https://dev.bialydunajec.org/zapisy/weryfikacja?zgloszenie=:campParticipantRegistrationId&kod-weryfikacyjny=:verificationCode"

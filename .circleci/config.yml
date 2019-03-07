@@ -54,3 +54,11 @@ jobs:
     - add_ssh_keys:
         fingerprints:
           "e9:4c:39:25:4e:90:72:75:f0:50:58:1c:69:5d:ae:08"
+
+    - run:
+        name: change artifact name
+        command: cp build/libs/bialydunajec-backend* build/libs/bialydunajec-backend.jar
+
+    - run:
+        name: deploy on dev environment
+        command: scp  bialydunajec-backend.jar Bialydunajec@s23.mydevil.net:/home/Bialydunajec/webapp/backend/env_dev
