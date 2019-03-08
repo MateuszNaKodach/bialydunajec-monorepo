@@ -64,4 +64,8 @@ jobs:
 
     - run:
         name: deploy on dev environment
-        command: yes | scp  build/libs/bialydunajec-backend.jar Bialydunajec@31.186.82.95:/home/Bialydunajec/webapp/backend/env_dev
+        command: scp  build/libs/bialydunajec-backend.jar Bialydunajec@31.186.82.95:/home/Bialydunajec/webapp/backend/env_dev
+
+    - run:
+        name: run on dev environment
+        command: ssh Bialydunajec@31.186.82.95 java -jar -Dspring.profiles.active=env_dev /home/Bialydunajec/webapp/backend/env_dev/bialydunajec-backend.jar
