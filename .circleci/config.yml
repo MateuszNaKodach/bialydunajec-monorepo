@@ -68,4 +68,4 @@ jobs:
 
     - run:
         name: run on dev environment
-        command: ssh Bialydunajec@31.186.82.95 nohup java -jar -Dspring.profiles.active=env_dev /home/Bialydunajec/webapp/backend/env_dev/bialydunajec-backend.jar & > /home/Bialydunajec/webapp/backend/env_dev/nohup_dev &
+        command: ssh Bialydunajec@31.186.82.95 nohup java -jar -Dspring.profiles.active=env_dev /home/Bialydunajec/webapp/backend/env_dev/bialydunajec-backend.jar &> nohup_dev.out&
