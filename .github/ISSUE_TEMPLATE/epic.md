@@ -2,20 +2,31 @@
 name: Epic
 about: Cecha funkcjonalna aplikacji, która może być wdrożona niezależnie. Zawiera
   wiele user stories.
-title: ''
+title: 'Wysokopoziomowy tytuł dla cechy funkcjonalnej, np: Płatności on-line'
 labels: feature / epic
 assignees: ''
 
 ---
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+#### Cele jakie pomoże osiągnąć cecha funkcjonalna
+***Przykładowo:***
+W celu zredukowania czasu potrzebnego na księgowanie wpłat
+jako Szef Chatki
+chcę, aby Uczestnicy Obozu mieli możliwość dokonywania wymaganych opłat online. 
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
 
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
+#### Interesariusze - osoby, które skorzystają na wprowadzeniu funkcjonalności
+***Przykładowo:***
+- Szefowie Chatek
+- Uczestnicy Obozu
 
-**Additional context**
-Add any other context or screenshots about the feature request here.
+#### Opis sytuacji zastanej i obecnych problemów
+***Przykładowo:***
+Obecnie, aby wpłata została zaksięgowana w systemie zapisów na Obóz. Uczestnik musi wysłać na maila szefa chatki potwierdzenie przelewu. Następnie szef chatki odnotowuje fakt dokonania opłatyw systemie zapisów.
+Dodatkowo czynności te są utrudniane przez następujące problemu:
+1. Maile często nie dochodzą, lub są rozpoznawane jako SPAM.
+2. Szef Chatki stale musi monitorować swoją skrzynkę oraz konto bankowe.
+ 
+#### Proponowane rozwiązanie
+***Przykładowo:***
+Zintegrowanie systemu z płatnościami online. Założenie jednego konta dla całego Obozu.
