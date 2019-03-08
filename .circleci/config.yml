@@ -44,3 +44,28 @@ jobs:
 
     # run tests!
     - run: ./gradlew test
+
+    # build application .jar artifact
+    - run: ./gradlew build -x test
+
+    - store_artifacts:
+        path: build/libs/bialydunajec-backend-0.0.1.2-SNAPSHOT.jar
+
+    - add_ssh_keys
+   #     fingerprints:
+   #       - "e9:4c:39:25:4e:90:72:75:f0:50:58:1c:69:5d:ae:08"
+   #       - "xsorI0pBAf6Jb3C+xCJzkIMzFFmIfPIuu9Y+x2YYi4M"
+
+    - run: ssh-keyscan 31.186.82.95 >> ~/.ssh/known_hosts
+
+    - run:
+        name: change artifact name
+        command: cp build/libs/bialydunajec-backend* build/libs/bialydunajec-backend.jar
+
+    - run:
+        name: deploy on dev environment
+        command: scp  build/libs/bialydunajec-backend.jar Bialydunajec@31.186.82.95:/home/Bialydunajec/webapp/backend/env_dev
+
+    - run:
+        name: run on dev environment
+        command: ssh Bialydunajec@31.186.82.95 nohup java -jar -Dspring.profiles.active=env_dev /home/Bialydunajec/webapp/backend/env_dev/bialydunajec-backend.jar & > /home/Bialydunajec/webapp/backend/env_dev/nohup_dev &

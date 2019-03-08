@@ -64,7 +64,7 @@ dependencies {
 
     compile project(':bialydunajec-camp-edition:bialydunajec-camp-edition-presentation')
     compile project(':bialydunajec-camp-edition:bialydunajec-camp-edition-infrastructure')
-    
+
     compile project(':bialydunajec-academic-ministry:bialydunajec-academic-ministry-presentation')
     compile project(':bialydunajec-academic-ministry:bialydunajec-academic-ministry-infrastructure')
 
@@ -74,7 +74,7 @@ dependencies {
 
     compile project(':bialydunajec-users:bialydunajec-users-presentation')
     compile project(':bialydunajec-users:bialydunajec-users-infrastructure')
-    
+
     compile project(':bialydunajec-email:bialydunajec-email-presentation')
     compile project(':bialydunajec-email:bialydunajec-email-infrastructure')
     compile project(':bialydunajec-email:bialydunajec-email-read-model')
@@ -90,7 +90,7 @@ dependencies {
 
     //compile project(':bialydunajec-gallery:bialydunajec-gallery-presentation')
     //compile project(':bialydunajec-gallery:bialydunajec-gallery-infrastructure')
-    
+
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
     compile('org.springframework.boot:spring-boot-starter-hateoas')
     compile('org.springframework.boot:spring-boot-starter-mail')
@@ -112,5 +112,5 @@ dependencies {
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('io.projectreactor:reactor-test')
 
-    compile('de.flapdoodle.embed:de.flapdoodle.embed.mongo')
+    //runtime('de.flapdoodle.embed:de.flapdoodle.embed.mongo')
 }
