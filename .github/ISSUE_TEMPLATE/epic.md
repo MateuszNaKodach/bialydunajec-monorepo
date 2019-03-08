@@ -30,3 +30,7 @@ Dodatkowo czynności te są utrudniane przez następujące problemu:
 #### Proponowane rozwiązanie
 ***Przykładowo:***
 Zintegrowanie systemu z płatnościami online. Założenie jednego konta dla całego Obozu.
+
+### Dodatkowe uwagi
+***Przykładowo:***
+Obecna infrastruktura sieciowa obozu nie pozwala na wykonanie zadania przy zachowaniu dużej wydajności systemu.

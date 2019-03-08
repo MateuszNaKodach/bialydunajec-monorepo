@@ -1,20 +1,22 @@
 ---
 name: User Story
 about: Część składowa cechy funkcjonalnej lub eposu. Wnosząca wartość biznesową.
-title: ''
+title: W celu <cel>, jako <kto>, chcę mieć możliwość <co zrobić>.
 labels: user story
 assignees: ''
 
 ---
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+#### Epic
+***Przykładowo:***
+Historyjka należy do Eposu:
+https://github.com/nowakprojects/bialydunajec-kotlin-backend/issues/42
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
+#### Acceptance Criteria
+Kryteria akceptacji jako scenariusze w języku Gherkin.
 
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
+ 
+#### Screen MockUps
+Link do InVision (jeśli jest gotowe) lub obraz np. z Balsamiq.
 
-**Additional context**
-Add any other context or screenshots about the feature request here.
+### Dodatkowe uwagi
