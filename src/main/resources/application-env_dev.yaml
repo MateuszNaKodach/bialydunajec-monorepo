@@ -5,7 +5,7 @@ spring:
     include:
       - mail_log
       - database_h2_local_file
-  #    - database_mongo_dev
+      - database_mongo_dev
   mail:
     username: dev.zapisy@bialydunajec.org
     password: 4tFhHO2LseTJ714UV1Q5

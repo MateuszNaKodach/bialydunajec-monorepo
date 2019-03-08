@@ -112,5 +112,5 @@ dependencies {
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('io.projectreactor:reactor-test')
 
-    runtime('de.flapdoodle.embed:de.flapdoodle.embed.mongo')
+    //runtime('de.flapdoodle.embed:de.flapdoodle.embed.mongo')
 }
