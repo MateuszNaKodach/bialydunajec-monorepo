@@ -61,4 +61,4 @@ jobs:
 
     - run:
         name: deploy on dev environment
-        command: scp  bialydunajec-backend.jar Bialydunajec@s23.mydevil.net:/home/Bialydunajec/webapp/backend/env_dev
+        command: yes | scp  bialydunajec-backend.jar Bialydunajec@s23.mydevil.net:/home/Bialydunajec/webapp/backend/env_dev
