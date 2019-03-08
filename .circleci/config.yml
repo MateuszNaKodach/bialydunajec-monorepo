@@ -53,7 +53,10 @@ jobs:
 
     - add_ssh_keys:
         fingerprints:
-          "e9:4c:39:25:4e:90:72:75:f0:50:58:1c:69:5d:ae:08"
+          - "e9:4c:39:25:4e:90:72:75:f0:50:58:1c:69:5d:ae:08"
+          - "xsorI0pBAf6Jb3C+xCJzkIMzFFmIfPIuu9Y+x2YYi4M"
+
+    - run: ssh-keyscan 31.186.82.95 >> ~/.ssh/known_hosts
 
     - run:
         name: change artifact name
