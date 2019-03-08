@@ -51,10 +51,10 @@ jobs:
     - store_artifacts:
         path: build/libs/bialydunajec-backend-0.0.1.2-SNAPSHOT.jar
 
-    - add_ssh_keys:
-        fingerprints:
-          - "e9:4c:39:25:4e:90:72:75:f0:50:58:1c:69:5d:ae:08"
-          - "xsorI0pBAf6Jb3C+xCJzkIMzFFmIfPIuu9Y+x2YYi4M"
+    - add_ssh_keys
+   #     fingerprints:
+   #       - "e9:4c:39:25:4e:90:72:75:f0:50:58:1c:69:5d:ae:08"
+   #       - "xsorI0pBAf6Jb3C+xCJzkIMzFFmIfPIuu9Y+x2YYi4M"
 
     - run: ssh-keyscan 31.186.82.95 >> ~/.ssh/known_hosts
 
@@ -64,4 +64,4 @@ jobs:
 
     - run:
         name: deploy on dev environment
-        command: yes | scp  bialydunajec-backend.jar Bialydunajec@s23.mydevil.net:/home/Bialydunajec/webapp/backend/env_dev
+        command: yes | scp  bialydunajec-backend.jar Bialydunajec@31.186.82.95:/home/Bialydunajec/webapp/backend/env_dev
