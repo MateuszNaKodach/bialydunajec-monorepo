@@ -24,7 +24,8 @@
             "tsConfig": "projects/bialydunajec-main/tsconfig.app.json",
             "assets": [
               "projects/bialydunajec-main/src/favicon.ico",
-              "projects/bialydunajec-main/src/assets"
+              "projects/bialydunajec-main/src/assets",
+              "projects/bialydunajec-main/src/.htaccess"
             ],
             "styles": [
               "projects/bialydunajec-main/src/styles/semantic-ui/dist/semantic.css",
@@ -49,6 +50,40 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true
+            },
+            "staging": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/bialydunajec-main/src/environments/environment.ts",
+                  "with": "projects/bialydunajec-main/src/environments/environment.staging.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
+            },
+            "development": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/bialydunajec-main/src/environments/environment.ts",
+                  "with": "projects/bialydunajec-main/src/environments/environment.dev.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
             }
           }
         },
@@ -60,6 +95,12 @@
           "configurations": {
             "production": {
               "browserTarget": "bialydunajec-main:build:production"
+            },
+            "staging": {
+              "browserTarget": "bialydunajec-main:build:staging"
+            },
+            "development": {
+              "browserTarget": "bialydunajec-main:build:development"
             }
           }
         },
@@ -82,7 +123,8 @@
             "scripts": [],
             "assets": [
               "projects/bialydunajec-main/src/favicon.ico",
-              "projects/bialydunajec-main/src/assets"
+              "projects/bialydunajec-main/src/assets",
+              "projects/bialydunajec-main/src/.htaccess"
             ]
           }
         },
@@ -148,7 +190,8 @@
             "tsConfig": "projects/bialydunajec-admin/tsconfig.app.json",
             "assets": [
               "projects/bialydunajec-admin/src/favicon.ico",
-              "projects/bialydunajec-admin/src/assets"
+              "projects/bialydunajec-admin/src/assets",
+              "projects/bialydunajec-admin/src/.htaccess"
             ],
             "styles": [
               "projects/bialydunajec-admin/src/styles/theme.less",
@@ -173,6 +216,40 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true
+            },
+            "staging": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/bialydunajec-admin/src/environments/environment.ts",
+                  "with": "projects/bialydunajec-admin/src/environments/environment.staging.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
+            },
+            "development": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/bialydunajec-admin/src/environments/environment.ts",
+                  "with": "projects/bialydunajec-admin/src/environments/environment.dev.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
             }
           }
         },
@@ -185,6 +262,12 @@
           "configurations": {
             "production": {
               "browserTarget": "bialydunajec-admin:build:production"
+            },
+            "staging": {
+              "browserTarget": "bialydunajec-admin:build:staging"
+            },
+            "development": {
+              "browserTarget": "bialydunajec-admin:build:development"
             }
           }
         },
@@ -208,7 +291,8 @@
             "scripts": [],
             "assets": [
               "projects/bialydunajec-admin/src/favicon.ico",
-              "projects/bialydunajec-admin/src/assets"
+              "projects/bialydunajec-admin/src/assets",
+              "projects/bialydunajec-admin/src/.htaccess"
             ]
           }
         },

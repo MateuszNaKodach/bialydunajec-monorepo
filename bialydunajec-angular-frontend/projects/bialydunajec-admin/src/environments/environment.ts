@@ -6,8 +6,8 @@ export const environment = {
   production: false,
   restApi: {
     baseUrl: '//localhost:3344',
-    clientId: 'web-angular',
-    clientSecret: 'fUMU6AngbLIkfTOAqfifaShzOEMeUQ/cxpij3iwMM30Czj..7ipdLxv6'
+    clientId: 'web-angular_admin-local',
+    clientSecret: 'j9nvIPR9wg5SERWc3Ukz'
   },
   google: {
     maps: {

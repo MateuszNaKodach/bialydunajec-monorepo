@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {AuthService} from '../../../../../../bialydunajec-admin/src/app/auth/service/auth.service';
-import {environment} from '../../../../../../bialydunajec-admin/src/environments/environment';
 import {CampRegistrationsResponse} from '../../../../../../bialydunajec-admin/src/app/camp-registrations/service/rest/response/camp-registrations.response';
 import {CottageResponse} from '../../../../../../bialydunajec-admin/src/app/camp-registrations/service/rest/response/cottage.response';
 import {CampRegistrationsEditionResponse} from '../../../../../../bialydunajec-admin/src/app/camp-registrations/service/rest/response/camp-registrations-edition.response';
@@ -9,6 +8,8 @@ import {CampParticipantRegistrationRequest} from './request/camp-participant-reg
 import {Gender} from '../../../shared/model/gender.enum';
 import {CampRegistrationsCottageResponse} from './response/camp-registrations-cottage.response';
 import {CampEditionShirtDto} from '../../../../../../bialydunajec-admin/src/app/camp-registrations/service/rest/dto/camp-edition-shirt.dto';
+import {environment} from '../../../../environments/environment';
+
 
 @Injectable({
   providedIn: 'root'

@@ -1,10 +1,10 @@
 export const environment = {
-  name: 'production',
-  production: true,
+  name: 'staging',
+  production: false,
   restApi: {
-    baseUrl: 'https://rest.bialydunajec.org',
-    clientId: 'web-angular_main-prod',
-    clientSecret: 'fUMU6AngbLa!!sdasdIkfTOAqwepij3iwMM30Czj..7ipdLxv6'
+    baseUrl: 'https://rest.staging.bialydunajec.org',
+    clientId: 'web-angular_main-staging',
+    clientSecret: 'G6HDCoxwhEmgqplMb6cg'
   },
   google: {
     reCaptcha: {
