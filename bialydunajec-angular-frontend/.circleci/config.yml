@@ -59,9 +59,9 @@ jobs:
             else
                 ng build bialydunajec-main
             fi
+      #- store_artifacts:
+      #    path: ~/project/dist
       # Cache the dist folder for the deploy job
-      - store_artifacts:
-          path: ~/project/dist
       - save_cache:
           key: v1-dist-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
           paths:
@@ -73,7 +73,8 @@ jobs:
       - image: circleci/node:8.9.3-browsers
     steps:
       - add_ssh_keys
-      # Restore cache from the build job which contains the
+      - run: ssh-keyscan 31.186.82.95 >> ~/.ssh/known_hosts
+          # Restore cache from the build job which contains the
       # dist folder that needs to be deployed
       - restore_cache:
           key: v1-dist-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
