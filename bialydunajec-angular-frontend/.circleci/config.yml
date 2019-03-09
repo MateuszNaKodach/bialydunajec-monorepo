@@ -86,26 +86,26 @@ jobs:
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
                 ssh Bialydunajec@31.186.82.95 rm -rf /home/Bialydunajec/domains/new.bialydunajec.org/public_html/*
-                scp -r dist/bialydunajec-main Bialydunajec@31.186.82.95:/home/Bialydunajec/domains/new.bialydunajec.org/public_html
+                scp -r dist/bialydunajec-main/* Bialydunajec@31.186.82.95:/home/Bialydunajec/domains/new.bialydunajec.org/public_html
             elif [ "${CIRCLE_BRANCH}" == "staging" ]; then
                 ssh Bialydunajec@31.186.82.95 rm -rf /home/Bialydunajec/domains/staging.bialydunajec.org/public_html/*
-                scp -r dist/bialydunajec-main Bialydunajec@31.186.82.95:/home/Bialydunajec/domains/staging.bialydunajec.org/public_html
+                scp -r dist/bialydunajec-main/* Bialydunajec@31.186.82.95:/home/Bialydunajec/domains/staging.bialydunajec.org/public_html
             elif [ "${CIRCLE_BRANCH}" == "develop" ]; then
                 ssh Bialydunajec@31.186.82.95 rm -rf /home/Bialydunajec/domains/dev.bialydunajec.org/public_html/*
-                scp -r dist/bialydunajec-main Bialydunajec@31.186.82.95:/home/Bialydunajec/domains/dev.bialydunajec.org/public_html
+                scp -r dist/bialydunajec-main/* Bialydunajec@31.186.82.95:/home/Bialydunajec/domains/dev.bialydunajec.org/public_html
             fi
       - run:
           name: Deploy bialydunajec-admin
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
                 ssh Bialydunajec@31.186.82.95 rm -rf /home/Bialydunajec/domains/admin.bialydunajec.org/public_html/*
-                scp -r dist/bialydunajec-admin Bialydunajec@31.186.82.95:/home/Bialydunajec/domains/admin.bialydunajec.org/public_html
+                scp -r dist/bialydunajec-admin/* Bialydunajec@31.186.82.95:/home/Bialydunajec/domains/admin.bialydunajec.org/public_html
             elif [ "${CIRCLE_BRANCH}" == "staging" ]; then
                 ssh Bialydunajec@31.186.82.95 rm -rf /home/Bialydunajec/domains/admin.staging.bialydunajec.org/public_html/*
-                scp -r dist/bialydunajec-admin Bialydunajec@31.186.82.95:/home/Bialydunajec/domains/admin.staging.bialydunajec.org/public_html
+                scp -r dist/bialydunajec-admin/* Bialydunajec@31.186.82.95:/home/Bialydunajec/domains/admin.staging.bialydunajec.org/public_html
             elif [ "${CIRCLE_BRANCH}" == "develop" ]; then
                 ssh Bialydunajec@31.186.82.95 rm -rf /home/Bialydunajec/domains/admin.dev.bialydunajec.org/public_html/*
-                scp -r dist/bialydunajec-admin Bialydunajec@31.186.82.95:/home/Bialydunajec/domains/admin.dev.bialydunajec.org/public_html
+                scp -r dist/bialydunajec-admin/* Bialydunajec@31.186.82.95:/home/Bialydunajec/domains/admin.dev.bialydunajec.org/public_html
             fi
 
 workflows:
