@@ -1,16 +1,20 @@
 import {Injectable} from '@angular/core';
-import {AbstractEndpoint} from '../../../../../../bialydunajec-admin/src/app/shared/service/rest/abstract.endpoint';
 import {HttpClient} from '@angular/common/http';
 import {AuthService} from '../../../../../../bialydunajec-admin/src/app/auth/service/auth.service';
 import {CottageInfoDto} from './dto/cottage-info.dto';
+import {environment} from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CottageEndpoint extends AbstractEndpoint {
+export class CottageEndpoint {
 
-  constructor(httpClient: HttpClient, authService: AuthService) {
-    super(httpClient, authService, '/rest-api/v1/camp-registrations/cottage');
+  private readonly callsBaseUrl: string;
+
+  constructor(
+    protected httpClient: HttpClient
+  ) {
+    this.callsBaseUrl = environment.restApi.baseUrl + '/rest-api/v1/camp-registrations/cottage';
   }
 
   getNewestCottageByAcademicMinistryId(academicMinistryId: string) {

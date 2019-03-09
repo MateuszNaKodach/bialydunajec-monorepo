@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {environment} from '../../../../../../bialydunajec-admin/src/environments/environment';
 import {CampNewsPageDto} from './dto/camp-news-page.dto';
+import {environment} from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,7 @@ export class CampNewsEndpoint {
   }
 
   getLastCampNews() {
-    return this.httpClient.get<CampNewsPageDto>(`${this.callsBaseUrl}`);
+    return this.httpClient.get<CampNewsPageDto>(this.callsBaseUrl);
   }
 
 }

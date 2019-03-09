@@ -1,18 +1,21 @@
 import {Injectable} from '@angular/core';
-import {AbstractEndpoint} from '../../../../../../bialydunajec-admin/src/app/shared/service/rest/abstract.endpoint';
 import {HttpClient} from '@angular/common/http';
-import {AuthService} from '../../../../../../bialydunajec-admin/src/app/auth/service/auth.service';
 import {AcademicMinistryResponse} from '../../../../../../bialydunajec-admin/src/app/academic-ministry/service/rest/response/academic-ministry.response';
 import {AcademicMinistryNameResponse} from './dto/academic-ministry-name.response';
 import {AcademicPriestDto} from '../../../../../../bialydunajec-admin/src/app/academic-ministry/service/rest/dto/academic-priest.dto';
+import {environment} from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AcademicMinistryEndpoint extends AbstractEndpoint {
+export class AcademicMinistryEndpoint {
 
-  constructor(httpClient: HttpClient, authService: AuthService) {
-    super(httpClient, authService, '/rest-api/v1/academic-ministry');
+  private readonly callsBaseUrl: string;
+
+  constructor(
+    protected httpClient: HttpClient
+  ) {
+    this.callsBaseUrl = environment.restApi.baseUrl + '/rest-api/v1/academic-ministry';
   }
 
   getAllAcademicMinistries() {

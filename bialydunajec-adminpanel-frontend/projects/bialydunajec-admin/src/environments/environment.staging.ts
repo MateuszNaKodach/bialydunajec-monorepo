@@ -1,9 +1,9 @@
 export const environment = {
   production: true,
   restApi: {
-    baseUrl: 'https://rest.bialydunajec.org',
-    clientId: 'web-angular_admin-prod',
-    clientSecret: 'IybqweqeGH2FzassdMatqhbW5iadszizlNowiM3R'
+    baseUrl: 'https://rest.staging.bialydunajec.org',
+    clientId: 'web-angular_admin-staging',
+    clientSecret: 'vzGuJbT2y1TddwEOvSfv'
   },
   google: {
     maps: {

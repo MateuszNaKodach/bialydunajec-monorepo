@@ -1,14 +1,14 @@
 export const environment = {
-  name: 'production',
-  production: true,
+  name: 'development',
+  production: false,
   restApi: {
-    baseUrl: 'https://rest.bialydunajec.org',
-    clientId: 'web-angular_main-prod',
-    clientSecret: 'fUMU6AngbLa!!sdasdIkfTOAqwepij3iwMM30Czj..7ipdLxv6'
+    baseUrl: 'https://rest.dev.bialydunajec.org',
+    clientId: 'web-angular_main-dev',
+    clientSecret: 'BIyZp3vLjtbqMkSLzEGD'
   },
   google: {
     reCaptcha: {
-      enabled: true,
+      enabled: false,
       siteKey: '6LeDQXEUAAAAAKZZBSr_C197Mlz3nr1RR_yIU48l'
     },
     maps: {
