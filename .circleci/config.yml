@@ -6,8 +6,8 @@ version: 2
 jobs:
   build:
     docker:
-    # specify the version you desire here
-    - image: circleci/openjdk:8-jdk
+      # specify the version you desire here
+      - image: circleci/openjdk:8-jdk
 
     # Specify service dependencies here if necessary
     # CircleCI maintains a library of pre-built images
@@ -22,50 +22,51 @@ jobs:
       TERM: dumb
 
     steps:
-    - checkout
+      - checkout
 
-    # Download and cache dependencies
-    - restore_cache:
-        keys:
-        - v1-dependencies-{{ checksum "build.gradle" }}
-        # fallback to using the latest cache if no exact match is found
-        - v1-dependencies-
+      - run:
+          name: Show current branch
+          command: echo ${CIRCLE_BRANCH}
 
-    - run:
-        name: chmod permissions
-        command: chmod +x ./gradlew
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "build.gradle" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
 
-    - run: ./gradlew dependencies --stacktrace
+      - run:
+          name: chmod permissions
+          command: chmod +x ./gradlew
 
-    - save_cache:
-        paths:
-        - ./gradlew
-        key: v1-dependencies-{{ checksum "build.gradle" }}
+      - run: ./gradlew dependencies --stacktrace
 
-    # run tests!
-    - run: ./gradlew test
+      - save_cache:
+          paths:
+            - ./gradlew
+          key: v1-dependencies-{{ checksum "build.gradle" }}
 
-    # build application .jar artifact
-    - run: ./gradlew build -x test
+      # run tests!
+      - run: ./gradlew test
 
-    - store_artifacts:
-        path: build/libs/bialydunajec-backend-0.0.1.2-SNAPSHOT.jar
+      # build application .jar artifact
+      - run: ./gradlew build -x test
 
-    - add_ssh_keys
-   #     fingerprints:
-   #       - "e9:4c:39:25:4e:90:72:75:f0:50:58:1c:69:5d:ae:08"
-   #       - "xsorI0pBAf6Jb3C+xCJzkIMzFFmIfPIuu9Y+x2YYi4M"
+      - store_artifacts:
+          path: build/libs/bialydunajec-backend-0.0.1.2-SNAPSHOT.jar
 
-    - run: ssh-keyscan 31.186.82.95 >> ~/.ssh/known_hosts
+      - add_ssh_keys
 
-    - run:
-        name: change artifact name
-        command: cp build/libs/bialydunajec-backend* build/libs/bialydunajec-backend.jar
+      - run: ssh-keyscan 31.186.82.95 >> ~/.ssh/known_hosts
 
-    - run:
-        name: deploy on dev environment
-        command: scp  build/libs/bialydunajec-backend.jar Bialydunajec@31.186.82.95:/home/Bialydunajec/webapp/backend/env_dev
+      - run:
+          name: change artifact name
+          command: cp build/libs/bialydunajec-backend* build/libs/bialydunajec-backend.jar
 
-    - run:
-        name: run on dev environment
-        command: ssh Bialydunajec@31.186.82.95 nohup java -jar -Dspring.profiles.active=env_dev /home/Bialydunajec/webapp/backend/env_dev/bialydunajec-backend.jar &> nohup_dev.out&
+      - run:
+          name: deploy on dev environment
+          command: scp  build/libs/bialydunajec-backend.jar Bialydunajec@31.186.82.95:/home/Bialydunajec/webapp/backend/env_dev
+
+      - run:
+          name: run on dev environment
+          command: ssh Bialydunajec@31.186.82.95 nohup java -jar -D-Xms512m -Xmx512m -Dspring.profiles.active=env_dev /home/Bialydunajec/webapp/backend/env_dev/bialydunajec-backend.jar &> nohup_dev.out&
