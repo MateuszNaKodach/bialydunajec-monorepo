@@ -3,7 +3,7 @@ name: Epic
 about: Cecha funkcjonalna aplikacji, która może być wdrożona niezależnie. Zawiera
   wiele user stories.
 title: 'Wysokopoziomowy tytuł dla cechy funkcjonalnej, np: Płatności on-line'
-labels: feature / epic
+labels: Epic
 assignees: ''
 
 ---
@@ -31,6 +31,6 @@ Dodatkowo czynności te są utrudniane przez następujące problemu:
 ***Przykładowo:***
 Zintegrowanie systemu z płatnościami online. Założenie jednego konta dla całego Obozu.
 
-### Dodatkowe uwagi
+#### Dodatkowe uwagi
 ***Przykładowo:***
 Obecna infrastruktura sieciowa obozu nie pozwala na wykonanie zadania przy zachowaniu dużej wydajności systemu.
