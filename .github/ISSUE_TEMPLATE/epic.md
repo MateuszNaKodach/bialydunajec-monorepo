@@ -3,7 +3,7 @@ name: Epic
 about: Cecha funkcjonalna aplikacji, która może być wdrożona niezależnie. Zawiera
   wiele user stories.
 title: 'Wysokopoziomowy tytuł dla cechy funkcjonalnej, np: Płatności on-line'
-labels: feature / epic
+labels: Epic
 assignees: ''
 
 ---

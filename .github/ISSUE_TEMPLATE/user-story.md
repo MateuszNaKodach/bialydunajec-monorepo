@@ -1,23 +1,24 @@
 ---
 name: User Story
 about: Część składowa cechy funkcjonalnej lub eposu. Wnosząca wartość biznesową.
-title: W celu <jakim>, jako <kto>, chcę mieć możliwość <co zrobić>.
+title: Jako <kto>, chcę mieć możliwość <co zrobić>.
 labels: user story
 assignees: ''
 
 ---
 
-#### Epic
-Historyjka należy do Eposu: <link do eposu>
+#### Historyjka użytkownika
+W celu <jakim?>,
+jako <kto?>,
+chcę mieć możliwość <co zrobić?>.
 
-#### Co jest do wykonania
-Wylistowane w punktach zadania.
+Dodatkowe opisy + wyjaśnienia.
 
-#### Projekt graficzny
-Brak.
+#### Podzadania
+- [ ] Pobieranie wydarzeń obozowych poprzez REST API.
+- [ ] Widok wydarzeń wg. projektu graficznego.
 
 #### Kryteria akceptacji
 Kryteria akceptacji jako scenariusze w języku Gherkin.
-
 
 #### Dodatkowe uwagi
