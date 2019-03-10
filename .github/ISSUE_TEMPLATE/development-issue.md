@@ -1,5 +1,5 @@
 ---
-name: Development issue
+name: Development Issue
 about: Problem z konfiguracją projektu, działaniem IDE itp.
 title: ''
 labels: development issue
