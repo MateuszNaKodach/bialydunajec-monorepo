@@ -6,13 +6,7 @@ version: 2
 jobs:
   build:
     docker:
-      # specify the version you desire here
       - image: circleci/openjdk:8-jdk
-
-    # Specify service dependencies here if necessary
-    # CircleCI maintains a library of pre-built images
-    # documented at https://circleci.com/docs/2.0/circleci-images/
-    # - image: circleci/postgres:9.4
 
     working_directory: ~/repo
 
@@ -36,7 +30,7 @@ jobs:
             - v1-dependencies-
 
       - run:
-          name: chmod permissions
+          name: Change chmod permission for Gradle Wrapper
           command: chmod +x ./gradlew
 
       - run: ./gradlew dependencies --stacktrace
@@ -53,20 +47,55 @@ jobs:
       - run: ./gradlew build -x test
 
       - store_artifacts:
-          path: build/libs/bialydunajec-backend-0.0.1.2-SNAPSHOT.jar
-
-      - add_ssh_keys
-
-      - run: ssh-keyscan 31.186.82.95 >> ~/.ssh/known_hosts
+          path: build/libs/*
 
       - run:
           name: change artifact name
           command: cp build/libs/bialydunajec-backend* build/libs/bialydunajec-backend.jar
+      # Cache the build folder for the deploy job
+      - save_cache:
+          key: v1-build-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - build
+  deploy:
+    - add_ssh_keys
+    - run: ssh-keyscan 31.186.82.95 >> ~/.ssh/known_hosts
+    - restore_cache:
+        key: v1-build-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
+    - run:
+        name: Show current branch
+        command: echo ${CIRCLE_BRANCH}
+    - run:
+        name: Deploy bialydunajec-backend
+        command: |
+          if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              ssh Bialydunajec@31.186.82.95 pkill -f backend/env_prod
+              ssh Bialydunajec@31.186.82.95 rm -rf /home/Bialydunajec/webapp/backend/env_prod/bialydunajec-backend.jar
+              scp build/libs/bialydunajec-backend.jar Bialydunajec@31.186.82.95:/home/Bialydunajec/webapp/backend/env_prod
+              ssh Bialydunajec@31.186.82.95 nohup java -jar -D-Xms512m -Xmx512m -Dspring.profiles.active=env_prod -Djasypt.encryptor.password=${JASYPT_ENCRYPTOR_PASSWORD} /home/Bialydunajec/webapp/backend/env_prod/bialydunajec-backend.jar &> nohup_prod.out&
+          elif [ "${CIRCLE_BRANCH}" == "staging" ]; then
+              ssh Bialydunajec@31.186.82.95 pkill -f backend/env_staging
+              ssh Bialydunajec@31.186.82.95 rm -rf /home/Bialydunajec/webapp/backend/env_dev/bialydunajec-backend.jar
+              scp build/libs/bialydunajec-backend.jar Bialydunajec@31.186.82.95:/home/Bialydunajec/webapp/backend/env_staging
+              ssh Bialydunajec@31.186.82.95 nohup java -jar -D-Xms512m -Xmx512m -Dspring.profiles.active=env_staging /home/Bialydunajec/webapp/backend/env_staging/bialydunajec-backend.jar &> nohup_staging.out&
+          elif [ "${CIRCLE_BRANCH}" == "develop" ]; then
+              ssh Bialydunajec@31.186.82.95 pkill -f backend/env_dev
+              ssh Bialydunajec@31.186.82.95 rm -rf /home/Bialydunajec/webapp/backend/env_dev/bialydunajec-backend.jar
+              scp build/libs/bialydunajec-backend.jar Bialydunajec@31.186.82.95:/home/Bialydunajec/webapp/backend/env_dev
+              ssh Bialydunajec@31.186.82.95 nohup java -jar -D-Xms512m -Xmx512m -Dspring.profiles.active=env_dev /home/Bialydunajec/webapp/backend/env_dev/bialydunajec-backend.jar &> nohup_dev.out&
+          fi
 
-      - run:
-          name: deploy on dev environment
-          command: scp  build/libs/bialydunajec-backend.jar Bialydunajec@31.186.82.95:/home/Bialydunajec/webapp/backend/env_dev
-
-      - run:
-          name: run on dev environment
-          command: ssh Bialydunajec@31.186.82.95 nohup java -jar -D-Xms512m -Xmx512m -Dspring.profiles.active=env_dev /home/Bialydunajec/webapp/backend/env_dev/bialydunajec-backend.jar &> nohup_dev.out&
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - develop
+                - staging
+                - master
