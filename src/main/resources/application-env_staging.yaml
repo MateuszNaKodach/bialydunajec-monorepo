@@ -1,26 +1,26 @@
 server:
-  port: 4455
+  port: 5566
 spring:
   profiles:
     include:
-      - mail_log
-      - database_mysql_dev
-      - database_mongo_dev
+      - mail_send
+      - database_mysql_staging
+      - database_mongo_staging
   mail:
-    username: dev.zapisy@bialydunajec.org
-    password: 4tFhHO2LseTJ714UV1Q5
+    username: staging.zapisy@bialydunajec.org
+    password: RcimbmaaIL6toiqRLkqe
 
 bialydunajec:
   oauth2:
     clients:
-      - client-id: "web-angular_main-dev"
-        client-secret: "BIyZp3vLjtbqMkSLzEGD"
+      - client-id: "web-angular_main-staging"
+        client-secret: "G6HDCoxwhEmgqplMb6cg"
         authorized-grant-types: password, client_credentials, refresh_token
         access-token-validity-seconds: 7776000 # 3600 seconds = 60 minutes
         refresh-token-validity-seconds: 7776000 # 7776000 seconds = 129 600 minutes = 2 160 hours = 90 days
         scopes: allmighty
-      - client-id: "web-angular_admin-dev"
-        client-secret: "gLuRzxiAJJSL6b1wrIGw"
+      - client-id: "web-angular_admin-staging"
+        client-secret: "vzGuJbT2y1TddwEOvSfv"
         authorized-grant-types: password, client_credentials, refresh_token
         access-token-validity-seconds: 7776000 # 3600 seconds = 60 minutes
         refresh-token-validity-seconds: 7776000 # 7776000 seconds = 129 600 minutes = 2 160 hours = 90 days
@@ -29,5 +29,5 @@ bialydunajec:
     access-token: "EAAD8VBKY89IBAIA1pwlPdGEI6ZC3oDFQCQuZAv4iI9MCj5OZBE9RbxudiFbe7PKx5gOEvFsZCcQDPX8V6UIGb0X2XzafTRhAkA11aLPM7VdCrjQpODp0qQkIbuUgdnjCBPGAAqzzDa4YWqVjV9nBd4vo2tXtwiHsB9RFwiQg8AZDZD"
   frontend:
     main:
-      base-url: "https://dev.bialydunajec.org"
-      registration-verification-url: "https://dev.bialydunajec.org/zapisy/weryfikacja?zgloszenie=:campParticipantRegistrationId&kod-weryfikacyjny=:verificationCode"
+      base-url: "https://staging.bialydunajec.org"
+      registration-verification-url: "https://staging.bialydunajec.org/zapisy/weryfikacja?zgloszenie=:campParticipantRegistrationId&kod-weryfikacyjny=:verificationCode"

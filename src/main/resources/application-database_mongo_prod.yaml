@@ -1,0 +1,8 @@
+spring:
+  data:
+    mongodb:
+      host: 31.186.82.95
+      port: 27017
+      username: mo1194_bialyprod
+      password: ENC(3LhLGclzgDjo2ujvyxGCWYzdOdv7xNVX3W7PpPE7u7EyPP36wnoC/Q==)
+      authentication-database: mo1194_bialyprod
