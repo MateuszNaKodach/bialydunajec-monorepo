@@ -30,4 +30,3 @@ bialydunajec:
     main:
       base-url: "http://localhost:4201"
       registration-verification-url: "http://localhost:4201/zapisy/weryfikacja?zgloszenie=:campParticipantRegistrationId&kod-weryfikacyjny=:verificationCode"
-

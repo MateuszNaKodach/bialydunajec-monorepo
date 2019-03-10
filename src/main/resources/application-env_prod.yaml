@@ -3,7 +3,8 @@ server:
 spring:
   profiles:
     include:
-      - database_h2_local_mem
+      - database_mysql_prod
+      - database_mongo_prod
       - mail_send
   mail:
     username: zapisy@bialydunajec.org

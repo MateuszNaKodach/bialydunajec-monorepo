@@ -4,7 +4,7 @@ spring:
   profiles:
     include:
       - mail_log
-      - database_h2_local_file
+      - database_mysql_dev
       - database_mongo_dev
   mail:
     username: dev.zapisy@bialydunajec.org

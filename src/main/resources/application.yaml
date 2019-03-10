@@ -7,7 +7,7 @@ spring:
 
   mail:
     default-encoding: UTF-8
-    host: mail23.mydevil.net
+    host: 185.36.170.234
     port: 587
     properties:
       mail:
@@ -25,3 +25,7 @@ spring:
 
   jackson:
     date-format: yyyy-mm-dd
+
+jasypt:
+  encryptor:
+    password: JasyptEncryptorMasterPassword

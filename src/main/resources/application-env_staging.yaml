@@ -3,9 +3,9 @@ server:
 spring:
   profiles:
     include:
-      - mail_log
-      - database_h2_local_file
-      - database_mongo_dev
+      - mail_send
+      - database_mysql_staging
+      - database_mongo_staging
   mail:
     username: staging.zapisy@bialydunajec.org
     password: RcimbmaaIL6toiqRLkqe
