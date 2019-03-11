@@ -15,6 +15,7 @@ chcę mieć możliwość <co zrobić?>.
 Dodatkowe opisy + wyjaśnienia.
 
 #### Podzadania
+**Należy zweryfikować i skonsultować, a także ewentualnie uaktualnić przed rozpoczęciem prac nad zgłoszeniem.**
 - [ ] Pobieranie wydarzeń obozowych poprzez REST API.
 - [ ] Widok wydarzeń wg. projektu graficznego.
 
