@@ -56,7 +56,7 @@ jobs:
       - save_cache:
           key: v1-build-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
           paths:
-            - build
+            - path: build/libs/bialydunajec-backend.jar
 
   deploy:
     docker:
