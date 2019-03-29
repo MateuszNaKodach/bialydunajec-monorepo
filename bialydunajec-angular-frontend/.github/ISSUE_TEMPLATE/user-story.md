@@ -16,11 +16,11 @@ Dodatkowe opisy + wyjaśnienia.
 
 #### Podzadania
 **Należy zweryfikować i skonsultować, a także ewentualnie uaktualnić przed rozpoczęciem prac nad zgłoszeniem.**
-- [ ] Pobieranie wydarzeń obozowych poprzez REST API.
-- [ ] Widok wydarzeń wg. projektu graficznego.
+- [ ] //TODO1: Przykład - Pobieranie wydarzeń obozowych poprzez REST API.
+- [ ] //TODO2
 
 #### Kryteria akceptacji
-Kryteria akceptacji jako scenariusze w języku Gherkin.
+//TODO: Kryteria akceptacji jako scenariusze w języku Gherkin.
 
 #### Projekt graficzny
 Np. link od InVision.
