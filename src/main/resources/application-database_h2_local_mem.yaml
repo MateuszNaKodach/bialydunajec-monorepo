@@ -4,6 +4,9 @@ spring:
     username: sa
     password:
     driver-class-name: org.h2.Driver
+    initialization-mode: always
+    continue-on-error: true
+    platform: h2
   jpa:
     show-sql: true
     hibernate:

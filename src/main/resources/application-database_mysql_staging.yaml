@@ -3,6 +3,9 @@ spring:
     url: "jdbc:mysql://31.186.82.95:3306/m1194_bialydunajec_staging"
     username: m1194_bialy_stag
     password: RTlb9a3ZgmHqVmhAT6zn
+    initialization-mode: always
+    continue-on-error: true
+    platform: mysql
   jpa:
     show-sql: false
     hibernate:
