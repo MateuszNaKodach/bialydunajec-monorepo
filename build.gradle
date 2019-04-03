@@ -109,7 +109,9 @@ dependencies {
     compile("com.devskiller:jfairy:${jfairyVersion}")
 
     runtime('com.h2database:h2')
-    runtime('mysql:mysql-connector-java')
+    runtime("mysql:mysql-connector-java:${mysqlConnectorVersion}")
+    runtime("org.postgresql:postgresql${postgresqlConnectorVersion}")
+    
 
     compileOnly('org.springframework.boot:spring-boot-configuration-processor')
     testCompile('org.springframework.boot:spring-boot-starter-test')
