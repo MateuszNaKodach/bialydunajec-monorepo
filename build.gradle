@@ -110,7 +110,7 @@ dependencies {
 
     runtime('com.h2database:h2')
     runtime("mysql:mysql-connector-java:${mysqlConnectorVersion}")
-    runtime("org.postgresql:postgresql${postgresqlConnectorVersion}")
+    runtime("org.postgresql:postgresql:${postgresqlConnectorVersion}")
     
 
     compileOnly('org.springframework.boot:spring-boot-configuration-processor')
