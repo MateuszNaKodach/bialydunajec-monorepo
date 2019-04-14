@@ -103,4 +103,9 @@ internal class CampParticipantEventsProjection(
 
     }
 
+    private fun createProjection(eventPayload: CampParticipantExternalEvent.CampParticipantUnregisteredByAuthorized,
+                                 eventOccurredAt: Instant) {
+        campParticipantMongoRepository.deleteById(eventPayload.campParticipantId)
+    }
+
 }

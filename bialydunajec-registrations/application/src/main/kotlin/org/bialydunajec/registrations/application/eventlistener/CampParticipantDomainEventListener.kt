@@ -2,9 +2,12 @@ package org.bialydunajec.registrations.application.eventlistener
 
 import org.bialydunajec.ddd.application.base.email.SimpleEmailMessage
 import org.bialydunajec.ddd.application.base.email.EmailMessageSenderPort
+import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.Gender
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantEvent
+import org.bialydunajec.registrations.domain.camper.campparticipantregistration.CampParticipantRegistrationRepository
 import org.bialydunajec.registrations.domain.cottage.CottageRepository
+import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule
 import org.bialydunajec.registrations.domain.payment.CampParticipantCottageAccountReadOnlyRepository
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Propagation
@@ -15,7 +18,8 @@ import org.springframework.transaction.event.TransactionalEventListener
 internal class CampParticipantDomainEventListener(
         private val campParticipantCottageAccountRepository: CampParticipantCottageAccountReadOnlyRepository,
         private val cottageRepository: CottageRepository,
-        private val emailMessageSender: EmailMessageSenderPort
+        private val emailMessageSender: EmailMessageSenderPort,
+        private val campParticipantRegistrationRepository: CampParticipantRegistrationRepository
 ) {
 
 
@@ -86,6 +90,18 @@ internal class CampParticipantDomainEventListener(
     @TransactionalEventListener
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     fun handleUnregisteredToPaymentsCommitments(event: CampParticipantEvent.Unregistered) {
+
+    }
+
+    @TransactionalEventListener
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    fun handleUnregisteredToUpdateRegistrationStatus(event: CampParticipantEvent.Unregistered) {
+        val campParticipantRegistration = campParticipantRegistrationRepository.findByCampParticipantId(event.aggregateId)
+                ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.CAMP_PARTICIPANT_REGISTRATIONS_TO_CONFIRM_MUST_EXISTS)
+
+        campParticipantRegistration.cancellByAuthorized()
+
+        campParticipantRegistrationRepository.save(campParticipantRegistration)
 
     }
 }
