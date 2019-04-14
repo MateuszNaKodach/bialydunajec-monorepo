@@ -33,7 +33,7 @@ jobs:
           name: Change chmod permission for Gradle Wrapper
           command: chmod +x ./gradlew
 
-      - run: ./gradlew dependencies --stacktrace
+      - run: ./gradlew -Prelease dependencies --stacktrace
 
       - save_cache:
           paths:
@@ -41,10 +41,10 @@ jobs:
           key: v1-dependencies-{{ checksum "build.gradle" }}
 
       # run tests!
-      - run: ./gradlew test
+      - run: ./gradlew -Prelease test
 
       # build application .jar artifact
-      - run: ./gradlew build -x test
+      - run: ./gradlew -Prelease build -x test
 
       - store_artifacts:
           path: build/libs/*

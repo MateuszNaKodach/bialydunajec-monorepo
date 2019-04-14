@@ -57,8 +57,6 @@ buildscript {
     }
 }
 
-def profile = project.findProperty('spring.profiles.active')
-
 dependencies {
     compile project(':bialydunajec-news:bialydunajec-news-presentation')
     compile project(':bialydunajec-news:bialydunajec-news-infrastructure')
@@ -117,7 +115,7 @@ dependencies {
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('io.projectreactor:reactor-test')
 
-    if (profile == 'env_local') {
+    if (!project.hasProperty("release")) {
         runtime('de.flapdoodle.embed:de.flapdoodle.embed.mongo')
     }
 }
