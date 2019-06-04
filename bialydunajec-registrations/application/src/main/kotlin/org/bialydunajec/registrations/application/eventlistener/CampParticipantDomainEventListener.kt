@@ -8,7 +8,12 @@ import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticip
 import org.bialydunajec.registrations.domain.camper.campparticipantregistration.CampParticipantRegistrationRepository
 import org.bialydunajec.registrations.domain.cottage.CottageRepository
 import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule
+import org.bialydunajec.registrations.domain.payment.CampParticipantCottageAccount
 import org.bialydunajec.registrations.domain.payment.CampParticipantCottageAccountReadOnlyRepository
+import org.bialydunajec.registrations.domain.payment.CampParticipantCottageAccountRepository
+import org.bialydunajec.registrations.domain.shirt.ShirtOrder
+import org.bialydunajec.registrations.domain.shirt.ShirtOrderReadOnlyRepository
+import org.bialydunajec.registrations.domain.shirt.ShirtOrderRepository
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
@@ -16,10 +21,15 @@ import org.springframework.transaction.event.TransactionalEventListener
 
 @Component
 internal class CampParticipantDomainEventListener(
-        private val campParticipantCottageAccountRepository: CampParticipantCottageAccountReadOnlyRepository,
+        private val campParticipantCottageAccountRepository: CampParticipantCottageAccountRepository,
+        private val campParticipantCottageAccountReadOnlyRepository: CampParticipantCottageAccountReadOnlyRepository,
         private val cottageRepository: CottageRepository,
         private val emailMessageSender: EmailMessageSenderPort,
-        private val campParticipantRegistrationRepository: CampParticipantRegistrationRepository
+        private val campParticipantRegistrationRepository: CampParticipantRegistrationRepository,
+        private val shirtOrderReadOnlyRepository: ShirtOrderReadOnlyRepository,
+        private val shirtOrderRepository: ShirtOrderRepository
+
+
 ) {
 
 
@@ -85,12 +95,31 @@ internal class CampParticipantDomainEventListener(
         println("CAMP PARTICIPANT UNREGISTERED!!!")
         //TODO: Delete shirt order, paymetns commitment, update camp participant registration to indicate that was deleted
         //TODO: Update read models!!!
+        for (shirtOrder: ShirtOrder in shirtOrderRepository.findAll()){
+            if (shirtOrder.getSnapshot().campParticipantId == event.aggregateId){
+                shirtOrderRepository.delete(shirtOrder)
+            }
+        }
+
+        /*
+        for (shirtOrder: ShirtOrder in shirtOrderReadOnlyRepository.findAll()){
+            if (shirtOrder.getSnapshot().campParticipantId == event.aggregateId){
+                shirtOrderReadOnlyRepository.delete(shirtOrder)
+            }
+        }
+
+        shirtOrderReadOnlyRepository nie ma metody delete() lub deleteById()
+         */
     }
 
     @TransactionalEventListener
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     fun handleUnregisteredToPaymentsCommitments(event: CampParticipantEvent.Unregistered) {
-
+        for (campParticipantCottageAccount: CampParticipantCottageAccount in campParticipantCottageAccountRepository.findAll()){
+            if (campParticipantCottageAccount.getParticipantId() == event.aggregateId){
+                campParticipantCottageAccountRepository.delete(campParticipantCottageAccount)
+            }
+        }
     }
 
     @TransactionalEventListener
@@ -104,4 +133,6 @@ internal class CampParticipantDomainEventListener(
         campParticipantRegistrationRepository.save(campParticipantRegistration)
 
     }
+
+
 }

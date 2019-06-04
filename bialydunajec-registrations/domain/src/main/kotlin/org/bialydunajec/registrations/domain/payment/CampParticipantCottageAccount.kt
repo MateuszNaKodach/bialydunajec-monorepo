@@ -61,6 +61,9 @@ class CampParticipantCottageAccount internal constructor(
     private var isActiveCampParticipantAccount = true
 
 
+    fun getParticipantId(): CampParticipantId {
+        return campParticipantId
+    }
     fun canDepositMoney() =
             ValidationResult.buffer()
                     .addViolatedRuleIfNot(

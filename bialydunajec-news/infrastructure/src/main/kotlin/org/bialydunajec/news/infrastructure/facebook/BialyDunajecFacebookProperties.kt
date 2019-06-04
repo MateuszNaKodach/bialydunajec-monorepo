@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull
 @Validated
 @Configuration
 @ConfigurationProperties(prefix = "bialydunajec.facebook")
-class BialyDunajecFacebookProperties {
+open class BialyDunajecFacebookProperties {
 
     lateinit var accessToken: String
 
