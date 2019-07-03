@@ -12,31 +12,31 @@ const routes: Routes = [
   },
   {
     path: appRoutingPaths.campNews,
-    loadChildren: './camp-news/camp-news.module#CampNewsModule'
+    loadChildren: () => import('./camp-news/camp-news.module').then(m => m.CampNewsModule)
   },
   {
     path: appRoutingPaths.aboutCamp,
-    loadChildren: './about-camp/about-camp.module#AboutCampModule'
+    loadChildren: () => import('./about-camp/about-camp.module').then(m => m.AboutCampModule)
   },
   {
     path: appRoutingPaths.academicMinistriesCottages,
-    loadChildren: './academic-ministries-cottages/academic-ministries-cottages.module#AcademicMinistriesCottagesModule'
+    loadChildren: () => import('./academic-ministries-cottages/academic-ministries-cottages.module').then(m => m.AcademicMinistriesCottagesModule)
   },
   {
     path: appRoutingPaths.transport,
-    loadChildren: './transport/transport.module#TransportModule'
+    loadChildren: () => import('./transport/transport.module').then(m => m.TransportModule)
   },
   {
     path: appRoutingPaths.contact,
-    loadChildren: './contact/contact.module#ContactModule'
+    loadChildren: () => import('./contact/contact.module').then(m => m.ContactModule)
   },
   {
     path: appRoutingPaths.campersRegistration,
-    loadChildren: './campers-registration/campers-registration.module#CampersRegistrationModule'
+    loadChildren: () => import('./campers-registration/campers-registration.module').then(m => m.CampersRegistrationModule)
   },
   {
     path: appRoutingPaths.campGallery,
-    loadChildren: './camp-gallery/camp-gallery.module#CampGalleryModule'
+    loadChildren: () => import('./camp-gallery/camp-gallery.module').then(m => m.CampGalleryModule)
   },
   {
     path: appRoutingPaths.more,

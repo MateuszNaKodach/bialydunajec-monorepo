@@ -1,4 +1,4 @@
-import {PlaceDto} from '../../../../../../../bialydunajec-admin/src/app/shared/service/rest/dto/place.dto';
+import {PlaceDto} from '../../../../shared/dto/place.dto';
 
 export class CampRegistrationsCottageResponse {
   cottageId: string;

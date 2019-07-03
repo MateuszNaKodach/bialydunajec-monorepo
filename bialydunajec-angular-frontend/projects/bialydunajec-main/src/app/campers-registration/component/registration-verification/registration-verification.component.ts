@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {CampRegistrationsEndpoint} from '../../service/rest/camp-registrations-endpoint.service';
 import {finalize} from 'rxjs/operators';
-import {HttpResponseHelper} from '../../../../../../bialydunajec-admin/src/app/shared/helper/HttpResponseHelper';
+import {HttpResponseHelper} from '../../../shared/helper/HttpResponseHelper';
 
 @Component({
   selector: 'bda-registration-verification',

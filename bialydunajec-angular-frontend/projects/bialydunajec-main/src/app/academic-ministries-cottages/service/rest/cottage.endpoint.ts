@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {AuthService} from '../../../../../../bialydunajec-admin/src/app/auth/service/auth.service';
 import {CottageInfoDto} from './dto/cottage-info.dto';
 import {environment} from '../../../../environments/environment';
 

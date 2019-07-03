@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {AcademicMinistryResponse} from '../../../../../../bialydunajec-admin/src/app/academic-ministry/service/rest/response/academic-ministry.response';
+import {AcademicMinistryResponse} from '../../../campers-registration/service/rest/response/academic-ministry.response';
 import {AcademicMinistryNameResponse} from './dto/academic-ministry-name.response';
-import {AcademicPriestDto} from '../../../../../../bialydunajec-admin/src/app/academic-ministry/service/rest/dto/academic-priest.dto';
+import {AcademicPriestDto} from './dto/academic-priest.dto';
 import {environment} from '../../../../environments/environment';
 
 @Injectable({

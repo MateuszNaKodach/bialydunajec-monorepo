@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterStateSnapshot} from '@angular/router';
-import {AuthService} from '../../../../../bialydunajec-admin/src/app/auth/service/auth.service';
 import {Observable} from 'rxjs';
 import {CampRegistrationsEndpoint} from './rest/camp-registrations-endpoint.service';
 import {map, tap} from 'rxjs/operators';

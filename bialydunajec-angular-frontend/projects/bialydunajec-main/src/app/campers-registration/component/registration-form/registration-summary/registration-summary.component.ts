@@ -1,16 +1,15 @@
 import {Component, OnInit} from '@angular/core';
 import {
   CamperEducationDto,
-  CamperPersonalDataDto, CamperShirtOrderDto,
-  CampParticipantRegistrationRequest, StatisticalAnswersDto
+  CamperPersonalDataDto,
+  CamperShirtOrderDto,
+  CampParticipantRegistrationRequest,
+  StatisticalAnswersDto
 } from '../../../service/rest/request/camp-participant-registration.request';
-import {AddressDto} from '../../../../../../../bialydunajec-admin/src/app/shared/service/rest/dto/address.dto';
+import {AddressDto} from '../../../../shared/dto/address.dto';
 import {CamperRegistrationFormStateService} from '../../../service/camper-registration-form-state.service';
 import {CampRegistrationsEndpoint} from '../../../service/rest/camp-registrations-endpoint.service';
 import {finalize} from 'rxjs/operators';
-import {ErrorObserver} from 'rxjs';
-import {HttpErrorResponse} from '@angular/common/http';
-import {HttpResponseHelper} from '../../../../../../../bialydunajec-admin/src/app/shared/helper/HttpResponseHelper';
 import {RestErrorCode} from '../../../service/rest/response/rest-error.code';
 import {RequestErrorObserverBuilder} from '../../../../shared/helper/request-error-observer.builder';
 

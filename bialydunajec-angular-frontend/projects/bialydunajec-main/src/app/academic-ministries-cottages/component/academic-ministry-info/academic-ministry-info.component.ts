@@ -1,11 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Params, Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {OptionSelected} from '../../../shared/component/dual-toggle-button/event/option-selected.event';
 import {AcademicMinistryService} from '../../service/academic-ministry.service';
-import {AcademicMinistry} from '../../model/academic-ministry.model';
 import {academicMinistriesCottagesRoutingPaths} from '../../academic-ministries-cottages-routing.paths';
 import {Observable} from 'rxjs';
-import {AcademicMinistryResponse} from '../../../../../../bialydunajec-admin/src/app/academic-ministry/service/rest/response/academic-ministry.response';
+import {AcademicMinistryResponse} from '../../../campers-registration/service/rest/response/academic-ministry.response';
 import {AcademicMinistryEndpoint} from '../../service/rest/academic-ministry.endpoint';
 import {flatMap, tap} from 'rxjs/operators';
 

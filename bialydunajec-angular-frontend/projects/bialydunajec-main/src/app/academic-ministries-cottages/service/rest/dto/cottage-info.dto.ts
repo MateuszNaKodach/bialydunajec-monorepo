@@ -1,5 +1,5 @@
-import {PlaceDto} from '../../../../../../../bialydunajec-admin/src/app/shared/service/rest/dto/place.dto';
-import {CottageBossDto} from '../../../../../../../bialydunajec-admin/src/app/camp-registrations/component/cottage-edit/cottage-edit.form-model';
+import {PlaceDto} from '../../../../shared/dto/place.dto';
+import {CottageBossDto} from './cottage-edit.form-model';
 import {AuditDto} from '../../../../../../../bialydunajec-commons/src/lib/rest/shared-kernel/audit.dto';
 
 export class CottageInfoDto {

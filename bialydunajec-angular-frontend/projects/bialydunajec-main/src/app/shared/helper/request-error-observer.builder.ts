@@ -1,6 +1,6 @@
 import {RestErrorCode} from '../../campers-registration/service/rest/response/rest-error.code';
 import {HttpErrorResponse} from '@angular/common/http';
-import {HttpResponseHelper} from '../../../../../bialydunajec-admin/src/app/shared/helper/HttpResponseHelper';
+import {HttpResponseHelper} from './HttpResponseHelper';
 
 export class RequestErrorObserverBuilder {
   private readonly restError: (restErrors: string[] | RestErrorCode[]) => any;

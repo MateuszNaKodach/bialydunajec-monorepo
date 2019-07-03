@@ -1,15 +1,11 @@
-import {Component, OnInit, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AcademicMinistryService} from '../../service/academic-ministry.service';
-import {AcademicMinistryDetails} from '../../model/academic-ministry-details.model';
-import {ActivatedRoute, Params} from '@angular/router';
-import {academicMinistriesCottagesRoutingPaths} from '../../academic-ministries-cottages-routing.paths';
-import {flatMap, map, tap} from 'rxjs/operators';
+import {ActivatedRoute} from '@angular/router';
+import {flatMap, tap} from 'rxjs/operators';
 import {AcademicMinistryEndpoint} from '../../service/rest/academic-ministry.endpoint';
-import {Facebook} from '../../../shared/model/facebook.model';
-import {Address} from '../../../shared/model/address.model';
-import {AcademicMinistryResponse} from '../../../../../../bialydunajec-admin/src/app/academic-ministry/service/rest/response/academic-ministry.response';
+import {AcademicMinistryResponse} from '../../../campers-registration/service/rest/response/academic-ministry.response';
 import {Observable} from 'rxjs';
-import {AcademicPriestDto} from '../../../../../../bialydunajec-admin/src/app/academic-ministry/service/rest/dto/academic-priest.dto';
+import {AcademicPriestDto} from '../../service/rest/dto/academic-priest.dto';
 
 
 @Component({

@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {CampRegistrationsEndpoint} from '../../service/rest/camp-registrations-endpoint.service';
 import {Observable} from 'rxjs';
-import {RomanNumerals} from '../../../../../../bialydunajec-admin/src/app/shared/helper/RomanNumerals';
-import {CampRegistrationsEditionResponse} from '../../../../../../bialydunajec-admin/src/app/camp-registrations/service/rest/response/camp-registrations-edition.response';
+import {RomanNumerals} from '../../../shared/helper/RomanNumerals';
+import {CampRegistrationsEditionResponse} from '../../service/rest/response/camp-registrations-edition.response';
 import {campersRegistrationRoutingPaths} from '../../campers-registration-routing.paths';
 
 @Component({

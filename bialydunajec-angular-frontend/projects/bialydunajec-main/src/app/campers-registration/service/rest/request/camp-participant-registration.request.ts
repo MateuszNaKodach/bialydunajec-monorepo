@@ -1,4 +1,4 @@
-import {AddressDto} from '../../../../../../../bialydunajec-admin/src/app/shared/service/rest/dto/address.dto';
+import {AddressDto} from '../../../../shared/dto/address.dto';
 import {Gender} from '../../../../shared/model/gender.enum';
 
 export class CampParticipantRegistrationRequest {

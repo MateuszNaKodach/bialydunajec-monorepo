@@ -7,12 +7,8 @@ import {Gender} from '../../../../shared/model/gender.enum';
 import {CamperRegistrationFormNavigator} from '../../../service/camper-registration-form.navigator';
 import {ActivatedRoute} from '@angular/router';
 import {CampRegistrationsEndpoint} from '../../../service/rest/camp-registrations-endpoint.service';
-import {filter, tap} from 'rxjs/operators';
-import {
-  ShirtColorOptionDto,
-  ShirtSizeOptionDto
-} from '../../../../../../../bialydunajec-admin/src/app/camp-registrations/service/rest/dto/camp-edition-shirt.dto';
-import {Subscription} from 'rxjs';
+import {tap} from 'rxjs/operators';
+import {ShirtColorOptionDto, ShirtSizeOptionDto} from '../../../service/rest/dto/camp-edition-shirt.dto';
 
 @Component({
   selector: 'bda-shirt-form',

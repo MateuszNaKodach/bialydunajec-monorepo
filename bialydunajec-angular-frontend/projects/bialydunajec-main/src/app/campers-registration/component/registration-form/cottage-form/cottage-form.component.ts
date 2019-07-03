@@ -6,12 +6,6 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, Validators} from '@angular/forms';
 import {StepId} from '../registration-form.config';
 import {CampRegistrationsEndpoint} from '../../../service/rest/camp-registrations-endpoint.service';
-import {
-  CamperEducationDto,
-  CamperPersonalDataDto,
-  CampParticipantRegistrationRequest
-} from '../../../service/rest/request/camp-participant-registration.request';
-import {AddressDto} from '../../../../../../../bialydunajec-admin/src/app/shared/service/rest/dto/address.dto';
 import {CottageCardViewModel} from './cottage-card/cottage-card.view-model';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
