@@ -8,7 +8,7 @@ import {CampRegistrationsEndpoint} from '../../service/rest/camp-registrations.e
 import {ActivatedRoute, UrlSegment} from '@angular/router';
 import {finalize, flatMap} from 'rxjs/operators';
 import {CottageResponse} from '../../service/rest/response/cottage.response';
-import {AngularFormHelper} from '../../../../../../bialydunajec-main/src/app/shared/helper/angular-form.helper';
+import {AngularFormHelper} from '../../../shared/helper/angular-form.helper';
 import {UpdateCottageRequest} from '../../service/rest/request/update-cottage.request';
 import {Observable} from 'rxjs';
 import {AcademicMinistryResponse} from '../../service/rest/response/academic-ministry.response';

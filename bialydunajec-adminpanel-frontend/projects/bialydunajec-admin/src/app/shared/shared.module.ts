@@ -3,7 +3,6 @@ import {CommonModule, registerLocaleData} from '@angular/common';
 import {NgZorroAntdModule, NZ_I18N, NZ_NOTIFICATION_CONFIG, pl_PL} from 'ng-zorro-antd';
 import pl from '@angular/common/locales/pl';
 import {FormInputComponent} from './component/form-input/form-input.component';
-import {BialyDunajecCommonsModule} from 'bialydunajec-commons';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {UserAvatarComponent} from './component/user-avatar/user-avatar.component';
 import {CampEditionSelectionComponent} from './component/camp-edition-selection/camp-edition-selection.component';
@@ -28,7 +27,6 @@ registerLocaleData(pl);
     HttpClientModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    BialyDunajecCommonsModule,
     AgmCoreModule.forRoot({apiKey: environment.google.maps.apiKey})
   ],
   declarations: [
@@ -51,7 +49,6 @@ registerLocaleData(pl);
     NgZorroAntdModule,
     FormInputComponent,
     UserAvatarComponent,
-    BialyDunajecCommonsModule,
     CampEditionSelectionComponent,
     PanelSectionComponent,
     BreadcrumbsComponent,

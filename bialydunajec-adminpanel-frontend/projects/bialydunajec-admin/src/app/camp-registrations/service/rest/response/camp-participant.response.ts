@@ -2,7 +2,7 @@ import {AddressDto} from '../../../../shared/service/rest/dto/address.dto';
 import {
   CamperEducationDto,
   CamperPersonalDataDto
-} from '../../../../../../../bialydunajec-main/src/app/campers-registration/service/rest/request/camp-participant-registration.request';
+} from '../request/camp-participant-registration.request';
 import {Time} from '@angular/common';
 
 export class CampParticipantResponse {

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AcademicMinistryAdminEndpoint} from '../../service/rest/academic-ministry.endpoint';
-import {AngularFormHelper} from '../../../../../../bialydunajec-main/src/app/shared/helper/angular-form.helper';
+import {AngularFormHelper} from '../../../shared/helper/angular-form.helper';
 import {HttpResponseHelper} from '../../../shared/helper/HttpResponseHelper';
 import {finalize, flatMap, tap} from 'rxjs/operators';
 import {CreateAcademicMinistryRequest, UpdateAcademicMinistryRequest} from '../../service/rest/request/create-academic-ministry.request';

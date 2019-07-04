@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../../service/auth.service';
-import {AngularFormHelper} from '../../../../../../bialydunajec-main/src/app/shared/helper/angular-form.helper';
+import {AngularFormHelper} from '../../../shared/helper/angular-form.helper';
 import {Router} from '@angular/router';
 import {environment} from '../../../../environments/environment';
 import {HttpClient} from '@angular/common/http';
