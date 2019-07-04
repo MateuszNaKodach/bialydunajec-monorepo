@@ -4,7 +4,7 @@ jobs:
   build:
     working_directory: ~/project
     docker:
-      - image: circleci/node:12.5.0
+      - image: circleci/node:8.9.3
     steps:
       - checkout
       - run:
@@ -55,7 +55,7 @@ jobs:
   deploy:
     working_directory: ~/project
     docker:
-      - image: circleci/node:12.5.0
+      - image: circleci/node:8.9.3
     steps:
       - add_ssh_keys
       - run: ssh-keyscan 31.186.82.95 >> ~/.ssh/known_hosts
