@@ -19,7 +19,7 @@ jobs:
           command: npm install
       - run:
           name: Install Angular CLI
-          command: sudo npm install -g  --ignore-scripts @angular/cli
+          command: sudo npm install -g  --ignore-scripts @angular/cli@6.1.3
       - save_cache:
           key: v1-dependencies-{{ checksum "package.json" }}
           paths:
