@@ -4,7 +4,7 @@ jobs:
   build:
     working_directory: ~/project
     docker:
-      - image: circleci/node:8.9.3-browsers
+      - image: circleci/node:12.5.0
     steps:
       - checkout
       - run:
@@ -19,7 +19,7 @@ jobs:
           command: npm install
       - run:
           name: Install Angular CLI
-          command: sudo npm install -g @angular/cli
+          command: sudo npm install -g  --ignore-scripts @angular/cli
       - save_cache:
           key: v1-dependencies-{{ checksum "package.json" }}
           paths:
@@ -33,9 +33,6 @@ jobs:
       #    name: Testing
       #    command: npm run test
       - run:
-          name: Build bialydunajec-commons library
-          command: ng build bialydunajec-commons
-      - run:
           name: Build bialydunajec-admin
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
@@ -46,18 +43,6 @@ jobs:
                 ng run bialydunajec-admin:build:development
             else
                 ng build bialydunajec-admin
-            fi
-      - run:
-          name: Build bialydunajec-main
-          command: |
-            if [ "${CIRCLE_BRANCH}" == "master" ]; then
-                ng run bialydunajec-main:build:production
-            elif [ "${CIRCLE_BRANCH}" == "staging" ]; then
-                ng run bialydunajec-main:build:staging
-            elif [ "${CIRCLE_BRANCH}" == "develop" ]; then
-                ng run bialydunajec-main:build:development
-            else
-                ng build bialydunajec-main
             fi
       #- store_artifacts:
       #    path: ~/project/dist
@@ -70,7 +55,7 @@ jobs:
   deploy:
     working_directory: ~/project
     docker:
-      - image: circleci/node:8.9.3-browsers
+      - image: circleci/node:12.5.0
     steps:
       - add_ssh_keys
       - run: ssh-keyscan 31.186.82.95 >> ~/.ssh/known_hosts
@@ -81,19 +66,6 @@ jobs:
       - run:
           name: Show current branch
           command: echo ${CIRCLE_BRANCH}
-      - run:
-          name: Deploy bialydunajec-main
-          command: |
-            if [ "${CIRCLE_BRANCH}" == "master" ]; then
-                ssh Bialydunajec@31.186.82.95 rm -rf /home/Bialydunajec/domains/new.bialydunajec.org/public_html/*
-                scp -r dist/bialydunajec-main/* Bialydunajec@31.186.82.95:/home/Bialydunajec/domains/new.bialydunajec.org/public_html
-            elif [ "${CIRCLE_BRANCH}" == "staging" ]; then
-                ssh Bialydunajec@31.186.82.95 rm -rf /home/Bialydunajec/domains/staging.bialydunajec.org/public_html/*
-                scp -r dist/bialydunajec-main/* Bialydunajec@31.186.82.95:/home/Bialydunajec/domains/staging.bialydunajec.org/public_html
-            elif [ "${CIRCLE_BRANCH}" == "develop" ]; then
-                ssh Bialydunajec@31.186.82.95 rm -rf /home/Bialydunajec/domains/dev.bialydunajec.org/public_html/*
-                scp -r dist/bialydunajec-main/* Bialydunajec@31.186.82.95:/home/Bialydunajec/domains/dev.bialydunajec.org/public_html
-            fi
       - run:
           name: Deploy bialydunajec-admin
           command: |

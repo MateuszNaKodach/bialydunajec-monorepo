@@ -3,7 +3,7 @@ import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angul
 import {EmailMessageEndpoint} from '../../service/rest/email-message.endpoint';
 import {SendEmailMessageRequest} from '../../service/rest/request/send-email-message.request';
 import {finalize} from 'rxjs/operators';
-import {AngularFormHelper} from '../../../../../../bialydunajec-main/src/app/shared/helper/angular-form.helper';
+import {AngularFormHelper} from '../../../shared/helper/angular-form.helper';
 
 @Component({
   selector: 'bda-admin-create-message',

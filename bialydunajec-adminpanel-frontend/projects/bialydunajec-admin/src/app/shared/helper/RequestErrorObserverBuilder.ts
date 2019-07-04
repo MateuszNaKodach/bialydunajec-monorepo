@@ -1,4 +1,4 @@
-import {RestErrorCode} from '../../../../../bialydunajec-main/src/app/campers-registration/service/rest/response/rest-error.code';
+import {RestErrorCode} from '../service/rest/response/rest-error.code';
 import {HttpErrorResponse} from '@angular/common/http';
 import {HttpResponseHelper} from './HttpResponseHelper';
 

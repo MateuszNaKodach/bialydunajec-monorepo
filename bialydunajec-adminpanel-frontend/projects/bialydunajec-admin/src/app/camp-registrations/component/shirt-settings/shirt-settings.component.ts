@@ -13,7 +13,7 @@ import {
   ShirtSizeOptionDto
 } from '../../service/rest/dto/camp-edition-shirt.dto';
 import {tap} from 'rxjs/operators';
-import {AngularFormHelper} from '../../../../../../bialydunajec-main/src/app/shared/helper/angular-form.helper';
+import {AngularFormHelper} from '../../../shared/helper/angular-form.helper';
 import {CampEditionShirtSizeRequest} from '../../service/rest/request/camp-edition-shirt-size.request';
 import {CampEditionShirtColorRequest} from '../../service/rest/request/camp-edition-shirt-color.request';
 

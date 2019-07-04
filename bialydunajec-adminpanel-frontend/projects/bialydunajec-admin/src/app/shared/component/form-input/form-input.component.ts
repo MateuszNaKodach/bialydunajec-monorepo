@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
-import {FormInputAbstractComponent} from 'bialydunajec-commons';
 import {AbstractControl} from '@angular/forms';
+import {FormInputAbstractComponent} from './form-input.abstract-component';
 
 @Component({
   selector: '[bda-admin-form-input]',

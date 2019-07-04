@@ -3,7 +3,6 @@ import {CottageSpaceDto} from '../../service/rest/dto/cottage-space.dto';
 import {CampersLimitationsDto} from '../../service/rest/dto/camper-limitations.dto';
 import {BankTransferDetailsDto} from '../../service/rest/dto/bank-transfer-details.dto';
 import {CottageResponse} from '../../service/rest/response/cottage.response';
-import {ExtendedDescription} from '../../../../../../bialydunajec-main/src/app/shared/model/extended-description.model';
 import {ExtendedDescriptionDto} from '../../../shared/service/rest/dto/extended-description.dto';
 
 export class CottageEditFormModel {

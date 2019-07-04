@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {RomanNumerals} from '../../../shared/helper/RomanNumerals';
 import {FormGroup, FormGroupDirective, NgForm} from '@angular/forms';
 import {CampEditionEndpoint} from '../../service/rest/camp-edition.endpoint';
-import {AngularFormHelper} from '../../../../../../bialydunajec-main/src/app/shared/helper/angular-form.helper';
+import {AngularFormHelper} from '../../../shared/helper/angular-form.helper';
 import {CreateCampEditionRequest} from '../../service/rest/request/create-camp-edition.request';
 import {finalize, tap} from 'rxjs/operators';
 import {NzNotificationService} from 'ng-zorro-antd';
