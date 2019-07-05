@@ -69,6 +69,9 @@ include 'bialydunajec-users',
 
 include 'bialydunajec-rx-bus'
 
+include 'bialydunajec-eventsourcing-domain',
+        'bialydunajec-eventsourcing-infrastructure'
+
 /*
 include 'bialydunajec-gallery',
         'bialydunajec-gallery:application',

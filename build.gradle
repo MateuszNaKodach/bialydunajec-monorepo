@@ -39,6 +39,9 @@ allprojects {
 
         testCompile("org.spockframework:spock-core:${spockVersion}")
         testCompile("org.spockframework:spock-spring:${spockVersion}")
+        testCompile("org.junit.jupiter:junit-jupiter-api:${versions.junitVersion}")
+        testCompile("org.junit.jupiter:junit-jupiter-params:${versions.junitVersion}")
+        testRuntime("org.junit.jupiter:junit-jupiter-engine:${versions.junitVersion}")
     }
 }
 
