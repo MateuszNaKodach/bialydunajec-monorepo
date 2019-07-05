@@ -16,3 +16,6 @@ services:
     build: '.'
     ports:
       - 3344:3344
+
+environment:
+  - SPRING_PROFILES_ACTIVE=env_prod
