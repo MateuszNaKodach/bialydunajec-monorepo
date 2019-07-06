@@ -1,14 +1,12 @@
 package org.bialydunajec.ddd.domain.base.persistence
 
-import org.bialydunajec.ddd.domain.base.valueobject.AggregateId
+import org.bialydunajec.ddd.domain.base.valueobject.DbAggregateId
 import org.bialydunajec.ddd.domain.base.valueobject.EntityId
 import org.springframework.data.annotation.CreatedBy
-import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedBy
 import org.springframework.data.annotation.LastModifiedDate
 import java.time.Instant
 import javax.persistence.MappedSuperclass
-import javax.persistence.Version
 
 @MappedSuperclass
 abstract class AuditableEntity<EntityIdType: EntityId>(
@@ -16,14 +14,14 @@ abstract class AuditableEntity<EntityIdType: EntityId>(
         private val createdDate: Instant = Instant.now(),
 
         @CreatedBy
-        private var createdBy: AggregateId? = null,
+        private var createdBy: DbAggregateId? = null,
 
         @LastModifiedDate
         private var lastModifiedDate: Instant? = null,
 
         @LastModifiedBy
-        private var lastModifiedBy: AggregateId? = null
-) : Auditable<AggregateId, Instant>, IdentifiedEntity<EntityIdType> {
+        private var lastModifiedBy: DbAggregateId? = null
+) : Auditable<DbAggregateId, Instant>, IdentifiedEntity<EntityIdType> {
 
     override fun getCreatedDate() = createdDate
 

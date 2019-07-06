@@ -1,12 +1,9 @@
-package org.bialydunajec.ddd.domain.base.valueobject
+package org.bialydunajec.campedition.domain.campedition
 
+import org.bialydunajec.ddd.domain.base.valueobject.Identifier
 import java.util.*
-import javax.persistence.Column
-import javax.persistence.MappedSuperclass
 
-@MappedSuperclass
 open class AggregateId(
-        @Column(unique = true, updatable = false, insertable = false)
         private val aggregateId: String = defaultValue()
 ) : Identifier<String> {
 

@@ -7,8 +7,8 @@ import org.springframework.stereotype.Repository
 @Repository
 internal class CampEditionRepositoryImpl(
         jpaRepository: CampEditionJpaRepository
-) : AbstractDomainRepositoryImpl<CampEdition, CampEditionId, CampEditionJpaRepository>(jpaRepository), CampEditionRepository {
+) : AbstractDomainRepositoryImpl<DbCampEdition, DbCampEditionId, CampEditionJpaRepository>(jpaRepository), CampEditionRepository {
 
 }
 
-internal interface CampEditionJpaRepository : JpaRepository<CampEdition, CampEditionId>
+internal interface CampEditionJpaRepository : JpaRepository<DbCampEdition, DbCampEditionId>

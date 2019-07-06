@@ -1,5 +1,6 @@
 package org.bialydunajec.campedition.infrastructure.persistence.jpa
 
+import org.bialydunajec.campedition.domain.campedition.CampEditionDomainRule
 import org.bialydunajec.ddd.domain.base.aggregate.AggregateRoot
 import org.bialydunajec.ddd.domain.base.persistence.Versioned
 import org.bialydunajec.ddd.domain.base.validation.ValidationResult
@@ -10,8 +11,8 @@ import javax.persistence.*
 
 @Entity
 @Table(schema = "camp_edition")
-class CampEdition constructor(
-        campEditionId: CampEditionId,
+class DbCampEdition constructor(
+        campEditionId: DbCampEditionId,
         @NotNull
         private var startDate: LocalDate,
 
@@ -31,7 +32,7 @@ class CampEdition constructor(
                 AttributeOverride(name = "currency", column = Column(name = "downPaymentAmount_currency"))
         )
         private var downPaymentAmount: Money? = null
-) : AggregateRoot<CampEditionId, CampEditionEvent>(campEditionId), Versioned {
+) : AggregateRoot<DbCampEditionId, DbCampEditionEvent>(campEditionId), Versioned {
 
     @Version
     private var version: Long? = null
@@ -45,7 +46,7 @@ class CampEdition constructor(
                 .ifInvalidThrowException()
 
         registerEvent(
-                CampEditionEvent.CampEditionCreated(
+                DbCampEditionEvent.CampEditionCreated(
                         getAggregateId(),
                         startDate,
                         endDate,
@@ -80,7 +81,7 @@ class CampEdition constructor(
         this.startDate = startDate
         this.endDate = endDate
         registerEvent(
-                CampEditionEvent.CampEditionDurationUpdated(
+                DbCampEditionEvent.CampEditionDurationUpdated(
                         getAggregateId(),
                         startDate,
                         endDate

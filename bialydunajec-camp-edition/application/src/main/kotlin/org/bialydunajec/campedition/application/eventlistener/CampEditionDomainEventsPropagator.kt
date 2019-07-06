@@ -1,6 +1,6 @@
 package org.bialydunajec.campedition.application.eventlistener
 
-import org.bialydunajec.campedition.infrastructure.persistence.jpa.CampEditionEvent
+import org.bialydunajec.campedition.infrastructure.persistence.jpa.DbCampEditionEvent
 import org.bialydunajec.campedition.messages.event.CampEditionExternalEvent
 import org.bialydunajec.ddd.application.base.external.event.ExternalEventPublisher
 import org.springframework.scheduling.annotation.Async
@@ -12,7 +12,7 @@ internal class CampEditionDomainEventsPropagator(private val externalEventBus: E
 
     @Async
     @TransactionalEventListener
-    fun handleDomainEvent(domainEvent: CampEditionEvent.CampEditionCreated) {
+    fun handleDomainEvent(domainEvent: DbCampEditionEvent.CampEditionCreated) {
         externalEventBus.send(
                 CampEditionExternalEvent.CampEditionCreated(
                         campEditionId = domainEvent.aggregateId.toString(),
@@ -26,7 +26,7 @@ internal class CampEditionDomainEventsPropagator(private val externalEventBus: E
 
     @Async
     @TransactionalEventListener
-    fun handleDomainEvent(domainEvent: CampEditionEvent.CampEditionDurationUpdated) {
+    fun handleDomainEvent(domainEvent: DbCampEditionEvent.CampEditionDurationUpdated) {
         externalEventBus.send(
                 CampEditionExternalEvent.CampEditionDurationUpdated(
                         campEditionId = domainEvent.aggregateId.toString(),

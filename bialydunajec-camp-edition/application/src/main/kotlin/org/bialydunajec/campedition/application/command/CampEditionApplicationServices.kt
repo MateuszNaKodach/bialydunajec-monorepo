@@ -1,9 +1,9 @@
 package org.bialydunajec.campedition.application.command
 
 import org.bialydunajec.campedition.application.command.api.CampEditionCommand
-import org.bialydunajec.campedition.infrastructure.persistence.jpa.CampEdition
+import org.bialydunajec.campedition.infrastructure.persistence.jpa.DbCampEdition
 import org.bialydunajec.campedition.infrastructure.persistence.jpa.CampEditionRepository
-import org.bialydunajec.campedition.infrastructure.persistence.jpa.CampEditionDomainRule
+import org.bialydunajec.campedition.domain.campedition.CampEditionDomainRule
 import org.bialydunajec.ddd.application.base.ApplicationService
 import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
 import org.springframework.stereotype.Service
@@ -17,7 +17,7 @@ internal class CreateCampEditionApplicationService(
 ) : ApplicationService<CampEditionCommand.CreateCampEdition> {
 
     override fun execute(command: CampEditionCommand.CreateCampEdition) {
-        val newCampEdition = CampEdition(
+        val newCampEdition = DbCampEdition(
                 campEditionId = command.campEditionId,
                 startDate = command.campEditionStartDate,
                 endDate = command.campEditionEndDate,

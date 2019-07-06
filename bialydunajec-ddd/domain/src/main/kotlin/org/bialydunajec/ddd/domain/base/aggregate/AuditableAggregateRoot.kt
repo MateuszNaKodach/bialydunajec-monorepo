@@ -2,10 +2,9 @@ package org.bialydunajec.ddd.domain.base.aggregate
 
 import org.bialydunajec.ddd.domain.base.event.DomainEvent
 import org.bialydunajec.ddd.domain.base.persistence.Auditable
-import org.bialydunajec.ddd.domain.base.valueobject.AggregateId
+import org.bialydunajec.ddd.domain.base.valueobject.DbAggregateId
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.auditing.Auditor
 import org.springframework.data.annotation.CreatedBy
-import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedBy
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
@@ -14,7 +13,7 @@ import javax.persistence.*
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener::class)
-abstract class AuditableAggregateRoot<AggregateIdType : AggregateId, EventType : DomainEvent<AggregateIdType>>(
+abstract class AuditableAggregateRoot<AggregateIdType : DbAggregateId, EventType : DomainEvent<AggregateIdType>>(
         aggregateId: AggregateIdType,
         //@CreatedDate
         private val createdDate: Instant = Instant.now(),
