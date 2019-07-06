@@ -3,6 +3,7 @@ allprojects {
     apply plugin: 'kotlin-spring'
     apply plugin: 'kotlin-jpa'
     apply plugin: 'groovy'
+    apply plugin: 'maven'
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
 
@@ -26,6 +27,33 @@ allprojects {
     repositories {
         mavenCentral()
         maven { url "https://repo.spring.io/snapshot" }
+        maven {
+            url "${nexusReleaseUrl}"
+            credentials {
+                username nexusUser
+                password nexusPassword
+            }
+        }
+        maven {
+            url "${nexusSnapshotUrl}"
+            credentials {
+                username nexusUser
+                password nexusPassword
+            }
+        }
+    }
+
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                repository(url: "$nexusReleaseUrl") {
+                    authentication(userName: nexusUser, password: nexusPassword)
+                }
+                snapshotRepository(url: "$nexusSnapshotUrl") {
+                    authentication(userName: nexusUser, password: nexusPassword)
+                }
+            }
+        }
     }
 
     dependencies {
@@ -39,7 +67,11 @@ allprojects {
 
         testCompile("org.spockframework:spock-core:${spockVersion}")
         testCompile("org.spockframework:spock-spring:${spockVersion}")
+        testCompile("org.junit.jupiter:junit-jupiter-api:${jUnitVersion}")
+        testCompile("org.junit.jupiter:junit-jupiter-params:${jUnitVersion}")
+        testRuntime("org.junit.jupiter:junit-jupiter-engine:${jUnitVersion}")
     }
+
 }
 
 version = '0.0.1.2-SNAPSHOT'
@@ -109,7 +141,7 @@ dependencies {
     runtime('com.h2database:h2')
     runtime("mysql:mysql-connector-java:${mysqlConnectorVersion}")
     runtime("org.postgresql:postgresql:${postgresqlConnectorVersion}")
-    
+
 
     compileOnly('org.springframework.boot:spring-boot-configuration-processor')
     testCompile('org.springframework.boot:spring-boot-starter-test')
