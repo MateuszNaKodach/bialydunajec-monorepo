@@ -1,8 +1,5 @@
-package org.bialydunajec.campedition.infrastructure.campedition.persistence.jpa
+package org.bialydunajec.campedition.infrastructure.persistence.jpa
 
-import org.bialydunajec.campedition.domain.campedition.CampEdition
-import org.bialydunajec.campedition.domain.campedition.CampEditionId
-import org.bialydunajec.campedition.domain.campedition.CampEditionRepository
 import org.bialydunajec.ddd.infrastructure.base.persistence.AbstractDomainRepositoryImpl
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository

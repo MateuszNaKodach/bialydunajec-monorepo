@@ -1,4 +1,4 @@
-package org.bialydunajec.campedition.domain.campedition
+package org.bialydunajec.campedition.infrastructure.persistence.jpa
 
 import org.bialydunajec.ddd.domain.base.aggregate.AggregateRoot
 import org.bialydunajec.ddd.domain.base.persistence.Versioned

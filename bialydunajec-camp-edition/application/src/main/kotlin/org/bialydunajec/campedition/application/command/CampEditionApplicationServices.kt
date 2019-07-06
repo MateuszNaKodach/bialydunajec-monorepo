@@ -1,9 +1,9 @@
 package org.bialydunajec.campedition.application.command
 
 import org.bialydunajec.campedition.application.command.api.CampEditionCommand
-import org.bialydunajec.campedition.domain.campedition.CampEdition
-import org.bialydunajec.campedition.domain.campedition.CampEditionRepository
-import org.bialydunajec.campedition.domain.campedition.CampEditionDomainRule
+import org.bialydunajec.campedition.infrastructure.persistence.jpa.CampEdition
+import org.bialydunajec.campedition.infrastructure.persistence.jpa.CampEditionRepository
+import org.bialydunajec.campedition.infrastructure.persistence.jpa.CampEditionDomainRule
 import org.bialydunajec.ddd.application.base.ApplicationService
 import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
 import org.springframework.stereotype.Service

@@ -13,8 +13,6 @@ dependencies {
     compile project(':bialydunajec-camp-edition:bialydunajec-camp-edition-domain')
     compile project(':bialydunajec-camp-edition:bialydunajec-camp-edition-infrastructure')
     compile project(':bialydunajec-camp-edition:bialydunajec-camp-edition-messages')
-    //implementation 'org.bialydunajec:bialydunajec-camp-edition-domain:0.0.1-20190706.102537-1'
-
 
     compile('org.springframework.boot:spring-boot-starter-cache')
     compile('org.springframework.boot:spring-boot-starter-validation')

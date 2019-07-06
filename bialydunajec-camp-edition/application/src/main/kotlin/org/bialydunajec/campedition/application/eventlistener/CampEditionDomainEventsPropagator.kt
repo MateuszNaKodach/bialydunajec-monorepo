@@ -1,6 +1,6 @@
 package org.bialydunajec.campedition.application.eventlistener
 
-import org.bialydunajec.campedition.domain.campedition.CampEditionEvent
+import org.bialydunajec.campedition.infrastructure.persistence.jpa.CampEditionEvent
 import org.bialydunajec.campedition.messages.event.CampEditionExternalEvent
 import org.bialydunajec.ddd.application.base.external.event.ExternalEventPublisher
 import org.springframework.scheduling.annotation.Async

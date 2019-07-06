@@ -1,6 +1,5 @@
-package org.bialydunajec.campedition.domain.campedition
+package org.bialydunajec.campedition.infrastructure.persistence.jpa
 
-import org.bialydunajec.campedition.domain.campedition.CampEditionId
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.financial.Money
 import java.time.LocalDate
 
