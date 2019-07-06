@@ -1,4 +1,4 @@
-package org.bialydunajec.campedition.domain.campedition.valueobject
+package org.bialydunajec.campedition.domain.campedition
 
 import org.bialydunajec.campedition.domain.campedition.CampEditionId
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.financial.Money

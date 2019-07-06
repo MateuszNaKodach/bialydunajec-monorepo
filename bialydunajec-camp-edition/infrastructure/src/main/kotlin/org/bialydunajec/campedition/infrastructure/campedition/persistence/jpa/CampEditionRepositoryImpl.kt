@@ -1,4 +1,4 @@
-package org.bialydunajec.campedition.infrastructure.campedition
+package org.bialydunajec.campedition.infrastructure.campedition.persistence.jpa
 
 import org.bialydunajec.campedition.domain.campedition.CampEdition
 import org.bialydunajec.campedition.domain.campedition.CampEditionId

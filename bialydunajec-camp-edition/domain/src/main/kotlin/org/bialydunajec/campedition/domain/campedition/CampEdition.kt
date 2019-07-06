@@ -1,7 +1,5 @@
 package org.bialydunajec.campedition.domain.campedition
 
-import org.bialydunajec.campedition.domain.campedition.valueobject.CampEditionSnapshot
-import org.bialydunajec.campedition.domain.exception.CampEditionDomainRule
 import org.bialydunajec.ddd.domain.base.aggregate.AggregateRoot
 import org.bialydunajec.ddd.domain.base.persistence.Versioned
 import org.bialydunajec.ddd.domain.base.validation.ValidationResult

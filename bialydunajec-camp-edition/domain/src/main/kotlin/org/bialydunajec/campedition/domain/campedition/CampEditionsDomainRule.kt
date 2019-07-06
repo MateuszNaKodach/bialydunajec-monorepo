@@ -1,4 +1,4 @@
-package org.bialydunajec.campedition.domain.exception
+package org.bialydunajec.campedition.domain.campedition
 
 import org.bialydunajec.ddd.domain.base.validation.exception.DomainRule
 

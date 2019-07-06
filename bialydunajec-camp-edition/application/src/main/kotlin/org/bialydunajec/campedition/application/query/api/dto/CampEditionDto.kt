@@ -1,6 +1,6 @@
 package org.bialydunajec.campedition.application.query.api.dto
 
-import org.bialydunajec.campedition.domain.campedition.valueobject.CampEditionSnapshot
+import org.bialydunajec.campedition.domain.campedition.CampEditionSnapshot
 import java.time.LocalDate
 
 data class CampEditionDto(
