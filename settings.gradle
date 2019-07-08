@@ -67,6 +67,13 @@ include 'bialydunajec-users',
         'bialydunajec-users:infrastructure',
         'bialydunajec-users:messages'
 
+include 'bialydunajec-camp-bus',
+        'bialydunajec-camp-bus:application',
+        'bialydunajec-camp-bus:presentation',
+        'bialydunajec-camp-bus:domain',
+        'bialydunajec-camp-bus:infrastructure',
+        'bialydunajec-camp-bus:messages'
+
 include 'bialydunajec-rx-bus'
 
 /*
