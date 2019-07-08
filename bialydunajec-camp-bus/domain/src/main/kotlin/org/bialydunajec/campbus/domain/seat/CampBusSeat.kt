@@ -5,46 +5,63 @@ import java.util.*
 
 typealias TimeProvider = () -> Instant
 
-internal sealed class Seat(protected val currentTimeProvider: TimeProvider, protected val occurredEvents: List<SeatEvent> = emptyList()) {
-
-    protected fun occurredEventsWithNew(newEvent: SeatEvent) = listOf<SeatEvent>(*occurredEvents.toTypedArray(), newEvent)
-    abstract fun handle(command: SeatCommand): Seat
-    abstract fun applyEvent(event: SeatEvent, isReplay: Boolean = false): Seat
+enum class EventApplyingMode {
+    APPLY_NEW_CHANGE,
+    REPLAY_HISTORY;
 
     companion object {
-        fun newInstance(currentTimeProvider: TimeProvider): Seat = Initialized(currentTimeProvider);
+        val DEFAULT: EventApplyingMode = APPLY_NEW_CHANGE
+    }
+}
+
+
+internal sealed class Seat(protected val currentTimeProvider: TimeProvider, val occurredEvents: List<SeatEvent>, val version: AggregateVersion) {
+
+    fun replayEvent(event: SeatEvent) = applyEvent(event, EventApplyingMode.REPLAY_HISTORY)
+    fun applyEvent(event: SeatEvent, mode: EventApplyingMode = EventApplyingMode.DEFAULT): Seat {
+        fun occurredEventsWithNew(newEvent: SeatEvent) = listOf<SeatEvent>(*occurredEvents.toTypedArray(), newEvent)
+        val events = when (mode) {
+            EventApplyingMode.APPLY_NEW_CHANGE -> occurredEventsWithNew(event)
+            EventApplyingMode.REPLAY_HISTORY -> occurredEvents
+        }
+        return composeOf(events, event, version.increase())
     }
 
-    class Initialized(currentTimeProvider: TimeProvider) : Seat(currentTimeProvider) {
+    abstract fun handle(command: SeatCommand): Seat //TODO: Add veryfing aggregate version!
+    protected abstract fun composeOf(history: List<SeatEvent>, lastEvent: SeatEvent, nextVersion: AggregateVersion): Seat
+
+    companion object {
+        fun newInstance(currentTimeProvider: TimeProvider): Seat = Initialized(currentTimeProvider, emptyList(), AggregateVersion.ZERO)
+    }
+
+    class Initialized(currentTimeProvider: TimeProvider, events: List<SeatEvent>, version: AggregateVersion) : Seat(currentTimeProvider, events, version) {
 
         override fun handle(command: SeatCommand) =
                 when (command) {
-                    is SeatCommand.AddSeatForCourse -> applyEvent(SeatEvent.SeatAddedForCourse(command.aggregateId, currentTimeProvider(), command.campBusCourseId))
+                    is SeatCommand.AddSeatForCourse -> applyEvent(SeatEvent.SeatAddedForCourse(command.aggregateId, version, currentTimeProvider(), command.campBusCourseId))
                     else -> throw IllegalStateException("Command cannot be handled!")
                 }
 
-        override fun applyEvent(event: SeatEvent, isReplay: Boolean): Seat {
-            val events = if (!isReplay) occurredEventsWithNew(event) else occurredEvents
-            return when (event) {
-                is SeatEvent.SeatAddedForCourse -> Free(currentTimeProvider, event.campBusCourseId, events)
+        override fun composeOf(history: List<SeatEvent>, lastEvent: SeatEvent, nextVersion: AggregateVersion): Seat {
+            return when (lastEvent) {
+                is SeatEvent.SeatAddedForCourse -> Free(currentTimeProvider, lastEvent.campBusCourseId, history, nextVersion)
                 else -> this
             }
         }
 
     }
 
-    class Free(currentTimeProvider: TimeProvider, val campBusCourseId: CampBusCourseId, events: List<SeatEvent>) : Seat(currentTimeProvider, events) {
+    class Free(currentTimeProvider: TimeProvider, val campBusCourseId: CampBusCourseId, events: List<SeatEvent>, version: AggregateVersion) : Seat(currentTimeProvider, events, version) {
 
         override fun handle(command: SeatCommand): Seat =
                 when (command) {
-                    is SeatCommand.ReserveSeat -> applyEvent(SeatEvent.ReservedForPassenger(command.aggregateId, currentTimeProvider(), campBusCourseId, command.passenger))
-                    else -> throw IllegalStateException("Command cannot be handled!")
+                    is SeatCommand.ReserveSeat -> applyEvent(SeatEvent.SeatReservedForPassenger(command.aggregateId, version, currentTimeProvider(), campBusCourseId, command.passengerId))
+                    else -> throw IllegalStateException("Invalid command!")
                 }
 
-        override fun applyEvent(event: SeatEvent, isReplay: Boolean): Seat {
-            val events = if (!isReplay) occurredEventsWithNew(event) else occurredEvents
-            return when (event) {
-                is SeatEvent.ReservedForPassenger -> Reserved(currentTimeProvider, event.passenger, events)
+        override fun composeOf(history: List<SeatEvent>, lastEvent: SeatEvent, nextVersion: AggregateVersion): Seat {
+            return when (lastEvent) {
+                is SeatEvent.SeatReservedForPassenger -> Reserved(currentTimeProvider, campBusCourseId, lastEvent.passengerId, history, nextVersion)
                 else -> this
             }
         }
@@ -52,28 +69,32 @@ internal sealed class Seat(protected val currentTimeProvider: TimeProvider, prot
     }
 
 
-    class Reserved(currentTimeProvider: TimeProvider, private val passenger: Passenger, events: List<SeatEvent>) : Seat(currentTimeProvider, events) {
+    class Reserved(currentTimeProvider: TimeProvider, val campBusCourseId: CampBusCourseId, private val passengerId: PassengerId, events: List<SeatEvent>, version: AggregateVersion) : Seat(currentTimeProvider, events, version) {
 
-        override fun handle(command: SeatCommand): Seat {
+        override fun handle(command: SeatCommand): Seat =
+                when (command) {
+                    is SeatCommand.ConfirmReservation -> applyEvent(SeatEvent.SeatReservationConfirmed(command.aggregateId, version, currentTimeProvider(), campBusCourseId, passengerId))
+                    is SeatCommand.CancelReservation -> applyEvent(SeatEvent.SeatReservationCancelled(command.aggregateId, version, currentTimeProvider(), campBusCourseId, passengerId))
+                    else -> throw IllegalStateException("Invalid command!")
+                }
+
+        override fun composeOf(history: List<SeatEvent>, lastEvent: SeatEvent, nextVersion: AggregateVersion): Seat {
             TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         }
 
-        override fun applyEvent(event: SeatEvent, isReplay: Boolean): Seat {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        }
+    }
 
+    private class Occupied(currentTimeProvider: TimeProvider, val campBusCourseId: CampBusCourseId, private val passengerId: PassengerId, events: List<SeatEvent>, version: AggregateVersion) : Seat(currentTimeProvider, events, version) {
 
     }
 
-    private class Occupied(currentTimeProvider: TimeProvider, events: List<SeatEvent>) : Seat(currentTimeProvider, events) {
+    private class Removed() {
 
     }
-
-    private class Removed()
 
 }
 
-class Passenger(val aggregateId: PassengerId, val trackingCodeId: PersonalTrackingCodeId)
+//class Passenger(val aggregateId: PassengerId, val trackingCodeId: PersonalTrackingCodeId)
 
 class PersonalTrackingCodeId(private val id: String = UUID.randomUUID().toString())
 class PassengerId(val id: String = UUID.randomUUID().toString())
@@ -82,18 +103,29 @@ class SeatId(val id: String = UUID.randomUUID().toString())
 class EventId(val id: String = UUID.randomUUID().toString())
 
 
-sealed class SeatCommand(val aggregateId: SeatId) {
-    class AddSeatForCourse(aggregateId: SeatId, val campBusCourseId: CampBusCourseId) : SeatCommand(aggregateId)
-    class ReserveSeat(aggregateId: SeatId, val passenger: Passenger) : SeatCommand(aggregateId)
-    class CancelReservation(aggregateId: SeatId) : SeatCommand(aggregateId)
-    class ConfirmReservation(aggregateId: SeatId) : SeatCommand(aggregateId)
-    class RemoveSeatFromCourse(aggregateId: SeatId) : SeatCommand(aggregateId)
+sealed class SeatCommand(val aggregateId: SeatId, aggregateVersion: AggregateVersion) {
+    class AddSeatForCourse(aggregateId: SeatId, aggregateVersion: AggregateVersion, val campBusCourseId: CampBusCourseId) : SeatCommand(aggregateId, aggregateVersion)
+    class ReserveSeat(aggregateId: SeatId, aggregateVersion: AggregateVersion, val passengerId: PassengerId) : SeatCommand(aggregateId, aggregateVersion)
+    class CancelReservation(aggregateId: SeatIdaggregateVersion: AggregateVersion, ) : SeatCommand(aggregateId, aggregateVersion)
+    class ConfirmReservation(aggregateId: SeatIdaggregateVersion: AggregateVersion, ) : SeatCommand(aggregateId, aggregateVersion)
+    class RemoveSeatFromCourse(aggregateId: SeatIdaggregateVersion: AggregateVersion, ) : SeatCommand(aggregateId, aggregateVersion)
 }
 
 
-sealed class SeatEvent(val aggregateId: SeatId, val occurredAt: Instant, val eventId: EventId = EventId()) {
-    class SeatAddedForCourse(aggregateId: SeatId, occurredAt: Instant, val campBusCourseId: CampBusCourseId) : SeatEvent(aggregateId, occurredAt)
-    class ReservedForPassenger(aggregateId: SeatId, occurredAt: Instant, val campBusCourseId: CampBusCourseId, val passenger: Passenger) : SeatEvent(aggregateId, occurredAt)
-
+sealed class SeatEvent(val aggregateId: SeatId, aggregateVersion: AggregateVersion, val occurredAt: Instant, val eventId: EventId = EventId()) {
+    class SeatAddedForCourse(aggregateId: SeatId, aggregateVersion: AggregateVersion, occurredAt: Instant, val campBusCourseId: CampBusCourseId) : SeatEvent(aggregateId, aggregateVersion, occurredAt)
+    class SeatReservedForPassenger(aggregateId: SeatId, aggregateVersion: AggregateVersion, occurredAt: Instant, val campBusCourseId: CampBusCourseId, val passengerId: PassengerId) : SeatEvent(aggregateId, aggregateVersion, occurredAt)
+    class SeatReservationConfirmed(aggregateId: SeatId, aggregateVersion: AggregateVersion, occurredAt: Instant, val campBusCourseId: CampBusCourseId, val passengerId: PassengerId) : SeatEvent(aggregateId, aggregateVersion, occurredAt)
+    class SeatReservationCancelled(aggregateId: SeatId, aggregateVersion: AggregateVersion, occurredAt: Instant, val campBusCourseId: CampBusCourseId, val passengerId: PassengerId) : SeatEvent(aggregateId, aggregateVersion, occurredAt)
 }
 
+
+data class AggregateVersion(private val version: Long) {
+    companion object {
+        val ZERO = AggregateVersion(0)
+    }
+
+    fun increase() = AggregateVersion(version + 1)
+
+    fun toLong() = version
+}
