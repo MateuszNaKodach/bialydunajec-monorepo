@@ -15,80 +15,113 @@ enum class EventApplyingMode {
 }
 
 
-internal sealed class Seat(protected val currentTimeProvider: TimeProvider, val occurredEvents: List<SeatEvent>, val version: AggregateVersion) {
+internal sealed class Seat(protected val currentTimeProvider: TimeProvider, val uncommittedEvents: List<SeatEvent>, val version: AggregateVersion) {
 
     fun replayEvent(event: SeatEvent) = applyEvent(event, EventApplyingMode.REPLAY_HISTORY)
-    fun applyEvent(event: SeatEvent, mode: EventApplyingMode = EventApplyingMode.DEFAULT): Seat {
-        fun occurredEventsWithNew(newEvent: SeatEvent) = listOf<SeatEvent>(*occurredEvents.toTypedArray(), newEvent)
-        val events = when (mode) {
-            EventApplyingMode.APPLY_NEW_CHANGE -> occurredEventsWithNew(event)
-            EventApplyingMode.REPLAY_HISTORY -> occurredEvents
+    fun applyEvent(event: SeatEvent, mode: EventApplyingMode = EventApplyingMode.DEFAULT): Seat =
+            composeOf(
+                    when (mode) {
+                        EventApplyingMode.APPLY_NEW_CHANGE -> listOf<SeatEvent>(*uncommittedEvents.toTypedArray(), event)
+                        EventApplyingMode.REPLAY_HISTORY -> uncommittedEvents
+                    },
+                    event,
+                    version.increase()
+            )
+
+    fun handle(command: SeatCommand): Seat {
+        if (this.version !== command.aggregateVersion) {
+            throw IllegalStateException("Invalid aggregate version! Actual: ${version.toLong()}, expected: ${command.aggregateVersion.toLong()}")
         }
-        return composeOf(events, event, version.increase())
+        return process(command)
     }
 
-    abstract fun handle(command: SeatCommand): Seat //TODO: Add veryfing aggregate version!
-    protected abstract fun composeOf(history: List<SeatEvent>, lastEvent: SeatEvent, nextVersion: AggregateVersion): Seat
+    protected abstract fun process(command: SeatCommand): Seat
+    protected abstract fun composeOf(uncommitedHistory: List<SeatEvent>, lastEvent: SeatEvent, nextVersion: AggregateVersion): Seat
 
     companion object {
-        fun newInstance(currentTimeProvider: TimeProvider): Seat = Initialized(currentTimeProvider, emptyList(), AggregateVersion.ZERO)
+        fun newInstance(currentTimeProvider: TimeProvider): Seat = Uninitialized(currentTimeProvider, emptyList(), AggregateVersion.ZERO)
     }
 
-    class Initialized(currentTimeProvider: TimeProvider, events: List<SeatEvent>, version: AggregateVersion) : Seat(currentTimeProvider, events, version) {
+    class Uninitialized(currentTimeProvider: TimeProvider, events: List<SeatEvent>, version: AggregateVersion) : Seat(currentTimeProvider, events, version) {
 
-        override fun handle(command: SeatCommand) =
+        override fun process(command: SeatCommand) =
                 when (command) {
                     is SeatCommand.AddSeatForCourse -> applyEvent(SeatEvent.SeatAddedForCourse(command.aggregateId, version, currentTimeProvider(), command.campBusCourseId))
                     else -> throw IllegalStateException("Command cannot be handled!")
                 }
 
-        override fun composeOf(history: List<SeatEvent>, lastEvent: SeatEvent, nextVersion: AggregateVersion): Seat {
-            return when (lastEvent) {
-                is SeatEvent.SeatAddedForCourse -> Free(currentTimeProvider, lastEvent.campBusCourseId, history, nextVersion)
-                else -> this
-            }
-        }
+        override fun composeOf(uncommitedHistory: List<SeatEvent>, lastEvent: SeatEvent, nextVersion: AggregateVersion): Seat =
+                when (lastEvent) {
+                    is SeatEvent.SeatAddedForCourse -> Free(currentTimeProvider, lastEvent.campBusCourseId, uncommitedHistory, nextVersion)
+                    else -> this
+                }
 
     }
 
     class Free(currentTimeProvider: TimeProvider, val campBusCourseId: CampBusCourseId, events: List<SeatEvent>, version: AggregateVersion) : Seat(currentTimeProvider, events, version) {
 
-        override fun handle(command: SeatCommand): Seat =
+        override fun process(command: SeatCommand): Seat =
                 when (command) {
                     is SeatCommand.ReserveSeat -> applyEvent(SeatEvent.SeatReservedForPassenger(command.aggregateId, version, currentTimeProvider(), campBusCourseId, command.passengerId))
+                    is SeatCommand.RemoveSeatFromCourse -> applyEvent(SeatEvent.SeatRemovedFromCourse(command.aggregateId, version, currentTimeProvider(), campBusCourseId, null))
                     else -> throw IllegalStateException("Invalid command!")
                 }
 
-        override fun composeOf(history: List<SeatEvent>, lastEvent: SeatEvent, nextVersion: AggregateVersion): Seat {
-            return when (lastEvent) {
-                is SeatEvent.SeatReservedForPassenger -> Reserved(currentTimeProvider, campBusCourseId, lastEvent.passengerId, history, nextVersion)
-                else -> this
-            }
-        }
+        override fun composeOf(uncommitedHistory: List<SeatEvent>, lastEvent: SeatEvent, nextVersion: AggregateVersion): Seat =
+                when (lastEvent) {
+                    is SeatEvent.SeatReservedForPassenger -> Reserved(currentTimeProvider, campBusCourseId, lastEvent.passengerId, uncommitedHistory, nextVersion)
+                    is SeatEvent.SeatRemovedFromCourse -> Removed(currentTimeProvider, campBusCourseId, uncommitedHistory, nextVersion)
+                    else -> this
+                }
 
     }
 
 
     class Reserved(currentTimeProvider: TimeProvider, val campBusCourseId: CampBusCourseId, private val passengerId: PassengerId, events: List<SeatEvent>, version: AggregateVersion) : Seat(currentTimeProvider, events, version) {
 
-        override fun handle(command: SeatCommand): Seat =
+        override fun process(command: SeatCommand): Seat =
                 when (command) {
                     is SeatCommand.ConfirmReservation -> applyEvent(SeatEvent.SeatReservationConfirmed(command.aggregateId, version, currentTimeProvider(), campBusCourseId, passengerId))
                     is SeatCommand.CancelReservation -> applyEvent(SeatEvent.SeatReservationCancelled(command.aggregateId, version, currentTimeProvider(), campBusCourseId, passengerId))
+                    is SeatCommand.RemoveSeatFromCourse -> applyEvent(SeatEvent.SeatRemovedFromCourse(command.aggregateId, version, currentTimeProvider(), campBusCourseId, passengerId))
                     else -> throw IllegalStateException("Invalid command!")
                 }
 
-        override fun composeOf(history: List<SeatEvent>, lastEvent: SeatEvent, nextVersion: AggregateVersion): Seat {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        }
+        override fun composeOf(uncommitedHistory: List<SeatEvent>, lastEvent: SeatEvent, nextVersion: AggregateVersion): Seat =
+                when (lastEvent) {
+                    is SeatEvent.SeatReservationCancelled -> Free(currentTimeProvider, campBusCourseId, uncommitedHistory, nextVersion)
+                    is SeatEvent.SeatReservationConfirmed -> Occupied(currentTimeProvider, campBusCourseId, lastEvent.passengerId, uncommitedHistory, nextVersion)
+                    is SeatEvent.SeatRemovedFromCourse -> Removed(currentTimeProvider, campBusCourseId, uncommitedHistory, nextVersion)
+                    else -> this
+                }
 
     }
 
     private class Occupied(currentTimeProvider: TimeProvider, val campBusCourseId: CampBusCourseId, private val passengerId: PassengerId, events: List<SeatEvent>, version: AggregateVersion) : Seat(currentTimeProvider, events, version) {
 
+        override fun process(command: SeatCommand): Seat =
+                when (command) {
+                    is SeatCommand.ReleaseSeat -> applyEvent(SeatEvent.SeatReleased(command.aggregateId, version, currentTimeProvider(), campBusCourseId, passengerId))
+                    is SeatCommand.RemoveSeatFromCourse -> applyEvent(SeatEvent.SeatRemovedFromCourse(command.aggregateId, version, currentTimeProvider(), campBusCourseId, passengerId))
+                    else -> throw IllegalStateException("Invalid command!")
+                }
+
+        override fun composeOf(uncommitedHistory: List<SeatEvent>, lastEvent: SeatEvent, nextVersion: AggregateVersion): Seat =
+                when (lastEvent) {
+                    is SeatEvent.SeatReleased -> Free(currentTimeProvider, campBusCourseId, uncommitedHistory, nextVersion)
+                    is SeatEvent.SeatRemovedFromCourse -> Removed(currentTimeProvider, campBusCourseId, uncommitedHistory, nextVersion)
+                    else -> this
+                }
+
     }
 
-    private class Removed() {
+    private class Removed(currentTimeProvider: TimeProvider, val campBusCourseId: CampBusCourseId, events: List<SeatEvent>, version: AggregateVersion) : Seat(currentTimeProvider, events, version) {
+
+        override fun process(command: SeatCommand): Seat =
+                throw IllegalStateException("Invalid command!")
+
+        override fun composeOf(uncommitedHistory: List<SeatEvent>, lastEvent: SeatEvent, nextVersion: AggregateVersion): Seat =
+                this
 
     }
 
@@ -103,12 +136,13 @@ class SeatId(val id: String = UUID.randomUUID().toString())
 class EventId(val id: String = UUID.randomUUID().toString())
 
 
-sealed class SeatCommand(val aggregateId: SeatId, aggregateVersion: AggregateVersion) {
+sealed class SeatCommand(val aggregateId: SeatId, val aggregateVersion: AggregateVersion) {
     class AddSeatForCourse(aggregateId: SeatId, aggregateVersion: AggregateVersion, val campBusCourseId: CampBusCourseId) : SeatCommand(aggregateId, aggregateVersion)
     class ReserveSeat(aggregateId: SeatId, aggregateVersion: AggregateVersion, val passengerId: PassengerId) : SeatCommand(aggregateId, aggregateVersion)
-    class CancelReservation(aggregateId: SeatIdaggregateVersion: AggregateVersion, ) : SeatCommand(aggregateId, aggregateVersion)
-    class ConfirmReservation(aggregateId: SeatIdaggregateVersion: AggregateVersion, ) : SeatCommand(aggregateId, aggregateVersion)
-    class RemoveSeatFromCourse(aggregateId: SeatIdaggregateVersion: AggregateVersion, ) : SeatCommand(aggregateId, aggregateVersion)
+    class CancelReservation(aggregateId: SeatId, aggregateVersion: AggregateVersion) : SeatCommand(aggregateId, aggregateVersion)
+    class ConfirmReservation(aggregateId: SeatId, aggregateVersion: AggregateVersion) : SeatCommand(aggregateId, aggregateVersion)
+    class RemoveSeatFromCourse(aggregateId: SeatId, aggregateVersion: AggregateVersion) : SeatCommand(aggregateId, aggregateVersion)
+    class ReleaseSeat(aggregateId: SeatId, aggregateVersion: AggregateVersion) : SeatCommand(aggregateId, aggregateVersion)
 }
 
 
@@ -117,6 +151,8 @@ sealed class SeatEvent(val aggregateId: SeatId, aggregateVersion: AggregateVersi
     class SeatReservedForPassenger(aggregateId: SeatId, aggregateVersion: AggregateVersion, occurredAt: Instant, val campBusCourseId: CampBusCourseId, val passengerId: PassengerId) : SeatEvent(aggregateId, aggregateVersion, occurredAt)
     class SeatReservationConfirmed(aggregateId: SeatId, aggregateVersion: AggregateVersion, occurredAt: Instant, val campBusCourseId: CampBusCourseId, val passengerId: PassengerId) : SeatEvent(aggregateId, aggregateVersion, occurredAt)
     class SeatReservationCancelled(aggregateId: SeatId, aggregateVersion: AggregateVersion, occurredAt: Instant, val campBusCourseId: CampBusCourseId, val passengerId: PassengerId) : SeatEvent(aggregateId, aggregateVersion, occurredAt)
+    class SeatReleased(aggregateId: SeatId, aggregateVersion: AggregateVersion, occurredAt: Instant, val campBusCourseId: CampBusCourseId, val passengerId: PassengerId) : SeatEvent(aggregateId, aggregateVersion, occurredAt)
+    class SeatRemovedFromCourse(aggregateId: SeatId, aggregateVersion: AggregateVersion, occurredAt: Instant, val campBusCourseId: CampBusCourseId, val passengerId: PassengerId?) : SeatEvent(aggregateId, aggregateVersion, occurredAt)
 }
 
 
