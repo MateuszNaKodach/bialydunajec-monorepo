@@ -15,6 +15,9 @@ enum class EventApplyingMode {
 }
 
 
+interface StateMachineAggregate
+interface EventSourcedAggregate
+
 internal sealed class Seat(protected val currentTimeProvider: TimeProvider, val uncommittedEvents: List<SeatEvent>, val version: AggregateVersion) {
 
     fun replayEvent(event: SeatEvent) = applyEvent(event, EventApplyingMode.REPLAY_HISTORY)
@@ -146,7 +149,7 @@ sealed class SeatCommand(val aggregateId: SeatId, val aggregateVersion: Aggregat
 }
 
 
-sealed class SeatEvent(val aggregateId: SeatId, aggregateVersion: AggregateVersion, val occurredAt: Instant, val eventId: EventId = EventId()) {
+sealed class SeatEvent(val aggregateId: SeatId, val aggregateVersion: AggregateVersion, val occurredAt: Instant, val eventId: EventId = EventId()) {
     class SeatAddedForCourse(aggregateId: SeatId, aggregateVersion: AggregateVersion, occurredAt: Instant, val campBusCourseId: CampBusCourseId) : SeatEvent(aggregateId, aggregateVersion, occurredAt)
     class SeatReservedForPassenger(aggregateId: SeatId, aggregateVersion: AggregateVersion, occurredAt: Instant, val campBusCourseId: CampBusCourseId, val passengerId: PassengerId) : SeatEvent(aggregateId, aggregateVersion, occurredAt)
     class SeatReservationConfirmed(aggregateId: SeatId, aggregateVersion: AggregateVersion, occurredAt: Instant, val campBusCourseId: CampBusCourseId, val passengerId: PassengerId) : SeatEvent(aggregateId, aggregateVersion, occurredAt)
@@ -164,4 +167,11 @@ data class AggregateVersion(private val version: Long) {
     fun increase() = AggregateVersion(version + 1)
 
     fun toLong() = version
+}
+
+
+class EventStore {
+    class EventStream(val aggreagateId: UUID)
+    class Event<DATA>(val eventStreamId: UUID, val data: DATA, val metadata: EventMetadata)
+    class EventMetadata(val correlationId: UUID, val causationId: UUID)
 }

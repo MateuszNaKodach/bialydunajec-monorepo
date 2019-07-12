@@ -102,6 +102,7 @@ allprojects {
         testCompile("org.assertj:assertj-core:${assertjVersion}")
         testCompile "org.spekframework.spek2:spek-dsl-jvm:$spekVersion"
         testRuntime "org.spekframework.spek2:spek-runner-junit5:$spekVersion"
+        testCompile "com.willowtreeapps.assertk:assertk-jvm:$assertkVersion"
     }
 
 }
