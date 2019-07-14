@@ -1,10 +1,8 @@
 package org.bialydunajec.campbus.domain.course
 
 import org.bialydunajec.campbus.domain.Address
-import org.bialydunajec.campbus.domain.course.Samples.`sample address in Biały Dunajec`
-import org.bialydunajec.campbus.domain.course.Samples.`sample address in Wrocław`
 import org.junit.jupiter.api.Test
-
+/*
 class `Camp bus courses specification` {
 
     @Test
@@ -32,3 +30,4 @@ object Samples {
             Address.CityName(city)
     )
 }
+*/

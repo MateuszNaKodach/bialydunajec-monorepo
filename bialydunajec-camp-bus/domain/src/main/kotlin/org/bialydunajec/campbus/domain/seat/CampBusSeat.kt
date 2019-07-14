@@ -21,6 +21,7 @@ interface EventSourcedAggregate
 internal sealed class Seat(protected val currentTimeProvider: TimeProvider, val uncommittedEvents: List<SeatEvent>, val version: AggregateVersion) {
 
     fun replayEvent(event: SeatEvent) = applyEvent(event, EventApplyingMode.REPLAY_HISTORY)
+
     fun applyEvent(event: SeatEvent, mode: EventApplyingMode = EventApplyingMode.DEFAULT): Seat =
             composeOf(
                     when (mode) {
@@ -39,6 +40,7 @@ internal sealed class Seat(protected val currentTimeProvider: TimeProvider, val 
     }
 
     protected abstract fun process(command: SeatCommand): Seat
+
     protected abstract fun composeOf(uncommitedHistory: List<SeatEvent>, lastEvent: SeatEvent, nextVersion: AggregateVersion): Seat
 
     companion object {
@@ -55,13 +57,13 @@ internal sealed class Seat(protected val currentTimeProvider: TimeProvider, val 
 
         override fun composeOf(uncommitedHistory: List<SeatEvent>, lastEvent: SeatEvent, nextVersion: AggregateVersion): Seat =
                 when (lastEvent) {
-                    is SeatEvent.SeatAddedForCourse -> Free(currentTimeProvider, lastEvent.campBusCourseId, uncommitedHistory, nextVersion)
+                    is SeatEvent.SeatAddedForCourse -> Free(currentTimeProvider, lastEvent.aggregateId, lastEvent.campBusCourseId, uncommitedHistory, nextVersion)
                     else -> this
                 }
 
     }
 
-    class Free(currentTimeProvider: TimeProvider, val campBusCourseId: CampBusCourseId, events: List<SeatEvent>, version: AggregateVersion) : Seat(currentTimeProvider, events, version) {
+    class Free(currentTimeProvider: TimeProvider, val seatId: SeatId, val campBusCourseId: CampBusCourseId, events: List<SeatEvent>, version: AggregateVersion) : Seat(currentTimeProvider, events, version) {
 
         override fun process(command: SeatCommand): Seat =
                 when (command) {
@@ -72,15 +74,15 @@ internal sealed class Seat(protected val currentTimeProvider: TimeProvider, val 
 
         override fun composeOf(uncommitedHistory: List<SeatEvent>, lastEvent: SeatEvent, nextVersion: AggregateVersion): Seat =
                 when (lastEvent) {
-                    is SeatEvent.SeatReservedForPassenger -> Reserved(currentTimeProvider, campBusCourseId, lastEvent.passengerId, uncommitedHistory, nextVersion)
-                    is SeatEvent.SeatRemovedFromCourse -> Removed(currentTimeProvider, campBusCourseId, uncommitedHistory, nextVersion)
+                    is SeatEvent.SeatReservedForPassenger -> Reserved(currentTimeProvider, lastEvent.aggregateId, campBusCourseId, lastEvent.passengerId, uncommitedHistory, nextVersion)
+                    is SeatEvent.SeatRemovedFromCourse -> Removed(currentTimeProvider, lastEvent.aggregateId, campBusCourseId, uncommitedHistory, nextVersion)
                     else -> this
                 }
 
     }
 
 
-    class Reserved(currentTimeProvider: TimeProvider, val campBusCourseId: CampBusCourseId, private val passengerId: PassengerId, events: List<SeatEvent>, version: AggregateVersion) : Seat(currentTimeProvider, events, version) {
+    class Reserved(currentTimeProvider: TimeProvider, val seatId: SeatId, val campBusCourseId: CampBusCourseId, private val passengerId: PassengerId, events: List<SeatEvent>, version: AggregateVersion) : Seat(currentTimeProvider, events, version) {
 
         override fun process(command: SeatCommand): Seat =
                 when (command) {
@@ -92,15 +94,15 @@ internal sealed class Seat(protected val currentTimeProvider: TimeProvider, val 
 
         override fun composeOf(uncommitedHistory: List<SeatEvent>, lastEvent: SeatEvent, nextVersion: AggregateVersion): Seat =
                 when (lastEvent) {
-                    is SeatEvent.SeatReservationCancelled -> Free(currentTimeProvider, campBusCourseId, uncommitedHistory, nextVersion)
-                    is SeatEvent.SeatReservationConfirmed -> Occupied(currentTimeProvider, campBusCourseId, lastEvent.passengerId, uncommitedHistory, nextVersion)
-                    is SeatEvent.SeatRemovedFromCourse -> Removed(currentTimeProvider, campBusCourseId, uncommitedHistory, nextVersion)
+                    is SeatEvent.SeatReservationCancelled -> Free(currentTimeProvider, lastEvent.aggregateId, campBusCourseId, uncommitedHistory, nextVersion)
+                    is SeatEvent.SeatReservationConfirmed -> Occupied(currentTimeProvider, lastEvent.aggregateId, campBusCourseId, lastEvent.passengerId, uncommitedHistory, nextVersion)
+                    is SeatEvent.SeatRemovedFromCourse -> Removed(currentTimeProvider, lastEvent.aggregateId, campBusCourseId, uncommitedHistory, nextVersion)
                     else -> this
                 }
 
     }
 
-    private class Occupied(currentTimeProvider: TimeProvider, val campBusCourseId: CampBusCourseId, private val passengerId: PassengerId, events: List<SeatEvent>, version: AggregateVersion) : Seat(currentTimeProvider, events, version) {
+    class Occupied(currentTimeProvider: TimeProvider, val seatId: SeatId, val campBusCourseId: CampBusCourseId, private val passengerId: PassengerId, events: List<SeatEvent>, version: AggregateVersion) : Seat(currentTimeProvider, events, version) {
 
         override fun process(command: SeatCommand): Seat =
                 when (command) {
@@ -111,14 +113,14 @@ internal sealed class Seat(protected val currentTimeProvider: TimeProvider, val 
 
         override fun composeOf(uncommitedHistory: List<SeatEvent>, lastEvent: SeatEvent, nextVersion: AggregateVersion): Seat =
                 when (lastEvent) {
-                    is SeatEvent.SeatReleased -> Free(currentTimeProvider, campBusCourseId, uncommitedHistory, nextVersion)
-                    is SeatEvent.SeatRemovedFromCourse -> Removed(currentTimeProvider, campBusCourseId, uncommitedHistory, nextVersion)
+                    is SeatEvent.SeatReleased -> Free(currentTimeProvider, lastEvent.aggregateId, campBusCourseId, uncommitedHistory, nextVersion)
+                    is SeatEvent.SeatRemovedFromCourse -> Removed(currentTimeProvider, lastEvent.aggregateId, campBusCourseId, uncommitedHistory, nextVersion)
                     else -> this
                 }
 
     }
 
-    private class Removed(currentTimeProvider: TimeProvider, val campBusCourseId: CampBusCourseId, events: List<SeatEvent>, version: AggregateVersion) : Seat(currentTimeProvider, events, version) {
+    class Removed(currentTimeProvider: TimeProvider, val seatId: SeatId, val campBusCourseId: CampBusCourseId, events: List<SeatEvent>, version: AggregateVersion) : Seat(currentTimeProvider, events, version) {
 
         override fun process(command: SeatCommand): Seat =
                 throw IllegalStateException("Invalid command!")
@@ -132,15 +134,44 @@ internal sealed class Seat(protected val currentTimeProvider: TimeProvider, val 
 
 //class Passenger(val aggregateId: PassengerId, val trackingCodeId: PersonalTrackingCodeId)
 
-class PersonalTrackingCodeId(private val id: String = UUID.randomUUID().toString())
-class PassengerId(val id: String = UUID.randomUUID().toString())
-class CampBusCourseId(val id: String = UUID.randomUUID().toString())
-class SeatId(val id: String = UUID.randomUUID().toString())
+class PersonalTrackingCodeId(private val id: String = UUID.randomUUID().toString()) : AggregateId(id)
+class PassengerId(val id: String = UUID.randomUUID().toString()) : AggregateId(id)
+class CampBusCourseId(val id: String = UUID.randomUUID().toString()) : AggregateId(id)
+class SeatId(val id: String = UUID.randomUUID().toString()) : AggregateId(id)
 class EventId(val id: String = UUID.randomUUID().toString())
 
 
+open class AggregateId(private val id: String) {
+    companion object {
+        private const val UNDEFINED = "UNDEFINED"
+        fun undefined() = AggregateId(UNDEFINED)
+        fun new() = AggregateId(UUID.randomUUID().toString())
+    }
+
+
+    fun isUndefined() = id == UNDEFINED
+
+    override fun toString() = id
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as AggregateId
+
+        if (id != other.id) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return id.hashCode()
+    }
+}
+
+
 sealed class SeatCommand(val aggregateId: SeatId, val aggregateVersion: AggregateVersion) {
-    class AddSeatForCourse(aggregateId: SeatId, aggregateVersion: AggregateVersion, val campBusCourseId: CampBusCourseId) : SeatCommand(aggregateId, aggregateVersion)
+    class AddSeatForCourse(aggregateId: SeatId, val campBusCourseId: CampBusCourseId) : SeatCommand(aggregateId, AggregateVersion.ZERO)
     class ReserveSeat(aggregateId: SeatId, aggregateVersion: AggregateVersion, val passengerId: PassengerId) : SeatCommand(aggregateId, aggregateVersion)
     class CancelReservation(aggregateId: SeatId, aggregateVersion: AggregateVersion) : SeatCommand(aggregateId, aggregateVersion)
     class ConfirmReservation(aggregateId: SeatId, aggregateVersion: AggregateVersion) : SeatCommand(aggregateId, aggregateVersion)
