@@ -43,6 +43,7 @@ allprojects {
             }
         }
         maven { url "https://dl.bintray.com/arrow-kt/arrow-kt/" }
+        maven { url "https://dl.bintray.com/spekframework/spek" }
     }
 
     uploadArchives {
@@ -66,7 +67,7 @@ allprojects {
         compile("javax.xml.bind:jaxb-api:${jaxbApiVersion}")
         compile('javax.activation:activation:1.1')
         compile('org.glassfish.jaxb:jaxb-runtime:2.3.0')
-        
+
         //Kotlin Arrow
         compile "io.arrow-kt:arrow-core:$arrowVersion"
         compile "io.arrow-kt:arrow-syntax:$arrowVersion"
@@ -74,7 +75,7 @@ allprojects {
         compile "io.arrow-kt:arrow-data:$arrowVersion"
         compile "io.arrow-kt:arrow-instances-core:$arrowVersion"
         compile "io.arrow-kt:arrow-instances-data:$arrowVersion"
-        kapt    "io.arrow-kt:arrow-annotations-processor:$arrowVersion"
+        kapt "io.arrow-kt:arrow-annotations-processor:$arrowVersion"
 
         compile "io.arrow-kt:arrow-query-language:$arrowVersion" //optional
         compile "io.arrow-kt:arrow-free:$arrowVersion" //optional
