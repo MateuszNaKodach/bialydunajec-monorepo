@@ -4,7 +4,6 @@ import arrow.core.Try
 import assertk.assertThat
 import assertk.assertions.isInstanceOf
 import assertk.assertions.isTrue
-import org.bialydunajec.campbus.domain.*
 import org.junit.jupiter.api.Assumptions.assumeTrue
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.gherkin.Feature
@@ -17,14 +16,14 @@ object CampBusSeatSpecification : Spek({
 
         val campBusCourseId: CampBusCourseId by memoized { CampBusCourseId() }
         val seatId: SeatId by memoized { SeatId() }
-        val initialSeat: Seat by memoized { Seat.newInstance { Instant.now() }.handle(SeatCommand.AddSeatForCourse(seatId, campBusCourseId)) }
+        val initialSeat: CampBusSeat by memoized { CampBusSeat.newInstance { Instant.now() }.handle(SeatCommand.AddSeatForCourse(seatId, campBusCourseId)) }
 
         Scenario("Free camp bus seat") {
 
-            var seat: Seat = initialSeat
+            var seat: CampBusSeat = initialSeat
 
             Given("seat for reservation is free") {
-                assumeTrue { seat is Seat.Free }
+                assumeTrue { seat is CampBusSeat.Free }
             }
 
             When("passenger reserves seat") {
@@ -32,18 +31,18 @@ object CampBusSeatSpecification : Spek({
             }
 
             Then("seat should be reserved for the passenger") {
-                assertThat(seat).isInstanceOf(Seat.Reserved::class)
+                assertThat(seat).isInstanceOf(CampBusSeat.Reserved::class)
             }
 
         }
 
         Scenario("Already reserved camp bus seat") {
 
-            var seat: Seat = initialSeat
+            var seat: CampBusSeat = initialSeat
 
             Given("seat for reservation is reserved") {
                 seat = seat.handle(SeatCommand.ReserveSeat(seatId, seat.version, PassengerId()))
-                assumeTrue { seat is Seat.Reserved }
+                assumeTrue { seat is CampBusSeat.Reserved }
             }
 
             var reserveSeatFailure = false
@@ -57,7 +56,7 @@ object CampBusSeatSpecification : Spek({
             }
 
             Then("seat should be still reserved for the previous passenger") {
-                assertThat(seat).isInstanceOf(Seat.Reserved::class)
+                assertThat(seat).isInstanceOf(CampBusSeat.Reserved::class)
             }
 
 
@@ -65,12 +64,12 @@ object CampBusSeatSpecification : Spek({
 
         Scenario("Already occupied camp bus seat") {
 
-            var seat: Seat = initialSeat
+            var seat: CampBusSeat = initialSeat
 
             Given("seat for reservation is occupied") {
                 seat = seat.handle(SeatCommand.ReserveSeat(seatId, seat.version, PassengerId()))
                 seat = seat.handle(SeatCommand.ConfirmReservation(seatId, seat.version))
-                assumeTrue { seat is Seat.Occupied }
+                assumeTrue { seat is CampBusSeat.Occupied }
             }
 
             var reserveSeatFailure = false
@@ -84,7 +83,7 @@ object CampBusSeatSpecification : Spek({
             }
 
             Then("seat should be still occupied by the previous passenger") {
-                assertThat(seat).isInstanceOf(Seat.Occupied::class)
+                assertThat(seat).isInstanceOf(CampBusSeat.Occupied::class)
             }
 
 
@@ -92,11 +91,11 @@ object CampBusSeatSpecification : Spek({
 
         Scenario("Already removed camp bus seat") {
 
-            var seat: Seat = initialSeat
+            var seat: CampBusSeat = initialSeat
 
             Given("seat for reservation is removed") {
                 seat = seat.handle(SeatCommand.RemoveSeatFromCourse(seatId, seat.version))
-                assumeTrue { seat is Seat.Removed }
+                assumeTrue { seat is CampBusSeat.Removed }
             }
 
             var reserveSeatFailure = false
@@ -110,7 +109,7 @@ object CampBusSeatSpecification : Spek({
             }
 
             Then("seat should still be removed") {
-                assertThat(seat).isInstanceOf(Seat.Removed::class)
+                assertThat(seat).isInstanceOf(CampBusSeat.Removed::class)
             }
 
         }

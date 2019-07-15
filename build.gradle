@@ -96,6 +96,7 @@ allprojects {
 
         compile("com.github.nowakprojects:kt-time-traveler-core:${ktTimeTravelerVersion}")
 
+        testCompile("org.jetbrains.kotlin:kotlin-test")
         testCompile("org.spockframework:spock-core:${spockVersion}")
         testCompile("org.spockframework:spock-spring:${spockVersion}")
         testCompile("org.junit.jupiter:junit-jupiter-api:${jUnitVersion}")
@@ -103,8 +104,6 @@ allprojects {
         testRuntime("org.junit.jupiter:junit-jupiter-engine:${jUnitVersion}")
         testCompile("org.assertj:assertj-core:${assertjVersion}")
         testCompile "org.spekframework.spek2:spek-dsl-jvm:$spekVersion"
-        testCompile "org.jetbrains.spek:spek-subject-extension:$spekVersion"
-
         testRuntime "org.spekframework.spek2:spek-runner-junit5:$spekVersion"
         testCompile "com.willowtreeapps.assertk:assertk-jvm:$assertkVersion"
         testCompile("com.github.nowakprojects:kt-time-traveler-test:${ktTimeTravelerVersion}")
