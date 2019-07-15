@@ -15,9 +15,6 @@ enum class EventApplyingMode {
 }
 
 
-interface StateMachineAggregate
-interface EventSourcedAggregate
-
 internal sealed class Seat(protected val currentTimeProvider: TimeProvider, val uncommittedEvents: List<SeatEvent>, val version: AggregateVersion) {
 
     fun replayEvent(event: SeatEvent) = applyEvent(event, EventApplyingMode.REPLAY_HISTORY)
@@ -152,7 +149,7 @@ class PersonalTrackingCodeId(private val id: String = UUID.randomUUID().toString
 class PassengerId(val id: String = UUID.randomUUID().toString()) : AggregateId(id)
 class CampBusCourseId(val id: String = UUID.randomUUID().toString()) : AggregateId(id)
 class SeatId(val id: String = UUID.randomUUID().toString()) : AggregateId(id)
-class EventId(val id: String = UUID.randomUUID().toString())
+class DomainEventId(val id: String = UUID.randomUUID().toString())
 
 
 open class AggregateId(private val id: String) {
@@ -185,7 +182,7 @@ open class AggregateId(private val id: String) {
 }
 
 
-sealed class SeatCommand(val aggregateId: SeatId, val aggregateVersion: AggregateVersion) {
+sealed class SeatCommand(override val aggregateId: SeatId, override val aggregateVersion: AggregateVersion) : Command<SeatId> {
     class AddSeatForCourse(aggregateId: SeatId, val campBusCourseId: CampBusCourseId) : SeatCommand(aggregateId, AggregateVersion.ZERO)
     class ReserveSeat(aggregateId: SeatId, aggregateVersion: AggregateVersion, val passengerId: PassengerId) : SeatCommand(aggregateId, aggregateVersion)
     class CancelReservation(aggregateId: SeatId, aggregateVersion: AggregateVersion) : SeatCommand(aggregateId, aggregateVersion)
@@ -196,11 +193,22 @@ sealed class SeatCommand(val aggregateId: SeatId, val aggregateVersion: Aggregat
     override fun toString() =
             "${this.javaClass.simpleName}(aggregateId=$aggregateId, aggregateVersion=$aggregateVersion)"
 
-
 }
 
 
-sealed class SeatEvent(val aggregateId: SeatId, val aggregateVersion: AggregateVersion, val occurredAt: Instant, val eventId: EventId = EventId()) {
+interface Command<AggregateIdType : AggregateId> {
+    val aggregateId: SeatId
+    val aggregateVersion: AggregateVersion
+}
+
+interface DomainEvent<AggregateIdType : AggregateId> {
+    val aggregateId: AggregateIdType
+    val aggregateVersion: AggregateVersion
+    val domainEventId: DomainEventId
+    val occurredAt: Instant
+}
+
+sealed class SeatEvent(override val aggregateId: SeatId, override val aggregateVersion: AggregateVersion, override val occurredAt: Instant, override val domainEventId: DomainEventId = DomainEventId()) : DomainEvent<SeatId> {
     class SeatAddedForCourse(aggregateId: SeatId, aggregateVersion: AggregateVersion, occurredAt: Instant, val campBusCourseId: CampBusCourseId) : SeatEvent(aggregateId, aggregateVersion, occurredAt)
     class SeatReservedForPassenger(aggregateId: SeatId, aggregateVersion: AggregateVersion, occurredAt: Instant, val campBusCourseId: CampBusCourseId, val passengerId: PassengerId) : SeatEvent(aggregateId, aggregateVersion, occurredAt)
     class SeatReservationConfirmed(aggregateId: SeatId, aggregateVersion: AggregateVersion, occurredAt: Instant, val campBusCourseId: CampBusCourseId, val passengerId: PassengerId) : SeatEvent(aggregateId, aggregateVersion, occurredAt)
@@ -209,12 +217,12 @@ sealed class SeatEvent(val aggregateId: SeatId, val aggregateVersion: AggregateV
     class SeatRemovedFromCourse(aggregateId: SeatId, aggregateVersion: AggregateVersion, occurredAt: Instant, val campBusCourseId: CampBusCourseId, val passengerId: PassengerId?) : SeatEvent(aggregateId, aggregateVersion, occurredAt)
 
     override fun toString() =
-            "${this.javaClass.simpleName}(aggregateId=$aggregateId, aggregateVersion=$aggregateVersion, occuredAt=$occurredAt, eventId=$eventId)"
+            "${this.javaClass.simpleName}(aggregateId=$aggregateId, aggregateVersion=$aggregateVersion, occuredAt=$occurredAt, domainEventId=$domainEventId)"
 
 }
 
 
-data class AggregateVersion(private val version: Long) {
+class AggregateVersion(private val version: Long) {
     companion object {
         val ZERO = AggregateVersion(0)
     }
@@ -225,10 +233,27 @@ data class AggregateVersion(private val version: Long) {
 
     override fun toString(): String = version.toString()
 
-    operator fun inc() = AggregateVersion(version + 1)
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as AggregateVersion
+
+        if (version != other.version) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return version.hashCode()
+    }
+
 
 }
 
+
+interface StateMachineAggregate
+interface EventSourcedAggregate
 
 class EventStore {
     class EventStream(val aggreagateId: UUID)
