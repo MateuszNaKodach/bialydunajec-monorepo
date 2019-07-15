@@ -1,4 +1,4 @@
-package org.bialydunajec.campbus.domain.course
+package org.bialydunajec.campbus.domain
 
 
 sealed class CampBusCourse {
@@ -14,19 +14,5 @@ sealed class CampBusCourse {
     private class Completed {
 
     }
-
-}
-
-
-sealed class Command {
-
-}
-
-sealed class Event {
-
-}
-
-
-fun main() {
 
 }

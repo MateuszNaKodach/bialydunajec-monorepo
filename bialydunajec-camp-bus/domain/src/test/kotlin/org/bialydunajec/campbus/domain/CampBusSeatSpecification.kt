@@ -1,9 +1,10 @@
-package org.bialydunajec.campbus.domain.seat
+package org.bialydunajec.campbus.domain
 
 import arrow.core.Try
 import assertk.assertThat
 import assertk.assertions.isInstanceOf
 import assertk.assertions.isTrue
+import org.bialydunajec.campbus.domain.*
 import org.junit.jupiter.api.Assumptions.assumeTrue
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.gherkin.Feature

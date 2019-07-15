@@ -1,4 +1,4 @@
-package org.bialydunajec.campbus.domain.seat
+package org.bialydunajec.campbus.domain
 
 import java.time.Instant
 import java.util.*
@@ -14,8 +14,11 @@ enum class EventApplyingMode {
     }
 }
 
+class UnprocessableCommandException(val command: Command<*>, val aggregate: AggregateRoot<*>) : IllegalStateException("Command: <$command> cannot be processed by aggregate root: <$aggregate>!")
 
-internal sealed class Seat(protected val currentTimeProvider: TimeProvider, val uncommittedEvents: List<SeatEvent>, val version: AggregateVersion) {
+interface AggregateRoot<AggregateIdType : AggregateId>
+
+internal sealed class Seat(protected val currentTimeProvider: TimeProvider, val uncommittedEvents: List<SeatEvent>, val version: AggregateVersion) : AggregateRoot<SeatId> {
 
     fun replayEvent(event: SeatEvent) = applyEvent(event, EventApplyingMode.REPLAY_HISTORY)
 
@@ -51,7 +54,7 @@ internal sealed class Seat(protected val currentTimeProvider: TimeProvider, val 
         override fun process(command: SeatCommand) =
                 when (command) {
                     is SeatCommand.AddSeatForCourse -> applyEvent(SeatEvent.SeatAddedForCourse(command.aggregateId, version, currentTimeProvider(), command.campBusCourseId))
-                    else -> throw IllegalStateException("Command: <$command> cannot be processed by <$this>!")
+                    else -> throw UnprocessableCommandException(command, this)
                 }
 
         override fun composeOf(uncommitedHistory: List<SeatEvent>, lastEvent: SeatEvent, nextVersion: AggregateVersion): Seat =
@@ -68,7 +71,7 @@ internal sealed class Seat(protected val currentTimeProvider: TimeProvider, val 
                 when (command) {
                     is SeatCommand.ReserveSeat -> applyEvent(SeatEvent.SeatReservedForPassenger(command.aggregateId, version, currentTimeProvider(), campBusCourseId, command.passengerId))
                     is SeatCommand.RemoveSeatFromCourse -> applyEvent(SeatEvent.SeatRemovedFromCourse(command.aggregateId, version, currentTimeProvider(), campBusCourseId, null))
-                    else -> throw IllegalStateException("Command: <$command> cannot be processed by <$this>!")
+                    else -> throw UnprocessableCommandException(command, this)
                 }
 
         override fun composeOf(uncommitedHistory: List<SeatEvent>, lastEvent: SeatEvent, nextVersion: AggregateVersion): Seat =
@@ -91,7 +94,7 @@ internal sealed class Seat(protected val currentTimeProvider: TimeProvider, val 
                     is SeatCommand.ConfirmReservation -> applyEvent(SeatEvent.SeatReservationConfirmed(command.aggregateId, version, currentTimeProvider(), campBusCourseId, passengerId))
                     is SeatCommand.CancelReservation -> applyEvent(SeatEvent.SeatReservationCancelled(command.aggregateId, version, currentTimeProvider(), campBusCourseId, passengerId))
                     is SeatCommand.RemoveSeatFromCourse -> applyEvent(SeatEvent.SeatRemovedFromCourse(command.aggregateId, version, currentTimeProvider(), campBusCourseId, passengerId))
-                    else -> throw IllegalStateException("Command: <$command> cannot be processed by $this!")
+                    else -> throw UnprocessableCommandException(command, this)
                 }
 
         override fun composeOf(uncommitedHistory: List<SeatEvent>, lastEvent: SeatEvent, nextVersion: AggregateVersion): Seat =
@@ -113,7 +116,7 @@ internal sealed class Seat(protected val currentTimeProvider: TimeProvider, val 
                 when (command) {
                     is SeatCommand.ReleaseSeat -> applyEvent(SeatEvent.SeatReleased(command.aggregateId, version, currentTimeProvider(), campBusCourseId, passengerId))
                     is SeatCommand.RemoveSeatFromCourse -> applyEvent(SeatEvent.SeatRemovedFromCourse(command.aggregateId, version, currentTimeProvider(), campBusCourseId, passengerId))
-                    else -> throw IllegalStateException("Command: <$command> cannot be processed by <$this>!")
+                    else -> throw UnprocessableCommandException(command, this)
                 }
 
         override fun composeOf(uncommitedHistory: List<SeatEvent>, lastEvent: SeatEvent, nextVersion: AggregateVersion): Seat =
@@ -130,7 +133,7 @@ internal sealed class Seat(protected val currentTimeProvider: TimeProvider, val 
     class Removed(currentTimeProvider: TimeProvider, val seatId: SeatId, val campBusCourseId: CampBusCourseId, events: List<SeatEvent>, version: AggregateVersion) : Seat(currentTimeProvider, events, version) {
 
         override fun process(command: SeatCommand): Seat =
-                throw IllegalStateException("Command: <$command> cannot be processed by <$this>!")
+                throw UnprocessableCommandException(command, this)
 
         override fun composeOf(uncommitedHistory: List<SeatEvent>, lastEvent: SeatEvent, nextVersion: AggregateVersion): Seat =
                 this

@@ -1,7 +1,5 @@
-package org.bialydunajec.campbus.domain.course
+package org.bialydunajec.campbus.domain
 
-import org.bialydunajec.campbus.domain.Address
-import org.junit.jupiter.api.Test
 /*
 class `Camp bus courses specification` {
 
