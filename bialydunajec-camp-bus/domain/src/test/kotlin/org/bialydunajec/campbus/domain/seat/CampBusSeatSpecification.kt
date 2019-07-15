@@ -16,9 +16,11 @@ object CampBusSeatSpecification : Spek({
 
         val campBusCourseId: CampBusCourseId by memoized { CampBusCourseId() }
         val seatId: SeatId by memoized { SeatId() }
-        var seat: Seat = Seat.newInstance { Instant.now() }.handle(SeatCommand.AddSeatForCourse(seatId, campBusCourseId))
+        val initialSeat: Seat by memoized { Seat.newInstance { Instant.now() }.handle(SeatCommand.AddSeatForCourse(seatId, campBusCourseId)) }
 
         Scenario("Free camp bus seat") {
+
+            var seat: Seat = initialSeat
 
             Given("seat for reservation is free") {
                 assumeTrue { seat is Seat.Free }
@@ -35,6 +37,8 @@ object CampBusSeatSpecification : Spek({
         }
 
         Scenario("Already reserved camp bus seat") {
+
+            var seat: Seat = initialSeat
 
             Given("seat for reservation is reserved") {
                 seat = seat.handle(SeatCommand.ReserveSeat(seatId, seat.version, PassengerId()))
@@ -60,9 +64,53 @@ object CampBusSeatSpecification : Spek({
 
         Scenario("Already occupied camp bus seat") {
 
+            var seat: Seat = initialSeat
+
+            Given("seat for reservation is occupied") {
+                seat = seat.handle(SeatCommand.ReserveSeat(seatId, seat.version, PassengerId()))
+                seat = seat.handle(SeatCommand.ConfirmReservation(seatId, seat.version))
+                assumeTrue { seat is Seat.Occupied }
+            }
+
+            var reserveSeatFailure = false
+
+            When("passenger tries to reserve seat") {
+                reserveSeatFailure = Try { seat = seat.handle(SeatCommand.ReserveSeat(seatId, seat.version, PassengerId())) }.isFailure()
+            }
+
+            Then("try should fail") {
+                assertThat(reserveSeatFailure).isTrue()
+            }
+
+            Then("seat should be still occupied by the previous passenger") {
+                assertThat(seat).isInstanceOf(Seat.Occupied::class)
+            }
+
+
         }
 
         Scenario("Already removed camp bus seat") {
+
+            var seat: Seat = initialSeat
+
+            Given("seat for reservation is removed") {
+                seat = seat.handle(SeatCommand.RemoveSeatFromCourse(seatId, seat.version))
+                assumeTrue { seat is Seat.Removed }
+            }
+
+            var reserveSeatFailure = false
+
+            When("passenger tries to reserve seat") {
+                reserveSeatFailure = Try { seat = seat.handle(SeatCommand.ReserveSeat(seatId, seat.version, PassengerId())) }.isFailure()
+            }
+
+            Then("try should fail") {
+                assertThat(reserveSeatFailure).isTrue()
+            }
+
+            Then("seat should still be removed") {
+                assertThat(seat).isInstanceOf(Seat.Removed::class)
+            }
 
         }
 
