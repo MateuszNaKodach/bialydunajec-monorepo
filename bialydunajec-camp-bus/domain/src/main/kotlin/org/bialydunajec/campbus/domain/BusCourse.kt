@@ -1,7 +1,7 @@
 package org.bialydunajec.campbus.domain
 
 
-sealed class CampBusCourse {
+sealed class BusCourse {
 
     private class Planned {
 

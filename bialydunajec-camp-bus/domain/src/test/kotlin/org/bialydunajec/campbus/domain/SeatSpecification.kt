@@ -9,21 +9,21 @@ import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.gherkin.Feature
 import java.time.Instant
 
-object CampBusSeatSpecification : Spek({
+object SeatSpecification : Spek({
 
 
-    Feature("Camp bus seat reservations") {
+    Feature("Seat reservations for Camp Bus") {
 
-        val campBusCourseId: CampBusCourseId by memoized { CampBusCourseId() }
+        val campBusCourseId: BusCourseId by memoized { BusCourseId() }
         val seatId: SeatId by memoized { SeatId() }
-        val initialSeat: CampBusSeat by memoized { CampBusSeat.newInstance { Instant.now() }.handle(SeatCommand.AddSeatForCourse(seatId, campBusCourseId)) }
+        val initialSeat: Seat by memoized { Seat.newInstance { Instant.now() }.handle(SeatCommand.AddSeatForCourse(seatId, campBusCourseId)) }
 
-        Scenario("Free camp bus seat") {
+        Scenario("Free seat") {
 
-            var seat: CampBusSeat = initialSeat
+            var seat: Seat = initialSeat
 
             Given("seat for reservation is free") {
-                assumeTrue { seat is CampBusSeat.Free }
+                assumeTrue { seat is Seat.Free }
             }
 
             When("passenger reserves seat") {
@@ -31,18 +31,18 @@ object CampBusSeatSpecification : Spek({
             }
 
             Then("seat should be reserved for the passenger") {
-                assertThat(seat).isInstanceOf(CampBusSeat.Reserved::class)
+                assertThat(seat).isInstanceOf(Seat.Reserved::class)
             }
 
         }
 
-        Scenario("Already reserved camp bus seat") {
+        Scenario("Already reserved seat") {
 
-            var seat: CampBusSeat = initialSeat
+            var seat: Seat = initialSeat
 
             Given("seat for reservation is reserved") {
                 seat = seat.handle(SeatCommand.ReserveSeat(seatId, seat.version, PassengerId()))
-                assumeTrue { seat is CampBusSeat.Reserved }
+                assumeTrue { seat is Seat.Reserved }
             }
 
             var reserveSeatFailure = false
@@ -56,20 +56,20 @@ object CampBusSeatSpecification : Spek({
             }
 
             Then("seat should be still reserved for the previous passenger") {
-                assertThat(seat).isInstanceOf(CampBusSeat.Reserved::class)
+                assertThat(seat).isInstanceOf(Seat.Reserved::class)
             }
 
 
         }
 
-        Scenario("Already occupied camp bus seat") {
+        Scenario("Already occupied seat") {
 
-            var seat: CampBusSeat = initialSeat
+            var seat: Seat = initialSeat
 
             Given("seat for reservation is occupied") {
                 seat = seat.handle(SeatCommand.ReserveSeat(seatId, seat.version, PassengerId()))
                 seat = seat.handle(SeatCommand.ConfirmReservation(seatId, seat.version))
-                assumeTrue { seat is CampBusSeat.Occupied }
+                assumeTrue { seat is Seat.Occupied }
             }
 
             var reserveSeatFailure = false
@@ -83,19 +83,19 @@ object CampBusSeatSpecification : Spek({
             }
 
             Then("seat should be still occupied by the previous passenger") {
-                assertThat(seat).isInstanceOf(CampBusSeat.Occupied::class)
+                assertThat(seat).isInstanceOf(Seat.Occupied::class)
             }
 
 
         }
 
-        Scenario("Already removed camp bus seat") {
+        Scenario("Already removed seat") {
 
-            var seat: CampBusSeat = initialSeat
+            var seat: Seat = initialSeat
 
             Given("seat for reservation is removed") {
                 seat = seat.handle(SeatCommand.RemoveSeatFromCourse(seatId, seat.version))
-                assumeTrue { seat is CampBusSeat.Removed }
+                assumeTrue { seat is Seat.Removed }
             }
 
             var reserveSeatFailure = false
@@ -109,7 +109,7 @@ object CampBusSeatSpecification : Spek({
             }
 
             Then("seat should still be removed") {
-                assertThat(seat).isInstanceOf(CampBusSeat.Removed::class)
+                assertThat(seat).isInstanceOf(Seat.Removed::class)
             }
 
         }
