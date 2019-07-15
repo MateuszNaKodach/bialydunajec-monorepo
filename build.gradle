@@ -76,7 +76,6 @@ allprojects {
         compile "io.arrow-kt:arrow-instances-core:$arrowVersion"
         compile "io.arrow-kt:arrow-instances-data:$arrowVersion"
         kapt "io.arrow-kt:arrow-annotations-processor:$arrowVersion"
-
         compile "io.arrow-kt:arrow-query-language:$arrowVersion" //optional
         compile "io.arrow-kt:arrow-free:$arrowVersion" //optional
         compile "io.arrow-kt:arrow-instances-free:$arrowVersion" //optional
@@ -95,6 +94,8 @@ allprojects {
         compile "io.arrow-kt:arrow-instances-recursion:$arrowVersion" //optional
         compile "io.arrow-kt:arrow-integration-retrofit-adapter:$arrowVersion" //optional
 
+        compile("com.github.nowakprojects:kt-time-traveler-core:${ktTimeTravelerVersion}")
+
         testCompile("org.spockframework:spock-core:${spockVersion}")
         testCompile("org.spockframework:spock-spring:${spockVersion}")
         testCompile("org.junit.jupiter:junit-jupiter-api:${jUnitVersion}")
@@ -104,6 +105,8 @@ allprojects {
         testCompile "org.spekframework.spek2:spek-dsl-jvm:$spekVersion"
         testRuntime "org.spekframework.spek2:spek-runner-junit5:$spekVersion"
         testCompile "com.willowtreeapps.assertk:assertk-jvm:$assertkVersion"
+        testCompile("com.github.nowakprojects:kt-time-traveler-test:${ktTimeTravelerVersion}")
+
     }
 
 }

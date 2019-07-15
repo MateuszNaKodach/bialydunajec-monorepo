@@ -1,7 +1,9 @@
 package org.bialydunajec.campbus.domain.seat
 
+import arrow.core.Try
 import assertk.assertThat
 import assertk.assertions.isInstanceOf
+import assertk.assertions.isTrue
 import org.junit.jupiter.api.Assumptions.assumeTrue
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.gherkin.Feature
@@ -10,7 +12,7 @@ import java.time.Instant
 object CampBusSeatSpecification : Spek({
 
 
-    Feature("Reserve camp bus seat") {
+    Feature("Camp bus seat reservations") {
 
         val campBusCourseId: CampBusCourseId by memoized { CampBusCourseId() }
         val seatId: SeatId by memoized { SeatId() }
@@ -22,7 +24,7 @@ object CampBusSeatSpecification : Spek({
                 assumeTrue { seat is Seat.Free }
             }
 
-            When("passenger reserve seat") {
+            When("passenger reserves seat") {
                 seat = seat.handle(SeatCommand.ReserveSeat(seatId, seat.version, PassengerId()))
             }
 
@@ -34,20 +36,22 @@ object CampBusSeatSpecification : Spek({
 
         Scenario("Already reserved camp bus seat") {
 
-            Given("seat for reservation is reserved for passenger Anna") {
+            Given("seat for reservation is reserved") {
                 seat = seat.handle(SeatCommand.ReserveSeat(seatId, seat.version, PassengerId()))
                 assumeTrue { seat is Seat.Reserved }
             }
 
-            lateinit var exception: Throwable
+            var reserveSeatFailure = false
 
-            When("passenger Mateusz reserve seat") {
-                //exception = shouldThrow<> {
-                //    seat = seat.handle(SeatCommand.ReserveSeat(seatId, seat.version, PassengerId()))
-                //}
+            When("passenger tries to reserve seat") {
+                reserveSeatFailure = Try { seat = seat.handle(SeatCommand.ReserveSeat(seatId, seat.version, PassengerId())) }.isFailure()
             }
 
-            Then("seat should be still reserved for the passenger Anna") {
+            Then("try should fail") {
+                assertThat(reserveSeatFailure).isTrue()
+            }
+
+            Then("seat should be still reserved for the previous passenger") {
                 assertThat(seat).isInstanceOf(Seat.Reserved::class)
             }
 

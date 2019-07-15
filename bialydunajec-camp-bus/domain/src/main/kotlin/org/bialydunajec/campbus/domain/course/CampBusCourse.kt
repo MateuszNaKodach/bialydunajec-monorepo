@@ -1,5 +1,6 @@
 package org.bialydunajec.campbus.domain.course
 
+
 sealed class CampBusCourse {
 
     private class Planned {
@@ -22,5 +23,10 @@ sealed class Command {
 }
 
 sealed class Event {
+
+}
+
+
+fun main() {
 
 }
