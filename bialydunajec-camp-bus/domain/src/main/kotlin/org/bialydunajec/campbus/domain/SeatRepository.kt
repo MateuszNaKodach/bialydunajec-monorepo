@@ -1,8 +1,8 @@
 package org.bialydunajec.campbus.domain
 
-internal interface SeatRepository {
+interface SeatRepository {
 
-    fun save(campBusSeat: Seat)
-    fun findById()
+    fun save(seat: Seat)
+    fun findById(seatId: SeatId): Seat?
 
 }

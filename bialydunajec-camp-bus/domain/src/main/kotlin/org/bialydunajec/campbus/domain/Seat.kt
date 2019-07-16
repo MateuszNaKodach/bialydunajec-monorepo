@@ -3,7 +3,7 @@ package org.bialydunajec.campbus.domain
 import org.bialydunajec.eventsourcing.domain.*
 
 
-internal sealed class Seat(protected val currentTimeProvider: TimeProvider, val uncommittedEvents: List<SeatEvent>, val version: AggregateVersion) : AggregateRoot<SeatId> {
+sealed class Seat(protected val currentTimeProvider: TimeProvider, val uncommittedEvents: List<SeatEvent>, val version: AggregateVersion) : AggregateRoot<SeatId> {
 
     fun replayEvent(event: SeatEvent) = applyEvent(event, EventApplyingMode.REPLAY_HISTORY)
 
