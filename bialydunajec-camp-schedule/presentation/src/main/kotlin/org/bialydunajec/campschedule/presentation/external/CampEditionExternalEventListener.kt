@@ -1,5 +1,5 @@
 package org.bialydunajec.campschedule.presentation.external
-
+/*
 import org.bialydunajec.campedition.messages.event.CampEditionExternalEvent
 import org.bialydunajec.campschedule.application.external.CampEditionExternalEventProcessor
 import org.bialydunajec.ddd.application.base.external.event.ExternalEvent
@@ -26,3 +26,4 @@ internal class CampEditionExternalEventListener internal constructor(
         }
     }
 }
+*/

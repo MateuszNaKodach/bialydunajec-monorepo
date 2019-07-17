@@ -10,6 +10,7 @@ jar {
 
 dependencies {
     compile project(':bialydunajec-ddd:bialydunajec-ddd-presentation')
+    //compile project(':bialydunajec-ddd:bialydunajec-ddd-application') //TODO: Temporary dependency, because ExternalEventSubscriber is from this package
     compile project(':bialydunajec-camp-schedule:bialydunajec-camp-schedule-application')
     compile project(':bialydunajec-camp-schedule:bialydunajec-camp-schedule-messages')
 
