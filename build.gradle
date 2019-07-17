@@ -107,6 +107,8 @@ allprojects {
         testRuntime "org.spekframework.spek2:spek-runner-junit5:$spekVersion"
         testCompile "com.willowtreeapps.assertk:assertk-jvm:$assertkVersion"
         testCompile("com.github.nowakprojects:kt-time-traveler-test:${ktTimeTravelerVersion}")
+        testCompile "com.tngtech.archunit:archunit-junit5-api:${archUnitVersion}"
+        testRuntime "com.tngtech.archunit:archunit-junit5-engine:${archUnitVersion}"
 
     }
 
