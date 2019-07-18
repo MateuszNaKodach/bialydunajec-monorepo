@@ -2,6 +2,7 @@ allprojects {
     apply plugin: 'kotlin'
     apply plugin: 'kotlin-spring'
     apply plugin: 'kotlin-jpa'
+    apply plugin: 'kotlin-kapt'
     apply plugin: 'groovy'
     apply plugin: 'maven'
     apply plugin: 'org.springframework.boot'
@@ -41,6 +42,8 @@ allprojects {
                 password nexusPassword
             }
         }
+        maven { url "https://dl.bintray.com/arrow-kt/arrow-kt/" }
+        maven { url "https://dl.bintray.com/spekframework/spek" }
     }
 
     uploadArchives {
@@ -65,11 +68,48 @@ allprojects {
         compile('javax.activation:activation:1.1')
         compile('org.glassfish.jaxb:jaxb-runtime:2.3.0')
 
+        //Kotlin Arrow
+        compile "io.arrow-kt:arrow-core:$arrowVersion"
+        compile "io.arrow-kt:arrow-syntax:$arrowVersion"
+        compile "io.arrow-kt:arrow-typeclasses:$arrowVersion"
+        compile "io.arrow-kt:arrow-data:$arrowVersion"
+        compile "io.arrow-kt:arrow-instances-core:$arrowVersion"
+        compile "io.arrow-kt:arrow-instances-data:$arrowVersion"
+        kapt "io.arrow-kt:arrow-annotations-processor:$arrowVersion"
+        compile "io.arrow-kt:arrow-query-language:$arrowVersion" //optional
+        compile "io.arrow-kt:arrow-free:$arrowVersion" //optional
+        compile "io.arrow-kt:arrow-instances-free:$arrowVersion" //optional
+        compile "io.arrow-kt:arrow-mtl:$arrowVersion" //optional
+        compile "io.arrow-kt:arrow-effects:$arrowVersion" //optional
+        compile "io.arrow-kt:arrow-effects-instances:$arrowVersion" //optional
+        compile "io.arrow-kt:arrow-effects-rx2:$arrowVersion" //optional
+        compile "io.arrow-kt:arrow-effects-rx2-instances:$arrowVersion" //optional
+        compile "io.arrow-kt:arrow-effects-reactor:$arrowVersion" //optional
+        compile "io.arrow-kt:arrow-effects-reactor-instances:$arrowVersion" //optional
+        compile "io.arrow-kt:arrow-effects-kotlinx-coroutines:$arrowVersion" //optional
+        compile "io.arrow-kt:arrow-effects-kotlinx-coroutines-instances:$arrowVersion" //optional
+        compile "io.arrow-kt:arrow-optics:$arrowVersion" //optional
+        compile "io.arrow-kt:arrow-generic:$arrowVersion" //optional
+        compile "io.arrow-kt:arrow-recursion:$arrowVersion" //optional
+        compile "io.arrow-kt:arrow-instances-recursion:$arrowVersion" //optional
+        compile "io.arrow-kt:arrow-integration-retrofit-adapter:$arrowVersion" //optional
+
+        compile("com.github.nowakprojects:kt-time-traveler-core:${ktTimeTravelerVersion}")
+
+        testCompile("org.jetbrains.kotlin:kotlin-test")
         testCompile("org.spockframework:spock-core:${spockVersion}")
         testCompile("org.spockframework:spock-spring:${spockVersion}")
         testCompile("org.junit.jupiter:junit-jupiter-api:${jUnitVersion}")
         testCompile("org.junit.jupiter:junit-jupiter-params:${jUnitVersion}")
         testRuntime("org.junit.jupiter:junit-jupiter-engine:${jUnitVersion}")
+        testCompile("org.assertj:assertj-core:${assertjVersion}")
+        testCompile "org.spekframework.spek2:spek-dsl-jvm:$spekVersion"
+        testRuntime "org.spekframework.spek2:spek-runner-junit5:$spekVersion"
+        testCompile "com.willowtreeapps.assertk:assertk-jvm:$assertkVersion"
+        testCompile("com.github.nowakprojects:kt-time-traveler-test:${ktTimeTravelerVersion}")
+        testCompile "com.tngtech.archunit:archunit-junit5-api:${archUnitVersion}"
+        testRuntime "com.tngtech.archunit:archunit-junit5-engine:${archUnitVersion}"
+
     }
 
 }
