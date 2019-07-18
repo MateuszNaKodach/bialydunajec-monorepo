@@ -6,22 +6,12 @@ include 'bialydunajec-ddd:application',
         'bialydunajec-ddd:infrastructure',
         'bialydunajec-ddd:dto'
 
-/*
-include 'bialydunajec-core',
-        'bialydunajec-core:application',
-        'bialydunajec-core:presentation',
-        'bialydunajec-core:domain',
-        'bialydunajec-core:infrastructure'
-*/
-
-include 'bialydunajec-news',
-        'bialydunajec-news:application',
+include 'bialydunajec-news:application',
         'bialydunajec-news:presentation',
         'bialydunajec-news:domain',
         'bialydunajec-news:infrastructure'
 
-include 'bialydunajec-camp-edition',
-        'bialydunajec-camp-edition:application',
+include 'bialydunajec-camp-edition:application',
         'bialydunajec-camp-edition:presentation',
         'bialydunajec-camp-edition:domain',
         'bialydunajec-camp-edition:infrastructure',
@@ -33,15 +23,13 @@ include 'bialydunajec-camp-schedule',
         'bialydunajec-camp-schedule:ddd-axon'
 
 
-include 'bialydunajec-academic-ministry',
-        'bialydunajec-academic-ministry:application',
+include 'bialydunajec-academic-ministry:application',
         'bialydunajec-academic-ministry:presentation',
         'bialydunajec-academic-ministry:domain',
         'bialydunajec-academic-ministry:infrastructure',
         'bialydunajec-academic-ministry:messages'
 
-include 'bialydunajec-registrations',
-        'bialydunajec-registrations:application',
+include 'bialydunajec-registrations:application',
         'bialydunajec-registrations:presentation',
         'bialydunajec-registrations:domain',
         'bialydunajec-registrations:infrastructure',
@@ -49,23 +37,20 @@ include 'bialydunajec-registrations',
         'bialydunajec-registrations:dto',
         'bialydunajec-registrations:read-model'
 
-include 'bialydunajec-email',
-        'bialydunajec-email:application',
+include 'bialydunajec-email:application',
         'bialydunajec-email:presentation',
         'bialydunajec-email:domain',
         'bialydunajec-email:infrastructure',
         'bialydunajec-email:messages',
         'bialydunajec-email:read-model'
 
-include 'bialydunajec-users',
-        'bialydunajec-users:application',
+include 'bialydunajec-users:application',
         'bialydunajec-users:presentation',
         'bialydunajec-users:domain',
         'bialydunajec-users:infrastructure',
         'bialydunajec-users:messages'
 
-include 'bialydunajec-camp-bus',
-        'bialydunajec-camp-bus:application',
+include 'bialydunajec-camp-bus:application',
         'bialydunajec-camp-bus:presentation',
         'bialydunajec-camp-bus:domain',
         'bialydunajec-camp-bus:infrastructure',
