@@ -2,6 +2,7 @@ package org.bialydunajec.campbus.domain
 
 import arrow.core.Try
 import assertk.assertThat
+import assertk.assertions.contains
 import assertk.assertions.isInstanceOf
 import assertk.assertions.isTrue
 import org.junit.jupiter.api.Assumptions.assumeTrue
@@ -16,6 +17,7 @@ object SeatSpecification : Spek({
 
         val campBusCourseId: BusCourseId by memoized { BusCourseId() }
         val seatId: SeatId by memoized { SeatId() }
+        val passengerId: PassengerId by memoized { PassengerId() }
         val initialSeat: Seat by memoized { Seat.newInstance { Instant.now() }.handle(SeatCommand.AddSeatForCourse(seatId, campBusCourseId)) }
 
         Scenario("Free seat") {
@@ -27,7 +29,7 @@ object SeatSpecification : Spek({
             }
 
             When("passenger reserves seat") {
-                seat = seat.handle(SeatCommand.ReserveSeat(seatId, seat.version, PassengerId()))
+                seat = seat.handle(SeatCommand.ReserveSeat(seatId, seat.version, passengerId))
             }
 
             Then("seat should be reserved for the passenger") {
@@ -41,14 +43,14 @@ object SeatSpecification : Spek({
             var seat: Seat = initialSeat
 
             Given("seat for reservation is reserved") {
-                seat = seat.handle(SeatCommand.ReserveSeat(seatId, seat.version, PassengerId()))
+                seat = seat.handle(SeatCommand.ReserveSeat(seatId, seat.version, passengerId))
                 assumeTrue { seat is Seat.Reserved }
             }
 
             var reserveSeatFailure = false
 
             When("passenger tries to reserve seat") {
-                reserveSeatFailure = Try { seat = seat.handle(SeatCommand.ReserveSeat(seatId, seat.version, PassengerId())) }.isFailure()
+                reserveSeatFailure = Try { seat = seat.handle(SeatCommand.ReserveSeat(seatId, seat.version, passengerId)) }.isFailure()
             }
 
             Then("try should fail") {
@@ -67,7 +69,7 @@ object SeatSpecification : Spek({
             var seat: Seat = initialSeat
 
             Given("seat for reservation is occupied") {
-                seat = seat.handle(SeatCommand.ReserveSeat(seatId, seat.version, PassengerId()))
+                seat = seat.handle(SeatCommand.ReserveSeat(seatId, seat.version, passengerId))
                 seat = seat.handle(SeatCommand.ConfirmReservation(seatId, seat.version))
                 assumeTrue { seat is Seat.Occupied }
             }
@@ -75,7 +77,7 @@ object SeatSpecification : Spek({
             var reserveSeatFailure = false
 
             When("passenger tries to reserve seat") {
-                reserveSeatFailure = Try { seat = seat.handle(SeatCommand.ReserveSeat(seatId, seat.version, PassengerId())) }.isFailure()
+                reserveSeatFailure = Try { seat = seat.handle(SeatCommand.ReserveSeat(seatId, seat.version, passengerId)) }.isFailure()
             }
 
             Then("try should fail") {
@@ -101,7 +103,7 @@ object SeatSpecification : Spek({
             var reserveSeatFailure = false
 
             When("passenger tries to reserve seat") {
-                reserveSeatFailure = Try { seat = seat.handle(SeatCommand.ReserveSeat(seatId, seat.version, PassengerId())) }.isFailure()
+                reserveSeatFailure = Try { seat = seat.handle(SeatCommand.ReserveSeat(seatId, seat.version, passengerId)) }.isFailure()
             }
 
             Then("try should fail") {
