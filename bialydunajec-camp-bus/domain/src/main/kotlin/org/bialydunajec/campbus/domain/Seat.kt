@@ -3,127 +3,131 @@ package org.bialydunajec.campbus.domain
 import org.bialydunajec.eventsourcing.domain.*
 
 
-sealed class Seat(protected val currentTimeProvider: TimeProvider, val uncommittedEvents: List<SeatEvent>, val version: AggregateVersion) : AggregateRoot<SeatId> {
+sealed class Seat(protected val currentTimeProvider: TimeProvider, override val aggregateId: SeatId, override val changes: List<SeatEvent>, override val aggregateVersion: AggregateVersion)
+    : EventSourcedAggregateRoot<SeatId, SeatEvent> {
 
     fun replayEvent(event: SeatEvent) = applyEvent(event, EventApplyingMode.REPLAY_HISTORY)
 
     fun applyEvent(event: SeatEvent, mode: EventApplyingMode = EventApplyingMode.DEFAULT): Seat =
             composeOf(
                     when (mode) {
-                        EventApplyingMode.APPLY_NEW_CHANGE -> listOf<SeatEvent>(*uncommittedEvents.toTypedArray(), event)
-                        EventApplyingMode.REPLAY_HISTORY -> uncommittedEvents
+                        EventApplyingMode.APPLY_NEW_CHANGE -> listOf<SeatEvent>(*changes.toTypedArray(), event)
+                        EventApplyingMode.REPLAY_HISTORY -> changes
                     },
                     event,
-                    version.increase()
+                    aggregateVersion.increase()
             )
 
     fun handle(command: SeatCommand): Seat {
-        if (this.version !== command.aggregateVersion) {
-            throw AggregateVersionMismatchException(version, command.aggregateVersion)
+        if (this.aggregateVersion !== command.aggregateVersion) {
+            throw AggregateVersionMismatchException(aggregateVersion, command.aggregateVersion)
         }
-        return process(command)
+        return applyEvent(process(command))
     }
 
-    protected abstract fun process(command: SeatCommand): Seat
+    abstract fun process(command: SeatCommand): SeatEvent
 
-    protected abstract fun composeOf(uncommitedHistory: List<SeatEvent>, lastEvent: SeatEvent, nextVersion: AggregateVersion): Seat
+    protected abstract fun composeOf(uncommittedHistory: List<SeatEvent>, lastEvent: SeatEvent, nextAggregateVersion: AggregateVersion): Seat
 
-    override fun toString() = "Seat(version=$version)"
+    override fun toString() = "Seat(aggregateVersion=$aggregateVersion)"
 
     companion object {
-        fun newInstance(currentTimeProvider: TimeProvider): Seat = Uninitialized(currentTimeProvider, emptyList(), AggregateVersion.ZERO)
+        fun recreateFrom(currentTimeProvider: TimeProvider, domainEvents: List<SeatEvent>) =
+                domainEvents.fold(newInstance(currentTimeProvider)) { acc: Seat, domainEvent: SeatEvent -> acc.replayEvent(domainEvent) }
+
+        fun newInstance(currentTimeProvider: TimeProvider): Seat = Uninitialized(currentTimeProvider, SeatId.undefined(), emptyList(), AggregateVersion.ZERO)
     }
 
-    class Uninitialized(currentTimeProvider: TimeProvider, events: List<SeatEvent>, version: AggregateVersion) : Seat(currentTimeProvider, events, version) {
+    class Uninitialized(currentTimeProvider: TimeProvider, aggregateId: SeatId, events: List<SeatEvent>, aggregateVersion: AggregateVersion) : Seat(currentTimeProvider, aggregateId, events, aggregateVersion) {
 
         override fun process(command: SeatCommand) =
                 when (command) {
-                    is SeatCommand.AddSeatForCourse -> applyEvent(SeatEvent.SeatAddedForCourse(command.aggregateId, version, currentTimeProvider(), command.campBusCourseId))
+                    is SeatCommand.AddSeatForCourse -> SeatEvent.SeatAddedForCourse(command.aggregateId, aggregateVersion, currentTimeProvider(), command.campBusCourseId)
                     else -> throw UnprocessableCommandException(command, this)
                 }
 
-        override fun composeOf(uncommitedHistory: List<SeatEvent>, lastEvent: SeatEvent, nextVersion: AggregateVersion): Seat =
+        override fun composeOf(uncommittedHistory: List<SeatEvent>, lastEvent: SeatEvent, nextAggregateVersion: AggregateVersion): Seat =
                 when (lastEvent) {
-                    is SeatEvent.SeatAddedForCourse -> Free(currentTimeProvider, lastEvent.aggregateId, lastEvent.campBusCourseId, uncommitedHistory, nextVersion)
+                    is SeatEvent.SeatAddedForCourse -> Free(currentTimeProvider, lastEvent.aggregateId, lastEvent.campBusCourseId, uncommittedHistory, nextAggregateVersion)
                     else -> this
                 }
 
     }
 
-    class Free(currentTimeProvider: TimeProvider, val seatId: SeatId, val campBusCourseId: BusCourseId, events: List<SeatEvent>, version: AggregateVersion) : Seat(currentTimeProvider, events, version) {
+    class Free(currentTimeProvider: TimeProvider, aggregateId: SeatId, val campBusCourseId: BusCourseId, events: List<SeatEvent>, aggregateVersion: AggregateVersion) : Seat(currentTimeProvider, aggregateId, events, aggregateVersion) {
 
-        override fun process(command: SeatCommand): Seat =
+        override fun process(command: SeatCommand): SeatEvent =
                 when (command) {
-                    is SeatCommand.ReserveSeat -> applyEvent(SeatEvent.SeatReservedForPassenger(command.aggregateId, version, currentTimeProvider(), campBusCourseId, command.passengerId))
-                    is SeatCommand.RemoveSeatFromCourse -> applyEvent(SeatEvent.SeatRemovedFromCourse(command.aggregateId, version, currentTimeProvider(), campBusCourseId, null))
+                    is SeatCommand.ReserveSeat -> SeatEvent.SeatReservedForPassenger(command.aggregateId, aggregateVersion, currentTimeProvider(), campBusCourseId, command.passengerId)
+                    is SeatCommand.RemoveSeatFromCourse -> SeatEvent.SeatRemovedFromCourse(command.aggregateId, aggregateVersion, currentTimeProvider(), campBusCourseId, null)
                     else -> throw UnprocessableCommandException(command, this)
                 }
 
-        override fun composeOf(uncommitedHistory: List<SeatEvent>, lastEvent: SeatEvent, nextVersion: AggregateVersion): Seat =
+        override fun composeOf(uncommittedHistory: List<SeatEvent>, lastEvent: SeatEvent, nextAggregateVersion: AggregateVersion): Seat =
                 when (lastEvent) {
-                    is SeatEvent.SeatReservedForPassenger -> Reserved(currentTimeProvider, lastEvent.aggregateId, campBusCourseId, lastEvent.passengerId, uncommitedHistory, nextVersion)
-                    is SeatEvent.SeatRemovedFromCourse -> Removed(currentTimeProvider, lastEvent.aggregateId, campBusCourseId, uncommitedHistory, nextVersion)
+                    is SeatEvent.SeatReservedForPassenger -> Reserved(currentTimeProvider, lastEvent.aggregateId, campBusCourseId, lastEvent.passengerId, uncommittedHistory, nextAggregateVersion)
+                    is SeatEvent.SeatRemovedFromCourse -> Removed(currentTimeProvider, lastEvent.aggregateId, campBusCourseId, uncommittedHistory, nextAggregateVersion)
                     else -> this
                 }
 
-        override fun toString() = "Free(seatId=$seatId, campBusCourseId=$campBusCourseId, version=$version)"
+        override fun toString() = "Free(aggregateId=$aggregateId, campBusCourseId=$campBusCourseId, aggregateVersion=$aggregateVersion)"
 
 
     }
 
 
-    class Reserved(currentTimeProvider: TimeProvider, val seatId: SeatId, val campBusCourseId: BusCourseId, private val passengerId: PassengerId, events: List<SeatEvent>, version: AggregateVersion) : Seat(currentTimeProvider, events, version) {
+    class Reserved(currentTimeProvider: TimeProvider, aggregateId: SeatId, val campBusCourseId: BusCourseId, private val passengerId: PassengerId, events: List<SeatEvent>, aggregateVersion: AggregateVersion) : Seat(currentTimeProvider, aggregateId, events, aggregateVersion) {
 
-        override fun process(command: SeatCommand): Seat =
+        override fun process(command: SeatCommand) =
                 when (command) {
-                    is SeatCommand.ConfirmReservation -> applyEvent(SeatEvent.SeatReservationConfirmed(command.aggregateId, version, currentTimeProvider(), campBusCourseId, passengerId))
-                    is SeatCommand.CancelReservation -> applyEvent(SeatEvent.SeatReservationCancelled(command.aggregateId, version, currentTimeProvider(), campBusCourseId, passengerId))
-                    is SeatCommand.RemoveSeatFromCourse -> applyEvent(SeatEvent.SeatRemovedFromCourse(command.aggregateId, version, currentTimeProvider(), campBusCourseId, passengerId))
+                    is SeatCommand.ConfirmReservation -> SeatEvent.SeatReservationConfirmed(command.aggregateId, aggregateVersion, currentTimeProvider(), campBusCourseId, passengerId)
+                    is SeatCommand.CancelReservation -> SeatEvent.SeatReservationCancelled(command.aggregateId, aggregateVersion, currentTimeProvider(), campBusCourseId, passengerId)
+                    is SeatCommand.RemoveSeatFromCourse -> SeatEvent.SeatRemovedFromCourse(command.aggregateId, aggregateVersion, currentTimeProvider(), campBusCourseId, passengerId)
                     else -> throw UnprocessableCommandException(command, this)
                 }
 
-        override fun composeOf(uncommitedHistory: List<SeatEvent>, lastEvent: SeatEvent, nextVersion: AggregateVersion): Seat =
+        override fun composeOf(uncommittedHistory: List<SeatEvent>, lastEvent: SeatEvent, nextAggregateVersion: AggregateVersion): Seat =
                 when (lastEvent) {
-                    is SeatEvent.SeatReservationCancelled -> Free(currentTimeProvider, lastEvent.aggregateId, campBusCourseId, uncommitedHistory, nextVersion)
-                    is SeatEvent.SeatReservationConfirmed -> Occupied(currentTimeProvider, lastEvent.aggregateId, campBusCourseId, lastEvent.passengerId, uncommitedHistory, nextVersion)
-                    is SeatEvent.SeatRemovedFromCourse -> Removed(currentTimeProvider, lastEvent.aggregateId, campBusCourseId, uncommitedHistory, nextVersion)
+                    is SeatEvent.SeatReservationCancelled -> Free(currentTimeProvider, lastEvent.aggregateId, campBusCourseId, uncommittedHistory, nextAggregateVersion)
+                    is SeatEvent.SeatReservationConfirmed -> Occupied(currentTimeProvider, lastEvent.aggregateId, campBusCourseId, lastEvent.passengerId, uncommittedHistory, nextAggregateVersion)
+                    is SeatEvent.SeatRemovedFromCourse -> Removed(currentTimeProvider, lastEvent.aggregateId, campBusCourseId, uncommittedHistory, nextAggregateVersion)
                     else -> this
                 }
 
 
-        override fun toString() = "Free(seatId=$seatId, campBusCourseId=$campBusCourseId, passengerId=$passengerId, version=$version)"
+        override fun toString() = "Free(aggregateId=$aggregateId, campBusCourseId=$campBusCourseId, passengerId=$passengerId, aggregateVersion=$aggregateVersion)"
 
     }
 
-    class Occupied(currentTimeProvider: TimeProvider, val seatId: SeatId, val campBusCourseId: BusCourseId, private val passengerId: PassengerId, events: List<SeatEvent>, version: AggregateVersion) : Seat(currentTimeProvider, events, version) {
+    class Occupied(currentTimeProvider: TimeProvider, aggregateId: SeatId, val campBusCourseId: BusCourseId, private val passengerId: PassengerId, events: List<SeatEvent>, aggregateVersion: AggregateVersion) : Seat(currentTimeProvider, aggregateId, events, aggregateVersion) {
 
-        override fun process(command: SeatCommand): Seat =
+        override fun process(command: SeatCommand) =
                 when (command) {
-                    is SeatCommand.ReleaseSeat -> applyEvent(SeatEvent.SeatReleased(command.aggregateId, version, currentTimeProvider(), campBusCourseId, passengerId))
-                    is SeatCommand.RemoveSeatFromCourse -> applyEvent(SeatEvent.SeatRemovedFromCourse(command.aggregateId, version, currentTimeProvider(), campBusCourseId, passengerId))
+                    is SeatCommand.ReleaseSeat -> SeatEvent.SeatReleased(command.aggregateId, aggregateVersion, currentTimeProvider(), campBusCourseId, passengerId)
+                    is SeatCommand.RemoveSeatFromCourse -> SeatEvent.SeatRemovedFromCourse(command.aggregateId, aggregateVersion, currentTimeProvider(), campBusCourseId, passengerId)
                     else -> throw UnprocessableCommandException(command, this)
                 }
 
-        override fun composeOf(uncommitedHistory: List<SeatEvent>, lastEvent: SeatEvent, nextVersion: AggregateVersion): Seat =
+        override fun composeOf(uncommittedHistory: List<SeatEvent>, lastEvent: SeatEvent, nextAggregateVersion: AggregateVersion): Seat =
                 when (lastEvent) {
-                    is SeatEvent.SeatReleased -> Free(currentTimeProvider, lastEvent.aggregateId, campBusCourseId, uncommitedHistory, nextVersion)
-                    is SeatEvent.SeatRemovedFromCourse -> Removed(currentTimeProvider, lastEvent.aggregateId, campBusCourseId, uncommitedHistory, nextVersion)
+                    is SeatEvent.SeatReleased -> Free(currentTimeProvider, lastEvent.aggregateId, campBusCourseId, uncommittedHistory, nextAggregateVersion)
+                    is SeatEvent.SeatRemovedFromCourse -> Removed(currentTimeProvider, lastEvent.aggregateId, campBusCourseId, uncommittedHistory, nextAggregateVersion)
                     else -> this
                 }
 
-        override fun toString() = "Free(seatId=$seatId, campBusCourseId=$campBusCourseId, passengerId=$passengerId, version=$version)"
+        override fun toString() = "Free(aggregateId=$aggregateId, campBusCourseId=$campBusCourseId, passengerId=$passengerId, aggregateVersion=$aggregateVersion)"
 
     }
 
-    class Removed(currentTimeProvider: TimeProvider, val seatId: SeatId, val campBusCourseId: BusCourseId, events: List<SeatEvent>, version: AggregateVersion) : Seat(currentTimeProvider, events, version) {
+    class Removed(currentTimeProvider: TimeProvider, aggregateId: SeatId, val campBusCourseId: BusCourseId, events: List<SeatEvent>, aggregateVersion: AggregateVersion) : Seat(currentTimeProvider, aggregateId, events, aggregateVersion) {
 
-        override fun process(command: SeatCommand): Seat =
+        override fun process(command: SeatCommand) =
                 throw UnprocessableCommandException(command, this)
 
-        override fun composeOf(uncommitedHistory: List<SeatEvent>, lastEvent: SeatEvent, nextVersion: AggregateVersion): Seat =
+        override fun composeOf(uncommittedHistory: List<SeatEvent>, lastEvent: SeatEvent, nextAggregateVersion: AggregateVersion): Seat =
                 this
 
-        override fun toString() = "Free(seatId=$seatId, campBusCourseId=$campBusCourseId, version=$version)"
+        override fun toString() = "Free(aggregateId=$aggregateId, campBusCourseId=$campBusCourseId, aggregateVersion=$aggregateVersion)"
 
 
     }
@@ -132,7 +136,7 @@ sealed class Seat(protected val currentTimeProvider: TimeProvider, val uncommitt
 }
 
 
-class UnprocessableCommandException(val command: Command<*>, val aggregate: AggregateRoot<*>)
+class UnprocessableCommandException(val command: Command<*>, val aggregate: AggregateRoot<*, *>)
     : IllegalStateException("Command: <$command> cannot be processed by aggregate root: <$aggregate>!")
 
 interface StateMachineAggregate
