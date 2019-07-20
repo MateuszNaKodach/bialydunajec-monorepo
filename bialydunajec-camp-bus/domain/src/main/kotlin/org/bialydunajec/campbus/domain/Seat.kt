@@ -38,7 +38,7 @@ sealed class Seat(protected val currentTimeProvider: TimeProvider, override val 
         fun newInstance(currentTimeProvider: TimeProvider): Seat = Uninitialized(currentTimeProvider, SeatId.undefined(), emptyList(), AggregateVersion.ZERO)
     }
 
-    class Uninitialized(currentTimeProvider: TimeProvider, aggregateId: SeatId, events: List<SeatEvent>, aggregateVersion: AggregateVersion) : Seat(currentTimeProvider, aggregateId, events, aggregateVersion) {
+    internal class Uninitialized(currentTimeProvider: TimeProvider, aggregateId: SeatId, events: List<SeatEvent>, aggregateVersion: AggregateVersion) : Seat(currentTimeProvider, aggregateId, events, aggregateVersion) {
 
         override fun process(command: SeatCommand) =
                 when (command) {
@@ -54,7 +54,21 @@ sealed class Seat(protected val currentTimeProvider: TimeProvider, override val 
 
     }
 
-    class Free(currentTimeProvider: TimeProvider, aggregateId: SeatId, val campBusCourseId: BusCourseId, events: List<SeatEvent>, aggregateVersion: AggregateVersion) : Seat(currentTimeProvider, aggregateId, events, aggregateVersion) {
+    /*
+            TODO: Rozważyć czy nie zmienić takiego kodu na komendach:
+
+         internal fun on(seat: Seat.Free, timestamp: Instant) = SeatEvent.SeatReservedForPassenger(aggregateId, seat.aggregateVersion, timestamp, seat.campBusCourseId, passengerId)
+
+         a takiego na aggregatach:
+
+         override fun process(command: SeatCommand): SeatEvent =
+        command.on(this, timestamp)
+
+        wtedy mamy zachowane Open-Closed Principle, ale trochę odpowiedzialności się dziwnie rozkłdają - komenda wie kiedy może zostać wykonana
+        Chyba to nie zadziąła, jeśli case biznesowy potrzebuje np. serwisu domenowego w aggregacie.
+ */
+
+    internal class Free(currentTimeProvider: TimeProvider, aggregateId: SeatId, val campBusCourseId: BusCourseId, events: List<SeatEvent>, aggregateVersion: AggregateVersion) : Seat(currentTimeProvider, aggregateId, events, aggregateVersion) {
 
         override fun process(command: SeatCommand): SeatEvent =
                 when (command) {
@@ -76,7 +90,7 @@ sealed class Seat(protected val currentTimeProvider: TimeProvider, override val 
     }
 
 
-    class Reserved(currentTimeProvider: TimeProvider, aggregateId: SeatId, val campBusCourseId: BusCourseId, private val passengerId: PassengerId, events: List<SeatEvent>, aggregateVersion: AggregateVersion) : Seat(currentTimeProvider, aggregateId, events, aggregateVersion) {
+    internal class Reserved(currentTimeProvider: TimeProvider, aggregateId: SeatId, val campBusCourseId: BusCourseId, private val passengerId: PassengerId, events: List<SeatEvent>, aggregateVersion: AggregateVersion) : Seat(currentTimeProvider, aggregateId, events, aggregateVersion) {
 
         override fun process(command: SeatCommand) =
                 when (command) {
@@ -99,7 +113,7 @@ sealed class Seat(protected val currentTimeProvider: TimeProvider, override val 
 
     }
 
-    class Occupied(currentTimeProvider: TimeProvider, aggregateId: SeatId, val campBusCourseId: BusCourseId, private val passengerId: PassengerId, events: List<SeatEvent>, aggregateVersion: AggregateVersion) : Seat(currentTimeProvider, aggregateId, events, aggregateVersion) {
+    internal class Occupied(currentTimeProvider: TimeProvider, aggregateId: SeatId, val campBusCourseId: BusCourseId, private val passengerId: PassengerId, events: List<SeatEvent>, aggregateVersion: AggregateVersion) : Seat(currentTimeProvider, aggregateId, events, aggregateVersion) {
 
         override fun process(command: SeatCommand) =
                 when (command) {
@@ -119,7 +133,7 @@ sealed class Seat(protected val currentTimeProvider: TimeProvider, override val 
 
     }
 
-    class Removed(currentTimeProvider: TimeProvider, aggregateId: SeatId, val campBusCourseId: BusCourseId, events: List<SeatEvent>, aggregateVersion: AggregateVersion) : Seat(currentTimeProvider, aggregateId, events, aggregateVersion) {
+    internal class Removed(currentTimeProvider: TimeProvider, aggregateId: SeatId, val campBusCourseId: BusCourseId, events: List<SeatEvent>, aggregateVersion: AggregateVersion) : Seat(currentTimeProvider, aggregateId, events, aggregateVersion) {
 
         override fun process(command: SeatCommand) =
                 throw UnprocessableCommandException(command, this)
