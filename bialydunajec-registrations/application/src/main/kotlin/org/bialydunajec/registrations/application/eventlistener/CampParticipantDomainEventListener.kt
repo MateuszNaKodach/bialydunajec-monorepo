@@ -92,24 +92,11 @@ internal class CampParticipantDomainEventListener(
     @TransactionalEventListener
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     fun handleUnregisteredToDeleteShirtOrder(event: CampParticipantEvent.Unregistered) {
-        println("CAMP PARTICIPANT UNREGISTERED!!!")
-        //TODO: Delete shirt order, paymetns commitment, update camp participant registration to indicate that was deleted
-        //TODO: Update read models!!!
         for (shirtOrder: ShirtOrder in shirtOrderRepository.findAll()){
             if (shirtOrder.getSnapshot().campParticipantId == event.aggregateId){
                 shirtOrderRepository.delete(shirtOrder)
             }
         }
-
-        /*
-        for (shirtOrder: ShirtOrder in shirtOrderReadOnlyRepository.findAll()){
-            if (shirtOrder.getSnapshot().campParticipantId == event.aggregateId){
-                shirtOrderReadOnlyRepository.delete(shirtOrder)
-            }
-        }
-
-        shirtOrderReadOnlyRepository nie ma metody delete() lub deleteById()
-         */
     }
 
     @TransactionalEventListener
