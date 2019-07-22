@@ -10,4 +10,9 @@ jar {
 
 dependencies {
     compile project(':bialydunajec-camp-bus:bialydunajec-camp-bus-domain')
+    compile('org.springframework.boot:spring-boot-starter-data-mongodb')
+
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+
+    runtime('de.flapdoodle.embed:de.flapdoodle.embed.mongo')
 }
