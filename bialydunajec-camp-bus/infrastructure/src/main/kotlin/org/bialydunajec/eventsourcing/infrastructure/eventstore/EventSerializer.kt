@@ -9,8 +9,8 @@ internal interface EventSerializer {
 
     fun serialize(domainEvent: DomainEvent<*>): String
 
-    fun <EventType : DomainEvent<*>> deserialize(domainEventType: Class<EventType>, serializedDomainEvents: List<String>): List<DomainEvent<*>> =
+    fun <EventType : DomainEvent<*>> deserialize(domainEventType: Class<EventType>, serializedDomainEvents: List<String>): List<EventType> =
             serializedDomainEvents.map { deserialize(domainEventType, it) }
 
-    fun <EventType : DomainEvent<*>> deserialize(domainEventType: Class<EventType>, serializedDomainEvent: String): DomainEvent<*>
+    fun <EventType : DomainEvent<*>> deserialize(domainEventType: Class<EventType>, serializedDomainEvent: String): EventType
 }

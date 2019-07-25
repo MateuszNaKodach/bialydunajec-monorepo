@@ -41,7 +41,7 @@ internal class MongoDbEventStorageEngine(
             aggregateId: AggregateId,
             toEventTimestamp: Instant,
             toAggregateVersion: AggregateVersion?
-    ): List<DomainEvent<*>> =
+    ): List<EventType> =
             if (toAggregateVersion == null) {
                 documents.findAllByEventStreamTypeAndTimestampLessThanEqualOrderByAggregateVersionAsc(
                         domainEventType.canonicalName,

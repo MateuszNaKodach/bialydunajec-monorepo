@@ -9,6 +9,6 @@ internal class JacksonSerializer(private val objectMapper: ObjectMapper) : Event
     override fun serialize(domainEvent: DomainEvent<*>): String =
             objectMapper.writeValueAsString(domainEvent)
 
-    override fun <EventType : DomainEvent<*>> deserialize(domainEventType: Class<EventType>, serializedDomainEvent: String): DomainEvent<*> =
+    override fun <EventType : DomainEvent<*>> deserialize(domainEventType: Class<EventType>, serializedDomainEvent: String): EventType =
             objectMapper.readValue(serializedDomainEvent, domainEventType)
 }

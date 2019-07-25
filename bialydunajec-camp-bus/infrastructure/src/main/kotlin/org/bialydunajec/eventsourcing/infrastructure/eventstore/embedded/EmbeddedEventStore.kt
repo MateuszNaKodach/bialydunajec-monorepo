@@ -16,12 +16,12 @@ internal class EmbeddedEventStore(
     override fun publish(event: DomainEvent<*>) =
             storageEngine.appendDomainEvent(event)
 
-    override fun <EventType : DomainEvent<*>> readEvents(payloadClass: Class<EventType>, aggregateId: AggregateId): List<DomainEvent<*>> =
+    override fun <EventType : DomainEvent<*>> readEvents(payloadClass: Class<EventType>, aggregateId: AggregateId): List<EventType> =
             storageEngine.readEvents(payloadClass, aggregateId, timeProvider())
 
-    override fun <EventType : DomainEvent<*>> readEvents(payloadClass: Class<EventType>, aggregateId: AggregateId, toVersion: AggregateVersion): List<DomainEvent<*>> =
+    override fun <EventType : DomainEvent<*>> readEvents(payloadClass: Class<EventType>, aggregateId: AggregateId, toVersion: AggregateVersion): List<EventType> =
             storageEngine.readEvents(payloadClass, aggregateId, timeProvider(), toVersion)
 
-    override fun <EventType : DomainEvent<*>> readEvents(payloadClass: Class<EventType>, aggregateId: AggregateId, toEventTimestamp: Instant): List<DomainEvent<*>> =
+    override fun <EventType : DomainEvent<*>> readEvents(payloadClass: Class<EventType>, aggregateId: AggregateId, toEventTimestamp: Instant): List<EventType> =
             storageEngine.readEvents(payloadClass, aggregateId, toEventTimestamp)
 }

@@ -12,7 +12,7 @@ internal interface EventStorageEngine {
 
     fun appendDomainEvent(domainEvent: DomainEvent<*>)
 
-    fun <EventType : DomainEvent<*>> readEvents(domainEventType: Class<EventType>, aggregateId: AggregateId, toEventTimestamp: Instant, toAggregateVersion: AggregateVersion? = null): List<DomainEvent<*>>
+    fun <EventType : DomainEvent<*>> readEvents(domainEventType: Class<EventType>, aggregateId: AggregateId, toEventTimestamp: Instant, toAggregateVersion: AggregateVersion? = null): List<EventType>
 
 
 }
