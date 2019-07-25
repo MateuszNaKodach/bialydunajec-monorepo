@@ -15,7 +15,7 @@ object EventSourcedSeatRepositorySpecification : Spek({
         Scenario("events up to specific point in the past") {
             val timeProvider: TestClockTimeProvider
                     by memoized { TestClockTimeProvider.withFixedTime(LocalTime.of(10, 0)) }
-            val repository: SeatRepository by memoized { EventSourcedSeatRepository(timeProvider) }
+            val repository: SeatRepository by memoized { InMemorySeatEventSourcedRepository(timeProvider) }
             val campBusCourseId: BusCourseId by memoized { BusCourseId() }
             val seatId: SeatId by memoized { SeatId() }
             val passengerId: PassengerId by memoized { PassengerId() }

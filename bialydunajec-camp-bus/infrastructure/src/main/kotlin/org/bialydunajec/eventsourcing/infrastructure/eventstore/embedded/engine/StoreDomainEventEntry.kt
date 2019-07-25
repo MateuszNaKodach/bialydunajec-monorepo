@@ -2,7 +2,7 @@ package org.bialydunajec.eventsourcing.infrastructure.eventstore.embedded.engine
 
 import java.time.Instant
 
-internal class StoredDomainEventEntry(
+internal class StoreDomainEventEntry(
         val aggregateIdentifier: String,
         val aggregateType: String,
         val aggregateVersion: Long,
@@ -20,7 +20,7 @@ internal class StoredDomainEventEntry(
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as StoredDomainEventEntry
+        other as StoreDomainEventEntry
 
         if (eventIdentifier != other.eventIdentifier) return false
 

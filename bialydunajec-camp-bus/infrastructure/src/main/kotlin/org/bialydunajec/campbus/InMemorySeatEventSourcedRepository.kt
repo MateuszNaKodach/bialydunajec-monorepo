@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentHashMap
 
 typealias EventPublisher = (SeatEvent) -> Unit
 
-internal class EventSourcedSeatRepository(
+internal class InMemorySeatEventSourcedRepository(
         private val timeProvider: TimeProvider,
         private val eventPublisher: EventPublisher? = null)
     : SeatRepository {

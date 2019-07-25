@@ -1,24 +1,73 @@
 package org.bialydunajec.eventsourcing.infrastructure.eventstore.embedded.engine.mongodb
 
 import org.bialydunajec.eventsourcing.domain.AggregateId
+import org.bialydunajec.eventsourcing.domain.AggregateVersion
 import org.bialydunajec.eventsourcing.domain.DomainEvent
 import org.bialydunajec.eventsourcing.infrastructure.eventstore.EventSerializer
-import org.bialydunajec.eventsourcing.infrastructure.eventstore.embedded.engine.EventStorageEngine
+import org.bialydunajec.eventsourcing.infrastructure.eventstore.embedded.engine.AbstractEventStorageEngine
+import org.bialydunajec.eventsourcing.infrastructure.eventstore.embedded.engine.StoreDomainEventEntry
+import java.time.Instant
 
 internal class MongoDbEventStorageEngine(
         eventSerializer: EventSerializer,
-        private val domainEventDocumentDAO: DomainEventDocumentDAO
-) : EventStorageEngine {
+        private val documents: DomainEventDocuments
+) : AbstractEventStorageEngine(eventSerializer) {
 
-    private val domainEventDocumentMapper: DomainEventToMongoDbDocumentMapper = DomainEventToMongoDbDocumentMapper(eventSerializer)
+    override fun storeEvent(domainEvent: StoreDomainEventEntry) {
+        toDomainEventDocument(domainEvent)
+                .let { documents.save(it) }
 
-    override fun appendEvents(domainEvents: List<DomainEvent<*>>) {
-        domainEventDocumentDAO.saveAll(domainEventDocumentMapper.createEventDocuments(domainEvents))
     }
 
-    override fun <EventType : DomainEvent<*>> readEvents(domainEventType: Class<EventType>, aggregateId: AggregateId): List<DomainEvent<*>> =
-            domainEventDocumentDAO.findAllByEventStreamType(domainEventType.canonicalName).let {
-                domainEventDocumentMapper.extractDomainEvents(domainEventType, it)
+    private fun toDomainEventDocument(event: StoreDomainEventEntry): DomainEventDocument =
+            event.let {
+                DomainEventDocument(
+                        it.aggregateIdentifier,
+                        it.aggregateType,
+                        it.aggregateVersion,
+                        it.timestamp,
+                        it.serializedPayload,
+                        it.payloadType,
+                        it.serializedMetaData,
+                        it.eventIdentifier,
+                        it.eventType,
+                        it.eventVersion,
+                        it.eventStreamType
+                )
+            }
+
+    override fun <EventType : DomainEvent<*>> readEvents(
+            domainEventType: Class<EventType>,
+            aggregateId: AggregateId,
+            toEventTimestamp: Instant,
+            toAggregateVersion: AggregateVersion?
+    ): List<DomainEvent<*>> =
+            if (toAggregateVersion == null) {
+                documents.findAllByEventStreamTypeAndTimestampLessThanEqualOrderByAggregateVersionAsc(
+                        domainEventType.canonicalName,
+                        toEventTimestamp)
+            } else {
+                documents.findAllByEventStreamTypeAndTimestampLessThanEqualAndAggregateVersionLessThanEqualOrderByAggregateVersionAsc(
+                        domainEventType.canonicalName,
+                        toEventTimestamp,
+                        toAggregateVersion.toLong())
+            }.map { toStoreDomainEventEntry(it) }.let { extractDomainEvents(domainEventType, it) }
+
+    private fun toStoreDomainEventEntry(document: DomainEventDocument) =
+            document.let {
+                StoreDomainEventEntry(
+                        it.aggregateIdentifier,
+                        it.aggregateType,
+                        it.aggregateVersion,
+                        it.timestamp,
+                        it.serializedPayload,
+                        it.payloadType,
+                        it.serializedMetaData,
+                        it.eventIdentifier,
+                        it.eventType,
+                        it.eventVersion,
+                        it.eventStreamType
+                )
             }
 
 }
