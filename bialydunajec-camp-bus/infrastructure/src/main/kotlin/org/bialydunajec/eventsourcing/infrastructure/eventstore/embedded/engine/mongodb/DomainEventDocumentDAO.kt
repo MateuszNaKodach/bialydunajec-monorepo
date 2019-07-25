@@ -1,4 +1,4 @@
-package org.bialydunajec.eventsourcing.infrastructure.eventstore.mongodb
+package org.bialydunajec.eventsourcing.infrastructure.eventstore.embedded.engine.mongodb
 
 import org.springframework.data.mongodb.repository.MongoRepository
 

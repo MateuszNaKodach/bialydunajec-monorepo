@@ -6,7 +6,7 @@ import org.spekframework.spek2.style.gherkin.Feature
 internal object InMemoryEventStoreSpecification : Spek({
 
 
-    //val eventStore by memoized { InMemoryEventStore() }
+    //val eventStore by memoized { InMemoryEventStorageEngine() }
 
     Feature("Add event to stream") {
 

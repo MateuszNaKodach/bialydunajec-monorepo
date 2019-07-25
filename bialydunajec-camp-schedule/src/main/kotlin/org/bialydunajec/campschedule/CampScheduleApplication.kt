@@ -2,14 +2,12 @@ package org.bialydunajec.campschedule
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.mongodb.MongoClient
-import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.commandhandling.gateway.CommandGateway
-import org.axonframework.eventsourcing.EventCountSnapshotTriggerDefinition
-import org.axonframework.eventsourcing.SnapshotTriggerDefinition
-import org.axonframework.eventsourcing.Snapshotter
+import org.axonframework.eventsourcing.eventstore.EmbeddedEventStore
 import org.axonframework.eventsourcing.eventstore.EventStorageEngine
 import org.axonframework.extensions.mongo.DefaultMongoTemplate
 import org.axonframework.extensions.mongo.eventsourcing.eventstore.MongoEventStorageEngine
+import org.axonframework.extensions.mongo.eventsourcing.eventstore.documentperevent.EventEntry
 import org.axonframework.serialization.json.JacksonSerializer
 import org.bialydunajec.campschedule.domain.CampEditionScheduleCommand
 import org.bialydunajec.campschedule.domain.CampEditionScheduleEvent
@@ -27,7 +25,6 @@ import org.springframework.stereotype.Service
 import java.time.LocalDate
 import java.time.LocalTime
 import java.util.concurrent.atomic.AtomicBoolean
-import javax.annotation.PostConstruct
 
 @SpringBootApplication
 class CampScheduleApplication
@@ -58,6 +55,11 @@ class Configuration {
     //     return EventCountSnapshotTriggerDefinition(snapshotter, 2)
     // }
 
+    {
+        EventEntry
+        EventStorageEngine
+        EmbeddedEventStore
+    }
 
 }
 
