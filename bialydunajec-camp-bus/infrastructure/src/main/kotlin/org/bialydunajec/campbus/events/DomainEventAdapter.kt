@@ -1,15 +1,6 @@
 package org.bialydunajec.campbus.events
 
-import org.bialydunajec.campbus.domain.BusCourseId
-import org.bialydunajec.campbus.domain.PassengerId
-import org.bialydunajec.campbus.domain.SeatId
-import org.bialydunajec.eventsourcing.domain.AggregateId
-import org.bialydunajec.eventsourcing.domain.AggregateVersion
-import org.bialydunajec.eventsourcing.domain.DomainEvent
-import org.bialydunajec.eventsourcing.domain.DomainEventId
-import java.time.Instant
-
-
+/*
 interface StoredEvent {
     val aggregateId: String
     val aggregateVersion: Long
@@ -19,7 +10,7 @@ interface StoredEvent {
     val eventType: String
 }
 
-sealed class SeatEvent(override val aggregateId: String, override val aggregateVersion: Long, override val occurredAt: Instant, override val domainEventId: String) : DomainEvent<SeatId> {
+sealed class SeatEvent(override val aggregateId: String, override val aggregateVersion: Long, override val occurredAt: Instant, val domainEventId: String) {
     class SeatAddedForCourseV1(aggregateId: SeatId, aggregateVersion: AggregateVersion, occurredAt: Instant, val campBusCourseId: BusCourseId) : SeatEvent(aggregateId, aggregateVersion, occurredAt)
     class SeatReservedForPassengerV1(aggregateId: SeatId, aggregateVersion: AggregateVersion, occurredAt: Instant, val campBusCourseId: BusCourseId, val passengerId: PassengerId) : SeatEvent(aggregateId, aggregateVersion, occurredAt)
     class SeatReservationConfirmedV1(aggregateId: SeatId, aggregateVersion: AggregateVersion, occurredAt: Instant, val campBusCourseId: BusCourseId, val passengerId: PassengerId) : SeatEvent(aggregateId, aggregateVersion, occurredAt)
@@ -36,3 +27,4 @@ internal class DomainEventPayloadAdapter<D : DomainEvent<*>, S: StoredEvent<*>> 
 
 
 }
+*/

@@ -14,6 +14,8 @@ open class AggregateId(private val id: String) {
 
     override fun toString() = id
 
+    fun getId() = id
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

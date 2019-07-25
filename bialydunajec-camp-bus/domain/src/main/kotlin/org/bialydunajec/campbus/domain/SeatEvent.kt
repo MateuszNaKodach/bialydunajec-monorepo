@@ -5,7 +5,13 @@ import org.bialydunajec.eventsourcing.domain.DomainEvent
 import org.bialydunajec.eventsourcing.domain.DomainEventId
 import java.time.Instant
 
-sealed class SeatEvent(override val aggregateId: SeatId, override val aggregateVersion: AggregateVersion, override val occurredAt: Instant, override val domainEventId: DomainEventId = DomainEventId()) : DomainEvent<SeatId> {
+sealed class SeatEvent(
+        override val aggregateId: SeatId,
+        override val aggregateVersion: AggregateVersion,
+        override val occurredAt: Instant,
+        override val domainEventId: DomainEventId = DomainEventId(),
+        override val aggregateType: Class<*> = Seat::class.java,
+        override val eventStreamType: Class<*> = SeatEvent::class.java) : DomainEvent<SeatId>() {
     class SeatAddedForCourse(aggregateId: SeatId, aggregateVersion: AggregateVersion, occurredAt: Instant, val campBusCourseId: BusCourseId) : SeatEvent(aggregateId, aggregateVersion, occurredAt)
     class SeatReservedForPassenger(aggregateId: SeatId, aggregateVersion: AggregateVersion, occurredAt: Instant, val campBusCourseId: BusCourseId, val passengerId: PassengerId) : SeatEvent(aggregateId, aggregateVersion, occurredAt)
     class SeatReservationConfirmed(aggregateId: SeatId, aggregateVersion: AggregateVersion, occurredAt: Instant, val campBusCourseId: BusCourseId, val passengerId: PassengerId) : SeatEvent(aggregateId, aggregateVersion, occurredAt)

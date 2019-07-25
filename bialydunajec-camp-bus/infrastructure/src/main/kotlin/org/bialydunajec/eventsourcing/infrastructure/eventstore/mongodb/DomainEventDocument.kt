@@ -13,26 +13,27 @@ import java.time.Instant
                 unique = true, def = "{'aggregateIdentifier' : 1, 'aggregateVersion' : 1}")
 )
 @Document(collection = "domainevents")
-internal class DomainEventEntry(
+internal class DomainEventDocument(
         val aggregateIdentifier: String,
         val aggregateType: String,
         val aggregateVersion: Long,
         val timestamp: Instant,
-        val serializedPayload: Any,
+        val serializedPayload: String,
         val payloadType: String,
-        val serializedMetaData: Any,
+        val serializedMetaData: String,
 
         @Indexed(unique = true)
         val eventIdentifier: String,
         val eventType: String,
-        val eventVersion: Long
+        val eventVersion: Long,
+        val eventStreamType: String
 ) {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as DomainEventEntry
+        other as DomainEventDocument
 
         if (eventIdentifier != other.eventIdentifier) return false
 
