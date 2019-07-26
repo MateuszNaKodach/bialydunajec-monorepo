@@ -14,7 +14,9 @@ abstract class AbstractDomainRepositoryImpl<AggregateType : AggregateRoot<*, *>,
 
     override fun save(aggregateRoot: AggregateType) = jpaRepository.save(aggregateRoot)
 
-    override fun delete(aggregateRoot: AggregateType) = jpaRepository.delete(aggregateRoot)
+    override fun delete(aggregateRoot: AggregateType) = jpaRepository.save(aggregateRoot).let {
+        jpaRepository.delete(aggregateRoot)
+    }
 
     override fun deleteById(aggregateId: AggregateIdType) = jpaRepository.deleteById(aggregateId)
 }

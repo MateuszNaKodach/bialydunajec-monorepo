@@ -71,7 +71,28 @@ internal class CampRegistrationsEditionStatistics(
         }
     }
 
+    fun calculateWith(eventPayload: CampParticipantExternalEvent.CampParticipantUnregisteredByAuthorized) {
+        registeredCampParticipants -= 1
+        with(eventPayload.snapshot.currentCamperData) {
+            cottagesStats.find { it.cottageId == cottage.cottageId }
+                    ?.apply {
+                        when (personalData.gender) {
+                            GenderDto.FEMALE -> femaleCampParticipantsAmount--
+                            GenderDto.MALE -> maleCampParticipantsAmount--
+                        }
+                        if (camperEducation.isHighSchoolRecentGraduate) {
+                            highSchoolRecentGraduatesAmount--
+                        }
+                    }
+        }
+    }
+
     fun calculateWith(eventPayload: ShirtOrderExternalEvent.OrderPlaced) {
+        val cottageStats = cottagesStats.find { it.cottageId == eventPayload.campParticipant.cottage.cottageId }
+        cottageStats?.shirtOrdersStats?.calculateWith(eventPayload)
+    }
+
+    fun calculateWith(eventPayload: ShirtOrderExternalEvent.OrderCancelled) {
         val cottageStats = cottagesStats.find { it.cottageId == eventPayload.campParticipant.cottage.cottageId }
         cottageStats?.shirtOrdersStats?.calculateWith(eventPayload)
     }
@@ -97,6 +118,14 @@ internal class CottageShirtOrdersStats(
                 shirtSizeOptionStats.find { it.shirtSizeOptionId == eventPayload.shirtOrder.shirtSizeOptionId }
                         ?: ShirtSizeOptionStats(eventPayload.shirtOrder.shirtSizeOptionId, eventPayload.shirtOrder.sizeName, eventPayload.shirtOrder.shirtType, 0).apply { shirtSizeOptionStats.add(this) }
         shirtSizeOptionStats.ordersAmount++
+    }
+
+    fun calculateWith(eventPayload: ShirtOrderExternalEvent.OrderCancelled) {
+        shirtColorOptionStats.find { it.shirtColorOptionId == eventPayload.shirtOrder.shirtColorOptionId }
+                        ?.let{it.ordersAmount--}
+
+        shirtSizeOptionStats.find { it.shirtSizeOptionId == eventPayload.shirtOrder.shirtSizeOptionId }
+                        ?.let{it.ordersAmount--}
     }
 }
 

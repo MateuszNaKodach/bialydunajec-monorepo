@@ -60,11 +60,18 @@ internal class CampParticipantDomainEventsPropagator(
 
     @Async
     @TransactionalEventListener
-    fun handleDomainEvent(domainEvent: CampParticipantEvent.Unregistered) {
+    fun handleDomainEvent(domainEvent: CampParticipantEvent.UnregisteredByAuthorized) {
         with(domainEvent) {
             externalEventBus.send(
                     CampParticipantExternalEvent.CampParticipantUnregisteredByAuthorized(
-                            aggregateId.toString()
+                            aggregateId.toString(),
+                            with(domainEvent.snapshot){
+                                CampParticipantDto.from(
+                                        this,
+                                        confirmedApplication?.let { cottageRepository.findById(it.cottageId)?.getSnapshot() },
+                                        currentCamperData.let { cottageRepository.findById(it.cottageId)!!.getSnapshot() }
+                                )
+                            }
                     )
             )
         }

@@ -60,6 +60,12 @@ class ShirtOrder internal constructor(
         registerEvent(ShirtOrderEvent.OrderPlaced(getAggregateId(), getSnapshot()))
     }
 
+    fun cancel() {
+        this.status = OrderStatus.CANCELLED //nie wiem czy potrzebne, skoro zaraz będzie usunięte z bd
+        registerEvent(ShirtOrderEvent.OrderCancelled(getAggregateId(), getSnapshot()))
+    }
+
     fun getSnapshot() =
             ShirtOrderSnapshot(campEditionShirtId, campParticipantId, colorOption.getSnapshot(), sizeOption.getSnapshot())
+
 }

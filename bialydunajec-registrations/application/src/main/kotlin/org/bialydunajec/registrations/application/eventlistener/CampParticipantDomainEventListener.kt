@@ -11,7 +11,6 @@ import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRu
 import org.bialydunajec.registrations.domain.payment.CampParticipantCottageAccount
 import org.bialydunajec.registrations.domain.payment.CampParticipantCottageAccountReadOnlyRepository
 import org.bialydunajec.registrations.domain.payment.CampParticipantCottageAccountRepository
-import org.bialydunajec.registrations.domain.shirt.ShirtOrder
 import org.bialydunajec.registrations.domain.shirt.ShirtOrderReadOnlyRepository
 import org.bialydunajec.registrations.domain.shirt.ShirtOrderRepository
 import org.springframework.stereotype.Component
@@ -91,17 +90,19 @@ internal class CampParticipantDomainEventListener(
 
     @TransactionalEventListener
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    fun handleUnregisteredToDeleteShirtOrder(event: CampParticipantEvent.Unregistered) {
-        for (shirtOrder: ShirtOrder in shirtOrderRepository.findAll()){
-            if (shirtOrder.getSnapshot().campParticipantId == event.aggregateId){
-                shirtOrderRepository.delete(shirtOrder)
-            }
-        }
+    fun handleUnregisteredToDeleteShirtOrder(event: CampParticipantEvent.UnregisteredByAuthorized) {
+
+        val shirtOrder = shirtOrderRepository.findByCampParticipantId(event.aggregateId)
+                ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.SHIRT_ORDER_TO_DELETE_MUST_EXISTS)
+
+        shirtOrder.cancel()
+
+        shirtOrderRepository.delete(shirtOrder)
     }
 
     @TransactionalEventListener
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    fun handleUnregisteredToPaymentsCommitments(event: CampParticipantEvent.Unregistered) {
+    fun handleUnregisteredToPaymentsCommitments(event: CampParticipantEvent.UnregisteredByAuthorized) {
         for (campParticipantCottageAccount: CampParticipantCottageAccount in campParticipantCottageAccountRepository.findAll()){
             if (campParticipantCottageAccount.getParticipantId() == event.aggregateId){
                 campParticipantCottageAccountRepository.delete(campParticipantCottageAccount)
@@ -111,11 +112,12 @@ internal class CampParticipantDomainEventListener(
 
     @TransactionalEventListener
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    fun handleUnregisteredToUpdateRegistrationStatus(event: CampParticipantEvent.Unregistered) {
+    fun handleUnregisteredToUpdateRegistrationStatus(event: CampParticipantEvent.UnregisteredByAuthorized) {
+
         val campParticipantRegistration = campParticipantRegistrationRepository.findByCampParticipantId(event.aggregateId)
                 ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.CAMP_PARTICIPANT_REGISTRATIONS_TO_CONFIRM_MUST_EXISTS)
 
-        campParticipantRegistration.cancellByAuthorized()
+        campParticipantRegistration.cancelByAuthorized()
 
         campParticipantRegistrationRepository.save(campParticipantRegistration)
 
