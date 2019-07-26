@@ -45,8 +45,7 @@ sealed class ShirtOrderExternalEvent {
             val campRegistrationsEditionId: String,
             val shirtOrderId: String,
             val campParticipant: CampParticipant,
-            val shirtOrder: ShirtOrder,
-            val placedDate: Instant
+            val shirtOrder: ShirtOrder
     ) : ShirtOrderExternalEvent(){
 
         class CampParticipant(

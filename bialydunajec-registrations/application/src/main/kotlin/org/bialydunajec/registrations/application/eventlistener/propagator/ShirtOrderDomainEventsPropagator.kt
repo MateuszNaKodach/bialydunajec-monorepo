@@ -86,8 +86,7 @@ internal class ShirtOrderDomainEventsPropagator(
                                                 snapshot.sizeOption.shirtSizeOptionId.toString(),
                                                 snapshot.sizeOption.size.name,
                                                 snapshot.sizeOption.size.type.toDto()
-                                        ),
-                                        domainEvent.occurredAt
+                                        )
                                 )
                         )
                     }

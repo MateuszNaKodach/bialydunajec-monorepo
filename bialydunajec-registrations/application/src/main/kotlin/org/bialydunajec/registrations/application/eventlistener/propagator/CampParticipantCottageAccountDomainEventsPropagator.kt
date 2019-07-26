@@ -20,10 +20,10 @@ internal class CampParticipantCottageAccountDomainEventsPropagator(
 
     @Async
     @TransactionalEventListener
-    fun handleDomainEvent(domainEvent: CampParticipantCottageAccountEvent.Created) {
+    fun handleDomainEvent(domainEvent: CampParticipantCottageAccountEvent.Open) {
         fun externalPaymentCommitment(paymentCommitmentSnapshot: PaymentCommitmentSnapshot) =
                 with(paymentCommitmentSnapshot) {
-                    CampParticipantCottageAccountExternalEvent.Created.PaymentCommitmentSnapshot(
+                    CampParticipantCottageAccountExternalEvent.Open.PaymentCommitmentSnapshot(
                             paymentCommitmentId.toString(),
                             initialAmount.getValue().toDouble(),
                             description,
@@ -38,10 +38,10 @@ internal class CampParticipantCottageAccountDomainEventsPropagator(
 
         with(domainEvent) {
             externalEventBus.send(
-                    CampParticipantCottageAccountExternalEvent.Created(
+                    CampParticipantCottageAccountExternalEvent.Open(
                             aggregateId.toString(),
                             campParticipant?.let {
-                                CampParticipantCottageAccountExternalEvent.Created.CampParticipant(
+                                CampParticipantCottageAccountExternalEvent.Open.CampParticipant(
                                         it.getAggregateId().toString(),
                                         it.getPersonalData().pesel.toStringOrNull(),
                                         it.getPersonalData().firstName.toStringOrNull(),
@@ -51,7 +51,7 @@ internal class CampParticipantCottageAccountDomainEventsPropagator(
                                 )
                             },
                             cottage?.let {
-                                CampParticipantCottageAccountExternalEvent.Created.Cottage(
+                                CampParticipantCottageAccountExternalEvent.Open.Cottage(
                                         it.getAggregateId().toString(),
                                         it.getName()
                                 )
@@ -76,6 +76,34 @@ internal class CampParticipantCottageAccountDomainEventsPropagator(
                             paidDate,
                             campParticipantId.toString(),
                             commitmentType.name
+                    )
+            )
+        }
+    }
+
+    @Async
+    @TransactionalEventListener
+    fun handleDomainEvent(domainEvent: CampParticipantCottageAccountEvent.Closed) {
+        fun externalPaymentCommitment(paymentCommitmentSnapshot: PaymentCommitmentSnapshot) =
+                with(paymentCommitmentSnapshot) {
+                    CampParticipantCottageAccountExternalEvent.Closed.PaymentCommitmentSnapshot(
+                            paymentCommitmentId.toString(),
+                            initialAmount.getValue().toDouble(),
+                            description,
+                            deadlineDate,
+                            amount.getValue().toDouble(),
+                            paid
+                    )
+                }
+
+
+        with(domainEvent) {
+            externalEventBus.send(
+                    CampParticipantCottageAccountExternalEvent.Closed(
+                            aggregateId.toString(),
+                            campDownPaymentCommitmentSnapshot?.let { externalPaymentCommitment(it) },
+                            externalPaymentCommitment(campParticipationCommitmentSnapshot),
+                            campBusCommitmentSnapshot?.let { externalPaymentCommitment(it) }
                     )
             )
         }

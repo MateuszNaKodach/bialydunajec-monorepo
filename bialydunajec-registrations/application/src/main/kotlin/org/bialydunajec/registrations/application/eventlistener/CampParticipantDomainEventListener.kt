@@ -21,14 +21,10 @@ import org.springframework.transaction.event.TransactionalEventListener
 @Component
 internal class CampParticipantDomainEventListener(
         private val campParticipantCottageAccountRepository: CampParticipantCottageAccountRepository,
-        private val campParticipantCottageAccountReadOnlyRepository: CampParticipantCottageAccountReadOnlyRepository,
         private val cottageRepository: CottageRepository,
         private val emailMessageSender: EmailMessageSenderPort,
         private val campParticipantRegistrationRepository: CampParticipantRegistrationRepository,
-        private val shirtOrderReadOnlyRepository: ShirtOrderReadOnlyRepository,
         private val shirtOrderRepository: ShirtOrderRepository
-
-
 ) {
 
 
@@ -96,18 +92,18 @@ internal class CampParticipantDomainEventListener(
                 ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.SHIRT_ORDER_TO_DELETE_MUST_EXISTS)
 
         shirtOrder.cancel()
-
         shirtOrderRepository.delete(shirtOrder)
     }
 
     @TransactionalEventListener
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     fun handleUnregisteredToPaymentsCommitments(event: CampParticipantEvent.UnregisteredByAuthorized) {
-        for (campParticipantCottageAccount: CampParticipantCottageAccount in campParticipantCottageAccountRepository.findAll()){
-            if (campParticipantCottageAccount.getParticipantId() == event.aggregateId){
-                campParticipantCottageAccountRepository.delete(campParticipantCottageAccount)
-            }
-        }
+
+        val campParticipantAccount = campParticipantCottageAccountRepository
+                .findByCampParticipantIdAndCottageId(event.snapshot.campParticipantId, event.snapshot.currentCamperData.cottageId)!!
+
+        campParticipantAccount.close()
+        campParticipantCottageAccountRepository.delete(campParticipantAccount)
     }
 
     @TransactionalEventListener
@@ -118,9 +114,7 @@ internal class CampParticipantDomainEventListener(
                 ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.CAMP_PARTICIPANT_REGISTRATIONS_TO_CONFIRM_MUST_EXISTS)
 
         campParticipantRegistration.cancelByAuthorized()
-
         campParticipantRegistrationRepository.save(campParticipantRegistration)
-
     }
 
 

@@ -37,13 +37,24 @@ class CampParticipantCottageAccount internal constructor(
 
     init {
         registerEvent(
-                CampParticipantCottageAccountEvent.Created(
+                CampParticipantCottageAccountEvent.Open(
                         getAggregateId(),
                         campParticipantId,
                         cottageId,
                         getCampDownPaymentCommitmentSnapshot(),
                         getCampParticipationCommitmentSnapshot(),
                         getCampBusCommitmentSnapshot()
+                )
+        )
+    }
+
+    fun close() {
+        registerEvent(
+                CampParticipantCottageAccountEvent.Closed(
+                    getAggregateId(),
+                    getCampDownPaymentCommitmentSnapshot(),
+                    getCampParticipationCommitmentSnapshot(),
+                    getCampBusCommitmentSnapshot()
                 )
         )
     }

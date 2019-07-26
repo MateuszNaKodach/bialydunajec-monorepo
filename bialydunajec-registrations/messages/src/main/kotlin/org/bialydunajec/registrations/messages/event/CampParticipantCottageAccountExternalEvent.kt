@@ -4,7 +4,7 @@ import java.time.Instant
 
 sealed class CampParticipantCottageAccountExternalEvent {
 
-    data class Created(
+    data class Open(
             val campParticipantCottageAccountId: String,
             val campParticipant: CampParticipant?,
             val cottage: Cottage?,
@@ -58,4 +58,20 @@ sealed class CampParticipantCottageAccountExternalEvent {
             val campParticipantId: String,
             val commitmentType: String
     ) : CampParticipantCottageAccountExternalEvent()
+
+    data class Closed(
+            val campParticipantCottageAccountId: String,
+            val campDownPaymentCommitmentSnapshot: Closed.PaymentCommitmentSnapshot?,
+            val campParticipationCommitmentSnapshot: Closed.PaymentCommitmentSnapshot,
+            val campBusCommitmentSnapshot: Closed.PaymentCommitmentSnapshot?
+    ) : CampParticipantCottageAccountExternalEvent() {
+        class PaymentCommitmentSnapshot(
+                val paymentCommitmentId: String,
+                val initialAmount: Double,
+                val description: String?,
+                val deadlineDate: Instant?,
+                val amount: Double,
+                val paid: Boolean
+        )
+    }
 }
