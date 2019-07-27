@@ -2,8 +2,11 @@ package org.bialydunajec.eventsourcing.domain
 
 import kotlin.reflect.KClass
 
-interface EventSourcedAggregateRoot<AggregateIdType : AggregateId, AggregateEventType : DomainEvent<AggregateIdType>>
-    : AggregateRoot<AggregateIdType, AggregateEventType> {
-    val changes: List<AggregateEventType>
-    val eventsStreamType: KClass<AggregateEventType>
-}
+abstract class EventSourcedAggregateRoot<AggregateIdType : AggregateId, AggregateEventType : DomainEvent<AggregateIdType>>(
+        protected val currentTimeProvider: TimeProvider,
+        override val aggregateId: AggregateIdType,
+        override val aggregateVersion: AggregateVersion,
+        val changes: List<AggregateEventType>,
+        val eventsStreamType: KClass<AggregateEventType>
+) : AggregateRoot<AggregateIdType, AggregateEventType>
+

@@ -7,6 +7,7 @@ import org.bialydunajec.eventsourcing.domain.DomainEvent
 import org.bialydunajec.eventsourcing.infrastructure.eventstore.EventSerializer
 import org.bialydunajec.eventsourcing.infrastructure.eventstore.embedded.engine.AbstractEventStorageEngine
 import org.bialydunajec.eventsourcing.infrastructure.eventstore.embedded.engine.StoreDomainEventEntry
+import org.bialydunajec.eventsourcing.infrastructure.eventstore.exception.DomainEventAlreadyStoredException
 import java.time.Instant
 import java.util.concurrent.ConcurrentHashMap
 
@@ -16,10 +17,22 @@ internal class InMemoryEventStorageEngine(eventSerializer: EventSerializer) : Ab
     private val eventStorage = ConcurrentHashMap<String, List<StoreDomainEventEntry>>()
 
     override fun storeEvent(domainEvent: StoreDomainEventEntry) {
+        assertIfDomainEventNotAlreadyStored(domainEvent)
         (eventStorage[domainEvent.aggregateIdentifier] ?: emptyList<StoreDomainEventEntry>()).let {
             eventStorage[domainEvent.aggregateIdentifier] = it.plus(domainEvent)
         }
     }
+
+    private fun assertIfDomainEventNotAlreadyStored(domainEvent: StoreDomainEventEntry) {
+        if (checkIfDomainEventAlreadyStored(domainEvent)) {
+            throw DomainEventAlreadyStoredException(domainEvent.eventIdentifier)
+        }
+    }
+
+    private fun checkIfDomainEventAlreadyStored(domainEvent: StoreDomainEventEntry) =
+            eventStorage[domainEvent.aggregateIdentifier]?.any { it.eventIdentifier == domainEvent.eventIdentifier }
+                    ?: false
+
 
     override fun <EventType : DomainEvent<*>> readEvents(
             domainEventType: Class<EventType>,

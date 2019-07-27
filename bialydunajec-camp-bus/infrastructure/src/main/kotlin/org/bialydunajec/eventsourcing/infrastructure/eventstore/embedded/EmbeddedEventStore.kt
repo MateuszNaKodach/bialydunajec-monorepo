@@ -22,6 +22,6 @@ internal class EmbeddedEventStore(
     override fun <EventType : DomainEvent<*>> readEvents(payloadClass: Class<EventType>, aggregateId: AggregateId, toVersion: AggregateVersion): List<EventType> =
             storageEngine.readEvents(payloadClass, aggregateId, timeProvider(), toVersion)
 
-    override fun <EventType : DomainEvent<*>> readEvents(payloadClass: Class<EventType>, aggregateId: AggregateId, toEventTimestamp: Instant): List<EventType> =
-            storageEngine.readEvents(payloadClass, aggregateId, toEventTimestamp)
+    override fun <EventType : DomainEvent<*>> readEvents(payloadClass: Class<EventType>, aggregateId: AggregateId, toTimestamp: Instant): List<EventType> =
+            storageEngine.readEvents(payloadClass, aggregateId, toTimestamp)
 }

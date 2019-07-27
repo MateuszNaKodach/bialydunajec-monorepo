@@ -1,13 +1,13 @@
 package org.bialydunajec.campbus.domain
 
 import org.bialydunajec.eventsourcing.domain.*
-import kotlin.reflect.KClass
 
-
-sealed class Seat(protected val currentTimeProvider: TimeProvider, override val aggregateId: SeatId, override val changes: List<SeatEvent>, override val aggregateVersion: AggregateVersion)
-    : EventSourcedAggregateRoot<SeatId, SeatEvent> {
-
-    override val eventsStreamType: KClass<SeatEvent> = SeatEvent::class
+sealed class Seat(
+        currentTimeProvider: TimeProvider,
+        aggregateId: SeatId,
+        changes: List<SeatEvent>,
+        aggregateVersion: AggregateVersion)
+    : EventSourcedAggregateRoot<SeatId, SeatEvent>(currentTimeProvider, aggregateId, aggregateVersion, changes, SeatEvent::class) {
 
     fun replayEvent(event: SeatEvent) = applyEvent(event, EventApplyingMode.REPLAY_HISTORY)
 

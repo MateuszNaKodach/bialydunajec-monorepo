@@ -3,33 +3,21 @@ package org.bialydunajec.eventsourcing.infrastructure
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.prop
-import com.fasterxml.jackson.annotation.JsonAutoDetect
-import com.fasterxml.jackson.annotation.PropertyAccessor
-import com.fasterxml.jackson.databind.MapperFeature
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.registerKotlinModule
-import org.bialydunajec.campbus.domain.Seat
-import org.bialydunajec.eventsourcing.domain.AggregateId
 import org.bialydunajec.eventsourcing.domain.AggregateVersion
-import org.bialydunajec.eventsourcing.domain.DomainEvent
-import org.bialydunajec.eventsourcing.domain.DomainEventId
+import org.bialydunajec.eventsourcing.infrastructure.eventstore.serializer.eventSerializerConfig
+import org.bialydunajec.eventsourcing.testfixtures.AnotherSampleAggregateId
+import org.bialydunajec.eventsourcing.testfixtures.SampleAggregateId
+import org.bialydunajec.eventsourcing.testfixtures.SampleDomainEvent
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.gherkin.Feature
 import java.time.Instant
-import java.util.*
 
 internal class KotlinObjectMapperSpecification : Spek({
 
     Feature("ObjectMapper configuration DomainEvent JSON serialization and deserialization") {
 
-        val objectMapper: ObjectMapper by memoized {
-            ObjectMapper().registerKotlinModule()
-                    .registerModule(JavaTimeModule())
-                    .setVisibility(PropertyAccessor.GETTER, JsonAutoDetect.Visibility.NONE)
-                    .setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY)
-                    .disable(MapperFeature.AUTO_DETECT_IS_GETTERS)
-        }
+        val objectMapper: ObjectMapper by memoized { ObjectMapper().eventSerializerConfig() }
 
         Scenario("DomainEvent with no additional values") {
 
@@ -127,19 +115,6 @@ internal class KotlinObjectMapperSpecification : Spek({
 })
 
 
-internal class SampleAggregateId(id: String = UUID.randomUUID().toString()) : AggregateId(id)
-internal class AnotherSampleAggregateId(id: String = UUID.randomUUID().toString()) : AggregateId(id)
-internal sealed class SampleDomainEvent(
-        override val aggregateId: SampleAggregateId,
-        override val aggregateVersion: AggregateVersion,
-        override val occurredAt: Instant,
-        override val domainEventId: DomainEventId = DomainEventId(),
-        override val aggregateType: Class<*> = Seat::class.java,
-        override val eventStreamType: Class<*> = SampleDomainEvent::class.java) : DomainEvent<SampleAggregateId>() {
-    class WithNoAdditionalValues(aggregateId: SampleAggregateId, aggregateVersion: AggregateVersion, occurredAt: Instant) : SampleDomainEvent(aggregateId, aggregateVersion, occurredAt)
-    class WithAdditionalIntValue(aggregateId: SampleAggregateId, aggregateVersion: AggregateVersion, occurredAt: Instant, val intValue: Int) : SampleDomainEvent(aggregateId, aggregateVersion, occurredAt)
-    class WithAnotherAggregateId(aggregateId: SampleAggregateId, aggregateVersion: AggregateVersion, occurredAt: Instant, val anotherAggregateId: AnotherSampleAggregateId) : SampleDomainEvent(aggregateId, aggregateVersion, occurredAt)
-}
 
 
 

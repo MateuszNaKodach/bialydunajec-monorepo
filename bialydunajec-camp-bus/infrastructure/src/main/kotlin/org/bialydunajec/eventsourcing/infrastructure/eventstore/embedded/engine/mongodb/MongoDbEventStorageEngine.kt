@@ -1,11 +1,13 @@
 package org.bialydunajec.eventsourcing.infrastructure.eventstore.embedded.engine.mongodb
 
+import com.mongodb.DuplicateKeyException
 import org.bialydunajec.eventsourcing.domain.AggregateId
 import org.bialydunajec.eventsourcing.domain.AggregateVersion
 import org.bialydunajec.eventsourcing.domain.DomainEvent
 import org.bialydunajec.eventsourcing.infrastructure.eventstore.EventSerializer
 import org.bialydunajec.eventsourcing.infrastructure.eventstore.embedded.engine.AbstractEventStorageEngine
 import org.bialydunajec.eventsourcing.infrastructure.eventstore.embedded.engine.StoreDomainEventEntry
+import org.bialydunajec.eventsourcing.infrastructure.eventstore.exception.DomainEventAlreadyStoredException
 import java.time.Instant
 
 internal class MongoDbEventStorageEngine(
@@ -15,8 +17,15 @@ internal class MongoDbEventStorageEngine(
 
     override fun storeEvent(domainEvent: StoreDomainEventEntry) {
         toDomainEventDocument(domainEvent)
-                .let { documents.save(it) }
+                .let { tryToSave(it) }
+    }
 
+    private fun tryToSave(document: DomainEventDocument) {
+        try {
+            documents.save(document)
+        } catch (exception: DuplicateKeyException) {
+            throw DomainEventAlreadyStoredException(document.eventIdentifier, exception)
+        }
     }
 
     private fun toDomainEventDocument(event: StoreDomainEventEntry): DomainEventDocument =
