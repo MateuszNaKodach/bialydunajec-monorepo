@@ -31,7 +31,7 @@ internal abstract class AbstractEventStorageEngine(override val eventSerializer:
     fun <EventType : DomainEvent<*>> extractDomainEvents(payloadClass: Class<EventType>, storedEvents: List<StoreDomainEventEntry>) =
             storedEvents.map { extractDomainEvent(payloadClass, it) }
 
-    private fun <EventType : DomainEvent<*>> extractDomainEvent(payloadClass: Class<EventType>, storedEvent: StoreDomainEventEntry) =
+    fun <EventType : DomainEvent<*>> extractDomainEvent(payloadClass: Class<EventType>, storedEvent: StoreDomainEventEntry) =
             eventSerializer.deserialize(payloadClass, storedEvent.serializedPayload)
 
     companion object {

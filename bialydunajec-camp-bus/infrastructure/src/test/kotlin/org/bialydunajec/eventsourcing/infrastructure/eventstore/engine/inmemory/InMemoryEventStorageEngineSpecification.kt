@@ -1,9 +1,9 @@
-package org.bialydunajec.eventsourcing.infrastructure
+package org.bialydunajec.eventsourcing.infrastructure.eventstore.engine.inmemory
 
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.gherkin.Feature
 
-internal object InMemoryEventStoreSpecification : Spek({
+internal object InMemoryEventStorageEngineSpecification : Spek({
 
 
     //val eventStore by memoized { InMemoryEventStorageEngine() }
