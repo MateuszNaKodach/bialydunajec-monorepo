@@ -31,8 +31,9 @@ internal abstract class AbstractEventStorageEngine(override val eventSerializer:
     fun <EventType : DomainEvent<*>> extractDomainEvents(payloadClass: Class<EventType>, storedEvents: List<StoreDomainEventEntry>) =
             storedEvents.map { extractDomainEvent(payloadClass, it) }
 
+    @Suppress("UNCHECKED_CAST")
     fun <EventType : DomainEvent<*>> extractDomainEvent(payloadClass: Class<EventType>, storedEvent: StoreDomainEventEntry) =
-            eventSerializer.deserialize(payloadClass, storedEvent.serializedPayload)
+            eventSerializer.deserialize(tryToLoadClass(storedEvent.payloadType) as Class<DomainEvent<*>>, storedEvent.serializedPayload) as EventType
 
     companion object {
         private fun toEventName(text: String?) =
@@ -40,6 +41,19 @@ internal abstract class AbstractEventStorageEngine(override val eventSerializer:
                         ?.foldIndexed("") { i, acc, c -> acc + if (i == 0) c else (if (c.isUpperCase()) "_$c" else c) }
                         ?.toUpperCase()
                         ?: "UNKNOWN"
+
+        private fun tryToLoadClass(name: String): Class<out Any> {
+            return try {
+                Class.forName(name)
+            } catch (e: ClassNotFoundException) {
+                val sb = StringBuilder(name)
+                sb.setCharAt(name.lastIndexOf('.'), '$')
+                Class.forName(sb.toString())
+            }
+        }
+
     }
 
+
 }
+

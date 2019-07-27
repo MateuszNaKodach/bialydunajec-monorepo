@@ -17,10 +17,6 @@ internal class JacksonEventSerializer(private val objectMapper: ObjectMapper = d
     override fun <EventType : DomainEvent<*>> deserialize(domainEventType: Class<EventType>, serializedDomainEvent: String): EventType =
             objectMapper.readValue(serializedDomainEvent, domainEventType)
 
-    @Suppress("UNCHECKED_CAST")
-    fun <EventType : DomainEvent<*>> deserialize(domainEventTypeName: String, serializedDomainEvent: String): EventType =
-            objectMapper.readValue(serializedDomainEvent, Class.forName(domainEventTypeName).javaClass) as EventType
-
     companion object {
         fun defaultObjectMapper(): ObjectMapper = ObjectMapper().eventSerializerConfig()
     }
