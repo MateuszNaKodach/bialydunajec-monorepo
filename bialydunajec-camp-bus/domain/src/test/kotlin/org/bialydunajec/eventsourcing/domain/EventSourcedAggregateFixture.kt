@@ -4,6 +4,7 @@ import assertk.assertAll
 import assertk.assertThat
 import assertk.assertions.isNotNull
 import assertk.assertions.isNull
+import kotlin.reflect.KClass
 
 /*
 TODO: Change to Immutable
@@ -17,6 +18,8 @@ class EventSourcedAggregateTestFixture<AggregateIdType : AggregateId,
 
     fun withNoPriorActivity() = EventSourcedTestFixtureWhen(aggregate)
 
+    //TODO: Events needs to be clear after command handle
+    /*
     infix fun withPriorCommands(block: () -> List<AggregateCommandType>) =
             apply { block.invoke().forEach { passCommandToAggregate(it) } }
                     .let {
@@ -28,7 +31,7 @@ class EventSourcedAggregateTestFixture<AggregateIdType : AggregateId,
                     .let {
                         EventSourcedTestFixtureWhen(aggregate)
                     }
-
+*/
     infix fun withPriorEvent(block: () -> AggregateEventType) =
             apply { passEventToAggregate(block.invoke()) }
                     .let {
@@ -82,6 +85,12 @@ class EventSourcedTestFixtureExpect<AggregateIdType : AggregateId,
         private val aggregate: EventSourcedAggregateRoot<AggregateIdType, AggregateCommandType, AggregateEventType, AggregateRootType>,
         private val exception: Exception?
 ) {
+
+    infix fun <T: AggregateEventType> thenExpectEventWithType(block: () -> KClass<T>) =
+            assertAll {
+                assertThat(exception).isNull()
+                assertThat(aggregate).expectOnlyEventWithType(block.invoke())
+            }
 
     infix fun thenExpectEvent(block: () -> AggregateEventType) =
             assertAll {

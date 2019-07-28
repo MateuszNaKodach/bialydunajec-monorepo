@@ -34,7 +34,7 @@ abstract class EventSourcedAggregateRoot<
             doIfCommandMatchedAggregateVersion(command) { process(command) }
 
     private fun <R> doIfCommandMatchedAggregateVersion(command: AggregateCommandType, doIfMatched: () -> R): R {
-        if (this.aggregateVersion !== command.aggregateVersion) {
+        if (this.aggregateVersion != command.aggregateVersion) {
             throw AggregateVersionMismatchException(aggregateVersion, command.aggregateVersion)
         }
         return doIfMatched()

@@ -1,5 +1,7 @@
 package org.bialydunajec.campbus.domain
 
+import assertk.assertThat
+import org.bialydunajec.eventsourcing.domain.expectEventOccurredLastlyIs
 import org.bialydunajec.eventsourcing.domain.givenAggregate
 import org.bialydunajec.eventsourcing.domain.toFixed
 import org.spekframework.spek2.Spek
@@ -9,30 +11,57 @@ import java.time.Clock
 
 object SeatSpecification : Spek({
 
+
+
     describe("Seat reservations for Camp Bus") {
 
-        val fixedClock = Clock.systemUTC().toFixed()
-        val campBusCourseId: BusCourseId by memoized { BusCourseId() }
-        val seatId: SeatId by memoized { SeatId() }
-        val passengerId: PassengerId by memoized { PassengerId() }
-        val seat: Seat by memoized { Seat.newInstance { fixedClock.instant() } }
+        describe("seat for reservation is free") {
 
-        describe("given seat for reservation is free") {
 
-            val addSetForCourse = SeatCommand.AddSeatForCourse(seatId, campBusCourseId)
+            val fixedClock = Clock.systemUTC().toFixed()
+            val campBusCourseId: BusCourseId by memoized { BusCourseId() }
+            val seatId: SeatId by memoized { SeatId() }
+            val passengerId: PassengerId by memoized { PassengerId() }
+            val seat: Seat by memoized { Seat.newInstance { fixedClock.instant() }.handle(SeatCommand.AddSeatForCourse(seatId, campBusCourseId)) }
+
+            describe("seat is reserved for passenger") {
+
+
+                val command = SeatCommand.ReserveSeat(seatId, seat.aggregateVersion, passengerId)
+
+                it("seat should be reserved") {
+                    val expectedEvent =  SeatEvent.SeatReservedForPassenger(seat.aggregateId, command.aggregateVersion, fixedClock.instant(), campBusCourseId, passengerId)
+                    assertThat(seat.handle(command))
+                            .expectEventOccurredLastlyIs(expectedEvent)
+                }
+
+            }
+
+        }
+
+        describe("given seat for reservation is added for course and it's free") {
+
+
+            val fixedClock = Clock.systemUTC().toFixed()
+            val campBusCourseId: BusCourseId by memoized { BusCourseId() }
+            val seatId: SeatId by memoized { SeatId() }
+            val passengerId: PassengerId by memoized { PassengerId() }
+            val seat: Seat by memoized { Seat.newInstance { fixedClock.instant() } }
+
+            val seatAddedForCourse = SeatEvent.SeatAddedForCourse(seatId, seat.aggregateVersion, fixedClock.instant(), campBusCourseId)
 
             describe("when reserve seat for passenger") {
 
-                val reserveSeat = SeatCommand.ReserveSeat(seatId, seat.aggregateVersion, passengerId)
+                val reserveSeat = SeatCommand.ReserveSeat(seatId, seatAddedForCourse.aggregateVersion.increase(), passengerId)
 
                 it("then the seat should be reserved for the passenger") {
 
-                    val expectedEvent = SeatEvent.SeatReservedForPassenger(seat.aggregateId, reserveSeat.aggregateVersion, fixedClock.instant(), campBusCourseId, passengerId)
+                    //val expectedEvent = SeatEvent.SeatReservedForPassenger(seat.aggregateId, reserveSeat.aggregateVersion, fixedClock.instant(), campBusCourseId, passengerId)
 
                     givenAggregate { seat }
-                            .withPriorCommand { addSetForCourse }
+                            .withPriorEvent { seatAddedForCourse }
                             .whenCommand { reserveSeat }
-                            .thenExpectEvent { expectedEvent }
+                            .thenExpectEventWithType { SeatEvent.SeatReservedForPassenger::class }
                 }
 
             }
