@@ -1,15 +1,46 @@
 package org.bialydunajec.campbus.domain
 
-import arrow.core.Try
-import assertk.assertThat
-import assertk.assertions.isInstanceOf
-import assertk.assertions.isTrue
-import org.junit.jupiter.api.Assumptions.assumeTrue
+import org.bialydunajec.eventsourcing.domain.givenAggregate
+import org.bialydunajec.eventsourcing.domain.toFixed
 import org.spekframework.spek2.Spek
-import org.spekframework.spek2.style.gherkin.Feature
-import java.time.Instant
+import org.spekframework.spek2.style.specification.describe
+import java.time.Clock
+
 
 object SeatSpecification : Spek({
+
+    describe("Seat reservations for Camp Bus") {
+
+        val fixedClock = Clock.systemUTC().toFixed()
+        val campBusCourseId: BusCourseId by memoized { BusCourseId() }
+        val seatId: SeatId by memoized { SeatId() }
+        val passengerId: PassengerId by memoized { PassengerId() }
+        val seat: Seat by memoized { Seat.newInstance { fixedClock.instant() } }
+
+        describe("given seat for reservation is free") {
+
+            val addSetForCourse = SeatCommand.AddSeatForCourse(seatId, campBusCourseId)
+
+            describe("when reserve seat for passenger") {
+
+                val reserveSeat = SeatCommand.ReserveSeat(seatId, seat.aggregateVersion, passengerId)
+
+                it("then the seat should be reserved for the passenger") {
+
+                    val expectedEvent = SeatEvent.SeatReservedForPassenger(seat.aggregateId, reserveSeat.aggregateVersion, fixedClock.instant(), campBusCourseId, passengerId)
+
+                    givenAggregate { seat }
+                            .withPriorCommand { addSetForCourse }
+                            .whenCommand { reserveSeat }
+                            .thenExpectEvent { expectedEvent }
+                }
+
+            }
+
+        }
+
+    }
+/*
 
     Feature("Seat reservations for Camp Bus") {
 
@@ -116,5 +147,5 @@ object SeatSpecification : Spek({
         }
 
     }
-
+*/
 })

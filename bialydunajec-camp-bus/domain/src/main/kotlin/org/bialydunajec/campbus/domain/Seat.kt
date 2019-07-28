@@ -7,30 +7,7 @@ sealed class Seat(
         aggregateId: SeatId,
         changes: List<SeatEvent>,
         aggregateVersion: AggregateVersion)
-    : EventSourcedAggregateRoot<SeatId, SeatEvent>(currentTimeProvider, aggregateId, aggregateVersion, changes, SeatEvent::class) {
-
-    fun replayEvent(event: SeatEvent) = applyEvent(event, EventApplyingMode.REPLAY_HISTORY)
-
-    fun applyEvent(event: SeatEvent, mode: EventApplyingMode = EventApplyingMode.DEFAULT): Seat =
-            composeOf(
-                    when (mode) {
-                        EventApplyingMode.APPLY_NEW_CHANGE -> listOf<SeatEvent>(*changes.toTypedArray(), event)
-                        EventApplyingMode.REPLAY_HISTORY -> changes
-                    },
-                    event,
-                    aggregateVersion.increase()
-            )
-
-    fun handle(command: SeatCommand): Seat {
-        if (this.aggregateVersion !== command.aggregateVersion) {
-            throw AggregateVersionMismatchException(aggregateVersion, command.aggregateVersion)
-        }
-        return applyEvent(process(command))
-    }
-
-    abstract fun process(command: SeatCommand): SeatEvent
-
-    protected abstract fun composeOf(uncommittedHistory: List<SeatEvent>, lastEvent: SeatEvent, nextAggregateVersion: AggregateVersion): Seat
+    : EventSourcedAggregateRoot<SeatId, SeatCommand, SeatEvent, Seat>(currentTimeProvider, aggregateId, aggregateVersion, changes, SeatEvent::class) {
 
     override fun toString() = "Seat(aggregateVersion=$aggregateVersion)"
 
@@ -41,7 +18,8 @@ sealed class Seat(
         fun newInstance(currentTimeProvider: TimeProvider): Seat = Uninitialized(currentTimeProvider, SeatId.undefined(), emptyList(), AggregateVersion.ZERO)
     }
 
-    internal class Uninitialized(currentTimeProvider: TimeProvider, aggregateId: SeatId, events: List<SeatEvent>, aggregateVersion: AggregateVersion) : Seat(currentTimeProvider, aggregateId, events, aggregateVersion) {
+
+    private class Uninitialized(currentTimeProvider: TimeProvider, aggregateId: SeatId, events: List<SeatEvent>, aggregateVersion: AggregateVersion) : Seat(currentTimeProvider, aggregateId, events, aggregateVersion) {
 
         override fun process(command: SeatCommand) =
                 when (command) {
@@ -71,7 +49,7 @@ sealed class Seat(
         Chyba to nie zadziąła, jeśli case biznesowy potrzebuje np. serwisu domenowego w aggregacie.
  */
 
-    internal class Free(currentTimeProvider: TimeProvider, aggregateId: SeatId, val campBusCourseId: BusCourseId, events: List<SeatEvent>, aggregateVersion: AggregateVersion) : Seat(currentTimeProvider, aggregateId, events, aggregateVersion) {
+    private class Free(currentTimeProvider: TimeProvider, aggregateId: SeatId, val campBusCourseId: BusCourseId, events: List<SeatEvent>, aggregateVersion: AggregateVersion) : Seat(currentTimeProvider, aggregateId, events, aggregateVersion) {
 
         override fun process(command: SeatCommand): SeatEvent =
                 when (command) {
@@ -93,7 +71,7 @@ sealed class Seat(
     }
 
 
-    internal class Reserved(currentTimeProvider: TimeProvider, aggregateId: SeatId, val campBusCourseId: BusCourseId, private val passengerId: PassengerId, events: List<SeatEvent>, aggregateVersion: AggregateVersion) : Seat(currentTimeProvider, aggregateId, events, aggregateVersion) {
+    private class Reserved(currentTimeProvider: TimeProvider, aggregateId: SeatId, val campBusCourseId: BusCourseId, private val passengerId: PassengerId, events: List<SeatEvent>, aggregateVersion: AggregateVersion) : Seat(currentTimeProvider, aggregateId, events, aggregateVersion) {
 
         override fun process(command: SeatCommand) =
                 when (command) {
@@ -116,7 +94,7 @@ sealed class Seat(
 
     }
 
-    internal class Occupied(currentTimeProvider: TimeProvider, aggregateId: SeatId, val campBusCourseId: BusCourseId, private val passengerId: PassengerId, events: List<SeatEvent>, aggregateVersion: AggregateVersion) : Seat(currentTimeProvider, aggregateId, events, aggregateVersion) {
+    private class Occupied(currentTimeProvider: TimeProvider, aggregateId: SeatId, val campBusCourseId: BusCourseId, private val passengerId: PassengerId, events: List<SeatEvent>, aggregateVersion: AggregateVersion) : Seat(currentTimeProvider, aggregateId, events, aggregateVersion) {
 
         override fun process(command: SeatCommand) =
                 when (command) {
@@ -136,7 +114,7 @@ sealed class Seat(
 
     }
 
-    internal class Removed(currentTimeProvider: TimeProvider, aggregateId: SeatId, val campBusCourseId: BusCourseId, events: List<SeatEvent>, aggregateVersion: AggregateVersion) : Seat(currentTimeProvider, aggregateId, events, aggregateVersion) {
+    private class Removed(currentTimeProvider: TimeProvider, aggregateId: SeatId, val campBusCourseId: BusCourseId, events: List<SeatEvent>, aggregateVersion: AggregateVersion) : Seat(currentTimeProvider, aggregateId, events, aggregateVersion) {
 
         override fun process(command: SeatCommand) =
                 throw UnprocessableCommandException(command, this)
@@ -153,7 +131,7 @@ sealed class Seat(
 }
 
 
-class UnprocessableCommandException(val command: Command<*>, val aggregate: AggregateRoot<*, *>)
+class UnprocessableCommandException(val command: DomainCommand<*>, val aggregate: AggregateRoot<*, *>)
     : IllegalStateException("Command: <$command> cannot be processed by aggregate root: <$aggregate>!")
 
 interface StateMachineAggregate

@@ -35,7 +35,7 @@ internal object InMemoryEventStorageEngineSpecification : Spek({
                 )
             }
 
-            When("The event is stored") {
+            When("Store the event") {
                 eventStorageEngine.appendDomainEvent(domainEvent)
             }
 
@@ -92,7 +92,7 @@ internal object InMemoryEventStorageEngineSpecification : Spek({
                 )
             }
 
-            When("The event is stored") {
+            When("Store the event") {
                 eventStorageEngine.appendDomainEvent(domainEvent)
             }
 

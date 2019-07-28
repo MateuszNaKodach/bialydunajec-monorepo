@@ -12,7 +12,10 @@ sealed class SampleAggregateRoot(
         aggregateId: SampleAggregateId,
         changes: List<SampleDomainEvent>,
         aggregateVersion: AggregateVersion)
-    : EventSourcedAggregateRoot<SampleAggregateId, SampleDomainEvent>(currentTimeProvider, aggregateId, aggregateVersion, changes, SampleDomainEvent::class)
+    : EventSourcedAggregateRoot<SampleAggregateId, SampleDomainCommand, SampleDomainEvent, SampleAggregateRoot>(
+        currentTimeProvider, aggregateId, aggregateVersion, changes, SampleDomainEvent::class)
+
+sealed class SampleDomainCommand : DomainCommand<SampleAggregateId>
 
 sealed class SampleDomainEvent(
         override val aggregateId: SampleAggregateId,
