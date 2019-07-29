@@ -120,4 +120,10 @@ infix fun <AggregateIdType : AggregateId,
         AggregateEventType : DomainEvent<AggregateIdType>,
         AggregateRootType : EventSourcedAggregateRoot<AggregateIdType, AggregateCommandType, AggregateEventType, AggregateRootType>>
         Any.givenAggregate(block: () -> EventSourcedAggregateRoot<AggregateIdType, AggregateCommandType, AggregateEventType, AggregateRootType>):
-        EventSourcedAggregateTestFixture<AggregateIdType, AggregateCommandType, AggregateEventType, AggregateRootType> = EventSourcedAggregateTestFixture(block.invoke())
+        EventSourcedAggregateTestFixture<AggregateIdType, AggregateCommandType, AggregateEventType, AggregateRootType> {
+    val aggregate = block.invoke()
+    if(aggregate.changes.isNotEmpty()){
+        throw IllegalStateException("Aggregate is in intermediate state! No changes expected!")
+    }
+    return EventSourcedAggregateTestFixture(aggregate)
+}
