@@ -16,7 +16,7 @@ internal class CampParticipantCottageAccountEventsProjection(
 ) : SerializedExternalEventListener() {
 
     init {
-        eventSubscriber.subscribe(CampParticipantCottageAccountExternalEvent.Open::class) {
+        eventSubscriber.subscribe(CampParticipantCottageAccountExternalEvent.Opened::class) {
             processingQueue.process(it)
         }
 
@@ -32,7 +32,7 @@ internal class CampParticipantCottageAccountEventsProjection(
     override fun processExternalEvent(externalEvent: ExternalEvent<*>) {
         val eventPayload = externalEvent.payload
         when (eventPayload) {
-            is CampParticipantCottageAccountExternalEvent.Open -> {
+            is CampParticipantCottageAccountExternalEvent.Opened -> {
                 createProjection(eventPayload)
                 eventStream.updateStreamWith(externalEvent)
             }
@@ -48,9 +48,9 @@ internal class CampParticipantCottageAccountEventsProjection(
     }
 
     //TODO: Add possibility to update existing projection from only paid!
-    private fun createProjection(eventPayload: CampParticipantCottageAccountExternalEvent.Open) {
+    private fun createProjection(eventPayload: CampParticipantCottageAccountExternalEvent.Opened) {
         fun getPaymentCommitmentReadModelFrom(
-                paymentCommitmentSnapshot: CampParticipantCottageAccountExternalEvent.Open.PaymentCommitmentSnapshot,
+                paymentCommitmentSnapshot: CampParticipantCottageAccountExternalEvent.Opened.PaymentCommitmentSnapshot,
                 paymentType: PaymentCommitment.Type) =
                 paymentCommitmentSnapshot.let {
                     PaymentCommitment(

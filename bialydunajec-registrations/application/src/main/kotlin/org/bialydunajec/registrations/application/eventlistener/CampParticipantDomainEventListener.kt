@@ -1,17 +1,14 @@
 package org.bialydunajec.registrations.application.eventlistener
 
-import org.bialydunajec.ddd.application.base.email.SimpleEmailMessage
 import org.bialydunajec.ddd.application.base.email.EmailMessageSenderPort
+import org.bialydunajec.ddd.application.base.email.SimpleEmailMessage
 import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.Gender
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantEvent
 import org.bialydunajec.registrations.domain.camper.campparticipantregistration.CampParticipantRegistrationRepository
 import org.bialydunajec.registrations.domain.cottage.CottageRepository
 import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule
-import org.bialydunajec.registrations.domain.payment.CampParticipantCottageAccount
-import org.bialydunajec.registrations.domain.payment.CampParticipantCottageAccountReadOnlyRepository
 import org.bialydunajec.registrations.domain.payment.CampParticipantCottageAccountRepository
-import org.bialydunajec.registrations.domain.shirt.ShirtOrderReadOnlyRepository
 import org.bialydunajec.registrations.domain.shirt.ShirtOrderRepository
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Propagation
@@ -100,7 +97,8 @@ internal class CampParticipantDomainEventListener(
     fun handleUnregisteredToPaymentsCommitments(event: CampParticipantEvent.UnregisteredByAuthorized) {
 
         val campParticipantAccount = campParticipantCottageAccountRepository
-                .findByCampParticipantIdAndCottageId(event.snapshot.campParticipantId, event.snapshot.currentCamperData.cottageId)!!
+                .findByCampParticipantIdAndCottageId(event.snapshot.campParticipantId, event.snapshot.currentCamperData.cottageId)
+                ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.CAMP_PARTICIPANT_COTTAGE_ACCOUNT_TO_CLOSE_MUST_EXISTS)
 
         campParticipantAccount.close()
         campParticipantCottageAccountRepository.delete(campParticipantAccount)
@@ -111,7 +109,7 @@ internal class CampParticipantDomainEventListener(
     fun handleUnregisteredToUpdateRegistrationStatus(event: CampParticipantEvent.UnregisteredByAuthorized) {
 
         val campParticipantRegistration = campParticipantRegistrationRepository.findByCampParticipantId(event.aggregateId)
-                ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.CAMP_PARTICIPANT_REGISTRATIONS_TO_CONFIRM_MUST_EXISTS)
+                ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.CAMP_PARTICIPANT_REGISTRATIONS_TO_CANCEL_MUST_EXISTS)
 
         campParticipantRegistration.cancelByAuthorized()
         campParticipantRegistrationRepository.save(campParticipantRegistration)

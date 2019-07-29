@@ -10,7 +10,7 @@ import org.bialydunajec.registrations.domain.payment.valueobject.PaymentCommitme
 import java.time.Instant
 
 sealed class CampParticipantCottageAccountEvent : DomainEvent<CampParticipantCottageAccountId> {
-    data class Open(
+    data class Opened(
             override val aggregateId: CampParticipantCottageAccountId,
             val campParticipantId: CampParticipantId,
             val cottageId: CottageId,

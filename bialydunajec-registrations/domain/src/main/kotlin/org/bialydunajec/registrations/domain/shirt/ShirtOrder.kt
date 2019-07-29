@@ -1,12 +1,14 @@
 package org.bialydunajec.registrations.domain.shirt
 
 import org.bialydunajec.ddd.domain.base.aggregate.AuditableAggregateRoot
-import org.bialydunajec.ddd.domain.base.persistence.IdentifiedEntity
 import org.bialydunajec.ddd.domain.base.persistence.Versioned
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantId
 import org.bialydunajec.registrations.domain.shirt.entity.ShirtColorOption
 import org.bialydunajec.registrations.domain.shirt.entity.ShirtSizeOption
-import org.bialydunajec.registrations.domain.shirt.valueobject.*
+import org.bialydunajec.registrations.domain.shirt.valueobject.Color
+import org.bialydunajec.registrations.domain.shirt.valueobject.OrderStatus
+import org.bialydunajec.registrations.domain.shirt.valueobject.ShirtOrderSnapshot
+import org.bialydunajec.registrations.domain.shirt.valueobject.ShirtSize
 import javax.persistence.*
 import javax.validation.constraints.NotNull
 
@@ -61,7 +63,7 @@ class ShirtOrder internal constructor(
     }
 
     fun cancel() {
-        this.status = OrderStatus.CANCELLED //nie wiem czy potrzebne, skoro zaraz będzie usunięte z bd
+        this.status = OrderStatus.CANCELLED
         registerEvent(ShirtOrderEvent.OrderCancelled(getAggregateId(), getSnapshot()))
     }
 

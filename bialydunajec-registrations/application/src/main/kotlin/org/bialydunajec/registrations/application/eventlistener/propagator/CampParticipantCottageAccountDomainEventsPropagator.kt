@@ -20,10 +20,10 @@ internal class CampParticipantCottageAccountDomainEventsPropagator(
 
     @Async
     @TransactionalEventListener
-    fun handleDomainEvent(domainEvent: CampParticipantCottageAccountEvent.Open) {
+    fun handleDomainEvent(domainEvent: CampParticipantCottageAccountEvent.Opened) {
         fun externalPaymentCommitment(paymentCommitmentSnapshot: PaymentCommitmentSnapshot) =
                 with(paymentCommitmentSnapshot) {
-                    CampParticipantCottageAccountExternalEvent.Open.PaymentCommitmentSnapshot(
+                    CampParticipantCottageAccountExternalEvent.Opened.PaymentCommitmentSnapshot(
                             paymentCommitmentId.toString(),
                             initialAmount.getValue().toDouble(),
                             description,
@@ -38,10 +38,10 @@ internal class CampParticipantCottageAccountDomainEventsPropagator(
 
         with(domainEvent) {
             externalEventBus.send(
-                    CampParticipantCottageAccountExternalEvent.Open(
+                    CampParticipantCottageAccountExternalEvent.Opened(
                             aggregateId.toString(),
                             campParticipant?.let {
-                                CampParticipantCottageAccountExternalEvent.Open.CampParticipant(
+                                CampParticipantCottageAccountExternalEvent.Opened.CampParticipant(
                                         it.getAggregateId().toString(),
                                         it.getPersonalData().pesel.toStringOrNull(),
                                         it.getPersonalData().firstName.toStringOrNull(),
@@ -51,7 +51,7 @@ internal class CampParticipantCottageAccountDomainEventsPropagator(
                                 )
                             },
                             cottage?.let {
-                                CampParticipantCottageAccountExternalEvent.Open.Cottage(
+                                CampParticipantCottageAccountExternalEvent.Opened.Cottage(
                                         it.getAggregateId().toString(),
                                         it.getName()
                                 )

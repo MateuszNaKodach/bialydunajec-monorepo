@@ -4,7 +4,7 @@ import java.time.Instant
 
 sealed class CampParticipantCottageAccountExternalEvent {
 
-    data class Open(
+    data class Opened(
             val campParticipantCottageAccountId: String,
             val campParticipant: CampParticipant?,
             val cottage: Cottage?,
