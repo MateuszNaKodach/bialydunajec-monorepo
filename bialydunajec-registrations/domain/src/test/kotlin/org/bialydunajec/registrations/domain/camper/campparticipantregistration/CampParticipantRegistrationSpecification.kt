@@ -46,7 +46,7 @@ internal class CampParticipantRegistrationSpecification : Spek({
             }
         }
 
-        describe("Registration already cancelled by camper") {
+        xdescribe("Registration already cancelled by camper") {
 
             describe("Given registration already cancelled") {
 
@@ -73,12 +73,12 @@ internal class CampParticipantRegistrationSpecification : Spek({
 }
 )
 
-object TestFixture {
-
-    private val campParticipantId = CampParticipantId("camp-participant-id")
+private object TestFixture {
 
     val campParticipantRegistration =
             { status: ParticipationStatus -> CampParticipantRegistration.createFrom(campParticipantSnapshot(status), shirtOrderSnapshot) }
+
+    private val campParticipantId = CampParticipantId("camp-participant-id")
 
     private val campParticipantSnapshot = { status: ParticipationStatus ->
         val camperApplication = CamperApplication(
