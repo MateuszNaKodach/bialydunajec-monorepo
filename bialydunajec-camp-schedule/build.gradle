@@ -1,10 +1,7 @@
 version = '0.0.1-SNAPSHOT'
 
 dependencies {
-    compile project(':bialydunajec-camp-schedule:bialydunajec-camp-schedule-presentation')
-    compile project(':bialydunajec-camp-schedule:bialydunajec-camp-schedule-infrastructure')
-    //compile project(':bialydunajec-camp-schedule:bialydunajec-camp-schedule-read-model')
-
+    compile project(':bialydunajec-camp-schedule:bialydunajec-camp-schedule-ddd-axon')
 
     compile('org.springframework.boot:spring-boot-starter-web')
     
