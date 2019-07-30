@@ -7,8 +7,8 @@ import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditio
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantId
 import org.bialydunajec.registrations.domain.camper.valueobject.CampParticipantRegistrationSnapshot
 import org.bialydunajec.registrations.domain.camper.valueobject.CampParticipantSnapshot
-import org.bialydunajec.registrations.domain.camper.valueobject.RegistrationStatus
 import org.bialydunajec.registrations.domain.camper.valueobject.CamperApplication
+import org.bialydunajec.registrations.domain.camper.valueobject.RegistrationStatus
 import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule.*
 import org.bialydunajec.registrations.domain.shirt.valueobject.ShirtOrderSnapshot
 import java.util.*
@@ -75,7 +75,14 @@ class CampParticipantRegistration private constructor(
         )
     }
 
-    fun canVerifyByCamperWithCode(verificationCode: String) =
+    fun verifyByCamperWithCode(verificationCode: String) {
+        canVerifyByCamperWithCode(verificationCode).ifInvalidThrowException()
+
+        this.status = RegistrationStatus.VERIFIED_BY_CAMPER
+        registerEvent(CampParticipantRegistrationEvent.VerifiedByCamper(getAggregateId(), getSnapshot()))
+    }
+
+    private fun canVerifyByCamperWithCode(verificationCode: String) =
             ValidationResult.buffer()
                     .addViolatedRuleIf(INVALID_CAMP_PARTICIPANT_REGISTRATION_VERIFICATION_CODE, verificationCode != this.verificationCode)
                     .addViolatedRuleIf(CAMP_PARTICIPANT_REGISTRATION_ALREADY_VERIFIED, status == RegistrationStatus.VERIFIED_BY_CAMPER)
@@ -85,24 +92,36 @@ class CampParticipantRegistration private constructor(
                     .addViolatedRuleIf(CAMP_PARTICIPANT_REGISTRATION_ALREADY_CANCELLED_BY_DEADLINE, status == RegistrationStatus.CANCELLED_BY_DEADLINE)
                     .toValidationResult()
 
-
-    fun verifyByCamperWithCode(verificationCode: String) {
-        canVerifyByCamperWithCode(verificationCode)
-                .ifInvalidThrowException()
-
-        this.status = RegistrationStatus.VERIFIED_BY_CAMPER
-        registerEvent(CampParticipantRegistrationEvent.VerifiedByCamper(getAggregateId(), getSnapshot()))
-    }
-
     fun verifyByAuthorized() {
+        canVerifyByAuthorized().ifInvalidThrowException()
+
         this.status = RegistrationStatus.VERIFIED_BY_AUTHORIZED
         registerEvent(CampParticipantRegistrationEvent.VerifiedByAuthorized(getAggregateId(), getSnapshot()))
     }
 
+    private fun canVerifyByAuthorized() =
+            ValidationResult.buffer()
+                    .addViolatedRuleIf(CAMP_PARTICIPANT_REGISTRATION_ALREADY_VERIFIED, status == RegistrationStatus.VERIFIED_BY_CAMPER)
+                    .addViolatedRuleIf(CAMP_PARTICIPANT_REGISTRATION_ALREADY_VERIFIED, status == RegistrationStatus.VERIFIED_BY_AUTHORIZED)
+                    .addViolatedRuleIf(CAMP_PARTICIPANT_REGISTRATION_ALREADY_CANCELLED, status == RegistrationStatus.CANCELLED_BY_CAMPER)
+                    .addViolatedRuleIf(CAMP_PARTICIPANT_REGISTRATION_ALREADY_CANCELLED_BY_AUTHORIZED, status == RegistrationStatus.CANCELLED_BY_AUTHORIZED)
+                    .addViolatedRuleIf(CAMP_PARTICIPANT_REGISTRATION_ALREADY_CANCELLED_BY_DEADLINE, status == RegistrationStatus.CANCELLED_BY_DEADLINE)
+                    .toValidationResult()
+
+
     fun cancelByAuthorized() {
+        canCancelByAuthorized().ifInvalidThrowException()
+
         this.status = RegistrationStatus.CANCELLED_BY_AUTHORIZED
         registerEvent(CampParticipantRegistrationEvent.Cancelled(getAggregateId()))
     }
+
+    private fun canCancelByAuthorized() =
+            ValidationResult.buffer()
+                    .addViolatedRuleIf(CAMP_PARTICIPANT_REGISTRATION_ALREADY_CANCELLED, status == RegistrationStatus.CANCELLED_BY_CAMPER)
+                    .addViolatedRuleIf(CAMP_PARTICIPANT_REGISTRATION_ALREADY_CANCELLED_BY_AUTHORIZED, status == RegistrationStatus.CANCELLED_BY_AUTHORIZED)
+                    .addViolatedRuleIf(CAMP_PARTICIPANT_REGISTRATION_ALREADY_CANCELLED_BY_DEADLINE, status == RegistrationStatus.CANCELLED_BY_DEADLINE)
+                    .toValidationResult()
 
     override fun getVersion() = version
     fun getCampRegistrationsEditionId() = campRegistrationsEditionId
