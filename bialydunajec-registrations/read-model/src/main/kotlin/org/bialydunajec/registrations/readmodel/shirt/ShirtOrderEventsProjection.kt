@@ -24,6 +24,10 @@ internal class ShirtOrderEventsProjection(
         eventSubscriber.subscribe(CampParticipantExternalEvent.CampParticipantConfirmed::class) {
             processingQueue.process(it)
         }
+
+        eventSubscriber.subscribe(ShirtOrderExternalEvent.OrderCancelled::class) {
+            processingQueue.process(it)
+        }
     }
 
     override fun processExternalEvent(externalEvent: ExternalEvent<*>) {
@@ -34,6 +38,10 @@ internal class ShirtOrderEventsProjection(
                 shirtOrderEventStream.updateStreamWith(externalEvent)
             }
             is CampParticipantExternalEvent.CampParticipantConfirmed -> {
+                createProjection(eventPayload)
+                shirtOrderEventStream.updateStreamWith(externalEvent)
+            }
+            is ShirtOrderExternalEvent.OrderCancelled -> {
                 createProjection(eventPayload)
                 shirtOrderEventStream.updateStreamWith(externalEvent)
             }
@@ -81,6 +89,10 @@ internal class ShirtOrderEventsProjection(
                     }
                     shirtOrderMongoRepository.save(it)
                 }
+    }
+
+    private fun createProjection(eventPayload: ShirtOrderExternalEvent.OrderCancelled) {
+        shirtOrderMongoRepository.deleteById(eventPayload.shirtOrderId)
     }
 
 }

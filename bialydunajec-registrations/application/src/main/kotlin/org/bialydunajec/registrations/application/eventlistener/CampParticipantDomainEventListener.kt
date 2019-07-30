@@ -1,11 +1,15 @@
 package org.bialydunajec.registrations.application.eventlistener
 
-import org.bialydunajec.ddd.application.base.email.SimpleEmailMessage
 import org.bialydunajec.ddd.application.base.email.EmailMessageSenderPort
+import org.bialydunajec.ddd.application.base.email.SimpleEmailMessage
+import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.Gender
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantEvent
+import org.bialydunajec.registrations.domain.camper.campparticipantregistration.CampParticipantRegistrationRepository
 import org.bialydunajec.registrations.domain.cottage.CottageRepository
-import org.bialydunajec.registrations.domain.payment.CampParticipantCottageAccountReadOnlyRepository
+import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule
+import org.bialydunajec.registrations.domain.payment.CampParticipantCottageAccountRepository
+import org.bialydunajec.registrations.domain.shirt.ShirtOrderRepository
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
@@ -13,9 +17,11 @@ import org.springframework.transaction.event.TransactionalEventListener
 
 @Component
 internal class CampParticipantDomainEventListener(
-        private val campParticipantCottageAccountRepository: CampParticipantCottageAccountReadOnlyRepository,
+        private val campParticipantCottageAccountRepository: CampParticipantCottageAccountRepository,
         private val cottageRepository: CottageRepository,
-        private val emailMessageSender: EmailMessageSenderPort
+        private val emailMessageSender: EmailMessageSenderPort,
+        private val campParticipantRegistrationRepository: CampParticipantRegistrationRepository,
+        private val shirtOrderRepository: ShirtOrderRepository
 ) {
 
 
@@ -77,15 +83,37 @@ internal class CampParticipantDomainEventListener(
 
     @TransactionalEventListener
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    fun handleUnregisteredToDeleteShirtOrder(event: CampParticipantEvent.Unregistered) {
-        println("CAMP PARTICIPANT UNREGISTERED!!!")
-        //TODO: Delete shirt order, paymetns commitment, update camp participant registration to indicate that was deleted
-        //TODO: Update read models!!!
+    fun handleUnregisteredToDeleteShirtOrder(event: CampParticipantEvent.UnregisteredByAuthorized) {
+
+        val shirtOrder = shirtOrderRepository.findByCampParticipantId(event.aggregateId)
+                ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.SHIRT_ORDER_TO_DELETE_MUST_EXISTS)
+
+        shirtOrder.cancel()
+        shirtOrderRepository.delete(shirtOrder)
     }
 
     @TransactionalEventListener
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    fun handleUnregisteredToPaymentsCommitments(event: CampParticipantEvent.Unregistered) {
+    fun handleUnregisteredToPaymentsCommitments(event: CampParticipantEvent.UnregisteredByAuthorized) {
 
+        val campParticipantAccount = campParticipantCottageAccountRepository
+                .findByCampParticipantIdAndCottageId(event.snapshot.campParticipantId, event.snapshot.currentCamperData.cottageId)
+                ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.CAMP_PARTICIPANT_COTTAGE_ACCOUNT_TO_CLOSE_MUST_EXISTS)
+
+        campParticipantAccount.close()
+        campParticipantCottageAccountRepository.delete(campParticipantAccount)
     }
+
+    @TransactionalEventListener
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    fun handleUnregisteredToUpdateRegistrationStatus(event: CampParticipantEvent.UnregisteredByAuthorized) {
+
+        val campParticipantRegistration = campParticipantRegistrationRepository.findByCampParticipantId(event.aggregateId)
+                ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.CAMP_PARTICIPANT_REGISTRATIONS_TO_CANCEL_MUST_EXISTS)
+
+        campParticipantRegistration.cancelByAuthorized()
+        campParticipantRegistrationRepository.save(campParticipantRegistration)
+    }
+
+
 }
