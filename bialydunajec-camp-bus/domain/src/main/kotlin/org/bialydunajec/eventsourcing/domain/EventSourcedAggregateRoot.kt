@@ -16,15 +16,20 @@ abstract class EventSourcedAggregateRoot<
 
     fun replayEvent(event: AggregateEventType) = applyEvent(event, EventApplyingMode.REPLAY_HISTORY)
 
-    private fun applyEvent(event: AggregateEventType, mode: EventApplyingMode = EventApplyingMode.DEFAULT): AggregateRootType =
-            composeOf(
-                    when (mode) {
-                        EventApplyingMode.APPLY_NEW_CHANGE -> changes.plus(event)
-                        EventApplyingMode.REPLAY_HISTORY -> changes
-                    },
-                    event,
-                    aggregateVersion.increase()
-            )
+    private fun applyEvent(event: AggregateEventType, mode: EventApplyingMode = EventApplyingMode.DEFAULT): AggregateRootType {
+        if (aggregateVersion != event.aggregateVersion) {
+            throw BrokenEventSequenceException(aggregateVersion, event.aggregateVersion)
+        }
+        return composeOf(
+                when (mode) {
+                    EventApplyingMode.APPLY_NEW_CHANGE -> changes.plus(event)
+                    EventApplyingMode.REPLAY_HISTORY -> changes
+                },
+                event,
+                event.aggregateVersion.increase()
+        )
+    }
+
 
     fun handle(command: AggregateCommandType): AggregateRootType =
             doIfCommandMatchedAggregateVersion(command) { applyEvent(process(command)) }

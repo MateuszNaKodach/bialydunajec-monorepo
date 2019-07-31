@@ -18,6 +18,7 @@ sealed class SeatEvent(
     class SeatReservationCancelled(aggregateId: SeatId, aggregateVersion: AggregateVersion, occurredAt: Instant, val campBusCourseId: BusCourseId, val passengerId: PassengerId) : SeatEvent(aggregateId, aggregateVersion, occurredAt)
     class SeatReleased(aggregateId: SeatId, aggregateVersion: AggregateVersion, occurredAt: Instant, val campBusCourseId: BusCourseId, val passengerId: PassengerId) : SeatEvent(aggregateId, aggregateVersion, occurredAt)
     class SeatRemovedFromCourse(aggregateId: SeatId, aggregateVersion: AggregateVersion, occurredAt: Instant, val campBusCourseId: BusCourseId, val passengerId: PassengerId?) : SeatEvent(aggregateId, aggregateVersion, occurredAt)
+    class ReservedSeatReservationFailed(aggregateId: SeatId, aggregateVersion: AggregateVersion, occurredAt: Instant, campBusCourseId: BusCourseId, passengerId: PassengerId) : SeatEvent(aggregateId, aggregateVersion, occurredAt)
 
     override fun toString() =
             "${this.javaClass.simpleName}(aggregateId=$aggregateId, aggregateVersion=$aggregateVersion, occuredAt=$occurredAt, domainEventId=$domainEventId)"

@@ -3,6 +3,10 @@ package org.bialydunajec.eventsourcing.domain
 class AggregateVersion(private val version: Long) {
     companion object {
         val ZERO = AggregateVersion(0)
+        val ONE = AggregateVersion(1)
+        val TWO = AggregateVersion(2)
+        val THREE = AggregateVersion(3)
+        val FOUR = AggregateVersion(4)
     }
 
     fun increase() = AggregateVersion(version + 1)
