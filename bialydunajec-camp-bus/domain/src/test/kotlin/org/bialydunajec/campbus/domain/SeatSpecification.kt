@@ -17,42 +17,48 @@ object SeatSpecification : Spek({
         val passengerId = PassengerId("example-passenger-id")
         val seat: Seat by memoized { Seat.newInstance { fixedClock.instant() } }
 
-        describe("Scenario: Free seat") {
+        describe("Given seat for reservation is added for course") {
 
-            describe("Given seat for reservation is added for course") {
+            val seatAddedForCourse = SeatEvent.SeatAddedForCourse(seatId, seat.aggregateVersion, fixedClock.instant(), campBusCourseId)
 
-                val seatAddedForCourse = SeatEvent.SeatAddedForCourse(seatId, seat.aggregateVersion, fixedClock.instant(), campBusCourseId)
+            describe("When reserve the seat for passenger") {
 
-                describe("When reserve the seat for passenger") {
+                val reserveSeat = SeatCommand.ReserveSeat(seatId, seatAddedForCourse.aggregateVersion.increase(), passengerId)
 
-                    val reserveSeat = SeatCommand.ReserveSeat(seatId, seatAddedForCourse.aggregateVersion.increase(), passengerId)
+                it("Then the seat should be reserved for the passenger") {
 
-                    it("Then the seat should be reserved for the passenger") {
+                    val expectedEvent = SeatEvent.SeatReservedForPassenger(seatId, reserveSeat.aggregateVersion, fixedClock.instant(), campBusCourseId, passengerId)
 
-                        val expectedEvent = SeatEvent.SeatReservedForPassenger(seatId, reserveSeat.aggregateVersion, fixedClock.instant(), campBusCourseId, passengerId)
-
-                        givenAggregate { seat }
-                                .withPriorEvent { seatAddedForCourse }
-                                .whenCommand { reserveSeat }
-                                .thenExpectEvent { expectedEvent }
-                    }
-
+                    givenAggregate { seat }
+                            .withPriorEvent { seatAddedForCourse }
+                            .whenCommand { reserveSeat }
+                            .thenExpectEvent { expectedEvent }
                 }
 
             }
 
-        }
+            describe("And the seat already reserved") {
 
+                val seatReserved = SeatEvent.SeatReservedForPassenger(seatId, seatAddedForCourse.aggregateVersion, fixedClock.instant(), campBusCourseId, passengerId)
 
-        describe("Scenario: Already reserved seat") {
+                describe("When reserve the seat for passenger") {
 
-            describe("Given seat for reservation is added for course") {
+                    val reserveSeat = SeatCommand.ReserveSeat(seatId, seatReserved.aggregateVersion.increase(), passengerId)
 
-                val seatAddedForCourse = SeatEvent.SeatAddedForCourse(seatId, seat.aggregateVersion, fixedClock.instant(), campBusCourseId)
+                    it("Then try should fail") {
 
-                describe("And it's already reserved") {
+                        givenAggregate { seat }
+                                .withPriorEvents(seatAddedForCourse, seatReserved)
+                                .whenCommand { reserveSeat }
+                                .thenExpectException()
 
-                    val seatReserved = SeatEvent.SeatReservedForPassenger(seatId, seatAddedForCourse.aggregateVersion, fixedClock.instant(), campBusCourseId, passengerId)
+                    }
+
+                }
+
+                describe("And the reservation is confirmed") {
+
+                    val reservationConfirmed = SeatEvent.SeatReservationConfirmed(seatId, seatReserved.aggregateVersion, fixedClock.instant(), campBusCourseId, passengerId)
 
                     describe("When reserve the seat for passenger") {
 
@@ -61,7 +67,7 @@ object SeatSpecification : Spek({
                         it("Then try should fail") {
 
                             givenAggregate { seat }
-                                    .withPriorEvents(seatAddedForCourse, seatReserved)
+                                    .withPriorEvents(seatAddedForCourse, seatReserved, reservationConfirmed)
                                     .whenCommand { reserveSeat }
                                     .thenExpectException()
 
@@ -69,78 +75,29 @@ object SeatSpecification : Spek({
 
                     }
 
-
                 }
 
             }
 
-        }
+            describe("And the seat is already removed") {
 
-        describe("Scenario: Already occupied seat") {
+                val seatRemoved = SeatEvent.SeatRemovedFromCourse(seatId, seatAddedForCourse.aggregateVersion, fixedClock.instant(), campBusCourseId, passengerId)
 
-            describe("Given seat for reservation is added for course") {
+                describe("When reserve the seat for passenger") {
 
-                val seatAddedForCourse = SeatEvent.SeatAddedForCourse(seatId, seat.aggregateVersion, fixedClock.instant(), campBusCourseId)
+                    val reserveSeat = SeatCommand.ReserveSeat(seatId, seatRemoved.aggregateVersion.increase(), passengerId)
 
-                describe("And it's already reserved") {
+                    it("Then try should fail") {
 
-                    val seatReserved = SeatEvent.SeatReservedForPassenger(seatId, seatAddedForCourse.aggregateVersion, fixedClock.instant(), campBusCourseId, passengerId)
-
-                    describe("And the reservation is confirmed") {
-
-                        val reservationConfirmed = SeatEvent.SeatReservationConfirmed(seatId, seatReserved.aggregateVersion, fixedClock.instant(), campBusCourseId, passengerId)
-
-                        describe("When reserve the seat for passenger") {
-
-                            val reserveSeat = SeatCommand.ReserveSeat(seatId, seatReserved.aggregateVersion.increase(), passengerId)
-
-                            it("Then try should fail") {
-
-                                givenAggregate { seat }
-                                        .withPriorEvents(seatAddedForCourse, seatReserved, reservationConfirmed)
-                                        .whenCommand { reserveSeat }
-                                        .thenExpectException()
-
-                            }
-
-                        }
+                        givenAggregate { seat }
+                                .withPriorEvents(seatAddedForCourse, seatRemoved)
+                                .whenCommand { reserveSeat }
+                                .thenExpectException()
 
                     }
 
-
                 }
 
-            }
-
-        }
-
-        describe("Scenario: Already removed seat") {
-
-            describe("Given seat for reservation is added for course") {
-
-                val seatAddedForCourse = SeatEvent.SeatAddedForCourse(seatId, seat.aggregateVersion, fixedClock.instant(), campBusCourseId)
-
-                describe("And it's already removed") {
-
-                    val seatRemoved = SeatEvent.SeatRemovedFromCourse(seatId, seatAddedForCourse.aggregateVersion, fixedClock.instant(), campBusCourseId, passengerId)
-
-                    describe("When reserve the seat for passenger") {
-
-                        val reserveSeat = SeatCommand.ReserveSeat(seatId, seatRemoved.aggregateVersion.increase(), passengerId)
-
-                        it("Then try should fail") {
-
-                            givenAggregate { seat }
-                                    .withPriorEvents(seatAddedForCourse, seatRemoved)
-                                    .whenCommand { reserveSeat }
-                                    .thenExpectException()
-
-                        }
-
-                    }
-
-
-                }
 
             }
 
