@@ -21,6 +21,9 @@ class EventSourcedAggregateTestFixture<AggregateIdType : AggregateId,
     infix fun withPriorEvents(block: () -> List<AggregateEventType>) =
             EventSourcedTestFixtureWhen(block.invoke().fold(aggregate) { acc, event: AggregateEventType -> acc.replayEvent(event) })
 
+    fun withPriorEvents(vararg events: AggregateEventType) =
+            EventSourcedTestFixtureWhen(events.fold(aggregate) { acc, event: AggregateEventType -> acc.replayEvent(event) })
+
 }
 
 class EventSourcedTestFixtureWhen<AggregateIdType : AggregateId,
@@ -62,6 +65,9 @@ class EventSourcedTestFixtureExpect<AggregateIdType : AggregateId,
     fun thenExpectException() =
             assertThat(exception).isNotNull()
 
+    fun thenAggregate() =
+            assertThat(aggregate)
+
     fun thenExpectNoEvents() =
             apply {
                 assertThat(aggregate).expectNoEvents()
@@ -88,3 +94,4 @@ infix fun <AggregateIdType : AggregateId,
     }
     return EventSourcedAggregateTestFixture(aggregate)
 }
+
