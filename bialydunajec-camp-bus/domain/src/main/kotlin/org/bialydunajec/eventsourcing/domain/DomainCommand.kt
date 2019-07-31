@@ -5,7 +5,7 @@ abstract class DomainCommand<AggregateIdType : AggregateId, DomainCommandType : 
         /**
          * Field providing the identifier of the aggregate that a command targets.
          */
-        val aggregateId: AggregateId,
+        val aggregateId: AggregateIdType,
 
         /**
          * Field providing the version of the aggregate that a command targets.
@@ -13,7 +13,7 @@ abstract class DomainCommand<AggregateIdType : AggregateId, DomainCommandType : 
         val aggregateVersion: AggregateVersion,
 
         val domainCommandId: DomainCommandId = DomainCommandId()
-) : DomainMessage {
+) /*: DomainMessage {
 
     override val domainMessageId: DomainMessageId
         get() = DomainMessageId.from(domainCommandId)
@@ -24,4 +24,4 @@ abstract class DomainCommand<AggregateIdType : AggregateId, DomainCommandType : 
     override val causationId: CausationId
         get() = CausationId.from(domainCommandId)
 
-}
+}*/

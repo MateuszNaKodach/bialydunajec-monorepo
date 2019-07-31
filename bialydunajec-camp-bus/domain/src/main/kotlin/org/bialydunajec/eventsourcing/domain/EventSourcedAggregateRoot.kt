@@ -4,8 +4,8 @@ import kotlin.reflect.KClass
 
 abstract class EventSourcedAggregateRoot<
         AggregateIdType : AggregateId,
-        AggregateCommandType : DomainCommand<AggregateIdType>,
-        AggregateEventType : DomainEvent<AggregateIdType>,
+        AggregateCommandType : DomainCommand<AggregateIdType,AggregateCommandType>,
+        AggregateEventType : DomainEvent<AggregateIdType,AggregateEventType>,
         AggregateRootType : EventSourcedAggregateRoot<AggregateIdType, AggregateCommandType, AggregateEventType, AggregateRootType>>(
         protected val currentTimeProvider: TimeProvider,
         override val aggregateId: AggregateIdType,
