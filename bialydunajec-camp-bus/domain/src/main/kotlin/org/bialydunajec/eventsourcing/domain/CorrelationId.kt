@@ -1,8 +1,10 @@
 package org.bialydunajec.eventsourcing.domain
 
-import java.util.*
+class CorrelationId(id: String) : Identifier(id) {
 
-class DomainEventId(id: String = UUID.randomUUID().toString()): Identifier(id){
+    companion object {
+        fun from(id: Identifier) = CorrelationId(id.toString())
+    }
 
     override fun toString() = id
 
@@ -10,7 +12,7 @@ class DomainEventId(id: String = UUID.randomUUID().toString()): Identifier(id){
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as DomainEventId
+        other as CorrelationId
 
         if (id != other.id) return false
 

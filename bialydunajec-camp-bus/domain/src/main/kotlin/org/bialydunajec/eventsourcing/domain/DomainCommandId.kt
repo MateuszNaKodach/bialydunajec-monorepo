@@ -2,7 +2,7 @@ package org.bialydunajec.eventsourcing.domain
 
 import java.util.*
 
-class DomainEventId(id: String = UUID.randomUUID().toString()): Identifier(id){
+class DomainCommandId(id: String = UUID.randomUUID().toString()) : Identifier(id) {
 
     override fun toString() = id
 
@@ -10,7 +10,7 @@ class DomainEventId(id: String = UUID.randomUUID().toString()): Identifier(id){
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as DomainEventId
+        other as DomainCommandId
 
         if (id != other.id) return false
 

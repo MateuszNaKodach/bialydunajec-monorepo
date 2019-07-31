@@ -3,13 +3,27 @@ package org.bialydunajec.campbus.domain
 import org.bialydunajec.eventsourcing.domain.AggregateVersion
 import org.bialydunajec.eventsourcing.domain.DomainCommand
 
-sealed class SeatCommand(override val aggregateId: SeatId, override val aggregateVersion: AggregateVersion) : DomainCommand<SeatId> {
-    class AddSeatForCourse(aggregateId: SeatId, val campBusCourseId: BusCourseId) : SeatCommand(aggregateId, AggregateVersion.ZERO)
-    class ReserveSeat(aggregateId: SeatId, aggregateVersion: AggregateVersion, val passengerId: PassengerId) : SeatCommand(aggregateId, aggregateVersion)
-    class CancelReservation(aggregateId: SeatId, aggregateVersion: AggregateVersion) : SeatCommand(aggregateId, aggregateVersion)
-    class ConfirmReservation(aggregateId: SeatId, aggregateVersion: AggregateVersion) : SeatCommand(aggregateId, aggregateVersion)
-    class RemoveSeatFromCourse(aggregateId: SeatId, aggregateVersion: AggregateVersion) : SeatCommand(aggregateId, aggregateVersion)
-    class ReleaseSeat(aggregateId: SeatId, aggregateVersion: AggregateVersion) : SeatCommand(aggregateId, aggregateVersion)
+sealed class SeatCommand(
+        aggregateId: SeatId,
+        aggregateVersion: AggregateVersion) : DomainCommand<SeatId, SeatCommand>(aggregateId, aggregateVersion) {
+
+    class AddSeatForCourse(aggregateId: SeatId, val campBusCourseId: BusCourseId)
+        : SeatCommand(aggregateId, AggregateVersion.ZERO)
+
+    class ReserveSeat(aggregateId: SeatId, aggregateVersion: AggregateVersion, val passengerId: PassengerId)
+        : SeatCommand(aggregateId, aggregateVersion)
+
+    class CancelReservation(aggregateId: SeatId, aggregateVersion: AggregateVersion)
+        : SeatCommand(aggregateId, aggregateVersion)
+
+    class ConfirmReservation(aggregateId: SeatId, aggregateVersion: AggregateVersion)
+        : SeatCommand(aggregateId, aggregateVersion)
+
+    class RemoveSeatFromCourse(aggregateId: SeatId, aggregateVersion: AggregateVersion)
+        : SeatCommand(aggregateId, aggregateVersion)
+
+    class ReleaseSeat(aggregateId: SeatId, aggregateVersion: AggregateVersion)
+        : SeatCommand(aggregateId, aggregateVersion)
 
     override fun toString() =
             "${this.javaClass.simpleName}(aggregateId=$aggregateId, aggregateVersion=$aggregateVersion)"

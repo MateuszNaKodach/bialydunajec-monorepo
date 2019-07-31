@@ -2,19 +2,21 @@ package org.bialydunajec.eventsourcing.domain
 
 import java.time.Instant
 
-abstract class DomainEvent<AggregateIdType : AggregateId> {
-    abstract val aggregateId: AggregateIdType
-    abstract val aggregateVersion: AggregateVersion
-    abstract val domainEventId: DomainEventId
-    abstract val occurredAt: Instant
-    abstract val aggregateType: Class<*>
-    abstract val eventStreamType: Class<*>
+//TODO: Extends DomainMessage
+abstract class DomainEvent<AggregateIdType : AggregateId, DomainEventType : DomainEvent<AggregateIdType, DomainEventType>>(
+        val aggregateId: AggregateIdType,
+        val aggregateVersion: AggregateVersion,
+        val domainEventId: DomainEventId,
+        val occurredAt: Instant,
+        val aggregateType: Class<*>,
+        val eventStreamType: Class<*>
+) {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as DomainEvent<*>
+        other as DomainEvent<*, *>
 
         if (domainEventId != other.domainEventId) return false
 
