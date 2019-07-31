@@ -4,8 +4,8 @@ interface DomainMessage {
 
     val domainMessageId: DomainMessageId
 
-    val correlationId: CorrelationId
+    val correlationId: CorrelationId?
 
-    val causationId: CausationId
+    val causationId: CausationId?
 
 }
