@@ -9,7 +9,7 @@ sealed class SeatEvent(
         aggregateId: SeatId,
         aggregateVersion: AggregateVersion,
         occurredAt: Instant
-) : DomainEvent<SeatId, SeatEvent>(aggregateId, aggregateVersion, DomainEventId(), occurredAt, Seat::class.java, SeatEvent::class.java) {
+) : DomainEvent<SeatId>(aggregateId, aggregateVersion, DomainEventId(), occurredAt, Seat::class.java, SeatEvent::class.java) {
 
     class SeatAddedForCourse(
             aggregateId: SeatId,

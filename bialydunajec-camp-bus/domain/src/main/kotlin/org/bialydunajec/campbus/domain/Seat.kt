@@ -131,6 +131,6 @@ sealed class Seat(
 }
 
 
-class UnprocessableCommandException(val command: DomainCommand<*,*>, val aggregate: AggregateRoot<*, *>)
+class UnprocessableCommandException(val command: DomainCommand<*>, val aggregate: AggregateRoot<*, *>)
     : IllegalStateException("Command: <$command> cannot be processed by aggregate root: <$aggregate>!")
 

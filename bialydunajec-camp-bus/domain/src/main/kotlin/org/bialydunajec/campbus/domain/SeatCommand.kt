@@ -5,7 +5,7 @@ import org.bialydunajec.eventsourcing.domain.DomainCommand
 
 sealed class SeatCommand(
         aggregateId: SeatId,
-        aggregateVersion: AggregateVersion) : DomainCommand<SeatId, SeatCommand>(aggregateId, aggregateVersion) {
+        aggregateVersion: AggregateVersion) : DomainCommand<SeatId>(aggregateId, aggregateVersion) {
 
     class AddSeatForCourse(aggregateId: SeatId, val campBusCourseId: BusCourseId)
         : SeatCommand(aggregateId, AggregateVersion.ZERO)

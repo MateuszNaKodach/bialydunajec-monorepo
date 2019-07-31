@@ -1,6 +1,6 @@
 package org.bialydunajec.eventsourcing.domain
 
-abstract class DomainCommand<AggregateIdType : AggregateId, DomainCommandType : DomainCommand<AggregateIdType, DomainCommandType>>(
+abstract class DomainCommand<AggregateIdType : AggregateId>(
 
         /**
          * Field providing the identifier of the aggregate that a command targets.
@@ -13,15 +13,4 @@ abstract class DomainCommand<AggregateIdType : AggregateId, DomainCommandType : 
         val aggregateVersion: AggregateVersion,
 
         val domainCommandId: DomainCommandId = DomainCommandId()
-) /*: DomainMessage {
-
-    override val domainMessageId: DomainMessageId
-        get() = DomainMessageId.from(domainCommandId)
-
-    override val correlationId: CorrelationId
-        get() = CorrelationId.from(domainCommandId)
-
-    override val causationId: CausationId
-        get() = CausationId.from(domainCommandId)
-
-}*/
+)
