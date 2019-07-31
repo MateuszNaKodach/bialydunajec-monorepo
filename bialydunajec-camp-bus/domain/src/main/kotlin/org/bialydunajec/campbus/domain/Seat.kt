@@ -78,6 +78,17 @@ sealed class Seat(
                     is SeatCommand.ConfirmReservation -> SeatEvent.SeatReservationConfirmed(command.aggregateId, aggregateVersion, currentTimeProvider(), campBusCourseId, passengerId)
                     is SeatCommand.CancelReservation -> SeatEvent.SeatReservationCancelled(command.aggregateId, aggregateVersion, currentTimeProvider(), campBusCourseId, passengerId)
                     is SeatCommand.RemoveSeatFromCourse -> SeatEvent.SeatRemovedFromCourse(command.aggregateId, aggregateVersion, currentTimeProvider(), campBusCourseId, passengerId)
+                    is SeatCommand.ReserveSeat -> command.failureEvent {
+                        //TODO: pass command as it!
+                        SeatEvent.SeatReservationFailed(
+                                command.aggregateId,
+                                aggregateVersion,
+                                currentTimeProvider(),
+                                campBusCourseId,
+                                command.passengerId,
+                                SeatDomainRule.SeatForReservationCannotBeAlreadyReserved
+                        )
+                    }
                     else -> throw UnprocessableCommandException(command, this)
                 }
 

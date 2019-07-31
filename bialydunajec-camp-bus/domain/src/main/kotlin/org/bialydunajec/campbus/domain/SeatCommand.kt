@@ -11,7 +11,14 @@ sealed class SeatCommand(
         : SeatCommand(aggregateId, AggregateVersion.ZERO)
 
     class ReserveSeat(aggregateId: SeatId, aggregateVersion: AggregateVersion, val passengerId: PassengerId)
-        : SeatCommand(aggregateId, aggregateVersion)
+        : SeatCommand(aggregateId, aggregateVersion) {
+
+        fun successEvent(block: () -> SeatEvent.SeatReservedForPassenger): SeatEvent.SeatReservedForPassenger =
+                block.invoke()
+
+        fun failureEvent(block: () -> SeatEvent.SeatReservationFailed): SeatEvent.SeatReservationFailed =
+                block.invoke()
+    }
 
     class CancelReservation(aggregateId: SeatId, aggregateVersion: AggregateVersion)
         : SeatCommand(aggregateId, aggregateVersion)

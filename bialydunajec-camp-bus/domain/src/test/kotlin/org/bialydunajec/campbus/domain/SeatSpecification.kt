@@ -17,7 +17,6 @@ object SeatSpecification : Spek({
         val seatId = SeatId("example-seat-id")
         val passengerId = PassengerId("example-passenger-id")
         val seat: Seat by memoized { Seat.newInstance { fixedClock.instant() } }
-        //val seat: Seat = Seat.newInstance { fixedClock.instant() }
 
         context("Given seat for reservation is added for course") {
 
@@ -29,12 +28,12 @@ object SeatSpecification : Spek({
 
                 it("Then the seat should be reserved for the passenger") {
 
-                    val expectedEvent = SeatEvent.SeatReservedForPassenger(seatId, AggregateVersion.ONE, fixedClock.instant(), campBusCourseId, passengerId)
+                    val seatReservedForPassenger = SeatEvent.SeatReservedForPassenger(seatId, AggregateVersion.ONE, fixedClock.instant(), campBusCourseId, passengerId)
 
                     givenAggregate { seat }
                             .withPriorEvent { seatAddedForCourse }
                             .whenCommand { reserveSeat }
-                            .thenExpectEvent { expectedEvent }
+                            .thenExpectEvent { seatReservedForPassenger }
                 }
 
             }
@@ -49,12 +48,18 @@ object SeatSpecification : Spek({
 
                     it("Then try should fail, because of previous reservation") {
 
-                        //val expectedEvent = SeatEvent.ReservedSeatReservationFailed(seatId, reserveSeat.aggregateVersion, fixedClock.instant(), campBusCourseId, passengerId)
+                        val seatReservationFailed = SeatEvent.SeatReservationFailed(
+                                seatId,
+                                reserveSeat.aggregateVersion,
+                                fixedClock.instant(),
+                                campBusCourseId,
+                                reserveSeat.passengerId,
+                                SeatDomainRule.SeatForReservationCannotBeAlreadyReserved)
 
                         givenAggregate { seat }
                                 .withPriorEvents(seatAddedForCourse, seatReserved)
                                 .whenCommand { reserveSeat }
-                                .thenExpectException()
+                                .thenExpectEvent { seatReservationFailed } //FIXME: Coś nie tak!? Brak eventów. czy metoda uzywana w withPrioerEvent nie zmienia stanu? Replay nie działa dobrze!?
 
                     }
 

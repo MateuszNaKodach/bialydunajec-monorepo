@@ -58,11 +58,13 @@ sealed class SeatEvent(
             val passengerId: PassengerId?
     ) : SeatEvent(aggregateId, aggregateVersion, occurredAt)
 
-    class ReservedSeatReservationFailed(
+    class SeatReservationFailed(
             aggregateId: SeatId,
             aggregateVersion: AggregateVersion,
             occurredAt: Instant,
-            val reason: String
+            val campBusCourseId: BusCourseId,
+            val passengerId: PassengerId,
+            val violatedRule: SeatDomainRule
     ) : SeatEvent(aggregateId, aggregateVersion, occurredAt)
 
     override fun toString() =
