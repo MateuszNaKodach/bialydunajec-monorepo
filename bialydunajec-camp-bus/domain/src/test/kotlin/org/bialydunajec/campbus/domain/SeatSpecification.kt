@@ -17,7 +17,7 @@ object SeatSpecification : Spek({
         val passengerId = PassengerId("example-passenger-id")
         val seat: Seat by memoized { Seat.newInstance { fixedClock.instant() } }
 
-        describe("Given seat for reservation is added for course") {
+        context("Given seat for reservation is added for course") {
 
             val seatAddedForCourse = SeatEvent.SeatAddedForCourse(seatId, seat.aggregateVersion, fixedClock.instant(), campBusCourseId)
 
@@ -37,7 +37,7 @@ object SeatSpecification : Spek({
 
             }
 
-            describe("And the seat already reserved") {
+            context("And the seat already reserved") {
 
                 val seatReserved = SeatEvent.SeatReservedForPassenger(seatId, seatAddedForCourse.aggregateVersion, fixedClock.instant(), campBusCourseId, passengerId)
 
@@ -56,7 +56,7 @@ object SeatSpecification : Spek({
 
                 }
 
-                describe("And the reservation is confirmed") {
+                context("And the reservation is confirmed") {
 
                     val reservationConfirmed = SeatEvent.SeatReservationConfirmed(seatId, seatReserved.aggregateVersion, fixedClock.instant(), campBusCourseId, passengerId)
 
@@ -79,7 +79,7 @@ object SeatSpecification : Spek({
 
             }
 
-            describe("And the seat is already removed") {
+            context("And the seat is already removed") {
 
                 val seatRemoved = SeatEvent.SeatRemovedFromCourse(seatId, seatAddedForCourse.aggregateVersion, fixedClock.instant(), campBusCourseId, passengerId)
 
