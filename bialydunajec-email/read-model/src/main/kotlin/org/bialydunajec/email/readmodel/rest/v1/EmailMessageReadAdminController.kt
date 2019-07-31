@@ -1,6 +1,5 @@
 package org.bialydunajec.email.readmodel.rest.v1
 
-import io.reactivex.subjects.BehaviorSubject
 import org.bialydunajec.email.readmodel.*
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.GetMapping
