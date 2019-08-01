@@ -6,6 +6,10 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
+## BiałyDunajec environments
+Environments and all other required stuff is described on GitBook:
+https://app.gitbook.com/@bialydunajec/s/developers/frontend-development/uruchomienie-lokalne
+
 ## Code scaffolding
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
