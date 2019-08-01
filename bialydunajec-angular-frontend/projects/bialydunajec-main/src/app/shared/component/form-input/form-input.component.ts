@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {AbstractControl} from '@angular/forms';
-import {FormInputAbstractComponent} from 'bialydunajec-commons';
+import {FormInputAbstractComponent} from './form-input.abstract-component';
 
 // https://almerosteyn.com/2016/03/angular2-form-validation-component
 @Component({

@@ -1,8 +1,11 @@
-import {Input, OnDestroy, OnInit} from '@angular/core';
+import {OnDestroy, OnInit} from '@angular/core';
 import {AbstractControl} from '@angular/forms';
 import {Subscription} from 'rxjs';
-import {defaultErrorDefinitions} from '../../config/error-defs.default';
 import {FormStatus} from '../../model/form-status.enum';
+
+export const defaultErrorDefinitions = {
+  'required': 'Pole jest wymagane'
+};
 
 export abstract class FormInputAbstractComponent implements OnInit, OnDestroy {
 

@@ -18,13 +18,6 @@
       "es2017",
       "dom"
     ],
-    "paths": {
-      "bialydunajec-commons": [
-        "dist/bialydunajec-commons"
-      ],
-      "bialydunajec-commons/*": [
-        "dist/bialydunajec-commons/*"
-      ]
-    }
+    "paths": {}
   }
 }

@@ -1,12 +1,12 @@
 import {FormGroup} from '@angular/forms';
 import {StepId} from './registration-form.config';
-import {FormStatus} from 'bialydunajec-commons';
 import {CamperRegistrationFormStateService} from '../../service/camper-registration-form-state.service';
 import {OnDestroy, OnInit} from '@angular/core';
 import {CamperRegistrationFormNavigator} from '../../service/camper-registration-form.navigator';
 import {ActivatedRoute} from '@angular/router';
 import {AngularFormHelper} from '../../../shared/helper/angular-form.helper';
 import {Subscription} from 'rxjs';
+import {FormStatus} from '../../../shared/model/form-status.enum';
 
 export abstract class RegistrationFormStepAbstractComponent implements OnInit, OnDestroy {
 

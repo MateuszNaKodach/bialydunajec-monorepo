@@ -24,17 +24,6 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
           paths:
             - node_modules
-      # Lint the source code
-      #- run:
-      #    name: Linting
-      #    command: npm run lint
-      # Test the source code
-      #- run:
-      #    name: Testing
-      #    command: npm run test
-      - run:
-          name: Build bialydunajec-commons library
-          command: ng build bialydunajec-commons
       - run:
           name: Build bialydunajec-main
           command: |

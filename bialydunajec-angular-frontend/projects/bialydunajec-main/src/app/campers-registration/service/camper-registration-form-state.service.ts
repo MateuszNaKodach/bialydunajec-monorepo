@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {StepId} from '../component/registration-form/registration-form.config';
-import {FormStatus} from 'bialydunajec-commons';
 import {Subject} from 'rxjs';
+import {FormStatus} from '../../shared/model/form-status.enum';
 
 const initialFormState = new Map<string, any>([
   [

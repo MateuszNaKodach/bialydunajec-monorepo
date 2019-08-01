@@ -1,6 +1,6 @@
 import {PlaceDto} from '../../../../shared/dto/place.dto';
 import {CottageBossDto} from './cottage-edit.form-model';
-import {AuditDto} from '../../../../../../../bialydunajec-commons/src/lib/rest/shared-kernel/audit.dto';
+import {AuditDto} from '../../../../shared/dto/audit.dto';
 
 export class CottageInfoDto {
   cottageId: string;

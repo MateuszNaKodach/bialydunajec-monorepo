@@ -1,14 +1,10 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {Component} from '@angular/core';
+import {FormBuilder, Validators} from '@angular/forms';
 import {peselValidator} from '../../../../shared/validator/pesel.validator';
 import {CamperRegistrationFormNavigator} from '../../../service/camper-registration-form.navigator';
 import {ActivatedRoute} from '@angular/router';
 import {CamperRegistrationFormStateService} from '../../../service/camper-registration-form-state.service';
 import {StepId} from '../registration-form.config';
-import {FormStatus} from 'bialydunajec-commons';
-import {Subscription} from 'rxjs';
-import {emailValidator} from '../../../../shared/validator/email.validator';
-import {AngularFormHelper} from '../../../../shared/helper/angular-form.helper';
 import {RegistrationFormStepAbstractComponent} from '../registration-form-step.abstract-component';
 
 
