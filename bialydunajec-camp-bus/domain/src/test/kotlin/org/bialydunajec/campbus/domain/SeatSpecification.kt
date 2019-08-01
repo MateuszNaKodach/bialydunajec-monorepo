@@ -7,7 +7,7 @@ import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.specification.describe
 import java.time.Clock
 
-
+//TODO: Create DSL for spek, with will use DSL with assertk + descriptions
 object SeatSpecification : Spek({
 
     describe("Feature: Reserve seat in Camp Bus for a passenger") {
@@ -46,7 +46,7 @@ object SeatSpecification : Spek({
 
                     val reserveSeat = SeatCommand.ReserveSeat(seatId, AggregateVersion.TWO, passengerId)
 
-                    it("Then try should fail, because of previous reservation") {
+                    it("Then the seat reservation should fail") {
 
                         val seatReservationFailed = SeatEvent.SeatReservationFailed(
                                 seatId,
@@ -59,7 +59,7 @@ object SeatSpecification : Spek({
                         givenAggregate { seat }
                                 .withPriorEvents(seatAddedForCourse, seatReserved)
                                 .whenCommand { reserveSeat }
-                                .thenExpectEvent { seatReservationFailed } //FIXME: Coś nie tak!? Brak eventów. czy metoda uzywana w withPrioerEvent nie zmienia stanu? Replay nie działa dobrze!?
+                                .thenExpectEvent { seatReservationFailed }
 
                     }
 
@@ -73,12 +73,20 @@ object SeatSpecification : Spek({
 
                         val reserveSeat = SeatCommand.ReserveSeat(seatId, AggregateVersion.THREE, passengerId)
 
-                        it("Then try should fail") {
+                        it("Then the seat reservation should fail") {
+
+                            val seatReservationFailed = SeatEvent.SeatReservationFailed(
+                                    seatId,
+                                    reserveSeat.aggregateVersion,
+                                    fixedClock.instant(),
+                                    campBusCourseId,
+                                    reserveSeat.passengerId,
+                                    SeatDomainRule.SeatForReservationCannotBeOccupiedByAnotherPassenger)
 
                             givenAggregate { seat }
                                     .withPriorEvents(seatAddedForCourse, seatReserved, reservationConfirmed)
                                     .whenCommand { reserveSeat }
-                                    .thenExpectException()
+                                    .thenExpectEvent { seatReservationFailed }
 
                         }
 
@@ -98,10 +106,19 @@ object SeatSpecification : Spek({
 
                     it("Then try should fail") {
 
+                        val seatReservationFailed = SeatEvent.SeatReservationFailed(
+                                seatId,
+                                reserveSeat.aggregateVersion,
+                                fixedClock.instant(),
+                                campBusCourseId,
+                                reserveSeat.passengerId,
+                                SeatDomainRule.SeatForReservationCannotBeRemoved)
+
+
                         givenAggregate { seat }
                                 .withPriorEvents(seatAddedForCourse, seatRemoved)
                                 .whenCommand { reserveSeat }
-                                .thenExpectException()
+                                .thenExpectEvent { seatReservationFailed }
 
                     }
 

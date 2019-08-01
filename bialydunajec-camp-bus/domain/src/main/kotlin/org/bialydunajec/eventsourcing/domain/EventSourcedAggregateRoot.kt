@@ -17,7 +17,7 @@ abstract class EventSourcedAggregateRoot<
     fun replayEvent(event: AggregateEventType) = applyEvent(event, EventApplyingMode.REPLAY_HISTORY)
 
     private fun applyEvent(event: AggregateEventType, mode: EventApplyingMode = EventApplyingMode.DEFAULT): AggregateRootType {
-        if (aggregateVersion != event.aggregateVersion) {
+        if (aggregateVersion != event.aggregateVersion) { //TODO: Move this check to event store
             throw BrokenEventSequenceException(aggregateVersion, event.aggregateVersion)
         }
         return composeOf(
