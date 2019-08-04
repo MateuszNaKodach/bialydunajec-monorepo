@@ -54,12 +54,12 @@ jobs:
 
       - run:
           name: change artifact name
-          command: cp build/libs/bialydunajec-backend* build/libs/bialydunajec-backend-${CIRCLE_BRANCH}-${CIRCLE_SHA1}.jar
+          command: cp build/libs/bialydunajec-backend* build/libs/bialydunajec-backend-${CIRCLE_SHA1}.jar
       # Cache the build folder for the deploy job
       - save_cache:
           key: v1-build-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
           paths:
-            - "build/libs/bialydunajec-backend-${CIRCLE_SHA1}-${CIRCLE_SHA1}.jar"
+            - "build/libs/bialydunajec-backend-${CIRCLE_SHA1}.jar"
 
   deploy:
     docker:
@@ -93,11 +93,11 @@ jobs:
                 scp build/libs/bialydunajec-backend.jar Bialydunajec@31.186.82.95:/home/Bialydunajec/webapp/backend/env_staging
                 ssh Bialydunajec@31.186.82.95 "nohup java -jar -D-Xms512m -Xmx512m -Dspring.profiles.active=env_staging /home/Bialydunajec/webapp/backend/env_staging/bialydunajec-backend.jar &> nohup_staging.out&"
             elif [ "${CIRCLE_BRANCH}" == "develop" ]; then
-                scp build/libs/bialydunajec-backend-${CIRCLE_SHA1}-${CIRCLE_SHA1}.jar Bialydunajec@31.186.82.95:/home/Bialydunajec/webapp/backend/env_dev/temp
+                scp build/libs/bialydunajec-backend-${CIRCLE_SHA1}.jar Bialydunajec@31.186.82.95:/home/Bialydunajec/webapp/backend/env_dev/temp
                 ssh Bialydunajec@31.186.82.95 pkill -f backend/env_dev
                 ssh Bialydunajec@31.186.82.95 rm -f /home/Bialydunajec/webapp/backend/env_dev/bialydunajec-backend*
-                ssh Bialydunajec@31.186.82.95 cp /home/Bialydunajec/webapp/backend/env_dev/temp/bialydunajec-backend-${CIRCLE_SHA1}-${CIRCLE_SHA1}.jar /home/Bialydunajec/webapp/backend/env_dev/bialydunajec-backend-${CIRCLE_SHA1}-${CIRCLE_SHA1}.jar
-                ssh Bialydunajec@31.186.82.95 "nohup java -jar -D-Xms512m -Xmx512m -Dspring.profiles.active=env_dev /home/Bialydunajec/webapp/backend/env_dev/bialydunajec-backend-${CIRCLE_SHA1}-${CIRCLE_SHA1}.jar &> nohup_dev_${CIRCLE_SHA1}.out&"
+                ssh Bialydunajec@31.186.82.95 cp /home/Bialydunajec/webapp/backend/env_dev/temp/bialydunajec-backend-${CIRCLE_SHA1}.jar /home/Bialydunajec/webapp/backend/env_dev/bialydunajec-backend-${CIRCLE_SHA1}-${CIRCLE_SHA1}.jar
+                ssh Bialydunajec@31.186.82.95 "nohup java -jar -D-Xms512m -Xmx512m -Dspring.profiles.active=env_dev /home/Bialydunajec/webapp/backend/env_dev/bialydunajec-backend-${CIRCLE_SHA1}.jar &> nohup_dev_${CIRCLE_SHA1}.out&"
             fi
 
 workflows:
