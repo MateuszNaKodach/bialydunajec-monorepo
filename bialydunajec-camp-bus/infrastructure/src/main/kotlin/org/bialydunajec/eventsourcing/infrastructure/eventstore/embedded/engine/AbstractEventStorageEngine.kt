@@ -46,14 +46,15 @@ internal abstract class AbstractEventStorageEngine(override val eventSerializer:
          * Function supports loading Kotlin nested classes, which are used for domain events
          */
         private fun tryToLoadClass(name: String): Class<out Any> =
-            try {
-                Class.forName(name)
-            } catch (e: ClassNotFoundException) {
-                val nestedClassName = StringBuilder(name)
-                        .setCharAt(name.lastIndexOf('.'), '$')
-                        .toString()
-                Class.forName(nestedClassName)
-            }
+                try {
+                    Class.forName(name)
+                } catch (e: ClassNotFoundException) {
+                    val nestedClassName = StringBuilder(name)
+                            .apply {
+                                setCharAt(name.lastIndexOf('.'), '$')
+                            }.toString()
+                    Class.forName(nestedClassName)
+                }
 
 
     }
