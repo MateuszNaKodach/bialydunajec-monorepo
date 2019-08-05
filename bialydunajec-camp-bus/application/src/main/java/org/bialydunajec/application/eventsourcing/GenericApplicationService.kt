@@ -20,6 +20,8 @@ internal abstract class GenericApplicationService<AggregateIdType : AggregateId,
         i zwraca Message z DomainEvent i przetwarza odpowiednio.
         Chyba nie ma po co innych command wproawdzać niż domain!
         Co z repository? Wtedy nie jest transparentne na EventSourcing!?
+        Add auditing for events - which user!?
+        Check authorization/ authentication
      */
 
 }

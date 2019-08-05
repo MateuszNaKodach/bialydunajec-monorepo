@@ -20,9 +20,9 @@ internal class EventStoreSeatRepository(
     }
 
     override fun findById(seatId: SeatId): Seat? {
-        val domainEvents = eventStore.readEvents(SeatEvent::class.java, seatId, timeProvider.instant)
-        return when (domainEvents.isNotEmpty()) {
-            true -> Seat.recreateFrom({ timeProvider.instant }, domainEvents)
+        val eventStream = eventStore.readEvents(SeatEvent::class.java, seatId, timeProvider.instant)
+        return when (eventStream.isNotEmpty()) {
+            true -> Seat.recreateFrom({ timeProvider.instant }, eventStream.events)
             false -> null
         }
     }

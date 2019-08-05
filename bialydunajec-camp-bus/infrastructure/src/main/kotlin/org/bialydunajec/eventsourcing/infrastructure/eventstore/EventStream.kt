@@ -9,6 +9,8 @@ class EventStream<EventType : DomainEvent<*>> internal constructor(
         val version: EventStreamVersion,
         val events: List<EventType>
 ) {
+    fun isNotEmpty() = events.isNotEmpty()
+
     val size: Int
         get() = events.size
 }
