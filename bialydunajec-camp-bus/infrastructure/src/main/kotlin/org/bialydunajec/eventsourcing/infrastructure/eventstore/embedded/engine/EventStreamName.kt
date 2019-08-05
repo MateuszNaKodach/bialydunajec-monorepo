@@ -1,6 +1,6 @@
 package org.bialydunajec.eventsourcing.infrastructure.eventstore.embedded.engine
 
-internal class EventStreamName(private val name: String) {
+class EventStreamName(private val name: String) {
 
     override fun toString() = name
 

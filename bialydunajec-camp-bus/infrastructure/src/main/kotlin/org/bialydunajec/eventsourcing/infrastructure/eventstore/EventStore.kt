@@ -7,8 +7,8 @@ import java.time.Instant
 
 interface EventStore : EventBus {
 
-    fun <EventType : DomainEvent<*>> readEvents(payloadClass: Class<EventType>, aggregateId: AggregateId): List<EventType>
+    fun <EventType : DomainEvent<*>> readEvents(payloadClass: Class<EventType>, aggregateId: AggregateId): EventStream<EventType>
 
-    fun <EventType : DomainEvent<*>> readEvents(payloadClass: Class<EventType>, aggregateId: AggregateId, toTimestamp: Instant): List<EventType>
+    fun <EventType : DomainEvent<*>> readEvents(payloadClass: Class<EventType>, aggregateId: AggregateId, toTimestamp: Instant): EventStream<EventType>
 
 }

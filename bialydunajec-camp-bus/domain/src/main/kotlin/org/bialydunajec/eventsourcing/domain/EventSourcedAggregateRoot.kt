@@ -29,10 +29,6 @@ abstract class EventSourcedAggregateRoot<
     fun handle(command: AggregateCommandType): AggregateRootType =
             applyEvent(process(command))
 
-    fun execute(command: AggregateCommandType): AggregateEventType =
-            process(command)
-
-
     abstract fun process(command: AggregateCommandType): AggregateEventType
 
     protected abstract fun composeOf(uncommittedHistory: List<AggregateEventType>, lastEvent: AggregateEventType): AggregateRootType

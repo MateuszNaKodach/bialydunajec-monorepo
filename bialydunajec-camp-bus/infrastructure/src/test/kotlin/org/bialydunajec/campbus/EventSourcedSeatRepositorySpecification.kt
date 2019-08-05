@@ -1,12 +1,12 @@
 package org.bialydunajec.campbus
 
 import assertk.assertThat
+import assertk.assertions.hasClass
 import com.github.nowakprojects.kttimetraveler.test.TestClockTimeProvider
 import org.bialydunajec.campbus.domain.*
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.gherkin.Feature
 import java.time.LocalTime
-import kotlin.test.assertFails
 
 object EventSourcedSeatRepositorySpecification : Spek({
 
@@ -33,16 +33,13 @@ object EventSourcedSeatRepositorySpecification : Spek({
             When("we reserve the seat at 10:10") {
                 timeProvider.timeTravelTo(LocalTime.of(10, 10))
                 println(timeProvider.instant)
-
                 reserveBusSeat(repository, seatId, passengerId)
             }
 
             Then("if we load seat data with time set to 10:11 next reservation should fail") {
                 timeProvider.timeTravelTo(LocalTime.of(10, 11))
                 println(timeProvider.instant)
-                assertFails {
-                    reserveBusSeat(repository, seatId, passengerId)
-                }
+                assertThat(reserveBusSeat(repository, seatId, passengerId)).hasClass(SeatEvent.SeatReservationFailed::class)
             }
 
             And("if we load seat data with time set to 10:01 reservation should be possible") {
@@ -58,11 +55,10 @@ object EventSourcedSeatRepositorySpecification : Spek({
     }
 })
 
-private fun reserveBusSeat(repository: SeatRepository, seatId: SeatId, passengerId: PassengerId) {
-    repository.findById(seatId)!!
-            .apply {
-                handle(SeatCommand.ReserveSeat(seatId, passengerId))
-                repository.save(this)
-            }
+private fun reserveBusSeat(repository: SeatRepository, seatId: SeatId, passengerId: PassengerId): SeatEvent {
+    val seat = repository.findById(seatId)!!.handle(SeatCommand.ReserveSeat(seatId, passengerId))
+    val lastEvent = seat.changes.last()
+    repository.save(seat)
+    return lastEvent
 }
 

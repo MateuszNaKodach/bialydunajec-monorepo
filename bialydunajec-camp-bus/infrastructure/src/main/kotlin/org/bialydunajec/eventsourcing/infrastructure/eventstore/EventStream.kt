@@ -1,13 +1,14 @@
 package org.bialydunajec.eventsourcing.infrastructure.eventstore
 
-import java.util.*
-import kotlin.reflect.KClass
+import org.bialydunajec.eventsourcing.domain.DomainEvent
+import org.bialydunajec.eventsourcing.infrastructure.eventstore.embedded.engine.EventStreamName
+import org.bialydunajec.eventsourcing.infrastructure.eventstore.embedded.engine.EventStreamVersion
 
-interface EventStream {
-    val aggreagateId: AggregateId
-    val aggregateType: KClass<*>
-    val events: List<Event<*>>
+class EventStream<EventType : DomainEvent<*>> internal constructor(
+        val name: EventStreamName,
+        val version: EventStreamVersion,
+        val events: List<EventType>
+) {
+    val size: Int
+        get() = events.size
 }
-
-
-data class AggregateId(val id: String = UUID.randomUUID().toString())
