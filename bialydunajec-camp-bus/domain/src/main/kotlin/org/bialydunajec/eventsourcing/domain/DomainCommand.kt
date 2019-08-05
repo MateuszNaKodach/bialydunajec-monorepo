@@ -7,10 +7,5 @@ abstract class DomainCommand<AggregateIdType : AggregateId>(
          */
         val aggregateId: AggregateIdType,
 
-        /**
-         * Field providing the version of the aggregate that a command targets.
-         */
-        val aggregateVersion: AggregateVersion,
-
         val domainCommandId: DomainCommandId = DomainCommandId()
 )

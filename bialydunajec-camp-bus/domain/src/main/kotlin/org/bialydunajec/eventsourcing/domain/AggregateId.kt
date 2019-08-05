@@ -30,3 +30,4 @@ open class AggregateId(id: String) : Identifier(id) {
     }
 
 }
+

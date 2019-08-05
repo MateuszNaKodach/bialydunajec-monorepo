@@ -2,10 +2,11 @@ package org.bialydunajec.eventsourcing.infrastructure.eventstore.embedded.engine
 
 import com.mongodb.DuplicateKeyException
 import org.bialydunajec.eventsourcing.domain.AggregateId
-import org.bialydunajec.eventsourcing.domain.AggregateVersion
 import org.bialydunajec.eventsourcing.domain.DomainEvent
 import org.bialydunajec.eventsourcing.infrastructure.eventstore.EventSerializer
 import org.bialydunajec.eventsourcing.infrastructure.eventstore.embedded.engine.AbstractEventStorageEngine
+import org.bialydunajec.eventsourcing.infrastructure.eventstore.embedded.engine.EventStreamName
+import org.bialydunajec.eventsourcing.infrastructure.eventstore.embedded.engine.ExpectedEventStreamVersion
 import org.bialydunajec.eventsourcing.infrastructure.eventstore.embedded.engine.StoreDomainEventEntry
 import org.bialydunajec.eventsourcing.infrastructure.eventstore.exception.DomainEventAlreadyStoredException
 import java.time.Instant
@@ -15,12 +16,14 @@ internal class MongoDbEventStorageEngine(
         private val documents: DomainEventDocuments
 ) : AbstractEventStorageEngine(eventSerializer) {
 
-    override fun storeEvent(domainEvent: StoreDomainEventEntry) {
+    //TODO: Use eventStreamName!
+    override fun storeEvent(streamName: EventStreamName, domainEvent: StoreDomainEventEntry, expectedVersion: ExpectedEventStreamVersion) {
         toDomainEventDocument(domainEvent)
-                .let { tryToSave(it) }
+                .let { tryToSave(it, expectedVersion) }
     }
 
-    private fun tryToSave(document: DomainEventDocument) {
+    //TODO: Check expected version!
+    private fun tryToSave(document: DomainEventDocument, expectedVersion: ExpectedEventStreamVersion) {
         try {
             documents.save(document)
         } catch (exception: DuplicateKeyException) {
@@ -48,19 +51,13 @@ internal class MongoDbEventStorageEngine(
     override fun <EventType : DomainEvent<*>> readEvents(
             domainEventType: Class<EventType>,
             aggregateId: AggregateId,
-            toEventTimestamp: Instant,
-            toAggregateVersion: AggregateVersion?
+            toEventTimestamp: Instant
     ): List<EventType> =
-            if (toAggregateVersion == null) {
-                documents.findAllByEventStreamTypeAndTimestampLessThanEqualOrderByAggregateVersionAsc(
-                        domainEventType.canonicalName,
-                        toEventTimestamp)
-            } else {
-                documents.findAllByEventStreamTypeAndTimestampLessThanEqualAndAggregateVersionLessThanEqualOrderByAggregateVersionAsc(
-                        domainEventType.canonicalName,
-                        toEventTimestamp,
-                        toAggregateVersion.toLong())
-            }.map { toStoreDomainEventEntry(it) }.let { extractDomainEvents(domainEventType, it) }
+            documents.findAllByAggregateIdentifierAndEventStreamTypeAndTimestampLessThanEqualOrderByAggregateVersionAsc(
+                    aggregateId.toString(),
+                    domainEventType.canonicalName,
+                    toEventTimestamp
+            ).map { toStoreDomainEventEntry(it) }.let { extractDomainEvents(domainEventType, it) }
 
     private fun toStoreDomainEventEntry(document: DomainEventDocument) =
             document.let {

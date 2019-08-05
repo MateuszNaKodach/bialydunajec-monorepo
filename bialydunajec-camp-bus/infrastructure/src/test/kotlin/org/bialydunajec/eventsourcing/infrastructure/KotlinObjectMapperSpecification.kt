@@ -4,7 +4,6 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.prop
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.bialydunajec.eventsourcing.domain.AggregateVersion
 import org.bialydunajec.eventsourcing.infrastructure.eventstore.serializer.eventSerializerConfig
 import org.bialydunajec.eventsourcing.testfixtures.AnotherSampleAggregateId
 import org.bialydunajec.eventsourcing.testfixtures.SampleAggregateId
@@ -27,7 +26,6 @@ internal class KotlinObjectMapperSpecification : Spek({
             Given("Example of Domain Event") {
                 domainEvent = SampleDomainEvent.WithNoAdditionalValues(
                         SampleAggregateId("sample-id"),
-                        AggregateVersion.ZERO,
                         Instant.now()
                 )
             }
@@ -41,7 +39,6 @@ internal class KotlinObjectMapperSpecification : Spek({
                 assertThat(deserializedEvent).isEqualTo(domainEvent)
                 assertThat(deserializedEvent).apply {
                     prop(SampleDomainEvent.WithNoAdditionalValues::aggregateId).isEqualTo(domainEvent.aggregateId)
-                    prop(SampleDomainEvent.WithNoAdditionalValues::aggregateVersion).isEqualTo(domainEvent.aggregateVersion)
                     prop(SampleDomainEvent.WithNoAdditionalValues::occurredAt).isEqualTo(domainEvent.occurredAt)
                 }
             }
@@ -56,7 +53,6 @@ internal class KotlinObjectMapperSpecification : Spek({
             Given("Example of Domain Event") {
                 domainEvent = SampleDomainEvent.WithAdditionalIntValue(
                         SampleAggregateId("sample-id"),
-                        AggregateVersion.ZERO,
                         Instant.now(),
                         5
                 )
@@ -71,7 +67,6 @@ internal class KotlinObjectMapperSpecification : Spek({
                 assertThat(deserializedEvent).isEqualTo(domainEvent)
                 assertThat(deserializedEvent).apply {
                     prop(SampleDomainEvent.WithAdditionalIntValue::aggregateId).isEqualTo(domainEvent.aggregateId)
-                    prop(SampleDomainEvent.WithAdditionalIntValue::aggregateVersion).isEqualTo(domainEvent.aggregateVersion)
                     prop(SampleDomainEvent.WithAdditionalIntValue::occurredAt).isEqualTo(domainEvent.occurredAt)
                     prop(SampleDomainEvent.WithAdditionalIntValue::intValue).isEqualTo(domainEvent.intValue)
                 }
@@ -87,7 +82,6 @@ internal class KotlinObjectMapperSpecification : Spek({
             Given("Example of Domain Event") {
                 domainEvent = SampleDomainEvent.WithAnotherAggregateId(
                         SampleAggregateId("sample-id"),
-                        AggregateVersion.ZERO,
                         Instant.now(),
                         AnotherSampleAggregateId("another-sample-id")
                 )
@@ -102,7 +96,6 @@ internal class KotlinObjectMapperSpecification : Spek({
                 assertThat(deserializedEvent).isEqualTo(domainEvent)
                 assertThat(deserializedEvent).apply {
                     prop(SampleDomainEvent.WithAnotherAggregateId::aggregateId).isEqualTo(domainEvent.aggregateId)
-                    prop(SampleDomainEvent.WithAnotherAggregateId::aggregateVersion).isEqualTo(domainEvent.aggregateVersion)
                     prop(SampleDomainEvent.WithAnotherAggregateId::occurredAt).isEqualTo(domainEvent.occurredAt)
                     prop(SampleDomainEvent.WithAnotherAggregateId::anotherAggregateId).isEqualTo(domainEvent.anotherAggregateId)
                 }

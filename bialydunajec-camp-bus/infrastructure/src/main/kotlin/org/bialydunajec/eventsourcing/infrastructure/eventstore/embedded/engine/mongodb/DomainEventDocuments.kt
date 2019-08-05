@@ -6,9 +6,14 @@ import java.time.Instant
 
 internal interface DomainEventDocuments : MongoRepository<DomainEventDocument, String> {
 
-    fun findAllByEventStreamTypeAndTimestampLessThanEqualOrderByAggregateVersionAsc(eventStreamType: String, toTimestamp: Instant): List<DomainEventDocument>
+    fun findAllByAggregateIdentifierAndEventStreamTypeAndTimestampLessThanEqualOrderByAggregateVersionAsc(
+            aggregateIdentifier: String,
+            eventStreamType: String,
+            toTimestamp: Instant
+    ): List<DomainEventDocument>
 
-    fun findAllByEventStreamTypeAndTimestampLessThanEqualAndAggregateVersionLessThanEqualOrderByAggregateVersionAsc(
+    fun findAllByAggregateIdentifierAndEventStreamTypeAndTimestampLessThanEqualAndAggregateVersionLessThanEqualOrderByAggregateVersionAsc(
+            aggregateIdentifier: String,
             eventStreamType: String,
             toTimestamp: Instant,
             toAggregateVersion: Long

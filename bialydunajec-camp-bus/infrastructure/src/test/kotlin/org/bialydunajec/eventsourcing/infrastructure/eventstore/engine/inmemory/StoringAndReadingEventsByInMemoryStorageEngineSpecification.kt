@@ -4,9 +4,10 @@ import assertk.assertThat
 import assertk.assertions.containsOnly
 import assertk.assertions.hasClass
 import assertk.assertions.isNotNull
-import org.bialydunajec.eventsourcing.domain.AggregateVersion
 import org.bialydunajec.eventsourcing.infrastructure.eventstore.EventSerializer
 import org.bialydunajec.eventsourcing.infrastructure.eventstore.embedded.engine.EventStorageEngine
+import org.bialydunajec.eventsourcing.infrastructure.eventstore.embedded.engine.EventStreamName
+import org.bialydunajec.eventsourcing.infrastructure.eventstore.embedded.engine.ExpectedEventStreamVersion
 import org.bialydunajec.eventsourcing.infrastructure.eventstore.embedded.engine.inmemory.InMemoryEventStorageEngine
 import org.bialydunajec.eventsourcing.infrastructure.eventstore.exception.DomainEventAlreadyStoredException
 import org.bialydunajec.eventsourcing.infrastructure.eventstore.serializer.JacksonEventSerializer
@@ -16,7 +17,7 @@ import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.gherkin.Feature
 import java.time.Instant
 
-internal object InMemoryEventStorageEngineSpecification : Spek({
+internal object StoringAndReadingEventsByInMemoryStorageEngineSpecification : Spek({
 
     Feature("Storing and reading domain event by InMemoryEventStorageEngine") {
 
@@ -31,13 +32,12 @@ internal object InMemoryEventStorageEngineSpecification : Spek({
             Given("New event to store") {
                 domainEvent = SampleDomainEvent.WithNoAdditionalValues(
                         SampleAggregateId("sample-id"),
-                        AggregateVersion.ZERO,
                         currentTime()
                 )
             }
 
             When("Store the event") {
-                eventStorageEngine.appendDomainEvent(domainEvent)
+                eventStorageEngine.appendDomainEvent(EventStreamName(domainEvent.aggregateId.toString()), domainEvent, ExpectedEventStreamVersion.Any)
             }
 
             Then("The event should be readable from the storage") {
@@ -55,18 +55,17 @@ internal object InMemoryEventStorageEngineSpecification : Spek({
 
             val domainEvent: SampleDomainEvent = SampleDomainEvent.WithNoAdditionalValues(
                     SampleAggregateId("sample-id"),
-                    AggregateVersion.ZERO,
                     currentTime()
             )
             var thrownException: Exception? = null
 
             Given("Already stored event") {
-                eventStorageEngine.appendDomainEvent(domainEvent)
+                eventStorageEngine.appendDomainEvent(EventStreamName(domainEvent.aggregateId.toString()), domainEvent, ExpectedEventStreamVersion.Any)
             }
 
             When("Try to store the same event") {
                 try {
-                    eventStorageEngine.appendDomainEvent(domainEvent)
+                    eventStorageEngine.appendDomainEvent(EventStreamName(domainEvent.aggregateId.toString()), domainEvent, ExpectedEventStreamVersion.Any)
                 } catch (e: Exception) {
                     thrownException = e
                 }

@@ -4,7 +4,6 @@ import java.time.Instant
 
 abstract class DomainEvent<AggregateIdType : AggregateId>(
         val aggregateId: AggregateIdType,
-        val aggregateVersion: AggregateVersion,
         val domainEventId: DomainEventId,
         val occurredAt: Instant,
         val aggregateType: Class<*>,

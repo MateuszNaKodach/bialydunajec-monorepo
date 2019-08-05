@@ -1,6 +1,5 @@
 package org.bialydunajec.campbus.domain
 
-import org.bialydunajec.eventsourcing.domain.AggregateVersion
 import org.bialydunajec.eventsourcing.domain.givenAggregate
 import org.bialydunajec.eventsourcing.domain.toFixed
 import org.spekframework.spek2.Spek
@@ -20,15 +19,15 @@ object SeatSpecification : Spek({
 
         context("Given seat for reservation is added for course") {
 
-            val seatAddedForCourse = SeatEvent.SeatAddedForCourse(seatId, AggregateVersion.ZERO, fixedClock.instant(), campBusCourseId)
+            val seatAddedForCourse = SeatEvent.SeatAddedForCourse(seatId, fixedClock.instant(), campBusCourseId)
 
             describe("When reserve the seat for passenger") {
 
-                val reserveSeat = SeatCommand.ReserveSeat(seatId, AggregateVersion.ONE, passengerId)
+                val reserveSeat = SeatCommand.ReserveSeat(seatId, passengerId)
 
                 it("Then the seat should be reserved for the passenger") {
 
-                    val seatReservedForPassenger = SeatEvent.SeatReservedForPassenger(seatId, AggregateVersion.ONE, fixedClock.instant(), campBusCourseId, passengerId)
+                    val seatReservedForPassenger = SeatEvent.SeatReservedForPassenger(seatId, fixedClock.instant(), campBusCourseId, passengerId)
 
                     givenAggregate { seat }
                             .withPriorEvent { seatAddedForCourse }
@@ -40,17 +39,16 @@ object SeatSpecification : Spek({
 
             context("And the seat already reserved") {
 
-                val seatReserved = SeatEvent.SeatReservedForPassenger(seatId, AggregateVersion.ONE, fixedClock.instant(), campBusCourseId, passengerId)
+                val seatReserved = SeatEvent.SeatReservedForPassenger(seatId, fixedClock.instant(), campBusCourseId, passengerId)
 
                 describe("When reserve the seat for passenger") {
 
-                    val reserveSeat = SeatCommand.ReserveSeat(seatId, AggregateVersion.TWO, passengerId)
+                    val reserveSeat = SeatCommand.ReserveSeat(seatId, passengerId)
 
                     it("Then the seat reservation should fail") {
 
                         val seatReservationFailed = SeatEvent.SeatReservationFailed(
                                 seatId,
-                                reserveSeat.aggregateVersion,
                                 fixedClock.instant(),
                                 campBusCourseId,
                                 reserveSeat.passengerId,
@@ -67,17 +65,16 @@ object SeatSpecification : Spek({
 
                 context("And the reservation is confirmed") {
 
-                    val reservationConfirmed = SeatEvent.SeatReservationConfirmed(seatId, AggregateVersion.TWO, fixedClock.instant(), campBusCourseId, passengerId)
+                    val reservationConfirmed = SeatEvent.SeatReservationConfirmed(seatId, fixedClock.instant(), campBusCourseId, passengerId)
 
                     describe("When reserve the seat for passenger") {
 
-                        val reserveSeat = SeatCommand.ReserveSeat(seatId, AggregateVersion.THREE, passengerId)
+                        val reserveSeat = SeatCommand.ReserveSeat(seatId, passengerId)
 
                         it("Then the seat reservation should fail") {
 
                             val seatReservationFailed = SeatEvent.SeatReservationFailed(
                                     seatId,
-                                    reserveSeat.aggregateVersion,
                                     fixedClock.instant(),
                                     campBusCourseId,
                                     reserveSeat.passengerId,
@@ -98,17 +95,16 @@ object SeatSpecification : Spek({
 
             context("And the seat is already removed") {
 
-                val seatRemoved = SeatEvent.SeatRemovedFromCourse(seatId, AggregateVersion.ONE, fixedClock.instant(), campBusCourseId, passengerId)
+                val seatRemoved = SeatEvent.SeatRemovedFromCourse(seatId, fixedClock.instant(), campBusCourseId, passengerId)
 
                 describe("When reserve the seat for passenger") {
 
-                    val reserveSeat = SeatCommand.ReserveSeat(seatId, AggregateVersion.TWO, passengerId)
+                    val reserveSeat = SeatCommand.ReserveSeat(seatId, passengerId)
 
                     it("Then try should fail") {
 
                         val seatReservationFailed = SeatEvent.SeatReservationFailed(
                                 seatId,
-                                reserveSeat.aggregateVersion,
                                 fixedClock.instant(),
                                 campBusCourseId,
                                 reserveSeat.passengerId,
