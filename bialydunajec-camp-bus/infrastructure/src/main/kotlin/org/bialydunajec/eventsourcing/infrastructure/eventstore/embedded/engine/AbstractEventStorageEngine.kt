@@ -16,7 +16,6 @@ internal abstract class AbstractEventStorageEngine(override val eventSerializer:
                 StoreDomainEventEntry(
                         it.aggregateId.toString(),
                         aggregateName,
-                        it.aggregateVersion.toLong(),
                         it.occurredAt,
                         eventSerializer.serialize(it),
                         it.javaClass.canonicalName,

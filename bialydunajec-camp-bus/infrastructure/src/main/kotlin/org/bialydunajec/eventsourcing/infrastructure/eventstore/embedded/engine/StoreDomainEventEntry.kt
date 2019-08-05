@@ -5,7 +5,7 @@ import java.time.Instant
 internal class StoreDomainEventEntry(
         val aggregateIdentifier: String,
         val aggregateType: String,
-        val aggregateVersion: Long,
+        //val aggregateVersion: Long, TODO: Introduce after dealing with version!
         val timestamp: Instant,
         val serializedPayload: String,
         val payloadType: String,

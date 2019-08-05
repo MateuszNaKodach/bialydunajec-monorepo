@@ -36,7 +36,6 @@ internal class MongoDbEventStorageEngine(
                 DomainEventDocument(
                         it.aggregateIdentifier,
                         it.aggregateType,
-                        it.aggregateVersion,
                         it.timestamp,
                         it.serializedPayload,
                         it.payloadType,
@@ -64,7 +63,7 @@ internal class MongoDbEventStorageEngine(
                 StoreDomainEventEntry(
                         it.aggregateIdentifier,
                         it.aggregateType,
-                        it.aggregateVersion,
+                        //it.aggregateVersion,
                         it.timestamp,
                         it.serializedPayload,
                         it.payloadType,

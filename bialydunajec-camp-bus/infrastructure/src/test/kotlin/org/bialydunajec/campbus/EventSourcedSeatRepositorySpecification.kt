@@ -61,7 +61,7 @@ object EventSourcedSeatRepositorySpecification : Spek({
 private fun reserveBusSeat(repository: SeatRepository, seatId: SeatId, passengerId: PassengerId) {
     repository.findById(seatId)!!
             .apply {
-                handle(SeatCommand.ReserveSeat(seatId, aggregateVersion, passengerId))
+                handle(SeatCommand.ReserveSeat(seatId, passengerId))
                 repository.save(this)
             }
 }
