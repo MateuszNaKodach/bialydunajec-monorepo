@@ -18,8 +18,9 @@ import java.time.Instant
 
 internal object InMemoryEventStorageEngineSpecification : Spek({
 
-    Feature("Storing domain event in memory by InMemoryEventStorageEngine") {
+    Feature("Storing and reading domain event by InMemoryEventStorageEngine") {
 
+        val currentTime = { Instant.now() }
         val eventSerializer: EventSerializer by memoized { JacksonEventSerializer() }
         val eventStorageEngine: EventStorageEngine by memoized { InMemoryEventStorageEngine(eventSerializer) }
 
@@ -31,7 +32,7 @@ internal object InMemoryEventStorageEngineSpecification : Spek({
                 domainEvent = SampleDomainEvent.WithNoAdditionalValues(
                         SampleAggregateId("sample-id"),
                         AggregateVersion.ZERO,
-                        Instant.now()
+                        currentTime()
                 )
             }
 
@@ -39,7 +40,13 @@ internal object InMemoryEventStorageEngineSpecification : Spek({
                 eventStorageEngine.appendDomainEvent(domainEvent)
             }
 
-            Then("None exception should be thrown") {
+            Then("The event should be readable from the storage") {
+                val events = eventStorageEngine.readEvents(
+                        SampleDomainEvent::class,
+                        SampleAggregateId("sample-id"),
+                        currentTime()
+                )
+                assertThat(events).containsOnly(domainEvent)
             }
 
         }
@@ -49,7 +56,7 @@ internal object InMemoryEventStorageEngineSpecification : Spek({
             val domainEvent: SampleDomainEvent = SampleDomainEvent.WithNoAdditionalValues(
                     SampleAggregateId("sample-id"),
                     AggregateVersion.ZERO,
-                    Instant.now()
+                    currentTime()
             )
             var thrownException: Exception? = null
 
@@ -73,37 +80,5 @@ internal object InMemoryEventStorageEngineSpecification : Spek({
         }
 
     }
-
-    Feature("Reading domain event from memory by InMemoryEventStorageEngine") {
-
-        val currentTime = { Instant.now() }
-        val eventSerializer: EventSerializer by memoized { JacksonEventSerializer() }
-        val eventStorageEngine: EventStorageEngine by memoized { InMemoryEventStorageEngine(eventSerializer) }
-
-        Scenario("Read events after store one") {
-
-            lateinit var domainEvent: SampleDomainEvent
-
-            Given("New event to store") {
-                domainEvent = SampleDomainEvent.WithNoAdditionalValues(
-                        SampleAggregateId("sample-id"),
-                        AggregateVersion.ZERO,
-                        currentTime()
-                )
-            }
-
-            When("Store the event") {
-                eventStorageEngine.appendDomainEvent(domainEvent)
-            }
-
-            Then("the event should be readable from the storage") {
-                val events = eventStorageEngine.readEvents(SampleDomainEvent::class, SampleAggregateId("sample-id"), currentTime())
-                assertThat(events).containsOnly(domainEvent)
-            }
-
-        }
-
-    }
-
 
 })

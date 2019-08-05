@@ -6,6 +6,8 @@ import org.bialydunajec.eventsourcing.domain.AggregateVersion
 import org.bialydunajec.eventsourcing.domain.DomainEvent
 import org.bialydunajec.eventsourcing.infrastructure.eventstore.EventSerializer
 import org.bialydunajec.eventsourcing.infrastructure.eventstore.embedded.engine.AbstractEventStorageEngine
+import org.bialydunajec.eventsourcing.infrastructure.eventstore.embedded.engine.EventStreamVersionIsNotAsExpected
+import org.bialydunajec.eventsourcing.infrastructure.eventstore.embedded.engine.ExpectedEventStreamVersion
 import org.bialydunajec.eventsourcing.infrastructure.eventstore.embedded.engine.StoreDomainEventEntry
 import org.bialydunajec.eventsourcing.infrastructure.eventstore.exception.DomainEventAlreadyStoredException
 import java.time.Instant
@@ -14,12 +16,28 @@ import java.util.concurrent.ConcurrentHashMap
 
 internal class InMemoryEventStorageEngine(eventSerializer: EventSerializer) : AbstractEventStorageEngine(eventSerializer) {
 
-    private val eventStorage = ConcurrentHashMap<String, List<StoreDomainEventEntry>>()
+    private val eventStreams = ConcurrentHashMap<String, List<StoreDomainEventEntry>>()
 
-    override fun storeEvent(domainEvent: StoreDomainEventEntry) {
-        assertIfDomainEventNotAlreadyStored(domainEvent)
-        (eventStorage[domainEvent.aggregateIdentifier] ?: emptyList<StoreDomainEventEntry>()).let {
-            eventStorage[domainEvent.aggregateIdentifier] = it.plus(domainEvent)
+    override fun storeEvent(domainEvent: StoreDomainEventEntry, expectedVersion: ExpectedEventStreamVersion) {
+        val streamName = domainEvent.aggregateIdentifier
+        val events = getEventsBy(streamName);
+        assertIfEventStreamVersionIsAsExpected(events, expectedVersion)
+        assertIfDomainEventNotAlreadyStored(events, domainEvent)
+        events.let {
+            eventStreams[streamName] = it.plus(domainEvent)
+        }
+    }
+
+    private fun getEventsBy(streamName: String) = eventStreams[streamName] ?: emptyList<StoreDomainEventEntry>()
+
+    private fun assertIfEventStreamVersionIsAsExpected(events: List<StoreDomainEventEntry>, expectedVersion: ExpectedEventStreamVersion) {
+        val isVersionAsExpected = when (expectedVersion) {
+            is ExpectedEventStreamVersion.None -> events.isEmpty()
+            is ExpectedEventStreamVersion.Exactly -> events.size - 1 == expectedVersion.version
+            is ExpectedEventStreamVersion.Any -> true
+        }
+        if(!isVersionAsExpected){
+            throw EventStreamVersionIsNotAsExpected()
         }
     }
 
@@ -30,7 +48,7 @@ internal class InMemoryEventStorageEngine(eventSerializer: EventSerializer) : Ab
     }
 
     private fun checkIfDomainEventAlreadyStored(domainEvent: StoreDomainEventEntry) =
-            eventStorage[domainEvent.aggregateIdentifier]?.any { it.eventIdentifier == domainEvent.eventIdentifier }
+            eventStreams[domainEvent.aggregateIdentifier]?.any { it.eventIdentifier == domainEvent.eventIdentifier }
                     ?: false
 
 
@@ -39,7 +57,7 @@ internal class InMemoryEventStorageEngine(eventSerializer: EventSerializer) : Ab
             aggregateId: AggregateId,
             toEventTimestamp: Instant,
             toAggregateVersion: AggregateVersion?): List<EventType> =
-            (eventStorage[aggregateId.toString()] ?: emptyList<StoreDomainEventEntry>())
+            getEventsBy(aggregateId.toString())
                     .filter { !it.timestamp.isAfter(toEventTimestamp) }
                     .filter { storedEventVersion ->
                         toAggregateVersion

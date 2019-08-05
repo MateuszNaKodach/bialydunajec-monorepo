@@ -5,10 +5,10 @@ import org.bialydunajec.eventsourcing.infrastructure.eventstore.EventSerializer
 
 internal abstract class AbstractEventStorageEngine(override val eventSerializer: EventSerializer) : EventStorageEngine {
 
-    override fun appendDomainEvent(domainEvent: DomainEvent<*>) =
-            storeEvent(toStoreDomainEventEntry(domainEvent))
+    override fun appendDomainEvent(domainEvent: DomainEvent<*>, expectedVersion: ExpectedEventStreamVersion) =
+            storeEvent(toStoreDomainEventEntry(domainEvent), expectedVersion)
 
-    abstract fun storeEvent(domainEvent: StoreDomainEventEntry)
+    abstract fun storeEvent(domainEvent: StoreDomainEventEntry, expectedVersion: ExpectedEventStreamVersion)
 
     private fun toStoreDomainEventEntry(event: DomainEvent<*>) =
             event.let {
