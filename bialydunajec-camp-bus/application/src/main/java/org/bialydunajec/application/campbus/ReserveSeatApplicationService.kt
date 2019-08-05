@@ -1,17 +1,26 @@
 package org.bialydunajec.application.campbus
 
-import org.bialydunajec.campbus.domain.SeatCommand
-import org.bialydunajec.campbus.domain.SeatRepository
+import org.bialydunajec.campbus.domain.*
 
-internal class ReserveSeatApplicationService(val seatRepository: SeatRepository) {
+internal class ReserveSeatApplicationService(
+        private val seatRepository: SeatRepository
+) {
 
-
-    /*
-    TODO: Check permission and find entity - synchronous, Async handle command etc. Or use Mono/ Completable Future!?
-     */
     fun execute(command: SeatCommand.ReserveSeat) {
-        seatRepository.findById(command.aggregateId) //TODO: Publish technical failure if null!!!
-              //  .handle(command)
+        val aggreagate = loadAggregateById(command.aggregateId)
+        execute(aggreagate, command)
+    }
+
+
+    fun loadAggregateById(aggregateId: SeatId) =
+            seatRepository.findById(aggregateId)!! //TODO: Publish technical failure if null!!!
+
+
+    fun execute(aggregate: Seat, command: SeatCommand.ReserveSeat): SeatEvent {
+        val seat = aggregate.handle(command)
+        val lastEvent = seat.changes.last()
+        seatRepository.save(seat)
+        return lastEvent
     }
 
 }
