@@ -1,4 +1,4 @@
-package org.bialydunajec.eventsourcing.domain
+package org.bialydunajec.application.eventsourcing
 
 interface DomainMessage {
 

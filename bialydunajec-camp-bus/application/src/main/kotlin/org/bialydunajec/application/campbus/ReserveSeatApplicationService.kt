@@ -1,14 +1,20 @@
 package org.bialydunajec.application.campbus
 
+import org.bialydunajec.application.eventsourcing.DomainCommandMessage
+import org.bialydunajec.application.eventsourcing.DomainEventMessage
 import org.bialydunajec.campbus.domain.*
 
 internal class ReserveSeatApplicationService(
         private val seatRepository: SeatRepository
 ) {
 
-    fun execute(command: SeatCommand.ReserveSeat) {
+    fun execute(domainCommandMessage: DomainCommandMessage<SeatCommand.ReserveSeat>): DomainEventMessage<SeatEvent> {
+        val command = domainCommandMessage.domainCommand
         val aggreagate = loadAggregateById(command.aggregateId)
-        execute(aggreagate, command)
+        val result = execute(aggreagate, command)
+        return DomainEventMessage.withEvent(result)
+                .causedBy(domainCommandMessage)
+                .build()
     }
 
 
@@ -19,7 +25,7 @@ internal class ReserveSeatApplicationService(
     fun execute(aggregate: Seat, command: SeatCommand.ReserveSeat): SeatEvent {
         val seat = aggregate.handle(command)
         val lastEvent = seat.changes.last()
-        seatRepository.save(seat)
+        seatRepository.save(seat) //How to pass causationId here?
         return lastEvent
     }
 

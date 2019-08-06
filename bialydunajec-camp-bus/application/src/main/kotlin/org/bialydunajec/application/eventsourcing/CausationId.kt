@@ -1,9 +1,9 @@
-package org.bialydunajec.eventsourcing.domain
+package org.bialydunajec.application.eventsourcing
 
-class DomainMessageId(id: String) : Identifier(id) {
+class CausationId(id: String) : Identifier(id) {
 
     companion object {
-        fun from(id: Identifier) = DomainMessageId(id.toString())
+        fun from(id: Identifier) = CausationId(id.toString())
     }
 
     override fun toString() = id
@@ -12,7 +12,7 @@ class DomainMessageId(id: String) : Identifier(id) {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as DomainMessageId
+        other as CausationId
 
         if (id != other.id) return false
 
