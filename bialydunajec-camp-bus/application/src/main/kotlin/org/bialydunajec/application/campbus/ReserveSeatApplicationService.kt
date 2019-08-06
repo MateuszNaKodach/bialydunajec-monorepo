@@ -8,6 +8,7 @@ internal class ReserveSeatApplicationService(
         private val seatRepository: SeatRepository
 ) {
 
+    //TODO: Add metadata to events!
     fun execute(domainCommandMessage: DomainCommandMessage<SeatCommand.ReserveSeat>): DomainEventMessage<SeatEvent> {
         val command = domainCommandMessage.domainCommand
         val aggreagate = loadAggregateById(command.aggregateId)
