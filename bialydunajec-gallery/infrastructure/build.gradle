@@ -8,10 +8,6 @@ jar {
     enabled = true
 }
 
-repositories {
-    mavenCentral()
-}
-
 dependencies {
     compile project(':bialydunajec-ddd:bialydunajec-ddd-infrastructure')
 
