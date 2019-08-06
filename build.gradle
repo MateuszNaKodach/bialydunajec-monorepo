@@ -159,8 +159,8 @@ dependencies {
     //compile project(':bialydunajec-faq:bialydunajec-faq-presentation')
     //compile project(':bialydunajec-faq:bialydunajec-faq-infrastructure')
 
-    //compile project(':bialydunajec-gallery:bialydunajec-gallery-presentation')
-    //compile project(':bialydunajec-gallery:bialydunajec-gallery-infrastructure')
+    compile project(':bialydunajec-gallery:bialydunajec-gallery-presentation')
+    compile project(':bialydunajec-gallery:bialydunajec-gallery-infrastructure')
 
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
     compile('org.springframework.boot:spring-boot-starter-hateoas')

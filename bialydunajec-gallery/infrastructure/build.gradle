@@ -8,12 +8,18 @@ jar {
     enabled = true
 }
 
+repositories {
+    mavenCentral()
+}
+
 dependencies {
     compile project(':bialydunajec-ddd:bialydunajec-ddd-infrastructure')
 
     compile project(':bialydunajec-gallery:bialydunajec-gallery-domain')
     compile project(':bialydunajec-gallery:bialydunajec-gallery-application')
     compile project(':bialydunajec-gallery:bialydunajec-gallery-presentation')
+
+    compile 'com.google.photos.library:google-photos-library-client:1.2.0'
 
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
     runtime('com.h2database:h2')
