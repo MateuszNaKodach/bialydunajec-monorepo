@@ -1,40 +1,28 @@
 package org.bialydunajec.gallery.infrastructure
 
+import com.google.auth.Credentials
+import com.google.auth.oauth2.AccessToken
+import com.google.auth.oauth2.UserCredentials
+
 
 internal class GooglePhotosClient {
-/*
-    init {
-        val photosLibrarySettings = PhotosLibrarySettings.newBuilder()
-                .setCredentialsProvider(
-                        FixedCredentialsProvider.create(
-                                UserCredentials.create()
-                        )
-                )
+
+    val credentials: Credentials = setCredentials()
+
+    private fun setCredentials() : Credentials{
+        val accessToken = AccessToken(ACCESS_TOKEN, null)
+
+        return UserCredentials.newBuilder()
+                .setClientId(CLIENT_ID)
+                .setClientSecret(CLIENT_SECRET)
+                .setAccessToken(accessToken)
                 .build()
     }
 
+    companion object {
+        private const val ACCESS_TOKEN: String = "ya29.GlxiB849Cdxeb8TvVZJQjAuDFVR5kTN-Z3_o6KGl1wx-jiooW_bU8vURLHFSiUKwjjZQfKknBALgPWdDiFmbXEyBilnEfiznPbPCJt7mDilu_Ejmpu9byMlG5Xv9fw"
+        private const val CLIENT_ID: String = "449611120307-br5s5t3l6r329i6pk0tcr067jbs8f942.apps.googleusercontent.com"
+        private const val CLIENT_SECRET: String = "u3oTMeQSDe0ZpprgPtUuKAv9"
+    }
 
-    @Throws(IOException::class, GeneralSecurityException::class)
-    private fun getUserCredentials(credentialsPath: String, selectedScopes: List<String>): Credentials {
-        val clientSecrets = GoogleClientSecrets.load(
-                JSON_FACTORY, InputStreamReader(FileInputStream(credentialsPath)))
-        val clientId = clientSecrets.getDetails().getClientId()
-        val clientSecret = clientSecrets.getDetails().getClientSecret()
-
-        val flow = GoogleAuthorizationCodeFlow.Builder(
-                GoogleNetHttpTransport.newTrustedTransport(),
-                JSON_FACTORY,
-                clientSecrets,
-                selectedScopes)
-                .setDataStoreFactory(FileDataStoreFactory(DATA_STORE_DIR))
-                .setAccessType("offline")
-                .build()
-        val receiver = LocalServerReceiver.Builder().setPort(LOCAL_RECEIVER_PORT).build()
-        val credential = AuthorizationCodeInstalledApp(flow, receiver).authorize("user")
-        return UserCredentials.newBuilder()
-                .setClientId(clientId)
-                .setClientSecret(clientSecret)
-                .setRefreshToken(credential.getRefreshToken())
-                .build()
-    }*/
 }
