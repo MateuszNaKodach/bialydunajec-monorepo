@@ -8,6 +8,7 @@ internal class ReserveSeatApplicationService(
         private val seatRepository: SeatRepository
 ) {
 
+    //TODO: Correlation id dodaje się do headera reuqesta X-Corrleation-Id i trzyma w ThreadLocal, ale co z causation?
     //TODO: Add metadata to events!
     fun execute(domainCommandMessage: DomainCommandMessage<SeatCommand.ReserveSeat>): DomainEventMessage<SeatEvent> {
         val command = domainCommandMessage.domainCommand

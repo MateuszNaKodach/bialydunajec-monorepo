@@ -18,8 +18,10 @@ dependencies {
     compile('com.fasterxml.jackson.datatype:jackson-datatype-jsr310')
     compile('com.fasterxml.jackson.module:jackson-module-kotlin')
     compile('com.fasterxml.jackson.module:jackson-module-parameter-names')
+    compile group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-core', version: '1.2.2'
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
 
     runtime('de.flapdoodle.embed:de.flapdoodle.embed.mongo')
+
 }
