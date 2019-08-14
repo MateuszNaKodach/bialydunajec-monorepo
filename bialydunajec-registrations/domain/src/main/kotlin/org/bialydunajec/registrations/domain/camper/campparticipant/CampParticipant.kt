@@ -162,13 +162,7 @@ class CampParticipant internal constructor(
         updateEmailAdress(emailAddress)
         updatePhoneNumber(phoneNumber)
 
-        updateConfigurationStatus()
-
         registerEvent(CampParticipantEvent.Confirmed(getAggregateId(), getSnapshot()))
-    }
-
-    private fun updateConfigurationStatus() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     private fun updatePersonalData(firstName: String, lastName: String, gender: Gender, pesel: Pesel, birthDate: BirthDate) {
