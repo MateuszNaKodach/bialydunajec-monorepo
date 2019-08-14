@@ -2,6 +2,13 @@ package org.bialydunajec.registrations.domain.camper.campparticipant
 
 import org.bialydunajec.ddd.domain.base.aggregate.AuditableAggregateRoot
 import org.bialydunajec.ddd.domain.base.persistence.Versioned
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.PhoneNumber
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddress
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.*
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.location.CityName
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.location.HomeNumber
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.location.PostalCode
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.location.Street
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
 import org.bialydunajec.registrations.domain.camper.valueobject.CampParticipantSnapshot
 import org.bialydunajec.registrations.domain.camper.valueobject.CamperApplication
@@ -13,7 +20,8 @@ import javax.validation.constraints.NotNull
 
 // or camp_participation!?
 /*
-Przemyslec czy to nie powinny byc osobny aggreagate, w sumie CampParticipant dba o aggregaty (nie moze byc zapisany np. do tej samej chatki), ale z drugiej strony strasznie kosztowne query zliczania ilosci zapisanych do chatki np.
+Przemyslec czy to nie powinny byc osobny aggreagate, w sumie CampParticipant dba o aggregaty (nie moze byc zapisany
+np. do tej samej chatki), ale z drugiej strony strasznie kosztowne query zliczania ilosci zapisanych do chatki np.
  Osobno, najwyzej aggreguje to na statystycznych rzeczach, tam mam CampParticipant, tutaj tylko konkretny udział!!!
  Zmienić na CampParticipant i podmienić z aggregatem CampParticipant!
  Zbieranie danych o konkretnych camperach bedzie tylko read modelem, ile razy np. był na obozie.
@@ -100,12 +108,12 @@ class CampParticipant internal constructor(
         registerEvent(CampParticipantEvent.Confirmed(getAggregateId(), getSnapshot()))
     }
 
-    fun unregisterByAuthorized(){
+    fun unregisterByAuthorized() {
         this.participationStatus = ParticipationStatus.UNREGISTERED_BY_AUTHORIZED
         registerEvent(CampParticipantEvent.Unregistered(getAggregateId(), getSnapshot()))
     }
 
-    fun correctRegistrationData(){
+    fun correctRegistrationData() {
         // FIXME: If is verified
     }
 
@@ -129,5 +137,58 @@ class CampParticipant internal constructor(
                     stayDuration = stayDuration,
                     participationStatus = participationStatus
             )
+
+    fun correctCampParticipantData(
+            firstName: String,
+            lastName: String,
+            gender: Gender,
+            birthDate: BirthDate,
+            pesel: Pesel,
+            emailAddress: String,
+            phoneNumber: String,
+            postalCode: PostalCode,
+            cityName: CityName,
+            street: Street,
+            homeNumber: HomeNumber,
+            highSchool: String,
+            isHighSchoolRecentGraduate: String,
+            university: String,
+            fieldOfStudy: String,
+            faculty: String
+            ) = {
+        updatePersonalData(firstName, lastName, gender, pesel, birthDate)
+        updateHomeAdress(postalCode, cityName, street, homeNumber)
+        updateCamperEducation(highSchool, isHighSchoolRecentGraduate, university, fieldOfStudy, faculty)
+        updateEmailAdress(emailAddress)
+        updatePhoneNumber(phoneNumber)
+
+        updateConfigurationStatus()
+
+        registerEvent(CampParticipantEvent.Confirmed(getAggregateId(), getSnapshot()))
+    }
+
+    private fun updateConfigurationStatus() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    private fun updatePersonalData(firstName: String, lastName: String, gender: Gender, pesel: Pesel, birthDate: BirthDate) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    private fun updateHomeAdress(postalCode: PostalCode, cityName: CityName, street: Street, homeNumber: HomeNumber) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    private fun updateCamperEducation(highSchool: String, highSchoolRecentGraduate: String, university: String, fieldOfStudy: String, faculty: String) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    private fun updateEmailAdress(emailAddress: String) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    private fun updatePhoneNumber(phoneNumber: String) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
 }
