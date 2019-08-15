@@ -5,15 +5,9 @@ import org.bialydunajec.ddd.domain.base.persistence.Versioned
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.PhoneNumber
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddress
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.*
-import org.bialydunajec.ddd.domain.sharedkernel.valueobject.location.CityName
-import org.bialydunajec.ddd.domain.sharedkernel.valueobject.location.HomeNumber
-import org.bialydunajec.ddd.domain.sharedkernel.valueobject.location.PostalCode
-import org.bialydunajec.ddd.domain.sharedkernel.valueobject.location.Street
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.location.*
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
-import org.bialydunajec.registrations.domain.camper.valueobject.CampParticipantSnapshot
-import org.bialydunajec.registrations.domain.camper.valueobject.CamperApplication
-import org.bialydunajec.registrations.domain.camper.valueobject.ParticipationStatus
-import org.bialydunajec.registrations.domain.camper.valueobject.StayDuration
+import org.bialydunajec.registrations.domain.camper.valueobject.*
 import org.bialydunajec.registrations.domain.cottage.Cottage
 import javax.persistence.*
 import javax.validation.constraints.NotNull
@@ -155,33 +149,33 @@ class CampParticipant internal constructor(
             university: String,
             fieldOfStudy: String,
             faculty: String
-            ) = {
-        updatePersonalData(firstName, lastName, gender, pesel, birthDate)
-        updateHomeAdress(postalCode, cityName, street, homeNumber)
-        updateCamperEducation(highSchool, isHighSchoolRecentGraduate, university, fieldOfStudy, faculty)
-        updateEmailAdress(emailAddress)
-        updatePhoneNumber(phoneNumber)
-
+    ) = {
+        this.currentCamperData = currentCamperData.copy(
+                personalData = correctPersonalData(firstName, lastName, gender, pesel, birthDate),
+                homeAddress = correctHomeAdress(postalCode, cityName, street, homeNumber),
+                camperEducation = correctCamperEducation(highSchool, isHighSchoolRecentGraduate, university, fieldOfStudy, faculty),
+                emailAddress = correctEmailAdress(emailAddress),
+                phoneNumber = correctPhoneNumber(phoneNumber))
         registerEvent(CampParticipantEvent.Confirmed(getAggregateId(), getSnapshot()))
     }
 
-    private fun updatePersonalData(firstName: String, lastName: String, gender: Gender, pesel: Pesel, birthDate: BirthDate) {
+    private fun correctPersonalData(firstName: String, lastName: String, gender: Gender, pesel: Pesel, birthDate: BirthDate):CamperPersonalData {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    private fun updateHomeAdress(postalCode: PostalCode, cityName: CityName, street: Street, homeNumber: HomeNumber) {
+    private fun correctHomeAdress(postalCode: PostalCode, cityName: CityName, street: Street, homeNumber: HomeNumber): Address {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    private fun updateCamperEducation(highSchool: String, highSchoolRecentGraduate: String, university: String, fieldOfStudy: String, faculty: String) {
+    private fun correctCamperEducation(highSchool: String, highSchoolRecentGraduate: String, university: String, fieldOfStudy: String, faculty: String): CamperEducation {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    private fun updateEmailAdress(emailAddress: String) {
+    private fun correctEmailAdress(emailAddress: String): EmailAddress {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    private fun updatePhoneNumber(phoneNumber: String) {
+    private fun correctPhoneNumber(phoneNumber: String): PhoneNumber {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
