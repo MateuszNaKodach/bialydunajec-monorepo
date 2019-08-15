@@ -136,7 +136,6 @@ class CampParticipant internal constructor(
             firstName: String,
             lastName: String,
             gender: Gender,
-            birthDate: BirthDate,
             pesel: Pesel,
             emailAddress: String,
             phoneNumber: String,
@@ -145,13 +144,13 @@ class CampParticipant internal constructor(
             street: Street,
             homeNumber: HomeNumber,
             highSchool: String,
-            isHighSchoolRecentGraduate: String,
+            isHighSchoolRecentGraduate: Boolean,
             university: String,
             fieldOfStudy: String,
             faculty: String
     ) = {
         this.currentCamperData = currentCamperData.copy(
-                personalData = correctPersonalData(firstName, lastName, gender, pesel, birthDate),
+                personalData = correctPersonalData(firstName, lastName, gender, pesel),
                 homeAddress = correctHomeAdress(postalCode, cityName, street, homeNumber),
                 camperEducation = correctCamperEducation(highSchool, isHighSchoolRecentGraduate, university, fieldOfStudy, faculty),
                 emailAddress = correctEmailAdress(emailAddress),
@@ -159,24 +158,24 @@ class CampParticipant internal constructor(
         registerEvent(CampParticipantEvent.Confirmed(getAggregateId(), getSnapshot()))
     }
 
-    private fun correctPersonalData(firstName: String, lastName: String, gender: Gender, pesel: Pesel, birthDate: BirthDate):CamperPersonalData {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    private fun correctPersonalData(firstName: String, lastName: String, gender: Gender, pesel: Pesel):CamperPersonalData {
+        return CamperPersonalData(FirstName(firstName), LastName(lastName), gender, pesel, pesel.getBirthDate())
     }
 
     private fun correctHomeAdress(postalCode: PostalCode, cityName: CityName, street: Street, homeNumber: HomeNumber): Address {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return Address(street, homeNumber, cityName, postalCode)
     }
 
-    private fun correctCamperEducation(highSchool: String, highSchoolRecentGraduate: String, university: String, fieldOfStudy: String, faculty: String): CamperEducation {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    private fun correctCamperEducation(highSchool: String, isHighSchoolRecentGraduate: Boolean, university: String, fieldOfStudy: String, faculty: String): CamperEducation {
+        return CamperEducation(university, faculty, fieldOfStudy, highSchool, isHighSchoolRecentGraduate)
     }
 
     private fun correctEmailAdress(emailAddress: String): EmailAddress {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return EmailAddress(emailAddress)
     }
 
     private fun correctPhoneNumber(phoneNumber: String): PhoneNumber {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return PhoneNumber(phoneNumber)
     }
 
 }
