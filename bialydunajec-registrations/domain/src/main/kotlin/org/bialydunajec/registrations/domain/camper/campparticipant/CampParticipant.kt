@@ -135,42 +135,41 @@ class CampParticipant internal constructor(
     fun correctCampParticipantData(
             firstName: String,
             lastName: String,
-            gender: Gender,
-            pesel: Pesel,
+            pesel: Pesel?,
             emailAddress: String,
             phoneNumber: String,
-            postalCode: PostalCode,
-            cityName: CityName,
-            street: Street,
-            homeNumber: HomeNumber,
-            highSchool: String,
+            postalCode: String,
+            cityName: String,
+            street: String,
+            homeNumber: String,
+            highSchool: String?,
             isHighSchoolRecentGraduate: Boolean,
             university: String,
             fieldOfStudy: String,
             faculty: String
     ) = {
         this.currentCamperData = currentCamperData.copy(
-                personalData = correctPersonalData(firstName, lastName, gender, pesel),
-                homeAddress = correctHomeAdress(postalCode, cityName, street, homeNumber),
+                personalData = correctPersonalData(firstName, lastName, pesel),
+                homeAddress = correctHomeAddress(postalCode, cityName, street, homeNumber),
                 camperEducation = correctCamperEducation(highSchool, isHighSchoolRecentGraduate, university, fieldOfStudy, faculty),
-                emailAddress = correctEmailAdress(emailAddress),
+                emailAddress = correctEmailAddress(emailAddress),
                 phoneNumber = correctPhoneNumber(phoneNumber))
         registerEvent(CampParticipantEvent.Confirmed(getAggregateId(), getSnapshot()))
     }
 
-    private fun correctPersonalData(firstName: String, lastName: String, gender: Gender, pesel: Pesel):CamperPersonalData {
-        return CamperPersonalData(FirstName(firstName), LastName(lastName), gender, pesel, pesel.getBirthDate())
+    private fun correctPersonalData(firstName: String, lastName: String, pesel: Pesel?):CamperPersonalData {
+        return CamperPersonalData(FirstName(firstName), LastName(lastName), pesel!!.getGender(), pesel, pesel.getBirthDate())
     }
 
-    private fun correctHomeAdress(postalCode: PostalCode, cityName: CityName, street: Street, homeNumber: HomeNumber): Address {
-        return Address(street, homeNumber, cityName, postalCode)
+    private fun correctHomeAddress(postalCode: String, cityName: String, street: String, homeNumber: String): Address {
+        return Address(Street(street), HomeNumber(homeNumber), CityName(cityName), PostalCode(postalCode))
     }
 
-    private fun correctCamperEducation(highSchool: String, isHighSchoolRecentGraduate: Boolean, university: String, fieldOfStudy: String, faculty: String): CamperEducation {
+    private fun correctCamperEducation(highSchool: String?, isHighSchoolRecentGraduate: Boolean, university: String, fieldOfStudy: String, faculty: String): CamperEducation {
         return CamperEducation(university, faculty, fieldOfStudy, highSchool, isHighSchoolRecentGraduate)
     }
 
-    private fun correctEmailAdress(emailAddress: String): EmailAddress {
+    private fun correctEmailAddress(emailAddress: String): EmailAddress {
         return EmailAddress(emailAddress)
     }
 
