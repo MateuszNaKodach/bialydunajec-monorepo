@@ -10,9 +10,10 @@ import org.bialydunajec.gallery.application.CampGalleryProvider
 import org.bialydunajec.gallery.application.dto.CampGalleryAlbumDto
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.bialydunajec.gallery.infrastructure.extensions.toCampGalleryAlbumDto
 
 
-open class GooglePhotosGalleryProvider : CampGalleryProvider{
+internal class GooglePhotosGalleryProvider : CampGalleryProvider{
 
     private val log: Logger = LoggerFactory.getLogger(this.javaClass)
     private val googlePhotosClient: GooglePhotosClient = GooglePhotosClient()
@@ -32,9 +33,8 @@ open class GooglePhotosGalleryProvider : CampGalleryProvider{
             val response: ListAlbumsPagedResponse = photosLibraryClient.listAlbums()
             for (album in response.iterateAll())
                 log.info(album.title)
-            campGalleryAlbumList = response.iterateAll().map {
-                CampGalleryAlbumDto(it.id, it.title, it.productUrl, it.coverPhotoBaseUrl, it.mediaItemsCount)
-            }
+            campGalleryAlbumList = response.iterateAll()
+                    .map { it.toCampGalleryAlbumDto() }
         } catch (exc: ApiException) {
             log.error(exc.message)
         } finally {
@@ -55,13 +55,5 @@ open class GooglePhotosGalleryProvider : CampGalleryProvider{
        //     photosLibraryClient.close()
         }
     }
-
-
-
-
-
-
-
-
 
 }
