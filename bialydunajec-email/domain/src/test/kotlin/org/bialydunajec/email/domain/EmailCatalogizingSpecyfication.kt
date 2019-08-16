@@ -15,8 +15,7 @@ object EmailCatalogizingSpecyfication : Spek({
         val existingEmailGroup: EmailGroup by memoized{EmailGroup(existingEmailGroupId,"nameOfExistingGroup")}
 
         Scenario("Completely new email addresses to catalogize in new group"){
-
-      s      var newEmailAddress = EmailAddress(EmailAddressId(),"address@gmail.com")
+            var newEmailAddress = EmailAddress(EmailAddressId(),"address@gmail.com")
             var newEmailGroup =  EmailGroup(EmailGroupId(), "nameOfGroup")
 
 

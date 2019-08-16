@@ -13,7 +13,5 @@ data class EmailAddress(
         val email: String
 ) : ValueObject {
 
-    val id: EmailAddressId = EmailAddressId()
-
     override fun toString() = email
 }

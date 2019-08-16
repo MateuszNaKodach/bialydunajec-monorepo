@@ -5,9 +5,6 @@ import org.bialydunajec.ddd.domain.base.persistence.Versioned
 import javax.persistence.*
 import javax.persistence.JoinColumn
 
-
-
-
 @Entity
 @Table(schema = "email_group")
 class EmailGroup (
