@@ -7,10 +7,13 @@ import javax.validation.constraints.NotBlank
 
 @Embeddable
 data class EmailAddress(
+
         @Email
         @NotBlank
         val email: String
 ) : ValueObject {
+
+    val id: EmailAddressId = EmailAddressId()
 
     override fun toString() = email
 }
