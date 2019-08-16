@@ -147,7 +147,7 @@ class CampParticipant internal constructor(
             university: String,
             fieldOfStudy: String,
             faculty: String
-    ) = {
+    ) {
         this.currentCamperData = currentCamperData.copy(
                 personalData = correctPersonalData(firstName, lastName, pesel),
                 homeAddress = correctHomeAddress(postalCode, cityName, street, homeNumber),
