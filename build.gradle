@@ -109,7 +109,7 @@ allprojects {
         testCompile("com.github.nowakprojects:kt-time-traveler-test:${ktTimeTravelerVersion}")
         testCompile "com.tngtech.archunit:archunit-junit5-api:${archUnitVersion}"
         testRuntime "com.tngtech.archunit:archunit-junit5-engine:${archUnitVersion}"
-
+        testImplementation "io.mockk:mockk:1.9.3"
     }
 
 }
