@@ -25,6 +25,13 @@ allprojects {
         }
     }
 
+    test {
+        useJUnitPlatform {
+            includeEngines 'spek2'
+        }
+    }
+
+
     repositories {
         mavenCentral()
         maven { url "https://repo.spring.io/snapshot" }
