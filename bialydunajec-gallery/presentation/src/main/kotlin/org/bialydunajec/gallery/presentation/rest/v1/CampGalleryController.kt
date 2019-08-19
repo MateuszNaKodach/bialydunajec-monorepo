@@ -10,6 +10,13 @@ internal class CampGalleryController(private val campGalleryProvider: CampGaller
     @GetMapping
     fun getAlbumList() = campGalleryProvider.getAlbumList()
 
+    @GetMapping
+    fun getAlbumListByCampEdition(@PathVariable campEditionId: String)
+            = campGalleryProvider.getAlbumListByCampEdition(campEditionId)
+
+    @GetMapping
+    fun getPhotosInAlbum(@PathVariable albumId: String) = campGalleryProvider.getPhotosInAlbum(albumId)
+
     @PostMapping
     fun createAlbum(@PathVariable albumName: String) = campGalleryProvider.createAlbum(albumName)
 }
