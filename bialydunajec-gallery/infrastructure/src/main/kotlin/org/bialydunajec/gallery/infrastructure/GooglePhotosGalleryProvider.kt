@@ -2,15 +2,22 @@ package org.bialydunajec.gallery.infrastructure
 
 import com.google.api.gax.rpc.ApiException
 import com.google.photos.library.v1.PhotosLibraryClient
-import com.google.photos.types.proto.Album
+import com.google.photos.library.v1.proto.NewMediaItem
+import com.google.photos.library.v1.upload.UploadMediaItemResponse
 import org.bialydunajec.gallery.application.CampGalleryProvider
 import org.bialydunajec.gallery.application.dto.CampGalleryAlbumDto
 import org.bialydunajec.gallery.infrastructure.extensions.toCampGalleryAlbumDto
+import org.bialydunajec.gallery.infrastructure.utils.GooglePhotosClientService.Companion.addMediaItemToList
+import org.bialydunajec.gallery.infrastructure.utils.GooglePhotosClientService.Companion.buildUploadRequest
+import org.bialydunajec.gallery.infrastructure.utils.GooglePhotosClientService.Companion.examineBatchCreateMediaItemResponse
+import org.bialydunajec.gallery.infrastructure.utils.GooglePhotosClientService.Companion.getUploadMediaItemTokenIfNoError
+import org.bialydunajec.gallery.infrastructure.utils.GooglePhotosCredentialService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.scheduling.annotation.Scheduled
+import java.io.FileNotFoundException
 import kotlin.streams.toList
 
 const val GOOGLE_PHOTOS_ALBUMS_SPRING_CACHE = "org.bialydunajec.gallery.GOOGLE_PHOTOS_ALBUMS_SPRING_CACHE"
@@ -28,26 +35,8 @@ open class GooglePhotosGalleryProvider : CampGalleryProvider{
         return campEditionAlbums
     }
 
-    override fun getPhotosInAlbum(albumId: String): List<String> {
-        val photosLibraryClient: PhotosLibraryClient = GooglePhotosCredentialService.initApiConnection()
-        var photosBaseUrlList: List<String> = emptyList()
-
-        try {
-            val response = photosLibraryClient.searchMediaItems(albumId)
-            photosBaseUrlList = response.iterateAll()
-                    .map { it.baseUrl
-                            .also { photo -> log.info(photo) } }
-        } catch (exc: ApiException) {
-            log.error(exc.message)
-        } finally {
-            photosLibraryClient.close()
-        }
-
-        return photosBaseUrlList
-    }
-
     @Cacheable(cacheNames = [GOOGLE_PHOTOS_ALBUMS_SPRING_CACHE], key = "{#root.methodName}")
-    override fun getAlbumList(): List<CampGalleryAlbumDto> {
+    open fun getAlbumList(): List<CampGalleryAlbumDto> {
         val photosLibraryClient: PhotosLibraryClient = GooglePhotosCredentialService.initApiConnection()
         var campGalleryAlbumList: List<CampGalleryAlbumDto> = emptyList()
 
@@ -73,16 +62,80 @@ open class GooglePhotosGalleryProvider : CampGalleryProvider{
         log.info("Google photos cache evicted!")
     }
 
-    override fun createAlbum(albumName: String) {
+    override fun getPhotosInAlbum(albumId: String): List<String> {
         val photosLibraryClient: PhotosLibraryClient = GooglePhotosCredentialService.initApiConnection()
+        var photosBaseUrlList: List<String> = emptyList()
 
         try {
-            val createdAlbum: Album = photosLibraryClient.createAlbum(albumName)
-            log.info("Created album with id: ${createdAlbum.id}")
+            val response = photosLibraryClient.searchMediaItems(albumId)
+            photosBaseUrlList = response.iterateAll()
+                    .map { it.baseUrl
+                            .also { photo -> log.info(photo) } }
         } catch (exc: ApiException) {
             log.error(exc.message)
         } finally {
             photosLibraryClient.close()
         }
+
+        return photosBaseUrlList
+    }
+
+    override fun createAlbum(albumName: String): CampGalleryAlbumDto {
+        val photosLibraryClient: PhotosLibraryClient = GooglePhotosCredentialService.initApiConnection()
+        lateinit var createdAlbumDto: CampGalleryAlbumDto
+
+        try {
+            val createdAlbum = photosLibraryClient.createAlbum(albumName)
+            log.info("Created album with id: ${createdAlbum.id}")
+            createdAlbumDto = createdAlbum.toCampGalleryAlbumDto()
+        } catch (exc: ApiException) {
+            log.error(exc.message)
+        } finally {
+            photosLibraryClient.close()
+        }
+
+        return createdAlbumDto
+    }
+
+    private fun uploadRawBytesToGoogleServer(mediaFileName: String, pathToFile: String): UploadMediaItemResponse {
+        val photosLibraryClient: PhotosLibraryClient = GooglePhotosCredentialService.initApiConnection()
+        lateinit var uploadResponse: UploadMediaItemResponse
+
+        try {
+            val uploadRequest = buildUploadRequest(mediaFileName, pathToFile)
+            uploadResponse = photosLibraryClient.uploadMediaItem(uploadRequest)
+        } catch (e: ApiException) {
+            log.error(e.toString())
+        } catch (e: FileNotFoundException) {
+            log.error(e.toString())
+        } finally {
+            photosLibraryClient.close()
+        }
+
+        return uploadResponse
+    }
+
+    private fun createMediaItemsInAlbum(albumId: String, newItems: MutableList<NewMediaItem>) {
+        val photosLibraryClient: PhotosLibraryClient = GooglePhotosCredentialService.initApiConnection()
+
+        try {
+            val response = photosLibraryClient.batchCreateMediaItems(albumId, newItems)
+            examineBatchCreateMediaItemResponse(response)
+        } catch (e: ApiException) {
+            log.error(e.toString())
+        } finally {
+            photosLibraryClient.close()
+        }
+
+    }
+
+    override fun testAddingPhotosFlow() {
+        val album = createAlbum("albumName")
+        val newMediaItemList = mutableListOf<NewMediaItem>()
+        val uploadMediaBytesResponse
+                = uploadRawBytesToGoogleServer("", "")
+        val uploadToken = getUploadMediaItemTokenIfNoError(uploadMediaBytesResponse)
+        addMediaItemToList(newMediaItemList, uploadToken, "itemDescription")
+        createMediaItemsInAlbum(album.id, newMediaItemList)
     }
 }

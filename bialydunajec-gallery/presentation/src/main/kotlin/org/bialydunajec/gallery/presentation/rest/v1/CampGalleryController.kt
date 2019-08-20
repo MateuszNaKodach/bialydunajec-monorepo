@@ -8,15 +8,9 @@ import org.springframework.web.bind.annotation.*
 internal class CampGalleryController(private val campGalleryProvider: CampGalleryProvider) {
 
     @GetMapping
-    fun getAlbumList() = campGalleryProvider.getAlbumList()
-
-    @GetMapping
     fun getAlbumListByCampEdition(@PathVariable campEditionId: String)
             = campGalleryProvider.getAlbumListByCampEdition(campEditionId)
 
-    @GetMapping
+    @GetMapping("/album")
     fun getPhotosInAlbum(@PathVariable albumId: String) = campGalleryProvider.getPhotosInAlbum(albumId)
-
-    @PostMapping
-    fun createAlbum(@PathVariable albumName: String) = campGalleryProvider.createAlbum(albumName)
 }

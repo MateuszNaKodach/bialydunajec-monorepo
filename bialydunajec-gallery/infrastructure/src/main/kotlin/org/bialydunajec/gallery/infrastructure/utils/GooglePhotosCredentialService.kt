@@ -1,4 +1,4 @@
-package org.bialydunajec.gallery.infrastructure
+package org.bialydunajec.gallery.infrastructure.utils
 
 import com.google.api.client.auth.oauth2.ClientParametersAuthentication
 import com.google.api.client.auth.oauth2.RefreshTokenRequest
