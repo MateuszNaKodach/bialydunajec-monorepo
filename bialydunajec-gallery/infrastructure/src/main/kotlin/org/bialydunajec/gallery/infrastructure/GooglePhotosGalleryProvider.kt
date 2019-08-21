@@ -4,10 +4,10 @@ import com.google.api.gax.rpc.ApiException
 import com.google.photos.library.v1.PhotosLibraryClient
 import com.google.photos.library.v1.proto.NewMediaItem
 import com.google.photos.library.v1.upload.UploadMediaItemResponse
+import com.google.photos.library.v1.util.NewMediaItemFactory
 import org.bialydunajec.gallery.application.CampGalleryProvider
 import org.bialydunajec.gallery.application.dto.CampGalleryAlbumDto
 import org.bialydunajec.gallery.infrastructure.extensions.toCampGalleryAlbumDto
-import org.bialydunajec.gallery.infrastructure.utils.GooglePhotosClientService.Companion.addMediaItemToList
 import org.bialydunajec.gallery.infrastructure.utils.GooglePhotosClientService.Companion.buildUploadRequest
 import org.bialydunajec.gallery.infrastructure.utils.GooglePhotosClientService.Companion.examineBatchCreateMediaItemResponse
 import org.bialydunajec.gallery.infrastructure.utils.GooglePhotosClientService.Companion.getUploadMediaItemTokenIfNoError
@@ -30,7 +30,7 @@ open class GooglePhotosGalleryProvider : CampGalleryProvider{
     @Cacheable(cacheNames = [GOOGLE_PHOTOS_EDITION_ALBUMS_SPRING_CACHE], key = "{#root.methodName}")
     override fun getAlbumListByCampEdition(campEditionId: String): List<CampGalleryAlbumDto> {
         val campEditionAlbums = getAlbumList().stream()
-                .filter { album -> album.title!!.startsWith(campEditionId) } // TODO: consistent convention
+                .filter { album -> album.title.startsWith(campEditionId) } // TODO: consistent convention
                 .toList()
         return campEditionAlbums
     }
@@ -135,7 +135,7 @@ open class GooglePhotosGalleryProvider : CampGalleryProvider{
         val uploadMediaBytesResponse
                 = uploadRawBytesToGoogleServer("", "")
         val uploadToken = getUploadMediaItemTokenIfNoError(uploadMediaBytesResponse)
-        addMediaItemToList(newMediaItemList, uploadToken, "itemDescription")
+        newMediaItemList.add(NewMediaItemFactory.createNewMediaItem(uploadToken, "itemDescription"))
         createMediaItemsInAlbum(album.id, newMediaItemList)
     }
 }

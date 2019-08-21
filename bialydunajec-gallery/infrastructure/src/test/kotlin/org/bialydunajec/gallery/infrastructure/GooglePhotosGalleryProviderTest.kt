@@ -1,23 +1,12 @@
 package org.bialydunajec.gallery.infrastructure
 
 import assertk.assertThat
-import com.google.api.gax.rpc.UnauthenticatedException
 import com.google.photos.library.v1.PhotosLibraryClient
-import com.google.photos.library.v1.internal.InternalPhotosLibraryClient
-import groovy.transform.Undefined
 import io.mockk.*
 import org.bialydunajec.gallery.infrastructure.utils.GooglePhotosCredentialService
 import org.mockito.ArgumentMatchers
-import org.mockito.Mockito
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.anyString
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.gherkin.Feature
-import org.spockframework.util.ExceptionUtil
-import org.springframework.http.HttpHeaders
-import org.springframework.http.HttpStatus
-import org.springframework.web.client.HttpClientErrorException
-import java.lang.Exception
 
 object GooglePhotosGalleryProviderTest: Spek( {
 
