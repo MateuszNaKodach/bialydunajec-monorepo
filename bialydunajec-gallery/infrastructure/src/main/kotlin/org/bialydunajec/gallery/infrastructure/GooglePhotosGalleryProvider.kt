@@ -67,8 +67,8 @@ open class GooglePhotosGalleryProvider : CampGalleryProvider{
         var photosBaseUrlList: List<String> = emptyList()
 
         try {
-            val response = photosLibraryClient.searchMediaItems(albumId)
-            photosBaseUrlList = response.iterateAll()
+            photosBaseUrlList = photosLibraryClient.searchMediaItems(albumId)
+                    .iterateAll()
                     .map { it.baseUrl
                             .also { photo -> log.info(photo) } }
         } catch (exc: ApiException) {
