@@ -18,4 +18,9 @@ sealed class CampParticipantEvent : DomainEvent<CampParticipantId> {
             override val aggregateId: CampParticipantId,
             val snapshot: CampParticipantSnapshot
     ) : CampParticipantEvent()
+
+    data class Updated(
+            override val aggregateId: CampParticipantId,
+            val snapshot: CampParticipantSnapshot
+    ) : CampParticipantEvent()
 }

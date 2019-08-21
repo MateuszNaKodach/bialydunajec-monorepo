@@ -154,6 +154,11 @@ class CampParticipant internal constructor(
                 camperEducation = correctCamperEducation(highSchool, isHighSchoolRecentGraduate, university, fieldOfStudy, faculty),
                 emailAddress = correctEmailAddress(emailAddress),
                 phoneNumber = correctPhoneNumber(phoneNumber))
+        registerEvent(CampParticipantEvent.Updated(getAggregateId(), getSnapshot()))
+    }
+
+    fun correctCampParticipantData(campParticipantData: CamperApplication) {
+        this.currentCamperData = campParticipantData
         registerEvent(CampParticipantEvent.Confirmed(getAggregateId(), getSnapshot()))
     }
 
