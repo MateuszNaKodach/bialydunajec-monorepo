@@ -4,7 +4,9 @@ import com.google.api.gax.grpc.GrpcStatusCode
 import com.google.api.gax.rpc.ApiException
 import com.google.photos.library.v1.PhotosLibraryClient
 import com.google.photos.library.v1.internal.InternalPhotosLibraryClient.ListAlbumsPagedResponse
+import com.google.photos.library.v1.internal.InternalPhotosLibraryClient.SearchMediaItemsPagedResponse
 import com.google.photos.types.proto.Album
+import com.google.photos.types.proto.MediaItem
 import io.grpc.Status
 import io.mockk.*
 import org.assertj.core.api.Assertions.*
@@ -20,7 +22,6 @@ import org.spekframework.spek2.style.gherkin.Feature
 @Rule
 var thrown: ExpectedException = ExpectedException.none()
 
-
 object GooglePhotosGalleryProviderTest: Spek( {
 
     Feature("Fetching photos stored in album") {
@@ -29,19 +30,31 @@ object GooglePhotosGalleryProviderTest: Spek( {
         val albumId = "albumId"
 
         Scenario("Successfully fetching") {
+            val searchMediaItemsPagedResponse = mockk<SearchMediaItemsPagedResponse>( relaxed = true )
+
             Given("Mock initialize connection"){
                 mockkObject(GooglePhotosCredentialService)
                 every { GooglePhotosCredentialService.initApiConnection()  } returns photosLibraryClient
             }
+            And ("Api will return photo") {
+                every { photosLibraryClient.searchMediaItems(any<String>()) } returns searchMediaItemsPagedResponse
+                every { searchMediaItemsPagedResponse.iterateAll() } returns
+                        listOf(MediaItem.getDefaultInstance())
+            }
 
+            lateinit var result: List<String>
             When("Download photos stored in album") {
-                googlePhotosGalleryProvider.getPhotosInAlbum(albumId)
+                result = googlePhotosGalleryProvider.getPhotosInAlbum(albumId)
             }
 
             Then("Should invoke client method with albumId parameter and close connection") {
                 verify(exactly = 1) { photosLibraryClient.searchMediaItems(albumId) }
                 verify(exactly = 1) { photosLibraryClient.close() }
-                confirmVerified(photosLibraryClient)
+                verify { searchMediaItemsPagedResponse.iterateAll() }
+                confirmVerified(photosLibraryClient, searchMediaItemsPagedResponse)
+            }
+            And("Result has photos") {
+                assertThat(result.size).isEqualTo(1)
             }
         }
 
@@ -50,7 +63,6 @@ object GooglePhotosGalleryProviderTest: Spek( {
                 mockkObject(GooglePhotosCredentialService)
                 every { GooglePhotosCredentialService.initApiConnection()  } returns photosLibraryClient
             }
-
             And("Search media items will throw exception") {
                 val throwable = Throwable("Throwable message")
                 val statusCode = GrpcStatusCode.of(Status.Code.UNAUTHENTICATED)
@@ -58,8 +70,9 @@ object GooglePhotosGalleryProviderTest: Spek( {
                 every { photosLibraryClient.searchMediaItems(ArgumentMatchers.anyString()) } throws apiException
             }
 
-            When("Download photos stored in album") {
-                googlePhotosGalleryProvider.getPhotosInAlbum(albumId)
+            lateinit var result: List<String>
+            When("Try download photos stored in album") {
+                result = googlePhotosGalleryProvider.getPhotosInAlbum(albumId)
             }
 
             Then("Should invoke client method with albumId parameter and close connection") {
@@ -67,8 +80,9 @@ object GooglePhotosGalleryProviderTest: Spek( {
                 verify(exactly = 1) { photosLibraryClient.close() }
                 confirmVerified(photosLibraryClient)
             }
-            And("Exception is thrown") {
+            And("Exception is thrown and result is empty") {
                 thrown.expect(ApiException::class.java)
+                assertThat(result).isEmpty()
             }
         }
     }
@@ -98,12 +112,11 @@ object GooglePhotosGalleryProviderTest: Spek( {
             Then("Should invoke client method and close connection") {
                 verify(exactly = 1) { photosLibraryClient.listAlbums() }
                 verify(exactly = 1) { photosLibraryClient.close() }
-                confirmVerified(photosLibraryClient)
                 verify { listAlbumsPagedResponse.iterateAll() }
-                confirmVerified(listAlbumsPagedResponse)
+                confirmVerified(photosLibraryClient, listAlbumsPagedResponse)
             }
-            And("result not empty") {
-                assertThat(result).isNotEmpty()
+            And("Result has album") {
+                assertThat(result.size).isEqualTo(1)
             }
         }
     }
