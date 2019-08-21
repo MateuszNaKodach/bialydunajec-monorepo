@@ -3,6 +3,7 @@ package org.bialydunajec.registrations.application.command
 import org.bialydunajec.ddd.application.base.ApplicationService
 import org.bialydunajec.ddd.application.base.concurrency.ProcessingSerializedQueue
 import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.Pesel
 import org.bialydunajec.registrations.application.command.api.CampRegistrationsCommand
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantFactory
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantRepository
@@ -80,24 +81,24 @@ internal class CorrectCampParticipantRegistrationDataApplicationService(
         val campParticipant = campParticipantRepository.findById(command.campParticipantId)
                 ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.CAMP_PARTICIPANT_MUST_EXISTS_TO_UPDATE_REGISTRATION_DATA)
 
-        campParticipant.correctCampParticipantData(
-                command.camperApplication.personalData.firstName.firstName,
-                command.camperApplication.personalData.lastName.lastName,
-                command.camperApplication.personalData.pesel,
-                command.camperApplication.emailAddress.email,
-                command.camperApplication.phoneNumber.number,
-                command.camperApplication.homeAddress.postalCode!!.postalCode,
-                command.camperApplication.homeAddress.city!!.city,
-                command.camperApplication.homeAddress.street!!.street,
-                command.camperApplication.homeAddress.homeNumber!!.homeNumber,
-                command.camperApplication.camperEducation.highSchool,
-                command.camperApplication.camperEducation.isHighSchoolRecentGraduate,
-                command.camperApplication.camperEducation.university,
-                command.camperApplication.camperEducation.fieldOfStudy,
-                command.camperApplication.camperEducation.faculty
-        )
-
-        campParticipantRepository.save(campParticipant)
+        with(command.camperApplication) {
+            campParticipant.correctCampParticipantData(
+                    this.personalData.firstName.firstName,
+                    this.personalData.lastName.lastName,
+                    Pesel(this.personalData.pesel.toString()),
+                    this.emailAddress.email,
+                    this.phoneNumber.number,
+                    this.homeAddress.postalCode?.postalCode.let { it.toString() },
+                    this.homeAddress.city?.city.let { it.toString() },
+                    this.homeAddress.street?.street.let { it.toString() },
+                    this.homeAddress.homeNumber?.homeNumber.let { it.toString() },
+                    this.camperEducation.highSchool.toString(),
+                    this.camperEducation.isHighSchoolRecentGraduate,
+                    this.camperEducation.university,
+                    this.camperEducation.fieldOfStudy,
+                    this.camperEducation.faculty
+            )
+            campParticipantRepository.save(campParticipant)
+        }
     }
-
 }

@@ -135,14 +135,14 @@ class CampParticipant internal constructor(
     fun correctCampParticipantData(
             firstName: String,
             lastName: String,
-            pesel: Pesel?,
+            pesel: Pesel,
             emailAddress: String,
             phoneNumber: String,
             postalCode: String,
             cityName: String,
             street: String,
             homeNumber: String,
-            highSchool: String?,
+            highSchool: String,
             isHighSchoolRecentGraduate: Boolean,
             university: String,
             fieldOfStudy: String,
@@ -157,15 +157,15 @@ class CampParticipant internal constructor(
         registerEvent(CampParticipantEvent.Confirmed(getAggregateId(), getSnapshot()))
     }
 
-    private fun correctPersonalData(firstName: String, lastName: String, pesel: Pesel?):CamperPersonalData {
-        return CamperPersonalData(FirstName(firstName), LastName(lastName), pesel!!.getGender(), pesel, pesel.getBirthDate())
+    private fun correctPersonalData(firstName: String, lastName: String, pesel: Pesel):CamperPersonalData {
+        return CamperPersonalData(FirstName(firstName), LastName(lastName), pesel.getGender(), pesel, pesel.getBirthDate())
     }
 
     private fun correctHomeAddress(postalCode: String, cityName: String, street: String, homeNumber: String): Address {
         return Address(Street(street), HomeNumber(homeNumber), CityName(cityName), PostalCode(postalCode))
     }
 
-    private fun correctCamperEducation(highSchool: String?, isHighSchoolRecentGraduate: Boolean, university: String, fieldOfStudy: String, faculty: String): CamperEducation {
+    private fun correctCamperEducation(highSchool: String, isHighSchoolRecentGraduate: Boolean, university: String, fieldOfStudy: String, faculty: String): CamperEducation {
         return CamperEducation(university, faculty, fieldOfStudy, highSchool, isHighSchoolRecentGraduate)
     }
 
