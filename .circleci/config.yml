@@ -91,9 +91,10 @@ jobs:
                 scp build/libs/bialydunajec-backend.jar Bialydunajec@31.186.82.95:/home/Bialydunajec/webapp/backend/env_staging
                 ssh Bialydunajec@31.186.82.95 "nohup java -jar -D-Xms512m -Xmx512m -Dspring.profiles.active=env_staging /home/Bialydunajec/webapp/backend/env_staging/bialydunajec-backend.jar &> nohup_staging.out&"
             elif [ "${CIRCLE_BRANCH}" == "develop" ]; then
+                scp build/libs/bialydunajec-backend.jar Bialydunajec@31.186.82.95:/home/Bialydunajec/webapp/backend/env_dev/temp
                 ssh Bialydunajec@31.186.82.95 pkill -f backend/env_dev
-                ssh Bialydunajec@31.186.82.95 rm -rf /home/Bialydunajec/webapp/backend/env_dev/*
-                scp build/libs/bialydunajec-backend.jar Bialydunajec@31.186.82.95:/home/Bialydunajec/webapp/backend/env_dev
+                ssh Bialydunajec@31.186.82.95 rm -rf /home/Bialydunajec/webapp/backend/env_dev/bialydunajec-backend*
+                ssh Bialydunajec@31.186.82.95 mv /home/Bialydunajec/webapp/backend/env_dev/temp/bialydunajec-backend.jar /home/Bialydunajec/webapp/backend/env_dev/bialydunajec-backend.jar
                 ssh Bialydunajec@31.186.82.95 "nohup java -jar -D-Xms512m -Xmx512m -Dspring.profiles.active=env_dev /home/Bialydunajec/webapp/backend/env_dev/bialydunajec-backend.jar &> nohup_dev.out&"
             fi
 
