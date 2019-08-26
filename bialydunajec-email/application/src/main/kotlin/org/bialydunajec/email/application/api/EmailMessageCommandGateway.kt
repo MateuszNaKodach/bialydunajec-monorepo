@@ -7,18 +7,18 @@ import org.bialydunajec.email.application.SendEmailMessageApplicationService
 import org.springframework.stereotype.Component
 
 @Component
-class EmailCommandGateway internal constructor(
+class EmailMessageCommandGateway internal constructor(
         private val sendEmailMessageApplicationService: SendEmailMessageApplicationService,
         private val resendEmailMessageApplicationService: ResendEmailMessageApplicationService,
         private val forwardEmailMessageApplicationService: ForwardEmailMessageApplicationService
 ) : CommandGateway {
 
-    fun process(command: EmailCommand.SendEmailCommand) =
+    fun process(command: EmailMessageCommand.SendEmailCommand) =
             sendEmailMessageApplicationService.execute(command)
 
-    fun process(command: EmailCommand.ResendEmailCommand) =
+    fun process(command: EmailMessageCommand.ResendEmailCommand) =
             resendEmailMessageApplicationService.execute(command)
 
-    fun process(command: EmailCommand.ForwardEmailCommand) =
+    fun process(command: EmailMessageCommand.ForwardEmailCommand) =
             forwardEmailMessageApplicationService.execute(command)
 }

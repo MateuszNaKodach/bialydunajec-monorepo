@@ -5,7 +5,7 @@ import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailA
 import org.bialydunajec.email.domain.EmailMessageLogId
 import org.bialydunajec.email.domain.valueobject.EmailMessage
 
-sealed class EmailCommand : Command {
+sealed class EmailMessageCommand : Command {
 
     class SendEmailCommand(val emailMessage: EmailMessage) : Command
     class ResendEmailCommand(val emailMessageLogId: EmailMessageLogId) : Command
