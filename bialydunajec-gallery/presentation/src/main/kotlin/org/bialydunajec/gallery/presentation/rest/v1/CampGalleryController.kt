@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/rest-api/v1/camp-gallery")
 internal class CampGalleryController(private val campGalleryProvider: CampGalleryProvider) {
 
-    @GetMapping
+    @GetMapping("/{campEditionId}")
     fun getAlbumListByCampEdition(@PathVariable campEditionId: String)
             = campGalleryProvider.getAlbumListByCampEdition(campEditionId)
 
-    @GetMapping("/album")
+    @GetMapping("/album/{albumId}")
     fun getPhotosInAlbum(@PathVariable albumId: String) = campGalleryProvider.getPhotosInAlbum(albumId)
 }

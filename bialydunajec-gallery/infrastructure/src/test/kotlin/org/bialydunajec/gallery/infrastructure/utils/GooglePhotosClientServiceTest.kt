@@ -29,7 +29,7 @@ object GooglePhotosClientServiceTest: Spek ({
                 result = GooglePhotosClientService.getUploadMediaItemTokenIfNoError(uploadResponse)
             }
 
-            Then("Token is obtained") {
+            Then("Token should be obtained") {
                 assertThat(result).isEqualTo(token)
             }
         }

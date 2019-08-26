@@ -6,4 +6,18 @@ data class CampGalleryAlbumDto(
         val albumUrl: String,
         val coverPhotoUrl: String,
         val photosCount: Long
-)
+) {
+    init {
+        getCampEditionAlbumRegexHeader().replace(title, "")
+    }
+
+    companion object {
+        private const val campEditionAlbumRegexHeader = "WebApp_Edycja[0-9]+_"
+
+        fun getCampEditionAlbumRegex() =
+                "$campEditionAlbumRegexHeader.+".toRegex()
+    }
+
+    private fun getCampEditionAlbumRegexHeader() =
+            campEditionAlbumRegexHeader.toRegex()
+}

@@ -11,6 +11,7 @@ import io.grpc.Status
 import io.mockk.*
 import org.assertj.core.api.Assertions.*
 import org.bialydunajec.gallery.application.dto.CampGalleryAlbumDto
+import org.bialydunajec.gallery.application.dto.CampGalleryPhotoDto
 import org.bialydunajec.gallery.infrastructure.utils.GooglePhotosCredentialService
 import org.junit.Rule
 import org.junit.rules.ExpectedException
@@ -36,13 +37,14 @@ object GooglePhotosGalleryProviderTest: Spek( {
                 mockkObject(GooglePhotosCredentialService)
                 every { GooglePhotosCredentialService.initApiConnection()  } returns photosLibraryClient
             }
-            And ("Api will return photo") {
+            And ("Api returns a photo") {
+                val photo = MediaItem.newBuilder().setMimeType().build()
                 every { photosLibraryClient.searchMediaItems(any<String>()) } returns searchMediaItemsPagedResponse
                 every { searchMediaItemsPagedResponse.iterateAll() } returns
                         listOf(MediaItem.getDefaultInstance())
             }
 
-            lateinit var result: List<String>
+            lateinit var result: List<CampGalleryPhotoDto>
             When("Download photos stored in album") {
                 result = googlePhotosGalleryProvider.getPhotosInAlbum(albumId)
             }
@@ -53,7 +55,7 @@ object GooglePhotosGalleryProviderTest: Spek( {
                 verify { searchMediaItemsPagedResponse.iterateAll() }
                 confirmVerified(photosLibraryClient, searchMediaItemsPagedResponse)
             }
-            And("Result has photos") {
+            And("Result should has photos") {
                 assertThat(result.size).isEqualTo(1)
             }
         }
@@ -70,7 +72,7 @@ object GooglePhotosGalleryProviderTest: Spek( {
                 every { photosLibraryClient.searchMediaItems(ArgumentMatchers.anyString()) } throws apiException
             }
 
-            lateinit var result: List<String>
+            lateinit var result: List<CampGalleryPhotoDto>
             When("Try download photos stored in album") {
                 result = googlePhotosGalleryProvider.getPhotosInAlbum(albumId)
             }
@@ -80,7 +82,7 @@ object GooglePhotosGalleryProviderTest: Spek( {
                 verify(exactly = 1) { photosLibraryClient.close() }
                 confirmVerified(photosLibraryClient)
             }
-            And("Exception is thrown and result is empty") {
+            And("Exception should be thrown and result be empty") {
                 thrown.expect(ApiException::class.java)
                 assertThat(result).isEmpty()
             }
@@ -98,7 +100,7 @@ object GooglePhotosGalleryProviderTest: Spek( {
                 mockkObject(GooglePhotosCredentialService)
                 every { GooglePhotosCredentialService.initApiConnection()  } returns photosLibraryClient
             }
-            And("Api will return album in list") {
+            And("Api returns album in list") {
                 every { photosLibraryClient.listAlbums() } returns listAlbumsPagedResponse
                 val album = Album.getDefaultInstance()
                 every { listAlbumsPagedResponse.iterateAll() } returns listOf(album)
@@ -115,7 +117,7 @@ object GooglePhotosGalleryProviderTest: Spek( {
                 verify { listAlbumsPagedResponse.iterateAll() }
                 confirmVerified(photosLibraryClient, listAlbumsPagedResponse)
             }
-            And("Result has album") {
+            And("Result should has album") {
                 assertThat(result.size).isEqualTo(1)
             }
         }

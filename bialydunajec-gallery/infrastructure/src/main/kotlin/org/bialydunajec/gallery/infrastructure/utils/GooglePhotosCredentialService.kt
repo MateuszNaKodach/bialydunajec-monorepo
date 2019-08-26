@@ -14,6 +14,8 @@ import com.google.auth.oauth2.AccessToken
 import com.google.auth.oauth2.UserCredentials
 import com.google.photos.library.v1.PhotosLibraryClient
 import com.google.photos.library.v1.PhotosLibrarySettings
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 
 internal class GooglePhotosCredentialService {
@@ -26,8 +28,10 @@ internal class GooglePhotosCredentialService {
         private val HTTP_TRANSPORT: HttpTransport = GoogleNetHttpTransport.newTrustedTransport()
         private val JSON_FACTORY: JsonFactory = JacksonFactory()
 
+        private val log: Logger = LoggerFactory.getLogger(this::class.java)
+
         fun initApiConnection(): PhotosLibraryClient {
-            val credentials: Credentials = setCredentials()
+            val credentials: Credentials = getCredentials()
 
             val settings: PhotosLibrarySettings = PhotosLibrarySettings
                     .newBuilder()
@@ -38,10 +42,8 @@ internal class GooglePhotosCredentialService {
             return PhotosLibraryClient.initialize(settings)
         }
 
-        private fun setCredentials() : Credentials {
-            val accessTokenValue = refreshToken()
-            val accessToken = AccessToken(accessTokenValue, null)
-
+        private fun getCredentials(): Credentials {
+            val accessToken = AccessToken(refreshToken(), null)
             return UserCredentials.newBuilder()
                     .setClientId(CLIENT_ID)
                     .setClientSecret(CLIENT_SECRET)
@@ -50,28 +52,21 @@ internal class GooglePhotosCredentialService {
                     .build()
         }
 
-        private fun refreshToken(): String? {
-            try {
-                val response = RefreshTokenRequest(HTTP_TRANSPORT, JSON_FACTORY, GenericUrl(
-                        "https://oauth2.googleapis.com/token"), REFRESH_TOKEN)
-                        .setClientAuthentication(
-                                ClientParametersAuthentication(CLIENT_ID, CLIENT_SECRET)).execute()
-                println("Access token: " + response.accessToken)
-                return response.accessToken
-            } catch (e: TokenResponseException) {
-                if (e.details != null) {
-                    System.err.println("Error: " + e.details.error)
-                    if (e.details.errorDescription != null) {
-                        System.err.println(e.details.errorDescription)
-                    }
-                    if (e.details.errorUri != null) {
-                        System.err.println(e.details.errorUri)
-                    }
-                } else {
-                    System.err.println(e.message)
+        private fun refreshToken(): String? =
+                try {
+                    tryRefreshToken().accessToken
+                } catch (e: TokenResponseException) {
+                    log.error("Error during refreshing Google API token: ", e)
+                    null
                 }
-            }
-            return null
-        }
+
+        private fun tryRefreshToken() =
+                RefreshTokenRequest(HTTP_TRANSPORT,
+                        JSON_FACTORY,
+                        GenericUrl("https://oauth2.googleapis.com/token"),
+                        REFRESH_TOKEN)
+                        .setClientAuthentication(
+                                ClientParametersAuthentication(CLIENT_ID, CLIENT_SECRET))
+                        .execute()
     }
 }
