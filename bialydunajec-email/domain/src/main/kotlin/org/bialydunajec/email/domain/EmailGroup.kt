@@ -26,4 +26,8 @@ class EmailGroup (
 
     fun contains(emailAddress: EmailAddress): Boolean = emailAddresses.contains(emailAddress)
 
+    fun getEmailAddressById(existingEmailAddressId: EmailAddressId): EmailAddress {
+        return emailAddresses.find{it.getAggregateId() == existingEmailAddressId}!!
+    }
+
 }
