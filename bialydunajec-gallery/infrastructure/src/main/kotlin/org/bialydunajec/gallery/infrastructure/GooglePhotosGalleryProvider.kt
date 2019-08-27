@@ -23,18 +23,24 @@ import org.springframework.scheduling.annotation.Scheduled
 const val GOOGLE_PHOTOS_ALBUMS_SPRING_CACHE = "org.bialydunajec.gallery.GOOGLE_PHOTOS_ALBUMS_SPRING_CACHE"
 const val GOOGLE_PHOTOS_EDITION_ALBUMS_SPRING_CACHE = "org.bialydunajec.gallery.GOOGLE_PHOTOS_EDITION_ALBUMS_SPRING_CACHE"
 
-open class GooglePhotosGalleryProvider : CampGalleryProvider{
+open class GooglePhotosGalleryProvider(private val refreshToken: String,
+                                       private val credentialsJsonPath: String)
+    : CampGalleryProvider{
 
     private val log: Logger = LoggerFactory.getLogger(this.javaClass)
 
-    @Cacheable(cacheNames = [GOOGLE_PHOTOS_EDITION_ALBUMS_SPRING_CACHE], key = "{#root.methodName}")
+    init {
+        GooglePhotosCredentialService.readUserCredentialsFormFile(credentialsJsonPath)
+    }
+
+    //@Cacheable(cacheNames = [GOOGLE_PHOTOS_EDITION_ALBUMS_SPRING_CACHE], key = "{#root.methodName}")
     override fun getAlbumListByCampEdition(campEditionId: String): List<CampGalleryAlbumDto> =
             getAlbumList()
                     .filter { album ->
                         getCampEditionAlbumRegex().matches(album.title)
                     }
 
-    @Cacheable(cacheNames = [GOOGLE_PHOTOS_ALBUMS_SPRING_CACHE], key = "{#root.methodName}")
+    //@Cacheable(cacheNames = [GOOGLE_PHOTOS_ALBUMS_SPRING_CACHE], key = "{#root.methodName}")
     open fun getAlbumList(): List<CampGalleryAlbumDto> =
          GooglePhotosCredentialService.execute {
             log.info("Downloading google photos albums...")
@@ -45,13 +51,13 @@ open class GooglePhotosGalleryProvider : CampGalleryProvider{
                     }
          }
 
-    @CacheEvict(cacheNames = [GOOGLE_PHOTOS_ALBUMS_SPRING_CACHE, GOOGLE_PHOTOS_EDITION_ALBUMS_SPRING_CACHE],
+    /*@CacheEvict(cacheNames = [GOOGLE_PHOTOS_ALBUMS_SPRING_CACHE, GOOGLE_PHOTOS_EDITION_ALBUMS_SPRING_CACHE],
             allEntries = true)
     @Scheduled(cron = "0 0 3 * * *")
     open fun cacheEvict(){
         log.info("Google photos cache evicted!")
         getAlbumList()
-    }
+    }*/
 
     override fun getPhotosInAlbum(albumId: String): List<CampGalleryPhotoDto> =
             GooglePhotosCredentialService.execute {
@@ -71,7 +77,7 @@ open class GooglePhotosGalleryProvider : CampGalleryProvider{
 
 
     private fun <T> GooglePhotosCredentialService.Companion.execute(block: PhotosLibraryClient.() -> T) =
-            initApiConnection().use {
+            initApiConnection(refreshToken).use {
                 block(it)
             }
 

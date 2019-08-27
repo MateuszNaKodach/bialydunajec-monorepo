@@ -19,14 +19,16 @@ import org.mockito.ArgumentMatchers
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.gherkin.Feature
 
-
 @Rule
 var thrown: ExpectedException = ExpectedException.none()
 
 object GooglePhotosGalleryProviderTest: Spek( {
 
     Feature("Fetching photos stored in album") {
-        val googlePhotosGalleryProvider by memoized {GooglePhotosGalleryProvider() }
+        val refreshToken = "rT"
+        val credentialsJsonPath = "cJP"
+        val googlePhotosGalleryProvider
+                by memoized { GooglePhotosGalleryProvider(refreshToken, credentialsJsonPath) }
         val photosLibraryClient by memoized { mockk<PhotosLibraryClient>( relaxed = true ) }
         val albumId = "albumId"
 
@@ -35,10 +37,11 @@ object GooglePhotosGalleryProviderTest: Spek( {
 
             Given("Mock initialize connection"){
                 mockkObject(GooglePhotosCredentialService)
-                every { GooglePhotosCredentialService.initApiConnection()  } returns photosLibraryClient
+                every{
+                    GooglePhotosCredentialService.initApiConnection(any())
+                } returns photosLibraryClient
             }
             And ("Api returns a photo") {
-                val photo = MediaItem.newBuilder().setMimeType().build()
                 every { photosLibraryClient.searchMediaItems(any<String>()) } returns searchMediaItemsPagedResponse
                 every { searchMediaItemsPagedResponse.iterateAll() } returns
                         listOf(MediaItem.getDefaultInstance())
@@ -63,7 +66,9 @@ object GooglePhotosGalleryProviderTest: Spek( {
         Scenario("Fetching photos stored in album went wrong") {
             Given("Mock initialize connection") {
                 mockkObject(GooglePhotosCredentialService)
-                every { GooglePhotosCredentialService.initApiConnection()  } returns photosLibraryClient
+                every {
+                    GooglePhotosCredentialService.initApiConnection(any())
+                } returns photosLibraryClient
             }
             And("Search media items will throw exception") {
                 val throwable = Throwable("Throwable message")
@@ -90,7 +95,10 @@ object GooglePhotosGalleryProviderTest: Spek( {
     }
 
     Feature("Fetching information of albums in google gallery"){
-        val googlePhotosGalleryProvider by memoized { GooglePhotosGalleryProvider() }
+        val refreshToken = "rT"
+        val credentialsJsonPath = "cJP"
+        val googlePhotosGalleryProvider
+                by memoized { GooglePhotosGalleryProvider(refreshToken, credentialsJsonPath) }
         val photosLibraryClient by memoized { mockk<PhotosLibraryClient>( relaxed = true ) }
 
         Scenario("Successfully fetching") {
@@ -98,7 +106,7 @@ object GooglePhotosGalleryProviderTest: Spek( {
 
             Given("Mock initialize connection"){
                 mockkObject(GooglePhotosCredentialService)
-                every { GooglePhotosCredentialService.initApiConnection()  } returns photosLibraryClient
+                every { GooglePhotosCredentialService.initApiConnection(any()) } returns photosLibraryClient
             }
             And("Api returns album in list") {
                 every { photosLibraryClient.listAlbums() } returns listAlbumsPagedResponse

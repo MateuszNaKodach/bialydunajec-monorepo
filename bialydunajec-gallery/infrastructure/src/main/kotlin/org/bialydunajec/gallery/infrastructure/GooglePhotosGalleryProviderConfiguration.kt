@@ -6,5 +6,6 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 internal class GooglePhotosGalleryProviderConfiguration {
     @Bean
-    fun googlePhotosGalleryProvider() = GooglePhotosGalleryProvider()
+    fun googlePhotosGalleryProvider(googleProperties: BialyDunajecGoogleProperties)
+            = GooglePhotosGalleryProvider(googleProperties.refreshToken, googleProperties.credentialsJsonPath)
 }
