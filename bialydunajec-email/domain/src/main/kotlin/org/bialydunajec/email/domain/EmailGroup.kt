@@ -2,6 +2,7 @@ package org.bialydunajec.email.domain
 
 import org.bialydunajec.ddd.domain.base.aggregate.AuditableAggregateRoot
 import org.bialydunajec.ddd.domain.base.persistence.Versioned
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddressId
 import javax.persistence.*
 import javax.persistence.JoinColumn
 
@@ -17,17 +18,6 @@ class EmailGroup (
 
     override fun getVersion() = version
 
-    @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
-    var emailAddresses: MutableList<EmailAddress> = mutableListOf()
 
-    fun add(newEmailAddress: EmailAddress) {
-        emailAddresses.add(newEmailAddress)
-    }
-
-    fun contains(emailAddress: EmailAddress): Boolean = emailAddresses.contains(emailAddress)
-
-    fun getEmailAddressById(existingEmailAddressId: EmailAddressId): EmailAddress {
-        return emailAddresses.find{it.getAggregateId() == existingEmailAddressId}!!
-    }
 
 }
