@@ -10,7 +10,8 @@ data class EmailAddress(
 
         @Email
         @NotBlank
-        val email: String
+        val email: String,
+        val emailId: EmailAddressId = EmailAddressId()
 ) : ValueObject {
 
     override fun toString() = email
