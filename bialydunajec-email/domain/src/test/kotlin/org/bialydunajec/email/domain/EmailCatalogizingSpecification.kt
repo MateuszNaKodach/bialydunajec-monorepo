@@ -1,12 +1,10 @@
 package org.bialydunajec.email.domain
 
-import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddressId
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.gherkin.Feature
-import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-object EmailCatalogizingSpecyfication : Spek({
+object EmailCatalogizingSpecification : Spek({
 
     Feature("Emails catalogizing in order to simplify searching for email addresses"){
 

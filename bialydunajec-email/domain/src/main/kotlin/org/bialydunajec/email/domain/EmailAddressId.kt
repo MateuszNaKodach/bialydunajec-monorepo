@@ -1,4 +1,4 @@
-package org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email
+package org.bialydunajec.email.domain
 
 import org.bialydunajec.ddd.domain.base.valueobject.AggregateId
 

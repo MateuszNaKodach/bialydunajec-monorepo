@@ -42,6 +42,8 @@ internal class ExternalCommandsListener internal constructor(
             is EmailAddressExternalCommand.CatalogizeEmailAddress -> {
                 emailAddressCommandGateway.process(EmailAddressCommand.CatalogizeEmailAddress(
                         payload.emailAddress,
+                        payload.emailOwnerName,
+                        payload.emailOwnerLastName,
                         payload.emailGroupName
                     )
                 )
@@ -49,7 +51,7 @@ internal class ExternalCommandsListener internal constructor(
 
             is EmailAddressExternalCommand.UpdateEmailAddress -> {
                 emailAddressCommandGateway.process(EmailAddressCommand.UpdateEmailAddress(
-                        payload.oldEmailAddress,
+                        payload.emailAddressId,
                         payload.newEmailAddress
                     )
                 )

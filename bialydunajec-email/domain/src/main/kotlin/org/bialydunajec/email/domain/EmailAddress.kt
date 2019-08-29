@@ -3,7 +3,7 @@ package org.bialydunajec.email.domain
 import org.bialydunajec.ddd.domain.base.aggregate.AuditableAggregateRoot
 import org.bialydunajec.ddd.domain.base.persistence.Versioned
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddress
-import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddressId
+
 import javax.persistence.*
 
 @Entity
@@ -12,21 +12,28 @@ class EmailAddress (
     val emailAddressId: EmailAddressId,
 
     @Embedded
-    private var emailAddress: EmailAddress
+    private var emailAddressValueObject: EmailAddress
 ): AuditableAggregateRoot<EmailAddressId, EmailAddressEvent>(emailAddressId), Versioned {
-    constructor(emailAddressId: EmailAddressId, emailAddress: String) : this(emailAddressId, EmailAddress(emailAddress, emailAddressId))
 
-    constructor(emailAddressValueObject: EmailAddress) : this(emailAddressValueObject.emailId, emailAddressValueObject)
+    constructor(emailAddressId: EmailAddressId, emailAddress: String) :
+            this(emailAddressId,
+                    EmailAddress(emailAddress, org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddressValueObjectId(emailAddressId.getIdentifierValue())))
+
+    constructor(emailAddressValueObject: EmailAddress) :
+            this(EmailAddressId(emailAddressValueObject.emailValueObjectId.getIdentifierValue()),
+                    emailAddressValueObject)
+
+    constructor(emailAddress: String) :this(EmailAddressId(), emailAddress)
 
     @Version
     private var version: Long? = null
 
     override fun getVersion() = version
 
-    fun getEmailAddress() = emailAddress
+    fun getEmailAddress() = emailAddressValueObject
 
     fun updateAddress(newEmailAddress: String){
-        emailAddress = EmailAddress(newEmailAddress, emailAddressId)
+        emailAddressValueObject = EmailAddress(newEmailAddress, emailAddressValueObject.emailValueObjectId)
     }
 
     @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
