@@ -35,12 +35,16 @@ internal class GooglePhotosCredentialService {
 
         private val log: Logger = LoggerFactory.getLogger(this::class.java)
 
-        fun initApiConnection(refreshTokenValue: String): PhotosLibraryClient {
+        fun initApiConnection(refreshTokenValue: String, credentialsJsonPath: String): PhotosLibraryClient {
+            if(!::clientCredentialsPojo.isInitialized)
+                readUserCredentialsFormFile(credentialsJsonPath)
+
             resetPhotosLibrarySettingsIfRequired(refreshTokenValue)
+
             return PhotosLibraryClient.initialize(photosLibrarySettings)
         }
 
-        fun readUserCredentialsFormFile(credentialsJsonPath: String) {
+        private fun readUserCredentialsFormFile(credentialsJsonPath: String) {
             val gson = Gson()
             val bufferedReader: BufferedReader = File(credentialsJsonPath).bufferedReader()
             val inputString = bufferedReader.use { it.readText() }

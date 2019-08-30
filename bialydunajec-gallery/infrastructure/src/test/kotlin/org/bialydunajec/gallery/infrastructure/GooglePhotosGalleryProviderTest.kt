@@ -27,6 +27,7 @@ object GooglePhotosGalleryProviderTest: Spek( {
     Feature("Fetching photos stored in album") {
         val refreshToken = "rT"
         val credentialsJsonPath = "cJP"
+        mockkObject(GooglePhotosCredentialService)
         val googlePhotosGalleryProvider
                 by memoized { GooglePhotosGalleryProvider(refreshToken, credentialsJsonPath) }
         val photosLibraryClient by memoized { mockk<PhotosLibraryClient>( relaxed = true ) }
@@ -36,10 +37,7 @@ object GooglePhotosGalleryProviderTest: Spek( {
             val searchMediaItemsPagedResponse = mockk<SearchMediaItemsPagedResponse>( relaxed = true )
 
             Given("Mock initialize connection"){
-                mockkObject(GooglePhotosCredentialService)
-                every{
-                    GooglePhotosCredentialService.initApiConnection(any())
-                } returns photosLibraryClient
+                every{ GooglePhotosCredentialService.initApiConnection(any(),any()) } returns photosLibraryClient
             }
             And ("Api returns a photo") {
                 every { photosLibraryClient.searchMediaItems(any<String>()) } returns searchMediaItemsPagedResponse
@@ -65,10 +63,7 @@ object GooglePhotosGalleryProviderTest: Spek( {
 
         Scenario("Fetching photos stored in album went wrong") {
             Given("Mock initialize connection") {
-                mockkObject(GooglePhotosCredentialService)
-                every {
-                    GooglePhotosCredentialService.initApiConnection(any())
-                } returns photosLibraryClient
+                every { GooglePhotosCredentialService.initApiConnection(any(), any()) } returns photosLibraryClient
             }
             And("Search media items will throw exception") {
                 val throwable = Throwable("Throwable message")
@@ -97,6 +92,7 @@ object GooglePhotosGalleryProviderTest: Spek( {
     Feature("Fetching information of albums in google gallery"){
         val refreshToken = "rT"
         val credentialsJsonPath = "cJP"
+        mockkObject(GooglePhotosCredentialService)
         val googlePhotosGalleryProvider
                 by memoized { GooglePhotosGalleryProvider(refreshToken, credentialsJsonPath) }
         val photosLibraryClient by memoized { mockk<PhotosLibraryClient>( relaxed = true ) }
@@ -105,8 +101,7 @@ object GooglePhotosGalleryProviderTest: Spek( {
             val listAlbumsPagedResponse = mockk<ListAlbumsPagedResponse>( relaxed = true)
 
             Given("Mock initialize connection"){
-                mockkObject(GooglePhotosCredentialService)
-                every { GooglePhotosCredentialService.initApiConnection(any()) } returns photosLibraryClient
+                every { GooglePhotosCredentialService.initApiConnection(any(), any()) } returns photosLibraryClient
             }
             And("Api returns album in list") {
                 every { photosLibraryClient.listAlbums() } returns listAlbumsPagedResponse
