@@ -275,7 +275,7 @@ fun CampRegistrationsSnapshot.toDto() =
                 lastFinishedAt = lastFinishedAt
         )
 
-fun CottageSnapshot.toCottageInfoDto() =
+fun CottageSnapshot.toCottageInfoDto(conditionsDescription: String) =
         CottageInfoDto(
                 cottageId = cottageId.toString(),
                 campRegistrationsEditionId = campRegistrationsEditionId.toString(),
@@ -287,6 +287,7 @@ fun CottageSnapshot.toCottageInfoDto() =
                 place = place?.toDto(),
                 cottageState = cottageState.toString(),
                 cottageBoss = cottageBoss?.toDto(),
-                audit = audit.toDto()
+                audit = audit.toDto(),
+                conditions = conditionsDescription
         )
 

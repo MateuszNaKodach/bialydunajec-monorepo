@@ -12,6 +12,8 @@ import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticip
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantReadOnlyRepository
 import org.bialydunajec.registrations.domain.cottage.CottageId
 import org.bialydunajec.registrations.domain.cottage.CottageRepository
+import org.bialydunajec.registrations.domain.cottage.conditions.CottageConditions
+import org.bialydunajec.registrations.domain.cottage.conditions.CottageConditionsRepository
 import org.bialydunajec.registrations.domain.cottage.specification.CottageFreeSpaceSpecificationFactory
 import org.bialydunajec.registrations.domain.cottage.valueobject.CottageStatus
 import org.bialydunajec.registrations.domain.shirt.CampEditionShirtReadOnlyRepository
@@ -29,7 +31,8 @@ internal class CampRegistrationsDomainModelReader(
         private val cottageRepository: CottageRepository,
         private val campParticipantRepository: CampParticipantReadOnlyRepository,
         private val campEditionShirtRepository: CampEditionShirtReadOnlyRepository,
-        private val cottageFreeSpaceSpecificationFactory: CottageFreeSpaceSpecificationFactory
+        private val cottageFreeSpaceSpecificationFactory: CottageFreeSpaceSpecificationFactory,
+        private val cottageConditionsRepository: CottageConditionsRepository
 ) {
 
 
@@ -87,10 +90,12 @@ internal class CampRegistrationsDomainModelReader(
             cottageRepository.findAllByCampRegistrationsEditionIdAndStatus(CampRegistrationsEditionId(query.campRegistrationsEditionId), CottageStatus.ACTIVATED)
                     .map { CampRegistrationsCottageDto.from(it.getSnapshot(), cottageFreeSpaceSpecificationFactory.createFor(query.camperGender).isSatisfiedBy(it)) }
 
-    fun readFor(query: CottageQuery.NewestByAcademicMinistryId): CottageInfoDto? =
-            cottageRepository.findNewestCottageByAcademicMinistryId(AcademicMinistryId(query.academicMinistryId))
-                    ?.getSnapshot()
-                    ?.let { it.toCottageInfoDto() }
+    fun readFor(query: CottageQuery.NewestByAcademicMinistryId): CottageInfoDto? {
+        val cottage = cottageRepository.findNewestCottageByAcademicMinistryId(AcademicMinistryId(query.academicMinistryId)) ?: return null
+        val cottageSnapshot = cottage.getSnapshot()
+        val conditions = cottageConditionsRepository.findByCottageId(cottageSnapshot.cottageId) ?: CottageConditions()
+        return cottageSnapshot.toCottageInfoDto(conditions.conditionsDescription)
+    }
 
     fun readFor(query: CampParticipantQuery.ById) =
             campParticipantRepository.findById(CampParticipantId(query.campParticipantId))

@@ -11,6 +11,8 @@ import org.bialydunajec.registrations.domain.campedition.specification.CampRegis
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantRepository
 import org.bialydunajec.registrations.domain.cottage.CottageId
 import org.bialydunajec.registrations.domain.cottage.CottageRepository
+import org.bialydunajec.registrations.domain.cottage.conditions.CottageConditions
+import org.bialydunajec.registrations.domain.cottage.conditions.CottageConditionsRepository
 import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Service
@@ -199,8 +201,21 @@ internal class UpdateCottageApplicationService(
 
 @Service
 @Transactional
+internal class UpdateCottageConditionsApplicationService(
+    private val cottageConditionsRepository: CottageConditionsRepository
+) : ApplicationService<CampRegistrationsCommand.UpdateCottageConditions> {
+
+    override fun execute(command: CampRegistrationsCommand.UpdateCottageConditions) {
+        val conditions = cottageConditionsRepository.findByCottageId(command.cottageId) ?: CottageConditions()
+        conditions.update(command.temporaryConditionsDescription)
+        cottageConditionsRepository.save(conditions)
+    }
+}
+
+@Service
+@Transactional
 internal class ActivateCottageApplicationService(
-        private val cottageRepository: CottageRepository
+    private val cottageRepository: CottageRepository
 ) : ApplicationService<CampRegistrationsCommand.ActivateCottage> {
 
     override fun execute(command: CampRegistrationsCommand.ActivateCottage) {

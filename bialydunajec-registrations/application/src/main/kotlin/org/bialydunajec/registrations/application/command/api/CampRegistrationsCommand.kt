@@ -16,12 +16,13 @@ import org.bialydunajec.registrations.domain.cottage.valueobject.CampersLimitati
 import org.bialydunajec.registrations.domain.cottage.valueobject.CottageBoss
 import org.bialydunajec.registrations.domain.cottage.valueobject.CottageSpace
 import org.bialydunajec.registrations.domain.payment.CampParticipantCottageAccountId
-import org.bialydunajec.registrations.domain.payment.entity.PaymentCommitmentId
 import org.bialydunajec.registrations.domain.payment.valueobject.PaymentCommitmentType
 import org.bialydunajec.registrations.domain.shirt.CampEditionShirtId
 import org.bialydunajec.registrations.domain.shirt.entity.ShirtColorOptionId
 import org.bialydunajec.registrations.domain.shirt.entity.ShirtSizeOptionId
-import org.bialydunajec.registrations.domain.shirt.valueobject.*
+import org.bialydunajec.registrations.domain.shirt.valueobject.CamperShirtOrder
+import org.bialydunajec.registrations.domain.shirt.valueobject.Color
+import org.bialydunajec.registrations.domain.shirt.valueobject.ShirtSize
 import java.time.LocalDate
 import java.time.ZonedDateTime
 
@@ -96,6 +97,11 @@ sealed class CampRegistrationsCommand : Command {
             val campersLimitations: CampersLimitations?,
             val bankTransferDetails: BankTransferDetails?,
             val cottageBoss: CottageBoss?
+    ) : CampRegistrationsCommand()
+
+    data class UpdateCottageConditions constructor(
+            val cottageId: CottageId,
+            val temporaryConditionsDescription: String
     ) : CampRegistrationsCommand()
 
     data class ActivateCottage constructor(

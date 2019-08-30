@@ -15,7 +15,8 @@ data class CottageInfoDto(
         val place: PlaceDto?,
         val cottageState: String,
         val cottageBoss: CottageBossDto?,
-        val audit: AuditDto
+        val audit: AuditDto,
+        val conditions: String = "aaa"
 ) {
     companion object {
     }
