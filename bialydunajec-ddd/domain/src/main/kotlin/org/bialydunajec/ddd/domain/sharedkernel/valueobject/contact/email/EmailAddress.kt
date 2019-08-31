@@ -11,7 +11,7 @@ data class EmailAddress(
         @Email
         @NotBlank
         val email: String,
-        val emailValueObjectId: EmailAddressValueObjectId = EmailAddressValueObjectId()
+        val emailAddressId: EmailAddressId = EmailAddressId()
 ) : ValueObject {
 
     override fun toString() = email

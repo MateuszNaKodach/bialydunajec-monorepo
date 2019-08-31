@@ -16,9 +16,11 @@ internal class CatalogizeEmailAddressApplicationService(
 ) : ApplicationService<EmailAddressCommand.CatalogizeEmailAddress> {
 
     override fun execute(command: EmailAddressCommand.CatalogizeEmailAddress) {
-        val emailAddress = emailAddressRepository.findByAddressEmailString(command.emailAddress)?:EmailAddress(command.emailAddress)
+        val emailAddress = emailAddressRepository.findByAddressEmailByAddress(command.emailAddress.toString())
+                ?: EmailAddress(command.emailAddress)
 
-        val emailGroup = emailGroupRepository.findByGroupName(command.emailGroupName)?: EmailGroup(command.emailGroupName)
+        val emailGroup = emailGroupRepository.findByGroupName(command.emailGroupName)
+                ?: EmailGroup(command.emailGroupName)
         emailAddress.addTo(emailGroup.getAggregateId())
 
         emailAddressRepository.save(emailAddress)
@@ -34,8 +36,8 @@ internal class UpdateEmailAddressApplicationService(
 
     override fun execute(command: EmailAddressCommand.UpdateEmailAddress) {
 
-        val emailAddress = emailAddressRepository.findById(EmailAddressId(command.emailAddressId))?:
-        throw DomainRuleViolationException.of(EmailAddressDomainRule.EMAIL_ADDRESS_TO_UPDATE_MUST_EXISTS)
+        val emailAddress = emailAddressRepository.findById(command.emailAddressId)
+                ?: throw DomainRuleViolationException.of(EmailAddressDomainRule.EMAIL_ADDRESS_TO_UPDATE_MUST_EXISTS)
 
         emailAddress.updateAddress(command.newEmailAddress)
 

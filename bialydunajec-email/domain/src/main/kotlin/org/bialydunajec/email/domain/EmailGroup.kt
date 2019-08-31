@@ -6,18 +6,17 @@ import javax.persistence.*
 
 @Entity
 @Table(schema = "email_group")
-class EmailGroup (
+class EmailGroup(
         emailGroupId: EmailGroupId,
         private val name: String
-): AuditableAggregateRoot<EmailGroupId, EmailGroupEvent>(emailGroupId), Versioned {
+) : AuditableAggregateRoot<EmailGroupId, EmailGroupEvent>(emailGroupId), Versioned {
 
-    constructor(name: String): this(EmailGroupId(), name)
+    constructor(name: String) : this(EmailGroupId(), name)
 
     @Version
     private var version: Long? = null
 
     override fun getVersion() = version
-
 
 
 }

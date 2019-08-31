@@ -2,6 +2,7 @@ package org.bialydunajec.email.messages.command
 
 sealed class EmailAddressExternalCommand {
     data class CatalogizeEmailAddress(
+            val emailAddressId: String,
             val emailAddress: String,
             val emailOwnerName: String,
             val emailOwnerLastName: String,
