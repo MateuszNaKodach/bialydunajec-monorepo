@@ -20,4 +20,10 @@ data class CamperEducation(
 
         @NotNull
         private val isHighSchoolRecentGraduate: Boolean
-)
+) {
+        fun getUniversity() = university
+        fun getFaculty() = faculty
+        fun getFieldOfStudy() = fieldOfStudy
+        fun getHighSchool() = highSchool
+        fun getIsHighSchoolRecentGraduate() = isHighSchoolRecentGraduate
+}

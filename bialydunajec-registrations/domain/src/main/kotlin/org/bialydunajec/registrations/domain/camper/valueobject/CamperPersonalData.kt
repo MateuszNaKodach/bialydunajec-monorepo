@@ -47,4 +47,10 @@ data class CamperPersonalData constructor(
                 birthDate = birthDate
         )
     }
+
+    fun getFirstName() = firstName
+    fun getLastName() = lastName
+    fun getGender() = gender
+    fun getPesel() = pesel
+    fun getBirthDate() = birthDate
 }

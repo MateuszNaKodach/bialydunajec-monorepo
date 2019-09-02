@@ -20,4 +20,9 @@ data class Address(
         @NotNull
         @Embedded
         private val postalCode: PostalCode? = null
-) : ValueObject
+) : ValueObject {
+        fun getStreet() = street
+        fun getHomeNumber() = homeNumber
+        fun getCity() = city
+        fun getPostalCode() = postalCode
+}
