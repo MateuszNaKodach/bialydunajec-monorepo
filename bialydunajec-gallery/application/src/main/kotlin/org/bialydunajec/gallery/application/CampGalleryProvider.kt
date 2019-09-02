@@ -5,8 +5,8 @@ import org.bialydunajec.gallery.application.dto.CampGalleryPhotoDto
 
 interface CampGalleryProvider {
 
-    fun testAddingPhotosFlow()
-    fun getAlbumListByCampEdition(campEditionId: String): List<CampGalleryAlbumDto>
+    fun getAlbumListByCampEdition(campEdition: String): List<CampGalleryAlbumDto>
+    fun getAlbumList(): List<CampGalleryAlbumDto>
     fun getPhotosInAlbum(albumId: String): List<CampGalleryPhotoDto>
     fun createAlbum(albumName: String): CampGalleryAlbumDto
 }

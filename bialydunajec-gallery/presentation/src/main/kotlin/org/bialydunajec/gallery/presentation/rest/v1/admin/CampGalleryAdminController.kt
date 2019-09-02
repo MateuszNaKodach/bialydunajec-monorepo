@@ -10,6 +10,15 @@ internal class CampGalleryAdminController(private val campGalleryProvider: CampG
     @PostMapping
     fun createAlbum(@PathVariable albumName: String) = campGalleryProvider.createAlbum(albumName)
 
-    @GetMapping("/add")
-    fun testAddingPhotos() = campGalleryProvider.testAddingPhotosFlow()
+    // TODO: to implement
+    /*@GetMapping("/add")
+    fun addPhotos() = campGalleryProvider.addPhotos()*/
+
+    @GetMapping("/albums/{campEditionId}")
+    fun getAlbumListByCampEdition(@PathVariable campEditionId: String)
+            = campGalleryProvider.getAlbumListByCampEdition(campEditionId)
+
+    @GetMapping("/albums")
+    fun getAlbumList()
+            = campGalleryProvider.getAlbumList()
 }
