@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory
 import java.io.BufferedReader
 import java.io.File
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 internal class GooglePhotosCredentialService {
 
@@ -82,9 +83,10 @@ internal class GooglePhotosCredentialService {
                         || accessToken.tokenValue.isNullOrEmpty()
                         || Date() > accessToken.expirationTime
 
-        private fun setAccessTokenExpirationDate(expiresInMilliseconds: Long): Date {
+        private fun setAccessTokenExpirationDate(expiresInSeconds: Long): Date {
             val now = Date()
-            return Date(now.time.plus(expiresInMilliseconds))
+            return Date(now.time
+                    .plus(TimeUnit.SECONDS.toMillis(expiresInSeconds)))
         }
 
         private fun refreshToken(refreshTokenValue: String): TokenResponse? =

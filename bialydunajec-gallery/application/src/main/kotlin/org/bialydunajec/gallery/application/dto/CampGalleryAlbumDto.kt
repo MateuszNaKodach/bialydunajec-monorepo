@@ -20,7 +20,7 @@ data class CampGalleryAlbumDto(
         private const val albumHeaderRegex = webAppPrefixRegex + editionPrefixRegex
         private const val albumNameRegex = ".+"
 
-        fun getCampEditionAlbumRegexHeader() =
+        private fun getCampEditionAlbumRegexHeader() =
                 albumHeaderRegex.toRegex()
 
         fun getCampEditionAlbumRegex() =
