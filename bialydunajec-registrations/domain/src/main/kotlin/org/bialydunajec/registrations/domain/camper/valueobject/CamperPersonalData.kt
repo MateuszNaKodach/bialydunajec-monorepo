@@ -12,23 +12,23 @@ import javax.validation.constraints.NotNull
 data class CamperPersonalData constructor(
         @NotNull
         @Embedded
-        val firstName: FirstName,
+        private val firstName: FirstName,
 
         @NotNull
         @Embedded
-        val lastName: LastName,
+        private val lastName: LastName,
 
         @NotBlank
         @Enumerated(EnumType.STRING)
-        val gender: Gender,
+        private val gender: Gender,
 
         @NotNull
         @Embedded
-        val pesel: Pesel? = null,
+        private val pesel: Pesel? = null,
 
         @NotNull
         @Embedded
-        val birthDate: BirthDate? = pesel?.getBirthDate()
+        private val birthDate: BirthDate? = pesel?.getBirthDate()
 ) {
 
     companion object {

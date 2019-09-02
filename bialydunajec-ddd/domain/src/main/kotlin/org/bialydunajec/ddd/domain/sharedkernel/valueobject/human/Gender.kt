@@ -6,9 +6,9 @@ enum class Gender : ValueObject {
     FEMALE,
     MALE;
 
-    val isFemale: Boolean
+    private val isFemale: Boolean
         get() = this == FEMALE
 
-    val isMale: Boolean
+    private val isMale: Boolean
         get() = this == MALE
 }
