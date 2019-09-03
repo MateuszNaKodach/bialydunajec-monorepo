@@ -1,6 +1,7 @@
 package org.bialydunajec.registrations.domain.camper.valueobject
 
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.*
+import java.time.LocalDate
 import javax.persistence.Embeddable
 import javax.persistence.Embedded
 import javax.persistence.EnumType
@@ -12,23 +13,23 @@ import javax.validation.constraints.NotNull
 data class CamperPersonalData constructor(
         @NotNull
         @Embedded
-        private val firstName: FirstName,
+        val firstName: FirstName,
 
         @NotNull
         @Embedded
-        private val lastName: LastName,
+        val lastName: LastName,
 
         @NotBlank
         @Enumerated(EnumType.STRING)
-        private val gender: Gender,
+        val gender: Gender,
 
         @NotNull
         @Embedded
-        private val pesel: Pesel? = null,
+        val pesel: Pesel? = null,
 
         @NotNull
         @Embedded
-        private val birthDate: BirthDate? = pesel?.getBirthDate()
+        val birthDate: BirthDate? = pesel?.getBirthDate()
 ) {
 
     companion object {
@@ -47,10 +48,4 @@ data class CamperPersonalData constructor(
                 birthDate = birthDate
         )
     }
-
-    fun getFirstName() = firstName
-    fun getLastName() = lastName
-    fun getGender() = gender
-    fun getPesel() = pesel
-    fun getBirthDate() = birthDate
 }
