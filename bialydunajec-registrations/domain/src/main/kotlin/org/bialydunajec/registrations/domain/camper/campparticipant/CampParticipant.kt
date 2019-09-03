@@ -133,51 +133,8 @@ class CampParticipant internal constructor(
                     participationStatus = participationStatus
             )
 
-    fun correctCampParticipantData(
-            firstName: String,
-            lastName: String,
-            gender: String,
-            pesel: String,
-            birthDate: LocalDate?,
-            emailAddress: String,
-            phoneNumber: String,
-            postalCode: String,
-            cityName: String,
-            street: String,
-            homeNumber: String,
-            highSchool: String,
-            isHighSchoolRecentGraduate: Boolean,
-            university: String,
-            fieldOfStudy: String,
-            faculty: String
-    ) {
-        this.currentCamperData = currentCamperData.copy(
-                personalData = correctPersonalData(firstName, lastName, gender, pesel, birthDate),
-                homeAddress = correctHomeAddress(postalCode, cityName, street, homeNumber),
-                camperEducation = correctCamperEducation(highSchool, isHighSchoolRecentGraduate, university, fieldOfStudy, faculty),
-                emailAddress = correctEmailAddress(emailAddress),
-                phoneNumber = correctPhoneNumber(phoneNumber))
+    fun correctCampParticipantData(campParticipantData: CamperApplication) {
+        this.currentCamperData = campParticipantData
         registerEvent(CampParticipantEvent.Updated(getAggregateId(), getSnapshot()))
     }
-
-    private fun correctPersonalData(firstName: String, lastName: String, gender: String, pesel: String, birthDate: LocalDate?):CamperPersonalData {
-        return CamperPersonalData(FirstName(firstName), LastName(lastName), Gender.valueOf(gender), Pesel(pesel), BirthDate(birthDate!!))
-    }
-
-    private fun correctHomeAddress(postalCode: String, cityName: String, street: String, homeNumber: String): Address {
-        return Address(Street(street), HomeNumber(homeNumber), CityName(cityName), PostalCode(postalCode))
-    }
-
-    private fun correctCamperEducation(highSchool: String, isHighSchoolRecentGraduate: Boolean, university: String, fieldOfStudy: String, faculty: String): CamperEducation {
-        return CamperEducation(university, faculty, fieldOfStudy, highSchool, isHighSchoolRecentGraduate)
-    }
-
-    private fun correctEmailAddress(emailAddress: String): EmailAddress {
-        return EmailAddress(emailAddress)
-    }
-
-    private fun correctPhoneNumber(phoneNumber: String): PhoneNumber {
-        return PhoneNumber(phoneNumber)
-    }
-
 }

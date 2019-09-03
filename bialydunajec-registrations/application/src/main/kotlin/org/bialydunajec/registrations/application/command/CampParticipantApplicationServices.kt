@@ -35,7 +35,7 @@ internal class CampParticipantRegistrationApplicationService(
     override fun execute(command: CampRegistrationsCommand.RegisterCampParticipantCommand) =
             processingQueue.process(command)
 
-    fun processCommand(command: CampRegistrationsCommand.RegisterCampParticipantCommand){
+    fun processCommand(command: CampRegistrationsCommand.RegisterCampParticipantCommand) {
         campParticipantFactory.createCampParticipant(command.campRegistrationsEditionId, command.camperApplication)
                 .let { campParticipantRepository.save(it) }
                 .also { campParticipant ->
@@ -82,26 +82,8 @@ internal class CorrectCampParticipantRegistrationDataApplicationService(
         val campParticipant = campParticipantRepository.findById(command.campParticipantId)
                 ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.CAMP_PARTICIPANT_MUST_EXISTS_TO_UPDATE_REGISTRATION_DATA)
 
-        with(command.camperApplication) {
-            campParticipant.correctCampParticipantData(
-                    this.personalData.firstName.toString(),
-                    this.personalData.lastName.toString(),
-                    this.personalData.gender.toString(),
-                    this.personalData.pesel.toString(),
-                    this.personalData.birthDate?.toLocalDate(),
-                    this.emailAddress.toString(),
-                    this.phoneNumber.toString(),
-                    this.homeAddress.postalCode.toString(),
-                    this.homeAddress.city.toString(),
-                    this.homeAddress.street.toString(),
-                    this.homeAddress.homeNumber.toString(),
-                    this.camperEducation.getHighSchool().toString(),
-                    this.camperEducation.getIsHighSchoolRecentGraduate(),
-                    this.camperEducation.getUniversity(),
-                    this.camperEducation.getFieldOfStudy(),
-                    this.camperEducation.getFaculty()
-            )
-            campParticipantRepository.save(campParticipant)
-        }
+        campParticipant.correctCampParticipantData(command.camperApplication)
+
+        campParticipantRepository.save(campParticipant)
     }
 }
