@@ -57,4 +57,23 @@ internal class CampParticipantDomainEventsPropagator(
             )
         }
     }
+
+    @Async
+    @TransactionalEventListener
+    fun handleDomainEvent(domainEvent: CampParticipantEvent.Updated) {
+        with(domainEvent) {
+            externalEventBus.send(
+                    CampParticipantExternalEvent.CampParticipantUpdated(
+                            aggregateId.toString(),
+                            with(domainEvent.snapshot){
+                                CampParticipantDto.from(
+                                        this,
+                                        confirmedApplication?.let { cottageRepository.findById(it.cottageId)?.getSnapshot() },
+                                        currentCamperData.let { cottageRepository.findById(it.cottageId)!!.getSnapshot() }
+                                )
+                            }
+                    )
+            )
+        }
+    }
 }
