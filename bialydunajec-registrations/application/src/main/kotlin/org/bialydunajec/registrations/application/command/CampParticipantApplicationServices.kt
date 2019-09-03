@@ -16,6 +16,7 @@ import org.bialydunajec.registrations.domain.shirt.CampEditionShirtRepository
 import org.bialydunajec.registrations.domain.shirt.ShirtOrderRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDate
 
 @Transactional
 @Service
@@ -83,20 +84,22 @@ internal class CorrectCampParticipantRegistrationDataApplicationService(
 
         with(command.camperApplication) {
             campParticipant.correctCampParticipantData(
-                    this.personalData.firstName.firstName,
-                    this.personalData.lastName.lastName,
-                    Pesel(this.personalData.pesel.toString()),
-                    this.emailAddress.email,
-                    this.phoneNumber.number,
-                    this.homeAddress.postalCode?.postalCode.let { it.toString() },
-                    this.homeAddress.city?.city.let { it.toString() },
-                    this.homeAddress.street?.street.let { it.toString() },
-                    this.homeAddress.homeNumber?.homeNumber.let { it.toString() },
-                    this.camperEducation.highSchool.toString(),
-                    this.camperEducation.isHighSchoolRecentGraduate,
-                    this.camperEducation.university,
-                    this.camperEducation.fieldOfStudy,
-                    this.camperEducation.faculty
+                    this.personalData.firstName.toString(),
+                    this.personalData.lastName.toString(),
+                    this.personalData.gender.toString(),
+                    this.personalData.pesel.toString(),
+                    this.personalData.birthDate?.toLocalDate(),
+                    this.emailAddress.toString(),
+                    this.phoneNumber.toString(),
+                    this.homeAddress.postalCode.toString(),
+                    this.homeAddress.city.toString(),
+                    this.homeAddress.street.toString(),
+                    this.homeAddress.homeNumber.toString(),
+                    this.camperEducation.getHighSchool().toString(),
+                    this.camperEducation.getIsHighSchoolRecentGraduate(),
+                    this.camperEducation.getUniversity(),
+                    this.camperEducation.getFieldOfStudy(),
+                    this.camperEducation.getFaculty()
             )
             campParticipantRepository.save(campParticipant)
         }

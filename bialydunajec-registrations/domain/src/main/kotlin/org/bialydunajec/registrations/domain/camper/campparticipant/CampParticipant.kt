@@ -9,6 +9,7 @@ import org.bialydunajec.ddd.domain.sharedkernel.valueobject.location.*
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
 import org.bialydunajec.registrations.domain.camper.valueobject.*
 import org.bialydunajec.registrations.domain.cottage.Cottage
+import java.time.LocalDate
 import javax.persistence.*
 import javax.validation.constraints.NotNull
 
@@ -135,7 +136,9 @@ class CampParticipant internal constructor(
     fun correctCampParticipantData(
             firstName: String,
             lastName: String,
-            pesel: Pesel,
+            gender: String,
+            pesel: String,
+            birthDate: LocalDate?,
             emailAddress: String,
             phoneNumber: String,
             postalCode: String,
@@ -149,7 +152,7 @@ class CampParticipant internal constructor(
             faculty: String
     ) {
         this.currentCamperData = currentCamperData.copy(
-                personalData = correctPersonalData(firstName, lastName, pesel),
+                personalData = correctPersonalData(firstName, lastName, gender, pesel, birthDate),
                 homeAddress = correctHomeAddress(postalCode, cityName, street, homeNumber),
                 camperEducation = correctCamperEducation(highSchool, isHighSchoolRecentGraduate, university, fieldOfStudy, faculty),
                 emailAddress = correctEmailAddress(emailAddress),
@@ -157,13 +160,8 @@ class CampParticipant internal constructor(
         registerEvent(CampParticipantEvent.Updated(getAggregateId(), getSnapshot()))
     }
 
-    fun correctCampParticipantData(campParticipantData: CamperApplication) {
-        this.currentCamperData = campParticipantData
-        registerEvent(CampParticipantEvent.Confirmed(getAggregateId(), getSnapshot()))
-    }
-
-    private fun correctPersonalData(firstName: String, lastName: String, pesel: Pesel):CamperPersonalData {
-        return CamperPersonalData(FirstName(firstName), LastName(lastName), pesel.getGender(), pesel, pesel.getBirthDate())
+    private fun correctPersonalData(firstName: String, lastName: String, gender: String, pesel: String, birthDate: LocalDate?):CamperPersonalData {
+        return CamperPersonalData(FirstName(firstName), LastName(lastName), Gender.valueOf(gender), Pesel(pesel), BirthDate(birthDate!!))
     }
 
     private fun correctHomeAddress(postalCode: String, cityName: String, street: String, homeNumber: String): Address {
