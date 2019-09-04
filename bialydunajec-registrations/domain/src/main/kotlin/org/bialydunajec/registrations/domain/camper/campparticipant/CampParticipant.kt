@@ -105,7 +105,7 @@ class CampParticipant internal constructor(
 
     fun unregisterByAuthorized() {
         this.participationStatus = ParticipationStatus.UNREGISTERED_BY_AUTHORIZED
-        registerEvent(CampParticipantEvent.Unregistered(getAggregateId(), getSnapshot()))
+        registerEvent(CampParticipantEvent.UnregisteredByAuthorized(getAggregateId(), getSnapshot()))
     }
 
     fun correctRegistrationData() {

@@ -14,12 +14,12 @@ sealed class CampParticipantEvent : DomainEvent<CampParticipantId> {
             val snapshot: CampParticipantSnapshot
     ) : CampParticipantEvent()
 
-    data class Unregistered(
+    data class Updated(
             override val aggregateId: CampParticipantId,
             val snapshot: CampParticipantSnapshot
     ) : CampParticipantEvent()
 
-    data class Updated(
+    data class UnregisteredByAuthorized(
             override val aggregateId: CampParticipantId,
             val snapshot: CampParticipantSnapshot
     ) : CampParticipantEvent()

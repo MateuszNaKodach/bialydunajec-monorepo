@@ -1,6 +1,7 @@
 package org.bialydunajec.registrations.infrastructure.shirt
 
 import org.bialydunajec.ddd.infrastructure.base.persistence.AbstractDomainRepositoryImpl
+import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantId
 import org.bialydunajec.registrations.domain.shirt.*
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable
@@ -14,6 +15,10 @@ internal class ShirtOrderRepositoryImpl(
         jpaRepository: ShirtOrderJpaRepository
 ) : AbstractDomainRepositoryImpl<ShirtOrder, ShirtOrderId, ShirtOrderJpaRepository>(jpaRepository),
         ShirtOrderRepository {
+
+    override fun findByCampParticipantId(campParticipantId: CampParticipantId) =
+        jpaRepository.findByCampParticipantId(campParticipantId)
+
 
     @Cacheable(cacheNames = [SHIRT_ORDER_CACHE], key = "{#root.methodName,#aggregateId}")
     override fun findById(aggregateId: ShirtOrderId): ShirtOrder? =
@@ -29,4 +34,5 @@ internal class ShirtOrderRepositoryImpl(
 }
 
 internal interface ShirtOrderJpaRepository : JpaRepository<ShirtOrder, ShirtOrderId> {
+    fun findByCampParticipantId(campParticipantId: CampParticipantId): ShirtOrder?
 }

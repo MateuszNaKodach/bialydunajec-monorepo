@@ -21,4 +21,9 @@ sealed class CampParticipantExternalEvent {
             val snapshot: CampParticipantDto
     ) : CampParticipantExternalEvent()
 
+
+    data class CampParticipantUnregisteredByAuthorized(
+            val campParticipantId: String,
+            val snapshot: CampParticipantDto
+    ) : CampParticipantExternalEvent()
 }
