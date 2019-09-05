@@ -12,5 +12,10 @@ internal class CampGalleryController(private val campGalleryProvider: CampGaller
             = campGalleryProvider.getAlbumListByCampEdition(campEditionId)
 
     @GetMapping("/album/{albumId}")
-    fun getPhotosInAlbum(@PathVariable albumId: String) = campGalleryProvider.getPhotosInAlbum(albumId)
+    fun getFirstPagePhotosInAlbum(@PathVariable albumId: String)
+            = campGalleryProvider.getFirstPagePhotosInAlbum(albumId)
+
+    @GetMapping("/album/{albumId}/remaining")
+    fun getRemainingPhotosInAlbum(@PathVariable albumId: String)
+            = campGalleryProvider.getRemainingPhotosInAlbum(albumId)
 }

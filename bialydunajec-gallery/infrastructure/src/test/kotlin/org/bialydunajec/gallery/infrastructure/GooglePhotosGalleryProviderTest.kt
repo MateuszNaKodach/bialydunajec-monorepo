@@ -51,7 +51,7 @@ object GooglePhotosGalleryProviderTest: Spek( {
 
             lateinit var result: List<CampGalleryPhotoDto>
             When("Download photos stored in album") {
-                result = googlePhotosGalleryProvider.getPhotosInAlbum(albumId)
+                result = googlePhotosGalleryProvider.getRemainingPhotosInAlbum(albumId)
             }
 
             Then("Should invoke client method with albumId parameter and close connection") {
@@ -80,7 +80,7 @@ object GooglePhotosGalleryProviderTest: Spek( {
 
             lateinit var result: List<CampGalleryPhotoDto>
             When("Try download photos stored in album") {
-                result = googlePhotosGalleryProvider.getPhotosInAlbum(albumId)
+                result = googlePhotosGalleryProvider.getRemainingPhotosInAlbum(albumId)
             }
 
             Then("Should invoke client method with albumId parameter and close connection") {

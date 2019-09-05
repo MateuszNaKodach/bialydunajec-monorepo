@@ -7,9 +7,12 @@ import org.bialydunajec.gallery.application.CampGalleryProvider
 import org.bialydunajec.gallery.application.dto.CampGalleryAlbumDto
 import org.bialydunajec.gallery.application.dto.CampGalleryAlbumDto.Companion.getCampEditionAlbumRegex
 import org.bialydunajec.gallery.application.dto.CampGalleryAlbumDto.Companion.mapTitleToDisplayVersion
+import org.bialydunajec.gallery.application.dto.CampGalleryPhotosFirstPageDto
 import org.bialydunajec.gallery.application.dto.CampGalleryPhotoDto
 import org.bialydunajec.gallery.infrastructure.extensions.toCampGalleryAlbumDto
 import org.bialydunajec.gallery.infrastructure.extensions.toCampGalleryPhotoDto
+import org.bialydunajec.gallery.infrastructure.utils.GooglePhotosClientService
+import org.bialydunajec.gallery.infrastructure.utils.GooglePhotosClientService.Companion.buildSearchMediaItemsRequest
 import org.bialydunajec.gallery.infrastructure.utils.GooglePhotosClientService.Companion.buildUploadRequest
 import org.bialydunajec.gallery.infrastructure.utils.GooglePhotosClientService.Companion.examineBatchCreateMediaItemResponse
 import org.bialydunajec.gallery.infrastructure.utils.GooglePhotosCredentialService
@@ -42,9 +45,7 @@ open class GooglePhotosGalleryProvider(private val refreshToken: String,
             listAlbums()
                     .iterateAll()
                     .filter { album -> getCampEditionAlbumRegex().matches(album.title) }
-                    .map { album -> album.toCampGalleryAlbumDto()
-                            .also { albumDto -> log.info(albumDto.title) }
-                    }
+                    .map { album -> album.toCampGalleryAlbumDto() }
          }
 
     @CacheEvict(cacheNames = [GOOGLE_PHOTOS_ALBUMS_SPRING_CACHE, GOOGLE_PHOTOS_EDITION_ALBUMS_SPRING_CACHE],
@@ -55,14 +56,27 @@ open class GooglePhotosGalleryProvider(private val refreshToken: String,
         getAlbumList()
     }
 
-    override fun getPhotosInAlbum(albumId: String): List<CampGalleryPhotoDto> =
+    override fun getFirstPagePhotosInAlbum(albumId: String): CampGalleryPhotosFirstPageDto =
+        GooglePhotosCredentialService.execute {
+            val pagedResponse
+                    = searchMediaItems(buildSearchMediaItemsRequest(albumId, isFirstPage = true))
+
+            GooglePhotosClientService.nextPhotosPageToken = pagedResponse.nextPageToken
+
+            CampGalleryPhotosFirstPageDto(
+                    pagedResponse.expandToFixedSizeCollection(9).values
+                            .filter { mediaItem -> getMediaItemPhotoRegex().matches(mediaItem.mimeType) }
+                            .map { mediaItem -> mediaItem.toCampGalleryPhotoDto() },
+                    areRemainingPhotos = pagedResponse.nextPageToken.isNotEmpty()
+            )
+        }
+
+    override fun getRemainingPhotosInAlbum(albumId: String): List<CampGalleryPhotoDto> =
             GooglePhotosCredentialService.execute {
-                searchMediaItems(albumId)
+                searchMediaItems(buildSearchMediaItemsRequest(albumId, isFirstPage = false))
                         .iterateAll()
                         .filter { mediaItem -> getMediaItemPhotoRegex().matches(mediaItem.mimeType) }
-                        .map { mediaItem -> mediaItem.toCampGalleryPhotoDto()
-                                .also { photo -> log.info(photo.id) }
-                        }
+                        .map { mediaItem -> mediaItem.toCampGalleryPhotoDto() }
             }
 
     override fun createAlbum(albumName: String): CampGalleryAlbumDto =

@@ -9,13 +9,29 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.RandomAccessFile
 import com.google.photos.library.v1.proto.MediaTypeFilter
-
+import com.google.photos.library.v1.proto.SearchMediaItemsRequest
 
 
 class GooglePhotosClientService {
 
     companion object {
         private val log: Logger = LoggerFactory.getLogger(this::class.java)
+        lateinit var nextPhotosPageToken: String
+
+        fun buildSearchMediaItemsRequest(albumId: String, isFirstPage: Boolean): SearchMediaItemsRequest =
+            if (isFirstPage) {
+                SearchMediaItemsRequest.newBuilder()
+                        .setAlbumId(albumId)
+                        .setPageSize(9)
+                        .build()
+            } else {
+                SearchMediaItemsRequest.newBuilder()
+                        .setAlbumId(albumId)
+                        .setPageSize(9)
+                        .setPageToken(nextPhotosPageToken)
+                        .build()
+            }
+
 
         // Create a new upload request
         // Specify the filename that will be shown to the user in Google Photos
