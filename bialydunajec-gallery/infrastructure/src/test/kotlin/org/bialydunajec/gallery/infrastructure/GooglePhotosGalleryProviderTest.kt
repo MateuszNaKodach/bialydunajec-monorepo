@@ -10,8 +10,7 @@ import com.google.photos.types.proto.Album
 import com.google.photos.types.proto.MediaItem
 import io.grpc.Status
 import io.mockk.*
-import io.mockk.impl.annotations.InjectMockKs
-import org.assertj.core.api.Assertions.*
+import org.assertj.core.api.Assertions.assertThat
 import org.bialydunajec.gallery.application.dto.CampGalleryAlbumDto
 import org.bialydunajec.gallery.application.dto.CampGalleryPhotoDto
 import org.bialydunajec.gallery.application.dto.CampGalleryPhotosFirstPageDto
@@ -27,14 +26,11 @@ import org.spekframework.spek2.style.gherkin.Feature
 var thrown: ExpectedException = ExpectedException.none()
 
 object GooglePhotosGalleryProviderTest: Spek( {
-    @InjectMockKs
-    val googlePhotosConnectionService: GooglePhotosConnectionService
-
     Feature("Fetching first page photos") {
-
-        mockkObject(GooglePhotosClientService)
+        val googlePhotosConnectionService by memoized { mockk<GooglePhotosConnectionService>( relaxed = true ) }
         val googlePhotosGalleryProvider
-                by memoized { GooglePhotosGalleryProvider() }
+                by memoized {  GooglePhotosGalleryProvider(googlePhotosConnectionService) }
+        mockkObject(GooglePhotosClientService)
         val photosLibraryClient by memoized { mockk<PhotosLibraryClient>( relaxed = true ) }
         val albumId = "albumId"
         val pageSize = 9
@@ -133,9 +129,10 @@ object GooglePhotosGalleryProviderTest: Spek( {
     }
 
     Feature("Fetching rest of photos stored in album") {
+        val googlePhotosConnectionService by memoized { mockk<GooglePhotosConnectionService>( relaxed = true ) }
         mockkObject(GooglePhotosClientService)
         val googlePhotosGalleryProvider
-                by memoized { GooglePhotosGalleryProvider() }
+                by memoized { GooglePhotosGalleryProvider(googlePhotosConnectionService) }
         val photosLibraryClient by memoized { mockk<PhotosLibraryClient>( relaxed = true ) }
         val albumId = "albumId"
         val nextPageToken = "nextPageToken"
@@ -236,8 +233,9 @@ object GooglePhotosGalleryProviderTest: Spek( {
     }
 
     Feature("Fetching information of albums in google gallery"){
-      val googlePhotosGalleryProvider
-                by memoized { GooglePhotosGalleryProvider() }
+        val googlePhotosConnectionService by memoized { mockk<GooglePhotosConnectionService>( relaxed = true ) }
+        val googlePhotosGalleryProvider
+                by memoized { GooglePhotosGalleryProvider(googlePhotosConnectionService) }
         mockkObject(CampGalleryAlbumDto)
         val photosLibraryClient by memoized { mockk<PhotosLibraryClient>( relaxed = true ) }
 

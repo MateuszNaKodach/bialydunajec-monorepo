@@ -18,7 +18,6 @@ import org.bialydunajec.gallery.infrastructure.utils.GooglePhotosClientService.C
 import org.bialydunajec.gallery.infrastructure.utils.GooglePhotosConnectionService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.scheduling.annotation.Scheduled
@@ -26,13 +25,12 @@ import org.springframework.scheduling.annotation.Scheduled
 const val GOOGLE_PHOTOS_ALBUMS_SPRING_CACHE = "org.bialydunajec.gallery.GOOGLE_PHOTOS_ALBUMS_SPRING_CACHE"
 const val GOOGLE_PHOTOS_EDITION_ALBUMS_SPRING_CACHE = "org.bialydunajec.gallery.GOOGLE_PHOTOS_EDITION_ALBUMS_SPRING_CACHE"
 
-open class GooglePhotosGalleryProvider: CampGalleryProvider{
+open class GooglePhotosGalleryProvider (
+        private val googlePhotosConnectionService: GooglePhotosConnectionService
+) : CampGalleryProvider{
 
     private val log: Logger = LoggerFactory.getLogger(GooglePhotosGalleryProvider::class.java)
     private val mediaItemPhotoRegex = "image/.+".toRegex()
-
-    @Autowired
-    private lateinit var googlePhotosConnectionService: GooglePhotosConnectionService
 
     @Cacheable(cacheNames = [GOOGLE_PHOTOS_EDITION_ALBUMS_SPRING_CACHE], key = "{#root.methodName, #campEdition}")
     override fun getAlbumListByCampEdition(campEdition: String): List<CampGalleryAlbumDto> =
