@@ -1,9 +1,9 @@
 package org.bialydunajec.gallery.infrastructure
 
 import org.bialydunajec.gallery.domain.CampEditionGalleryRepository
-import org.bialydunajec.gallery.infrastructure.utils.GooglePhotosCredentialService
+import org.bialydunajec.gallery.infrastructure.utils.GooglePhotosConnectionService
 
 internal class GooglePhotosCampEditionGalleryRepository(
-        private val googlePhotosCredentialService: GooglePhotosCredentialService
+        private val googlePhotosConnectionService: GooglePhotosConnectionService
 ) : CampEditionGalleryRepository {
 }

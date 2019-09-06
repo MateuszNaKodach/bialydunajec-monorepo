@@ -10,12 +10,13 @@ import com.google.photos.types.proto.Album
 import com.google.photos.types.proto.MediaItem
 import io.grpc.Status
 import io.mockk.*
+import io.mockk.impl.annotations.InjectMockKs
 import org.assertj.core.api.Assertions.*
 import org.bialydunajec.gallery.application.dto.CampGalleryAlbumDto
 import org.bialydunajec.gallery.application.dto.CampGalleryPhotoDto
 import org.bialydunajec.gallery.application.dto.CampGalleryPhotosFirstPageDto
 import org.bialydunajec.gallery.infrastructure.utils.GooglePhotosClientService
-import org.bialydunajec.gallery.infrastructure.utils.GooglePhotosCredentialService
+import org.bialydunajec.gallery.infrastructure.utils.GooglePhotosConnectionService
 import org.junit.Rule
 import org.junit.rules.ExpectedException
 import org.mockito.ArgumentMatchers
@@ -26,14 +27,14 @@ import org.spekframework.spek2.style.gherkin.Feature
 var thrown: ExpectedException = ExpectedException.none()
 
 object GooglePhotosGalleryProviderTest: Spek( {
+    @InjectMockKs
+    val googlePhotosConnectionService: GooglePhotosConnectionService
 
     Feature("Fetching first page photos") {
-        val refreshToken = "rT"
-        val credentialsJsonPath = "cJP"
-        mockkObject(GooglePhotosCredentialService)
+
         mockkObject(GooglePhotosClientService)
         val googlePhotosGalleryProvider
-                by memoized { GooglePhotosGalleryProvider(refreshToken, credentialsJsonPath) }
+                by memoized { GooglePhotosGalleryProvider() }
         val photosLibraryClient by memoized { mockk<PhotosLibraryClient>( relaxed = true ) }
         val albumId = "albumId"
         val pageSize = 9
@@ -46,7 +47,7 @@ object GooglePhotosGalleryProviderTest: Spek( {
             val nextPageToken = "nextPageToken"
             val searchMediaItemsPagedResponse = mockk<SearchMediaItemsPagedResponse>( relaxed = true )
             Given("Mock initialize connection"){
-                every{ GooglePhotosCredentialService.initApiConnection(any(),any()) } returns photosLibraryClient
+                every{ googlePhotosConnectionService.initApiConnection() } returns photosLibraryClient
             }
             And("Api returns response with page token") {
                 every { searchMediaItemsPagedResponse.nextPageToken } answers { nextPageToken }
@@ -77,12 +78,12 @@ object GooglePhotosGalleryProviderTest: Spek( {
                 assertThat(result.campGalleryPhotoDtos.size).isLessThanOrEqualTo(pageSize)
             }
             And("Should invoke client method with albumId parameter and close connection") {
-                verify { GooglePhotosCredentialService.initApiConnection(any(), any())}
+                verify { googlePhotosConnectionService.initApiConnection()}
                 verify { photosLibraryClient.searchMediaItems(searchMediaItemsRequest) }
                 verify { photosLibraryClient.close() }
                 verify { searchMediaItemsPagedResponse.getNextPageToken() }
                 verify { searchMediaItemsPagedResponse.expandToFixedSizeCollection(pageSize) }
-                confirmVerified(photosLibraryClient, searchMediaItemsPagedResponse, GooglePhotosCredentialService)
+                confirmVerified(photosLibraryClient, searchMediaItemsPagedResponse, googlePhotosConnectionService)
             }
         }
 
@@ -90,7 +91,7 @@ object GooglePhotosGalleryProviderTest: Spek( {
             val emptyNextPageToken = ""
             val searchMediaItemsPagedResponse = mockk<SearchMediaItemsPagedResponse>( relaxed = true )
             Given("Mock initialize connection"){
-                every{ GooglePhotosCredentialService.initApiConnection(any(),any()) } returns photosLibraryClient
+                every{ googlePhotosConnectionService.initApiConnection() } returns photosLibraryClient
             }
             And("Api returns response with empty page token") {
                 every { searchMediaItemsPagedResponse.nextPageToken } answers { emptyNextPageToken }
@@ -121,23 +122,20 @@ object GooglePhotosGalleryProviderTest: Spek( {
                 assertThat(result.campGalleryPhotoDtos.size).isLessThanOrEqualTo(pageSize)
             }
             And("Should invoke client method with albumId parameter and close connection") {
-                verify { GooglePhotosCredentialService.initApiConnection(any(), any())}
+                verify { googlePhotosConnectionService.initApiConnection()}
                 verify { photosLibraryClient.searchMediaItems(searchMediaItemsRequest) }
                 verify { photosLibraryClient.close() }
                 verify { searchMediaItemsPagedResponse.getNextPageToken() }
                 verify { searchMediaItemsPagedResponse.expandToFixedSizeCollection(pageSize) }
-                confirmVerified(photosLibraryClient, searchMediaItemsPagedResponse, GooglePhotosCredentialService)
+                confirmVerified(photosLibraryClient, searchMediaItemsPagedResponse, googlePhotosConnectionService)
             }
         }
     }
 
     Feature("Fetching rest of photos stored in album") {
-        val refreshToken = "rT"
-        val credentialsJsonPath = "cJP"
-        mockkObject(GooglePhotosCredentialService)
         mockkObject(GooglePhotosClientService)
         val googlePhotosGalleryProvider
-                by memoized { GooglePhotosGalleryProvider(refreshToken, credentialsJsonPath) }
+                by memoized { GooglePhotosGalleryProvider() }
         val photosLibraryClient by memoized { mockk<PhotosLibraryClient>( relaxed = true ) }
         val albumId = "albumId"
         val nextPageToken = "nextPageToken"
@@ -150,7 +148,7 @@ object GooglePhotosGalleryProviderTest: Spek( {
             lateinit var searchMediaItemsRequest: SearchMediaItemsRequest
 
             Given("Mock initialize connection"){
-                every{ GooglePhotosCredentialService.initApiConnection(any(),any()) } returns photosLibraryClient
+                every{ googlePhotosConnectionService.initApiConnection() } returns photosLibraryClient
             }
             And("Next page token is initialized") {
                 every { GooglePhotosClientService.nextPhotosPageToken } answers {nextPageToken}
@@ -178,11 +176,11 @@ object GooglePhotosGalleryProviderTest: Spek( {
             }
 
             Then("Should invoke client method with albumId parameter and close connection") {
-                verify { GooglePhotosCredentialService.initApiConnection(any(), any())}
+                verify { googlePhotosConnectionService.initApiConnection()}
                 verify { photosLibraryClient.searchMediaItems(searchMediaItemsRequest) }
                 verify { photosLibraryClient.close() }
                 verify { searchMediaItemsPagedResponse.iterateAll() }
-                confirmVerified(photosLibraryClient, searchMediaItemsPagedResponse, GooglePhotosCredentialService)
+                confirmVerified(photosLibraryClient, searchMediaItemsPagedResponse, googlePhotosConnectionService)
             }
             And("Result should has one photo") {
                 assertThat(result.size).isEqualTo(1)
@@ -194,7 +192,7 @@ object GooglePhotosGalleryProviderTest: Spek( {
             lateinit var searchMediaItemsRequest: SearchMediaItemsRequest
             val myMessage = "myMessage"
             Given("Mock initialize connection") {
-                every { GooglePhotosCredentialService.initApiConnection(any(), any()) } returns photosLibraryClient
+                every { googlePhotosConnectionService.initApiConnection() } returns photosLibraryClient
             }
             And("Next page token is initialized") {
                 every { GooglePhotosClientService.nextPhotosPageToken } answers {nextPageToken}
@@ -225,10 +223,10 @@ object GooglePhotosGalleryProviderTest: Spek( {
             }
 
             Then("Should invoke client method with albumId parameter and close connection") {
-                verify { GooglePhotosCredentialService.initApiConnection(any(), any())}
+                verify { googlePhotosConnectionService.initApiConnection()}
                 verify { photosLibraryClient.searchMediaItems(searchMediaItemsRequest) }
                 verify { photosLibraryClient.close() }
-                confirmVerified(photosLibraryClient, GooglePhotosCredentialService)
+                confirmVerified(photosLibraryClient, googlePhotosConnectionService)
             }
             And("Exception should be thrown and result be empty") {
 
@@ -238,11 +236,8 @@ object GooglePhotosGalleryProviderTest: Spek( {
     }
 
     Feature("Fetching information of albums in google gallery"){
-        val refreshToken = "rT"
-        val credentialsJsonPath = "cJP"
-        mockkObject(GooglePhotosCredentialService)
-        val googlePhotosGalleryProvider
-                by memoized { GooglePhotosGalleryProvider(refreshToken, credentialsJsonPath) }
+      val googlePhotosGalleryProvider
+                by memoized { GooglePhotosGalleryProvider() }
         mockkObject(CampGalleryAlbumDto)
         val photosLibraryClient by memoized { mockk<PhotosLibraryClient>( relaxed = true ) }
 
@@ -254,7 +249,7 @@ object GooglePhotosGalleryProviderTest: Spek( {
             val listAlbumsPagedResponse = mockk<ListAlbumsPagedResponse>( relaxed = true)
 
             Given("Mock initialize connection"){
-                every { GooglePhotosCredentialService.initApiConnection(any(), any()) } returns photosLibraryClient
+                every { googlePhotosConnectionService.initApiConnection() } returns photosLibraryClient
             }
             And("Api returns hidden and published album") {
                 every { photosLibraryClient.listAlbums() } returns listAlbumsPagedResponse
@@ -272,11 +267,11 @@ object GooglePhotosGalleryProviderTest: Spek( {
             }
 
             Then("Should invoke client method and close connection") {
-                verify { GooglePhotosCredentialService.initApiConnection(any(), any())}
+                verify { googlePhotosConnectionService.initApiConnection()}
                 verify(exactly = 1) { photosLibraryClient.listAlbums() }
                 verify(exactly = 1) { photosLibraryClient.close() }
                 verify { listAlbumsPagedResponse.iterateAll() }
-                confirmVerified(photosLibraryClient, listAlbumsPagedResponse, GooglePhotosCredentialService)
+                confirmVerified(photosLibraryClient, listAlbumsPagedResponse, googlePhotosConnectionService)
             }
             And("Result should has published album") {
                 assertThat(result.size).isEqualTo(1)
@@ -298,7 +293,7 @@ object GooglePhotosGalleryProviderTest: Spek( {
             val listAlbumsPagedResponse = mockk<ListAlbumsPagedResponse>( relaxed = true)
 
             Given("Mock initialize connection"){
-                every { GooglePhotosCredentialService.initApiConnection(any(), any()) } returns photosLibraryClient
+                every { googlePhotosConnectionService.initApiConnection() } returns photosLibraryClient
             }
             And("Api returns 2 published albums of different editions") {
                 every { photosLibraryClient.listAlbums() } returns listAlbumsPagedResponse
@@ -315,11 +310,11 @@ object GooglePhotosGalleryProviderTest: Spek( {
             }
 
             Then("Should invoke client method and close connection") {
-                verify { GooglePhotosCredentialService.initApiConnection(any(), any())}
+                verify { googlePhotosConnectionService.initApiConnection()}
                 verify(exactly = 1) { photosLibraryClient.listAlbums() }
                 verify(exactly = 1) { photosLibraryClient.close() }
                 verify { listAlbumsPagedResponse.iterateAll() }
-                confirmVerified(photosLibraryClient, listAlbumsPagedResponse, GooglePhotosCredentialService)
+                confirmVerified(photosLibraryClient, listAlbumsPagedResponse, googlePhotosConnectionService)
             }
             And("Result should has album from 36 edition") {
                 assertThat(result.size).isEqualTo(1)
