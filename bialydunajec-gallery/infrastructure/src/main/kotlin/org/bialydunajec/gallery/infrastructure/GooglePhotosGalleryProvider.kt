@@ -18,29 +18,32 @@ import org.bialydunajec.gallery.infrastructure.utils.GooglePhotosClientService.C
 import org.bialydunajec.gallery.infrastructure.utils.GooglePhotosCredentialService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable
+import org.springframework.context.annotation.Bean
 import org.springframework.scheduling.annotation.Scheduled
 
 const val GOOGLE_PHOTOS_ALBUMS_SPRING_CACHE = "org.bialydunajec.gallery.GOOGLE_PHOTOS_ALBUMS_SPRING_CACHE"
 const val GOOGLE_PHOTOS_EDITION_ALBUMS_SPRING_CACHE = "org.bialydunajec.gallery.GOOGLE_PHOTOS_EDITION_ALBUMS_SPRING_CACHE"
 
-open class GooglePhotosGalleryProvider(private val refreshToken: String,
-                                       private val credentialsJsonPath: String)
-    : CampGalleryProvider{
+open class GooglePhotosGalleryProvider: CampGalleryProvider{
 
-    private val log: Logger = LoggerFactory.getLogger(this.javaClass)
+    private val log: Logger = LoggerFactory.getLogger(GooglePhotosGalleryProvider::class.java)
+    private val mediaItemPhotoRegex = "image/.+".toRegex()
 
-    @Cacheable(cacheNames = [GOOGLE_PHOTOS_EDITION_ALBUMS_SPRING_CACHE], key = "{#root.methodName}")
+    @Autowired
+    private lateinit var googlePhotosCredentialService: GooglePhotosCredentialService
+
+    @Cacheable(cacheNames = [GOOGLE_PHOTOS_EDITION_ALBUMS_SPRING_CACHE], key = "{#root.methodName, #campEdition}")
     override fun getAlbumListByCampEdition(campEdition: String): List<CampGalleryAlbumDto> =
             getAlbumList()
-                    .filter { album ->
-                        getCampEditionAlbumRegex(campEdition).matches(album.title) }
+                    .filter { album -> getCampEditionAlbumRegex(campEdition).matches(album.title) }
                     .map { album -> mapTitleToDisplayVersion(album) }
 
     @Cacheable(cacheNames = [GOOGLE_PHOTOS_ALBUMS_SPRING_CACHE], key = "{#root.methodName}")
     override fun getAlbumList(): List<CampGalleryAlbumDto> =
-         GooglePhotosCredentialService.execute {
+         googlePhotosCredentialService.execute {
             log.info("Downloading google photos albums...")
             listAlbums()
                     .iterateAll()
@@ -57,7 +60,7 @@ open class GooglePhotosGalleryProvider(private val refreshToken: String,
     }
 
     override fun getFirstPagePhotosInAlbum(albumId: String): CampGalleryPhotosFirstPageDto =
-        GooglePhotosCredentialService.execute {
+        googlePhotosCredentialService.execute {
             val pagedResponse
                     = searchMediaItems(buildSearchMediaItemsRequest(albumId, isFirstPage = true))
 
@@ -65,50 +68,45 @@ open class GooglePhotosGalleryProvider(private val refreshToken: String,
 
             CampGalleryPhotosFirstPageDto(
                     pagedResponse.expandToFixedSizeCollection(9).values
-                            .filter { mediaItem -> getMediaItemPhotoRegex().matches(mediaItem.mimeType) }
+                            .filter { mediaItem -> mediaItemPhotoRegex.matches(mediaItem.mimeType) }
                             .map { mediaItem -> mediaItem.toCampGalleryPhotoDto() },
                     areRemainingPhotos = pagedResponse.nextPageToken.isNotEmpty()
             )
         }
 
     override fun getRemainingPhotosInAlbum(albumId: String): List<CampGalleryPhotoDto> =
-            GooglePhotosCredentialService.execute {
+            googlePhotosCredentialService.execute {
                 searchMediaItems(buildSearchMediaItemsRequest(albumId, isFirstPage = false))
                         .iterateAll()
-                        .filter { mediaItem -> getMediaItemPhotoRegex().matches(mediaItem.mimeType) }
+                        .filter { mediaItem -> mediaItemPhotoRegex.matches(mediaItem.mimeType) }
                         .map { mediaItem -> mediaItem.toCampGalleryPhotoDto() }
             }
 
     override fun createAlbum(albumName: String): CampGalleryAlbumDto =
-            GooglePhotosCredentialService.execute {
+            googlePhotosCredentialService.execute {
                 val createdAlbum = createAlbum(albumName)
                 log.info("Created album with id: ${createdAlbum.id}")
                 createdAlbum.toCampGalleryAlbumDto()
             }
 
-
-    private fun <T> GooglePhotosCredentialService.Companion.execute(block: PhotosLibraryClient.() -> T) =
-            initApiConnection(refreshToken, credentialsJsonPath).use {
+    private fun <T> GooglePhotosCredentialService.execute(block: PhotosLibraryClient.() -> T) =
+            initApiConnection().use {
                 block(it)
             }
 
     // TODO: add endpoint
     private fun uploadRawBytesToGoogleServer(mediaFileName: String, pathToFile: String): UploadMediaItemResponse =
-            GooglePhotosCredentialService.execute {
+            googlePhotosCredentialService.execute {
                 val uploadRequest = buildUploadRequest(mediaFileName, pathToFile)
                 uploadMediaItem(uploadRequest)
             }
 
     // TODO: add endpoint
     private fun createMediaItemsInAlbum(albumId: String, newItems: MutableList<NewMediaItem>) =
-            GooglePhotosCredentialService.execute {
+            googlePhotosCredentialService.execute {
                 val response = batchCreateMediaItems(albumId, newItems)
                 examineBatchCreateMediaItemResponse(response)
             }
-
-    private fun getMediaItemPhotoRegex(): Regex {
-        return "image/.+".toRegex()
-    }
 
     //TODO: for testing - to remove
     /*fun testAddingPhotosFlow() {

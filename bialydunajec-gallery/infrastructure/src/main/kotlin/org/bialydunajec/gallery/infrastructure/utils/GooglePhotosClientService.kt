@@ -32,27 +32,30 @@ class GooglePhotosClientService {
                         .build()
             }
 
-
-        // Create a new upload request
-        // Specify the filename that will be shown to the user in Google Photos
-        // and the path to the file that will be uploaded
+        /**
+         * Create a new upload request
+         * Specify the filename that will be shown to the user in Google Photos
+         * and the path to the file that will be uploaded
+         *
+         * @param mediaFileName filename of the media item along with the file extension
+         */
         fun buildUploadRequest(mediaFileName: String, pathToFile: String): UploadMediaItemRequest =
                 UploadMediaItemRequest.newBuilder()
-                        //filename of the media item along with the file extension
                         .setFileName(mediaFileName)
                         .setDataFile(RandomAccessFile(pathToFile, "r"))
                         .build()
 
 
+        /**
+         * If the upload results in an error, handle it
+         * else get the uploadToken and use this upload token to create a media item
+         */
         fun getUploadMediaItemTokenIfNoError(uploadResponse: UploadMediaItemResponse): String =
                 if (uploadResponse.error.isPresent()) {
-                    // If the upload results in an error, handle it
                     val error = uploadResponse.error.get()
                     log.error(error.toString())
                     String()
                 } else {
-                    // If the upload is successful, get the uploadToken
-                    // Use this upload token to create a media item
                     uploadResponse.uploadToken.get()
                 }
 

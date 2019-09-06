@@ -1,5 +1,6 @@
 package org.bialydunajec.gallery.infrastructure
 
+import org.bialydunajec.gallery.infrastructure.utils.GooglePhotosCredentialService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
@@ -7,5 +8,9 @@ import org.springframework.context.annotation.Configuration
 internal class GooglePhotosGalleryProviderConfiguration {
     @Bean
     fun googlePhotosGalleryProvider(googleProperties: BialyDunajecGoogleProperties)
-            = GooglePhotosGalleryProvider(googleProperties.refreshToken, googleProperties.credentialsJsonPath)
+            = GooglePhotosGalleryProvider()
+
+    @Bean
+    fun googlePhotosCredentialService(googleProperties: BialyDunajecGoogleProperties)
+            = GooglePhotosCredentialService(googleProperties.refreshToken, googleProperties.credentialsJsonPath)
 }
