@@ -16,7 +16,7 @@ internal class CatalogizeEmailAddressApplicationService(
 ) : ApplicationService<EmailAddressCommand.CatalogizeEmailAddress> {
 
     override fun execute(command: EmailAddressCommand.CatalogizeEmailAddress) {
-        val emailAddress = emailAddressRepository.findByAddressEmailByAddress(command.emailAddress.toString())
+        val emailAddress = emailAddressRepository.findByEmailAddressValueEmail(command.emailAddress.toString())
                 ?: EmailAddress(command.emailAddress)
 
         val emailGroup = emailGroupRepository.findByGroupName(command.emailGroupName)

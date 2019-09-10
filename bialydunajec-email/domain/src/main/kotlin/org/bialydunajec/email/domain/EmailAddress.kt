@@ -53,7 +53,7 @@ class EmailAddress(
         )
     }
 
-    @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+    @ElementCollection
     var emailGroupIds: MutableSet<EmailGroupId> = mutableSetOf()
 
     fun addTo(newEmailGroupId: EmailGroupId) {

@@ -12,10 +12,10 @@ internal class EmailAddressRepositoryImpl(
 ) : AbstractDomainRepositoryImpl<EmailAddress, EmailAddressId, EmailAddressJpaRepository>(jpaRepository),
         EmailAddressRepository {
 
-    override fun findByAddressEmailByAddress(address: String): EmailAddress? =
-            jpaRepository.findByEmailAddressEmail(address)
+    override fun findByEmailAddressValueEmail(address: String): EmailAddress? =
+            jpaRepository.findByEmailAddressValueEmail(address)
 }
 
 internal interface EmailAddressJpaRepository : JpaRepository<EmailAddress, EmailAddressId> {
-    fun findByEmailAddressEmail(address: String): EmailAddress?
+    fun findByEmailAddressValueEmail(address: String): EmailAddress?
 }
