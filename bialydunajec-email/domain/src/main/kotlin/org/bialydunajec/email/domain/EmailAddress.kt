@@ -3,7 +3,6 @@ package org.bialydunajec.email.domain
 import org.bialydunajec.ddd.domain.base.aggregate.AuditableAggregateRoot
 import org.bialydunajec.ddd.domain.base.persistence.Versioned
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddress
-import java.time.ZoneId
 
 import javax.persistence.*
 
@@ -57,14 +56,16 @@ class EmailAddress(
     var emailGroupIds: MutableSet<EmailGroupId> = mutableSetOf()
 
     fun addTo(newEmailGroupId: EmailGroupId) {
-        emailGroupIds.add(newEmailGroupId)
+        val isAdded = emailGroupIds.add(newEmailGroupId)
 
-        registerEvent(
-                EmailAddressEvent.EmailAddressAddedToEmailGroup(
-                        getAggregateId(),
-                        newEmailGroupId
-                )
-        )
+        if (isAdded) {
+            registerEvent(
+                    EmailAddressEvent.EmailAddressCatalogizedToEmailGroup(
+                            getAggregateId(),
+                            newEmailGroupId
+                    )
+            )
+        }
     }
 
     fun doesBelongsTo(emailGroupId: EmailGroupId): Boolean = emailGroupIds.contains(emailGroupId)
