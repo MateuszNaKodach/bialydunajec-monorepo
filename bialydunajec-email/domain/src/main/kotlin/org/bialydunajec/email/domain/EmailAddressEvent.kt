@@ -16,4 +16,9 @@ sealed class EmailAddressEvent : DomainEvent<EmailAddressId> {
             val emailAddressValue: EmailAddress
     ) : EmailAddressEvent()
 
+    class EmailAddressAddedToEmailGroup(
+            override val aggregateId: EmailAddressId,
+            val newEmailGroupId: EmailGroupId
+    ) : EmailAddressEvent()
+
 }

@@ -58,6 +58,13 @@ class EmailAddress(
 
     fun addTo(newEmailGroupId: EmailGroupId) {
         emailGroupIds.add(newEmailGroupId)
+
+        registerEvent(
+                EmailAddressEvent.EmailAddressAddedToEmailGroup(
+                        getAggregateId(),
+                        newEmailGroupId
+                )
+        )
     }
 
     fun doesBelongsTo(emailGroupId: EmailGroupId): Boolean = emailGroupIds.contains(emailGroupId)

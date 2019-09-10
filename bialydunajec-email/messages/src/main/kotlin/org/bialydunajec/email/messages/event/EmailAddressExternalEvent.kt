@@ -12,4 +12,9 @@ sealed class EmailAddressExternalEvent {
             val emailAddressValue: String
     ) : EmailAddressExternalEvent()
 
+    data class EmailAddressAddedToEmailGroup(
+            val aggregateId: String,
+            val newEmailGroupId: String
+    ) : EmailAddressExternalEvent()
+
 }

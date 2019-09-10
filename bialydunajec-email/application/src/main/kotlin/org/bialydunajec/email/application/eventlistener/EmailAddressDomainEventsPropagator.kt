@@ -37,4 +37,17 @@ internal class EmailAddressDomainEventsPropagator(private val externalEventBus: 
             )
         }
     }
+
+    @Async
+    @TransactionalEventListener
+    fun handleDomainEvent(domainEvent: EmailAddressEvent.EmailAddressAddedToEmailGroup) {
+        with(domainEvent) {
+            externalEventBus.send(
+                    EmailAddressExternalEvent.EmailAddressAddedToEmailGroup(
+                            aggregateId.toString(),
+                            newEmailGroupId.toString()
+                    )
+            )
+        }
+    }
 }
