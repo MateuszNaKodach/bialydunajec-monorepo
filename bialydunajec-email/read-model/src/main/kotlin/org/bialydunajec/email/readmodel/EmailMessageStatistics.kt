@@ -3,7 +3,7 @@ package org.bialydunajec.email.readmodel
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 
-const val DEFAULT_EMAIL_MESSAGE_STATISTICS_ID: String = "EMAIL_STATISTICS";
+const val DEFAULT_EMAIL_MESSAGE_STATISTICS_ID: String = "EMAIL_MESSAGES_STATISTICS";
 
 @Document("emailMessageStatisticsReadModel")
 data class EmailMessageStatistics(
