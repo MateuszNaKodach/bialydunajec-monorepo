@@ -3,6 +3,8 @@ package org.bialydunajec.email.presentation
 import org.bialydunajec.ddd.application.base.external.command.ExternalCommand
 import org.bialydunajec.ddd.application.base.external.command.ExternalCommandListener
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddress
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.FirstName
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.LastName
 import org.bialydunajec.email.application.api.EmailAddressCommand
 import org.bialydunajec.email.application.api.EmailAddressCommandGateway
 import org.bialydunajec.email.application.api.EmailMessageCommand
@@ -46,7 +48,9 @@ internal class ExternalCommandsListener internal constructor(
                                 payload.emailAddress,
                                 org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddressId(payload.emailAddressId)
                         ),
-                        payload.emailGroupName
+                        payload.emailGroupName,
+                        FirstName(payload.emailOwnerName),
+                        LastName(payload.emailOwnerLastName)
                     )
                 )
             }

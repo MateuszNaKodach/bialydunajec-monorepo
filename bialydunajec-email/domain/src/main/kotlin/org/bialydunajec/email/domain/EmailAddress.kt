@@ -3,6 +3,8 @@ package org.bialydunajec.email.domain
 import org.bialydunajec.ddd.domain.base.aggregate.AuditableAggregateRoot
 import org.bialydunajec.ddd.domain.base.persistence.Versioned
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddress
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.FirstName
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.LastName
 
 import javax.persistence.*
 
@@ -55,14 +57,16 @@ class EmailAddress(
     @ElementCollection
     var emailGroupIds: MutableSet<EmailGroupId> = mutableSetOf()
 
-    fun addTo(newEmailGroupId: EmailGroupId) {
+    fun addTo(newEmailGroupId: EmailGroupId, ownerFirstName: FirstName, ownerLastName: LastName) {
         val isAdded = emailGroupIds.add(newEmailGroupId)
 
         if (isAdded) {
             registerEvent(
                     EmailAddressEvent.EmailAddressCatalogizedToEmailGroup(
                             getAggregateId(),
-                            newEmailGroupId
+                            newEmailGroupId,
+                            ownerFirstName,
+                            ownerLastName
                     )
             )
         }

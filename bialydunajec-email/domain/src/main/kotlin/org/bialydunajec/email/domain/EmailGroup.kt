@@ -13,6 +13,15 @@ class EmailGroup(
 
     constructor(name: String) : this(EmailGroupId(), name)
 
+    init {
+        registerEvent(
+                EmailGroupEvent.EmailGroupCreated(
+                        getAggregateId(),
+                        name
+                )
+        )
+    }
+
     @Version
     private var version: Long? = null
 

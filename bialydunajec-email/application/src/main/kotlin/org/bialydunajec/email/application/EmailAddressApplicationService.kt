@@ -21,7 +21,11 @@ internal class CatalogizeEmailAddressApplicationService(
 
         val emailGroup = emailGroupRepository.findByGroupName(command.emailGroupName)
                 ?: EmailGroup(command.emailGroupName)
-        emailAddress.addTo(emailGroup.getAggregateId())
+        
+        emailAddress.addTo(
+                emailGroup.getAggregateId(),
+                command.ownerFirstName,
+                command.ownerLastName)
 
         emailAddressRepository.save(emailAddress)
         emailGroupRepository.save(emailGroup)

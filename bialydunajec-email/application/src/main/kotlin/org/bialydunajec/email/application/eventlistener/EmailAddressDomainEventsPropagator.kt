@@ -43,7 +43,9 @@ internal class EmailAddressDomainEventsPropagator(private val externalEventBus: 
             externalEventBus.send(
                     EmailAddressExternalEvent.EmailAddressCatalogizedToEmailGroup(
                             aggregateId.toString(),
-                            newEmailGroupId.toString()
+                            newEmailGroupId.toString(),
+                            ownerFirstName.toString(),
+                            ownerLastName.toString()
                     )
             )
         }
