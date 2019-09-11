@@ -20,7 +20,7 @@ internal class ShirtOrderRepositoryImpl(
         jpaRepository.findByCampParticipantId(campParticipantId)
 
 
-    @Cacheable(cacheNames = [SHIRT_ORDER_CACHE], key = "{#root.methodName,#aggregateId}")
+    @Cacheable(cacheNames = [SHIRT_ORDER_CACHE], key = "{#root.methodName,#emailId}")
     override fun findById(aggregateId: ShirtOrderId): ShirtOrder? =
             super.findById(aggregateId)
 

@@ -4,12 +4,11 @@ import org.bialydunajec.ddd.application.base.external.event.ExternalEvent
 import org.bialydunajec.ddd.application.base.external.event.ExternalEventSubscriber
 import org.bialydunajec.ddd.application.base.external.event.SerializedExternalEventListener
 import org.bialydunajec.email.messages.event.EmailAddressExternalEvent
-import org.bialydunajec.email.messages.event.EmailMessageLogExternalEvent
 import org.springframework.stereotype.Component
 
 @Component
 internal class EmailAddressEventsProjection(
-        private val emailAddresRepository: EmailMessageMongoRepository,
+        private val emailAddressRepository: EmailAddressMongoRepository,
         private val emailAddressStatisticsMongoRepository: EmailAddressStatisticsMongoRepository,
         private val emailAddressEventStream: EmailAddressEventStream,
         eventSubscriber: ExternalEventSubscriber
@@ -33,15 +32,50 @@ internal class EmailAddressEventsProjection(
         val payload = externalEvent.payload
         when (payload) {
             is EmailAddressExternalEvent.EmailAddressCreated -> {
-                //TODO
+                with(payload) {
+                    emailAddressRepository.findById(emailId).orElseGet { EmailAddress(emailId) }
+                            .also {
+                                it.emailAddress = emailAddress
+                            }.also {
+                                emailAddressRepository.save(it)
+                            }
+
+                    emailAddressStatisticsMongoRepository.findById(DEFAULT_EMAIL_ADDRESS_STATISTICS_ID)
+                            .ifPresent {
+                                it.addressesCount++
+                                emailAddressStatisticsMongoRepository.save(it)
+                            }
+                }.also {
+                    emailAddressEventStream.updateStreamWith(externalEvent)
+                }
             }
 
             is EmailAddressExternalEvent.EmailAddressUpdated -> {
-                //TODO
+                with(payload) {
+                    emailAddressRepository.findById(emailId).get()
+                            .also {
+                                it.emailAddress = newEmailAddress
+                            }.also {
+                                emailAddressRepository.save(it)
+                            }
+                }.also {
+                    emailAddressEventStream.updateStreamWith(externalEvent)
+                }
             }
 
             is EmailAddressExternalEvent.EmailAddressCatalogizedToEmailGroup -> {
-                //TODO
+                with(payload) {
+                    emailAddressRepository.findById(emailId).get()
+                            .also {
+                                it.ownerFirstName = ownerFirstName
+                                it.ownerLastName = ownerLastName
+                                it.emailGroupIds?.add(newEmailGroupId)
+                            }.also {
+                                emailAddressRepository.save(it)
+                            }
+                }.also {
+                    emailAddressEventStream.updateStreamWith(externalEvent)
+                }
             }
         }
     }
