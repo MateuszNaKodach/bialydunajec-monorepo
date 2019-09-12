@@ -3,6 +3,8 @@ package org.bialydunajec.email.domain
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.gherkin.Feature
 import kotlin.test.assertTrue
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.FirstName
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.LastName
 
 object EmailCatalogizingSpecification : Spek({
 
@@ -13,6 +15,10 @@ object EmailCatalogizingSpecification : Spek({
 
         val EXISTING_GROUP_NAME = "existingGroupName"
         val NEW_GROUP_NAME = "newGroupName"
+
+        val OWNER_FIRST_NAME = "firstName"
+        val OWNER_LAST_NAME = "lastName"
+
 
         val existingEmailAddressId: EmailAddressId by memoized { EmailAddressId() }
         val existingEmailGroupId: EmailGroupId by memoized { EmailGroupId() }
@@ -29,7 +35,7 @@ object EmailCatalogizingSpecification : Spek({
             }
 
             When("adding the new emailAddress to the emailGroup") {
-                newEmailAddress.addTo(newEmailGroup.getAggregateId())
+                newEmailAddress.addTo(newEmailGroup.getAggregateId(), FirstName(OWNER_FIRST_NAME), LastName(OWNER_LAST_NAME))
             }
 
             Then("new EmailGroup should contain the new emailAddress") {
@@ -45,7 +51,7 @@ object EmailCatalogizingSpecification : Spek({
             }
 
             When("adding the new emailAddress to the existing emailGroup") {
-                newEmailAddress.addTo(existingEmailGroup.getAggregateId())
+                newEmailAddress.addTo(existingEmailGroup.getAggregateId(), FirstName(OWNER_FIRST_NAME), LastName(OWNER_LAST_NAME))
             }
 
             Then("the existing EmailGroup should contain the new emailAddress") {
@@ -62,7 +68,7 @@ object EmailCatalogizingSpecification : Spek({
             }
 
             When("adding the new emailAddress to the existing emailGroup") {
-                existingEmailAddress.addTo(newEmailGroup.getAggregateId())
+                existingEmailAddress.addTo(newEmailGroup.getAggregateId(),  FirstName(OWNER_FIRST_NAME), LastName(OWNER_LAST_NAME))
             }
 
             Then("the new EmailGroup should contain the existing emailAddress") {
