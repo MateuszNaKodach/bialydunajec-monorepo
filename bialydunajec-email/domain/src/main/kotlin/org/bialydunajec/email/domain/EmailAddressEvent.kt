@@ -4,6 +4,7 @@ import org.bialydunajec.ddd.domain.base.event.DomainEvent
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddress
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.FirstName
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.LastName
+import org.bialydunajec.email.domain.valueobject.EmailAddressOwner
 import java.time.ZonedDateTime
 
 sealed class EmailAddressEvent : DomainEvent<EmailAddressId> {
@@ -21,8 +22,7 @@ sealed class EmailAddressEvent : DomainEvent<EmailAddressId> {
     class EmailAddressCatalogizedToEmailGroup(
             override val aggregateId: EmailAddressId,
             val newEmailGroupId: EmailGroupId,
-            val ownerFirstName: FirstName,
-            val ownerLastName: LastName
+            val emailAddressOwner: EmailAddressOwner
     ) : EmailAddressEvent()
 
 }

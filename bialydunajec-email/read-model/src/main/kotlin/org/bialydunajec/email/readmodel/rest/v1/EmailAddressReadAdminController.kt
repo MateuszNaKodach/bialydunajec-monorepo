@@ -37,4 +37,5 @@ internal class EmailAddressReadAdminController(
             emailAddressMongoRepository.findAllById(
                     emailAddressCatalogGroupMongoRepository.findAll().filter { it.groupName.equals(groupName) }.stream().map { it.emailAGroupId }.toList())
 
+
 }

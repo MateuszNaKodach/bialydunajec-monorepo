@@ -17,7 +17,7 @@ internal class CampRegistrationsEditionRepositoryImpl(
 ) : AbstractDomainRepositoryImpl<CampRegistrationsEdition, CampRegistrationsEditionId, CampRegistrationsEditionJpaRepository>(jpaRepository),
         CampRegistrationsEditionRepository {
 
-    @Cacheable(cacheNames = [CAMP_REGISTRATIONS_EDITION_CACHE], key = "{#root.methodName,#emailId}")
+    @Cacheable(cacheNames = [CAMP_REGISTRATIONS_EDITION_CACHE], key = "{#root.methodName,#aggregateId}")
     override fun findById(aggregateId: CampRegistrationsEditionId): CampRegistrationsEdition? =
             super.findById(aggregateId)
 

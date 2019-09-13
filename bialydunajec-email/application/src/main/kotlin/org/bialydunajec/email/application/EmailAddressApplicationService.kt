@@ -24,8 +24,7 @@ internal class CatalogizeEmailAddressApplicationService(
         
         emailAddress.addTo(
                 emailGroup.getAggregateId(),
-                command.ownerFirstName,
-                command.ownerLastName)
+                command.emailAddressOwner)
 
         emailAddressRepository.save(emailAddress)
         emailGroupRepository.save(emailGroup)

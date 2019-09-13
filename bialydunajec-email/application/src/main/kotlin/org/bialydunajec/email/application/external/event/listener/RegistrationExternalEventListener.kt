@@ -8,6 +8,7 @@ import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.FirstName
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.LastName
 import org.bialydunajec.email.application.api.EmailAddressCommand
 import org.bialydunajec.email.application.api.EmailAddressCommandGateway
+import org.bialydunajec.email.domain.valueobject.EmailAddressOwner
 import org.springframework.stereotype.Component
 
 @Component
@@ -22,8 +23,10 @@ internal class RegistrationExternalEventListener(
                     EmailAddressCommand.CatalogizeEmailAddress(
                             EmailAddress(payload.snapshot.currentCamperData.emailAddress),
                             payload.snapshot.currentCamperData.cottage.cottageName,
-                            FirstName(payload.snapshot.currentCamperData.personalData.firstName),
-                            LastName(payload.snapshot.currentCamperData.personalData.lastName)
+                            EmailAddressOwner(
+                                    FirstName(payload.snapshot.currentCamperData.personalData.firstName),
+                                    LastName(payload.snapshot.currentCamperData.personalData.lastName)
+                            )
                     )
             )
         }
@@ -34,8 +37,10 @@ internal class RegistrationExternalEventListener(
                     EmailAddressCommand.CatalogizeEmailAddress(
                             EmailAddress(payload.snapshot.currentCamperData.emailAddress),
                             payload.snapshot.currentCamperData.cottage.cottageName,
-                            FirstName(payload.snapshot.currentCamperData.personalData.firstName),
-                            LastName(payload.snapshot.currentCamperData.personalData.lastName)
+                            EmailAddressOwner(
+                                    FirstName(payload.snapshot.currentCamperData.personalData.firstName),
+                                    LastName(payload.snapshot.currentCamperData.personalData.lastName)
+                            )
                     )
             )
         }

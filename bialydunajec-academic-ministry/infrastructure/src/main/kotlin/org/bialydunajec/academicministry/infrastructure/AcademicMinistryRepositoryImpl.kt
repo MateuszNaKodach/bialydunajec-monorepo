@@ -19,7 +19,7 @@ internal class AcademicMinistryRepositoryImpl(
     @Cacheable(cacheNames = [ACADEMIC_MINISTRY_CACHE], key = "#root.methodName")
     override fun findAll(): Collection<AcademicMinistry> = super.findAll()
 
-    @Cacheable(cacheNames = [ACADEMIC_MINISTRY_CACHE], key = "{#root.methodName, #emailId}")
+    @Cacheable(cacheNames = [ACADEMIC_MINISTRY_CACHE], key = "{#root.methodName, #aggregateId}")
     override fun findById(aggregateId: AcademicMinistryId): AcademicMinistry? = super.findById(aggregateId)
 
     @CacheEvict(cacheNames = [ACADEMIC_MINISTRY_CACHE], allEntries = true)
