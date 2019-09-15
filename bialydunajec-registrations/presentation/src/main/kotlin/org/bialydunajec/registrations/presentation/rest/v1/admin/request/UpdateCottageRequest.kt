@@ -10,20 +10,20 @@ import javax.validation.Valid
 import javax.validation.constraints.NotBlank
 
 data class UpdateCottageRequest(
-        @field:NotBlank
-        val name: String,
-        @field:NullOrNotBlank
-        val logoImageUrl: String?,
-        @field:NullOrNotBlank
-        val buildingPhotoUrl: String?,
-        @field:Valid
-        val place: PlaceDto?,
-        @field:Valid
-        val cottageSpace: CottageSpaceDto,
-        @field:Valid
-        val campersLimitations: CampersLimitationsDto?,
-        @field:Valid
-        val bankTransferDetails: BankTransferDetailsDto?,
-        @field:Valid
-        val cottageBoss: CottageBossDto?
+    @field:NotBlank
+    val name: String,
+    @field:NullOrNotBlank
+    val logoImageUrl: String?,
+    @field:NullOrNotBlank
+    val buildingPhotoUrl: String?,
+    @field:Valid
+    val place: PlaceDto?,
+    @field:Valid
+    val cottageSpace: CottageSpaceDto,
+    @field:Valid
+    val campersLimitations: CampersLimitationsDto?,
+    @field:Valid
+    val bankTransferDetails: BankTransferDetailsDto?,
+    @field:Valid
+    val cottageBoss: CottageBossDto?
 )
