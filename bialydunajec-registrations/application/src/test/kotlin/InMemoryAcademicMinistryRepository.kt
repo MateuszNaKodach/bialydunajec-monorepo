@@ -3,7 +3,7 @@ import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryId
 import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryRepository
 import org.bialydunajec.registrations.domain.academicministry.CampRegistrationsAcademicMinistry
 
-const val academicMinistryId = "am1"
+internal const val academicMinistryId = "am1"
 
 internal object InMemoryAcademicMinistryRepository : AcademicMinistryRepository {
 

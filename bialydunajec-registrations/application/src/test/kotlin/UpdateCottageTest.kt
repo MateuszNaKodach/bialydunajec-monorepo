@@ -18,28 +18,28 @@ import java.time.LocalDate
 
 internal class UpdateCottageTest {
 
-    private val editionService =
-        CreateCampRegistrationsEditionApplicationService(InMemoryCampRegistrationsEditionRepository)
-
-    private val ministryCottageService = CreateAcademicMinistryCottageApplicationService(
-        InMemoryCampRegistrationsEditionRepository,
-        InMemoryAcademicMinistryRepository,
-        InMemoryCottageRepository
-    )
-
-    private val cottageService = UpdateCottageApplicationService(InMemoryCottageRepository)
-
+    private val campEditionRepository = InMemoryCampRegistrationsEditionRepository
+    private val academicMinistryRepository = InMemoryAcademicMinistryRepository
+    private val cottageRepository = InMemoryCottageRepository
     private val cottageConditionsRepository = InMemoryCottageConditionsRepository()
 
+    private val editionService = CreateCampRegistrationsEditionApplicationService(campEditionRepository)
+
+    private val ministryCottageService = CreateAcademicMinistryCottageApplicationService(
+        campEditionRepository, academicMinistryRepository, cottageRepository
+    )
+
+    private val cottageService = UpdateCottageApplicationService(cottageRepository)
+
     private val cottageConditionsService =
-        UpdateCottageConditionsApplicationService(cottageConditionsRepository, InMemoryCottageRepository)
+        UpdateCottageConditionsApplicationService(cottageConditionsRepository, cottageRepository)
 
     private val edition = 1
 
     private val reader = CampRegistrationsDomainModelReader(
-        InMemoryCampRegistrationsEditionRepository,
-        InMemoryAcademicMinistryRepository,
-        InMemoryCottageRepository,
+        campEditionRepository,
+        academicMinistryRepository,
+        cottageRepository,
         InMemoryCampParticipantReadOnlyRepository,
         InMemoryCampEditionShirtReadOnlyRepository,
         CottageFreeSpaceSpecificationFactory(InMemoryCampParticipantRepository),
