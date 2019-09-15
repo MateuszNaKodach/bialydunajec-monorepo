@@ -3,13 +3,8 @@ import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditio
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionRepository
 
-internal object InMemoryCampRegistrationsEditionRepository : CampRegistrationsEditionRepository {
-    private val editions = mutableListOf<CampRegistrationsEdition>()
-
-    override fun save(aggregateRoot: CampRegistrationsEdition): CampRegistrationsEdition {
-        editions.add(aggregateRoot)
-        return aggregateRoot
-    }
+internal object InMemoryCampRegistrationsEditionRepository : CampRegistrationsEditionRepository,
+    InMemoryRepository<CampRegistrationsEdition>() {
 
     override fun delete(aggregateRoot: CampRegistrationsEdition) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -20,7 +15,7 @@ internal object InMemoryCampRegistrationsEditionRepository : CampRegistrationsEd
     }
 
     override fun findById(aggregateId: CampRegistrationsEditionId): CampRegistrationsEdition? {
-        return editions.find { it.getAggregateId() == aggregateId }
+        return items.find { it.getAggregateId() == aggregateId }
     }
 
     override fun findByIdAndSpecification(

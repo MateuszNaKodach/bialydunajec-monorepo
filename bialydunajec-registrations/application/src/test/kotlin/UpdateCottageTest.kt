@@ -11,7 +11,6 @@ import org.bialydunajec.registrations.application.query.readmodel.CampRegistrati
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
 import org.bialydunajec.registrations.domain.cottage.CottageId
 import org.bialydunajec.registrations.domain.cottage.conditions.CottageConditionsDescriptionItem
-import org.bialydunajec.registrations.domain.cottage.conditions.InMemoryCottageConditionsRepository
 import org.bialydunajec.registrations.domain.cottage.specification.CottageFreeSpaceSpecificationFactory
 import org.bialydunajec.registrations.domain.cottage.valueobject.CottageSpace
 import org.junit.jupiter.api.Test

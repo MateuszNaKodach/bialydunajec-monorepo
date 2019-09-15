@@ -6,5 +6,5 @@ interface CottageConditionsRepository {
 
     fun findByCottageId(cottageId: CottageId): CottageConditions?
 
-    fun save(conditions: CottageConditions): CottageConditions
+    fun save(aggregateRoot: CottageConditions): CottageConditions
 }

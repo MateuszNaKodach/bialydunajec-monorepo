@@ -6,9 +6,7 @@ import org.bialydunajec.registrations.domain.cottage.CottageId
 import org.bialydunajec.registrations.domain.cottage.CottageRepository
 import org.bialydunajec.registrations.domain.cottage.valueobject.CottageStatus
 
-internal object InMemoryCottageRepository : CottageRepository {
-
-    private val items = mutableListOf<Cottage>()
+internal object InMemoryCottageRepository : CottageRepository, InMemoryRepository<Cottage>() {
 
     override fun findAllByCampRegistrationsEditionId(campRegistrationsEditionId: CampRegistrationsEditionId): Collection<Cottage> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -34,11 +32,6 @@ internal object InMemoryCottageRepository : CottageRepository {
 
     override fun findNewestCottageByAcademicMinistryId(academicMinistryId: AcademicMinistryId): Cottage? {
         return items.find { it.getSnapshot().academicMinistryId == academicMinistryId }
-    }
-
-    override fun save(aggregateRoot: Cottage): Cottage {
-        items.add(aggregateRoot)
-        return aggregateRoot
     }
 
     override fun delete(aggregateRoot: Cottage) {

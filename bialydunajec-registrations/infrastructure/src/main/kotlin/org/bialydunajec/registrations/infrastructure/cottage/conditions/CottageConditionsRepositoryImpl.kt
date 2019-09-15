@@ -10,8 +10,8 @@ import org.springframework.stereotype.Repository
 internal class CottageConditionsRepositoryImpl(private val jpaRepository: CottageConditionsJpaRepository) :
     CottageConditionsRepository {
 
-    override fun save(conditions: CottageConditions): CottageConditions {
-        return jpaRepository.save(conditions)
+    override fun save(aggregateRoot: CottageConditions): CottageConditions {
+        return jpaRepository.save(aggregateRoot)
     }
 
     override fun findByCottageId(cottageId: CottageId): CottageConditions? {
