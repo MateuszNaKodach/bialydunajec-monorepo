@@ -66,8 +66,6 @@ class EmailAddress(
 
     }
 
-
-    @ElementCollection
     var emailGroupId: EmailGroupId? = null
 
     var emailOwner: EmailAddressOwner? = null

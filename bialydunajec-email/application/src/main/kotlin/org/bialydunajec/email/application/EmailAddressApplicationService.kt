@@ -64,17 +64,16 @@ internal class UpdateEmailAddressApplicationService(
         )
         )
 
-        if (oldEmailAddress.emailGroupIds.size > 0){
+        if (oldEmailAddress.emailGroupId != null) {
 
-            oldEmailAddress.emailGroupIds.forEach {
-                val emailGroup = emailGroupRepository.findById(it)
-                emailAddressCommandGateway.process(EmailAddressCommand.CatalogizeEmailAddress(
-                        command.newEmailAddress,
-                        emailGroup?.emailAddressGroup!!,
-                        oldEmailAddress.emailOwner!!
-                ))
-            }
-        }else{
+            val emailGroup = emailGroupRepository.findById(oldEmailAddress.emailGroupId!!)
+            emailAddressCommandGateway.process(EmailAddressCommand.CatalogizeEmailAddress(
+                    command.newEmailAddress,
+                    emailGroup?.emailAddressGroup!!,
+                    oldEmailAddress.emailOwner!!
+            ))
+
+        } else {
             val newEmailAddress = EmailAddress(command.newEmailAddress)
             emailAddressRepository.save(newEmailAddress)
         }
