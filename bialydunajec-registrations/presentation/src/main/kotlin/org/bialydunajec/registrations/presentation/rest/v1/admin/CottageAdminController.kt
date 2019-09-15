@@ -39,10 +39,11 @@ class CottageAdminController(
         )
 
     @PutMapping("/cottage/{cottageId}")
-    fun updateCottage(@PathVariable cottageId: String, @Valid @RequestBody request: UpdateCottageRequest) =
+    fun updateCottage(@PathVariable cottageId: String, @Valid @RequestBody request: UpdateCottageRequest) {
+        val id = CottageId(cottageId)
         commandGateway.process(
             CampRegistrationsCommand.UpdateCottage(
-                cottageId = CottageId(cottageId),
+                cottageId = id,
                 name = request.name,
                 logoImageUrl = request.logoImageUrl?.let { Url.ExternalUrl(it) },
                 buildingPhotoUrl = request.buildingPhotoUrl?.let { Url.ExternalUrl(it) },
@@ -53,6 +54,10 @@ class CottageAdminController(
                 cottageBoss = request.cottageBoss?.toValueObject()
             )
         )
+        commandGateway.process(
+            CampRegistrationsCommand.UpdateCottageConditions(id, request.conditions)
+        )
+    }
 
     @PatchMapping("/cottage/{cottageId}/activate")
     fun activateCottage(@PathVariable cottageId: String) =

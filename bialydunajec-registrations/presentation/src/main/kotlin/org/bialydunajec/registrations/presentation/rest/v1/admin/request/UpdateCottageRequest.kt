@@ -25,5 +25,6 @@ data class UpdateCottageRequest(
     @field:Valid
     val bankTransferDetails: BankTransferDetailsDto?,
     @field:Valid
-    val cottageBoss: CottageBossDto?
+    val cottageBoss: CottageBossDto?,
+    val conditions: String
 )
