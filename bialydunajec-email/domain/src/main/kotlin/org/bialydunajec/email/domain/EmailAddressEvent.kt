@@ -26,7 +26,8 @@ sealed class EmailAddressEvent : DomainEvent<EmailAddressId> {
 
     class EmailAddressDeactivated(
             override val aggregateId: EmailAddressId,
-            val emailAddress: EmailAddress
+            val emailAddress: EmailAddress,
+            val emailGroupId: EmailGroupId?
     ) : EmailAddressEvent()
 
 }

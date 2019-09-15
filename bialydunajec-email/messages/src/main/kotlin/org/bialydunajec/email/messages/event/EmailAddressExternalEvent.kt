@@ -19,7 +19,8 @@ sealed class EmailAddressExternalEvent {
 
     data class EmailAddressDeactivated(
             val emailId: String,
-            val emailAddress: String
+            val emailAddress: String,
+            val emailGroupId: String?
     ) : EmailAddressExternalEvent()
 
 }

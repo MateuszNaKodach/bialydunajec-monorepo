@@ -48,7 +48,8 @@ internal class EmailAddressDomainEventsPropagator(private val externalEventBus: 
             externalEventBus.send(
                     EmailAddressExternalEvent.EmailAddressDeactivated(
                             aggregateId.toString(),
-                            emailAddress.toString()
+                            emailAddress.toString(),
+                            emailGroupId.toString()
                     )
             )
         }

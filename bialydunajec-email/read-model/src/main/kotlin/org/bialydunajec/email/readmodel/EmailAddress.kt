@@ -12,5 +12,6 @@ data class EmailAddress(
         var emailAddress: String? = null,
         var ownerFirstName: String? = null,
         var ownerLastName: String? = null,
-        var emailGroupIds: MutableSet<String>? = mutableSetOf()
+        var isActive: Boolean? = null,
+        var emailGroupName: String? = null
 )

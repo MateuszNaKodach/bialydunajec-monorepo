@@ -53,13 +53,14 @@ class EmailAddress(
 
     fun getEmailAddress() = emailAddressValue
 
-    fun deactivateEmailAddress(){
+    fun deactivateEmailAddress() {
         isActive = false
 
         registerEvent(
                 EmailAddressEvent.EmailAddressDeactivated(
                         getAggregateId(),
-                        emailAddressValue
+                        emailAddressValue,
+                        emailGroupId
                 )
         )
 
@@ -67,13 +68,18 @@ class EmailAddress(
 
 
     @ElementCollection
-    var emailGroupIds: MutableSet<EmailGroupId> = mutableSetOf()
+    var emailGroupId: EmailGroupId? = null
 
     var emailOwner: EmailAddressOwner? = null
 
     fun addTo(newEmailGroup: EmailGroup, emailAddressOwner: EmailAddressOwner) {
 
-        val isAdded = emailGroupIds.add(newEmailGroup.getAggregateId())
+        var isAdded: Boolean = false
+
+        if (emailGroupId == null || emailGroupId != newEmailGroup.getAggregateId()) {
+            emailGroupId = newEmailGroup.getAggregateId()
+            isAdded = true
+        }
 
         if (isAdded) {
             emailOwner = emailAddressOwner
@@ -89,6 +95,6 @@ class EmailAddress(
         }
     }
 
-    fun belongsTo(emailGroupId: EmailGroupId): Boolean = emailGroupIds.contains(emailGroupId)
+    fun belongsTo(emailGroupId: EmailGroupId): Boolean = emailGroupId == emailGroupId
 
 }

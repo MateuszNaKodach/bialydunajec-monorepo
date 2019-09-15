@@ -23,6 +23,10 @@ internal class EmailAddressCatalogGroupEventsProjection(
         eventSubscriber.subscribe(EmailAddressExternalEvent.EmailAddressCatalogizedToEmailGroup::class) {
             processingQueue.process(it)
         }
+
+        eventSubscriber.subscribe(EmailAddressExternalEvent.EmailAddressDeactivated::class) {
+            processingQueue.process(it)
+        }
     }
 
     override fun processExternalEvent(externalEvent: ExternalEvent<*>) {
@@ -51,10 +55,25 @@ internal class EmailAddressCatalogGroupEventsProjection(
                 with(payload) {
                     emailAddressCatalogGroupMongoRepository.findById(emailId).get()
                             .also {
-                                it.emailAddressIds?.add(emailId)
+                                it.emailAddresses?.add(emailAddress)
                             }.also {
                                 emailAddressCatalogGroupMongoRepository.save(it)
                             }
+                }.also {
+                    emailAddressCatalogGroupEventStream.updateStreamWith(externalEvent)
+                }
+            }
+
+            is EmailAddressExternalEvent.EmailAddressDeactivated -> {
+                with(payload) {
+                    emailGroupId?.let {
+                        emailAddressCatalogGroupMongoRepository.findById(it).get()
+                                .also {
+                                    it.emailAddresses?.remove(emailAddress)
+                                }.also {
+                                    emailAddressCatalogGroupMongoRepository.save(it)
+                                }
+                    }
                 }.also {
                     emailAddressCatalogGroupEventStream.updateStreamWith(externalEvent)
                 }

@@ -1,9 +1,6 @@
 package org.bialydunajec.email.readmodel.rest.v1
 
-import arrow.instances.list.applicative.map
 import org.bialydunajec.email.readmodel.*
-import org.bialydunajec.email.readmodel.EmailMessageLogEventStream
-import org.bialydunajec.email.readmodel.EmailMessageMongoRepository
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -35,7 +32,7 @@ internal class EmailAddressReadAdminController(
     @GetMapping("/{groupName}")
     fun getEmailAddressByGroupName(@PathVariable groupName: String) =
             emailAddressMongoRepository.findAllById(
-                    emailAddressCatalogGroupMongoRepository.findAll().filter { it.groupName.equals(groupName) }.stream().map { it.emailAGroupId }.toList())
+                    emailAddressCatalogGroupMongoRepository.findAll().filter { it.groupName.equals(groupName) }.stream().map { it.emailGroupId }.toList())
 
 
 }
