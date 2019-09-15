@@ -9,6 +9,7 @@ import org.bialydunajec.registrations.application.command.api.CampRegistrationsC
 import org.bialydunajec.registrations.application.query.api.CottageQuery
 import org.bialydunajec.registrations.application.query.readmodel.CampRegistrationsDomainModelReader
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
+import org.bialydunajec.registrations.domain.cottage.CottageId
 import org.bialydunajec.registrations.domain.cottage.conditions.CottageConditionsDescriptionItem
 import org.bialydunajec.registrations.domain.cottage.conditions.InMemoryCottageConditionsRepository
 import org.bialydunajec.registrations.domain.cottage.specification.CottageFreeSpaceSpecificationFactory
@@ -49,14 +50,7 @@ internal class UpdateCottageTest {
     @Test
     fun `should retrieve new data after cottage update`() {
         // Given
-        editionService.execute(
-            CampRegistrationsCommand.CreateCampRegistrationsEdition(
-                CampRegistrationsEditionId(edition), LocalDate.now(), LocalDate.now(), Money(1), null
-            )
-        )
-        val cottageId = ministryCottageService.execute(
-            CampRegistrationsCommand.CreateAcademicMinistryCottage(edition, academicMinistryId)
-        )
+        val cottageId = createCottage()
 
         // When
         val updateCommand = CampRegistrationsCommand.UpdateCottage(
@@ -72,14 +66,7 @@ internal class UpdateCottageTest {
     @Test
     fun `should retrieve new data after cottage conditions update`() {
         // Given
-        editionService.execute(
-            CampRegistrationsCommand.CreateCampRegistrationsEdition(
-                CampRegistrationsEditionId(edition), LocalDate.now(), LocalDate.now(), Money(1), null
-            )
-        )
-        val cottageId = ministryCottageService.execute(
-            CampRegistrationsCommand.CreateAcademicMinistryCottage(edition, academicMinistryId)
-        )
+        val cottageId = createCottage()
 
         // When
         val newItem = CottageConditionsDescriptionItem(
@@ -96,5 +83,16 @@ internal class UpdateCottageTest {
         assertThat(retrievedConditionDescriptionItem.title).isEqualTo(newItem.title)
         assertThat(retrievedConditionDescriptionItem.content).isEqualTo(newItem.content)
         assertThat(retrievedConditionDescriptionItem.iconUrl).isEqualTo(newItem.iconUrl.toString())
+    }
+
+    private fun createCottage(): CottageId {
+        editionService.execute(
+            CampRegistrationsCommand.CreateCampRegistrationsEdition(
+                CampRegistrationsEditionId(edition), LocalDate.now(), LocalDate.now(), Money(1), null
+            )
+        )
+        return ministryCottageService.execute(
+            CampRegistrationsCommand.CreateAcademicMinistryCottage(edition, academicMinistryId)
+        )
     }
 }
