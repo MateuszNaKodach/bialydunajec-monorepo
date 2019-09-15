@@ -8,7 +8,7 @@ import org.bialydunajec.registrations.domain.cottage.CottageId
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 
-internal object InMemoryCampParticipantReadOnlyRepository : CampParticipantReadOnlyRepository {
+internal class InMemoryCampParticipantReadOnlyRepository : CampParticipantReadOnlyRepository {
 
     override fun findAll(pageable: Pageable): Page<CampParticipant> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.

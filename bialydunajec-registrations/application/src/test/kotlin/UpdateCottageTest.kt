@@ -18,9 +18,9 @@ import java.time.LocalDate
 
 internal class UpdateCottageTest {
 
-    private val campEditionRepository = InMemoryCampRegistrationsEditionRepository
-    private val academicMinistryRepository = InMemoryAcademicMinistryRepository
-    private val cottageRepository = InMemoryCottageRepository
+    private val campEditionRepository = InMemoryCampRegistrationsEditionRepository()
+    private val academicMinistryRepository = InMemoryAcademicMinistryRepository()
+    private val cottageRepository = InMemoryCottageRepository()
     private val cottageConditionsRepository = InMemoryCottageConditionsRepository()
 
     private val editionService = CreateCampRegistrationsEditionApplicationService(campEditionRepository)
@@ -40,9 +40,9 @@ internal class UpdateCottageTest {
         campEditionRepository,
         academicMinistryRepository,
         cottageRepository,
-        InMemoryCampParticipantReadOnlyRepository,
-        InMemoryCampEditionShirtReadOnlyRepository,
-        CottageFreeSpaceSpecificationFactory(InMemoryCampParticipantRepository),
+        InMemoryCampParticipantReadOnlyRepository(),
+        InMemoryCampEditionShirtReadOnlyRepository(),
+        CottageFreeSpaceSpecificationFactory(InMemoryCampParticipantRepository()),
         cottageConditionsRepository
     )
 

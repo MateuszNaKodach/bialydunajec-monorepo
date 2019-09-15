@@ -5,7 +5,7 @@ import org.bialydunajec.registrations.domain.academicministry.CampRegistrationsA
 
 internal const val academicMinistryId = "am1"
 
-internal object InMemoryAcademicMinistryRepository : AcademicMinistryRepository {
+internal class InMemoryAcademicMinistryRepository : AcademicMinistryRepository {
 
     override fun save(aggregateRoot: CampRegistrationsAcademicMinistry): CampRegistrationsAcademicMinistry {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.

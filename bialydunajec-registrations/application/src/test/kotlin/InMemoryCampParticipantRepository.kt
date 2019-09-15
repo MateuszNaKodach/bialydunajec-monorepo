@@ -7,7 +7,7 @@ import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticip
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantRepository
 import org.bialydunajec.registrations.domain.cottage.CottageId
 
-internal object InMemoryCampParticipantRepository : CampParticipantRepository {
+internal class InMemoryCampParticipantRepository : CampParticipantRepository {
 
     override fun findAllByCottageId(cottageId: CottageId): Collection<CampParticipant> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.

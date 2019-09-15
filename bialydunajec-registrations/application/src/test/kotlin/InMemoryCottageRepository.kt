@@ -6,7 +6,7 @@ import org.bialydunajec.registrations.domain.cottage.CottageId
 import org.bialydunajec.registrations.domain.cottage.CottageRepository
 import org.bialydunajec.registrations.domain.cottage.valueobject.CottageStatus
 
-internal object InMemoryCottageRepository : CottageRepository, InMemoryRepository<Cottage>() {
+internal class InMemoryCottageRepository : CottageRepository, InMemoryRepository<Cottage>() {
 
     override fun findAllByCampRegistrationsEditionId(campRegistrationsEditionId: CampRegistrationsEditionId): Collection<Cottage> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.

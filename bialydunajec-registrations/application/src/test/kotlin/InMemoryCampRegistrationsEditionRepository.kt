@@ -3,7 +3,7 @@ import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditio
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionRepository
 
-internal object InMemoryCampRegistrationsEditionRepository : CampRegistrationsEditionRepository,
+internal class InMemoryCampRegistrationsEditionRepository : CampRegistrationsEditionRepository,
     InMemoryRepository<CampRegistrationsEdition>() {
 
     override fun delete(aggregateRoot: CampRegistrationsEdition) {

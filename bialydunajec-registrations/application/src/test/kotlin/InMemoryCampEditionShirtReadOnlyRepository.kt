@@ -4,7 +4,7 @@ import org.bialydunajec.registrations.domain.shirt.CampEditionShirt
 import org.bialydunajec.registrations.domain.shirt.CampEditionShirtId
 import org.bialydunajec.registrations.domain.shirt.CampEditionShirtReadOnlyRepository
 
-internal object InMemoryCampEditionShirtReadOnlyRepository : CampEditionShirtReadOnlyRepository {
+internal class InMemoryCampEditionShirtReadOnlyRepository : CampEditionShirtReadOnlyRepository {
 
     override fun findByCampRegistrationsEditionId(campRegistrationsEditionId: CampRegistrationsEditionId): CampEditionShirt? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
