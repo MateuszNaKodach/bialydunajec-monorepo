@@ -12,6 +12,7 @@ import org.bialydunajec.registrations.domain.campedition.valueobject.CampRegistr
 import org.bialydunajec.registrations.domain.campedition.valueobject.CampRegistrationsSnapshot
 import org.bialydunajec.registrations.domain.camper.valueobject.*
 import org.bialydunajec.registrations.domain.cottage.CottageId
+import org.bialydunajec.registrations.domain.cottage.conditions.CottageConditionsDescriptionItem
 import org.bialydunajec.registrations.domain.cottage.valueobject.*
 import org.bialydunajec.registrations.domain.shirt.valueobject.*
 import org.bialydunajec.registrations.dto.*
@@ -146,6 +147,8 @@ fun CottageBoss.toDto() =
                 personalDescription?.toDto()
         )
 
+fun CottageConditionsDescriptionItem.toDto() = CottageConditionsDescriptionItemDto(title, content, iconUrl.toString())
+
 fun CottageBossDto.toValueObject() =
         CottageBoss(
                 firstName?.let { FirstName(it) },
@@ -275,7 +278,7 @@ fun CampRegistrationsSnapshot.toDto() =
                 lastFinishedAt = lastFinishedAt
         )
 
-fun CottageSnapshot.toCottageInfoDto(conditionsDescription: String) =
+fun CottageSnapshot.toCottageInfoDto(conditions: List<CottageConditionsDescriptionItem>) =
         CottageInfoDto(
                 cottageId = cottageId.toString(),
                 campRegistrationsEditionId = campRegistrationsEditionId.toString(),
@@ -288,6 +291,6 @@ fun CottageSnapshot.toCottageInfoDto(conditionsDescription: String) =
                 cottageState = cottageState.toString(),
                 cottageBoss = cottageBoss?.toDto(),
                 audit = audit.toDto(),
-                conditions = conditionsDescription
+                conditions = conditions.map { it.toDto() }
         )
 

@@ -1,5 +1,6 @@
 import org.assertj.core.api.Assertions.assertThat
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.financial.Money
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.Url
 import org.bialydunajec.registrations.application.command.CreateAcademicMinistryCottageApplicationService
 import org.bialydunajec.registrations.application.command.CreateCampRegistrationsEditionApplicationService
 import org.bialydunajec.registrations.application.command.UpdateCottageApplicationService
@@ -8,6 +9,7 @@ import org.bialydunajec.registrations.application.command.api.CampRegistrationsC
 import org.bialydunajec.registrations.application.query.api.CottageQuery
 import org.bialydunajec.registrations.application.query.readmodel.CampRegistrationsDomainModelReader
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
+import org.bialydunajec.registrations.domain.cottage.conditions.CottageConditionsDescriptionItem
 import org.bialydunajec.registrations.domain.cottage.conditions.InMemoryCottageConditionsRepository
 import org.bialydunajec.registrations.domain.cottage.specification.CottageFreeSpaceSpecificationFactory
 import org.bialydunajec.registrations.domain.cottage.valueobject.CottageSpace
@@ -79,12 +81,19 @@ internal class UpdateCottageTest {
         )
 
         // When
-        val newConditions = "temporary conditions description"
+        val newItem = CottageConditionsDescriptionItem(
+            "title", "content",
+            Url.ExternalUrl("url")
+        )
+        val newConditions = listOf(newItem)
         val updateCommand = CampRegistrationsCommand.UpdateCottageConditions(cottageId, newConditions)
         cottageConditionsService.execute(updateCommand)
 
         // Then
         val retrievedCottage = reader.readFor(CottageQuery.NewestByAcademicMinistryId(academicMinistryId))!!
-        assertThat(retrievedCottage.conditions).isEqualTo(newConditions)
+        val retrievedConditionDescriptionItem = retrievedCottage.conditions[0]
+        assertThat(retrievedConditionDescriptionItem.title).isEqualTo(newItem.title)
+        assertThat(retrievedConditionDescriptionItem.content).isEqualTo(newItem.content)
+        assertThat(retrievedConditionDescriptionItem.iconUrl).isEqualTo(newItem.iconUrl.toString())
     }
 }

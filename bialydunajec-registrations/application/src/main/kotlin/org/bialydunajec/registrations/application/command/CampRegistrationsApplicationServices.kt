@@ -210,7 +210,7 @@ internal class UpdateCottageConditionsApplicationService(
 
     override fun execute(command: CampRegistrationsCommand.UpdateCottageConditions) {
         val conditions = cottageConditionsRepository.findByCottageId(command.cottageId) ?: CottageConditions()
-        conditions.update(command.temporaryConditionsDescription)
+        conditions.update(command.newConditions)
         cottageConditionsRepository.save(conditions)
     }
 }

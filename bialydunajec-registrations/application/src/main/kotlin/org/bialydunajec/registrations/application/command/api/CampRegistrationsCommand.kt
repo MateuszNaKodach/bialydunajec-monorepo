@@ -11,6 +11,7 @@ import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticip
 import org.bialydunajec.registrations.domain.camper.campparticipantregistration.CampParticipantRegistrationId
 import org.bialydunajec.registrations.domain.camper.valueobject.CamperApplication
 import org.bialydunajec.registrations.domain.cottage.CottageId
+import org.bialydunajec.registrations.domain.cottage.conditions.CottageConditionsDescriptionItem
 import org.bialydunajec.registrations.domain.cottage.valueobject.BankTransferDetails
 import org.bialydunajec.registrations.domain.cottage.valueobject.CampersLimitations
 import org.bialydunajec.registrations.domain.cottage.valueobject.CottageBoss
@@ -112,7 +113,7 @@ sealed class CampRegistrationsCommand : Command {
 
     data class UpdateCottageConditions constructor(
         val cottageId: CottageId,
-        val temporaryConditionsDescription: String
+        val newConditions: List<CottageConditionsDescriptionItem>
     ) : CampRegistrationsCommand()
 
     data class ActivateCottage constructor(

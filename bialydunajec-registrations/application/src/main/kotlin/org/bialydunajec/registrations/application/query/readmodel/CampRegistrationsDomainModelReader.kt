@@ -94,7 +94,7 @@ internal class CampRegistrationsDomainModelReader(
         val cottage = cottageRepository.findNewestCottageByAcademicMinistryId(AcademicMinistryId(query.academicMinistryId)) ?: return null
         val cottageSnapshot = cottage.getSnapshot()
         val conditions = cottageConditionsRepository.findByCottageId(cottageSnapshot.cottageId) ?: CottageConditions()
-        return cottageSnapshot.toCottageInfoDto(conditions.conditionsDescription)
+        return cottageSnapshot.toCottageInfoDto(conditions.items)
     }
 
     fun readFor(query: CampParticipantQuery.ById) =

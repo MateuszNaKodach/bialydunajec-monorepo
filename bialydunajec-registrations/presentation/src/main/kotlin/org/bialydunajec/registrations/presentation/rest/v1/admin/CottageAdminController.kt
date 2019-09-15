@@ -7,6 +7,7 @@ import org.bialydunajec.registrations.application.command.api.CampRegistrationsA
 import org.bialydunajec.registrations.application.query.api.*
 import org.bialydunajec.registrations.application.dto.toValueObject
 import org.bialydunajec.registrations.domain.cottage.CottageId
+import org.bialydunajec.registrations.domain.cottage.conditions.CottageConditionsDescriptionItem
 import org.bialydunajec.registrations.presentation.rest.v1.admin.request.UpdateCottageRequest
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
@@ -55,7 +56,9 @@ class CottageAdminController(
             )
         )
         commandGateway.process(
-            CampRegistrationsCommand.UpdateCottageConditions(id, request.conditions)
+            CampRegistrationsCommand.UpdateCottageConditions(id, request.conditions.map {
+                CottageConditionsDescriptionItem(it.title, it.content, Url.ExternalUrl(it.iconUrl))
+            })
         )
     }
 

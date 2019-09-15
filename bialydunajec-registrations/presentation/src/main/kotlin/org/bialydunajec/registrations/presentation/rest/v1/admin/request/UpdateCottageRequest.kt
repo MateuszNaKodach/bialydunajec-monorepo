@@ -2,11 +2,7 @@ package org.bialydunajec.registrations.presentation.rest.v1.admin.request
 
 import org.bialydunajec.ddd.base.dto.PlaceDto
 import org.bialydunajec.ddd.domain.base.validation.constraints.NullOrNotBlank
-import org.bialydunajec.registrations.dto.BankTransferDetailsDto
-import org.bialydunajec.registrations.dto.CampersLimitationsDto
-import org.bialydunajec.registrations.dto.CottageBossDto
-import org.bialydunajec.registrations.dto.CottageConditionDto
-import org.bialydunajec.registrations.dto.CottageSpaceDto
+import org.bialydunajec.registrations.dto.*
 import javax.validation.Valid
 import javax.validation.constraints.NotBlank
 
@@ -27,7 +23,6 @@ data class UpdateCottageRequest(
     val bankTransferDetails: BankTransferDetailsDto?,
     @field:Valid
     val cottageBoss: CottageBossDto?,
-    val conditions: String
-//    @field:Valid
-//    val conditions: List<CottageConditionDto>
+    @field:Valid
+    val conditions: List<CottageConditionsDescriptionItemDto>
 )
