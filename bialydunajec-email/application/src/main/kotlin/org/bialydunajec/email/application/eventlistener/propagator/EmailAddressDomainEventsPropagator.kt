@@ -17,20 +17,8 @@ internal class EmailAddressDomainEventsPropagator(private val externalEventBus: 
             externalEventBus.send(
                     EmailAddressExternalEvent.EmailAddressCreated(
                             aggregateId.toString(),
-                            emailAddress.toString()
-                    )
-            )
-        }
-    }
-
-    @Async
-    @TransactionalEventListener
-    fun handleDomainEvent(domainEvent: EmailAddressEvent.EmailAddressUpdated) {
-        with(domainEvent) {
-            externalEventBus.send(
-                    EmailAddressExternalEvent.EmailAddressUpdated(
-                            aggregateId.toString(),
-                            emailAddress.toString()
+                            emailAddress.toString(),
+                            isActive
                     )
             )
         }

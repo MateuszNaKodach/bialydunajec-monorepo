@@ -4,12 +4,8 @@ sealed class EmailAddressExternalEvent {
 
     data class EmailAddressCreated(
             val emailId: String,
-            val emailAddress: String
-    ) : EmailAddressExternalEvent()
-
-    data class EmailAddressUpdated(
-            val emailId: String,
-            val newEmailAddress: String
+            val emailAddress: String,
+            val isActive: Boolean
     ) : EmailAddressExternalEvent()
 
     data class EmailAddressCatalogizedToEmailGroup(

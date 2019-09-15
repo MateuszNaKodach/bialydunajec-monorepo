@@ -19,10 +19,6 @@ internal class EmailAddressEventsProjection(
             processingQueue.process(it)
         }
 
-        eventSubscriber.subscribe(EmailAddressExternalEvent.EmailAddressUpdated::class) {
-            processingQueue.process(it)
-        }
-
         eventSubscriber.subscribe(EmailAddressExternalEvent.EmailAddressCatalogizedToEmailGroup::class) {
             processingQueue.process(it)
         }
@@ -50,18 +46,6 @@ internal class EmailAddressEventsProjection(
                 }
             }
 
-            is EmailAddressExternalEvent.EmailAddressUpdated -> {
-                with(payload) {
-                    emailAddressRepository.findById(emailId).get()
-                            .also {
-                                it.emailAddress = newEmailAddress
-                            }.also {
-                                emailAddressRepository.save(it)
-                            }
-                }.also {
-                    emailAddressEventStream.updateStreamWith(externalEvent)
-                }
-            }
 
             is EmailAddressExternalEvent.EmailAddressCatalogizedToEmailGroup -> {
                 with(payload) {

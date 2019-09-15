@@ -12,12 +12,8 @@ sealed class EmailAddressEvent : DomainEvent<EmailAddressId> {
 
     class EmailAddressCreated(
             override val aggregateId: EmailAddressId,
-            val emailAddress: EmailAddress
-    ) : EmailAddressEvent()
-
-    class EmailAddressUpdated(
-            override val aggregateId: EmailAddressId,
-            val emailAddress: EmailAddress
+            val emailAddress: EmailAddress,
+            val isActive: Boolean
     ) : EmailAddressEvent()
 
     class EmailAddressCatalogizedToEmailGroup(

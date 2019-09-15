@@ -26,7 +26,7 @@ class EmailAddress(
     constructor(emailAddress: EmailAddress) :
             this(EmailAddressId.from(emailAddress), emailAddress)
 
-    constructor(emailAddress: EmailAddress, emailAddressGroupToBeCatalogizedIn: EmailAddressGroup, previousEmailAddressId: EmailAddressId) :
+    constructor(emailAddress: EmailAddress, emailAddressGroupToBeCatalogizedIn: EmailAddressGroup, previousEmailAddressId: EmailAddressId?) :
             this(
                     EmailAddressId.from(emailAddress, emailAddressGroupToBeCatalogizedIn),
                     emailAddress,
@@ -40,7 +40,8 @@ class EmailAddress(
         registerEvent(
                 EmailAddressEvent.EmailAddressCreated(
                         getAggregateId(),
-                        emailAddressValue
+                        emailAddressValue,
+                        isActive
                 )
         )
     }
@@ -51,17 +52,6 @@ class EmailAddress(
     override fun getVersion() = version
 
     fun getEmailAddress() = emailAddressValue
-
-    fun updateAddress(newEmailAddress: EmailAddress) {
-        emailAddressValue = newEmailAddress
-
-        registerEvent(
-                EmailAddressEvent.EmailAddressUpdated(
-                        getAggregateId(),
-                        emailAddressValue
-                )
-        )
-    }
 
     fun deactivateEmailAddress(){
         isActive = false
@@ -79,11 +69,14 @@ class EmailAddress(
     @ElementCollection
     var emailGroupIds: MutableSet<EmailGroupId> = mutableSetOf()
 
+    var emailOwner: EmailAddressOwner? = null
+
     fun addTo(newEmailGroup: EmailGroup, emailAddressOwner: EmailAddressOwner) {
 
         val isAdded = emailGroupIds.add(newEmailGroup.getAggregateId())
 
         if (isAdded) {
+            emailOwner = emailAddressOwner
             registerEvent(
                     EmailAddressEvent.EmailAddressCatalogizedToEmailGroup(
                             getAggregateId(),

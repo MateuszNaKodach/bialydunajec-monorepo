@@ -36,7 +36,6 @@ internal class CatalogizeEmailAddressApplicationService(
                         EmailAddressId.from(command.emailAddress)
                 )
 
-
         emailAddressToBeCatalogized.addTo(
                 emailGroup,
                 command.emailAddressOwner)
@@ -49,17 +48,37 @@ internal class CatalogizeEmailAddressApplicationService(
 @Service
 @Transactional
 internal class UpdateEmailAddressApplicationService(
-        private val emailAddressRepository: EmailAddressRepository
+        private val emailAddressRepository: EmailAddressRepository,
+        private val emailGroupRepository: EmailGroupRepository,
+        private val emailAddressCommandGateway: EmailAddressCommandGateway
 ) : ApplicationService<EmailAddressCommand.UpdateEmailAddress> {
 
     override fun execute(command: EmailAddressCommand.UpdateEmailAddress) {
 
-        val emailAddress = emailAddressRepository.findById(command.emailAddressId)
+        val oldEmailAddress = emailAddressRepository.findById(command.emailAddressId)
                 ?: throw DomainRuleViolationException.of(EmailAddressDomainRule.EMAIL_ADDRESS_TO_UPDATE_MUST_EXISTS)
 
-        emailAddress.updateAddress(command.newEmailAddress)
+        emailAddressCommandGateway.process(EmailAddressCommand.DeactivateEmailAddress(
+                oldEmailAddress.getAggregateId(),
+                oldEmailAddress.getEmailAddress()
+        )
+        )
 
-        emailAddressRepository.save(emailAddress)
+        if (oldEmailAddress.emailGroupIds.size > 0){
+
+            oldEmailAddress.emailGroupIds.forEach {
+                val emailGroup = emailGroupRepository.findById(it)
+                emailAddressCommandGateway.process(EmailAddressCommand.CatalogizeEmailAddress(
+                        command.newEmailAddress,
+                        emailGroup?.emailAddressGroup!!,
+                        oldEmailAddress.emailOwner!!
+                ))
+            }
+        }else{
+            val newEmailAddress = EmailAddress(command.newEmailAddress)
+            emailAddressRepository.save(newEmailAddress)
+        }
+
     }
 }
 
