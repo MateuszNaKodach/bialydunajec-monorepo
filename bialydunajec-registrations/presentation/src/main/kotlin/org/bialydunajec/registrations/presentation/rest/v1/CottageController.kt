@@ -10,6 +10,6 @@ class CottageController(private val queryGateway: CampRegistrationsQueryGateway)
 
     @GetMapping("/newest")
     fun getNewestByAcademicMinistryId(@RequestParam academicMinistryId: String) =
-            queryGateway.process(CottageQuery.NewestByAcademicMinistryId(academicMinistryId))
+        queryGateway.process(CottageQuery.NewestByAcademicMinistryId(academicMinistryId))
 
 }
