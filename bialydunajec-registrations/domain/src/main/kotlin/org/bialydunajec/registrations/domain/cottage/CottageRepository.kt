@@ -7,8 +7,17 @@ import org.bialydunajec.registrations.domain.cottage.valueobject.CottageStatus
 
 interface CottageRepository : DomainRepository<Cottage, CottageId> {
     fun findAllByCampRegistrationsEditionId(campRegistrationsEditionId: CampRegistrationsEditionId): Collection<Cottage>
-    fun findAllByCampRegistrationsEditionIdAndStatus(campRegistrationsEditionId: CampRegistrationsEditionId, status: CottageStatus): Collection<Cottage>
-    fun findByIdAndCampRegistrationsEditionId(cottageId: CottageId, campRegistrationsEditionId: CampRegistrationsEditionId): Cottage?
+
+    fun findAllByCampRegistrationsEditionIdAndStatus(
+        campRegistrationsEditionId: CampRegistrationsEditionId,
+        status: CottageStatus
+    ): Collection<Cottage>
+
+    fun findByIdAndCampRegistrationsEditionId(
+        cottageId: CottageId,
+        campRegistrationsEditionId: CampRegistrationsEditionId
+    ): Cottage?
+
     fun countByCampRegistrationsEditionId(campRegistrationsEditionId: CampRegistrationsEditionId): Long
     fun findNewestCottageByAcademicMinistryId(academicMinistryId: AcademicMinistryId): Cottage?
 }
