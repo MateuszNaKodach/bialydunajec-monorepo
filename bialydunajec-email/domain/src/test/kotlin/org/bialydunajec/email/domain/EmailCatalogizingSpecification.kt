@@ -39,7 +39,7 @@ object EmailCatalogizingSpecification : Spek({
             }
 
             Then("new EmailGroup should contain the new emailAddress") {
-                assertTrue { newEmailAddress.doesBelongsTo(newEmailGroup.getAggregateId()) }
+                assertTrue { newEmailAddress.belongsTo(newEmailGroup.getAggregateId()) }
             }
         }
 
@@ -55,7 +55,7 @@ object EmailCatalogizingSpecification : Spek({
             }
 
             Then("the existing EmailGroup should contain the new emailAddress") {
-                assertTrue { newEmailAddress.doesBelongsTo(existingEmailGroup.getAggregateId()) }
+                assertTrue { newEmailAddress.belongsTo(existingEmailGroup.getAggregateId()) }
             }
 
         }
@@ -72,7 +72,7 @@ object EmailCatalogizingSpecification : Spek({
             }
 
             Then("the new EmailGroup should contain the existing emailAddress") {
-                assertTrue { existingEmailAddress.doesBelongsTo(newEmailGroup.getAggregateId()) }
+                assertTrue { existingEmailAddress.belongsTo(newEmailGroup.getAggregateId()) }
             }
 
         }

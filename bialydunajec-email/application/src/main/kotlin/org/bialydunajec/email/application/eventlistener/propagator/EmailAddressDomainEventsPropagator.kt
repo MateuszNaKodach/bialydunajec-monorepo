@@ -1,4 +1,4 @@
-package org.bialydunajec.email.application.eventlistener
+package org.bialydunajec.email.application.eventlistener.propagator
 
 import org.bialydunajec.ddd.application.base.external.event.ExternalEventPublisher
 import org.bialydunajec.email.domain.EmailAddressEvent
@@ -17,7 +17,7 @@ internal class EmailAddressDomainEventsPropagator(private val externalEventBus: 
             externalEventBus.send(
                     EmailAddressExternalEvent.EmailAddressCreated(
                             aggregateId.toString(),
-                            emailAddressValue.toString()
+                            emailAddress.toString()
                     )
             )
         }
@@ -30,7 +30,7 @@ internal class EmailAddressDomainEventsPropagator(private val externalEventBus: 
             externalEventBus.send(
                     EmailAddressExternalEvent.EmailAddressUpdated(
                             aggregateId.toString(),
-                            emailAddressValue.toString()
+                            emailAddress.toString()
                     )
             )
         }
@@ -43,9 +43,24 @@ internal class EmailAddressDomainEventsPropagator(private val externalEventBus: 
             externalEventBus.send(
                     EmailAddressExternalEvent.EmailAddressCatalogizedToEmailGroup(
                             aggregateId.toString(),
+                            emailAddress.toString(),
                             newEmailGroupId.toString(),
+                            newEmailGroup.name,
                             emailAddressOwner.firstName.toString(),
                             emailAddressOwner.lastName.toString()
+                    )
+            )
+        }
+    }
+
+    @Async
+    @TransactionalEventListener
+    fun handleDomainEvent(domainEvent: EmailAddressEvent.EmailAddressDeactivated) {
+        with(domainEvent) {
+            externalEventBus.send(
+                    EmailAddressExternalEvent.EmailAddressDeactivated(
+                            aggregateId.toString(),
+                            emailAddress.toString()
                     )
             )
         }

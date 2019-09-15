@@ -8,6 +8,8 @@ import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.FirstName
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.LastName
 import org.bialydunajec.email.application.api.EmailAddressCommand
 import org.bialydunajec.email.application.api.EmailAddressCommandGateway
+import org.bialydunajec.email.domain.EmailAddressId
+import org.bialydunajec.email.domain.valueobject.EmailAddressGroup
 import org.bialydunajec.email.domain.valueobject.EmailAddressOwner
 import org.springframework.stereotype.Component
 
@@ -22,7 +24,7 @@ internal class RegistrationExternalEventListener(
             emailAddressCommandGateway.process(
                     EmailAddressCommand.CatalogizeEmailAddress(
                             EmailAddress(payload.snapshot.currentCamperData.emailAddress),
-                            payload.snapshot.currentCamperData.cottage.cottageName,
+                            EmailAddressGroup(payload.snapshot.currentCamperData.cottage.cottageName),
                             EmailAddressOwner(
                                     FirstName(payload.snapshot.currentCamperData.personalData.firstName),
                                     LastName(payload.snapshot.currentCamperData.personalData.lastName)
@@ -36,7 +38,7 @@ internal class RegistrationExternalEventListener(
             emailAddressCommandGateway.process(
                     EmailAddressCommand.CatalogizeEmailAddress(
                             EmailAddress(payload.snapshot.currentCamperData.emailAddress),
-                            payload.snapshot.currentCamperData.cottage.cottageName,
+                            EmailAddressGroup(payload.snapshot.currentCamperData.cottage.cottageName),
                             EmailAddressOwner(
                                     FirstName(payload.snapshot.currentCamperData.personalData.firstName),
                                     LastName(payload.snapshot.currentCamperData.personalData.lastName)

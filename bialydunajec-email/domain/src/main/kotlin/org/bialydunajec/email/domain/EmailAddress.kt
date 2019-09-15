@@ -3,8 +3,7 @@ package org.bialydunajec.email.domain
 import org.bialydunajec.ddd.domain.base.aggregate.AuditableAggregateRoot
 import org.bialydunajec.ddd.domain.base.persistence.Versioned
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddress
-import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.FirstName
-import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.LastName
+import org.bialydunajec.email.domain.valueobject.EmailAddressGroup
 import org.bialydunajec.email.domain.valueobject.EmailAddressOwner
 
 import javax.persistence.*
@@ -15,18 +14,27 @@ class EmailAddress(
         emailAddressId: EmailAddressId,
 
         @Embedded
-        private var emailAddressValue: EmailAddress
+        private var emailAddressValue: EmailAddress,
+        private var isActive: Boolean = true,
+        private var previousEmailAddresId: EmailAddressId? = null
 ) : AuditableAggregateRoot<EmailAddressId, EmailAddressEvent>(emailAddressId), Versioned {
 
     constructor(emailAddressId: EmailAddressId, emailAddress: String) :
             this(emailAddressId,
-                    EmailAddress(emailAddress, org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddressId(emailAddressId.getIdentifierValue())))
+                    EmailAddress(emailAddress))
 
-    constructor(emailAddressValueObject: EmailAddress) :
-            this(EmailAddressId(emailAddressValueObject.emailAddressId.getIdentifierValue()),
-                    emailAddressValueObject)
+    constructor(emailAddress: EmailAddress) :
+            this(EmailAddressId.from(emailAddress), emailAddress)
 
-    constructor(emailAddress: String) : this(EmailAddressId(), emailAddress)
+    constructor(emailAddress: EmailAddress, emailAddressGroupToBeCatalogizedIn: EmailAddressGroup, previousEmailAddressId: EmailAddressId) :
+            this(
+                    EmailAddressId.from(emailAddress, emailAddressGroupToBeCatalogizedIn),
+                    emailAddress,
+                    true,
+                    previousEmailAddressId
+            )
+
+    constructor(emailAddress: String) : this(EmailAddress(emailAddress))
 
     init {
         registerEvent(
@@ -44,8 +52,8 @@ class EmailAddress(
 
     fun getEmailAddress() = emailAddressValue
 
-    fun updateAddress(newEmailAddress: String) {
-        emailAddressValue = EmailAddress(newEmailAddress, emailAddressValue.emailAddressId)
+    fun updateAddress(newEmailAddress: EmailAddress) {
+        emailAddressValue = newEmailAddress
 
         registerEvent(
                 EmailAddressEvent.EmailAddressUpdated(
@@ -55,23 +63,39 @@ class EmailAddress(
         )
     }
 
+    fun deactivateEmailAddress(){
+        isActive = false
+
+        registerEvent(
+                EmailAddressEvent.EmailAddressDeactivated(
+                        getAggregateId(),
+                        emailAddressValue
+                )
+        )
+
+    }
+
+
     @ElementCollection
     var emailGroupIds: MutableSet<EmailGroupId> = mutableSetOf()
 
-    fun addTo(newEmailGroupId: EmailGroupId, emailAddressOwner: EmailAddressOwner) {
-        val isAdded = emailGroupIds.add(newEmailGroupId)
+    fun addTo(newEmailGroup: EmailGroup, emailAddressOwner: EmailAddressOwner) {
+
+        val isAdded = emailGroupIds.add(newEmailGroup.getAggregateId())
 
         if (isAdded) {
             registerEvent(
                     EmailAddressEvent.EmailAddressCatalogizedToEmailGroup(
                             getAggregateId(),
-                            newEmailGroupId,
+                            emailAddressValue,
+                            newEmailGroup.getAggregateId(),
+                            newEmailGroup.emailAddressGroup,
                             emailAddressOwner
                     )
             )
         }
     }
 
-    fun doesBelongsTo(emailGroupId: EmailGroupId): Boolean = emailGroupIds.contains(emailGroupId)
+    fun belongsTo(emailGroupId: EmailGroupId): Boolean = emailGroupIds.contains(emailGroupId)
 
 }

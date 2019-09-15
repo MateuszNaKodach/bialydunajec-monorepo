@@ -11,6 +11,7 @@ import org.bialydunajec.email.application.api.EmailMessageCommand
 import org.bialydunajec.email.application.api.EmailMessageCommandGateway
 import org.bialydunajec.email.domain.EmailAddressId
 import org.bialydunajec.email.domain.EmailMessageLogId
+import org.bialydunajec.email.domain.valueobject.EmailAddressGroup
 import org.bialydunajec.email.domain.valueobject.EmailAddressOwner
 import org.bialydunajec.email.domain.valueobject.EmailMessage
 import org.bialydunajec.email.messages.command.EmailAddressExternalCommand
@@ -45,11 +46,8 @@ internal class ExternalCommandsListener internal constructor(
 
             is EmailAddressExternalCommand.CatalogizeEmailAddress -> {
                 emailAddressCommandGateway.process(EmailAddressCommand.CatalogizeEmailAddress(
-                        EmailAddress(
-                                payload.emailAddress,
-                                org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddressId(payload.emailAddressId)
-                        ),
-                        payload.emailGroupName,
+                        EmailAddress(payload.emailAddress),
+                        EmailAddressGroup(payload.emailGroupName),
                         EmailAddressOwner(
                                 FirstName(payload.emailOwnerName),
                                 LastName(payload.emailOwnerLastName)
@@ -60,8 +58,8 @@ internal class ExternalCommandsListener internal constructor(
 
             is EmailAddressExternalCommand.UpdateEmailAddress -> {
                 emailAddressCommandGateway.process(EmailAddressCommand.UpdateEmailAddress(
-                        EmailAddressId(payload.emailAddressId),
-                        payload.newEmailAddress
+                        EmailAddressId.from(payload.emailAddressId),
+                        EmailAddress(payload.newEmailAddress)
                 )
                 )
             }
