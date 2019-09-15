@@ -11,7 +11,6 @@ import org.bialydunajec.registrations.domain.campedition.specification.CampRegis
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantRepository
 import org.bialydunajec.registrations.domain.cottage.CottageId
 import org.bialydunajec.registrations.domain.cottage.CottageRepository
-import org.bialydunajec.registrations.domain.cottage.conditions.CottageConditions
 import org.bialydunajec.registrations.domain.cottage.conditions.CottageConditionsRepository
 import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule
 import org.springframework.beans.factory.annotation.Qualifier
@@ -205,11 +204,15 @@ internal class UpdateCottageApplicationService(
 @Service
 @Transactional
 internal class UpdateCottageConditionsApplicationService(
-    private val cottageConditionsRepository: CottageConditionsRepository
+    private val cottageConditionsRepository: CottageConditionsRepository,
+    private val cottageRepository: CottageRepository
 ) : ApplicationService<CampRegistrationsCommand.UpdateCottageConditions> {
 
     override fun execute(command: CampRegistrationsCommand.UpdateCottageConditions) {
-        val conditions = cottageConditionsRepository.findByCottageId(command.cottageId) ?: CottageConditions()
+        val cottageId = command.cottageId
+        val conditions = cottageConditionsRepository.findByCottageId(cottageId)
+            ?: cottageRepository.findById(cottageId)?.createConditions()
+            ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.COTTAGE_NOT_FOUND)
         conditions.update(command.newConditions)
         cottageConditionsRepository.save(conditions)
     }

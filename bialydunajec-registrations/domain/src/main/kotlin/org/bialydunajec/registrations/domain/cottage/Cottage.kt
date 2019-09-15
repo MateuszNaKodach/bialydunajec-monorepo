@@ -10,6 +10,7 @@ import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.Url
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.location.Place
 import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryId
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
+import org.bialydunajec.registrations.domain.cottage.conditions.CottageConditions
 import org.bialydunajec.registrations.domain.cottage.valueobject.*
 import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule
 import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule.*
@@ -269,4 +270,7 @@ class Cottage internal constructor(
 
     override fun getVersion() = version
 
+    fun createConditions(): CottageConditions {
+        return CottageConditions(getAggregateId())
+    }
 }

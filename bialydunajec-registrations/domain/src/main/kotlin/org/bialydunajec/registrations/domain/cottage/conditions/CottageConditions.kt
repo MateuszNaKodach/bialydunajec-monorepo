@@ -1,6 +1,10 @@
 package org.bialydunajec.registrations.domain.cottage.conditions
 
-class CottageConditions {
+import org.bialydunajec.ddd.domain.base.aggregate.AggregateRoot
+import org.bialydunajec.ddd.domain.base.event.DomainEvent
+import org.bialydunajec.registrations.domain.cottage.CottageId
+
+class CottageConditions(cottageId: CottageId) : AggregateRoot<CottageId, DomainEvent<CottageId>>(cottageId) {
 
     var items: List<CottageConditionsDescriptionItem> = listOf()
         private set

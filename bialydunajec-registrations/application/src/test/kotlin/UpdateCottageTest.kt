@@ -31,7 +31,8 @@ internal class UpdateCottageTest {
 
     private val cottageConditionsRepository = InMemoryCottageConditionsRepository()
 
-    private val cottageConditionsService = UpdateCottageConditionsApplicationService(cottageConditionsRepository)
+    private val cottageConditionsService =
+        UpdateCottageConditionsApplicationService(cottageConditionsRepository, InMemoryCottageRepository)
 
     private val edition = 1
 
