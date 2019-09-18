@@ -25,6 +25,12 @@ allprojects {
         }
     }
 
+    test {
+        useJUnitPlatform {
+            includeEngines 'spek2'
+        }
+    }
+
     repositories {
         mavenCentral()
         maven { url "https://repo.spring.io/snapshot" }
@@ -109,7 +115,7 @@ allprojects {
         testCompile("com.github.nowakprojects:kt-time-traveler-test:${ktTimeTravelerVersion}")
         testCompile "com.tngtech.archunit:archunit-junit5-api:${archUnitVersion}"
         testRuntime "com.tngtech.archunit:archunit-junit5-engine:${archUnitVersion}"
-
+        testImplementation "io.mockk:mockk:${mockkVersion}"
     }
 
 }
@@ -159,8 +165,8 @@ dependencies {
     //compile project(':bialydunajec-faq:bialydunajec-faq-presentation')
     //compile project(':bialydunajec-faq:bialydunajec-faq-infrastructure')
 
-    //compile project(':bialydunajec-gallery:bialydunajec-gallery-presentation')
-    //compile project(':bialydunajec-gallery:bialydunajec-gallery-infrastructure')
+    compile project(':bialydunajec-gallery:bialydunajec-gallery-presentation')
+    compile project(':bialydunajec-gallery:bialydunajec-gallery-infrastructure')
 
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
     compile('org.springframework.boot:spring-boot-starter-hateoas')

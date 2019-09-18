@@ -58,14 +58,14 @@ include 'bialydunajec-camp-bus:application',
 
 include 'bialydunajec-rx-bus'
 
-/*
+
 include 'bialydunajec-gallery',
         'bialydunajec-gallery:application',
         'bialydunajec-gallery:presentation',
         'bialydunajec-gallery:domain',
         'bialydunajec-gallery:infrastructure',
         'bialydunajec-gallery:messages'
-*/
+
 
 /*
 include 'bialydunajec-faq',
