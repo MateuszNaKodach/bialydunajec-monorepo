@@ -27,6 +27,10 @@ internal class EmailAddressCatalogGroupEventsProjection(
         eventSubscriber.subscribe(EmailAddressExternalEvent.EmailAddressDeactivated::class) {
             processingQueue.process(it)
         }
+
+        eventSubscriber.subscribe(EmailAddressExternalEvent.EmailAddressBelongingToGroupUpdated::class) {
+            processingQueue.process(it)
+        }
     }
 
     override fun processExternalEvent(externalEvent: ExternalEvent<*>) {
@@ -53,8 +57,9 @@ internal class EmailAddressCatalogGroupEventsProjection(
 
             is EmailAddressExternalEvent.EmailAddressCatalogizedToEmailGroup -> {
                 with(payload) {
-                    emailAddressCatalogGroupMongoRepository.findById(emailId).get()
+                    emailAddressCatalogGroupMongoRepository.findById(emailGroupId).orElseGet { EmailAddressCatalogGroup(emailGroupId) }
                             .also {
+                                it.groupName = emailGroupName
                                 it.emailAddresses?.add(emailAddress)
                             }.also {
                                 emailAddressCatalogGroupMongoRepository.save(it)
@@ -74,6 +79,20 @@ internal class EmailAddressCatalogGroupEventsProjection(
                                     emailAddressCatalogGroupMongoRepository.save(it)
                                 }
                     }
+                }.also {
+                    emailAddressCatalogGroupEventStream.updateStreamWith(externalEvent)
+                }
+            }
+
+            is EmailAddressExternalEvent.EmailAddressBelongingToGroupUpdated -> {
+                with(payload) {
+                    emailAddressCatalogGroupMongoRepository.findById(emailGroupId).orElseGet { EmailAddressCatalogGroup(emailGroupId) }
+                            .also {
+                                it.groupName = emailGroupName
+                                it.emailAddresses?.add(newEmailAddress)
+                            }.also {
+                                emailAddressCatalogGroupMongoRepository.save(it)
+                            }
                 }.also {
                     emailAddressCatalogGroupEventStream.updateStreamWith(externalEvent)
                 }
