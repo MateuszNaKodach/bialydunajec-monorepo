@@ -19,7 +19,7 @@ internal class EmailGroupDomainEventsPropagator(private val externalEventBus: Ex
             externalEventBus.send(
                     EmailGroupExternalEvent.EmailGroupCreated(
                             aggregateId.toString(),
-                            emailAddressGroup.name
+                            emailGroup.emailAddressGroup.name
                     )
             )
         }

@@ -3,7 +3,6 @@ package org.bialydunajec.email.domain
 import org.bialydunajec.ddd.domain.base.aggregate.AuditableAggregateRoot
 import org.bialydunajec.ddd.domain.base.persistence.Versioned
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddress
-import org.bialydunajec.email.domain.valueobject.EmailAddressGroup
 import org.bialydunajec.email.domain.valueobject.EmailAddressOwner
 
 import javax.persistence.*
@@ -15,8 +14,7 @@ class EmailAddress(
 
         @Embedded
         private var emailAddressValue: EmailAddress,
-        private var isActive: Boolean = true,
-        private var previousEmailAddresId: EmailAddressId? = null
+        private var isActive: Boolean = true
 ) : AuditableAggregateRoot<EmailAddressId, EmailAddressEvent>(emailAddressId), Versioned {
 
     constructor(emailAddressId: EmailAddressId, emailAddress: String) :
@@ -25,14 +23,6 @@ class EmailAddress(
 
     constructor(emailAddress: EmailAddress) :
             this(EmailAddressId.from(emailAddress), emailAddress)
-
-    constructor(emailAddress: EmailAddress, emailAddressGroupToBeCatalogizedIn: EmailAddressGroup, previousEmailAddressId: EmailAddressId?) :
-            this(
-                    EmailAddressId.from(emailAddress, emailAddressGroupToBeCatalogizedIn),
-                    emailAddress,
-                    true,
-                    previousEmailAddressId
-            )
 
     constructor(emailAddress: String) : this(EmailAddress(emailAddress))
 
@@ -54,15 +44,16 @@ class EmailAddress(
     fun getEmailAddress() = emailAddressValue
 
     fun deactivateEmailAddress() {
-        isActive = false
-
-        registerEvent(
-                EmailAddressEvent.EmailAddressDeactivated(
-                        getAggregateId(),
-                        emailAddressValue,
-                        emailGroupId
-                )
-        )
+        if(isActive) {
+            isActive = false
+            registerEvent(
+                    EmailAddressEvent.EmailAddressDeactivated(
+                            getAggregateId(),
+                            emailAddressValue,
+                            emailGroupId
+                    )
+            )
+        }
 
     }
 
@@ -70,29 +61,64 @@ class EmailAddress(
 
     var emailOwner: EmailAddressOwner? = null
 
-    fun addTo(newEmailGroup: EmailGroup, emailAddressOwner: EmailAddressOwner) {
+    var previousEmailAddressId: EmailAddressId? = null
 
-        var isAdded: Boolean = false
+    fun catalogizeTo(newEmailGroup: EmailGroup, emailAddressOwner: EmailAddressOwner) {
 
-        if (emailGroupId == null || emailGroupId != newEmailGroup.getAggregateId()) {
-            emailGroupId = newEmailGroup.getAggregateId()
-            isAdded = true
-        }
+        deactivateEmailAddress()
 
-        if (isAdded) {
+        val newAddressEmailId: EmailAddressId = EmailAddressId.from(emailAddressValue, newEmailGroup.emailAddressGroup)
+
+        registerEvent(
+                EmailAddressEvent.EmailAddressCatalogizedToEmailGroup(
+                        newAddressEmailId,
+                        emailAddressValue,
+                        getAggregateId(),
+                        newEmailGroup.getAggregateId(),
+                        newEmailGroup.emailAddressGroup,
+                        emailAddressOwner
+                )
+        )
+    }
+
+    fun addTo(newEmailGroupId: EmailGroupId, emailAddressOwner: EmailAddressOwner?){
+        if (emailGroupId == null || emailGroupId != newEmailGroupId) {
+            emailGroupId = newEmailGroupId
             emailOwner = emailAddressOwner
-            registerEvent(
-                    EmailAddressEvent.EmailAddressCatalogizedToEmailGroup(
-                            getAggregateId(),
-                            emailAddressValue,
-                            newEmailGroup.getAggregateId(),
-                            newEmailGroup.emailAddressGroup,
-                            emailAddressOwner
-                    )
-            )
         }
     }
 
+    fun setPreviousEmailId(previousEmailAddressId: EmailAddressId){
+        this.previousEmailAddressId = previousEmailAddressId
+    }
+
     fun belongsTo(emailGroupId: EmailGroupId): Boolean = emailGroupId == emailGroupId
+
+    fun updateEmailAddress(newEmailAddress: EmailAddress, emailGroupToWhichOldEmailBelongs: EmailGroup?) {
+
+        deactivateEmailAddress()
+
+        if (emailGroupToWhichOldEmailBelongs != null) {
+            val newEmailAddressId = EmailAddressId.from(newEmailAddress, emailGroupToWhichOldEmailBelongs.emailAddressGroup)
+
+            EmailAddressEvent.EmailAddressBelongingToGroupUpdated(
+                    newEmailAddressId,
+                    newEmailAddress,
+                    getAggregateId(),
+                    emailGroupToWhichOldEmailBelongs.getAggregateId(),
+                    emailGroupToWhichOldEmailBelongs.emailAddressGroup,
+                    emailOwner
+            )
+
+        } else {
+            val newEmailAddressId = EmailAddressId.from(newEmailAddress)
+            EmailAddressEvent.EmailAddressUpdated(
+                    newEmailAddressId,
+                    newEmailAddress,
+                    getAggregateId()
+            )
+        }
+
+    }
 
 }

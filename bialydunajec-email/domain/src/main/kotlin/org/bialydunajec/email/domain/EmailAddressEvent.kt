@@ -19,6 +19,7 @@ sealed class EmailAddressEvent : DomainEvent<EmailAddressId> {
     class EmailAddressCatalogizedToEmailGroup(
             override val aggregateId: EmailAddressId,
             val emailAddress: EmailAddress,
+            val previousEmailAddressId: EmailAddressId,
             val newEmailGroupId: EmailGroupId,
             val newEmailGroup: EmailAddressGroup,
             val emailAddressOwner: EmailAddressOwner
@@ -30,4 +31,20 @@ sealed class EmailAddressEvent : DomainEvent<EmailAddressId> {
             val emailGroupId: EmailGroupId?
     ) : EmailAddressEvent()
 
+    class EmailAddressUpdated(
+            override val aggregateId: EmailAddressId,
+            val newEmailAddress: EmailAddress,
+            val previousEmailAddressId: EmailAddressId
+    ) : EmailAddressEvent()
+
+    class EmailAddressBelongingToGroupUpdated (
+        override val aggregateId: EmailAddressId,
+        val newEmailAddress: EmailAddress,
+        val previousEmailAddressId: EmailAddressId,
+        val emailGroupId: EmailGroupId,
+        val emailAddressGroup: EmailAddressGroup,
+        val emailOwner: EmailAddressOwner?
+    ): EmailAddressEvent()
 }
+
+

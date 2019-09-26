@@ -9,8 +9,7 @@ import org.springframework.stereotype.Component
 @Component
 class EmailAddressCommandGateway internal constructor(
         private val catalogizeEmailAddressApplicationService: CatalogizeEmailAddressApplicationService,
-        private val updateEmailAddressApplicationService: UpdateEmailAddressApplicationService,
-        private val deactivateEmailAddressApplicationService: DeactivateEmailAddressApplicationService
+        private val updateEmailAddressApplicationService: UpdateEmailAddressApplicationService
 ) : CommandGateway {
 
     fun process(command: EmailAddressCommand.CatalogizeEmailAddress) =
@@ -19,6 +18,4 @@ class EmailAddressCommandGateway internal constructor(
     fun process(command: EmailAddressCommand.UpdateEmailAddress) =
             updateEmailAddressApplicationService.execute(command)
 
-    fun process(command: EmailAddressCommand.DeactivateEmailAddress) =
-            deactivateEmailAddressApplicationService.execute(command)
 }

@@ -23,4 +23,20 @@ sealed class EmailAddressExternalEvent {
             val emailGroupId: String?
     ) : EmailAddressExternalEvent()
 
+    data class EmailAddressUpdated(
+            val newEmailId: String,
+            val newEmailAddress: String,
+            val previousEmailAddressId: String?
+    ) : EmailAddressExternalEvent()
+
+    class EmailAddressBelongingToGroupUpdated (
+            val newEmailId: String,
+            val newEmailAddress: String,
+            val previousEmailAddressId: String?,
+            val emailGroupId: String,
+            val emailGroupName: String,
+            val ownerFirstName: String?,
+            val ownerLastName: String?
+    ): EmailAddressExternalEvent()
+
 }

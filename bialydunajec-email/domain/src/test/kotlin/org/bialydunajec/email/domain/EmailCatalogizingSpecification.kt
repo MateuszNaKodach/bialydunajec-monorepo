@@ -38,15 +38,15 @@ object EmailCatalogizingSpecification : Spek({
                     null)
 
 
-            Given("created a new emailAddress and a new emailGroup objects") {
+            Given("created a new newEmailAddress and a new emailGroup objects") {
             }
 
-            When("adding the new emailAddress to the emailGroup") {
-                newEmailAddress.addTo(newEmailGroup,
+            When("adding the new newEmailAddress to the emailGroup") {
+                newEmailAddress.catalogizeTo(newEmailGroup,
                         EmailAddressOwner(FirstName(OWNER_FIRST_NAME), LastName(OWNER_LAST_NAME)))
             }
 
-            Then("new EmailGroup should contain the new emailAddress") {
+            Then("new EmailGroup should contain the new newEmailAddress") {
                 assertTrue { newEmailAddress.belongsTo(newEmailGroup.getAggregateId()) }
             }
         }
@@ -59,15 +59,15 @@ object EmailCatalogizingSpecification : Spek({
                     EmailAddressGroup(NEW_GROUP_NAME),
                     null)
 
-            Given("created a new emailAddress") {
+            Given("created a new newEmailAddress") {
             }
 
-            When("adding the new emailAddress to the existing emailGroup") {
-                newEmailAddress.addTo(existingEmailGroup,
+            When("adding the new newEmailAddress to the existing emailGroup") {
+                newEmailAddress.catalogizeTo(existingEmailGroup,
                         EmailAddressOwner(FirstName(OWNER_FIRST_NAME), LastName(OWNER_LAST_NAME)))
             }
 
-            Then("the existing EmailGroup should contain the new emailAddress") {
+            Then("the existing EmailGroup should contain the new newEmailAddress") {
                 assertTrue { newEmailAddress.belongsTo(existingEmailGroup.getAggregateId()) }
             }
 
@@ -81,13 +81,13 @@ object EmailCatalogizingSpecification : Spek({
             Given("created a new emailGroup") {
             }
 
-            When("adding the new emailAddress to the existing emailGroup") {
-                existingEmailAddress.addTo(
+            When("adding the new newEmailAddress to the existing emailGroup") {
+                existingEmailAddress.catalogizeTo(
                         newEmailGroup,
                         EmailAddressOwner(FirstName(OWNER_FIRST_NAME), LastName(OWNER_LAST_NAME)))
             }
 
-            Then("the new EmailGroup should contain the existing emailAddress") {
+            Then("the new EmailGroup should contain the existing newEmailAddress") {
                 assertTrue { existingEmailAddress.belongsTo(newEmailGroup.getAggregateId()) }
             }
         }
@@ -96,19 +96,19 @@ object EmailCatalogizingSpecification : Spek({
             /*
             val newEmailAddressField: String = "newEmaillAddress@gmail.com"
 
-            Given("existing emailAddress is in existing emailGroup") {
-                existingEmailAddress.addTo(existingEmailGroup.getAggregateId())
+            Given("existing newEmailAddress is in existing emailGroup") {
+                existingEmailAddress.catalogizeTo(existingEmailGroup.getAggregateId())
             }
 
-            When("setting new emailAddress field in the existing emailAddress "){
+            When("setting new newEmailAddress field in the existing newEmailAddress "){
                 existingEmailAddress.updateAddress(newEmailAddressField)
             }
 
             lateinit var emailAddressInGroup: EmailAddress
 
-            Then("Email address of existing emailAddress object in existing emailGroup should be updated"){
+            Then("Email address of existing newEmailAddress object in existing emailGroup should be updated"){
                 emailAddressInGroup = existingEmailGroup.getEmailAddressById(existingEmailAddressId)
-                assertEquals(newEmailAddressField, emailAddressInGroup.getEmailAddress().email)
+                assertEquals(newEmailAddressField, emailAddressInGroup.getNewEmailAddress().email)
             }
             */
 

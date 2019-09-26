@@ -18,7 +18,7 @@ class EmailGroup(
         registerEvent(
                 EmailGroupEvent.EmailGroupCreated(
                         getAggregateId(),
-                        emailAddressGroup
+                        this
                 )
         )
     }

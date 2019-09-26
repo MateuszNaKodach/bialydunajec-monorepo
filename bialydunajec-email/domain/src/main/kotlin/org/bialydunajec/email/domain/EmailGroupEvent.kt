@@ -7,7 +7,7 @@ sealed class EmailGroupEvent : DomainEvent<EmailGroupId> {
 
     class EmailGroupCreated(
             override val aggregateId: EmailGroupId,
-            val emailAddressGroup: EmailAddressGroup
+            val emailGroup: EmailGroup
     ) : EmailGroupEvent()
 
 }

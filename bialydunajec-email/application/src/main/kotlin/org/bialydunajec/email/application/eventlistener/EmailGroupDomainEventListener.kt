@@ -16,8 +16,10 @@ internal class EmailGroupDomainEventListener(
     @TransactionalEventListener
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     fun handleEmailGroupCreated(event: EmailGroupEvent.EmailGroupCreated) {
-        val emailGroup = emailGroupRepository.findByEmailGroup(event.emailAddressGroup)
-                ?: EmailGroup(event.emailAddressGroup)
+        val emailGroup = emailGroupRepository.findById(event.aggregateId)
+                ?: event.emailGroup
+
+        emailGroupRepository.save(emailGroup)
     }
 
 }
