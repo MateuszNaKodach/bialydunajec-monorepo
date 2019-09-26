@@ -12,7 +12,6 @@ import kotlin.streams.toList
 @RestController
 internal class EmailAddressReadAdminController(
         private val emailAddressMongoRepository: EmailAddressMongoRepository,
-        private val emailAddressCatalogGroupMongoRepository: EmailAddressCatalogGroupMongoRepository,
         private val emailAddressStatisticsMongoRepository: EmailAddressStatisticsMongoRepository,
         private val emailAddressEventStream: EmailAddressEventStream
 ) {
@@ -31,8 +30,12 @@ internal class EmailAddressReadAdminController(
 
     @GetMapping("/{groupName}")
     fun getEmailAddressByGroupName(@PathVariable groupName: String) =
-            emailAddressMongoRepository.findAllById(
-                    emailAddressCatalogGroupMongoRepository.findAll().filter { it.groupName.equals(groupName) }.stream().map { it.emailGroupId }.toList())
+            emailAddressMongoRepository.findAll().filter { it.emailGroupName.equals(groupName) }
+
+    @GetMapping("/{ownerFirstName}_{ownerLastName}")
+    fun getEmailAddressByOwnerName(@PathVariable ownerFirstName: String, @PathVariable ownerLastName: String) =
+            emailAddressMongoRepository.findAll().
+                    filter { it.ownerFirstName.equals(ownerFirstName) && it.ownerLastName.equals(ownerLastName) }
 
 
 }
