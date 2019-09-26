@@ -32,10 +32,7 @@ object EmailCatalogizingSpecification : Spek({
         Scenario("Completely new email addresses to catalogize in new group") {
 
             var newEmailGroup = EmailGroup(EmailGroupId(), EmailAddressGroup(NEW_GROUP_NAME))
-            var newEmailAddress = EmailAddress(
-                    org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddress(EXISTING_EMAIL_ADDRESS_STRING),
-                    EmailAddressGroup(NEW_GROUP_NAME),
-                    null)
+            var newEmailAddress = EmailAddress(NEW_EMAIL_ADDRESS_STRING)
 
 
             Given("created a new newEmailAddress and a new emailGroup objects") {
@@ -54,10 +51,7 @@ object EmailCatalogizingSpecification : Spek({
         Scenario("Completely new email addresses to catalogize in existing group") {
 
 
-            var newEmailAddress = EmailAddress(
-                    org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddress(EXISTING_EMAIL_ADDRESS_STRING),
-                    EmailAddressGroup(NEW_GROUP_NAME),
-                    null)
+            var newEmailAddress = EmailAddress(NEW_EMAIL_ADDRESS_STRING)
 
             Given("created a new newEmailAddress") {
             }
@@ -92,28 +86,5 @@ object EmailCatalogizingSpecification : Spek({
             }
         }
 
-        Scenario("Update of existing email address") {
-            /*
-            val newEmailAddressField: String = "newEmaillAddress@gmail.com"
-
-            Given("existing newEmailAddress is in existing emailGroup") {
-                existingEmailAddress.catalogizeTo(existingEmailGroup.getAggregateId())
-            }
-
-            When("setting new newEmailAddress field in the existing newEmailAddress "){
-                existingEmailAddress.updateAddress(newEmailAddressField)
-            }
-
-            lateinit var emailAddressInGroup: EmailAddress
-
-            Then("Email address of existing newEmailAddress object in existing emailGroup should be updated"){
-                emailAddressInGroup = existingEmailGroup.getEmailAddressById(existingEmailAddressId)
-                assertEquals(newEmailAddressField, emailAddressInGroup.getNewEmailAddress().email)
-            }
-            */
-
-        }
-
-        Scenario("Update of not existing email address") {}
     }
 })
