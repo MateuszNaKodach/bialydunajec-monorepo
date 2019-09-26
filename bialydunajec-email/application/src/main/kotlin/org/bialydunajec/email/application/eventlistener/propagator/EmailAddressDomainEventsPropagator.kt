@@ -32,6 +32,7 @@ internal class EmailAddressDomainEventsPropagator(private val externalEventBus: 
                     EmailAddressExternalEvent.EmailAddressCatalogizedToEmailGroup(
                             aggregateId.toString(),
                             emailAddress.toString(),
+                            previousEmailAddressId.toString(),
                             newEmailGroupId.toString(),
                             newEmailGroup.name,
                             emailAddressOwner.firstName.toString(),

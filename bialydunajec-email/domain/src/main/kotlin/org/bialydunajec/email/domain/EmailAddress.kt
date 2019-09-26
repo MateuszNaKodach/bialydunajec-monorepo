@@ -43,6 +43,12 @@ class EmailAddress(
 
     fun getEmailAddress() = emailAddressValue
 
+    var emailGroupId: EmailGroupId? = null
+
+    var emailOwner: EmailAddressOwner? = null
+
+    var previousEmailAddressId: EmailAddressId? = null
+
     fun deactivateEmailAddress() {
         if(isActive) {
             isActive = false
@@ -54,14 +60,7 @@ class EmailAddress(
                     )
             )
         }
-
     }
-
-    var emailGroupId: EmailGroupId? = null
-
-    var emailOwner: EmailAddressOwner? = null
-
-    var previousEmailAddressId: EmailAddressId? = null
 
     fun catalogizeTo(newEmailGroup: EmailGroup, emailAddressOwner: EmailAddressOwner) {
 

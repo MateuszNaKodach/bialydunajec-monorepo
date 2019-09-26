@@ -10,6 +10,7 @@ data class EmailAddress(
         @Id
         var emailAddressId: String,
         var emailAddress: String? = null,
+        var previousEmailAddressId: String? = null,
         var ownerFirstName: String? = null,
         var ownerLastName: String? = null,
         var isActive: Boolean? = null,

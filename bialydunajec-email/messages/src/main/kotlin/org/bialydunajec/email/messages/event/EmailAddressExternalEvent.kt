@@ -11,7 +11,8 @@ sealed class EmailAddressExternalEvent {
     data class EmailAddressCatalogizedToEmailGroup(
             val emailId: String,
             val emailAddress: String,
-            val newEmailGroupId: String,
+            val previousEmailAddressId: String?,
+            val emailGroupId: String,
             val emailGroupName: String,
             val ownerFirstName: String,
             val ownerLastName: String
