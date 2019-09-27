@@ -3,7 +3,6 @@ package org.bialydunajec.email.application
 import org.bialydunajec.ddd.application.base.ApplicationService
 import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
 import org.bialydunajec.email.application.api.EmailAddressCommand
-import org.bialydunajec.email.application.api.EmailAddressCommandGateway
 import org.bialydunajec.email.domain.*
 
 import org.springframework.stereotype.Service
@@ -18,7 +17,7 @@ internal class CatalogizeEmailAddressApplicationService(
 
     override fun execute(command: EmailAddressCommand.CatalogizeEmailAddress) {
 
-        val emailGroup = emailGroupRepository.findByEmailGroup(command.emailGroup)
+        val emailGroup = emailGroupRepository.findByEmailAddressGroup(command.emailGroup)
                 ?: EmailGroup(command.emailGroup)
 
         val emailAddressToBeCatalogized = emailAddressRepository.findById(

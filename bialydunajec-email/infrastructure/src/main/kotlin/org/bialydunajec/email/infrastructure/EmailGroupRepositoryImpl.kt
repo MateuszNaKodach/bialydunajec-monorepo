@@ -11,12 +11,9 @@ internal class EmailGroupRepositoryImpl(
         jpaRepository: EmailGroupJpaRepository
 ) : AbstractDomainRepositoryImpl<EmailGroup, EmailGroupId, EmailGroupJpaRepository>(jpaRepository),
         EmailGroupRepository {
-
-    override fun findByEmailGroup(emailGroup: EmailAddressGroup): EmailGroup? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
+    override fun findByEmailAddressGroup(emailGroup: EmailAddressGroup): EmailGroup?  = jpaRepository.findByEmailAddressGroup(emailGroup)
 }
 
 internal interface EmailGroupJpaRepository : JpaRepository<EmailGroup, EmailGroupId> {
+    fun findByEmailAddressGroup(emailGroup: EmailAddressGroup): EmailGroup?
 }
