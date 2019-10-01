@@ -36,7 +36,7 @@ internal class CottageRepositoryImpl(
     override fun save(aggregateRoot: Cottage) =
             super.save(aggregateRoot)
 
-    @Cacheable(cacheNames = [COTTAGE_CACHE], key = "{#root.methodName,#emailId}")
+    @Cacheable(cacheNames = [COTTAGE_CACHE], key = "{#root.methodName,#aggregateId}")
     override fun findById(aggregateId: CottageId) =
             super.findById(aggregateId)
 

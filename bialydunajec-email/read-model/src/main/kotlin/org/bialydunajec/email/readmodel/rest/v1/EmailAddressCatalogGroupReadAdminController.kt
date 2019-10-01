@@ -19,7 +19,7 @@ internal class EmailAddressCatalogGroupReadAdminController(
     @GetMapping
     fun getAllEmailAddressCatalogGroups(): Collection<EmailAddressCatalogGroup> =
             emailAddressCatalogGroupMongoRepository.findAll()
-            .sortedByDescending { it.groupName }
+                    .sortedByDescending { it.groupName }
 
     @GetMapping("/statistics")
     fun getEmailAddressCatalogGroupStatistics() =

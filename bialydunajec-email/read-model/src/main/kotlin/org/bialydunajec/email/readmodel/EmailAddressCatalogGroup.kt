@@ -8,5 +8,5 @@ data class EmailAddressCatalogGroup(
         @Id
     var emailGroupId: String,
         var groupName: String? = null,
-        var emailAddresses: MutableSet<String>? = mutableSetOf()
+        var emailAddresses: MutableSet<String> = mutableSetOf()
 )

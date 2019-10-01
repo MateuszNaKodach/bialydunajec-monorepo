@@ -44,9 +44,8 @@ internal class EmailAddressEventsProjection(
         when (payload) {
             is EmailAddressExternalEvent.EmailAddressCreated -> {
                 with(payload) {
-                    emailAddressRepository.findById(emailId).orElseGet { EmailAddress(emailId) }
+                    emailAddressRepository.findById(emailId).orElseGet { EmailAddress(emailId, emailAddress) }
                             .also {
-                                it.emailAddress = emailAddress
                                 it.isActive = isActive
                             }.also {
                                 emailAddressRepository.save(it)
@@ -54,7 +53,9 @@ internal class EmailAddressEventsProjection(
 
                     emailAddressStatisticsMongoRepository.findById(DEFAULT_EMAIL_ADDRESS_STATISTICS_ID)
                             .ifPresent {
-                                if (emailId.contains(DEFAULT_EMAIL_ADDRESS_GROUP)) it.addressesCount++
+                                if (emailId.contains(DEFAULT_EMAIL_ADDRESS_GROUP)){
+                                    it.addressesCount++
+                                }
                                 emailAddressStatisticsMongoRepository.save(it)
                             }
                 }.also {
@@ -64,9 +65,8 @@ internal class EmailAddressEventsProjection(
 
             is EmailAddressExternalEvent.EmailAddressCatalogizedToEmailGroup -> {
                 with(payload) {
-                    emailAddressRepository.findById(emailId).orElseGet { EmailAddress(emailId) }
+                    emailAddressRepository.findById(emailId).orElseGet { EmailAddress(emailId, emailAddress) }
                             .also {
-                                it.emailAddress = emailAddress
                                 it.previousEmailAddressId = previousEmailAddressId
                                 it.isActive = true
                                 it.emailGroupName = emailGroupName
@@ -82,9 +82,8 @@ internal class EmailAddressEventsProjection(
 
             is EmailAddressExternalEvent.EmailAddressDeactivated -> {
                 with(payload) {
-                    emailAddressRepository.findById(emailId).orElseGet { EmailAddress(emailId) }
+                    emailAddressRepository.findById(emailId).orElseGet { EmailAddress(emailId, emailAddress) }
                             .also {
-                                it.emailAddress = emailAddress
                                 it.isActive = false
                             }.also {
                                 emailAddressRepository.save(it)
@@ -96,9 +95,8 @@ internal class EmailAddressEventsProjection(
 
             is EmailAddressExternalEvent.EmailAddressUpdated -> {
                 with(payload) {
-                    emailAddressRepository.findById(newEmailId).orElseGet { EmailAddress(newEmailId) }
+                    emailAddressRepository.findById(newEmailId).orElseGet { EmailAddress(newEmailId, newEmailAddress) }
                             .also {
-                                it.emailAddress = newEmailAddress
                                 it.previousEmailAddressId = previousEmailAddressId
                                 it.isActive = true
                             }.also {
@@ -116,9 +114,8 @@ internal class EmailAddressEventsProjection(
 
             is EmailAddressExternalEvent.EmailAddressBelongingToGroupUpdated -> {
                 with(payload) {
-                    emailAddressRepository.findById(newEmailId).orElseGet { EmailAddress(newEmailId) }
+                    emailAddressRepository.findById(newEmailId).orElseGet { EmailAddress(newEmailId, newEmailAddress) }
                             .also {
-                                it.emailAddress = newEmailAddress
                                 it.previousEmailAddressId = previousEmailAddressId
                                 it.isActive = true
                                 it.emailGroupName = emailGroupName

@@ -2,10 +2,7 @@ package org.bialydunajec.email.readmodel.rest.v1
 
 import org.bialydunajec.email.readmodel.*
 import org.springframework.http.MediaType
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import kotlin.streams.toList
 
 @RequestMapping("/rest-api/v1/admin/email-address")
@@ -16,9 +13,6 @@ internal class EmailAddressReadAdminController(
         private val emailAddressEventStream: EmailAddressEventStream
 ) {
 
-    @GetMapping
-    fun getAllEmailAddresses(): Collection<EmailAddress> = emailAddressMongoRepository.findAll()
-            .sortedByDescending { it.emailAddress }
 
     @GetMapping("/statistics")
     fun getEmailAddressStatistics() =
@@ -28,14 +22,22 @@ internal class EmailAddressReadAdminController(
     fun getProjectedEventsStream() =
             emailAddressEventStream.streamingEvents()
 
-    @GetMapping("/{groupName}")
-    fun getEmailAddressByGroupName(@PathVariable groupName: String) =
-            emailAddressMongoRepository.findAll().filter { it.emailGroupName.equals(groupName) }
+    @GetMapping
+    fun getEmailAddresses(@RequestParam(required = false) groupName: String?, ownerFirstName: String?, ownerLastName: String?): Collection<EmailAddress> {
+        var foundEmailAddresses = emailAddressMongoRepository.findAll()
 
-    @GetMapping("/{ownerFirstName}_{ownerLastName}")
-    fun getEmailAddressByOwnerName(@PathVariable ownerFirstName: String, @PathVariable ownerLastName: String) =
-            emailAddressMongoRepository.findAll().
-                    filter { it.ownerFirstName.equals(ownerFirstName) && it.ownerLastName.equals(ownerLastName) }
+        groupName?.let {
+            foundEmailAddresses = foundEmailAddresses.filter { it.emailGroupName.equals(groupName) }
+        }
 
+        ownerFirstName?.let {
+            foundEmailAddresses = foundEmailAddresses.filter { it.ownerFirstName.equals(ownerFirstName) }
+        }
+
+        ownerLastName?.let {
+            foundEmailAddresses = foundEmailAddresses.filter { it.ownerLastName.equals(ownerLastName) }
+        }
+        return foundEmailAddresses.sortedByDescending { it.emailAddress }
+    }
 
 }

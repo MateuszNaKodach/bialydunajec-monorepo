@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document
 data class EmailAddress(
         @Id
         var emailAddressId: String,
-        var emailAddress: String? = null,
+        var emailAddress: String,
         var previousEmailAddressId: String? = null,
         var ownerFirstName: String? = null,
         var ownerLastName: String? = null,

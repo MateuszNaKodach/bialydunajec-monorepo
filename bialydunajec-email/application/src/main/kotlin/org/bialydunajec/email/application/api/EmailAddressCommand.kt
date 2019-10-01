@@ -16,8 +16,4 @@ sealed class EmailAddressCommand : Command {
     class UpdateEmailAddress(
             val emailAddressId: EmailAddressId,
             val newEmailAddress: EmailAddress) : Command
-
-    class DeactivateEmailAddress(
-            val emailAddressId: EmailAddressId,
-            val EmailAddress: EmailAddress) : Command
 }
