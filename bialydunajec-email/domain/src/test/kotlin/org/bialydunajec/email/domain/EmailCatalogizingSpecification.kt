@@ -1,12 +1,12 @@
 package org.bialydunajec.email.domain
 
-import org.spekframework.spek2.Spek
-import org.spekframework.spek2.style.gherkin.Feature
-import kotlin.test.assertTrue
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.FirstName
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.LastName
 import org.bialydunajec.email.domain.valueobject.EmailAddressGroup
 import org.bialydunajec.email.domain.valueobject.EmailAddressOwner
+import org.spekframework.spek2.Spek
+import org.spekframework.spek2.style.gherkin.Feature
+import kotlin.test.assertTrue
 
 object EmailCatalogizingSpecification : Spek({
 
@@ -22,17 +22,17 @@ object EmailCatalogizingSpecification : Spek({
         val OWNER_LAST_NAME = "lastName"
 
 
-        val existingEmailAddressId: EmailAddressId by memoized {
-            EmailAddressId.from(org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddress(EXISTING_EMAIL_ADDRESS_STRING)) }
+        val existingEmailAddressId: EmailId by memoized {
+            EmailId.from(org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddress(EXISTING_EMAIL_ADDRESS_STRING)) }
         val existingEmailGroupId: EmailGroupId by memoized { EmailGroupId() }
 
-        val existingEmailAddress: EmailAddress by memoized { EmailAddress(existingEmailAddressId, EXISTING_EMAIL_ADDRESS_STRING) }
+        val existingEmailAddress: Email by memoized { Email(existingEmailAddressId, EXISTING_EMAIL_ADDRESS_STRING) }
         val existingEmailGroup: EmailGroup by memoized { EmailGroup(existingEmailGroupId, EmailAddressGroup(EXISTING_GROUP_NAME)) }
 
         Scenario("Completely new email addresses to catalogize in new group") {
 
             var newEmailGroup = EmailGroup(EmailGroupId(), EmailAddressGroup(NEW_GROUP_NAME))
-            var newEmailAddress = EmailAddress(NEW_EMAIL_ADDRESS_STRING)
+            var newEmailAddress = Email(NEW_EMAIL_ADDRESS_STRING)
 
 
             Given("created a new newEmailAddress and a new emailGroup objects") {
@@ -51,7 +51,7 @@ object EmailCatalogizingSpecification : Spek({
         Scenario("Completely new email addresses to catalogize in existing group") {
 
 
-            var newEmailAddress = EmailAddress(NEW_EMAIL_ADDRESS_STRING)
+            var newEmailAddress = Email(NEW_EMAIL_ADDRESS_STRING)
 
             Given("created a new newEmailAddress") {
             }

@@ -1,7 +1,9 @@
 package org.bialydunajec.email.infrastructure
 
 import org.bialydunajec.ddd.infrastructure.base.persistence.AbstractDomainRepositoryImpl
-import org.bialydunajec.email.domain.*
+import org.bialydunajec.email.domain.Email
+import org.bialydunajec.email.domain.EmailId
+import org.bialydunajec.email.domain.EmailRepository
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
@@ -9,13 +11,13 @@ import org.springframework.stereotype.Repository
 @Repository
 internal class EmailAddressRepositoryImpl(
         jpaRepository: EmailAddressJpaRepository
-) : AbstractDomainRepositoryImpl<EmailAddress, EmailAddressId, EmailAddressJpaRepository>(jpaRepository),
-        EmailAddressRepository {
+) : AbstractDomainRepositoryImpl<Email, EmailId, EmailAddressJpaRepository>(jpaRepository),
+        EmailRepository {
 
-    override fun findByEmailAddressValueEmail(address: String): EmailAddress? =
+    override fun findByEmailAddressValueEmail(address: String): Email? =
             jpaRepository.findByEmailAddressValueEmail(address)
 }
 
-internal interface EmailAddressJpaRepository : JpaRepository<EmailAddress, EmailAddressId> {
-    fun findByEmailAddressValueEmail(address: String): EmailAddress?
+internal interface EmailAddressJpaRepository : JpaRepository<Email, EmailId> {
+    fun findByEmailAddressValueEmail(address: String): Email?
 }

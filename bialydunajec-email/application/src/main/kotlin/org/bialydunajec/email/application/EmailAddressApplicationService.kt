@@ -11,41 +11,45 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 @Transactional
 internal class CatalogizeEmailAddressApplicationService(
-        private val emailGroupRepository: EmailGroupRepository,
-        private val emailAddressRepository: EmailAddressRepository
+    private val emailAddressRepository: EmailRepository
 ) : ApplicationService<EmailAddressCommand.CatalogizeEmailAddress> {
 
     override fun execute(command: EmailAddressCommand.CatalogizeEmailAddress) {
-
-        val emailGroup = emailGroupRepository.findByEmailAddressGroup(command.emailGroup)
-                ?: EmailGroup(command.emailGroup)
-
-        val emailAddressToBeCatalogized = emailAddressRepository.findById(
-                EmailAddressId.from(command.emailAddress))
-                ?: EmailAddress(command.emailAddress)
-
-        emailAddressToBeCatalogized.catalogizeTo(
-                emailGroup,
-                command.emailAddressOwner)
-
-        emailAddressRepository.save(emailAddressToBeCatalogized)
+        val emailAddress = emailAddressRepository.findById(command.emailAddressId)
+            ?: Email(
+                command.emailAddressId,
+                command.emailGroupId ?: EmailGroupId(),
+                command.email,
+                command.emailOwner
+            )
+        emailAddressRepository.save(emailAddress)
     }
+
 }
 
 @Service
 @Transactional
-internal class UpdateEmailAddressApplicationService(
-        private val emailAddressRepository: EmailAddressRepository,
-        private val emailGroupRepository: EmailGroupRepository
-) : ApplicationService<EmailAddressCommand.UpdateEmailAddress> {
+internal class ChangeEmailAddressValueApplicationService(
+    private val changeEmailValueDomainService: ChangeEmailAddressDomainService
+) : ApplicationService<EmailAddressCommand.ChangeEmailAddressValue> {
 
-    override fun execute(command: EmailAddressCommand.UpdateEmailAddress) {
-        val oldEmailAddress = emailAddressRepository.findById(command.emailAddressId)
-                ?: throw DomainRuleViolationException.of(EmailAddressDomainRule.EMAIL_ADDRESS_TO_UPDATE_MUST_EXISTS)
-        val emailGroup = emailGroupRepository.findById(oldEmailAddress.emailGroupId!!)
-        oldEmailAddress.updateEmailAddress(command.newEmailAddress, emailGroup)
+    override fun execute(command: EmailAddressCommand.ChangeEmailAddressValue) {
+        changeEmailValueDomainService.changeEmailValue(command.emailAddressId, command.newEmail)
+    }
+}
 
-        emailAddressRepository.save(oldEmailAddress)
+
+@Service
+@Transactional
+internal class CorrectEmailAddressOwnerApplicationService(
+    private val emailAddressRepository: EmailRepository
+) : ApplicationService<EmailAddressCommand.UpdateEmailAddressOwner> {
+
+    override fun execute(command: EmailAddressCommand.UpdateEmailAddressOwner) {
+        val emailAddress = emailAddressRepository.findById(command.emailAddressId)
+            ?: throw DomainRuleViolationException.of(EmailAddressDomainRule.EMAIL_ADDRESS_TO_CORRECT_OWNER_MUST_EXISTS)
+        emailAddress.correctOwner(command.emailOwner)
+        emailAddressRepository.save(emailAddress)
     }
 }
 

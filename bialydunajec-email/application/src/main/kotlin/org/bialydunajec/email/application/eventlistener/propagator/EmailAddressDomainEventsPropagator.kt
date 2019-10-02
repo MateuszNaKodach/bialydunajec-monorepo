@@ -1,7 +1,7 @@
 package org.bialydunajec.email.application.eventlistener.propagator
 
 import org.bialydunajec.ddd.application.base.external.event.ExternalEventPublisher
-import org.bialydunajec.email.domain.EmailAddressEvent
+import org.bialydunajec.email.domain.EmailEvent
 import org.bialydunajec.email.messages.event.EmailAddressExternalEvent
 import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Component
@@ -12,7 +12,7 @@ internal class EmailAddressDomainEventsPropagator(private val externalEventBus: 
 
     @Async
     @TransactionalEventListener
-    fun handleDomainEvent(domainEvent: EmailAddressEvent.EmailAddressCreated) {
+    fun handleDomainEvent(domainEvent: EmailEvent.EmailCatalogized) {
         with(domainEvent) {
             externalEventBus.send(
                     EmailAddressExternalEvent.EmailAddressCreated(
@@ -26,7 +26,7 @@ internal class EmailAddressDomainEventsPropagator(private val externalEventBus: 
 
     @Async
     @TransactionalEventListener
-    fun handleDomainEvent(domainEvent: EmailAddressEvent.EmailAddressCatalogizedToEmailGroup) {
+    fun handleDomainEvent(domainEvent: EmailEvent.EmailAddressCatalogizedToEmailGroup) {
         with(domainEvent) {
             externalEventBus.send(
                     EmailAddressExternalEvent.EmailAddressCatalogizedToEmailGroup(
@@ -44,7 +44,7 @@ internal class EmailAddressDomainEventsPropagator(private val externalEventBus: 
 
     @Async
     @TransactionalEventListener
-    fun handleDomainEvent(domainEvent: EmailAddressEvent.EmailAddressDeactivated) {
+    fun handleDomainEvent(domainEvent: EmailEvent.EmailAddressDeactivated) {
         with(domainEvent) {
             externalEventBus.send(
                     EmailAddressExternalEvent.EmailAddressDeactivated(
@@ -58,7 +58,7 @@ internal class EmailAddressDomainEventsPropagator(private val externalEventBus: 
 
     @Async
     @TransactionalEventListener
-    fun handleDomainEvent(domainEvent: EmailAddressEvent.EmailAddressUpdated) {
+    fun handleDomainEvent(domainEvent: EmailEvent.EmailAddressChanged) {
         with(domainEvent) {
             externalEventBus.send(
                     EmailAddressExternalEvent.EmailAddressUpdated(
@@ -72,7 +72,7 @@ internal class EmailAddressDomainEventsPropagator(private val externalEventBus: 
 
     @Async
     @TransactionalEventListener
-    fun handleDomainEvent(domainEvent: EmailAddressEvent.EmailAddressBelongingToGroupUpdated) {
+    fun handleDomainEvent(domainEvent: EmailEvent.EmailAddressBelongingToGroupUpdated) {
         with(domainEvent) {
             externalEventBus.send(
                     EmailAddressExternalEvent.EmailAddressBelongingToGroupUpdated(

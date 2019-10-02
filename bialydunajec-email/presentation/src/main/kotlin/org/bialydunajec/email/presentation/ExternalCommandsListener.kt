@@ -6,10 +6,9 @@ import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailA
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.FirstName
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.LastName
 import org.bialydunajec.email.application.api.EmailAddressCommand
-import org.bialydunajec.email.application.api.EmailAddressCommandGateway
+import org.bialydunajec.email.application.api.EmailCommandGateway
 import org.bialydunajec.email.application.api.EmailMessageCommand
 import org.bialydunajec.email.application.api.EmailMessageCommandGateway
-import org.bialydunajec.email.domain.EmailAddressId
 import org.bialydunajec.email.domain.EmailMessageLogId
 import org.bialydunajec.email.domain.valueobject.EmailAddressGroup
 import org.bialydunajec.email.domain.valueobject.EmailAddressOwner
@@ -21,7 +20,7 @@ import org.springframework.stereotype.Component
 @Component
 internal class ExternalCommandsListener internal constructor(
     private val emailMessageCommandGateway: EmailMessageCommandGateway,
-    private val emailAddressCommandGateway: EmailAddressCommandGateway,
+    private val emailCommandGateway: EmailCommandGateway,
     externalCommandSubscriber: ExternalCommandSubscriber
 ) : ExternalCommandListener {
 
@@ -30,36 +29,38 @@ internal class ExternalCommandsListener internal constructor(
             emailMessageCommandGateway.process(
                 EmailMessageCommand.SendEmailCommand(
                     EmailMessage(
-                        EmailAddress(it.recipientEmailAddress),
-                        it.subject,
-                        it.content,
-                        EmailMessageLogId(it.trackingCode)
+                        EmailAddress(recipientEmailAddress),
+                        subject,
+                        content,
+                        EmailMessageLogId(trackingCode)
                     )
                 )
             )
         }
 
         externalCommandSubscriber.subscribePayload(EmailAddressExternalCommand.CatalogizeEmailAddress::class) {
-            emailAddressCommandGateway.process(
+            emailCommandGateway.process(
                 EmailAddressCommand.CatalogizeEmailAddress(
-                    EmailAddress(it.emailAddress),
-                    EmailAddressGroup(it.emailGroupName),
+                    EmailAddress(emailAddress),
+                    emailGroupName?.let { EmailAddressGroup(it) },
                     EmailAddressOwner(
-                        FirstName(it.emailOwnerName),
-                        LastName(it.emailOwnerLastName)
+                        FirstName(emailOwnerName),
+                        LastName(emailOwnerLastName)
                     )
                 )
             )
         }
 
+        /*
+        FIXME: Remove?
         externalCommandSubscriber.subscribePayload(EmailAddressExternalCommand.UpdateEmailAddress::class) {
             emailAddressCommandGateway.process(
                 EmailAddressCommand.UpdateEmailAddress(
-                    EmailAddressId.from(it.emailAddressId),
-                    EmailAddress(it.newEmailAddress)
+                    EmailAddressId.from(emailAddressId),
+                    EmailAddress(newEmailAddress)
                 )
             )
-        }
+        }*/
     }
 
 }
