@@ -2,7 +2,7 @@ package org.bialydunajec.email.application
 
 import org.bialydunajec.ddd.application.base.ApplicationService
 import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
-import org.bialydunajec.email.application.api.EmailAddressCommand
+import org.bialydunajec.email.application.api.EmailCommand
 import org.bialydunajec.email.domain.*
 
 import org.springframework.stereotype.Service
@@ -12,14 +12,14 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 internal class CatalogizeEmailAddressApplicationService(
     private val emailAddressRepository: EmailRepository
-) : ApplicationService<EmailAddressCommand.CatalogizeEmailAddress> {
+) : ApplicationService<EmailCommand.CatalogizeEmail> {
 
-    override fun execute(command: EmailAddressCommand.CatalogizeEmailAddress) {
+    override fun execute(command: EmailCommand.CatalogizeEmail) {
         val emailAddress = emailAddressRepository.findById(command.emailAddressId)
             ?: Email(
                 command.emailAddressId,
                 command.emailGroupId ?: EmailGroupId(),
-                command.email,
+                command.emailAddress,
                 command.emailOwner
             )
         emailAddressRepository.save(emailAddress)
@@ -29,23 +29,23 @@ internal class CatalogizeEmailAddressApplicationService(
 
 @Service
 @Transactional
-internal class ChangeEmailAddressValueApplicationService(
+internal class ChangeEmailAddressApplicationService(
     private val changeEmailValueDomainService: ChangeEmailAddressDomainService
-) : ApplicationService<EmailAddressCommand.ChangeEmailAddressValue> {
+) : ApplicationService<EmailCommand.ChangeEmailAddress> {
 
-    override fun execute(command: EmailAddressCommand.ChangeEmailAddressValue) {
-        changeEmailValueDomainService.changeEmailValue(command.emailAddressId, command.newEmail)
+    override fun execute(command: EmailCommand.ChangeEmailAddress) {
+        changeEmailValueDomainService.changeEmailValue(command.emailAddressId, command.newEmailAddress)
     }
 }
 
 
 @Service
 @Transactional
-internal class CorrectEmailAddressOwnerApplicationService(
+internal class CorrectEmailOwnerApplicationService(
     private val emailAddressRepository: EmailRepository
-) : ApplicationService<EmailAddressCommand.UpdateEmailAddressOwner> {
+) : ApplicationService<EmailCommand.CorrectEmailOwner> {
 
-    override fun execute(command: EmailAddressCommand.UpdateEmailAddressOwner) {
+    override fun execute(command: EmailCommand.CorrectEmailOwner) {
         val emailAddress = emailAddressRepository.findById(command.emailAddressId)
             ?: throw DomainRuleViolationException.of(EmailAddressDomainRule.EMAIL_ADDRESS_TO_CORRECT_OWNER_MUST_EXISTS)
         emailAddress.correctOwner(command.emailOwner)

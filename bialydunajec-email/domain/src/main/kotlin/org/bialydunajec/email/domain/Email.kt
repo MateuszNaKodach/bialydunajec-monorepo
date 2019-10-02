@@ -36,22 +36,25 @@ class Email(
         registerEvent(
             EmailEvent.EmailCatalogized(
                 getAggregateId(),
-                address,
                 groupId,
+                address,
                 owner
             )
         )
     }
 
     fun correctOwner(emailOwner: EmailAddressOwner) {
-        this.owner = emailOwner
-        registerEvent(
-            EmailEvent.EmailOwnerCorrected(
-                getAggregateId(),
-                address,
-                owner
+        if (this.owner !== emailOwner) {
+            this.owner = emailOwner
+            registerEvent(
+                EmailEvent.EmailOwnerCorrected(
+                    getAggregateId(),
+                    groupId,
+                    address,
+                    owner
+                )
             )
-        )
+        }
     }
 
     fun newWithEmailAddress(newEmailAddress: EmailAddress): Email {
@@ -66,14 +69,15 @@ class Email(
             registerEvent(
                 EmailEvent.EmailAddressChanged(
                     getAggregateId(),
+                    groupId,
+                    address,
                     newEmailAddress,
-                    it.getAggregateId()
+                    it.getAggregateId(),
+                    owner
                 )
             )
         }
     }
-
-    fun belongsTo(emailGroupId: EmailGroupId): Boolean = groupId == emailGroupId
 
     @Version
     private var version: Long? = null

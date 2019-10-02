@@ -3,7 +3,7 @@ package org.bialydunajec.registrations.application.eventlistener.propagator
 import org.bialydunajec.ddd.application.base.external.command.ExternalCommandBus
 import org.bialydunajec.ddd.application.base.external.event.ExternalEventPublisher
 import org.bialydunajec.ddd.domain.extensions.toStringOrNull
-import org.bialydunajec.email.messages.command.EmailAddressExternalCommand
+import org.bialydunajec.email.messages.command.EmailExternalCommand
 import org.bialydunajec.registrations.application.dto.from
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantEvent
 import org.bialydunajec.registrations.domain.camper.campparticipantregistration.CampParticipantRegistrationRepository
@@ -41,7 +41,7 @@ internal class CampParticipantDomainEventsPropagator(
             )
 
             externalCommandBus.send(
-                EmailAddressExternalCommand.CatalogizeEmailAddress(
+                EmailExternalCommand.CatalogizeEmail(
                     snapshot.currentCamperData.emailAddress + "",
                     snapshot.currentCamperData.emailAddress,
                     snapshot.currentCamperData.personalData.firstName.toString(),

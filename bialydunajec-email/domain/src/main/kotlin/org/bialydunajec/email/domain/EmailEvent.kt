@@ -8,21 +8,25 @@ sealed class EmailEvent : DomainEvent<EmailId> {
 
     class EmailCatalogized(
         override val aggregateId: EmailId,
-        val emailAddress: EmailAddress,
         val emailGroupId: EmailGroupId,
+        val emailAddress: EmailAddress,
         val emailOwner: EmailAddressOwner
     ) : EmailEvent()
 
     class EmailOwnerCorrected(
         override val aggregateId: EmailId,
+        val emailGroupId: EmailGroupId,
         val emailAddress: EmailAddress,
         val emailOwner: EmailAddressOwner
     ) : EmailEvent()
 
     class EmailAddressChanged(
         override val aggregateId: EmailId,
+        val emailGroupId: EmailGroupId,
+        val emailAddress: EmailAddress,
         val newEmailAddress: EmailAddress,
-        val newEmailId: EmailId
+        val newEmailId: EmailId,
+        val emailOwner: EmailAddressOwner
     ) : EmailEvent()
 }
 

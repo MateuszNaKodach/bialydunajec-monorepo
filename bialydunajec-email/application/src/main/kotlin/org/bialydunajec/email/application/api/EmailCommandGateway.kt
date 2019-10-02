@@ -2,19 +2,24 @@ package org.bialydunajec.email.application.api
 
 import org.bialydunajec.ddd.application.base.command.CommandGateway
 import org.bialydunajec.email.application.CatalogizeEmailAddressApplicationService
-import org.bialydunajec.email.application.CorrectEmailAddressOwnerApplicationService
+import org.bialydunajec.email.application.ChangeEmailAddressApplicationService
+import org.bialydunajec.email.application.CorrectEmailOwnerApplicationService
 import org.springframework.stereotype.Component
 
 @Component
 class EmailCommandGateway internal constructor(
-        private val catalogizeEmailAddressApplicationService: CatalogizeEmailAddressApplicationService,
-        private val updateEmailAddressApplicationService: CorrectEmailAddressOwnerApplicationService
+    private val catalogizeEmailAddressApplicationService: CatalogizeEmailAddressApplicationService,
+    private val correctEmailOwnerApplicationService: CorrectEmailOwnerApplicationService,
+    private val changeEmailAddressApplicationService: ChangeEmailAddressApplicationService
 ) : CommandGateway {
 
-    fun process(command: EmailAddressCommand.CatalogizeEmailAddress) =
-            catalogizeEmailAddressApplicationService.execute(command)
+    fun process(command: EmailCommand.CatalogizeEmail) =
+        catalogizeEmailAddressApplicationService.execute(command)
 
-    fun process(command: EmailAddressCommand.UpdateEmailAddressOwner) =
-            updateEmailAddressApplicationService.execute(command)
+    fun process(command: EmailCommand.CorrectEmailOwner) =
+        correctEmailOwnerApplicationService.execute(command)
+
+    fun process(command: EmailCommand.ChangeEmailAddress) =
+        changeEmailAddressApplicationService.execute(command)
 
 }

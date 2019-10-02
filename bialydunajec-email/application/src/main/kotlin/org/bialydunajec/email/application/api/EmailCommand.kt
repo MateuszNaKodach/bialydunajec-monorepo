@@ -6,29 +6,29 @@ import org.bialydunajec.email.domain.EmailGroupId
 import org.bialydunajec.email.domain.EmailId
 import org.bialydunajec.email.domain.valueobject.EmailAddressOwner
 
-sealed class EmailAddressCommand : Command {
+sealed class EmailCommand : Command {
 
-    class CatalogizeEmailAddress(
-        val email: EmailAddress,
+    class CatalogizeEmail(
+        val emailAddress: EmailAddress,
         val emailGroupId: EmailGroupId?,
         val emailOwner: EmailAddressOwner
     ) : Command {
-        val emailAddressId: EmailId = EmailId.from(email, emailGroupId)
+        val emailAddressId: EmailId = EmailId.from(emailAddress, emailGroupId)
     }
 
-    class ChangeEmailAddressValue(
-        val oldEmail: EmailAddress,
+    class ChangeEmailAddress(
+        val oldEmailAddress: EmailAddress,
         val emailGroupId: EmailGroupId?,
-        val newEmail: EmailAddress
+        val newEmailAddress: EmailAddress
     ) : Command {
-        val emailAddressId: EmailId = EmailId.from(oldEmail, emailGroupId)
+        val emailAddressId: EmailId = EmailId.from(oldEmailAddress, emailGroupId)
     }
 
-    class UpdateEmailAddressOwner(
-        val email: EmailAddress,
+    class CorrectEmailOwner(
+        val emailAddress: EmailAddress,
         val emailGroupId: EmailGroupId?,
         val emailOwner: EmailAddressOwner
     ) : Command {
-        val emailAddressId: EmailId = EmailId.from(email, emailGroupId)
+        val emailAddressId: EmailId = EmailId.from(emailAddress, emailGroupId)
     }
 }

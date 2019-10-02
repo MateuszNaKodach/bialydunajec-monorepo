@@ -5,10 +5,10 @@ import org.bialydunajec.ddd.application.base.external.event.ExternalEventSubscri
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddress
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.FirstName
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.LastName
-import org.bialydunajec.email.application.api.EmailAddressCommand
+import org.bialydunajec.email.application.api.EmailCommand
 import org.bialydunajec.email.application.api.EmailCommandGateway
-import org.bialydunajec.email.domain.valueobject.EmailAddressGroup
 import org.bialydunajec.email.domain.valueobject.EmailAddressOwner
+import org.bialydunajec.email.domain.valueobject.EmailGroupName
 import org.bialydunajec.registrations.messages.event.CampParticipantExternalEvent
 import org.springframework.stereotype.Component
 
@@ -21,9 +21,9 @@ internal class RegistrationExternalEventListener(
         externalEventSubscriber.subscribe(CampParticipantExternalEvent.CampParticipantRegistered::class) {
             val payload = it.payload
             emailAddressCommandGateway.process(
-                    EmailAddressCommand.CatalogizeEmailAddress(
+                    EmailCommand.CatalogizeEmail(
                             EmailAddress(payload.snapshot.currentCamperData.emailAddress),
-                            EmailAddressGroup(payload.snapshot.currentCamperData.cottage.cottageName),
+                            EmailGroupName(payload.snapshot.currentCamperData.cottage.cottageName),
                             EmailAddressOwner(
                                     FirstName(payload.snapshot.currentCamperData.personalData.firstName),
                                     LastName(payload.snapshot.currentCamperData.personalData.lastName)
@@ -35,9 +35,9 @@ internal class RegistrationExternalEventListener(
         externalEventSubscriber.subscribe(CampParticipantExternalEvent.CampParticipantConfirmed::class) {
             val payload = it.payload
             emailAddressCommandGateway.process(
-                    EmailAddressCommand.CatalogizeEmailAddress(
+                    EmailCommand.CatalogizeEmail(
                             EmailAddress(payload.snapshot.currentCamperData.emailAddress),
-                            EmailAddressGroup(payload.snapshot.currentCamperData.cottage.cottageName),
+                            EmailGroupName(payload.snapshot.currentCamperData.cottage.cottageName),
                             EmailAddressOwner(
                                     FirstName(payload.snapshot.currentCamperData.personalData.firstName),
                                     LastName(payload.snapshot.currentCamperData.personalData.lastName)

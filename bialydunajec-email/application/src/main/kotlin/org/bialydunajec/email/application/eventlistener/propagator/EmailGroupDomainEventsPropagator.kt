@@ -1,6 +1,7 @@
 package org.bialydunajec.email.application.eventlistener.propagator
 
 import org.bialydunajec.ddd.application.base.external.event.ExternalEventPublisher
+import org.bialydunajec.ddd.domain.extensions.toStringOrNull
 import org.bialydunajec.email.domain.EmailGroupEvent
 import org.bialydunajec.email.messages.event.EmailGroupExternalEvent
 import org.springframework.scheduling.annotation.Async
@@ -15,11 +16,25 @@ internal class EmailGroupDomainEventsPropagator(private val externalEventBus: Ex
     fun handleDomainEvent(domainEvent: EmailGroupEvent.EmailGroupCreated) {
         with(domainEvent) {
             externalEventBus.send(
-                    EmailGroupExternalEvent.EmailGroupCreated(
-                            aggregateId.toString(),
-                            emailGroup.emailAddressGroup.name
-                    )
+                EmailGroupExternalEvent.EmailGroupCreated(
+                    aggregateId.toString(),
+                    emailGroupName.toStringOrNull()
+                )
             )
         }
     }
+
+    @Async
+    @TransactionalEventListener
+    fun handleDomainEvent(domainEvent: EmailGroupEvent.EmailGroupNameChanged) {
+        with(domainEvent) {
+            externalEventBus.send(
+                EmailGroupExternalEvent.EmailGroupNameChanged(
+                    aggregateId.toString(),
+                    emailGroupName.toString()
+                )
+            )
+        }
+    }
+
 }
