@@ -2,6 +2,7 @@ package org.bialydunajec.email.presentation
 
 import org.bialydunajec.ddd.application.base.external.command.ExternalCommand
 import org.bialydunajec.ddd.application.base.external.command.ExternalCommandListener
+import org.bialydunajec.ddd.application.base.external.command.ExternalCommandSubscriber
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddress
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.FirstName
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.LastName
@@ -16,51 +17,64 @@ import org.bialydunajec.email.domain.valueobject.EmailAddressOwner
 import org.bialydunajec.email.domain.valueobject.EmailMessage
 import org.bialydunajec.email.messages.command.EmailAddressExternalCommand
 import org.bialydunajec.email.messages.command.EmailMessageExternalCommand
-import org.springframework.context.event.EventListener
-import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Component
 
 @Component
 internal class ExternalCommandsListener internal constructor(
-        private val emailMessageCommandGateway: EmailMessageCommandGateway,
-        private val emailAddressCommandGateway: EmailAddressCommandGateway
+    private val emailMessageCommandGateway: EmailMessageCommandGateway,
+    private val emailAddressCommandGateway: EmailAddressCommandGateway,
+    externalCommandSubscriber: ExternalCommandSubscriber
 ) : ExternalCommandListener {
 
-    @Async
-    @EventListener
+    init {
+        externalCommandSubscriber.subscribe(EmailMessageExternalCommand.SendSimpleEmailMessage::class) {
+            handleExternalCommand(it)
+        }
+
+        externalCommandSubscriber.subscribe(EmailAddressExternalCommand.CatalogizeEmailAddress::class) {
+            handleExternalCommand(it)
+        }
+
+        externalCommandSubscriber.subscribe(EmailAddressExternalCommand.UpdateEmailAddress::class) {
+            handleExternalCommand(it)
+        }
+    }
+
     override fun handleExternalCommand(externalCommand: ExternalCommand<*>) {
         val payload = externalCommand.payload
         when (payload) {
             is EmailMessageExternalCommand.SendSimpleEmailMessage -> {
                 emailMessageCommandGateway.process(
-                        EmailMessageCommand.SendEmailCommand(
-                                EmailMessage(
-                                        EmailAddress(payload.recipientEmailAddress),
-                                        payload.subject,
-                                        payload.content,
-                                        EmailMessageLogId(payload.trackingCode)
-                                )
+                    EmailMessageCommand.SendEmailCommand(
+                        EmailMessage(
+                            EmailAddress(payload.recipientEmailAddress),
+                            payload.subject,
+                            payload.content,
+                            EmailMessageLogId(payload.trackingCode)
                         )
+                    )
                 )
             }
 
             is EmailAddressExternalCommand.CatalogizeEmailAddress -> {
-                emailAddressCommandGateway.process(EmailAddressCommand.CatalogizeEmailAddress(
+                emailAddressCommandGateway.process(
+                    EmailAddressCommand.CatalogizeEmailAddress(
                         EmailAddress(payload.emailAddress),
                         EmailAddressGroup(payload.emailGroupName),
                         EmailAddressOwner(
-                                FirstName(payload.emailOwnerName),
-                                LastName(payload.emailOwnerLastName)
+                            FirstName(payload.emailOwnerName),
+                            LastName(payload.emailOwnerLastName)
                         )
-                )
+                    )
                 )
             }
 
             is EmailAddressExternalCommand.UpdateEmailAddress -> {
-                emailAddressCommandGateway.process(EmailAddressCommand.UpdateEmailAddress(
+                emailAddressCommandGateway.process(
+                    EmailAddressCommand.UpdateEmailAddress(
                         EmailAddressId.from(payload.emailAddressId),
                         EmailAddress(payload.newEmailAddress)
-                )
+                    )
                 )
             }
         }
