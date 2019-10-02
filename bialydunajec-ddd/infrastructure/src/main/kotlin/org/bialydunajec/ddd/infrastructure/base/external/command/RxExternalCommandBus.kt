@@ -24,14 +24,32 @@ class RxExternalCommandBus
         log.debug("External command published by RxExternalCommandBus: $event")
     }
 
-    override fun <PayloadType : Any> subscribe(payloadClass: KClass<PayloadType>, consumer: (ExternalCommand<PayloadType>) -> Unit) =
-            subscribe(payloadClass.java, consumer)
+    override fun <PayloadType : Any> subscribe(
+        payloadClass: KClass<PayloadType>,
+        consumer: (ExternalCommand<PayloadType>) -> Unit
+    ) =
+        subscribe(payloadClass.java, consumer)
 
-    override fun <PayloadType : Any> subscribe(payloadClass: Class<PayloadType>, consumer: (ExternalCommand<PayloadType>) -> Unit) {
+    override fun <PayloadType : Any> subscribe(
+        payloadClass: Class<PayloadType>,
+        consumer: (ExternalCommand<PayloadType>) -> Unit
+    ) {
         commandBus.subscribeEvent<ExternalCommand<PayloadType>> {
             if (it.getPayloadClass() == payloadClass) {
                 consumer(it)
                 log.debug("External command consumed by RxExternalCommandBus: $it")
+            }
+        }
+    }
+
+    override fun <PayloadType : Any> subscribePayload(
+        payloadClass: KClass<PayloadType>,
+        consumer: (PayloadType) -> Unit
+    ) {
+        commandBus.subscribeEvent<ExternalCommand<PayloadType>> {
+            if (it.getPayloadClass() == payloadClass) {
+                consumer(it.payload)
+                log.debug("External command payload consumed by RxExternalCommandBus: $it")
             }
         }
     }

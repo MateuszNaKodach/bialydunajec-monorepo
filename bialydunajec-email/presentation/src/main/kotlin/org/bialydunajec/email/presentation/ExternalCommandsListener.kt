@@ -1,6 +1,5 @@
 package org.bialydunajec.email.presentation
 
-import org.bialydunajec.ddd.application.base.external.command.ExternalCommand
 import org.bialydunajec.ddd.application.base.external.command.ExternalCommandListener
 import org.bialydunajec.ddd.application.base.external.command.ExternalCommandSubscriber
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddress
@@ -27,56 +26,39 @@ internal class ExternalCommandsListener internal constructor(
 ) : ExternalCommandListener {
 
     init {
-        externalCommandSubscriber.subscribe(EmailMessageExternalCommand.SendSimpleEmailMessage::class) {
-            handleExternalCommand(it)
-        }
-
-        externalCommandSubscriber.subscribe(EmailAddressExternalCommand.CatalogizeEmailAddress::class) {
-            handleExternalCommand(it)
-        }
-
-        externalCommandSubscriber.subscribe(EmailAddressExternalCommand.UpdateEmailAddress::class) {
-            handleExternalCommand(it)
-        }
-    }
-
-    override fun handleExternalCommand(externalCommand: ExternalCommand<*>) {
-        val payload = externalCommand.payload
-        when (payload) {
-            is EmailMessageExternalCommand.SendSimpleEmailMessage -> {
-                emailMessageCommandGateway.process(
-                    EmailMessageCommand.SendEmailCommand(
-                        EmailMessage(
-                            EmailAddress(payload.recipientEmailAddress),
-                            payload.subject,
-                            payload.content,
-                            EmailMessageLogId(payload.trackingCode)
-                        )
+        externalCommandSubscriber.subscribePayload(EmailMessageExternalCommand.SendSimpleEmailMessage::class) {
+            emailMessageCommandGateway.process(
+                EmailMessageCommand.SendEmailCommand(
+                    EmailMessage(
+                        EmailAddress(it.recipientEmailAddress),
+                        it.subject,
+                        it.content,
+                        EmailMessageLogId(it.trackingCode)
                     )
                 )
-            }
+            )
+        }
 
-            is EmailAddressExternalCommand.CatalogizeEmailAddress -> {
-                emailAddressCommandGateway.process(
-                    EmailAddressCommand.CatalogizeEmailAddress(
-                        EmailAddress(payload.emailAddress),
-                        EmailAddressGroup(payload.emailGroupName),
-                        EmailAddressOwner(
-                            FirstName(payload.emailOwnerName),
-                            LastName(payload.emailOwnerLastName)
-                        )
+        externalCommandSubscriber.subscribePayload(EmailAddressExternalCommand.CatalogizeEmailAddress::class) {
+            emailAddressCommandGateway.process(
+                EmailAddressCommand.CatalogizeEmailAddress(
+                    EmailAddress(it.emailAddress),
+                    EmailAddressGroup(it.emailGroupName),
+                    EmailAddressOwner(
+                        FirstName(it.emailOwnerName),
+                        LastName(it.emailOwnerLastName)
                     )
                 )
-            }
+            )
+        }
 
-            is EmailAddressExternalCommand.UpdateEmailAddress -> {
-                emailAddressCommandGateway.process(
-                    EmailAddressCommand.UpdateEmailAddress(
-                        EmailAddressId.from(payload.emailAddressId),
-                        EmailAddress(payload.newEmailAddress)
-                    )
+        externalCommandSubscriber.subscribePayload(EmailAddressExternalCommand.UpdateEmailAddress::class) {
+            emailAddressCommandGateway.process(
+                EmailAddressCommand.UpdateEmailAddress(
+                    EmailAddressId.from(it.emailAddressId),
+                    EmailAddress(it.newEmailAddress)
                 )
-            }
+            )
         }
     }
 
