@@ -38,7 +38,7 @@ internal class EmailAddressCatalogGroupEventsProjection(
         when (payload) {
             is EmailGroupExternalEvent.EmailGroupCreated -> {
                 with(payload) {
-                    emailAddressCatalogGroupMongoRepository.findById(aggregateId).orElseGet { EmailAddressCatalogGroup(aggregateId) }
+                    emailAddressCatalogGroupMongoRepository.findById(aggregateId).orElseGet { EmailGroup(aggregateId) }
                             .also {
                                 it.groupName = name
                             }.also {
@@ -57,7 +57,7 @@ internal class EmailAddressCatalogGroupEventsProjection(
 
             is EmailAddressExternalEvent.EmailAddressCatalogizedToEmailGroup -> {
                 with(payload) {
-                    emailAddressCatalogGroupMongoRepository.findById(emailGroupId).orElseGet { EmailAddressCatalogGroup(emailGroupId) }
+                    emailAddressCatalogGroupMongoRepository.findById(emailGroupId).orElseGet { EmailGroup(emailGroupId) }
                             .also {
                                 it.groupName = emailGroupName
                                 it.emailAddresses?.add(emailAddress)
@@ -86,7 +86,7 @@ internal class EmailAddressCatalogGroupEventsProjection(
 
             is EmailAddressExternalEvent.EmailAddressBelongingToGroupUpdated -> {
                 with(payload) {
-                    emailAddressCatalogGroupMongoRepository.findById(emailGroupId).orElseGet { EmailAddressCatalogGroup(emailGroupId) }
+                    emailAddressCatalogGroupMongoRepository.findById(emailGroupId).orElseGet { EmailGroup(emailGroupId) }
                             .also {
                                 it.groupName = emailGroupName
                                 it.emailAddresses?.add(newEmailAddress)

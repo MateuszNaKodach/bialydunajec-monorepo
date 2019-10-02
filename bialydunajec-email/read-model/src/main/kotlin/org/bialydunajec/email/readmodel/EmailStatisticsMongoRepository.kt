@@ -4,13 +4,13 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.data.mongodb.repository.MongoRepository
 import javax.annotation.PostConstruct
 
-interface EmailAddressStatisticsMongoRepository : MongoRepository<EmailAddressStatistics, String>
+interface EmailStatisticsMongoRepository : MongoRepository<EmailStatistics, String>
 
 @Configuration
-class BootEmailAddress(val repository: EmailAddressStatisticsMongoRepository) {
+class BootEmailAddress(val repository: EmailStatisticsMongoRepository) {
 
     @PostConstruct
     fun setUp() {
-        repository.save(EmailAddressStatistics())
+        repository.save(EmailStatistics())
     }
 }

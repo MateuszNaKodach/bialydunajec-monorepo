@@ -4,4 +4,4 @@ import org.bialydunajec.ddd.application.base.external.event.ObservableEventStrea
 import org.springframework.stereotype.Component
 
 @Component
-internal class EmailAddressEventStream : ObservableEventStream()
+internal class EmailEventStream : ObservableEventStream()

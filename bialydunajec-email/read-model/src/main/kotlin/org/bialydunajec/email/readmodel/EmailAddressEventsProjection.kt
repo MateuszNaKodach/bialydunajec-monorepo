@@ -10,10 +10,10 @@ const val DEFAULT_EMAIL_ADDRESS_GROUP: String = "DEFAULT_GROUP";
 
 @Component
 internal class EmailAddressEventsProjection(
-        private val emailAddressRepository: EmailAddressMongoRepository,
-        private val emailAddressStatisticsMongoRepository: EmailAddressStatisticsMongoRepository,
-        private val emailAddressEventStream: EmailAddressEventStream,
-        eventSubscriber: ExternalEventSubscriber
+    private val emailAddressRepository: EmailMongoRepository,
+    private val emailAddressStatisticsMongoRepository: EmailStatisticsMongoRepository,
+    private val emailAddressEventStream: EmailEventStream,
+    eventSubscriber: ExternalEventSubscriber
 ) : SerializedExternalEventListener() {
 
     init {
@@ -51,7 +51,7 @@ internal class EmailAddressEventsProjection(
                                 emailAddressRepository.save(it)
                             }
 
-                    emailAddressStatisticsMongoRepository.findById(DEFAULT_EMAIL_ADDRESS_STATISTICS_ID)
+                    emailAddressStatisticsMongoRepository.findById(DEFAULT_EMAIL_STATISTICS_ID)
                             .ifPresent {
                                 if (emailId.contains(DEFAULT_EMAIL_ADDRESS_GROUP)){
                                     it.addressesCount++
@@ -102,7 +102,7 @@ internal class EmailAddressEventsProjection(
                             }.also {
                                 emailAddressRepository.save(it)
                             }
-                    emailAddressStatisticsMongoRepository.findById(DEFAULT_EMAIL_ADDRESS_STATISTICS_ID)
+                    emailAddressStatisticsMongoRepository.findById(DEFAULT_EMAIL_STATISTICS_ID)
                             .ifPresent {
                                 if (newEmailId.contains(DEFAULT_EMAIL_ADDRESS_GROUP)) it.addressesCount--
                                 emailAddressStatisticsMongoRepository.save(it)
@@ -124,7 +124,7 @@ internal class EmailAddressEventsProjection(
                             }.also {
                                 emailAddressRepository.save(it)
                             }
-                    emailAddressStatisticsMongoRepository.findById(DEFAULT_EMAIL_ADDRESS_STATISTICS_ID)
+                    emailAddressStatisticsMongoRepository.findById(DEFAULT_EMAIL_STATISTICS_ID)
                             .ifPresent {
                                 if (newEmailId.contains(DEFAULT_EMAIL_ADDRESS_GROUP)) it.addressesCount--
                                 emailAddressStatisticsMongoRepository.save(it)
