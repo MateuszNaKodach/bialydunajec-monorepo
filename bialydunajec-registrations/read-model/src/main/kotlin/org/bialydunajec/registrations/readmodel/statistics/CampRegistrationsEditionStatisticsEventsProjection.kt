@@ -29,6 +29,10 @@ internal class CampRegistrationsEditionStatisticsEventsProjection(
             processingQueue.process(it)
         }
 
+        eventSubscriber.subscribe(CottageExternalEvent.CottageDelete::class) {
+            processingQueue.process(it)
+        }
+
         eventSubscriber.subscribe(CampParticipantExternalEvent.CampParticipantRegistered::class) {
             processingQueue.process(it)
         }
@@ -50,6 +54,10 @@ internal class CampRegistrationsEditionStatisticsEventsProjection(
                 eventStream.updateStreamWith(externalEvent)
             }
             is CottageExternalEvent.CottageUpdated -> {
+                createProjection(eventPayload)
+                eventStream.updateStreamWith(externalEvent)
+            }
+            is CottageExternalEvent.CottageDelete -> {
                 createProjection(eventPayload)
                 eventStream.updateStreamWith(externalEvent)
             }
@@ -84,6 +92,15 @@ internal class CampRegistrationsEditionStatisticsEventsProjection(
     }
 
     private fun createProjection(eventPayload: CottageExternalEvent.CottageUpdated) {
+        campRegistrationsEditionStatisticsRepository.findByCampRegistrationsEditionId(eventPayload.snapshot.campRegistrationsEditionId)
+                ?.also {
+                    it.calculateWith(eventPayload)
+                }?.also {
+                    campRegistrationsEditionStatisticsRepository.save(it)
+                }
+    }
+
+    private fun createProjection(eventPayload: CottageExternalEvent.CottageDelete) {
         campRegistrationsEditionStatisticsRepository.findByCampRegistrationsEditionId(eventPayload.snapshot.campRegistrationsEditionId)
                 ?.also {
                     it.calculateWith(eventPayload)

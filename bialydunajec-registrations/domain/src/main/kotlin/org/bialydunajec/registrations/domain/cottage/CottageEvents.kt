@@ -20,4 +20,8 @@ sealed class CottageEvents : DomainEvent<CottageId> {
             val status: CottageStatus
     ): CottageEvents()
 
+    data class CottageDeleted(
+            override val aggregateId: CottageId,
+            val snapshot: CottageSnapshot
+    ): CottageEvents()
 }

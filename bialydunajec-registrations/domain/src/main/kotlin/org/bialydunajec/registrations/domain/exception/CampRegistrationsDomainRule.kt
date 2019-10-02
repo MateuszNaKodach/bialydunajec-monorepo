@@ -8,6 +8,7 @@ enum class CampRegistrationsDomainRule : DomainRule {
     CAMP_REGISTRATIONS_NOT_FOUND,
     CAMP_EDITION_NOT_FOUND,
     IN_PROGRESS_CAMP_REGISTRATIONS_NOT_FOUND,
+    COTTAGE_HAS_STATUS_ACTIVE,
     COTTAGE_WITH_CAMP_PARTICIPANTS_CANNOT_BE_DELETED {
         override fun getDescription(): String? = "Chatka nie może być usunięta, jesli są do niej zapisani obozowicze."
     },

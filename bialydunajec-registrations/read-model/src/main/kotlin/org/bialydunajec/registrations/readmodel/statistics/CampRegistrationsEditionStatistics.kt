@@ -40,6 +40,11 @@ internal class CampRegistrationsEditionStatistics(
         }
     }
 
+    fun calculateWith(eventPayload: CottageExternalEvent.CottageDelete) {
+        with(eventPayload.snapshot) {
+            cottagesStats.removeIf{it.cottageId == cottageId}
+        }
+    }
     fun removeCottageStats(cottageId: String) {
         cottagesStats.removeIf { it.cottageId == cottageId }
     }

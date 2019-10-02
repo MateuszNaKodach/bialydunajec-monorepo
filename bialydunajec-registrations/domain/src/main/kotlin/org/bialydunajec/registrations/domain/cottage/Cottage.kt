@@ -232,6 +232,7 @@ class Cottage internal constructor(
     fun delete() {
         this.status = CottageStatus.DELETED
         registerEvent(CottageEvents.CottageStatusChanged(getAggregateId(), status))
+        registerEvent(CottageEvents.CottageDeleted(getAggregateId(),getSnapshot()))
     }
 
     fun getCampEditionId() = campRegistrationsEditionId
