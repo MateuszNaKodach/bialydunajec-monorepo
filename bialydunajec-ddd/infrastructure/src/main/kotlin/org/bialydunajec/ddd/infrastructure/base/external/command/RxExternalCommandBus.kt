@@ -19,9 +19,9 @@ class RxExternalCommandBus
 
     private val commandBus = RxEventBus.default()
 
-    override fun send(event: ExternalCommand<*>) {
-        commandBus.publishEvent(event)
-        log.debug("External command published by RxExternalCommandBus: $event")
+    override fun send(command: ExternalCommand<*>) {
+        commandBus.publishEvent(command)
+        log.debug("External command published by RxExternalCommandBus: $command")
     }
 
     override fun <PayloadType : Any> subscribe(

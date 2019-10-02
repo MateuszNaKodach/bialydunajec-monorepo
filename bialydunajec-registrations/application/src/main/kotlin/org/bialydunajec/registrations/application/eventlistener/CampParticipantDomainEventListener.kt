@@ -2,6 +2,7 @@ package org.bialydunajec.registrations.application.eventlistener
 
 import org.bialydunajec.ddd.application.base.email.EmailMessageSenderPort
 import org.bialydunajec.ddd.application.base.email.SimpleEmailMessage
+import org.bialydunajec.ddd.application.base.external.command.ExternalCommandBus
 import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.Gender
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantEvent
@@ -21,7 +22,8 @@ internal class CampParticipantDomainEventListener(
         private val cottageRepository: CottageRepository,
         private val emailMessageSender: EmailMessageSenderPort,
         private val campParticipantRegistrationRepository: CampParticipantRegistrationRepository,
-        private val shirtOrderRepository: ShirtOrderRepository
+        private val shirtOrderRepository: ShirtOrderRepository,
+        private val externalCommandBus: ExternalCommandBus
 ) {
 
 
@@ -35,7 +37,6 @@ internal class CampParticipantDomainEventListener(
         val cottage = cottageRepository.findById(event.snapshot.currentCamperData.cottageId)!!
 
         val campParticipantPersonalData = event.snapshot.currentCamperData.personalData
-
 
         //TODO: Tworzenie całego maila o zapisaniu się!
         val downPaymentCommitmentSnapshot = campParticipantAccount.getCampDownPaymentCommitmentSnapshot()
