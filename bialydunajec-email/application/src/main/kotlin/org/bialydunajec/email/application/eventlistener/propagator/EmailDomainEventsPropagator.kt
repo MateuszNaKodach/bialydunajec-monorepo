@@ -4,7 +4,7 @@ import org.bialydunajec.ddd.application.base.external.event.ExternalEventPublish
 import org.bialydunajec.ddd.domain.extensions.toStringOrNull
 import org.bialydunajec.email.domain.EmailEvent
 import org.bialydunajec.email.domain.EmailGroupRepository
-import org.bialydunajec.email.messages.event.EmailAddressExternalEvent
+import org.bialydunajec.email.messages.event.EmailExternalEvent
 import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Component
 import org.springframework.transaction.event.TransactionalEventListener
@@ -20,7 +20,7 @@ internal class EmailDomainEventsPropagator(
     fun handleDomainEvent(domainEvent: EmailEvent.EmailCatalogized) {
         with(domainEvent) {
             externalEventBus.send(
-                EmailAddressExternalEvent.EmailCatalogized(
+                EmailExternalEvent.EmailCatalogized(
                     aggregateId.toString(),
                     emailAddress.toString(),
                     emailGroupId.toString(),
@@ -37,7 +37,7 @@ internal class EmailDomainEventsPropagator(
     fun handleDomainEvent(domainEvent: EmailEvent.EmailAddressChanged) {
         with(domainEvent) {
             externalEventBus.send(
-                EmailAddressExternalEvent.EmailAddressChanged(
+                EmailExternalEvent.EmailAddressChanged(
                     aggregateId.toString(),
                     oldEmailAddress.toString(),
                     newEmailAddress.toString(),
@@ -55,7 +55,7 @@ internal class EmailDomainEventsPropagator(
     fun handleDomainEvent(domainEvent: EmailEvent.EmailOwnerCorrected) {
         with(domainEvent) {
             externalEventBus.send(
-                EmailAddressExternalEvent.EmailOwnerCorrected(
+                EmailExternalEvent.EmailOwnerCorrected(
                     aggregateId.toString(),
                     emailAddress.toString(),
                     emailGroupId.toString(),

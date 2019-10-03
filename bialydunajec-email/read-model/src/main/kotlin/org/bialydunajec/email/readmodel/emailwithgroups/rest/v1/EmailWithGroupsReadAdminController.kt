@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
-@RequestMapping("/rest-api/v1/admin/email-groups")
+@RequestMapping("/rest-api/v1/admin/emails-with-groups")
 @RestController
 internal class EmailWithGroupsReadAdminController(
     private val repository: EmailWithGroupsMongoRepository,
@@ -22,14 +22,14 @@ internal class EmailWithGroupsReadAdminController(
 
     @GetMapping
     fun getEmailsWithGroups(
-        @RequestParam(required = false) groupId: String?,
+        @RequestParam(required = false) emailGroupId: String?,
         @RequestParam(required = false) ownerFirstName: String?,
         @RequestParam(required = false) ownerLastName: String?,
         @RequestParam(required = false) emailAddress: String?
     ): Collection<EmailWithGroups> {
         var foundEmailWithGroups = repository.findAll()
         groupId?.let {
-            foundEmailWithGroups = foundEmailWithGroups.filter { it.groups.map { group -> group.emailGroupId }.contains(groupId) }
+            foundEmailWithGroups = foundEmailWithGroups.filter { it.groups.map { group -> group.emailGroupId }.contains(emailGroupId) }
         }
         ownerFirstName?.let {
             foundEmailWithGroups = foundEmailWithGroups.filter { it.owner.firstName.toLowerCase().contains(ownerFirstName.toLowerCase()) }

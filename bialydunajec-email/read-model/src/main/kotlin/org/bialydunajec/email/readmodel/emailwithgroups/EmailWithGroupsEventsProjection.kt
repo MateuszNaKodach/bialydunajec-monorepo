@@ -3,7 +3,7 @@ package org.bialydunajec.email.readmodel.emailwithgroups
 import org.bialydunajec.ddd.application.base.external.event.ExternalEvent
 import org.bialydunajec.ddd.application.base.external.event.ExternalEventSubscriber
 import org.bialydunajec.ddd.application.base.external.event.SerializedExternalEventListener
-import org.bialydunajec.email.messages.event.EmailAddressExternalEvent
+import org.bialydunajec.email.messages.event.EmailExternalEvent
 import org.bialydunajec.email.readmodel.shared.EmailOwner
 import org.springframework.stereotype.Component
 
@@ -15,42 +15,45 @@ internal class EmailWithGroupsEventsProjection(
 ) : SerializedExternalEventListener() {
 
     init {
-        eventSubscriber.subscribe(EmailAddressExternalEvent.EmailCatalogized::class) {
+        eventSubscriber.subscribe(EmailExternalEvent.EmailCatalogized::class) {
             processingQueue.process(it)
         }
 
-        eventSubscriber.subscribe(EmailAddressExternalEvent.EmailOwnerCorrected::class) {
+        eventSubscriber.subscribe(EmailExternalEvent.EmailOwnerCorrected::class) {
             processingQueue.process(it)
         }
 
-        eventSubscriber.subscribe(EmailAddressExternalEvent.EmailAddressChanged::class) {
+        eventSubscriber.subscribe(EmailExternalEvent.EmailAddressChanged::class) {
             processingQueue.process(it)
         }
     }
 
     override fun processExternalEvent(externalEvent: ExternalEvent<*>) {
-        val payload = externalEvent.payload as EmailAddressExternalEvent
+        val payload = externalEvent.payload as EmailExternalEvent
         when (payload) {
-            is EmailAddressExternalEvent.EmailCatalogized -> {
+            is EmailExternalEvent.EmailCatalogized -> {
                 with(payload) {
                     saveEmailWithGroup(emailAddress, ownerFirstName, ownerLastName, emailGroupId, emailGroupName)
                 }
                 emailEventStream.updateStreamWith(externalEvent)
             }
-            is EmailAddressExternalEvent.EmailAddressChanged -> {
+
+            is EmailExternalEvent.EmailAddressChanged -> {
                 with(payload) {
                     removeEmailFromGroupWhereChanged(oldEmailAddress, emailGroupId)
                     saveEmailWithGroup(newEmailAddress, ownerFirstName, ownerLastName, emailGroupId, emailGroupName)
                 }
                 emailEventStream.updateStreamWith(externalEvent)
             }
-            is EmailAddressExternalEvent.EmailOwnerCorrected -> {
+
+            is EmailExternalEvent.EmailOwnerCorrected -> {
                 with(payload) {
                     removeEmailFromGroupWhereChanged(emailAddress, emailGroupId)
                     saveEmailWithGroup(emailAddress, ownerFirstName, ownerLastName, emailGroupId, emailGroupName)
                 }
                 emailEventStream.updateStreamWith(externalEvent)
             }
+
         }
     }
 

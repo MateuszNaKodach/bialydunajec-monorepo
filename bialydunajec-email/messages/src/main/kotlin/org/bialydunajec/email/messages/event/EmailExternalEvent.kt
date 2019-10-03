@@ -1,6 +1,6 @@
 package org.bialydunajec.email.messages.event
 
-sealed class EmailAddressExternalEvent {
+sealed class EmailExternalEvent {
 
     data class EmailCatalogized(
         val emailId: String,
@@ -9,7 +9,7 @@ sealed class EmailAddressExternalEvent {
         val emailGroupName: String?,
         val ownerFirstName: String,
         val ownerLastName: String
-    ) : EmailAddressExternalEvent()
+    ) : EmailExternalEvent()
 
     data class EmailOwnerCorrected(
         val emailId: String,
@@ -18,9 +18,8 @@ sealed class EmailAddressExternalEvent {
         val emailGroupName: String?,
         val ownerFirstName: String,
         val ownerLastName: String
-    ) : EmailAddressExternalEvent()
+    ) : EmailExternalEvent()
 
-    //TODO: Add info about new
     data class EmailAddressChanged(
         val emailId: String,
         val oldEmailAddress: String,
@@ -29,6 +28,6 @@ sealed class EmailAddressExternalEvent {
         val emailGroupName: String?,
         val ownerFirstName: String,
         val ownerLastName: String
-    ) : EmailAddressExternalEvent()
+    ) : EmailExternalEvent()
 
 }
