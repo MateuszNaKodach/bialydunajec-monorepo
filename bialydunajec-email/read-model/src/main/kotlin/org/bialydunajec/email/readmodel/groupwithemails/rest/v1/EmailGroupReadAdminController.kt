@@ -1,6 +1,8 @@
-package org.bialydunajec.email.readmodel.emailgroup.rest.v1
+package org.bialydunajec.email.readmodel.groupwithemails.rest.v1
 
-import org.bialydunajec.email.readmodel.emailgroup.*
+import org.bialydunajec.email.readmodel.groupwithemails.GroupWithEmails
+import org.bialydunajec.email.readmodel.groupwithemails.GroupWithEmailsEventStream
+import org.bialydunajec.email.readmodel.groupwithemails.GroupWithEmailsMongoRepository
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -9,13 +11,13 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/rest-api/v1/admin/email-group")
 @RestController
 internal class EmailGroupReadAdminController(
-    private val emailGroupMongoRepository: EmailGroupMongoRepository,
+    private val emailGroupMongoRepository: GroupWithEmailsMongoRepository,
     private val emailGroupStatisticsMongoRepository: EmailGroupStatisticsMongoRepository,
-    private val emailGroupEventStream: EmailGroupEventStream
+    private val emailGroupEventStream: GroupWithEmailsEventStream
 ) {
 
     @GetMapping
-    fun getAllEmailAddressCatalogGroups(): Collection<EmailGroup> =
+    fun getAllEmailAddressCatalogGroups(): Collection<GroupWithEmails> =
             emailGroupMongoRepository.findAll()
                     .sortedByDescending { it.groupName }
 

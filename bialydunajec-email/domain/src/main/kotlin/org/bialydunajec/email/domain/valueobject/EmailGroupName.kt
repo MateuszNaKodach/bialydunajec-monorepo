@@ -4,5 +4,7 @@ import javax.persistence.Embeddable
 
 @Embeddable
 class EmailGroupName(
-        val name: String
-)
+        val raw: String
+){
+        override fun toString() = raw
+}

@@ -23,7 +23,7 @@ sealed class EmailEvent : DomainEvent<EmailId> {
     class EmailAddressChanged(
         override val aggregateId: EmailId,
         val emailGroupId: EmailGroupId,
-        val emailAddress: EmailAddress,
+        val oldEmailAddress: EmailAddress,
         val newEmailAddress: EmailAddress,
         val newEmailId: EmailId,
         val emailOwner: EmailAddressOwner

@@ -1,7 +1,7 @@
-package org.bialydunajec.email.readmodel.email
+package org.bialydunajec.email.readmodel.emailwithgroups
 
 import org.bialydunajec.ddd.application.base.external.event.ObservableEventStream
 import org.springframework.stereotype.Component
 
 @Component
-internal class EmailEventStream : ObservableEventStream()
+internal class EmailWithGroupsEventStream : ObservableEventStream()
