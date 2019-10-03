@@ -11,7 +11,14 @@ sealed class EmailExternalCommand {
         val emailOwnerName: String,
         val emailOwnerLastName: String,
         val emailGroupId: String?
-    ) : EmailExternalCommand()
+    ) : EmailExternalCommand() {
+
+        fun alsoWithGroups(emailGroupIds: Set<String>): List<CatalogizeEmail> =
+            listOf(this).plus(emailGroupIds.map { this.copy(emailGroupId = it) })
+
+        fun alsoWithGroup(emailGroupId: String): List<CatalogizeEmail> =
+            listOf(this).plus(this.copy(emailGroupId = emailGroupId))
+    }
 
     data class ChangeEmailAddress(
         val oldEmailAddress: String,

@@ -1,4 +1,4 @@
-package org.bialydunajec.email.readmodel
+package org.bialydunajec.email.readmodel.emailgroup
 
 import org.bialydunajec.ddd.application.base.external.event.ExternalEvent
 import org.bialydunajec.ddd.application.base.external.event.ExternalEventSubscriber
@@ -8,11 +8,11 @@ import org.bialydunajec.email.messages.event.EmailGroupExternalEvent
 import org.springframework.stereotype.Component
 
 @Component
-internal class EmailAddressCatalogGroupEventsProjection(
-        private val emailAddressCatalogGroupMongoRepository: EmailAddressCatalogGroupMongoRepository,
-        private val emailAddressCatalogGroupStatisticsMongoRepository: EmailAddressCatalogGroupStatisticsMongoRepository,
-        private val emailAddressCatalogGroupEventStream: EmailAddressCatalogGroupEventStream,
-        eventSubscriber: ExternalEventSubscriber
+internal class EmailGroupEventsProjection(
+    private val emailGroupMongoRepository: EmailGroupMongoRepository,
+    private val emailGroupStatisticsMongoRepository: EmailGroupStatisticsMongoRepository,
+    private val emailGroupEventStream: EmailGroupEventStream,
+    eventSubscriber: ExternalEventSubscriber
 ) : SerializedExternalEventListener() {
 
     init {
@@ -38,63 +38,75 @@ internal class EmailAddressCatalogGroupEventsProjection(
         when (payload) {
             is EmailGroupExternalEvent.EmailGroupCreated -> {
                 with(payload) {
-                    emailAddressCatalogGroupMongoRepository.findById(aggregateId).orElseGet { EmailGroup(aggregateId) }
+                    emailGroupMongoRepository.findById(aggregateId).orElseGet {
+                        EmailGroup(
+                            aggregateId
+                        )
+                    }
                             .also {
                                 it.groupName = name
                             }.also {
-                                emailAddressCatalogGroupMongoRepository.save(it)
+                                emailGroupMongoRepository.save(it)
                             }
 
-                    emailAddressCatalogGroupStatisticsMongoRepository.findById(DEFAULT_EMAIL_ADDRESS_CATALOG_GROUP_STATISTICS_ID)
+                    emailGroupStatisticsMongoRepository.findById(DEFAULT_EMAIL_GROUP_STATISTICS_ID)
                             .ifPresent {
                                 it.groupsCount++
-                                emailAddressCatalogGroupStatisticsMongoRepository.save(it)
+                                emailGroupStatisticsMongoRepository.save(it)
                             }
                 }.also {
-                    emailAddressCatalogGroupEventStream.updateStreamWith(externalEvent)
+                    emailGroupEventStream.updateStreamWith(externalEvent)
                 }
             }
 
             is EmailAddressExternalEvent.EmailAddressCatalogizedToEmailGroup -> {
                 with(payload) {
-                    emailAddressCatalogGroupMongoRepository.findById(emailGroupId).orElseGet { EmailGroup(emailGroupId) }
+                    emailGroupMongoRepository.findById(emailGroupId).orElseGet {
+                        EmailGroup(
+                            emailGroupId
+                        )
+                    }
                             .also {
                                 it.groupName = emailGroupName
                                 it.emailAddresses?.add(emailAddress)
                             }.also {
-                                emailAddressCatalogGroupMongoRepository.save(it)
+                                emailGroupMongoRepository.save(it)
                             }
                 }.also {
-                    emailAddressCatalogGroupEventStream.updateStreamWith(externalEvent)
+                    emailGroupEventStream.updateStreamWith(externalEvent)
                 }
             }
 
             is EmailAddressExternalEvent.EmailAddressDeactivated -> {
                 with(payload) {
                     emailGroupId?.let {
-                        emailAddressCatalogGroupMongoRepository.findById(it).get()
+                        emailGroupMongoRepository.findById(it).get()
                                 .also {
                                     it.emailAddresses?.remove(emailAddress)
                                 }.also {
-                                    emailAddressCatalogGroupMongoRepository.save(it)
+                                    emailGroupMongoRepository.save(it)
                                 }
                     }
                 }.also {
-                    emailAddressCatalogGroupEventStream.updateStreamWith(externalEvent)
+                    emailGroupEventStream.updateStreamWith(externalEvent)
                 }
             }
 
             is EmailAddressExternalEvent.EmailAddressBelongingToGroupUpdated -> {
                 with(payload) {
-                    emailAddressCatalogGroupMongoRepository.findById(emailGroupId).orElseGet { EmailGroup(emailGroupId) }
+                    emailGroupMongoRepository.findById(emailGroupId).orElseGet {
+                        EmailGroup(
+                            emailGroupId
+                        )
+                    }
                             .also {
                                 it.groupName = emailGroupName
                                 it.emailAddresses?.add(newEmailAddress)
                             }.also {
-                                emailAddressCatalogGroupMongoRepository.save(it)
+                                emailGroupMongoRepository.save(it)
                             }
                 }.also {
-                    emailAddressCatalogGroupEventStream.updateStreamWith(externalEvent)
+                    emailGroupEventStream.updateStreamWith(externalEvent)
                 }
             }
         }

@@ -1,9 +1,8 @@
-package org.bialydunajec.email.readmodel
+package org.bialydunajec.email.readmodel.emailmessage
 
 import org.bialydunajec.ddd.application.base.external.event.ExternalEvent
 import org.bialydunajec.ddd.application.base.external.event.ExternalEventSubscriber
 import org.bialydunajec.ddd.application.base.external.event.SerializedExternalEventListener
-import org.bialydunajec.ddd.application.base.external.event.SpringSerializedExternalEventListener
 import org.bialydunajec.email.messages.event.EmailMessageLogExternalEvent
 import org.springframework.stereotype.Component
 
@@ -13,10 +12,10 @@ const val EMAIL_STATUS_FAIL_TO_SEND = "FAIL_TO_SEND"
 
 @Component
 internal class EmailMessageLogEventsProjection(
-        private val emailMessageRepository: EmailMessageMongoRepository,
-        private val emailMessageStatisticsRepository: EmailMessageStatisticsMongoRepository,
-        private val emailMessageLogEventStream: EmailMessageLogEventStream,
-        eventSubscriber: ExternalEventSubscriber
+    private val emailMessageRepository: EmailMessageMongoRepository,
+    private val emailMessageStatisticsRepository: EmailMessageStatisticsMongoRepository,
+    private val emailMessageLogEventStream: EmailMessageLogEventStream,
+    eventSubscriber: ExternalEventSubscriber
 ) : SerializedExternalEventListener() {
 
     init {
@@ -38,7 +37,11 @@ internal class EmailMessageLogEventsProjection(
         when (payload) {
             is EmailMessageLogExternalEvent.EmailMessageCreated -> {
                 with(payload) {
-                    emailMessageRepository.findById(emailMessageLogId).orElseGet { EmailMessage(emailMessageLogId) }
+                    emailMessageRepository.findById(emailMessageLogId).orElseGet {
+                        EmailMessage(
+                            emailMessageLogId
+                        )
+                    }
                             .also {
                                 it.recipient = recipientEmailAddress
                                 it.subject = subject
@@ -63,7 +66,11 @@ internal class EmailMessageLogEventsProjection(
 
             is EmailMessageLogExternalEvent.EmailMessageSentSuccess -> {
                 with(payload) {
-                    emailMessageRepository.findById(emailMessageLogId).orElseGet { EmailMessage(emailMessageLogId) }
+                    emailMessageRepository.findById(emailMessageLogId).orElseGet {
+                        EmailMessage(
+                            emailMessageLogId
+                        )
+                    }
                             .also {
                                 it.status = EMAIL_STATUS_SENT
                                 it.sentDate = sentDate.toInstant()
@@ -87,7 +94,11 @@ internal class EmailMessageLogEventsProjection(
             is EmailMessageLogExternalEvent.EmailMessageSentFailure -> {
                 with(payload) {
                     var statusBeforeProjection: String? = null;
-                    emailMessageRepository.findById(emailMessageLogId).orElseGet { EmailMessage(emailMessageLogId) }
+                    emailMessageRepository.findById(emailMessageLogId).orElseGet {
+                        EmailMessage(
+                            emailMessageLogId
+                        )
+                    }
                             .also {
                                 statusBeforeProjection = it.status;
                                 it.status = EMAIL_STATUS_FAIL_TO_SEND

@@ -2,10 +2,8 @@ package org.bialydunajec.registrations.application.eventlistener
 
 import org.bialydunajec.ddd.application.base.email.EmailMessageSenderPort
 import org.bialydunajec.ddd.application.base.email.SimpleEmailMessage
-import org.bialydunajec.ddd.application.base.external.command.ExternalCommand
-import org.bialydunajec.ddd.application.base.external.command.ExternalCommandBus
-import org.bialydunajec.email.messages.command.EmailExternalCommand
 import org.bialydunajec.registrations.application.configuration.properties.BialyDunajecMainFrontendProperties
+import org.bialydunajec.registrations.application.external.EmailCatalogizer
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantRepository
 import org.bialydunajec.registrations.domain.camper.campparticipantregistration.CampParticipantRegistrationEvent
 import org.bialydunajec.registrations.domain.camper.campparticipantregistration.CampParticipantRegistrationId
@@ -21,13 +19,11 @@ internal class CampParticipantRegistrationDomainEventListener(
     private val mainFrontendProperties: BialyDunajecMainFrontendProperties,
     private val emailMessageSender: EmailMessageSenderPort,
     private val campParticipantRepository: CampParticipantRepository,
-    private val externalCommandBus: ExternalCommandBus
+    private val emailCatalogizer: EmailCatalogizer
 ) {
 
     private val log = LoggerFactory.getLogger(this.javaClass)
 
-    //@Async
-    //@EventListener
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     @TransactionalEventListener
     fun handle(event: CampParticipantRegistrationEvent.Created) {
@@ -52,19 +48,7 @@ internal class CampParticipantRegistrationDomainEventListener(
                 )}"""
             )
         emailMessageSender.sendEmailMessage(emailMessage)
-
-        //TODO: Jaki email group dla wszystkich uczestników, a nie tylko danej chatki. Może jak pre-definiować nazwy grup?
-        externalCommandBus.send(
-            ExternalCommand(
-                EmailExternalCommand.CatalogizeEmail(
-                    camperApplication.emailAddress.toString(),
-                    camperApplication.personalData.firstName.toString(),
-                    camperApplication.personalData.lastName.toString(),
-                    "CAMP_PARTICIPANT_COTTAGE_${camperApplication.cottageId}"
-                )
-            )
-        )
-
+        emailCatalogizer.catalogizeEmailFor(camperApplication)
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -78,6 +62,7 @@ internal class CampParticipantRegistrationDomainEventListener(
                 """Cześć ${camperApplication.personalData.firstName}, niestety Twój zapis na obóz się nie powiódł. Ktoś musiał zająć Twoje miejsce..."""
             )
         emailMessageSender.sendEmailMessage(emailMessage)
+        emailCatalogizer.catalogizeEmailFor(camperApplication)
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)

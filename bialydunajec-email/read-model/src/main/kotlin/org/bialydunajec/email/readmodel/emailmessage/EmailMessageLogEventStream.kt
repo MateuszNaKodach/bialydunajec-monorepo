@@ -1,4 +1,4 @@
-package org.bialydunajec.email.readmodel
+package org.bialydunajec.email.readmodel.emailmessage
 
 import org.bialydunajec.ddd.application.base.external.event.ObservableEventStream
 import org.springframework.stereotype.Component

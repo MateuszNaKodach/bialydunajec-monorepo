@@ -1,6 +1,6 @@
-package org.bialydunajec.email.readmodel.rest.v1
+package org.bialydunajec.email.readmodel.email.rest.v1
 
-import org.bialydunajec.email.readmodel.*
+import org.bialydunajec.email.readmodel.email.*
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -24,7 +24,7 @@ internal class EmailReadAdminController(
             emailEventStream.streamingEvents()
 
     @GetMapping
-    fun getEmails(@RequestParam(required = true) groupId: String, @RequestParam(required = false)  ownerFirstName: String?, @RequestParam(required = false) ownerLastName: String?, @RequestParam(required = false) emailAddress: String?): Collection<EmailAddress> {
+    fun getEmails(@RequestParam(required = true) groupId: String, @RequestParam(required = false)  ownerFirstName: String?, @RequestParam(required = false) ownerLastName: String?, @RequestParam(required = false) emailAddress: String?): Collection<Email> {
         var foundEmailAddresses = emailMongoRepository.findAll()
 
         groupId?.let {
@@ -38,7 +38,7 @@ internal class EmailReadAdminController(
         ownerLastName?.let {
             foundEmailAddresses = foundEmailAddresses.filter { it.ownerLastName.equals(ownerLastName) }
         }
-        return foundEmailAddresses.sortedByDescending { it.emailAddress }
+        return foundEmailAddresses.sortedByDescending { it.address }
     }
 
 }

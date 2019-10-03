@@ -13,13 +13,13 @@ import javax.persistence.Version
 @Entity
 @Table(schema = "email")
 class Email(
-    emailAddressId: EmailId,
+    emailId: EmailId,
     @Embedded
     val groupId: EmailGroupId,
     @Embedded
     val address: EmailAddress,
     owner: EmailAddressOwner
-) : AuditableAggregateRoot<EmailId, EmailEvent>(emailAddressId), Versioned {
+) : AuditableAggregateRoot<EmailId, EmailEvent>(emailId), Versioned {
 
     @Embedded
     var owner: EmailAddressOwner = owner

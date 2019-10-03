@@ -1,4 +1,4 @@
-package org.bialydunajec.email.readmodel
+package org.bialydunajec.email.readmodel.email
 
 import org.bialydunajec.ddd.application.base.external.event.ExternalEvent
 import org.bialydunajec.ddd.application.base.external.event.ExternalEventSubscriber
@@ -6,13 +6,11 @@ import org.bialydunajec.ddd.application.base.external.event.SerializedExternalEv
 import org.bialydunajec.email.messages.event.EmailAddressExternalEvent
 import org.springframework.stereotype.Component
 
-const val DEFAULT_EMAIL_ADDRESS_GROUP: String = "DEFAULT_GROUP";
-
 @Component
-internal class EmailAddressEventsProjection(
-    private val emailAddressRepository: EmailMongoRepository,
-    private val emailAddressStatisticsMongoRepository: EmailStatisticsMongoRepository,
-    private val emailAddressEventStream: EmailEventStream,
+internal class EmailEventsProjection(
+    private val emailRepository: EmailMongoRepository,
+    private val emailStatisticsMongoRepository: EmailStatisticsMongoRepository,
+    private val emailEventStream: EmailEventStream,
     eventSubscriber: ExternalEventSubscriber
 ) : SerializedExternalEventListener() {
 
@@ -44,28 +42,38 @@ internal class EmailAddressEventsProjection(
         when (payload) {
             is EmailAddressExternalEvent.EmailAddressCreated -> {
                 with(payload) {
-                    emailAddressRepository.findById(emailId).orElseGet { EmailAddress(emailId, emailAddress) }
+                    emailRepository.findById(emailId).orElseGet {
+                        Email(
+                            emailId,
+                            emailAddress
+                        )
+                    }
                             .also {
                                 it.isActive = isActive
                             }.also {
-                                emailAddressRepository.save(it)
+                                emailRepository.save(it)
                             }
 
-                    emailAddressStatisticsMongoRepository.findById(DEFAULT_EMAIL_STATISTICS_ID)
+                    emailStatisticsMongoRepository.findById(DEFAULT_EMAIL_STATISTICS_ID)
                             .ifPresent {
-                                if (emailId.contains(DEFAULT_EMAIL_ADDRESS_GROUP)){
+                                if (emailId.contains(DEFAULT_EMAIL_GROUP)){
                                     it.addressesCount++
                                 }
-                                emailAddressStatisticsMongoRepository.save(it)
+                                emailStatisticsMongoRepository.save(it)
                             }
                 }.also {
-                    emailAddressEventStream.updateStreamWith(externalEvent)
+                    emailEventStream.updateStreamWith(externalEvent)
                 }
             }
 
             is EmailAddressExternalEvent.EmailAddressCatalogizedToEmailGroup -> {
                 with(payload) {
-                    emailAddressRepository.findById(emailId).orElseGet { EmailAddress(emailId, emailAddress) }
+                    emailRepository.findById(emailId).orElseGet {
+                        Email(
+                            emailId,
+                            emailAddress
+                        )
+                    }
                             .also {
                                 it.previousEmailAddressId = previousEmailAddressId
                                 it.isActive = true
@@ -73,48 +81,63 @@ internal class EmailAddressEventsProjection(
                                 it.ownerFirstName = ownerFirstName
                                 it.ownerLastName = ownerLastName
                             }.also {
-                                emailAddressRepository.save(it)
+                                emailRepository.save(it)
                             }
                 }.also {
-                    emailAddressEventStream.updateStreamWith(externalEvent)
+                    emailEventStream.updateStreamWith(externalEvent)
                 }
             }
 
             is EmailAddressExternalEvent.EmailAddressDeactivated -> {
                 with(payload) {
-                    emailAddressRepository.findById(emailId).orElseGet { EmailAddress(emailId, emailAddress) }
+                    emailRepository.findById(emailId).orElseGet {
+                        Email(
+                            emailId,
+                            emailAddress
+                        )
+                    }
                             .also {
                                 it.isActive = false
                             }.also {
-                                emailAddressRepository.save(it)
+                                emailRepository.save(it)
                             }
                 }.also {
-                    emailAddressEventStream.updateStreamWith(externalEvent)
+                    emailEventStream.updateStreamWith(externalEvent)
                 }
             }
 
             is EmailAddressExternalEvent.EmailAddressUpdated -> {
                 with(payload) {
-                    emailAddressRepository.findById(newEmailId).orElseGet { EmailAddress(newEmailId, newEmailAddress) }
+                    emailRepository.findById(newEmailId).orElseGet {
+                        Email(
+                            newEmailId,
+                            newEmailAddress
+                        )
+                    }
                             .also {
                                 it.previousEmailAddressId = previousEmailAddressId
                                 it.isActive = true
                             }.also {
-                                emailAddressRepository.save(it)
+                                emailRepository.save(it)
                             }
-                    emailAddressStatisticsMongoRepository.findById(DEFAULT_EMAIL_STATISTICS_ID)
+                    emailStatisticsMongoRepository.findById(DEFAULT_EMAIL_STATISTICS_ID)
                             .ifPresent {
-                                if (newEmailId.contains(DEFAULT_EMAIL_ADDRESS_GROUP)) it.addressesCount--
-                                emailAddressStatisticsMongoRepository.save(it)
+                                if (newEmailId.contains(DEFAULT_EMAIL_GROUP)) it.addressesCount--
+                                emailStatisticsMongoRepository.save(it)
                             }
                 }.also {
-                    emailAddressEventStream.updateStreamWith(externalEvent)
+                    emailEventStream.updateStreamWith(externalEvent)
                 }
             }
 
             is EmailAddressExternalEvent.EmailAddressBelongingToGroupUpdated -> {
                 with(payload) {
-                    emailAddressRepository.findById(newEmailId).orElseGet { EmailAddress(newEmailId, newEmailAddress) }
+                    emailRepository.findById(newEmailId).orElseGet {
+                        Email(
+                            newEmailId,
+                            newEmailAddress
+                        )
+                    }
                             .also {
                                 it.previousEmailAddressId = previousEmailAddressId
                                 it.isActive = true
@@ -122,15 +145,15 @@ internal class EmailAddressEventsProjection(
                                 it.ownerFirstName = ownerFirstName
                                 it.ownerLastName = ownerLastName
                             }.also {
-                                emailAddressRepository.save(it)
+                                emailRepository.save(it)
                             }
-                    emailAddressStatisticsMongoRepository.findById(DEFAULT_EMAIL_STATISTICS_ID)
+                    emailStatisticsMongoRepository.findById(DEFAULT_EMAIL_STATISTICS_ID)
                             .ifPresent {
-                                if (newEmailId.contains(DEFAULT_EMAIL_ADDRESS_GROUP)) it.addressesCount--
-                                emailAddressStatisticsMongoRepository.save(it)
+                                if (newEmailId.contains(DEFAULT_EMAIL_GROUP)) it.addressesCount--
+                                emailStatisticsMongoRepository.save(it)
                             }
                 }.also {
-                    emailAddressEventStream.updateStreamWith(externalEvent)
+                    emailEventStream.updateStreamWith(externalEvent)
                 }
             }
         }
