@@ -28,7 +28,7 @@ internal class EmailWithGroupsReadAdminController(
         @RequestParam(required = false) emailAddress: String?
     ): Collection<EmailWithGroups> {
         var foundEmailWithGroups = repository.findAll()
-        groupId?.let {
+        emailGroupId?.let {
             foundEmailWithGroups = foundEmailWithGroups.filter { it.groups.map { group -> group.emailGroupId }.contains(emailGroupId) }
         }
         ownerFirstName?.let {

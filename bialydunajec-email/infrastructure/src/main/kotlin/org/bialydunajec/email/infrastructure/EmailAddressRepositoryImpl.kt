@@ -10,14 +10,7 @@ import org.springframework.stereotype.Repository
 
 @Repository
 internal class EmailAddressRepositoryImpl(
-        jpaRepository: EmailAddressJpaRepository
-) : AbstractDomainRepositoryImpl<Email, EmailId, EmailAddressJpaRepository>(jpaRepository),
-        EmailRepository {
+    jpaRepository: EmailAddressJpaRepository
+) : AbstractDomainRepositoryImpl<Email, EmailId, EmailAddressJpaRepository>(jpaRepository), EmailRepository
 
-    override fun findByEmailAddressValueEmail(address: String): Email? =
-            jpaRepository.findByEmailAddressValueEmail(address)
-}
-
-internal interface EmailAddressJpaRepository : JpaRepository<Email, EmailId> {
-    fun findByEmailAddressValueEmail(address: String): Email?
-}
+internal interface EmailAddressJpaRepository : JpaRepository<Email, EmailId>
