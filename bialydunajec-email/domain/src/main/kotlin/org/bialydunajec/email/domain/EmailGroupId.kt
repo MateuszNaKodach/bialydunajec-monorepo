@@ -15,7 +15,7 @@ class EmailGroupId(emailGroupId: String = DEFAULT_EMAIL_GROUP_ID) : AggregateId(
 
     val levels = emailGroupId.split(LEVEL_DELIMITER).map { EmailGroupId(it) }
 
-    fun isParentOf(emailGroupId: EmailGroupId) = levels.contains(emailGroupId)
+    fun isParentOf(emailGroupId: EmailGroupId) = levels.contains(emailGroupId.levels.first())
 
     fun newChild(emailGroupId: EmailGroupId) = EmailGroupId("$this$LEVEL_DELIMITER$emailGroupId")
 }

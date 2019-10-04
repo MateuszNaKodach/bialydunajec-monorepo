@@ -11,7 +11,7 @@ data class EmailWithGroups(
     var owner: EmailOwner,
     val groups: MutableSet<EmailGroup> = mutableSetOf()
 ) {
-    data class EmailGroup(var emailGroupId: String, var groupName: String?)
+    data class EmailGroup(val emailGroupId: String, var groupName: String?)
 
     val id: String
         get() = address

@@ -28,11 +28,9 @@ data class GroupWithEmails(
         }
     }
 
-    val size: Int
-        get() = emails.size
+    val size: Int = emails.size
 
-    val groupEmails: Set<Email>
-        get() = setOf(*emails.toTypedArray())
+    val groupEmails: Set<Email> = emails.toSet()
 
     fun addOrUpdateEmail(email: Email) {
         if (emails.contains(email)) {
