@@ -59,6 +59,9 @@ class Email(
 
     fun newWithEmailAddress(newEmailAddress: EmailAddress): Email {
         DomainRuleChecker.check(EmailAddressDomainRule.EMAIL_ADDRESS_TO_DEACTIVATE_MUST_BE_ACTIVE) { isActive }
+        if (newEmailAddress == this.address) {
+            return this
+        }
         return Email(
             EmailId.from(newEmailAddress, this.groupId),
             this.groupId,

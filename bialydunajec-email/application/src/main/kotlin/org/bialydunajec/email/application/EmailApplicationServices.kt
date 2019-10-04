@@ -15,14 +15,18 @@ internal class CatalogizeEmailAddressApplicationService(
 ) : ApplicationService<EmailCommand.CatalogizeEmail> {
 
     override fun execute(command: EmailCommand.CatalogizeEmail) {
-        val emailAddress = emailAddressRepository.findById(command.emailAddressId)
+        val email = emailAddressRepository.findById(command.emailAddressId)
+            ?.let {
+                it.correctOwner(command.emailOwner)
+                it.newWithEmailAddress(command.emailAddress)
+            }
             ?: Email(
                 command.emailAddressId,
                 command.emailGroupId ?: EmailGroupId(),
                 command.emailAddress,
                 command.emailOwner
             )
-        emailAddressRepository.save(emailAddress)
+        emailAddressRepository.save(email)
     }
 
 }
