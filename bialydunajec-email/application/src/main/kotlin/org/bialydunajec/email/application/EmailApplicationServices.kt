@@ -15,13 +15,13 @@ internal class CatalogizeEmailAddressApplicationService(
 ) : ApplicationService<EmailCommand.CatalogizeEmail> {
 
     override fun execute(command: EmailCommand.CatalogizeEmail) {
-        val email = emailAddressRepository.findById(command.emailAddressId)
+        val email = emailAddressRepository.findById(command.emailId)
             ?.let {
                 it.correctOwner(command.emailOwner)
                 it.newWithEmailAddress(command.emailAddress)
             }
             ?: Email(
-                command.emailAddressId,
+                command.emailId,
                 command.emailGroupId ?: EmailGroupId(),
                 command.emailAddress,
                 command.emailOwner
@@ -38,7 +38,7 @@ internal class ChangeEmailAddressApplicationService(
 ) : ApplicationService<EmailCommand.ChangeEmailAddress> {
 
     override fun execute(command: EmailCommand.ChangeEmailAddress) {
-        changeEmailValueDomainService.changeEmailValue(command.emailAddressId, command.newEmailAddress)
+        changeEmailValueDomainService.changeEmailValue(command.emailId, command.newEmailAddress)
     }
 }
 
@@ -50,7 +50,7 @@ internal class CorrectEmailOwnerApplicationService(
 ) : ApplicationService<EmailCommand.CorrectEmailOwner> {
 
     override fun execute(command: EmailCommand.CorrectEmailOwner) {
-        val emailAddress = emailAddressRepository.findById(command.emailAddressId)
+        val emailAddress = emailAddressRepository.findById(command.emailId)
             ?: throw DomainRuleViolationException.of(EmailAddressDomainRule.EMAIL_ADDRESS_TO_CORRECT_OWNER_MUST_EXISTS)
         emailAddress.correctOwner(command.emailOwner)
         emailAddressRepository.save(emailAddress)

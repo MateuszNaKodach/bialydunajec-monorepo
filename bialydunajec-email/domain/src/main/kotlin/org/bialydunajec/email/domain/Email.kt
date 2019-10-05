@@ -5,10 +5,7 @@ import org.bialydunajec.ddd.domain.base.persistence.Versioned
 import org.bialydunajec.ddd.domain.base.validation.DomainRuleChecker
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddress
 import org.bialydunajec.email.domain.valueobject.EmailAddressOwner
-import javax.persistence.Embedded
-import javax.persistence.Entity
-import javax.persistence.Table
-import javax.persistence.Version
+import javax.persistence.*
 
 @Entity
 @Table(schema = "email")
@@ -25,7 +22,9 @@ class Email(
     var owner: EmailAddressOwner = owner
         private set
 
-    @Embedded
+    @AttributeOverrides(
+        AttributeOverride(name = "aggregateId", column = Column(name = "newEmailId"))
+    )
     var newEmailId: EmailId? = null
         private set
 

@@ -9,8 +9,8 @@ import org.springframework.stereotype.Repository
 
 
 @Repository
-internal class EmailAddressRepositoryImpl(
-    jpaRepository: EmailAddressJpaRepository
-) : AbstractDomainRepositoryImpl<Email, EmailId, EmailAddressJpaRepository>(jpaRepository), EmailRepository
+internal class EmailRepositoryImpl(
+    jpaRepository: EmailJpaRepository
+) : AbstractDomainRepositoryImpl<Email, EmailId, EmailJpaRepository>(jpaRepository), EmailRepository
 
-internal interface EmailAddressJpaRepository : JpaRepository<Email, EmailId>
+internal interface EmailJpaRepository : JpaRepository<Email, EmailId>

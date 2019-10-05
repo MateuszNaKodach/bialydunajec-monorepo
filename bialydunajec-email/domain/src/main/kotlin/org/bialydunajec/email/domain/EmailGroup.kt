@@ -37,6 +37,8 @@ class EmailGroup(
         }
     }
 
+    fun isParentOf(emailGroup: EmailGroup) = getAggregateId().isParentOf(emailGroup.getAggregateId())
+
     @Version
     private var version: Long? = null
 

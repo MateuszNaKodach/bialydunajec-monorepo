@@ -13,9 +13,10 @@ const val LEVEL_DELIMITER: String = "+"
 @Embeddable
 class EmailGroupId(emailGroupId: String = DEFAULT_EMAIL_GROUP_ID) : AggregateId(emailGroupId) {
 
-    val levels = emailGroupId.split(LEVEL_DELIMITER).map { EmailGroupId(it) }
+    private val levels: List<EmailGroupId>
+        get() = getIdentifierValue().split(LEVEL_DELIMITER).map { EmailGroupId(it) }
 
-    fun isParentOf(emailGroupId: EmailGroupId) = levels.contains(emailGroupId.levels.first())
+    internal fun isParentOf(emailGroupId: EmailGroupId) = emailGroupId.levels.containsAll(levels)
 
-    fun newChild(emailGroupId: EmailGroupId) = EmailGroupId("$this$LEVEL_DELIMITER$emailGroupId")
+    internal fun newChild(emailGroupId: EmailGroupId) = EmailGroupId("$this$LEVEL_DELIMITER$emailGroupId")
 }

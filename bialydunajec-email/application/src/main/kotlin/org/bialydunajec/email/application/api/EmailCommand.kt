@@ -13,7 +13,7 @@ sealed class EmailCommand : Command {
         val emailGroupId: EmailGroupId?,
         val emailOwner: EmailAddressOwner
     ) : Command {
-        val emailAddressId: EmailId = EmailId.from(emailAddress, emailGroupId)
+        val emailId: EmailId = EmailId.from(emailAddress, emailGroupId)
     }
 
     class ChangeEmailAddress(
@@ -21,7 +21,7 @@ sealed class EmailCommand : Command {
         val emailGroupId: EmailGroupId?,
         val newEmailAddress: EmailAddress
     ) : Command {
-        val emailAddressId: EmailId = EmailId.from(oldEmailAddress, emailGroupId)
+        val emailId: EmailId = EmailId.from(oldEmailAddress, emailGroupId)
     }
 
     class CorrectEmailOwner(
@@ -29,6 +29,6 @@ sealed class EmailCommand : Command {
         val emailGroupId: EmailGroupId?,
         val emailOwner: EmailAddressOwner
     ) : Command {
-        val emailAddressId: EmailId = EmailId.from(emailAddress, emailGroupId)
+        val emailId: EmailId = EmailId.from(emailAddress, emailGroupId)
     }
 }
