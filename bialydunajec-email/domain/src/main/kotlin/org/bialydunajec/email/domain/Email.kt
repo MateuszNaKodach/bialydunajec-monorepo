@@ -10,12 +10,12 @@ import javax.persistence.*
 @Entity
 @Table(schema = "email")
 class Email(
-    emailId: EmailId,
     @Embedded
     val groupId: EmailGroupId,
     @Embedded
     val address: EmailAddress,
-    owner: EmailAddressOwner
+    owner: EmailAddressOwner,
+    emailId: EmailId =  EmailId.from(address, groupId)
 ) : AuditableAggregateRoot<EmailId, EmailEvent>(emailId), Versioned {
 
     @Embedded
@@ -57,12 +57,11 @@ class Email(
     }
 
     fun newWithEmailAddress(newEmailAddress: EmailAddress): Email {
-        DomainRuleChecker.check(EmailAddressDomainRule.EMAIL_ADDRESS_TO_DEACTIVATE_MUST_BE_ACTIVE) { isActive }
+        DomainRuleChecker.check(EmailDomainRule.EMAIL_ADDRESS_TO_DEACTIVATE_MUST_BE_ACTIVE) { isActive }
         if (newEmailAddress == this.address) {
             return this
         }
         return Email(
-            EmailId.from(newEmailAddress, this.groupId),
             this.groupId,
             newEmailAddress,
             this.owner

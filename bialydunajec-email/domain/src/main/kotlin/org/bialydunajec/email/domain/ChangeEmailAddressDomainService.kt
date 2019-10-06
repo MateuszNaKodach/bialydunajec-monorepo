@@ -10,7 +10,7 @@ class ChangeEmailAddressDomainService(private val emailAddressRepository: EmailR
 
     fun changeEmailValue(emailAddressId: EmailId, newEmailAddress: EmailAddress) {
         val oldEmail = emailAddressRepository.findById(emailAddressId)
-            ?: throw DomainRuleViolationException.of(EmailAddressDomainRule.EMAIL_ADDRESS_TO_CORRECT_OWNER_MUST_EXISTS)
+            ?: throw DomainRuleViolationException.of(EmailDomainRule.EMAIL_ADDRESS_TO_CORRECT_OWNER_MUST_EXISTS)
         val newEmail = oldEmail.newWithEmailAddress(newEmailAddress)
         emailAddressRepository.save(oldEmail)
         emailAddressRepository.save(newEmail)

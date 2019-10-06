@@ -21,7 +21,6 @@ internal class CatalogizeEmailAddressApplicationService(
                 it.newWithEmailAddress(command.emailAddress)
             }
             ?: Email(
-                command.emailId,
                 command.emailGroupId ?: EmailGroupId(),
                 command.emailAddress,
                 command.emailOwner
@@ -51,7 +50,7 @@ internal class CorrectEmailOwnerApplicationService(
 
     override fun execute(command: EmailCommand.CorrectEmailOwner) {
         val emailAddress = emailAddressRepository.findById(command.emailId)
-            ?: throw DomainRuleViolationException.of(EmailAddressDomainRule.EMAIL_ADDRESS_TO_CORRECT_OWNER_MUST_EXISTS)
+            ?: throw DomainRuleViolationException.of(EmailDomainRule.EMAIL_ADDRESS_TO_CORRECT_OWNER_MUST_EXISTS)
         emailAddress.correctOwner(command.emailOwner)
         emailAddressRepository.save(emailAddress)
     }
