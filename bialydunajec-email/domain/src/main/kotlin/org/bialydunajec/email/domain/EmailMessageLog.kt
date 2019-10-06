@@ -11,7 +11,7 @@ import javax.persistence.*
 //TODO: Oznaczac czy email zostal wyslany automatycznie czy utworzony recznie.
 
 @Entity
-@Table(schema = "email_message")
+@Table(schema = "email")
 class EmailMessageLog(
         @Embedded
         private var recipient: EmailAddress,

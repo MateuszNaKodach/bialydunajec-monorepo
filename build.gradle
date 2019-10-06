@@ -27,7 +27,7 @@ allprojects {
 
     test {
         useJUnitPlatform {
-            includeEngines 'spek2'
+            includeEngines 'spek2', 'junit-jupiter', 'junit-vintage'
         }
     }
 

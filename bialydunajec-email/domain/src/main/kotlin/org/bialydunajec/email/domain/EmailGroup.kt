@@ -8,7 +8,7 @@ import javax.persistence.Table
 import javax.persistence.Version
 
 @Entity
-@Table(schema = "email_group")
+@Table(schema = "email")
 class EmailGroup(
     emailGroupId: EmailGroupId,
     name: EmailGroupName? = null
