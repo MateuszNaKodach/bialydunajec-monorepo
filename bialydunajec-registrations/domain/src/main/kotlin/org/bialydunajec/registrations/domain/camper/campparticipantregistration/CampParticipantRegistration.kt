@@ -42,7 +42,6 @@ class CampParticipantRegistration private constructor(
                 AttributeOverride(name = "homeAddress.city.city", column = Column(name = "originalApplication_city")),
                 AttributeOverride(name = "homeAddress.postalCode.postalCode", column = Column(name = "originalApplication_postalCode")),
                 AttributeOverride(name = "emailAddress.email", column = Column(name = "originalApplication_emailAddress")),
-                AttributeOverride(name = "emailAddress.emailAddressId", column = Column(name = "originalApplication_emailId")),
                 AttributeOverride(name = "phoneNumber.number", column = Column(name = "originalApplication_phoneNumber")),
                 AttributeOverride(name = "camperEducation.university", column = Column(name = "originalApplication_university")),
                 AttributeOverride(name = "camperEducation.faculty", column = Column(name = "originalApplication_faculty")),

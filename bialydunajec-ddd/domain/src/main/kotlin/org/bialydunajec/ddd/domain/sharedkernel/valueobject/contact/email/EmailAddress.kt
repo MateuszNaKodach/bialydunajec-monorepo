@@ -7,7 +7,6 @@ import javax.validation.constraints.NotBlank
 
 @Embeddable
 data class EmailAddress(
-
         @Email
         @NotBlank
         val email: String

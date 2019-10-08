@@ -5,7 +5,7 @@ import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.LastName
 import javax.persistence.Embeddable
 
 @Embeddable
-class EmailAddressOwner(
+data class EmailAddressOwner(
         val firstName: FirstName,
         val lastName: LastName
 )
