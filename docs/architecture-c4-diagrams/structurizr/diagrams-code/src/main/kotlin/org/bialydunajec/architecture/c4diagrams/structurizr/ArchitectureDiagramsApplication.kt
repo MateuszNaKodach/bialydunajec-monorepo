@@ -14,6 +14,11 @@ import org.springframework.boot.runApplication
 import org.springframework.stereotype.Component
 
 //https://github.com/Catalysts/structurizr-extensions/tree/master/structurizr-spring-boot
+//https://github.com/structurizr/java/blob/master/docs/getting-started.md
+//https://structurizr.com/help/examples
+//https://www.youtube.com/watch?v=S6eO_T5rq9o
+//https://structurizr.com/help/getting-started-client-library
+//http://www.codingthearchitecture.com/2015/02/24/introducing_structurizr.html
 @SpringBootApplication
 class ArchitectureDiagramsApplication
 
