@@ -14,7 +14,6 @@ import org.springframework.boot.runApplication
 import org.springframework.stereotype.Component
 
 //https://github.com/Catalysts/structurizr-extensions/tree/master/structurizr-spring-boot
-//Sprawdzić zwykłą Kotlinową wersję: https://github.com/Catalysts/structurizr-extensions/tree/master/structurizr-kotlin
 @SpringBootApplication
 class ArchitectureDiagramsApplication
 
