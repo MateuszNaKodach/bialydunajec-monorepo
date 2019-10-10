@@ -40,4 +40,4 @@ jobs:
           pkill -f backend/env_dev
           rm -rf /home/Bialydunajec/webapp/backend/env_dev/*
           mv /home/Bialydunajec/webapp/temp-backend/env_dev/bialydunajec-backend.jar /home/Bialydunajec/webapp/backend/env_dev/
- 
+          nohup java -jar -D-Xms512m -Xmx512m -Dspring.profiles.active=env_dev /home/Bialydunajec/webapp/backend/env_dev/bialydunajec-backend.jar &> nohup_dev.out&
