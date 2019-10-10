@@ -13,5 +13,18 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
+    - name: Run tests with Gradle
+      run: ./gradlew -Prelease test
     - name: Build with Gradle
-      run: ./gradlew build
+      run: ./gradlew -Prelease build -x test
+    - name: change artifact name
+      run:  cp build/libs/bialydunajec-backend* build/libs/bialydunajec-backend.jar
+    - name: copy file via ssh key
+      uses: appleboy/scp-action@master
+      env:
+        HOST: ${{ secrets.HOST }}
+        USERNAME: ${{ secrets.USER }}
+        KEY: ${{ secrets.PRIVATE_KEY }}
+      with:
+        source: "build/libs/bialydunajec-backend.jar"
+        target: "/home/Bialydunajec/webapp/backend/githubactions_test"
