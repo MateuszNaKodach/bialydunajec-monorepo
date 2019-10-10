@@ -1,6 +1,6 @@
 name: Build Spring Boot JAR
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
   build:
@@ -31,11 +31,12 @@ jobs:
         strip_components: 2
     - name: Run deployed version
       uses: appleboy/ssh-action@master
-      env:
-        USERNAME: ${{ secrets.USER }}
-        HOST: ${{ secrets.HOST }}
-        KEY: ${{ secrets.PRIVATE_KEY }}
-        SCRIPT: |
+      with:
+        username: ${{ secrets.USER }}
+        host: ${{ secrets.HOST }}
+        key: ${{ secrets.PRIVATE_KEY }}
+        script_stop: true
+        script: |
           pkill -f backend/env_dev
           rm -rf /home/Bialydunajec/webapp/backend/env_dev/*
           mv /home/Bialydunajec/webapp/temp-backend/env_dev/* /home/Bialydunajec/webapp/backend/env_dev/
