@@ -29,16 +29,3 @@ jobs:
         source: "build/libs/bialydunajec-backend.jar"
         target: "/home/Bialydunajec/webapp/temp-backend/env_dev"
         strip_components: 2
-    - name: Run deployed version
-      uses: appleboy/ssh-action@master
-      with:
-        username: ${{ secrets.USER }}
-        host: ${{ secrets.HOST }}
-        key: ${{ secrets.PRIVATE_KEY }}
-        script_stop: true
-        script: |
-          pkill -f backend/env_dev
-          rm -rf /home/Bialydunajec/webapp/backend/env_dev/*
-          mv /home/Bialydunajec/webapp/temp-backend/env_dev/* /home/Bialydunajec/webapp/backend/env_dev/
-          "nohup java -jar -D-Xms512m -Xmx512m -Dspring.profiles.active=env_dev /home/Bialydunajec/webapp/backend/env_dev/bialydunajec-backend.jar &> nohup_dev.out&"
-
