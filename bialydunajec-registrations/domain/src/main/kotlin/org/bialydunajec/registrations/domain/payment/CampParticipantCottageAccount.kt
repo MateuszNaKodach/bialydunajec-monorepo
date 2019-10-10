@@ -6,14 +6,18 @@ import org.bialydunajec.ddd.domain.base.validation.ValidationResult
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.financial.Money
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantId
 import org.bialydunajec.registrations.domain.cottage.CottageId
-import org.bialydunajec.registrations.domain.payment.entity.*
+import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule.*
+import org.bialydunajec.registrations.domain.payment.entity.AccountOperation
+import org.bialydunajec.registrations.domain.payment.entity.CampBusCommitment
+import org.bialydunajec.registrations.domain.payment.entity.CampDownPaymentCommitment
+import org.bialydunajec.registrations.domain.payment.entity.CampParticipationCommitment
+import org.bialydunajec.registrations.domain.payment.valueobject.AccountConfiguration
 import org.bialydunajec.registrations.domain.payment.valueobject.OperationType
 import javax.persistence.*
-import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule.*
-import org.bialydunajec.registrations.domain.payment.valueobject.AccountConfiguration
 
 
 //TODO: Wysylanie informacji o platnosciach przy potwierdzeniu udziału!
+//TODO: Bardziej zaawansowana obsługa przy zamknięciu konta, powinna zostać informacja o poniesionych wcześniej kosztach - ktoś może chcieć je zwrócić uczestnikowi
 @Entity
 @Table(schema = "camp_registrations")
 class CampParticipantCottageAccount internal constructor(
@@ -31,19 +35,30 @@ class CampParticipantCottageAccount internal constructor(
         private var campParticipationCommitment: CampParticipationCommitment,
 
         @OneToOne(cascade = [CascadeType.ALL])
-        private var campBusCommitment: CampBusCommitment? = null //TODO: Skasowac jak ktos zrezygnuje z usa!
+        private var campBusCommitment: CampBusCommitment? = null //TODO: Skasowac jak ktos zrezygnuje z busa!
 ) : AuditableAggregateRoot<CampParticipantCottageAccountId, CampParticipantCottageAccountEvent>(CampParticipantCottageAccountId()),
         Versioned {
 
     init {
         registerEvent(
-                CampParticipantCottageAccountEvent.Created(
+                CampParticipantCottageAccountEvent.Opened(
                         getAggregateId(),
                         campParticipantId,
                         cottageId,
                         getCampDownPaymentCommitmentSnapshot(),
                         getCampParticipationCommitmentSnapshot(),
                         getCampBusCommitmentSnapshot()
+                )
+        )
+    }
+
+    fun close() {
+        registerEvent(
+                CampParticipantCottageAccountEvent.Closed(
+                    getAggregateId(),
+                    getCampDownPaymentCommitmentSnapshot(),
+                    getCampParticipationCommitmentSnapshot(),
+                    getCampBusCommitmentSnapshot()
                 )
         )
     }
@@ -57,10 +72,14 @@ class CampParticipantCottageAccount internal constructor(
     /**
      * Change to false when camp participant move to another cottage.
      * //TODO: Find better name, because when is not active sbd will think that any operation is not permitted.
+     * //TODO: Introduce account status with CLOSED/OPEN account
      */
     private var isActiveCampParticipantAccount = true
 
 
+    fun getParticipantId(): CampParticipantId {
+        return campParticipantId
+    }
     fun canDepositMoney() =
             ValidationResult.buffer()
                     .addViolatedRuleIfNot(

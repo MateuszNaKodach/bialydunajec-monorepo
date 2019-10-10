@@ -11,6 +11,11 @@ data class BirthDate(
         @NotNull
         @Past
         private val birthDate: LocalDate
-): ValueObject{
-        fun toLocalDate() = birthDate
+) : ValueObject {
+
+    companion object {
+        fun of(year: Int, month: Int, dayOfMoth: Int) = BirthDate(LocalDate.of(year, month, dayOfMoth))
+    }
+
+    fun toLocalDate() = birthDate
 }

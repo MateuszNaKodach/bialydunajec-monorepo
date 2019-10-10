@@ -11,4 +11,9 @@ sealed class ShirtOrderEvent(
             aggregateId: ShirtOrderId,
             val snapshot: ShirtOrderSnapshot
     ) : ShirtOrderEvent(aggregateId)
+
+    class OrderCancelled(
+            aggregateId: ShirtOrderId,
+            val snapshot: ShirtOrderSnapshot
+    ) : ShirtOrderEvent(aggregateId)
 }
