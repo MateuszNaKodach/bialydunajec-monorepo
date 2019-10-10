@@ -19,7 +19,7 @@ jobs:
       run: ./gradlew -Prelease build -x test
     - name: change artifact name
       run:  cp build/libs/bialydunajec-backend* build/libs/bialydunajec-backend.jar
-    - name: copy file via ssh key
+    - name: Deploy dev version
       uses: appleboy/scp-action@master
       env:
         HOST: ${{ secrets.HOST }}
@@ -27,5 +27,12 @@ jobs:
         KEY: ${{ secrets.PRIVATE_KEY }}
       with:
         source: "build/libs/bialydunajec-backend.jar"
-        target: "/home/Bialydunajec/webapp/backend/githubactions_test"
+        target: "/home/Bialydunajec/webapp/temp-backend/env_dev"
         strip_components: 2
+    - name: Run deployed version
+      uses: appleboy/ssh-action@master
+      env:
+        USERNAME: ${{ secrets.USER }}
+        HOST: ${{ secrets.HOST }}
+        SCRIPT: ~/develop-deployment.sh
+        KEY: ${{ secrets.PRIVATE_KEY }}
