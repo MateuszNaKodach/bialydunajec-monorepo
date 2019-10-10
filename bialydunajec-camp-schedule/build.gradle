@@ -1,4 +1,4 @@
-version = '0.0.2-SNAPSHOT'
+version = '0.0.2'
 
 dependencies {
     compile project(':bialydunajec-camp-schedule:bialydunajec-camp-schedule-ddd-axon')
