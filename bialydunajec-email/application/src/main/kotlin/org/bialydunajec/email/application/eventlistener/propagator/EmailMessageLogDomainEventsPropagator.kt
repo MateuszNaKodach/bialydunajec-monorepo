@@ -1,4 +1,4 @@
-package org.bialydunajec.email.application.eventlistener
+package org.bialydunajec.email.application.eventlistener.propagator
 
 import org.bialydunajec.ddd.application.base.external.event.ExternalEventPublisher
 import org.bialydunajec.email.domain.EmailMessageLogEvent

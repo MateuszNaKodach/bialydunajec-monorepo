@@ -1,4 +1,4 @@
-package org.bialydunajec.email.readmodel
+package org.bialydunajec.email.readmodel.emailmessage
 
 import com.fasterxml.jackson.annotation.JsonFormat
 import org.springframework.data.annotation.Id

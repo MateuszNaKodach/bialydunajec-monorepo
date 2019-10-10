@@ -1,7 +1,6 @@
-package org.bialydunajec.email.readmodel.rest.v1
+package org.bialydunajec.email.readmodel.emailmessage.rest.v1
 
-import io.reactivex.subjects.BehaviorSubject
-import org.bialydunajec.email.readmodel.*
+import org.bialydunajec.email.readmodel.emailmessage.*
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -10,9 +9,9 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/rest-api/v1/admin/email-message")
 @RestController
 internal class EmailMessageReadAdminController(
-        private val emailMessageRepository: EmailMessageMongoRepository,
-        private val emailMessageStatisticsRepository: EmailMessageStatisticsMongoRepository,
-        private val emailMessageLogEventStream: EmailMessageLogEventStream
+    private val emailMessageRepository: EmailMessageMongoRepository,
+    private val emailMessageStatisticsRepository: EmailMessageStatisticsMongoRepository,
+    private val emailMessageLogEventStream: EmailMessageLogEventStream
 ) {
 
     @GetMapping
