@@ -28,3 +28,4 @@ jobs:
       with:
         source: "build/libs/bialydunajec-backend.jar"
         target: "/home/Bialydunajec/webapp/backend/githubactions_test"
+        strip_components: 2
