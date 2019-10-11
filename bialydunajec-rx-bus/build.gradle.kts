@@ -1,4 +1,6 @@
-version = '0.0.2'
+import org.bialydunajec.gradle.Versions
+
+version = "0.0.2"
 
 bootJar {
     enabled = false
@@ -9,7 +11,7 @@ jar {
 }
 
 dependencies {
-    compile("io.reactivex.rxjava2:rxjava:${rxJavaVersion}")
-    compile("io.reactivex.rxjava2:rxkotlin:${rxJavaVersion}")
-    compile "com.jakewharton.rxrelay2:rxrelay:${rxRelayVersion}"
+    compile("io.reactivex.rxjava2:rxjava:${Versions.rxJavaVersion}")
+    compile("io.reactivex.rxjava2:rxkotlin:${Versions.rxJavaVersion}")
+    compile "com.jakewharton.rxrelay2:rxrelay:${Versions.rxRelayVersion}"
 }

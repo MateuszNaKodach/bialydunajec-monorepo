@@ -10,7 +10,7 @@ jar {
 
 dependencies {
     compile project(":bialydunajec-ddd:bialydunajec-ddd-presentation")
-    compile project(":bialydunajec-gallery:bialydunajec-gallery-application")
+    compile project(":bialydunajec-camp-edition:bialydunajec-camp-edition-application")
 
     //compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-webflux")
