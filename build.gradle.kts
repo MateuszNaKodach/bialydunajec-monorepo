@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "1.3.50"
-    kotlin("kapt") version "1.3.50"
+    //kotlin("kapt") version "1.3.50"
     kotlin("plugin.spring") version "1.3.50"
     kotlin("plugin.jpa") version "1.3.50"
     id("org.springframework.boot") version "2.1.8.RELEASE"
@@ -15,7 +15,7 @@ allprojects {
     apply(plugin = "kotlin")
     apply(plugin = "kotlin-spring")
     apply(plugin = "kotlin-jpa")
-    apply(plugin = "kotlin-kapt")
+    //apply(plugin = "kotlin-kapt")
     apply(plugin = "groovy")
     apply(plugin = "maven")
     apply(plugin = "org.springframework.boot")
@@ -87,24 +87,24 @@ allprojects {
         compile("io.arrow-kt:arrow-data:${Versions.arrowVersion}")
         compile("io.arrow-kt:arrow-instances-core:${Versions.arrowVersion}")
         compile("io.arrow-kt:arrow-instances-data:${Versions.arrowVersion}")
-        kapt("io.arrow-kt:arrow-annotations-processor:${Versions.arrowVersion}")
-        compile("io.arrow-kt:arrow-query-language:${Versions.arrowVersion}") //optional
-        compile("io.arrow-kt:arrow-free:${Versions.arrowVersion}") //optional
-        compile("io.arrow-kt:arrow-instances-free:${Versions.arrowVersion}") //optional
-        compile("io.arrow-kt:arrow-mtl:${Versions.arrowVersion}") //optional
-        compile("io.arrow-kt:arrow-effects:${Versions.arrowVersion}") //optional
-        compile("io.arrow-kt:arrow-effects-instances:${Versions.arrowVersion}") //optional
-        compile("io.arrow-kt:arrow-effects-rx2:${Versions.arrowVersion}") //optional
-        compile("io.arrow-kt:arrow-effects-rx2-instances:${Versions.arrowVersion}") //optional
-        compile("io.arrow-kt:arrow-effects-reactor:${Versions.arrowVersion}") //optional
-        compile("io.arrow-kt:arrow-effects-reactor-instances:${Versions.arrowVersion}") //optional
-        compile("io.arrow-kt:arrow-effects-kotlinx-coroutines:${Versions.arrowVersion}") //optional
-        compile("io.arrow-kt:arrow-effects-kotlinx-coroutines-instances:${Versions.arrowVersion}") //optional
-        compile("io.arrow-kt:arrow-optics:${Versions.arrowVersion}") //optional
-        compile("io.arrow-kt:arrow-generic:${Versions.arrowVersion}") //optional
-        compile("io.arrow-kt:arrow-recursion:${Versions.arrowVersion}") //optional
-        compile("io.arrow-kt:arrow-instances-recursion:${Versions.arrowVersion}") //optional
-        compile("io.arrow-kt:arrow-integration-retrofit-adapter:${Versions.arrowVersion}") //optional
+        //kapt("io.arrow-kt:arrow-annotations-processor:${Versions.arrowVersion}")
+        //compile("io.arrow-kt:arrow-query-language:${Versions.arrowVersion}") //optional
+        //compile("io.arrow-kt:arrow-free:${Versions.arrowVersion}") //optional
+        //compile("io.arrow-kt:arrow-instances-free:${Versions.arrowVersion}") //optional
+        //compile("io.arrow-kt:arrow-mtl:${Versions.arrowVersion}") //optional
+        //compile("io.arrow-kt:arrow-effects:${Versions.arrowVersion}") //optional
+        //compile("io.arrow-kt:arrow-effects-instances:${Versions.arrowVersion}") //optional
+        //compile("io.arrow-kt:arrow-effects-rx2:${Versions.arrowVersion}") //optional
+        //compile("io.arrow-kt:arrow-effects-rx2-instances:${Versions.arrowVersion}") //optional
+        //compile("io.arrow-kt:arrow-effects-reactor:${Versions.arrowVersion}") //optional
+        //compile("io.arrow-kt:arrow-effects-reactor-instances:${Versions.arrowVersion}") //optional
+        //compile("io.arrow-kt:arrow-effects-kotlinx-coroutines:${Versions.arrowVersion}") //optional
+        //compile("io.arrow-kt:arrow-effects-kotlinx-coroutines-instances:${Versions.arrowVersion}") //optional
+        //compile("io.arrow-kt:arrow-optics:${Versions.arrowVersion}") //optional
+        //compile("io.arrow-kt:arrow-generic:${Versions.arrowVersion}") //optional
+        //compile("io.arrow-kt:arrow-recursion:${Versions.arrowVersion}") //optional
+        //compile("io.arrow-kt:arrow-instances-recursion:${Versions.arrowVersion}") //optional
+        //compile("io.arrow-kt:arrow-integration-retrofit-adapter:${Versions.arrowVersion}") //optional
 
         compile("com.github.nowakprojects:kt-time-traveler-core:${Versions.ktTimeTravelerVersion}")
 
