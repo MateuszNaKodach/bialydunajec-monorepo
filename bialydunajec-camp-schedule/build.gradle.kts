@@ -3,7 +3,7 @@ import org.bialydunajec.gradle.Versions
 version = "0.0.2"
 
 dependencies {
-    compile project(":bialydunajec-camp-schedule:bialydunajec-camp-schedule-ddd-axon")
+    compile(project(":bialydunajec-camp-schedule:bialydunajec-camp-schedule-ddd-axon"))
 
     compile("org.springframework.boot:spring-boot-starter-web")
 

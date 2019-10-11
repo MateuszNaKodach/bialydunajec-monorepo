@@ -1,19 +1,22 @@
+import org.springframework.boot.gradle.tasks.bundling.BootJar
+
 version = "0.0.2"
 
-bootJar {
-	enabled = false
+tasks.withType<BootJar> {
+    enabled = false
 }
 
-jar {
-	enabled = true
+tasks.withType<Jar> {
+    enabled = true
 }
+
 
 dependencies {
-	compile project(":bialydunajec-ddd:bialydunajec-ddd-infrastructure")
+	compile(project(":bialydunajec-ddd:bialydunajec-ddd-infrastructure"))
 
-	compile project(":bialydunajec-registrations:bialydunajec-registrations-domain")
-	compile project(":bialydunajec-registrations:bialydunajec-registrations-application")
-	compile project(":bialydunajec-registrations:bialydunajec-registrations-presentation")
+	compile(project(":bialydunajec-registrations:bialydunajec-registrations-domain"))
+	compile(project(":bialydunajec-registrations:bialydunajec-registrations-application"))
+	compile(project(":bialydunajec-registrations:bialydunajec-registrations-presentation"))
 
 	compile("org.springframework.boot:spring-boot-starter-security")
 	compile("org.springframework.boot:spring-boot-starter-data-jpa")

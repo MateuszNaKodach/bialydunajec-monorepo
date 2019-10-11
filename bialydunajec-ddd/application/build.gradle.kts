@@ -1,14 +1,17 @@
 import org.bialydunajec.gradle.Versions
 
+import org.springframework.boot.gradle.tasks.bundling.BootJar
+
 version = "0.0.2"
 
-bootJar {
+tasks.withType<BootJar> {
     enabled = false
 }
 
-jar {
+tasks.withType<Jar> {
     enabled = true
 }
+
 
 dependencies {
     compile(project(":bialydunajec-ddd:bialydunajec-ddd-domain"))

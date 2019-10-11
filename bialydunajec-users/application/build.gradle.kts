@@ -1,17 +1,20 @@
+import org.springframework.boot.gradle.tasks.bundling.BootJar
+
 version = "0.0.2"
 
-bootJar {
+tasks.withType<BootJar> {
     enabled = false
 }
 
-jar {
+tasks.withType<Jar> {
     enabled = true
 }
 
+
 dependencies {
-    compile project(":bialydunajec-ddd:bialydunajec-ddd-application")
-    compile project(":bialydunajec-users:bialydunajec-users-domain")
-    compile project(":bialydunajec-users:bialydunajec-users-messages")
+    compile(project(":bialydunajec-ddd:bialydunajec-ddd-application"))
+    compile(project(":bialydunajec-users:bialydunajec-users-domain"))
+    compile(project(":bialydunajec-users:bialydunajec-users-messages"))
 
     compile("org.springframework.boot:spring-boot-starter-cache")
     compile("org.springframework.boot:spring-boot-starter-validation")
