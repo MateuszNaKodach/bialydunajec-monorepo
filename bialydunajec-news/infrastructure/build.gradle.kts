@@ -11,14 +11,14 @@ jar {
 }
 
 dependencies {
-    compile project(":bialydunajec-ddd:bialydunajec-ddd-infrastructure")
+    compile(project(":bialydunajec-ddd:bialydunajec-ddd-infrastructure"))
 
-    compile project(":bialydunajec-news:bialydunajec-news-domain")
-    compile project(":bialydunajec-news:bialydunajec-news-application")
-    compile project(":bialydunajec-news:bialydunajec-news-presentation")
+    compile(project(":bialydunajec-news:bialydunajec-news-domain"))
+    compile(project(":bialydunajec-news:bialydunajec-news-application"))
+    compile(project(":bialydunajec-news:bialydunajec-news-presentation"))
 
     compile("com.restfb:restfb:${Versions.restfbVersion}")
-    compile group: 'com.restfb', name: 'restfb-examples', version: '1.6.7'
+    compile("com.restfb", "restfb-examples", "1.6.7")
 
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
     runtime("com.h2database:h2")

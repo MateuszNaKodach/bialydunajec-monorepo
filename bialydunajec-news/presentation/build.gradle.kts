@@ -9,8 +9,8 @@ jar {
 }
 
 dependencies {
-    compile project(":bialydunajec-ddd:bialydunajec-ddd-presentation")
-    compile project(":bialydunajec-news:bialydunajec-news-application")
+    compile(project(":bialydunajec-ddd:bialydunajec-ddd-presentation"))
+    compile(project(":bialydunajec-news:bialydunajec-news-application"))
 
     //compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-webflux")

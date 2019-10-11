@@ -9,7 +9,7 @@ jar {
 }
 
 dependencies {
-    compile project(":bialydunajec-ddd:bialydunajec-ddd-domain")
+    compile(project(":bialydunajec-ddd:bialydunajec-ddd-domain"))
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
     testCompile("org.springframework.boot:spring-boot-starter-test")
 }

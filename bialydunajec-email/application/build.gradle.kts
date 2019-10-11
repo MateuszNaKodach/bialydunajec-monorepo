@@ -9,9 +9,9 @@ jar {
 }
 
 dependencies {
-    compile project(":bialydunajec-ddd:bialydunajec-ddd-application")
-    compile project(":bialydunajec-email:bialydunajec-email-domain")
-    compile project(":bialydunajec-email:bialydunajec-email-messages")
+    compile(project(":bialydunajec-ddd:bialydunajec-ddd-application"))
+    compile(project(":bialydunajec-email:bialydunajec-email-domain"))
+    compile(project(":bialydunajec-email:bialydunajec-email-messages"))
 
     compile("org.springframework.boot:spring-boot-starter-cache")
     compile("org.springframework.boot:spring-boot-starter-validation")

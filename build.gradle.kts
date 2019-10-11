@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "1.3.50"
+    kotlin("kapt") version "1.3.50"
     kotlin("plugin.spring") version "1.2.71"
     id("org.springframework.boot") version "2.1.8.RELEASE"
     id("io.spring.dependency-management") version "1.0.8.RELEASE"
@@ -63,24 +64,6 @@ allprojects {
         maven { url = uri("https://dl.bintray.com/spekframework/spek") }
     }
 
-    publishing {
-        repositories {
-            maven {
-                name = "GitHubPackages"
-                url = uri("https://maven.pkg.github.com/nowakprojects/bialydunajec-kotlin-backend")
-                credentials {
-                    username = project.findProperty("gpr.user") as String? ?: System.getenv("GPR_USER")
-                    password = project.findProperty("gpr.key") as String? ?: System.getenv("GPR_API_KEY")
-                }
-            }
-        }
-        publications {
-            register("gpr") {
-                from(components["java"])
-            }
-        }
-    }
-
     dependencies {
         compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
         compile("org.jetbrains.kotlin:kotlin-reflect")
@@ -125,9 +108,9 @@ allprojects {
         testCompile("org.junit.jupiter:junit-jupiter-params:${Versions.jUnitVersion}")
         testRuntime("org.junit.jupiter:junit-jupiter-engine:${Versions.jUnitVersion}")
         testCompile("org.assertj:assertj-core:${Versions.assertjVersion}")
-        testCompile("org.spekframework.spek2:spek-dsl-jvm:$spekVersion")
-        testRuntime("org.spekframework.spek2:spek-runner-junit5:$spekVersion")
-        testCompile("com.willowtreeapps.assertk:assertk-jvm:$assertkVersion")
+        testCompile("org.spekframework.spek2:spek-dsl-jvm:${Versions.spekVersion}")
+        testRuntime("org.spekframework.spek2:spek-runner-junit5:${Versions.spekVersion}")
+        testCompile("com.willowtreeapps.assertk:assertk-jvm:${Versions.assertkVersion}")
         testCompile("com.github.nowakprojects:kt-time-traveler-test:${Versions.ktTimeTravelerVersion}")
         testCompile("com.tngtech.archunit:archunit-junit5-api:${Versions.archUnitVersion}")
         testRuntime("com.tngtech.archunit:archunit-junit5-engine:${Versions.archUnitVersion}")
@@ -139,27 +122,27 @@ allprojects {
 version = "0.0.2"
 
 dependencies {
-    compile project(":bialydunajec-news:bialydunajec-news-presentation")
-    compile project(":bialydunajec-news:bialydunajec-news-infrastructure")
+    compile(project(":bialydunajec-news:bialydunajec-news-presentation"))
+    compile(project(":bialydunajec-news:bialydunajec-news-infrastructure"))
 
-    compile project(":bialydunajec-camp-edition:bialydunajec-camp-edition-presentation")
-    compile project(":bialydunajec-camp-edition:bialydunajec-camp-edition-infrastructure")
+    compile(project(":bialydunajec-camp-edition:bialydunajec-camp-edition-presentation"))
+    compile(project(":bialydunajec-camp-edition:bialydunajec-camp-edition-infrastructure"))
 
-    compile project(":bialydunajec-academic-ministry:bialydunajec-academic-ministry-presentation")
-    compile project(":bialydunajec-academic-ministry:bialydunajec-academic-ministry-infrastructure")
+    compile(project(":bialydunajec-academic-ministry:bialydunajec-academic-ministry-presentation"))
+    compile(project(":bialydunajec-academic-ministry:bialydunajec-academic-ministry-infrastructure"))
 
-    compile project(":bialydunajec-registrations:bialydunajec-registrations-presentation")
-    compile project(":bialydunajec-registrations:bialydunajec-registrations-infrastructure")
-    compile project(":bialydunajec-registrations:bialydunajec-registrations-read-model")
+    compile(project(":bialydunajec-registrations:bialydunajec-registrations-presentation"))
+    compile(project(":bialydunajec-registrations:bialydunajec-registrations-infrastructure"))
+    compile(project(":bialydunajec-registrations:bialydunajec-registrations-read-model"))
 
-    compile project(":bialydunajec-users:bialydunajec-users-presentation")
-    compile project(":bialydunajec-users:bialydunajec-users-infrastructure")
+    compile(project(":bialydunajec-users:bialydunajec-users-presentation"))
+    compile(project(":bialydunajec-users:bialydunajec-users-infrastructure"))
 
-    compile project(":bialydunajec-email:bialydunajec-email-presentation")
-    compile project(":bialydunajec-email:bialydunajec-email-infrastructure")
-    compile project(":bialydunajec-email:bialydunajec-email-read-model")
+    compile(project(":bialydunajec-email:bialydunajec-email-presentation"))
+    compile(project(":bialydunajec-email:bialydunajec-email-infrastructure"))
+    compile(project(":bialydunajec-email:bialydunajec-email-read-model"))
 
-    compile project(":bialydunajec-authorization:bialydunajec-authorization-server")
+    compile(project(":bialydunajec-authorization:bialydunajec-authorization-server"))
 
     //compile project(":bialydunajec-camp-schedule:bialydunajec-camp-schedule-presentation")
     //compile project(":bialydunajec-camp-schedule:bialydunajec-camp-schedule-infrastructure")

@@ -11,9 +11,9 @@ jar {
 }
 
 dependencies {
-    compile project(":bialydunajec-ddd:bialydunajec-ddd-domain")
-    compile project(":bialydunajec-email:bialydunajec-email-messages")
-    compile project(":bialydunajec-ddd:bialydunajec-ddd-dto")
+    compile(project(":bialydunajec-ddd:bialydunajec-ddd-domain"))
+    compile(project(":bialydunajec-email:bialydunajec-email-messages"))
+    compile(project(":bialydunajec-ddd:bialydunajec-ddd-dto"))
 
 
     compile("io.reactivex.rxjava2:rxjava:${Versions.rxJavaVersion}")

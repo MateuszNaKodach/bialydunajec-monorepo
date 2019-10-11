@@ -11,14 +11,14 @@ jar {
 }
 
 dependencies {
-    compile project(":bialydunajec-camp-schedule:bialydunajec-camp-schedule-messages")
-    compile project(":bialydunajec-camp-schedule:bialydunajec-camp-schedule-dto")
-    compile project(":bialydunajec-camp-edition:bialydunajec-camp-edition-messages")
+    compile(project(":bialydunajec-camp-schedule:bialydunajec-camp-schedule-messages"))
+    compile(project(":bialydunajec-camp-schedule:bialydunajec-camp-schedule-dto"))
+    compile(project(":bialydunajec-camp-edition:bialydunajec-camp-edition-messages"))
 
-    compile project(":bialydunajec-ddd:bialydunajec-ddd-presentation")
-    compile project(":bialydunajec-ddd:bialydunajec-ddd-domain")
-    compile project(":bialydunajec-ddd:bialydunajec-ddd-application")
-    compile project(":bialydunajec-ddd:bialydunajec-ddd-infrastructure")
+    compile(project(":bialydunajec-ddd:bialydunajec-ddd-presentation"))
+    compile(project(":bialydunajec-ddd:bialydunajec-ddd-domain"))
+    compile(project(":bialydunajec-ddd:bialydunajec-ddd-application"))
+    compile(project(":bialydunajec-ddd:bialydunajec-ddd-infrastructure"))
     //compile("org.springframework.boot:spring-boot-starter-data-jpa")
     compile("org.axonframework:axon-spring-boot-starter:${Versions.axonFrameworkVersion}") {
         exclude(group = "org.axonframework", module = "axon-server-connector")
