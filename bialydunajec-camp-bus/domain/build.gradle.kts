@@ -5,7 +5,10 @@ version = "0.0.2"
 
 tasks {
     "bootJar"(BootJar::class) {
-       enabled = false
+        enabled = false
+    }
+    "jar"(Jar::class){
+        enabled = true
     }
 }
 
