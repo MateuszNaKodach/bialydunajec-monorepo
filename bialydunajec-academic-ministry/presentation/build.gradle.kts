@@ -1,3 +1,6 @@
+import org.bialydunajec.gradle.Dependencies
+import org.bialydunajec.gradle.Projects
+import org.bialydunajec.gradle.TestDependencies
 import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 version = "0.0.2"
@@ -13,12 +16,12 @@ tasks {
 
 
 dependencies {
-    api(project(":bialydunajec-ddd:bialydunajec-ddd-presentation"))
-    api(project(":bialydunajec-academic-ministry:bialydunajec-academic-ministry-application"))
+    api(project(Projects.BialyDunajec.DDD.PRESENTATION))
+    api(project(Projects.BialyDunajec.AcademicMinistry.APPLICATION))
 
-    compile("org.springframework.boot:spring-boot-starter-webflux")
-    compile("com.fasterxml.jackson.module:jackson-module-kotlin")
+    compile(Dependencies.Spring.Boot.SPRING_BOOT_STARTER_WEB_FLUX)
+    compile(Dependencies.Jackson.JACKSON_MODULE_KOTLIN)
 
-    testCompile("org.springframework.boot:spring-boot-starter-test")
-    testCompile("io.projectreactor:reactor-test")
+    testCompile(TestDependencies.Spring.Boot.SPRING_BOOT_STARTER_TEST)
+    testCompile(TestDependencies.Reactor.REACTOR_TEST)
 }

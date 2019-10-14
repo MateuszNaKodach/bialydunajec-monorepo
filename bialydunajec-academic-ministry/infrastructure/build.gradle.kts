@@ -1,3 +1,6 @@
+import org.bialydunajec.gradle.Dependencies
+import org.bialydunajec.gradle.Projects
+import org.bialydunajec.gradle.TestDependencies
 import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 version = "0.0.2"
@@ -13,14 +16,15 @@ tasks {
 
 
 dependencies {
-    api(project(":bialydunajec-ddd:bialydunajec-ddd-infrastructure"))
+    api(project(Projects.BialyDunajec.DDD.INFRASTRUCTURE))
 
-    api(project(":bialydunajec-academic-ministry:bialydunajec-academic-ministry-domain"))
-    api(project(":bialydunajec-academic-ministry:bialydunajec-academic-ministry-application"))
-    api(project(":bialydunajec-academic-ministry:bialydunajec-academic-ministry-presentation"))
+    api(project(Projects.BialyDunajec.AcademicMinistry.DOMAIN))
+    api(project(Projects.BialyDunajec.AcademicMinistry.APPLICATION))
+    api(project(Projects.BialyDunajec.AcademicMinistry.PRESENTATION))
 
-    compile("org.springframework.boot:spring-boot-starter-data-jpa")
-    runtime("com.h2database:h2")
-    runtime("mysql:mysql-connector-java")
-    testCompile("org.springframework.boot:spring-boot-starter-test")
+    compile(Dependencies.Spring.Boot.SPRING_BOOT_STARTER_DATA_JPA)
+    runtime(Dependencies.Database.H2.DATABASE_H2)
+    runtime(Dependencies.Database.MySQL.MYSQL_CONNECTOR_JAVA)
+
+    testCompile(TestDependencies.Spring.Boot.SPRING_BOOT_STARTER_TEST)
 }
