@@ -13,5 +13,5 @@ tasks {
 
 
 dependencies {
-    compile(project(":bialydunajec-registrations:bialydunajec-registrations-dto"))
+    api(project(":bialydunajec-registrations:bialydunajec-registrations-dto"))
 }

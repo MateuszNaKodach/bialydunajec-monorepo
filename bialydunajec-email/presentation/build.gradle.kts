@@ -13,9 +13,9 @@ tasks {
 
 
 dependencies {
-    compile(project(":bialydunajec-ddd:bialydunajec-ddd-presentation"))
-    compile(project(":bialydunajec-email:bialydunajec-email-application"))
-    compile(project(":bialydunajec-email:bialydunajec-email-messages"))
+    api(project(":bialydunajec-ddd:bialydunajec-ddd-presentation"))
+    api(project(":bialydunajec-email:bialydunajec-email-application"))
+    api(project(":bialydunajec-email:bialydunajec-email-messages"))
 
 
     //compile("org.springframework.boot:spring-boot-starter-web")

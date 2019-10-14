@@ -13,9 +13,9 @@ tasks {
 
 
 dependencies {
-    compile(project(":bialydunajec-ddd:bialydunajec-ddd-application"))
-    compile(project(":bialydunajec-gallery:bialydunajec-gallery-domain"))
-    compile(project(":bialydunajec-gallery:bialydunajec-gallery-messages"))
+    api(project(":bialydunajec-ddd:bialydunajec-ddd-application"))
+    api(project(":bialydunajec-gallery:bialydunajec-gallery-domain"))
+    api(project(":bialydunajec-gallery:bialydunajec-gallery-messages"))
 
     compile("org.springframework.boot:spring-boot-starter-cache")
     compile("org.springframework.boot:spring-boot-starter-validation")

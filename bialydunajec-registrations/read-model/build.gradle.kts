@@ -12,8 +12,8 @@ tasks {
 }
 
 dependencies {
-    compile(project(":bialydunajec-ddd:bialydunajec-ddd-application"))
-    compile(project(":bialydunajec-registrations:bialydunajec-registrations-messages"))
+    api(project(":bialydunajec-ddd:bialydunajec-ddd-application"))
+    api(project(":bialydunajec-registrations:bialydunajec-registrations-messages"))
 
     compile("org.springframework.boot:spring-boot-starter-data-mongodb")
     testCompile("org.springframework.boot:spring-boot-starter-test")

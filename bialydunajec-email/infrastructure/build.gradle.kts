@@ -13,11 +13,11 @@ tasks {
 
 
 dependencies {
-    compile(project(":bialydunajec-ddd:bialydunajec-ddd-infrastructure"))
+    api(project(":bialydunajec-ddd:bialydunajec-ddd-infrastructure"))
 
-    compile(project(":bialydunajec-email:bialydunajec-email-domain"))
-    compile(project(":bialydunajec-email:bialydunajec-email-application"))
-    compile(project(":bialydunajec-email:bialydunajec-email-presentation"))
+    api(project(":bialydunajec-email:bialydunajec-email-domain"))
+    api(project(":bialydunajec-email:bialydunajec-email-application"))
+    api(project(":bialydunajec-email:bialydunajec-email-presentation"))
 
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
     compile("org.springframework.boot:spring-boot-starter-mail")

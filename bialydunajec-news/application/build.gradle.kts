@@ -13,8 +13,8 @@ tasks {
 
 
 dependencies {
-    compile(project(":bialydunajec-ddd:bialydunajec-ddd-application"))
-    compile(project(":bialydunajec-news:bialydunajec-news-domain"))
+    api(project(":bialydunajec-ddd:bialydunajec-ddd-application"))
+    api(project(":bialydunajec-news:bialydunajec-news-domain"))
 
 
     compile("org.springframework.boot:spring-boot-starter-cache")

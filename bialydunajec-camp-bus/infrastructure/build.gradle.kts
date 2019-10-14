@@ -13,5 +13,5 @@ tasks {
 
 
 dependencies {
-    compile(project(":bialydunajec-camp-bus:bialydunajec-camp-bus-domain"))
+    api(project(":bialydunajec-camp-bus:bialydunajec-camp-bus-domain"))
 }

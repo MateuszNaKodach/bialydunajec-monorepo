@@ -13,11 +13,11 @@ tasks {
 
 
 dependencies {
-    compile(project(":bialydunajec-ddd:bialydunajec-ddd-infrastructure"))
+    api(project(":bialydunajec-ddd:bialydunajec-ddd-infrastructure"))
 
-    compile(project(":bialydunajec-academic-ministry:bialydunajec-academic-ministry-domain"))
-    compile(project(":bialydunajec-academic-ministry:bialydunajec-academic-ministry-application"))
-    compile(project(":bialydunajec-academic-ministry:bialydunajec-academic-ministry-presentation"))
+    api(project(":bialydunajec-academic-ministry:bialydunajec-academic-ministry-domain"))
+    api(project(":bialydunajec-academic-ministry:bialydunajec-academic-ministry-application"))
+    api(project(":bialydunajec-academic-ministry:bialydunajec-academic-ministry-presentation"))
 
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
     runtime("com.h2database:h2")

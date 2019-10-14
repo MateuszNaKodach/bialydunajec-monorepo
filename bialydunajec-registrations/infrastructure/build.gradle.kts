@@ -13,11 +13,11 @@ tasks {
 
 
 dependencies {
-	compile(project(":bialydunajec-ddd:bialydunajec-ddd-infrastructure"))
+	api(project(":bialydunajec-ddd:bialydunajec-ddd-infrastructure"))
 
-	compile(project(":bialydunajec-registrations:bialydunajec-registrations-domain"))
-	compile(project(":bialydunajec-registrations:bialydunajec-registrations-application"))
-	compile(project(":bialydunajec-registrations:bialydunajec-registrations-presentation"))
+	api(project(":bialydunajec-registrations:bialydunajec-registrations-domain"))
+	api(project(":bialydunajec-registrations:bialydunajec-registrations-application"))
+	api(project(":bialydunajec-registrations:bialydunajec-registrations-presentation"))
 
 	compile("org.springframework.boot:spring-boot-starter-security")
 	compile("org.springframework.boot:spring-boot-starter-data-jpa")

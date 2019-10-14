@@ -15,9 +15,9 @@ tasks {
 
 
 dependencies {
-    compile(project(":bialydunajec-ddd:bialydunajec-ddd-domain"))
-    compile(project(":bialydunajec-email:bialydunajec-email-messages"))
-    compile(project(":bialydunajec-ddd:bialydunajec-ddd-dto"))
+    api(project(":bialydunajec-ddd:bialydunajec-ddd-domain"))
+    api(project(":bialydunajec-email:bialydunajec-email-messages"))
+    api(project(":bialydunajec-ddd:bialydunajec-ddd-dto"))
 
 
     compile("io.reactivex.rxjava2:rxjava:${Versions.rxJavaVersion}")

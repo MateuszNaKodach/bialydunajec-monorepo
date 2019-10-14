@@ -13,8 +13,8 @@ tasks {
 
 
 dependencies {
-    compile(project(":bialydunajec-ddd:bialydunajec-ddd-presentation"))
-    compile(project(":bialydunajec-faq:bialydunajec-faq-application"))
+    api(project(":bialydunajec-ddd:bialydunajec-ddd-presentation"))
+    api(project(":bialydunajec-faq:bialydunajec-faq-application"))
 
     //compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-webflux")

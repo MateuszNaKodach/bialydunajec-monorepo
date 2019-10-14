@@ -13,8 +13,8 @@ tasks {
 
 
 dependencies {
-    compile(project(":bialydunajec-ddd:bialydunajec-ddd-presentation"))
-    compile(project(":bialydunajec-academic-ministry:bialydunajec-academic-ministry-application"))
+    api(project(":bialydunajec-ddd:bialydunajec-ddd-presentation"))
+    api(project(":bialydunajec-academic-ministry:bialydunajec-academic-ministry-application"))
 
     compile("org.springframework.boot:spring-boot-starter-webflux")
     compile("com.fasterxml.jackson.module:jackson-module-kotlin")

@@ -13,13 +13,13 @@ tasks {
 
 
 dependencies {
-    compile(project(":bialydunajec-ddd:bialydunajec-ddd-application"))
-    compile(project(":bialydunajec-registrations:bialydunajec-registrations-domain"))
-    compile(project(":bialydunajec-camp-edition:bialydunajec-camp-edition-messages"))
-    compile(project(":bialydunajec-academic-ministry:bialydunajec-academic-ministry-messages"))
-    compile(project(":bialydunajec-registrations:bialydunajec-registrations-messages"))
-    compile(project(":bialydunajec-registrations:bialydunajec-registrations-dto"))
-    compile(project(":bialydunajec-email:bialydunajec-email-messages"))
+    api(project(":bialydunajec-ddd:bialydunajec-ddd-application"))
+    api(project(":bialydunajec-registrations:bialydunajec-registrations-domain"))
+    api(project(":bialydunajec-camp-edition:bialydunajec-camp-edition-messages"))
+    api(project(":bialydunajec-academic-ministry:bialydunajec-academic-ministry-messages"))
+    api(project(":bialydunajec-registrations:bialydunajec-registrations-messages"))
+    api(project(":bialydunajec-registrations:bialydunajec-registrations-dto"))
+    api(project(":bialydunajec-email:bialydunajec-email-messages"))
 
     compile("org.springframework.boot:spring-boot-starter-cache")
     compile("org.springframework.boot:spring-boot-starter-validation")

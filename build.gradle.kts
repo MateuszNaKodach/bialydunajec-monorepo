@@ -129,27 +129,27 @@ allprojects {
 version = "0.0.2"
 
 dependencies {
-    compile(project(":bialydunajec-news:bialydunajec-news-presentation"))
-    compile(project(":bialydunajec-news:bialydunajec-news-infrastructure"))
+    api(project(":bialydunajec-news:bialydunajec-news-presentation"))
+    api(project(":bialydunajec-news:bialydunajec-news-infrastructure"))
 
-    compile(project(":bialydunajec-camp-edition:bialydunajec-camp-edition-presentation"))
-    compile(project(":bialydunajec-camp-edition:bialydunajec-camp-edition-infrastructure"))
+    api(project(":bialydunajec-camp-edition:bialydunajec-camp-edition-presentation"))
+    api(project(":bialydunajec-camp-edition:bialydunajec-camp-edition-infrastructure"))
 
-    compile(project(":bialydunajec-academic-ministry:bialydunajec-academic-ministry-presentation"))
-    compile(project(":bialydunajec-academic-ministry:bialydunajec-academic-ministry-infrastructure"))
+    api(project(":bialydunajec-academic-ministry:bialydunajec-academic-ministry-presentation"))
+    api(project(":bialydunajec-academic-ministry:bialydunajec-academic-ministry-infrastructure"))
 
-    compile(project(":bialydunajec-registrations:bialydunajec-registrations-presentation"))
-    compile(project(":bialydunajec-registrations:bialydunajec-registrations-infrastructure"))
-    compile(project(":bialydunajec-registrations:bialydunajec-registrations-read-model"))
+    api(project(":bialydunajec-registrations:bialydunajec-registrations-presentation"))
+    api(project(":bialydunajec-registrations:bialydunajec-registrations-infrastructure"))
+    api(project(":bialydunajec-registrations:bialydunajec-registrations-read-model"))
 
-    compile(project(":bialydunajec-users:bialydunajec-users-presentation"))
-    compile(project(":bialydunajec-users:bialydunajec-users-infrastructure"))
+    api(project(":bialydunajec-users:bialydunajec-users-presentation"))
+    api(project(":bialydunajec-users:bialydunajec-users-infrastructure"))
 
-    compile(project(":bialydunajec-email:bialydunajec-email-presentation"))
-    compile(project(":bialydunajec-email:bialydunajec-email-infrastructure"))
-    compile(project(":bialydunajec-email:bialydunajec-email-read-model"))
+    api(project(":bialydunajec-email:bialydunajec-email-presentation"))
+    api(project(":bialydunajec-email:bialydunajec-email-infrastructure"))
+    api(project(":bialydunajec-email:bialydunajec-email-read-model"))
 
-    compile(project(":bialydunajec-authorization:bialydunajec-authorization-server"))
+    api(project(":bialydunajec-authorization:bialydunajec-authorization-server"))
 
     //compile project(":bialydunajec-camp-schedule:bialydunajec-camp-schedule-presentation")
     //compile project(":bialydunajec-camp-schedule:bialydunajec-camp-schedule-infrastructure")

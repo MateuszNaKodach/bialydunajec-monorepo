@@ -13,9 +13,9 @@ tasks {
 
 
 dependencies {
-    compile(project(":bialydunajec-ddd:bialydunajec-ddd-application"))
-    compile(project(":bialydunajec-ddd:bialydunajec-ddd-domain"))
-    compile(project(":bialydunajec-rx-bus"))
+    api(project(":bialydunajec-ddd:bialydunajec-ddd-application"))
+    api(project(":bialydunajec-ddd:bialydunajec-ddd-domain"))
+    api(project(":bialydunajec-rx-bus"))
 
     compile("org.springframework.boot:spring-boot-starter-amqp")
     compile("org.springframework.boot:spring-boot-starter-cache")
