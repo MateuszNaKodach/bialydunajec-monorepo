@@ -4,6 +4,7 @@ import org.bialydunajec.ddd.application.base.email.EmailMessageSenderPort
 import org.bialydunajec.ddd.application.base.email.SimpleEmailMessage
 import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.Gender
+import org.bialydunajec.registrations.application.external.EmailCatalogizer
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantEvent
 import org.bialydunajec.registrations.domain.camper.campparticipantregistration.CampParticipantRegistrationRepository
 import org.bialydunajec.registrations.domain.cottage.CottageRepository
@@ -17,35 +18,43 @@ import org.springframework.transaction.event.TransactionalEventListener
 
 @Component
 internal class CampParticipantDomainEventListener(
-        private val campParticipantCottageAccountRepository: CampParticipantCottageAccountRepository,
-        private val cottageRepository: CottageRepository,
-        private val emailMessageSender: EmailMessageSenderPort,
-        private val campParticipantRegistrationRepository: CampParticipantRegistrationRepository,
-        private val shirtOrderRepository: ShirtOrderRepository
+    private val campParticipantCottageAccountRepository: CampParticipantCottageAccountRepository,
+    private val cottageRepository: CottageRepository,
+    private val emailMessageSender: EmailMessageSenderPort,
+    private val campParticipantRegistrationRepository: CampParticipantRegistrationRepository,
+    private val shirtOrderRepository: ShirtOrderRepository,
+    private val emailCatalogizer: EmailCatalogizer
 ) {
 
+    @TransactionalEventListener
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    fun handle(event: CampParticipantEvent.Registered) {
+        event.snapshot.confirmedApplication?.let { emailCatalogizer.catalogizeEmailFor(it) }
+    }
 
     //TODO: Better handling when cottage or camp participant account not found!
     @TransactionalEventListener
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     fun handle(event: CampParticipantEvent.Confirmed) {
         val campParticipantAccount = campParticipantCottageAccountRepository
-                .findByCampParticipantIdAndCottageId(event.snapshot.campParticipantId, event.snapshot.currentCamperData.cottageId)!!
+            .findByCampParticipantIdAndCottageId(
+                event.snapshot.campParticipantId,
+                event.snapshot.currentCamperData.cottageId
+            )!!
 
         val cottage = cottageRepository.findById(event.snapshot.currentCamperData.cottageId)!!
 
         val campParticipantPersonalData = event.snapshot.currentCamperData.personalData
-
 
         //TODO: Tworzenie całego maila o zapisaniu się!
         val downPaymentCommitmentSnapshot = campParticipantAccount.getCampDownPaymentCommitmentSnapshot()
         if (downPaymentCommitmentSnapshot != null) {
             with(campParticipantAccount) {
                 val emailMessage =
-                        SimpleEmailMessage(
-                                event.snapshot.currentCamperData.emailAddress,
-                                "Obóz w Białym Dunajcu - ważne informacje",
-                                """
+                    SimpleEmailMessage(
+                        event.snapshot.currentCamperData.emailAddress,
+                        "Obóz w Białym Dunajcu - ważne informacje",
+                        """
                                 Cześć ${campParticipantPersonalData.firstName},
                                 bardzo cieszymy się, że ${if (campParticipantPersonalData.gender == Gender.MALE) "potwierdziłeś" else "potwierdziłaś"} Twój zapis na Obóz!
                                 Prosimy o bardzo dokładne zapoznanie się z treścią tej wiadomości.
@@ -73,8 +82,9 @@ internal class CampParticipantDomainEventListener(
 
                                 Jeśli masz jakieś pytania śmiało pisz do szefa swojej chatki${if (cottage.getCottageBoss()?.emailAddress != null) " na adres: ${cottage.getCottageBoss()?.emailAddress}" else "!"}
                             """
-                        )
+                    )
                 emailMessageSender.sendEmailMessage(emailMessage)
+                event.snapshot.confirmedApplication?.let { emailCatalogizer.catalogizeEmailFor(it) }
             }
         }
 
@@ -86,7 +96,7 @@ internal class CampParticipantDomainEventListener(
     fun handleUnregisteredToDeleteShirtOrder(event: CampParticipantEvent.UnregisteredByAuthorized) {
 
         val shirtOrder = shirtOrderRepository.findByCampParticipantId(event.aggregateId)
-                ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.SHIRT_ORDER_TO_DELETE_MUST_EXISTS)
+            ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.SHIRT_ORDER_TO_DELETE_MUST_EXISTS)
 
         shirtOrder.cancel()
         shirtOrderRepository.delete(shirtOrder)
@@ -97,8 +107,11 @@ internal class CampParticipantDomainEventListener(
     fun handleUnregisteredToPaymentsCommitments(event: CampParticipantEvent.UnregisteredByAuthorized) {
 
         val campParticipantAccount = campParticipantCottageAccountRepository
-                .findByCampParticipantIdAndCottageId(event.snapshot.campParticipantId, event.snapshot.currentCamperData.cottageId)
-                ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.CAMP_PARTICIPANT_COTTAGE_ACCOUNT_TO_CLOSE_MUST_EXISTS)
+            .findByCampParticipantIdAndCottageId(
+                event.snapshot.campParticipantId,
+                event.snapshot.currentCamperData.cottageId
+            )
+            ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.CAMP_PARTICIPANT_COTTAGE_ACCOUNT_TO_CLOSE_MUST_EXISTS)
 
         campParticipantAccount.close()
         campParticipantCottageAccountRepository.delete(campParticipantAccount)
@@ -108,7 +121,8 @@ internal class CampParticipantDomainEventListener(
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     fun handleUnregisteredToUpdateRegistrationStatus(event: CampParticipantEvent.UnregisteredByAuthorized) {
 
-        val campParticipantRegistration = campParticipantRegistrationRepository.findByCampParticipantId(event.aggregateId)
+        val campParticipantRegistration =
+            campParticipantRegistrationRepository.findByCampParticipantId(event.aggregateId)
                 ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.CAMP_PARTICIPANT_REGISTRATIONS_TO_CANCEL_MUST_EXISTS)
 
         campParticipantRegistration.cancelByAuthorized()

@@ -19,9 +19,9 @@ class SpringExternalCommandBus
         this.commandPublisher = applicationEventPublisher
     }
 
-    override fun send(event: ExternalCommand<*>) {
-        commandPublisher.publishEvent(event)
-        log.debug("External command sent by SpringExternalCommandBus: $event")
+    override fun send(command: ExternalCommand<*>) {
+        commandPublisher.publishEvent(command)
+        log.debug("External command sent by SpringExternalCommandBus: $command")
     }
 
 }

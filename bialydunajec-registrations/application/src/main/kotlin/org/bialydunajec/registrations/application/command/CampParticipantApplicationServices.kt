@@ -79,7 +79,6 @@ internal class CorrectCampParticipantRegistrationDataApplicationService(
         val campParticipant = campParticipantRepository.findById(command.campParticipantId)
                 ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.CAMP_PARTICIPANT_MUST_EXISTS_TO_UPDATE_REGISTRATION_DATA)
 
-        campParticipant
 
         campParticipantRepository.save(campParticipant)
     }
