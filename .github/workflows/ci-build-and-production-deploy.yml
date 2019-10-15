@@ -22,7 +22,7 @@ jobs:
       run: ./gradlew -Prelease build -x test
     - name: change artifact name
       run:  cp build/libs/bialydunajec-backend* build/libs/bialydunajec-backend.jar
-    - name: Deploy dev version
+    - name: Deploy application
       uses: appleboy/scp-action@master
       env:
         HOST: ${{ secrets.HOST }}
