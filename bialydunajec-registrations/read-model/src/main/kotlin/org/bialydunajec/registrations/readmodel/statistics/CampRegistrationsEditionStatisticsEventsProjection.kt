@@ -7,6 +7,7 @@ import org.bialydunajec.registrations.messages.event.*
 import org.springframework.stereotype.Component
 import java.time.Instant
 
+//TODO: Remove duplication!
 @Component
 internal class CampRegistrationsEditionStatisticsEventsProjection(
         private val eventStream: CampRegistrationsEditionStatisticsEventStream,
@@ -33,6 +34,10 @@ internal class CampRegistrationsEditionStatisticsEventsProjection(
         }
 
         eventSubscriber.subscribe(CampParticipantExternalEvent.CampParticipantRegistered::class) {
+            processingQueue.process(it)
+        }
+
+        eventSubscriber.subscribe(CampParticipantExternalEvent.CampParticipantDataCorrected::class) {
             processingQueue.process(it)
         }
 
@@ -82,6 +87,10 @@ internal class CampRegistrationsEditionStatisticsEventsProjection(
             }
             is ShirtOrderExternalEvent.OrderCancelled -> {
                 createProjection(eventPayload)
+                eventStream.updateStreamWith(externalEvent)
+            }
+            is CampParticipantExternalEvent.CampParticipantDataCorrected -> {
+                createProjection(eventPayload, externalEvent.eventOccurredAt)
                 eventStream.updateStreamWith(externalEvent)
             }
         }
@@ -140,6 +149,15 @@ internal class CampRegistrationsEditionStatisticsEventsProjection(
                 }?.also {
                     campRegistrationsEditionStatisticsRepository.save(it)
                 }
+    }
+
+    private fun createProjection(eventPayload: CampParticipantExternalEvent.CampParticipantDataCorrected, eventOccurredAt: Instant) {
+        campRegistrationsEditionStatisticsRepository.findByCampRegistrationsEditionId(eventPayload.campRegistrationsEditionId)
+            ?.also {
+                it.calculateWith(eventPayload)
+            }?.also {
+                campRegistrationsEditionStatisticsRepository.save(it)
+            }
     }
 
     private fun createProjection(eventPayload: ShirtOrderExternalEvent.OrderPlaced) {

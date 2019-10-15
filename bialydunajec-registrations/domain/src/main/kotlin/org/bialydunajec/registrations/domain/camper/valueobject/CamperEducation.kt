@@ -7,23 +7,17 @@ import javax.validation.constraints.NotNull
 @Embeddable
 data class CamperEducation(
         @NotBlank
-        private val university: String,
+        val university: String,
 
         @NotBlank
-        private val faculty: String,
+        val faculty: String,
 
         @NotBlank
-        private val fieldOfStudy: String,
+        val fieldOfStudy: String,
 
         @NotBlank
-        private val highSchool: String?,
+        val highSchool: String?,
 
         @NotNull
-        private val isHighSchoolRecentGraduate: Boolean
-) {
-        fun getUniversity() = university
-        fun getFaculty() = faculty
-        fun getFieldOfStudy() = fieldOfStudy
-        fun getHighSchool() = highSchool
-        fun getIsHighSchoolRecentGraduate() = isHighSchoolRecentGraduate
-}
+        val isHighSchoolRecentGraduate: Boolean
+)

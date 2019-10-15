@@ -90,7 +90,7 @@ fun CamperPersonalDataDto.toValueObject(): CamperPersonalData {
 }
 
 fun CamperEducation.toDto() =
-        CamperEducationDto(getUniversity(), getFaculty(), getFieldOfStudy(), getHighSchool(), getIsHighSchoolRecentGraduate())
+        CamperEducationDto(university, faculty, fieldOfStudy, highSchool, isHighSchoolRecentGraduate)
 
 fun CamperEducationDto.toValueObject() =
         CamperEducation(university, faculty, fieldOfStudy, highSchool, isHighSchoolRecentGraduate)

@@ -2,14 +2,9 @@ package org.bialydunajec.registrations.domain.camper.campparticipant
 
 import org.bialydunajec.ddd.domain.base.aggregate.AuditableAggregateRoot
 import org.bialydunajec.ddd.domain.base.persistence.Versioned
-import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.PhoneNumber
-import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddress
-import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.*
-import org.bialydunajec.ddd.domain.sharedkernel.valueobject.location.*
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
 import org.bialydunajec.registrations.domain.camper.valueobject.*
 import org.bialydunajec.registrations.domain.cottage.Cottage
-import java.time.LocalDate
 import javax.persistence.*
 import javax.validation.constraints.NotNull
 
@@ -112,6 +107,12 @@ class CampParticipant internal constructor(
         // FIXME: If is verified
     }
 
+    fun correctCampParticipantData(newCamperData: CamperApplication) {
+        val oldCamperData = this.currentCamperData
+        this.currentCamperData = newCamperData
+        registerEvent(CampParticipantEvent.CampParticipantDataCorrected(getAggregateId(), oldCamperData, newCamperData))
+    }
+
     fun isConfirmed() = participationStatus == ParticipationStatus.CONFIRMED_BY_CAMPER || participationStatus == ParticipationStatus.CONFIRMED_BY_AUTHORIZED
     fun getCampRegistrationsEditionId() = campRegistrationsEditionId
     fun getCottageId() = this.currentCamperData.cottageId
@@ -132,9 +133,4 @@ class CampParticipant internal constructor(
                     stayDuration = stayDuration,
                     participationStatus = participationStatus
             )
-
-    fun correctCampParticipantData(campParticipantData: CamperApplication) {
-        this.currentCamperData = campParticipantData
-        registerEvent(CampParticipantEvent.Updated(getAggregateId(), getSnapshot()))
-    }
 }

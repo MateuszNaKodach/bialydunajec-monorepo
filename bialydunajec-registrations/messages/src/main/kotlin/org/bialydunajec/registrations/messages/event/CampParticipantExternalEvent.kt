@@ -1,6 +1,7 @@
 package org.bialydunajec.registrations.messages.event
 
 import org.bialydunajec.registrations.dto.CampParticipantDto
+import org.bialydunajec.registrations.dto.CamperApplicationWithCottageDto
 
 
 sealed class CampParticipantExternalEvent {
@@ -16,9 +17,12 @@ sealed class CampParticipantExternalEvent {
             val snapshot: CampParticipantDto
     ) : CampParticipantExternalEvent()
 
-    data class CampParticipantUpdated(
+    data class CampParticipantDataCorrected(
             val campParticipantId: String,
-            val snapshot: CampParticipantDto
+            val campRegistrationsEditionId: String,
+            val cottageId: String,
+            val oldCamperData: CamperApplicationWithCottageDto,
+            val newCamperData: CamperApplicationWithCottageDto
     ) : CampParticipantExternalEvent()
 
 
