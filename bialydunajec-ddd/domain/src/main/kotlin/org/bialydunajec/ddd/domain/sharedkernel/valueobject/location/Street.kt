@@ -7,7 +7,7 @@ import javax.validation.constraints.NotBlank
 @Embeddable
 data class Street(
         @NotBlank
-        val street: String
+        private val street: String
 ): ValueObject {
         override fun toString() = street
 }
