@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: "jdbc:postgresql://31.186.82.95:5432/p1194_bialy_stag"
+    username: p1194_bialy_stag
+    password: wQ7GAjJfrwicXYI0aeL4
+    initialization-mode: always
+    continue-on-error: true
+    platform: postgresql
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate.jdbc.lob.non_contextual_creation: true

@@ -4,7 +4,7 @@ spring:
   profiles:
     include:
       - mail_send
-      - database_mysql_staging
+      - database_postgresql_staging
       - database_mongo_staging
   mail:
     username: staging.zapisy@bialydunajec.org
