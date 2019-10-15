@@ -241,9 +241,6 @@ internal class DeleteCottageApplicationService(
                 ?.run { throw DomainRuleViolationException.of(CampRegistrationsDomainRule.COTTAGE_WITH_CAMP_PARTICIPANTS_CANNOT_BE_DELETED) }
 
         cottage.delete()
-
-        cottageRepository.save(cottage).let {
-            cottageRepository.delete(it)
-        }
+        cottageRepository.delete(cottage)
     }
 }
