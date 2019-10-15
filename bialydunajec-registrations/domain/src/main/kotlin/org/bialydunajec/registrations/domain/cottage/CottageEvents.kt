@@ -15,9 +15,14 @@ sealed class CottageEvents : DomainEvent<CottageId> {
             val snapshot: CottageSnapshot
     ): CottageEvents()
 
-    data class CottageStatusChanged(
-            override val aggregateId: CottageId,
-            val status: CottageStatus
+    data class CottageUnconfigured(
+        override val aggregateId: CottageId,
+        val snapshot: CottageSnapshot
+    ): CottageEvents()
+
+    data class CottageConfigured(
+        override val aggregateId: CottageId,
+        val snapshot: CottageSnapshot
     ): CottageEvents()
 
     data class CottageDeleted(

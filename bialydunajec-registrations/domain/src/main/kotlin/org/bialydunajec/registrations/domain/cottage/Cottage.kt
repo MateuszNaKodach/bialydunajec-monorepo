@@ -207,10 +207,10 @@ class Cottage internal constructor(
 
         if (hasRequiredConfiguration && this.status != CottageStatus.CONFIGURED && this.status != CottageStatus.ACTIVATED) {
             this.status = CottageStatus.CONFIGURED
-            registerEvent(CottageEvents.CottageStatusChanged(getAggregateId(), status))
+            registerEvent(CottageEvents.CottageConfigured(getAggregateId(),getSnapshot()))
         } else if (!hasRequiredConfiguration) {
             this.status = CottageStatus.UNCONFIGURED
-            registerEvent(CottageEvents.CottageStatusChanged(getAggregateId(), status))
+            registerEvent(CottageEvents.CottageUnconfigured(getAggregateId(),getSnapshot()))
         }
     }
 
@@ -235,7 +235,6 @@ class Cottage internal constructor(
             throw DomainRuleViolationException.of(ACTIVE_COTTAGE_CANNOT_BE_DELETED)
         }
         this.status = CottageStatus.DELETED
-        registerEvent(CottageEvents.CottageStatusChanged(getAggregateId(), status))
         registerEvent(CottageEvents.CottageDeleted(getAggregateId(),getSnapshot()))
     }
 
