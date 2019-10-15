@@ -24,4 +24,20 @@ open class DomainRuleViolationException private constructor(
 
         fun throwOf(invalid: ValidationResult.Invalid, cause: Throwable? = null): Nothing = throw of(invalid, cause)
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as DomainRuleViolationException
+
+        if (violatedRules != other.violatedRules) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return violatedRules.hashCode()
+    }
+
 }

@@ -64,7 +64,6 @@ internal class UnregisterCampParticipantApplicationService(
 
         campParticipant.unregisterByAuthorized()
 
-        campParticipantRepository.save(campParticipant)
         campParticipantRepository.delete(campParticipant)
     }
 
