@@ -44,7 +44,7 @@ internal class CottageDomainEventsPropagator(
     fun handleDomainEvent(domainEvent: CottageEvents.CottageDeleted) {
         with(domainEvent) {
             externalEventBus.send(
-                    CottageExternalEvent.CottageDelete(
+                    CottageExternalEvent.CottageDeleted(
                             aggregateId.toString(),
                             snapshot.toDto()
                     )

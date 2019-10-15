@@ -1,9 +1,7 @@
 package org.bialydunajec.registrations.readmodel.statistics
 
 import org.bialydunajec.ddd.base.dto.GenderDto
-import org.bialydunajec.registrations.dto.ColorDto
 import org.bialydunajec.registrations.dto.CottageSpaceDto
-import org.bialydunajec.registrations.dto.ShirtSizeDto
 import org.bialydunajec.registrations.dto.ShirtTypeDto
 import org.bialydunajec.registrations.messages.event.CampParticipantExternalEvent
 import org.bialydunajec.registrations.messages.event.CottageExternalEvent
@@ -40,7 +38,7 @@ internal class CampRegistrationsEditionStatistics(
         }
     }
 
-    fun calculateWith(eventPayload: CottageExternalEvent.CottageDelete) {
+    fun calculateWith(eventPayload: CottageExternalEvent.CottageDeleted) {
         with(eventPayload.snapshot) {
             cottagesStats.removeIf{it.cottageId == cottageId}
         }

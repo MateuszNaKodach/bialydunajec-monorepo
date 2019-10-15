@@ -11,6 +11,7 @@ import org.bialydunajec.ddd.domain.sharedkernel.valueobject.location.Place
 import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryId
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
 import org.bialydunajec.registrations.domain.cottage.valueobject.*
+import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule
 import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule.*
 import javax.persistence.*
 import javax.validation.constraints.NotBlank
@@ -230,6 +231,9 @@ class Cottage internal constructor(
     }
 
     fun delete() {
+        if (isActivated()) {
+            throw DomainRuleViolationException.of(ACTIVE_COTTAGE_CANNOT_BE_DELETED)
+        }
         this.status = CottageStatus.DELETED
         registerEvent(CottageEvents.CottageStatusChanged(getAggregateId(), status))
         registerEvent(CottageEvents.CottageDeleted(getAggregateId(),getSnapshot()))

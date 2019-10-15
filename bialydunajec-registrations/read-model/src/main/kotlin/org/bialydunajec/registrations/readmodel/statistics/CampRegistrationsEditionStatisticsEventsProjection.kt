@@ -3,7 +3,6 @@ package org.bialydunajec.registrations.readmodel.statistics
 import org.bialydunajec.ddd.application.base.external.event.ExternalEvent
 import org.bialydunajec.ddd.application.base.external.event.ExternalEventSubscriber
 import org.bialydunajec.ddd.application.base.external.event.SerializedExternalEventListener
-import org.bialydunajec.ddd.application.base.external.event.SpringSerializedExternalEventListener
 import org.bialydunajec.registrations.messages.event.*
 import org.springframework.stereotype.Component
 import java.time.Instant
@@ -29,7 +28,7 @@ internal class CampRegistrationsEditionStatisticsEventsProjection(
             processingQueue.process(it)
         }
 
-        eventSubscriber.subscribe(CottageExternalEvent.CottageDelete::class) {
+        eventSubscriber.subscribe(CottageExternalEvent.CottageDeleted::class) {
             processingQueue.process(it)
         }
 
@@ -65,7 +64,7 @@ internal class CampRegistrationsEditionStatisticsEventsProjection(
                 createProjection(eventPayload)
                 eventStream.updateStreamWith(externalEvent)
             }
-            is CottageExternalEvent.CottageDelete -> {
+            is CottageExternalEvent.CottageDeleted -> {
                 createProjection(eventPayload)
                 eventStream.updateStreamWith(externalEvent)
             }
@@ -116,7 +115,7 @@ internal class CampRegistrationsEditionStatisticsEventsProjection(
                 }
     }
 
-    private fun createProjection(eventPayload: CottageExternalEvent.CottageDelete) {
+    private fun createProjection(eventPayload: CottageExternalEvent.CottageDeleted) {
         campRegistrationsEditionStatisticsRepository.findByCampRegistrationsEditionId(eventPayload.snapshot.campRegistrationsEditionId)
                 ?.also {
                     it.calculateWith(eventPayload)
