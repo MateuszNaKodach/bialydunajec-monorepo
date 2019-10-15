@@ -121,7 +121,7 @@ allprojects {
         testCompile("com.github.nowakprojects:kt-time-traveler-test:${Versions.ktTimeTravelerVersion}")
         testCompile("com.tngtech.archunit:archunit-junit5-api:${Versions.archUnitVersion}")
         testRuntime("com.tngtech.archunit:archunit-junit5-engine:${Versions.archUnitVersion}")
-
+        testImplementation("io.mockk:mockk:${Versions.mockkVersion}")
     }
 
 }
@@ -158,8 +158,8 @@ dependencies {
     //compile project(":bialydunajec-faq:bialydunajec-faq-presentation")
     //compile project(":bialydunajec-faq:bialydunajec-faq-infrastructure")
 
-    //compile project(":bialydunajec-gallery:bialydunajec-gallery-presentation")
-    //compile project(":bialydunajec-gallery:bialydunajec-gallery-infrastructure")
+    compile(project(":bialydunajec-gallery:bialydunajec-gallery-presentation"))
+    compile(project(":bialydunajec-gallery:bialydunajec-gallery-infrastructure"))
 
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
     compile("org.springframework.boot:spring-boot-starter-hateoas")
