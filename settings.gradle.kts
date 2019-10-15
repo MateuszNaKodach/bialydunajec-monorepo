@@ -53,7 +53,7 @@ include(
     "bialydunajec-gallery:presentation",
     "bialydunajec-gallery:domain",
     "bialydunajec-gallery:infrastructure",
-    "bialydunajec-gallery:messages"
+    "bialydunajec-gallery:messages",
     /*"bialydunajec-faq",
     "bialydunajec-faq:application",
     "bialydunajec-faq:presentation",
