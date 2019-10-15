@@ -9,4 +9,3 @@ class CampScheduleApplication
 fun main(args: Array<String>) {
     runApplication<CampScheduleApplication>(*args)
 }
-

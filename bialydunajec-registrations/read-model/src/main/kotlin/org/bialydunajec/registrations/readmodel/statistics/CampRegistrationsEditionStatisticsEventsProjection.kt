@@ -33,7 +33,15 @@ internal class CampRegistrationsEditionStatisticsEventsProjection(
             processingQueue.process(it)
         }
 
+        eventSubscriber.subscribe(CampParticipantExternalEvent.CampParticipantUnregisteredByAuthorized::class) {
+            processingQueue.process(it)
+        }
+
         eventSubscriber.subscribe(ShirtOrderExternalEvent.OrderPlaced::class) {
+            processingQueue.process(it)
+        }
+
+        eventSubscriber.subscribe(ShirtOrderExternalEvent.OrderCancelled::class) {
             processingQueue.process(it)
         }
     }
@@ -57,7 +65,15 @@ internal class CampRegistrationsEditionStatisticsEventsProjection(
                 createProjection(eventPayload, externalEvent.eventOccurredAt)
                 eventStream.updateStreamWith(externalEvent)
             }
+            is CampParticipantExternalEvent.CampParticipantUnregisteredByAuthorized -> {
+                createProjection(eventPayload, externalEvent.eventOccurredAt)
+                eventStream.updateStreamWith(externalEvent)
+            }
             is ShirtOrderExternalEvent.OrderPlaced -> {
+                createProjection(eventPayload)
+                eventStream.updateStreamWith(externalEvent)
+            }
+            is ShirtOrderExternalEvent.OrderCancelled -> {
                 createProjection(eventPayload)
                 eventStream.updateStreamWith(externalEvent)
             }
@@ -101,7 +117,25 @@ internal class CampRegistrationsEditionStatisticsEventsProjection(
                 }
     }
 
+    private fun createProjection(eventPayload: CampParticipantExternalEvent.CampParticipantUnregisteredByAuthorized, eventOccurredAt: Instant) {
+        campRegistrationsEditionStatisticsRepository.findByCampRegistrationsEditionId(eventPayload.snapshot.campRegistrationsEditionId)
+                ?.also {
+                    it.calculateWith(eventPayload)
+                }?.also {
+                    campRegistrationsEditionStatisticsRepository.save(it)
+                }
+    }
+
     private fun createProjection(eventPayload: ShirtOrderExternalEvent.OrderPlaced) {
+        campRegistrationsEditionStatisticsRepository.findByCampRegistrationsEditionId(eventPayload.campRegistrationsEditionId)
+                ?.also {
+                    it.calculateWith(eventPayload)
+                }?.also {
+                    campRegistrationsEditionStatisticsRepository.save(it)
+                }
+    }
+
+    private fun createProjection(eventPayload: ShirtOrderExternalEvent.OrderCancelled) {
         campRegistrationsEditionStatisticsRepository.findByCampRegistrationsEditionId(eventPayload.campRegistrationsEditionId)
                 ?.also {
                     it.calculateWith(eventPayload)
