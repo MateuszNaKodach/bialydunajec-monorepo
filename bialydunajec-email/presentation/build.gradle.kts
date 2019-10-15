@@ -14,7 +14,9 @@ tasks {
 
 dependencies {
     api(project(":bialydunajec-ddd:bialydunajec-ddd-presentation"))
-    api(project(":bialydunajec-gallery:bialydunajec-gallery-application"))
+    api(project(":bialydunajec-email:bialydunajec-email-application"))
+    api(project(":bialydunajec-email:bialydunajec-email-messages"))
+
 
     //compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-webflux")
