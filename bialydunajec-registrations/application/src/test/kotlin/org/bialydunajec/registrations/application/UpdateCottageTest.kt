@@ -1,3 +1,5 @@
+package org.bialydunajec.registrations.application
+
 import org.assertj.core.api.Assertions.assertThat
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.financial.Money
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.Url
@@ -18,10 +20,13 @@ import java.time.LocalDate
 
 internal class UpdateCottageTest {
 
-    private val campEditionRepository = InMemoryCampRegistrationsEditionRepository()
-    private val academicMinistryRepository = InMemoryAcademicMinistryRepository()
+    private val campEditionRepository =
+        InMemoryCampRegistrationsEditionRepository()
+    private val academicMinistryRepository =
+        InMemoryAcademicMinistryRepository()
     private val cottageRepository = InMemoryCottageRepository()
-    private val cottageConditionsRepository = InMemoryCottageConditionsRepository()
+    private val cottageConditionsRepository =
+        InMemoryCottageConditionsRepository()
 
     private val editionService = CreateCampRegistrationsEditionApplicationService(campEditionRepository)
 
@@ -91,7 +96,9 @@ internal class UpdateCottageTest {
             )
         )
         return ministryCottageService.execute(
-            CampRegistrationsCommand.CreateAcademicMinistryCottage(edition, academicMinistryId)
+            CampRegistrationsCommand.CreateAcademicMinistryCottage(edition,
+                academicMinistryId
+            )
         )
     }
 }

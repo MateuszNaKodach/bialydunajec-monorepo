@@ -1,3 +1,5 @@
+package org.bialydunajec.registrations.application
+
 import org.bialydunajec.registrations.domain.cottage.CottageId
 import org.bialydunajec.registrations.domain.cottage.conditions.CottageConditions
 import org.bialydunajec.registrations.domain.cottage.conditions.CottageConditionsRepository

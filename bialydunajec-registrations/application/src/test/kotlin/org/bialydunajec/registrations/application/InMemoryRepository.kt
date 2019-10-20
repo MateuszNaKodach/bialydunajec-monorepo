@@ -1,3 +1,5 @@
+package org.bialydunajec.registrations.application
+
 internal abstract class InMemoryRepository<T> {
 
     protected val items = mutableListOf<T>()

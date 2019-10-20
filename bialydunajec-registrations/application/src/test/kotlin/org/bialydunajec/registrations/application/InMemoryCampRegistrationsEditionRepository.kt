@@ -1,3 +1,5 @@
+package org.bialydunajec.registrations.application
+
 import org.bialydunajec.ddd.domain.base.specification.Specification
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEdition
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
