@@ -33,8 +33,8 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("com.fasterxml.jackson.module:jackson-module-kotlin")
 
-    runtime("com.h2database:h2")
-    runtime("mysql:mysql-connector-java")
+    //runtime("com.h2database:h2")
+    //runtime("mysql:mysql-connector-java")
     testCompile("org.axonframework:axon-test:${Versions.axonFrameworkVersion}")
     testCompile("org.springframework.boot:spring-boot-starter-test")
     testCompile("org.junit.jupiter:junit-jupiter-api:${Versions.jUnitVersion}")
