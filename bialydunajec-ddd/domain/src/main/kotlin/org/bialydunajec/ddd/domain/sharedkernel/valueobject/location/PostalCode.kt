@@ -7,7 +7,7 @@ import javax.validation.constraints.NotBlank
 @Embeddable
 data class PostalCode(
         @NotBlank
-        val postalCode: String
+        private val postalCode: String
 ) : ValueObject {
     override fun toString() = postalCode
 }

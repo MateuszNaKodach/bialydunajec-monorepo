@@ -39,6 +39,17 @@ internal class CottageDomainEventsPropagator(
         }
     }
 
-   //TODO: Handle deleted cottage
+    @Async
+    @TransactionalEventListener
+    fun handleDomainEvent(domainEvent: CottageEvents.CottageDeleted) {
+        with(domainEvent) {
+            externalEventBus.send(
+                    CottageExternalEvent.CottageDeleted(
+                            aggregateId.toString(),
+                            snapshot.toDto()
+                    )
+            )
+        }
+    }
 
 }

@@ -28,6 +28,14 @@ internal class CampParticipantEventsProjection(
             processingQueue.process(it)
         }
 
+        eventSubscriber.subscribe(CampParticipantExternalEvent.CampParticipantUnregisteredByAuthorized::class) {
+            processingQueue.process(it)
+        }
+
+        eventSubscriber.subscribe(CampParticipantExternalEvent.CampParticipantDataCorrected::class) {
+            processingQueue.process(it)
+        }
+
         eventSubscriber.subscribe(CampParticipantCottageAccountExternalEvent.CommitmentPaid::class) {
             processingQueue.process(it)
         }
@@ -42,6 +50,14 @@ internal class CampParticipantEventsProjection(
                 campParticipantEventStream.updateStreamWith(externalEvent)
             }
             is CampParticipantExternalEvent.CampParticipantConfirmed -> {
+                createProjection(eventPayload, externalEvent.eventOccurredAt)
+                campParticipantEventStream.updateStreamWith(externalEvent)
+            }
+            is CampParticipantExternalEvent.CampParticipantUnregisteredByAuthorized -> {
+                createProjection(eventPayload, externalEvent.eventOccurredAt)
+                campParticipantEventStream.updateStreamWith(externalEvent)
+            }
+            is CampParticipantExternalEvent.CampParticipantDataCorrected -> {
                 createProjection(eventPayload, externalEvent.eventOccurredAt)
                 campParticipantEventStream.updateStreamWith(externalEvent)
             }
@@ -73,6 +89,14 @@ internal class CampParticipantEventsProjection(
         }
     }
 
+    private fun createProjection(eventPayload: CampParticipantExternalEvent.CampParticipantDataCorrected, eventOccurredAt: Instant) {
+        campParticipantMongoRepository.findById(eventPayload.campParticipantId)
+            .ifPresent {
+                it.currentCamperData = eventPayload.newCamperData
+                campParticipantMongoRepository.save(it)
+            }
+    }
+
     private fun createProjection(eventPayload: CampParticipantExternalEvent.CampParticipantConfirmed, eventOccurredAt: Instant) {
         campParticipantMongoRepository.findById(eventPayload.campParticipantId)
                 .ifPresent {
@@ -101,6 +125,12 @@ internal class CampParticipantEventsProjection(
                     campParticipantMongoRepository.save(campParticipant)
                 }
 
+    }
+
+
+    private fun createProjection(eventPayload: CampParticipantExternalEvent.CampParticipantUnregisteredByAuthorized,
+                                 eventOccurredAt: Instant) {
+        campParticipantMongoRepository.deleteById(eventPayload.campParticipantId)
     }
 
 }

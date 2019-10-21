@@ -3,7 +3,6 @@ package org.bialydunajec.registrations.readmodel.payment
 import org.bialydunajec.ddd.application.base.external.event.ExternalEvent
 import org.bialydunajec.ddd.application.base.external.event.ExternalEventSubscriber
 import org.bialydunajec.ddd.application.base.external.event.SerializedExternalEventListener
-import org.bialydunajec.ddd.application.base.external.event.SpringSerializedExternalEventListener
 import org.bialydunajec.registrations.messages.event.CampParticipantCottageAccountExternalEvent
 import org.springframework.stereotype.Component
 
@@ -17,11 +16,15 @@ internal class CampParticipantCottageAccountEventsProjection(
 ) : SerializedExternalEventListener() {
 
     init {
-        eventSubscriber.subscribe(CampParticipantCottageAccountExternalEvent.Created::class) {
+        eventSubscriber.subscribe(CampParticipantCottageAccountExternalEvent.Opened::class) {
             processingQueue.process(it)
         }
 
         eventSubscriber.subscribe(CampParticipantCottageAccountExternalEvent.CommitmentPaid::class) {
+            processingQueue.process(it)
+        }
+
+        eventSubscriber.subscribe(CampParticipantCottageAccountExternalEvent.Closed::class) {
             processingQueue.process(it)
         }
     }
@@ -29,7 +32,7 @@ internal class CampParticipantCottageAccountEventsProjection(
     override fun processExternalEvent(externalEvent: ExternalEvent<*>) {
         val eventPayload = externalEvent.payload
         when (eventPayload) {
-            is CampParticipantCottageAccountExternalEvent.Created -> {
+            is CampParticipantCottageAccountExternalEvent.Opened -> {
                 createProjection(eventPayload)
                 eventStream.updateStreamWith(externalEvent)
             }
@@ -37,13 +40,17 @@ internal class CampParticipantCottageAccountEventsProjection(
                 createProjection(eventPayload)
                 eventStream.updateStreamWith(externalEvent)
             }
+            is CampParticipantCottageAccountExternalEvent.Closed -> {
+                createProjection(eventPayload)
+                eventStream.updateStreamWith(externalEvent)
+            }
         }
     }
 
     //TODO: Add possibility to update existing projection from only paid!
-    private fun createProjection(eventPayload: CampParticipantCottageAccountExternalEvent.Created) {
+    private fun createProjection(eventPayload: CampParticipantCottageAccountExternalEvent.Opened) {
         fun getPaymentCommitmentReadModelFrom(
-                paymentCommitmentSnapshot: CampParticipantCottageAccountExternalEvent.Created.PaymentCommitmentSnapshot,
+                paymentCommitmentSnapshot: CampParticipantCottageAccountExternalEvent.Opened.PaymentCommitmentSnapshot,
                 paymentType: PaymentCommitment.Type) =
                 paymentCommitmentSnapshot.let {
                     PaymentCommitment(
@@ -106,5 +113,20 @@ internal class CampParticipantCottageAccountEventsProjection(
         }
     }
 
+    private fun createProjection(eventPayload: CampParticipantCottageAccountExternalEvent.Closed) {
+
+        with(eventPayload) {
+            campDownPaymentCommitmentSnapshot?.paymentCommitmentId
+                    ?.let { paymentCommitmentRepository.deleteById(it) }
+
+
+            campParticipationCommitmentSnapshot.paymentCommitmentId
+                    .let { paymentCommitmentRepository.deleteById(it) }
+
+            campBusCommitmentSnapshot?.paymentCommitmentId
+                    ?.let { paymentCommitmentRepository.deleteById(it) }
+
+        }
+    }
 
 }

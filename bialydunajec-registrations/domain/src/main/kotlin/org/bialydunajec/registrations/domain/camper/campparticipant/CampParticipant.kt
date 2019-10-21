@@ -3,17 +3,15 @@ package org.bialydunajec.registrations.domain.camper.campparticipant
 import org.bialydunajec.ddd.domain.base.aggregate.AuditableAggregateRoot
 import org.bialydunajec.ddd.domain.base.persistence.Versioned
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
-import org.bialydunajec.registrations.domain.camper.valueobject.CampParticipantSnapshot
-import org.bialydunajec.registrations.domain.camper.valueobject.CamperApplication
-import org.bialydunajec.registrations.domain.camper.valueobject.ParticipationStatus
-import org.bialydunajec.registrations.domain.camper.valueobject.StayDuration
+import org.bialydunajec.registrations.domain.camper.valueobject.*
 import org.bialydunajec.registrations.domain.cottage.Cottage
 import javax.persistence.*
 import javax.validation.constraints.NotNull
 
 // or camp_participation!?
 /*
-Przemyslec czy to nie powinny byc osobny aggreagate, w sumie CampParticipant dba o aggregaty (nie moze byc zapisany np. do tej samej chatki), ale z drugiej strony strasznie kosztowne query zliczania ilosci zapisanych do chatki np.
+Przemyslec czy to nie powinny byc osobny aggreagate, w sumie CampParticipant dba o aggregaty (nie moze byc zapisany
+np. do tej samej chatki), ale z drugiej strony strasznie kosztowne query zliczania ilosci zapisanych do chatki np.
  Osobno, najwyzej aggreguje to na statystycznych rzeczach, tam mam CampParticipant, tutaj tylko konkretny udział!!!
  Zmienić na CampParticipant i podmienić z aggregatem CampParticipant!
  Zbieranie danych o konkretnych camperach bedzie tylko read modelem, ile razy np. był na obozie.
@@ -100,13 +98,19 @@ class CampParticipant internal constructor(
         registerEvent(CampParticipantEvent.Confirmed(getAggregateId(), getSnapshot()))
     }
 
-    fun unregisterByAuthorized(){
+    fun unregisterByAuthorized() {
         this.participationStatus = ParticipationStatus.UNREGISTERED_BY_AUTHORIZED
-        registerEvent(CampParticipantEvent.Unregistered(getAggregateId(), getSnapshot()))
+        registerEvent(CampParticipantEvent.UnregisteredByAuthorized(getAggregateId(), getSnapshot()))
     }
 
-    fun correctRegistrationData(){
+    fun correctRegistrationData() {
         // FIXME: If is verified
+    }
+
+    fun correctCampParticipantData(newCamperData: CamperApplication) {
+        val oldCamperData = this.currentCamperData
+        this.currentCamperData = newCamperData
+        registerEvent(CampParticipantEvent.CampParticipantDataCorrected(getAggregateId(), oldCamperData, newCamperData))
     }
 
     fun isConfirmed() = participationStatus == ParticipationStatus.CONFIRMED_BY_CAMPER || participationStatus == ParticipationStatus.CONFIRMED_BY_AUTHORIZED
@@ -129,5 +133,4 @@ class CampParticipant internal constructor(
                     stayDuration = stayDuration,
                     participationStatus = participationStatus
             )
-
 }

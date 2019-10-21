@@ -14,4 +14,9 @@ sealed class CottageExternalEvent {
             val cottageId: String,
             val snapshot: CottageDto
     ) : CottageExternalEvent()
+
+    data class CottageDeleted(
+            val cottageId: String,
+            val snapshot: CottageDto
+    ) : CottageExternalEvent()
 }

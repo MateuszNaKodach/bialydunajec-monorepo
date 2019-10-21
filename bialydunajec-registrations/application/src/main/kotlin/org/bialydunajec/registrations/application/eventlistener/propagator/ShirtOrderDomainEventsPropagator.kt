@@ -20,7 +20,7 @@ internal class ShirtOrderDomainEventsPropagator(
 
     @Async
     @TransactionalEventListener
-    fun handle(event: ShirtOrderEvent.OrderPlaced) {
+    fun handleDomainEvent(event: ShirtOrderEvent.OrderPlaced) {
         with(event) {
             campParticipantReadOnlyRepository.findById(snapshot.campParticipantId)
                     ?.let { participant ->
@@ -55,5 +55,42 @@ internal class ShirtOrderDomainEventsPropagator(
 
         }
 
+    }
+
+    @Async
+    @TransactionalEventListener
+    fun handleDomainEvent(domainEvent: ShirtOrderEvent.OrderCancelled) {
+        with(domainEvent) {
+            campParticipantReadOnlyRepository.findById(snapshot.campParticipantId)
+                    ?.let { participant ->
+                        val cottage = cottageRepository.findById(participant.getCottageId())!!
+
+                        externalEventBus.send(
+                                ShirtOrderExternalEvent.OrderCancelled(
+                                        participant.getCampRegistrationsEditionId().toString(),
+                                        aggregateId.toString(),
+                                        ShirtOrderExternalEvent.OrderCancelled.CampParticipant(
+                                                participant.getAggregateId().toString(),
+                                                participant.getPersonalData().pesel.toStringOrNull(),
+                                                participant.getPersonalData().firstName.toStringOrNull(),
+                                                participant.getPersonalData().lastName.toStringOrNull(),
+                                                participant.getEmailAddress().toStringOrNull(),
+                                                participant.getPhoneNumber().toStringOrNull(),
+                                                ShirtOrderExternalEvent.OrderCancelled.Cottage(cottage.getAggregateId().toString(), cottage.getName()),
+                                                participant.participationStatus.toDto()
+                                        ),
+                                        ShirtOrderExternalEvent.OrderCancelled.ShirtOrder(
+                                                snapshot.campEditionShirtId.toString(),
+                                                snapshot.colorOption.shirtColorOptionId.toString(),
+                                                snapshot.colorOption.color.name,
+                                                snapshot.sizeOption.shirtSizeOptionId.toString(),
+                                                snapshot.sizeOption.size.name,
+                                                snapshot.sizeOption.size.type.toDto()
+                                        )
+                                )
+                        )
+                    }
+
+        }
     }
 }

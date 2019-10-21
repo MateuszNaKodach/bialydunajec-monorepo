@@ -4,7 +4,7 @@ import org.bialydunajec.ddd.application.base.ApplicationService
 import org.bialydunajec.ddd.application.base.email.SimpleEmailMessage
 import org.bialydunajec.ddd.application.base.time.Clock
 import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
-import org.bialydunajec.email.application.api.EmailCommand
+import org.bialydunajec.email.application.api.EmailMessageCommand
 import org.bialydunajec.email.domain.EmailMessageDomainRule
 import org.bialydunajec.email.domain.EmailMessageLog
 import org.bialydunajec.email.domain.EmailMessageLogId
@@ -18,9 +18,9 @@ internal class SendEmailMessageApplicationService(
         private val emailMessageSender: EmailMessageSender,
         private val emailMessageLogRepository: EmailMessageLogRepository,
         private val clock: Clock
-) : ApplicationService<EmailCommand.SendEmailCommand> {
+) : ApplicationService<EmailMessageCommand.SendEmailCommand> {
 
-    override fun execute(command: EmailCommand.SendEmailCommand): EmailMessageLogId {
+    override fun execute(command: EmailMessageCommand.SendEmailCommand): EmailMessageLogId {
         val emailMessage = with(command.emailMessage) {
             SimpleEmailMessage(
                     recipient,
@@ -58,9 +58,9 @@ internal class ResendEmailMessageApplicationService(
         private val emailMessageSender: EmailMessageSender,
         private val emailMessageLogRepository: EmailMessageLogRepository,
         private val clock: Clock
-) : ApplicationService<EmailCommand.ResendEmailCommand> {
+) : ApplicationService<EmailMessageCommand.ResendEmailCommand> {
 
-    override fun execute(command: EmailCommand.ResendEmailCommand) {
+    override fun execute(command: EmailMessageCommand.ResendEmailCommand) {
         val emailMessage = emailMessageLogRepository.findById(command.emailMessageLogId)
                 ?: throw DomainRuleViolationException.of(EmailMessageDomainRule.EMAIL_MESSAGE_TO_RESEND_MUST_EXISTS)
 
@@ -93,9 +93,9 @@ internal class ForwardEmailMessageApplicationService(
         private val emailMessageSender: EmailMessageSender,
         private val emailMessageLogRepository: EmailMessageLogRepository,
         private val clock: Clock
-) : ApplicationService<EmailCommand.ForwardEmailCommand> {
+) : ApplicationService<EmailMessageCommand.ForwardEmailCommand> {
 
-    override fun execute(command: EmailCommand.ForwardEmailCommand) {
+    override fun execute(command: EmailMessageCommand.ForwardEmailCommand) {
         val messageToForward = emailMessageLogRepository.findById(command.emailMessageLogId)
                 ?: throw DomainRuleViolationException.of(EmailMessageDomainRule.EMAIL_MESSAGE_TO_RESEND_MUST_EXISTS)
 

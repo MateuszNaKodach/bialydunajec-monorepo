@@ -54,7 +54,7 @@ class CottageAdminController(
 
     @DeleteMapping("/cottage/{cottageId}")
     fun deleteCottage(@PathVariable cottageId: String) =
-            commandGateway.process(CampRegistrationsCommand.DeleteCottage(cottageId = CottageId(cottageId)))
+        commandGateway.process(CampRegistrationsCommand.DeleteCottage(cottageId = CottageId(cottageId)))
 
     //QUERY------------------------------------------------------------------------------------------------------------
     @GetMapping("/cottage")

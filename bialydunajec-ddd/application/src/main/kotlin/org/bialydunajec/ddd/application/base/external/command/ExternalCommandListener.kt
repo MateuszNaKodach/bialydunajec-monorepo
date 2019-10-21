@@ -2,6 +2,6 @@ package org.bialydunajec.ddd.application.base.external.command
 
 
 interface ExternalCommandListener {
-
-    fun handleExternalCommand(externalCommand: ExternalCommand<*>)
+    //TODO: DSL in constructor
+    //fun handleExternalCommand(externalCommand: ExternalCommand<*>)
 }
