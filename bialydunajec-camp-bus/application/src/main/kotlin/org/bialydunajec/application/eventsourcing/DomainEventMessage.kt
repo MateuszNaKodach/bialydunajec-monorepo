@@ -11,7 +11,7 @@ internal class DomainEventMessage<DomainEventType : DomainEvent<*>> private cons
 ) {
 
     companion object {
-        fun <DomainEventType : DomainEvent<*>> withEvent(domainEvent: DomainEventType) =
+        fun <DomainEventType : DomainEvent<*>> withEvent(domainEvent: DomainEventType): NeedTargetAggregateVersion<DomainEventType> =
                 Builder<DomainEventType>(domainEvent)
     }
 

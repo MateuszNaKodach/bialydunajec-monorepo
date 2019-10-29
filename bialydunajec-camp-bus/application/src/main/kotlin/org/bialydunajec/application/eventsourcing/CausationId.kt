@@ -1,5 +1,7 @@
 package org.bialydunajec.application.eventsourcing
 
+import org.bialydunajec.eventsourcing.domain.Identifier
+
 class CausationId(id: String) : Identifier(id) {
 
     companion object {

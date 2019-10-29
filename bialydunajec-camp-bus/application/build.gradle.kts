@@ -13,4 +13,5 @@ tasks {
 
 
 dependencies {
+    api(project(":bialydunajec-camp-bus:bialydunajec-camp-bus-domain"))
 }
