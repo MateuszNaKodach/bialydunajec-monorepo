@@ -29,7 +29,7 @@ bialydunajec:
     access-token: "EAAD8VBKY89IBAIA1pwlPdGEI6ZC3oDFQCQuZAv4iI9MCj5OZBE9RbxudiFbe7PKx5gOEvFsZCcQDPX8V6UIGb0X2XzafTRhAkA11aLPM7VdCrjQpODp0qQkIbuUgdnjCBPGAAqzzDa4YWqVjV9nBd4vo2tXtwiHsB9RFwiQg8AZDZD"
   google-photos-library-api:
     refresh-token: "1/poWoHFGQd2ppMsJr9XZTxVHl6JvvrfiGnvuc2JoREe4"
-    credentials-json-path: ".\\bialydunajec-gallery\\infrastructure\\src\\main\\resources\\credentials.json"
+    credentials-json-path: google-services\google-photos\credentials.json
   frontend:
     main:
       base-url: "https://dev.bialydunajec.org"

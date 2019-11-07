@@ -7,6 +7,7 @@ import com.google.auth.oauth2.UserCredentials
 import com.google.gson.Gson
 import com.google.photos.library.v1.PhotosLibrarySettings
 import org.bialydunajec.gallery.infrastructure.utils.pojo.ClientCredentials
+import org.springframework.core.io.ClassPathResource
 import java.io.BufferedReader
 import java.io.File
 
@@ -15,7 +16,7 @@ class GooglePhotosCredentialHandler(private val credentialsJsonPath: String,
 
     fun readUserCredentialsFormFile(): ClientCredentials {
         val gson = Gson()
-        val bufferedReader: BufferedReader = File(credentialsJsonPath).bufferedReader()
+        val bufferedReader: BufferedReader = ClassPathResource(credentialsJsonPath).inputStream.bufferedReader()
         val inputString = bufferedReader.use { it.readText() }
         return gson.fromJson(inputString, ClientCredentials::class.java)
     }
