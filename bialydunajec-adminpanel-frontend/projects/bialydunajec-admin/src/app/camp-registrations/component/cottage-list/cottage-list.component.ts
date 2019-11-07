@@ -10,6 +10,7 @@ import {tap} from 'rxjs/operators';
 import {AlertViewModel} from '../../../shared/view-model/ng-zorro/alert.view-model';
 import {HttpResponseHelper} from '../../../shared/helper/HttpResponseHelper';
 import {ActivatedRoute, Router} from '@angular/router';
+import {InternalStorage} from '../../../shared/localstorage/internal-storage.service';
 
 @Component({
   selector: 'bda-admin-cottage-list',
@@ -30,7 +31,8 @@ export class CottageListComponent implements OnInit {
   constructor(
     private campRegistrationsEndpoint: CampRegistrationsEndpoint,
     private router: Router,
-    private activatedRoute: ActivatedRoute) {
+    private activatedRoute: ActivatedRoute,
+    private internalStorage: InternalStorage) {
   }
 
   ngOnInit() {
@@ -59,6 +61,7 @@ export class CottageListComponent implements OnInit {
   }
 
   updateCottages(selectedCampEditionId: number) {
+    this.internalStorage.storeSelectedCampEditionId(selectedCampEditionId);
     this.cottagesObservable = this.campRegistrationsEndpoint.getAllCottagesByCampRegistrationsEditionId(selectedCampEditionId);
   }
 

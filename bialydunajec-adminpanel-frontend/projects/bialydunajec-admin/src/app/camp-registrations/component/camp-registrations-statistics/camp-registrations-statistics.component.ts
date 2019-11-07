@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
 import {CampEditionResponse} from '../../../camp-edition/service/rest/response/camp-edition.response';
 import {CampRegistrationsEndpoint} from '../../service/rest/camp-registrations.endpoint';
+import {InternalStorage} from '../../../shared/localstorage/internal-storage.service';
 
 @Component({
   selector: 'bda-admin-camp-registrations-statistics',
@@ -17,7 +18,7 @@ export class CampRegistrationsStatisticsComponent implements OnInit {
 
   cottagesFillRatio: any[] = [];
 
-  constructor(private campRegistrationsEndpoint: CampRegistrationsEndpoint) {
+  constructor(private campRegistrationsEndpoint: CampRegistrationsEndpoint, private internalStorage: InternalStorage) {
   }
 
   ngOnInit() {
@@ -26,6 +27,7 @@ export class CampRegistrationsStatisticsComponent implements OnInit {
 
   onCampEditionIdSelected(selectedCampEditionId: number) {
     this.currentCampEdition = selectedCampEditionId;
+    this.internalStorage.storeSelectedCampEditionId(this.currentCampEdition);
     this.loadCampRegistrationsEditionStats();
   }
 

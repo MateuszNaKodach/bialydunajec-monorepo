@@ -14,7 +14,6 @@ const CURRENT_USER_TOKEN_KEY = 'org.bialydunajec.current_user_token';
 })
 export class AuthService {
 
-  localStorage: Storage;
   private authenticationSubject = new Subject<AuthState>();
 
   constructor(private authRestCalls: TokenEndpoint, private httpClient: HttpClient) {

@@ -13,6 +13,7 @@ import {UpdateCottageRequest} from '../../service/rest/request/update-cottage.re
 import {Observable} from 'rxjs';
 import {AcademicMinistryResponse} from '../../service/rest/response/academic-ministry.response';
 import {HttpResponseHelper} from '../../../shared/helper/HttpResponseHelper';
+import {InternalStorage} from '../../../shared/localstorage/internal-storage.service';
 
 @Component({
   selector: 'bda-admin-cottage-edit',
@@ -34,7 +35,7 @@ export class CottageEditComponent implements OnInit, MultiModeForm<CottageEditFo
   cottageForm: FormGroup;
 
   // data
-  currentCampRegistrationsId: number = 36; //TODO: Add real from path!
+  currentCampRegistrationsId: number;
   currentCottageId: string;
   currentCottageStatus: string;
   currentCottageAcademicMinistryId: string;
@@ -43,7 +44,8 @@ export class CottageEditComponent implements OnInit, MultiModeForm<CottageEditFo
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private campRegistrationsEndpoint: CampRegistrationsEndpoint) {
+    private campRegistrationsEndpoint: CampRegistrationsEndpoint,
+    private internalStorage: InternalStorage) {
   }
 
   ngOnInit() {
@@ -61,6 +63,7 @@ export class CottageEditComponent implements OnInit, MultiModeForm<CottageEditFo
 
     // TODO: Add campRegistrationsId to all urls - /panel/camp-registrations/{id}/cottages
     // load init form values
+    this.currentCampRegistrationsId = this.internalStorage.selectedCampEditionId;
     this.loadCottage();
     this.availableAcademicMinistries = this.campRegistrationsEndpoint.getAllAcademicMinistries();
 
