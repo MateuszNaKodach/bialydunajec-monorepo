@@ -105,14 +105,4 @@ open class GooglePhotosGalleryProvider (
                 examineBatchCreateMediaItemResponse(response)
             }
 
-    //TODO: for testing - to remove
-    /*fun testAddingPhotosFlow() {
-        val album = createAlbum("albumName")
-        val newMediaItemList = mutableListOf<NewMediaItem>()
-        val uploadMediaBytesResponse
-                = uploadRawBytesToGoogleServer("", "")
-        val uploadToken = getUploadMediaItemTokenIfNoError(uploadMediaBytesResponse)
-        newMediaItemList.add(NewMediaItemFactory.createNewMediaItem(uploadToken, "itemDescription"))
-        createMediaItemsInAlbum(album.id, newMediaItemList)
-    }*/
 }

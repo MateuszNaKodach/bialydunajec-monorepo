@@ -1,32 +1,32 @@
 package org.bialydunajec.gallery.application.dto
 
 data class CampGalleryAlbumDto(
-        val id: String,
-        var title: String,
-        val albumUrl: String,
-        val coverPhotoUrl: String,
-        val photosCount: Long
+    val id: String,
+    var title: String,
+    val albumUrl: String,
+    val coverPhotoUrl: String,
+    val photosCount: Long
 ) {
 
     companion object {
+        private const val WEB_APP_PREFIX = "WebApp_"
+        private const val EDITION_PREFIX = "Edycja[0-9]+_"
+        private const val ALBUM_HEADER = WEB_APP_PREFIX + EDITION_PREFIX
+        private const val ALBUM_NAME = ".+"
+
         fun mapTitleToDisplayVersion(campGalleryAlbumDto: CampGalleryAlbumDto): CampGalleryAlbumDto {
             campGalleryAlbumDto.title =
-                    getCampEditionAlbumRegexHeader().replace(campGalleryAlbumDto.title, "")
+                getCampEditionAlbumRegexHeader().replace(campGalleryAlbumDto.title, "")
             return campGalleryAlbumDto
         }
 
-        private const val webAppPrefixRegex = "WebApp_"
-        private const val editionPrefixRegex = "Edycja[0-9]+_"
-        private const val albumHeaderRegex = webAppPrefixRegex + editionPrefixRegex
-        private const val albumNameRegex = ".+"
-
         private fun getCampEditionAlbumRegexHeader() =
-                albumHeaderRegex.toRegex()
+            ALBUM_HEADER.toRegex()
 
         fun getCampEditionAlbumRegex() =
-                Regex(albumHeaderRegex + albumNameRegex)
+            Regex(ALBUM_HEADER + ALBUM_NAME)
 
         fun getCampEditionAlbumRegex(edition: String) =
-                Regex(webAppPrefixRegex + "Edycja${edition}_" + albumNameRegex)
+            Regex(WEB_APP_PREFIX + "Edycja${edition}_" + ALBUM_NAME)
     }
 }
