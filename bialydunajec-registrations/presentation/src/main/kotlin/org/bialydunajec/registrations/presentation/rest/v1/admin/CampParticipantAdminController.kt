@@ -40,12 +40,6 @@ class CampParticipantAdminController(
                                         PhoneNumber(phoneNumber),
                                         camperEducation.toValueObject()
                                 )
-                            },
-                            with(requestBody) {
-                                CamperShirtOrder(
-                                        ShirtColorOptionId(shirtOrder.shirtColorOptionId),
-                                        ShirtSizeOptionId(shirtOrder.shirtSizeOptionId)
-                                )
                             }
                     )
             )

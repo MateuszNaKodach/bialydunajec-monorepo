@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank
 data class EmailAddress(
         @Email
         @NotBlank
-        val email: String
+        private val email: String
 ) : ValueObject {
 
     override fun toString() = email

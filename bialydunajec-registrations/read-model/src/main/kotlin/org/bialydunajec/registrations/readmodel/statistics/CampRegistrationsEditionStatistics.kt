@@ -1,9 +1,8 @@
 package org.bialydunajec.registrations.readmodel.statistics
 
 import org.bialydunajec.ddd.base.dto.GenderDto
-import org.bialydunajec.registrations.dto.ColorDto
+import org.bialydunajec.registrations.dto.CamperApplicationWithCottageDto
 import org.bialydunajec.registrations.dto.CottageSpaceDto
-import org.bialydunajec.registrations.dto.ShirtSizeDto
 import org.bialydunajec.registrations.dto.ShirtTypeDto
 import org.bialydunajec.registrations.messages.event.CampParticipantExternalEvent
 import org.bialydunajec.registrations.messages.event.CottageExternalEvent
@@ -13,22 +12,22 @@ import org.springframework.data.mongodb.core.mapping.Document
 
 @Document
 internal class CampRegistrationsEditionStatistics(
-        @Id
-        val campRegistrationsEditionId: String,
-        var cottagesStats: MutableList<CottageStats> = mutableListOf()
+    @Id
+    val campRegistrationsEditionId: String,
+    var cottagesStats: MutableList<CottageStats> = mutableListOf()
 ) {
 
     var registeredCampParticipants: Int = 0
 
     internal class CottageStats(
-            val cottageId: String,
-            var cottageName: String,
-            var academicMinistryId: String?,
-            var cottageSpace: CottageSpaceDto?,
-            var maleCampParticipantsAmount: Int = 0,
-            var femaleCampParticipantsAmount: Int = 0,
-            var highSchoolRecentGraduatesAmount: Int = 0,
-            val shirtOrdersStats: CottageShirtOrdersStats = CottageShirtOrdersStats()
+        val cottageId: String,
+        var cottageName: String,
+        var academicMinistryId: String?,
+        var cottageSpace: CottageSpaceDto?,
+        var maleCampParticipantsAmount: Int = 0,
+        var femaleCampParticipantsAmount: Int = 0,
+        var highSchoolRecentGraduatesAmount: Int = 0,
+        val shirtOrdersStats: CottageShirtOrdersStats = CottageShirtOrdersStats()
     ) {
         fun getCampParticipantsAmount() = maleCampParticipantsAmount + femaleCampParticipantsAmount
         fun getCottageFillRatio() = getCampParticipantsAmount().div(cottageSpace?.fullCapacity?.toDouble() ?: 0.0)
@@ -37,6 +36,12 @@ internal class CampRegistrationsEditionStatistics(
     fun calculateWith(eventPayload: CottageExternalEvent.CottageCreated) {
         with(eventPayload.snapshot) {
             cottagesStats.add(CottageStats(cottageId, name, academicMinistryId, cottageSpace))
+        }
+    }
+
+    fun calculateWith(eventPayload: CottageExternalEvent.CottageDeleted) {
+        with(eventPayload.snapshot) {
+            cottagesStats.removeIf { it.cottageId == cottageId }
         }
     }
 
@@ -56,35 +61,46 @@ internal class CampRegistrationsEditionStatistics(
     }
 
     fun calculateWith(eventPayload: CampParticipantExternalEvent.CampParticipantRegistered) {
-        registeredCampParticipants += 1
-        with(eventPayload.snapshot.currentCamperData) {
-            cottagesStats.find { it.cottageId == cottage.cottageId }
-                    ?.apply {
-                        when (personalData.gender) {
-                            GenderDto.FEMALE -> femaleCampParticipantsAmount++
-                            GenderDto.MALE -> maleCampParticipantsAmount++
-                        }
-                        if (camperEducation.isHighSchoolRecentGraduate) {
-                            highSchoolRecentGraduatesAmount++
-                        }
-                    }
-        }
+        increaseStatsBasedOn(eventPayload.snapshot.currentCamperData)
+    }
+
+    fun calculateWith(eventPayload: CampParticipantExternalEvent.CampParticipantDataCorrected) {
+        decreaseStatsBasedOn(eventPayload.oldCamperData)
+        increaseStatsBasedOn(eventPayload.newCamperData)
     }
 
     fun calculateWith(eventPayload: CampParticipantExternalEvent.CampParticipantUnregisteredByAuthorized) {
-        registeredCampParticipants -= 1
-        with(eventPayload.snapshot.currentCamperData) {
+        decreaseStatsBasedOn(eventPayload.snapshot.currentCamperData)
+    }
+
+    private fun increaseStatsBasedOn(camperData: CamperApplicationWithCottageDto) {
+        registeredCampParticipants += 1
+        with(camperData) {
             cottagesStats.find { it.cottageId == cottage.cottageId }
-                    ?.apply {
-                        when (personalData.gender) {
-                            GenderDto.FEMALE -> femaleCampParticipantsAmount--
-                            GenderDto.MALE -> maleCampParticipantsAmount--
-                        }
-                        if (camperEducation.isHighSchoolRecentGraduate) {
-                            highSchoolRecentGraduatesAmount--
-                        }
+                ?.apply {
+                    when (personalData.gender) {
+                        GenderDto.FEMALE -> femaleCampParticipantsAmount++
+                        GenderDto.MALE -> maleCampParticipantsAmount++
                     }
+                    if (camperEducation.isHighSchoolRecentGraduate) {
+                        highSchoolRecentGraduatesAmount++
+                    }
+                }
         }
+    }
+
+    private fun decreaseStatsBasedOn(camperData: CamperApplicationWithCottageDto) {
+        registeredCampParticipants -= 1
+        cottagesStats.find { it.cottageId == camperData.cottage.cottageId }
+            ?.apply {
+                when (camperData.personalData.gender) {
+                    GenderDto.FEMALE -> femaleCampParticipantsAmount--
+                    GenderDto.MALE -> maleCampParticipantsAmount--
+                }
+                if (camperData.camperEducation.isHighSchoolRecentGraduate) {
+                    highSchoolRecentGraduatesAmount--
+                }
+            }
     }
 
     fun calculateWith(eventPayload: ShirtOrderExternalEvent.OrderPlaced) {
@@ -105,39 +121,48 @@ internal class CampRegistrationsEditionStatistics(
 }
 
 internal class CottageShirtOrdersStats(
-        val shirtColorOptionStats: MutableList<ShirtColorOptionStats> = mutableListOf<ShirtColorOptionStats>(),
-        val shirtSizeOptionStats: MutableList<ShirtSizeOptionStats> = mutableListOf<ShirtSizeOptionStats>()
+    val shirtColorOptionStats: MutableList<ShirtColorOptionStats> = mutableListOf<ShirtColorOptionStats>(),
+    val shirtSizeOptionStats: MutableList<ShirtSizeOptionStats> = mutableListOf<ShirtSizeOptionStats>()
 ) {
     fun calculateWith(eventPayload: ShirtOrderExternalEvent.OrderPlaced) {
         val shirtColorOptionStats: ShirtColorOptionStats =
-                shirtColorOptionStats.find { it.shirtColorOptionId == eventPayload.shirtOrder.shirtColorOptionId }
-                        ?: ShirtColorOptionStats(eventPayload.shirtOrder.shirtColorOptionId, eventPayload.shirtOrder.colorName, 0).apply { shirtColorOptionStats.add(this) }
+            shirtColorOptionStats.find { it.shirtColorOptionId == eventPayload.shirtOrder.shirtColorOptionId }
+                ?: ShirtColorOptionStats(
+                    eventPayload.shirtOrder.shirtColorOptionId,
+                    eventPayload.shirtOrder.colorName,
+                    0
+                ).apply { shirtColorOptionStats.add(this) }
         shirtColorOptionStats.ordersAmount++
 
         val shirtSizeOptionStats: ShirtSizeOptionStats =
-                shirtSizeOptionStats.find { it.shirtSizeOptionId == eventPayload.shirtOrder.shirtSizeOptionId }
-                        ?: ShirtSizeOptionStats(eventPayload.shirtOrder.shirtSizeOptionId, eventPayload.shirtOrder.sizeName, eventPayload.shirtOrder.shirtType, 0).apply { shirtSizeOptionStats.add(this) }
+            shirtSizeOptionStats.find { it.shirtSizeOptionId == eventPayload.shirtOrder.shirtSizeOptionId }
+                ?: ShirtSizeOptionStats(
+                    eventPayload.shirtOrder.shirtSizeOptionId,
+                    eventPayload.shirtOrder.sizeName,
+                    eventPayload.shirtOrder.shirtType,
+                    0
+                ).apply { shirtSizeOptionStats.add(this) }
         shirtSizeOptionStats.ordersAmount++
     }
 
     fun calculateWith(eventPayload: ShirtOrderExternalEvent.OrderCancelled) {
         shirtColorOptionStats.find { it.shirtColorOptionId == eventPayload.shirtOrder.shirtColorOptionId }
-                        ?.let{it.ordersAmount--}
+            ?.let { it.ordersAmount-- }
 
         shirtSizeOptionStats.find { it.shirtSizeOptionId == eventPayload.shirtOrder.shirtSizeOptionId }
-                        ?.let{it.ordersAmount--}
+            ?.let { it.ordersAmount-- }
     }
 }
 
 internal class ShirtColorOptionStats(
-        val shirtColorOptionId: String,
-        var colorName: String,
-        var ordersAmount: Int = 0
+    val shirtColorOptionId: String,
+    var colorName: String,
+    var ordersAmount: Int = 0
 )
 
 internal class ShirtSizeOptionStats(
-        val shirtSizeOptionId: String,
-        var sizeName: String,
-        var shirtType: ShirtTypeDto,
-        var ordersAmount: Int = 0
+    val shirtSizeOptionId: String,
+    var sizeName: String,
+    var shirtType: ShirtTypeDto,
+    var ordersAmount: Int = 0
 )

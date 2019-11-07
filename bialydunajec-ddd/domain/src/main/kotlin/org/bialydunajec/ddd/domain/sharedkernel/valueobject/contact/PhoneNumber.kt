@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank
 data class PhoneNumber(
         @Column(name = "phone_number")
         @NotBlank
-        val number: String
+        private val number: String
 ) : ValueObject {
 
     override fun toString() = number
