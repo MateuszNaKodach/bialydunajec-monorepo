@@ -1,5 +1,8 @@
 # Biały Dunajec - Kotlin backend
 
+Całościowa dokumentacja:
+https://app.gitbook.com/@bialydunajec/s/developers
+Jeśli nie masz do niej dostępu, a chcesz pomóc w projekcie napisz do @nowakprojects.
 
 ## Uruchomienie lokalne
 
