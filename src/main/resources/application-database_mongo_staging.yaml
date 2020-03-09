@@ -1,4 +1,4 @@
 spring:
   data:
     mongodb:
-      uri: mongodb://mo1194_bialystag:rxaRUuqAME7XtlhT9LSm@31.186.82.95:27017/mo1194_bialystag
+      uri: mongodb://mo1194_bialystag:XXXXXX@31.186.82.95:27017/mo1194_bialystag
