@@ -13,7 +13,7 @@ fun <AggregateIdType : AggregateId,
         AggregateRootType : EventSourcedAggregateRoot<AggregateIdType, AggregateCommandType, AggregateEventType, AggregateRootType>>
         Assert<EventSourcedAggregateRoot<AggregateIdType, AggregateCommandType, AggregateEventType, AggregateRootType>>.expectEventOccurredLastlyIs(expectedEvent: AggregateEventType) = given { actual ->
     val lastEvent = actual.changes.last()
-    if (equalsByProperties(lastEvent, expectedEvent)) return
+    if (equalsByPropertiesIgnoresDomainEventId(lastEvent, expectedEvent)) return
     expected("last event: ${show(expectedEvent)} but was: ${show(actual.changes.last())}")
 }
 
@@ -25,7 +25,7 @@ fun <AggregateIdType : AggregateId,
     val changesSize = actual.changes.size
     when (actual.changes.size) {
         in 0..0 -> expected("only event: ${show(actual.changes.first())} but no events occurred")
-        in 1..1 -> if (notEqualByProperties(actual.changes.first(), expectedEvent)) {
+        in 1..1 -> if (notEqualByPropertiesIgnoredDomainEventId(actual.changes.first(), expectedEvent)) {
             expected("only event: ${show(expectedEvent)} but occurred: ${show(actual.changes.first())}")
         }
         in 2..changesSize -> expected("only event: ${show(actual.changes.first())} but occurred events: ${show(actual.changes.contentToString())}")
@@ -87,11 +87,15 @@ fun readInstanceProperty(instance: Any, propertyName: String): Any? {
     return property.get(instance)
 }
 
-private fun <AggregateIdType : AggregateId, EventType : DomainEvent<AggregateIdType>> equalsByProperties(e1: EventType, e2: EventType) =
+private fun <AggregateIdType : AggregateId, EventType : DomainEvent<AggregateIdType>> equalsByPropertiesIgnoresDomainEventId(e1: EventType, e2: EventType) =
+        equalsByProperties(e1, e2, setOf("domainEventId"))
+
+
+private fun <AggregateIdType : AggregateId, EventType : DomainEvent<AggregateIdType>> equalsByProperties(e1: EventType, e2: EventType, ignoredProperties: Collection<String> = setOf()) =
         e1::class.memberProperties
                 .map { it.name }
-                .filter { it != "domainEventId" }
+                .filter { ignoredProperties.isEmpty() || ignoredProperties.contains(it) }
                 .all { readInstanceProperty(e1, it) == readInstanceProperty(e2, it) }
 
-private fun <AggregateIdType : AggregateId, EventType : DomainEvent<AggregateIdType>> notEqualByProperties(e1: EventType, e2: EventType) =
-        equalsByProperties(e1, e2).not()
+private fun <AggregateIdType : AggregateId, EventType : DomainEvent<AggregateIdType>> notEqualByPropertiesIgnoredDomainEventId(e1: EventType, e2: EventType) =
+        equalsByPropertiesIgnoresDomainEventId(e1, e2).not()
