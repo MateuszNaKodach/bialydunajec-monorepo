@@ -49,7 +49,13 @@ allprojects {
         maven { url = uri("https://repo.spring.io/snapshot") }
         maven { url = uri("https://dl.bintray.com/arrow-kt/arrow-kt/") }
         maven { url = uri("https://dl.bintray.com/spekframework/spek") }
-        maven { url = uri("https://maven.pkg.github.com/nowakprojects/kttimetraveler") }
+        maven {
+            url = uri("https://maven.pkg.github.com/nowakprojects/kttimetraveler")
+            credentials {
+                username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_ACTOR")
+                password = project.findProperty("gpr.key") as String? ?: System.getenv("GITHUB_TOKEN")
+            }
+        }
     }
 
     dependencies {
