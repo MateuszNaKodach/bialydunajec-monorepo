@@ -2,7 +2,7 @@ spring:
   datasource:
     url: "jdbc:postgresql://31.186.82.95:5432/p1194_bialy_dev"
     username: p1194_bialy_dev
-    password: 9vbDYmbQPZeBIJYRWPMy
+    password: XXXXXX
     initialization-mode: always
     continue-on-error: true
     platform: postgresql
