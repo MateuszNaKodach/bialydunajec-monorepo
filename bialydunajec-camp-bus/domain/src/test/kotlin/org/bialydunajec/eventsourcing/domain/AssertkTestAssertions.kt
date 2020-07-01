@@ -94,7 +94,7 @@ private fun <AggregateIdType : AggregateId, EventType : DomainEvent<AggregateIdT
 private fun <AggregateIdType : AggregateId, EventType : DomainEvent<AggregateIdType>> equalsByProperties(e1: EventType, e2: EventType, ignoredProperties: Collection<String> = setOf()) =
         e1::class.memberProperties
                 .map { it.name }
-                .filter { ignoredProperties.isEmpty() || ignoredProperties.contains(it) }
+                .filter { ignoredProperties.isEmpty() || !ignoredProperties.contains(it) }
                 .all { readInstanceProperty(e1, it) == readInstanceProperty(e2, it) }
 
 private fun <AggregateIdType : AggregateId, EventType : DomainEvent<AggregateIdType>> notEqualByPropertiesIgnoredDomainEventId(e1: EventType, e2: EventType) =
