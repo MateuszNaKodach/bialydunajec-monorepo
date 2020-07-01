@@ -1,119 +1,132 @@
 package org.bialydunajec.campbus.domain
 
-import arrow.core.Try
-import assertk.assertThat
-import assertk.assertions.isInstanceOf
-import assertk.assertions.isTrue
-import org.junit.jupiter.api.Assumptions.assumeTrue
+import org.bialydunajec.eventsourcing.domain.givenAggregate
+import org.bialydunajec.eventsourcing.domain.toFixed
 import org.spekframework.spek2.Spek
-import org.spekframework.spek2.style.gherkin.Feature
-import java.time.Instant
+import org.spekframework.spek2.style.specification.describe
+import java.time.Clock
 
+//TODO: Create DSL for spek, with will use DSL with assertk + descriptions
 object SeatSpecification : Spek({
 
+    describe("Feature: Reserve seat in Camp Bus for a passenger") {
 
-    Feature("Seat reservations for Camp Bus") {
+        val fixedClock = Clock.systemUTC().toFixed()
+        val campBusCourseId = BusCourseId("example-buscourse-id")
+        val seatId = SeatId("example-seat-id")
+        val passengerId = PassengerId("example-passenger-id")
+        val seat: Seat by memoized { Seat.newInstance { fixedClock.instant() } }
 
-        val campBusCourseId: BusCourseId by memoized { BusCourseId() }
-        val seatId: SeatId by memoized { SeatId() }
-        val initialSeat: Seat by memoized { Seat.newInstance { Instant.now() }.handle(SeatCommand.AddSeatForCourse(seatId, campBusCourseId)) }
+        context("Given seat for reservation is added for course") {
 
-        Scenario("Free seat") {
+            val seatAddedForCourse = SeatEvent.SeatAddedForCourse(seatId, fixedClock.instant(), campBusCourseId)
 
-            var seat: Seat = initialSeat
+            describe("When reserve the seat for passenger") {
 
-            Given("seat for reservation is free") {
-                assumeTrue { seat is Seat.Free }
+                val reserveSeat = SeatCommand.ReserveSeat(seatId, passengerId)
+
+                it("Then the seat should be reserved for the passenger") {
+
+                    val seatReservedForPassenger = SeatEvent.SeatReservedForPassenger(seatId, fixedClock.instant(), campBusCourseId, passengerId)
+
+                    givenAggregate { seat }
+                            .withPriorEvent { seatAddedForCourse }
+                            .whenCommand { reserveSeat }
+                            .thenExpectEvent { seatReservedForPassenger }
+                }
+
             }
 
-            When("passenger reserves seat") {
-                seat = seat.handle(SeatCommand.ReserveSeat(seatId, seat.version, PassengerId()))
+            context("And the seat already reserved") {
+
+                val seatReserved = SeatEvent.SeatReservedForPassenger(seatId, fixedClock.instant(), campBusCourseId, passengerId)
+
+                describe("When reserve the seat for passenger") {
+
+                    val reserveSeat = SeatCommand.ReserveSeat(seatId, passengerId)
+
+                    it("Then the seat reservation should fail") {
+
+                        val seatReservationFailed = SeatEvent.SeatReservationFailed(
+                                seatId,
+                                fixedClock.instant(),
+                                campBusCourseId,
+                                reserveSeat.passengerId,
+                                SeatDomainRule.SeatForReservationCannotBeAlreadyReserved)
+
+                        givenAggregate { seat }
+                                .withPriorEvents(seatAddedForCourse, seatReserved)
+                                .whenCommand { reserveSeat }
+                                .thenExpectEvent { seatReservationFailed }
+
+                    }
+
+                }
+
+                context("And the reservation is confirmed") {
+
+                    val reservationConfirmed = SeatEvent.SeatReservationConfirmed(seatId, fixedClock.instant(), campBusCourseId, passengerId)
+
+                    describe("When reserve the seat for passenger") {
+
+                        val reserveSeat = SeatCommand.ReserveSeat(seatId, passengerId)
+
+                        it("Then the seat reservation should fail") {
+
+                            val seatReservationFailed = SeatEvent.SeatReservationFailed(
+                                    seatId,
+                                    fixedClock.instant(),
+                                    campBusCourseId,
+                                    reserveSeat.passengerId,
+                                    SeatDomainRule.SeatForReservationCannotBeOccupiedByAnotherPassenger)
+
+                            givenAggregate { seat }
+                                    .withPriorEvents(seatAddedForCourse, seatReserved, reservationConfirmed)
+                                    .whenCommand { reserveSeat }
+                                    .thenExpectEvent { seatReservationFailed }
+
+                        }
+
+                    }
+
+                }
+
             }
 
-            Then("seat should be reserved for the passenger") {
-                assertThat(seat).isInstanceOf(Seat.Reserved::class)
+            context("And the seat is already removed") {
+
+                val seatRemoved = SeatEvent.SeatRemovedFromCourse(seatId, fixedClock.instant(), campBusCourseId, passengerId)
+
+                describe("When reserve the seat for passenger") {
+
+                    val reserveSeat = SeatCommand.ReserveSeat(seatId, passengerId)
+
+                    it("Then try should fail") {
+
+                        val seatReservationFailed = SeatEvent.SeatReservationFailed(
+                                seatId,
+                                fixedClock.instant(),
+                                campBusCourseId,
+                                reserveSeat.passengerId,
+                                SeatDomainRule.SeatForReservationCannotBeRemoved)
+
+
+                        givenAggregate { seat }
+                                .withPriorEvents(seatAddedForCourse, seatRemoved)
+                                .whenCommand { reserveSeat }
+                                .thenExpectEvent { seatReservationFailed }
+
+                    }
+
+                }
+
+
             }
 
         }
 
-        Scenario("Already reserved seat") {
-
-            var seat: Seat = initialSeat
-
-            Given("seat for reservation is reserved") {
-                seat = seat.handle(SeatCommand.ReserveSeat(seatId, seat.version, PassengerId()))
-                assumeTrue { seat is Seat.Reserved }
-            }
-
-            var reserveSeatFailure = false
-
-            When("passenger tries to reserve seat") {
-                reserveSeatFailure = Try { seat = seat.handle(SeatCommand.ReserveSeat(seatId, seat.version, PassengerId())) }.isFailure()
-            }
-
-            Then("try should fail") {
-                assertThat(reserveSeatFailure).isTrue()
-            }
-
-            Then("seat should be still reserved for the previous passenger") {
-                assertThat(seat).isInstanceOf(Seat.Reserved::class)
-            }
-
-
-        }
-
-        Scenario("Already occupied seat") {
-
-            var seat: Seat = initialSeat
-
-            Given("seat for reservation is occupied") {
-                seat = seat.handle(SeatCommand.ReserveSeat(seatId, seat.version, PassengerId()))
-                seat = seat.handle(SeatCommand.ConfirmReservation(seatId, seat.version))
-                assumeTrue { seat is Seat.Occupied }
-            }
-
-            var reserveSeatFailure = false
-
-            When("passenger tries to reserve seat") {
-                reserveSeatFailure = Try { seat = seat.handle(SeatCommand.ReserveSeat(seatId, seat.version, PassengerId())) }.isFailure()
-            }
-
-            Then("try should fail") {
-                assertThat(reserveSeatFailure).isTrue()
-            }
-
-            Then("seat should be still occupied by the previous passenger") {
-                assertThat(seat).isInstanceOf(Seat.Occupied::class)
-            }
-
-
-        }
-
-        Scenario("Already removed seat") {
-
-            var seat: Seat = initialSeat
-
-            Given("seat for reservation is removed") {
-                seat = seat.handle(SeatCommand.RemoveSeatFromCourse(seatId, seat.version))
-                assumeTrue { seat is Seat.Removed }
-            }
-
-            var reserveSeatFailure = false
-
-            When("passenger tries to reserve seat") {
-                reserveSeatFailure = Try { seat = seat.handle(SeatCommand.ReserveSeat(seatId, seat.version, PassengerId())) }.isFailure()
-            }
-
-            Then("try should fail") {
-                assertThat(reserveSeatFailure).isTrue()
-            }
-
-            Then("seat should still be removed") {
-                assertThat(seat).isInstanceOf(Seat.Removed::class)
-            }
-
-        }
 
     }
 
 })
+
