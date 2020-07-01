@@ -18,7 +18,7 @@ include(
     /*"bialydunajec-camp-schedule",
     "bialydunajec-camp-schedule:messages",
     "bialydunajec-camp-schedule:dto",
-    "bialydunajec-camp-schedule:ddd-axon"*/,
+    "bialydunajec-camp-schedule:ddd-axon",*/
     "bialydunajec-academic-ministry:application",
     "bialydunajec-academic-ministry:presentation",
     "bialydunajec-academic-ministry:domain",
