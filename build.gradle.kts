@@ -52,8 +52,8 @@ allprojects {
         maven {
             url = uri("https://maven.pkg.github.com/nowakprojects/kttimetraveler")
             credentials {
-                username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_ACTOR")
-                password = project.findProperty("gpr.key") as String? ?: System.getenv("GITHUB_TOKEN")
+                username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_ACTOR") ?: "nowakprojects"
+                password = project.findProperty("gpr.key") as String? ?: System.getenv("GITHUB_TOKEN") ?: "7950bcc7f5a900372ad642269f60a547479c3195"
             }
         }
     }

@@ -1,6 +1,5 @@
 package org.bialydunajec.eventsourcing.infrastructure.eventstore.embedded.engine.inmemory
 
-import arrow.mtl.instances.list.functorFilter.filter
 import org.bialydunajec.eventsourcing.domain.AggregateId
 import org.bialydunajec.eventsourcing.domain.DomainEvent
 import org.bialydunajec.eventsourcing.infrastructure.eventstore.EventSerializer

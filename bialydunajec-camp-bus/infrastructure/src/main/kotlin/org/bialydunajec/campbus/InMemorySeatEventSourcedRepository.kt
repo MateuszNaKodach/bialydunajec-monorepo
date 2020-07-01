@@ -1,6 +1,5 @@
 package org.bialydunajec.campbus
 
-import arrow.mtl.instances.list.functorFilter.filter
 import com.github.nowakprojects.kttimetraveler.core.TimeProvider
 import org.bialydunajec.campbus.domain.Seat
 import org.bialydunajec.campbus.domain.SeatEvent
