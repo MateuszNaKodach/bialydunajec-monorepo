@@ -34,7 +34,7 @@ allprojects {
 
     tasks.test {
         useJUnitPlatform {
-            includeEngines("spek2","junit-jupiter")
+            includeEngines("spek2", "junit-jupiter")
         }
     }
 
@@ -44,31 +44,18 @@ allprojects {
         }
     }
 
-    val nexusReleaseUrl: String by project
-    val nexusSnapshotUrl: String by project
-    val nexusUser: String by project
-    val nexusPassword: String by project
-
-
     repositories {
         mavenCentral()
         maven { url = uri("https://repo.spring.io/snapshot") }
-        maven {
-            url = uri(nexusReleaseUrl)
-            credentials {
-                username = nexusUser
-                password = nexusPassword
-            }
-        }
-        maven {
-            url = uri(nexusSnapshotUrl)
-            credentials {
-                username = nexusUser
-                password = nexusPassword
-            }
-        }
         maven { url = uri("https://dl.bintray.com/arrow-kt/arrow-kt/") }
         maven { url = uri("https://dl.bintray.com/spekframework/spek") }
+        maven {
+            url = uri("https://maven.pkg.github.com/nowakprojects/kttimetraveler")
+            credentials {
+                username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_ACTOR")
+                password = project.findProperty("gpr.key") as String? ?: System.getenv("GITHUB_TOKEN")
+            }
+        }
     }
 
     dependencies {

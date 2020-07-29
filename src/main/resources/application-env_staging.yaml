@@ -8,7 +8,7 @@ spring:
       - database_mongo_staging
   mail:
     username: staging.zapisy@bialydunajec.org
-    password: RcimbmaaIL6toiqRLkqe
+    password: XXXXXX
 
 bialydunajec:
   oauth2:
@@ -26,9 +26,9 @@ bialydunajec:
         refresh-token-validity-seconds: 7776000 # 7776000 seconds = 129 600 minutes = 2 160 hours = 90 days
         scopes: allmighty
   facebook:
-    access-token: "EAAD8VBKY89IBAIA1pwlPdGEI6ZC3oDFQCQuZAv4iI9MCj5OZBE9RbxudiFbe7PKx5gOEvFsZCcQDPX8V6UIGb0X2XzafTRhAkA11aLPM7VdCrjQpODp0qQkIbuUgdnjCBPGAAqzzDa4YWqVjV9nBd4vo2tXtwiHsB9RFwiQg8AZDZD"
+    access-token: "XXXXXX"
   google-photos-library-api:
-    refresh-token: "1/poWoHFGQd2ppMsJr9XZTxVHl6JvvrfiGnvuc2JoREe4"
+    refresh-token: "XXXXXX"
     credentials-json-path: google-services\google-photos\credentials.json
   frontend:
     main:

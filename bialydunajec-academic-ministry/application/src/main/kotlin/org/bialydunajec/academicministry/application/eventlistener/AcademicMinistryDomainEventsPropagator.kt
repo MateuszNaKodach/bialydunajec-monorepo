@@ -8,7 +8,9 @@ import org.springframework.stereotype.Component
 import org.springframework.transaction.event.TransactionalEventListener
 
 @Component
-internal class AcademicMinistryDomainEventsPropagator(private val externalEventBus: ExternalEventPublisher) {
+internal class AcademicMinistryDomainEventsPropagator(
+        private val externalEventBus: ExternalEventPublisher
+) {
 
     @Async
     @TransactionalEventListener

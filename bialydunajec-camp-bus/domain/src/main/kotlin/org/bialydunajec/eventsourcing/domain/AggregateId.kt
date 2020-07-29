@@ -2,7 +2,7 @@ package org.bialydunajec.eventsourcing.domain
 
 import java.util.*
 
-open class AggregateId(private val id: String) {
+open class AggregateId(id: String) : Identifier(id) {
 
     companion object {
         private const val UNDEFINED = "UNDEFINED"
@@ -30,3 +30,4 @@ open class AggregateId(private val id: String) {
     }
 
 }
+
