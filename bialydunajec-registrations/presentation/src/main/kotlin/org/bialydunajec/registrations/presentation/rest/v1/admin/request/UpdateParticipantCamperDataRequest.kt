@@ -11,7 +11,6 @@ data class CorrectCampParticipantCamperDataRequest(
         val phoneNumber: String,
         val emailAddress: String,
         val camperEducation: CamperEducationDto,
-        val shirtOrder: CamperShirtOrderDto,
         val statisticalAnswers: StatisticalAnswersDto? = null,
         val meanOfTransport: String? = null
 )

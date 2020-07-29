@@ -8,8 +8,8 @@ import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticip
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantRepository
 import org.bialydunajec.registrations.domain.camper.campparticipantregistration.CampParticipantRegistration
 import org.bialydunajec.registrations.domain.camper.campparticipantregistration.CampParticipantRegistrationRepository
-import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule
 import org.bialydunajec.registrations.domain.payment.CampParticipantCottageAccountFactory
+import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule
 import org.bialydunajec.registrations.domain.payment.CampParticipantCottageAccountRepository
 import org.bialydunajec.registrations.domain.shirt.CampEditionShirtRepository
 import org.bialydunajec.registrations.domain.shirt.ShirtOrderRepository
@@ -79,7 +79,7 @@ internal class CorrectCampParticipantRegistrationDataApplicationService(
         val campParticipant = campParticipantRepository.findById(command.campParticipantId)
                 ?: throw DomainRuleViolationException.of(CampRegistrationsDomainRule.CAMP_PARTICIPANT_MUST_EXISTS_TO_UPDATE_REGISTRATION_DATA)
 
-        campParticipant
+        campParticipant.correctCampParticipantData(command.camperApplication)
 
         campParticipantRepository.save(campParticipant)
     }

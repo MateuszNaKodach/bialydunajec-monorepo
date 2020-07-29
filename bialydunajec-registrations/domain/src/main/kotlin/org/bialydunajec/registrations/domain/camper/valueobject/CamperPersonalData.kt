@@ -1,6 +1,7 @@
 package org.bialydunajec.registrations.domain.camper.valueobject
 
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.*
+import java.time.LocalDate
 import javax.persistence.Embeddable
 import javax.persistence.Embedded
 import javax.persistence.EnumType
