@@ -8,7 +8,7 @@ interface EmailMessageSender {
 }
 
 sealed class EmailSendingResult {
-    class Success() : EmailSendingResult()
+    object Success : EmailSendingResult()
 
     class Failure(val errorMessage: String) : EmailSendingResult()
 }

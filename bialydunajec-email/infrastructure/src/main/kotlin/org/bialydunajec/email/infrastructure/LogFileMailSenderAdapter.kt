@@ -17,7 +17,7 @@ internal class LogFileMailSenderAdapter : EmailMessageSender {
                 }
                 else -> {
                     log.info("Email message sent success to log file.")
-                    EmailSendingResult.Success()
+                    EmailSendingResult.Success
                 }
             }
 

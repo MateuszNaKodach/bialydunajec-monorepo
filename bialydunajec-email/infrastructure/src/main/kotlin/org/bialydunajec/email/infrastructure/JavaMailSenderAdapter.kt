@@ -25,7 +25,7 @@ internal class JavaMailSenderAdapter(private val javaMailSender: JavaMailSender)
                 try {
                     javaMailSender.send(it)
                     log.info("Email message sent {}", message)
-                    EmailSendingResult.Success()
+                    EmailSendingResult.Success
                 } catch (e: Exception) {
                     log.error("Email message wasn't sent {}", message)
                     EmailSendingResult.Failure(e.localizedMessage)
