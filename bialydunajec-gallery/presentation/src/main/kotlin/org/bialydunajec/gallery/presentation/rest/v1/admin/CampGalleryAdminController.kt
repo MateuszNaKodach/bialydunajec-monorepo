@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/rest-api/v1/admin/camp-gallery")
 internal class CampGalleryAdminController(private val campGalleryProvider: CampGalleryProvider) {
 
-    @PostMapping
-    fun createAlbum(@PathVariable albumName: String) = campGalleryProvider.createAlbum(albumName)
+    //@PostMapping
+    //fun createAlbum(@PathVariable albumName: String) = campGalleryProvider.createAlbum(albumName)
 
     // TODO: to implement
     /*@GetMapping("/add")
