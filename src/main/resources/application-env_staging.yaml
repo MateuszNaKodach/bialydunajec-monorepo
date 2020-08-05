@@ -1,5 +1,5 @@
 server:
-  port: 5566
+  port: ${PORT:#{5566}}
 spring:
   profiles:
     include:
@@ -27,6 +27,7 @@ bialydunajec:
         scopes: allmighty
   facebook:
     access-token: "XXXXXX"
+  camp-gallery-provider: "empty" # empty / google-photos
   google-photos-library-api:
     refresh-token: "XXXXXX"
     credentials-json-path: google-services\google-photos\credentials.json

@@ -27,6 +27,7 @@ bialydunajec:
         scopes: allmighty
   facebook:
     access-token: "XXXXXX"
+  camp-gallery-provider: "google-photos" # empty / google-photos
   google-photos-library-api:
     refresh-token: "XXXXXX"
     credentials-json-path: google-services\google-photos\credentials.json
