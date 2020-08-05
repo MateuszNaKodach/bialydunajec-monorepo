@@ -1,6 +1,11 @@
 name: "Build Spring Boot JAR for bialydunajec-kotlin-backend"
 
-on: [push]
+on:
+  push:
+    branches-ignore:
+      - master
+      - staging
+      - develop
 
 jobs:
   build:

@@ -6,7 +6,7 @@ on:
       - develop
 
 jobs:
-  build-and-deploy:
+  build-jar:
 
     runs-on: ubuntu-latest
 
@@ -24,8 +24,9 @@ jobs:
       run: ./gradlew -Prelease build -x test
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#    - name: change artifact name
-#      run:  cp build/libs/bialydunajec-backend* build/libs/bialydunajec-backend.jar
+    - name: change artifact name
+      run:  cp build/libs/bialydunajec-backend* build/libs/bialydunajec-backend.jar
+    -
 #    - name: Deploy application
 #      uses: appleboy/scp-action@master
 #      env:
