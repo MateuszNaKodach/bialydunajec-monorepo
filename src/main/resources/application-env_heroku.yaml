@@ -1,26 +1,25 @@
 server:
-  port: ${PORT:#{5566}}
+  port: 3344
 spring:
   profiles:
     include:
-      - mail_send
-      - database_mysql_staging
-      - database_mongo_staging
+      - database_postgresql_heroku
+      - mail_log
   mail:
-    username: staging.zapisy@bialydunajec.org
+    username: dev.zapisy@bialydunajec.org
     password: XXXXXX
 
 bialydunajec:
   oauth2:
     clients:
-      - client-id: "web-angular_main-staging"
-        client-secret: "G6HDCoxwhEmgqplMb6cg"
+      - client-id: "web-angular_main-local"
+        client-secret: "fUMU6AngbLIkfTOAqfifaShzOEMeUQ/cxpij3iwMM30Czj..7ipdLxv6"
         authorized-grant-types: password, client_credentials, refresh_token
         access-token-validity-seconds: 7776000 # 3600 seconds = 60 minutes
         refresh-token-validity-seconds: 7776000 # 7776000 seconds = 129 600 minutes = 2 160 hours = 90 days
         scopes: allmighty
-      - client-id: "web-angular_admin-staging"
-        client-secret: "vzGuJbT2y1TddwEOvSfv"
+      - client-id: "web-angular_admin-local"
+        client-secret: "j9nvIPR9wg5SERWc3Ukz"
         authorized-grant-types: password, client_credentials, refresh_token
         access-token-validity-seconds: 7776000 # 3600 seconds = 60 minutes
         refresh-token-validity-seconds: 7776000 # 7776000 seconds = 129 600 minutes = 2 160 hours = 90 days
@@ -33,5 +32,5 @@ bialydunajec:
     credentials-json-path: google-services\google-photos\credentials.json
   frontend:
     main:
-      base-url: "https://staging.bialydunajec.org"
-      registration-verification-url: "https://staging.bialydunajec.org/zapisy/weryfikacja?zgloszenie=:campParticipantRegistrationId&kod-weryfikacyjny=:verificationCode"
+      base-url: "http://localhost:4201"
+      registration-verification-url: "http://localhost:4201/zapisy/weryfikacja?zgloszenie=:campParticipantRegistrationId&kod-weryfikacyjny=:verificationCode"

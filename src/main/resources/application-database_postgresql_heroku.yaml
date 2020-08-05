@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    initialization-mode: always
+    continue-on-error: true
+    platform: postgresql
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate.jdbc.lob.non_contextual_creation: true
