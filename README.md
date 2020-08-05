@@ -1,5 +1,11 @@
 # Biały Dunajec - Kotlin backend
 
+![Development Environment Deploy](https://github.com/nowakprojects/bialydunajec-kotlin-backend/workflows/Build%20Spring%20Boot%20JAR%20for%20bialydunajec-kotlin-backend%20&%20deploy%20on%20development%20environment/badge.svg?branch=develop)
+
+![Staging Environment Deploy](https://github.com/nowakprojects/bialydunajec-kotlin-backend/workflows/Build%20Spring%20Boot%20JAR%20for%20bialydunajec-kotlin-backend/badge.svg?branch=staging)
+
+![Production Environment Deploy](https://github.com/nowakprojects/bialydunajec-kotlin-backend/workflows/Build%20Spring%20Boot%20JAR%20for%20bialydunajec-kotlin-backend%20&%20deploy%20on%20production%20environment/badge.svg)
+
 Całościowa dokumentacja:
 https://app.gitbook.com/@bialydunajec/s/developers
 Jeśli nie masz do niej dostępu, a chcesz pomóc w projekcie napisz do @nowakprojects.
