@@ -1,13 +1,13 @@
-FROM gradle:6.5.1-jdk8 AS stage-gradle-build
+FROM openjdk:8-alpine3.9 AS stage-gradle-build
 ARG GITHUB_ACTOR
 ARG GITHUB_TOKEN
 
 ENV GITHUB_ACTOR = ${GITHUB_ACTOR}
 ENV GITHUB_TOKEN = ${GITHUB_TOKEN}
 
-ADD --chown=gradle:gradle . .
+ADD . .
 
-RUN ./gradlew build --stacktrace
+RUN ./gradlew clean build --stacktrace
 
 FROM openjdk:8-alpine3.9 AS stage-java-run
 COPY --from=stage-gradle-build /build/libs/bialydunajec-backend-*.jar bialydunajec-backend.jar

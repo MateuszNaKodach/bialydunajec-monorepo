@@ -53,6 +53,10 @@ allprojects {
             credentials {
                 username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_ACTOR")
                 password = project.findProperty("gpr.key") as String? ?: System.getenv("GITHUB_TOKEN")
+            }.also{
+                val username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_ACTOR")
+                val password = project.findProperty("gpr.key") as String? ?: System.getenv("GITHUB_TOKEN")
+                logger.warn("MAVEN GITHUB: username = $username, password = $password")
             }
         }
     }

@@ -14,7 +14,7 @@ object Versions {
     const val jaxbApiVersion = "2.3.0"
     const val jfairyVersion = "0.6.2"
     const val jUnitVersion = "5.3.2"
-    const val ktTimeTravelerVersion = "0.1.2"
+    const val ktTimeTravelerVersion = "0.1.3"
     const val mockkVersion = "1.9.3"
     const val mysqlConnectorVersion = "8.0.15"
     const val oAuth2AutoconfigureVersion = "2.1.3.RELEASE"
