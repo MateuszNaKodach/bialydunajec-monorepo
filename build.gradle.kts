@@ -66,6 +66,8 @@ allprojects {
         compile("javax.activation:activation:1.1")
         compile("org.glassfish.jaxb:jaxb-runtime:2.3.0")
 
+        compile("org.springframework.boot:spring-boot-starter-validation")
+
         //Kotlin Arrow
         compile("io.arrow-kt:arrow-core:${Versions.arrowVersion}")
         compile("io.arrow-kt:arrow-syntax:${Versions.arrowVersion}")
@@ -97,6 +99,7 @@ allprojects {
         testCompile("org.jetbrains.kotlin:kotlin-test")
         testCompile("org.spockframework:spock-core:${Versions.spockVersion}")
         testCompile("org.spockframework:spock-spring:${Versions.spockVersion}")
+        testCompile("org.codehaus.groovy:groovy:${Versions.groovyVersion}")
         testCompile("org.junit.jupiter:junit-jupiter-api:${Versions.jUnitVersion}")
         testCompile("org.junit.jupiter:junit-jupiter-params:${Versions.jUnitVersion}")
         testRuntime("org.junit.jupiter:junit-jupiter-engine:${Versions.jUnitVersion}")
@@ -154,7 +157,6 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-webflux")
     compile("com.fasterxml.jackson.module:jackson-module-kotlin")
     compile("com.github.ulisesbocchio:jasypt-spring-boot-starter:${Versions.jasyptVersion}")
-
 
     //Swagger 2 - REST Api documentation
     compile("io.springfox:springfox-swagger2:${Versions.swaggerVersion}")

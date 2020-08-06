@@ -9,6 +9,7 @@ object Versions {
     const val googleApiClientVersion = "1.30.2"
     const val googleAuthLibraryOauth2HttpVersion = "0.16.2"
     const val googlePhotosLibraryClientVersion = "1.2.0"
+    const val groovyVersion = "3.0.4"
     const val jasyptVersion = "2.1.1"
     const val jaxbApiVersion = "2.3.0"
     const val jfairyVersion = "0.6.2"
@@ -22,6 +23,6 @@ object Versions {
     const val rxJavaVersion ="2.2.0"
     const val rxRelayVersion = "2.1.0"
     const val spekVersion = "2.0.6"
-    const val spockVersion = "1.3-groovy-2.5"
+    const val spockVersion = "2.0-M3-groovy-3.0"
     const val swaggerVersion = "2.9.2"
 }
