@@ -1,15 +1,11 @@
 package org.bialydunajec.configuration.swagger
 
-import com.google.common.collect.Lists
 import org.bialydunajec.authorization.server.api.dto.UserDetailsDto
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.http.HttpHeaders
 import springfox.documentation.builders.ApiInfoBuilder
-import springfox.documentation.builders.ParameterBuilder
 import springfox.documentation.builders.PathSelectors
 import springfox.documentation.builders.RequestHandlerSelectors
-import springfox.documentation.schema.ModelRef
 import springfox.documentation.service.*
 import springfox.documentation.spi.DocumentationType
 import springfox.documentation.spi.service.contexts.SecurityContext
@@ -46,8 +42,8 @@ internal class SwaggerConfiguration {
                 .select()
                 .apis(RequestHandlerSelectors.any())
                 .build()
-                .securitySchemes(Lists.newArrayList(apiKey()))
-                .securityContexts(Arrays.asList(securityContext()))
+                .securitySchemes(listOf(apiKey()))
+                .securityContexts(listOf(securityContext()))
     }
 
     //TODO: Add secuirty with username and password instead of header!
@@ -58,7 +54,7 @@ internal class SwaggerConfiguration {
                 .useBasicAuthenticationWithAccessCodeGrant(false).build()
     }
 
-    private fun apiKey(): ApiKey {
+    private fun apiKey(): SecurityScheme {
         return ApiKey("apiKey", "Authorization", "header")
     }
 
@@ -77,10 +73,10 @@ internal class SwaggerConfiguration {
 
     private fun apiInfo(): ApiInfo {
         return ApiInfoBuilder()
-                .title("Biały Dunajec Aplikacja Webowa - REST Api!")
-                .version("0.0.1")
-                .contact("zapisy@bialydunajec.org")
-                .build();
+                .title("Biały Dunajec Aplikacja Webowa - REST Api")
+                .version("0.0.2")
+                .contact(Contact("Administrator Systemu Zapisów", "bialydunajec.org", "zapisy@bialydunajec.org"))
+                .build()
     }
 
 

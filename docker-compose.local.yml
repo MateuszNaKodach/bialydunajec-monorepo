@@ -1,0 +1,38 @@
+version: '3.1'
+
+services:
+  bialydunajec-kotlin-backend:
+    build:
+      args:
+        GITHUB_ACTOR: XXXX
+        GITHUB_TOKEN: YYYY
+      context: .
+      dockerfile: ./Dockerfile-build
+    ports:
+      - 3344:3344
+    environment:
+      SPRING_PROFILES_ACTIVE: env_local_docker
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://bialydunajec-postgres:5432/bialydunajec-postgres-db"
+      SPRING_DATASOURCE_USERNAME: bialydunajec-postgres-user
+      SPRING_DATASOURCE_PASSWORD: bialydunajec-postgres-password
+      SPRING_DATA_MONGODB_URI: "mongodb://bialydunajec-mongodb:27017/bialydunajec-mongodb-db"
+
+  bialydunajec-postgres:
+    image: library/postgres:11
+    restart: always
+    ports:
+      - 3345:5432
+    environment:
+      POSTGRES_DB: bialydunajec-postgres-db
+      POSTGRES_USER: bialydunajec-postgres-user
+      POSTGRES_PASSWORD: bialydunajec-postgres-password
+    volumes:
+      - ./src/main/resources:/docker-entrypoint-initdb.d/
+    # - ../bialydunajec-data/pgdata:/var/lib/postgresql/data #keep data outside container
+
+  bialydunajec-mongodb:
+    image: library/mongo:4.0
+    ports:
+      - 3346:27017
+    #volumes:
+    #  - ../bialydunajec-data/mongodata:/data/db #keep data outside container

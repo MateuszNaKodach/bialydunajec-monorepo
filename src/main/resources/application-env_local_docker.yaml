@@ -1,0 +1,42 @@
+server:
+  port: 3344
+spring:
+  profiles:
+    include:
+      - mail_log
+  mail:
+    username: dev.zapisy@bialydunajec.org
+    password: XXXXXX
+  datasource:
+    initialization-mode: always
+    continue-on-error: true
+    platform: mysql
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+bialydunajec:
+  oauth2:
+    clients:
+      - client-id: "web-angular_main-local"
+        client-secret: "fUMU6AngbLIkfTOAqfifaShzOEMeUQ/cxpij3iwMM30Czj..7ipdLxv6"
+        authorized-grant-types: password, client_credentials, refresh_token
+        access-token-validity-seconds: 7776000 # 3600 seconds = 60 minutes
+        refresh-token-validity-seconds: 7776000 # 7776000 seconds = 129 600 minutes = 2 160 hours = 90 days
+        scopes: allmighty
+      - client-id: "web-angular_admin-local"
+        client-secret: "j9nvIPR9wg5SERWc3Ukz"
+        authorized-grant-types: password, client_credentials, refresh_token
+        access-token-validity-seconds: 7776000 # 3600 seconds = 60 minutes
+        refresh-token-validity-seconds: 7776000 # 7776000 seconds = 129 600 minutes = 2 160 hours = 90 days
+        scopes: allmighty
+  facebook:
+    access-token: "XXXXXX"
+  camp-gallery-provider: "empty" # empty / google-photos
+  google-photos-library-api:
+    refresh-token: "XXXXXX"
+    credentials-json-path: google-services\google-photos\credentials.json
+  frontend:
+    main:
+      base-url: "http://localhost:4201"
+      registration-verification-url: "http://localhost:4201/zapisy/weryfikacja?zgloszenie=:campParticipantRegistrationId&kod-weryfikacyjny=:verificationCode"

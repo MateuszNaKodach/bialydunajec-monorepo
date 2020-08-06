@@ -11,6 +11,16 @@ tasks {
     }
 }
 
+repositories {
+    maven {
+        url = uri("https://maven.pkg.github.com/nowakprojects/kttimetraveler")
+        credentials {
+            username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_ACTOR")
+            password = project.findProperty("gpr.key") as String? ?: System.getenv("GITHUB_TOKEN")
+        }
+    }
+}
+
 
 dependencies {
     api(project(":bialydunajec-camp-bus:bialydunajec-camp-bus-domain"))
@@ -26,6 +36,10 @@ dependencies {
     compile("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.2")
 
     testCompile("org.springframework.boot:spring-boot-starter-test")
+
+    testCompile("com.github.nowakprojects:kt-time-traveler-test:${org.bialydunajec.gradle.Versions.ktTimeTravelerVersion}")
+    compile("com.github.nowakprojects:kt-time-traveler-core:${org.bialydunajec.gradle.Versions.ktTimeTravelerVersion}")
+
 
     runtime("de.flapdoodle.embed:de.flapdoodle.embed.mongo")
 }
