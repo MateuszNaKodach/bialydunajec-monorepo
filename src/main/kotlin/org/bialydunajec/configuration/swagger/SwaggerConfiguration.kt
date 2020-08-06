@@ -77,9 +77,9 @@ internal class SwaggerConfiguration {
 
     private fun apiInfo(): ApiInfo {
         return ApiInfoBuilder()
-                .title("Biały Dunajec Aplikacja Webowa - REST Api!")
-                .version("0.0.1")
-                .contact("zapisy@bialydunajec.org")
+                .title("Biały Dunajec Aplikacja Webowa - REST Api")
+                .version("0.0.2")
+                .contact(Contact("Administrator Systemu Zapisów", "bialydunajec.org", "zapisy@bialydunajec.org"))
                 .build();
     }
 

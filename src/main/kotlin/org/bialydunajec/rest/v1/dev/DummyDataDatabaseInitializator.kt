@@ -470,8 +470,8 @@ class DummyDatabaseInitializator(
                                         )
                                 ),
                                 CamperShirtOrder(
-                                        ShirtColorOptionId(campShirt!!.colorOptions.random().shirtColorOptionId),
-                                        ShirtSizeOptionId(campShirt!!.sizeOptions.random().shirtSizeOptionId)
+                                        ShirtColorOptionId(campShirt.colorOptions.random().shirtColorOptionId),
+                                        ShirtSizeOptionId(campShirt.sizeOptions.random().shirtSizeOptionId)
                                 )
                         ).let { registration -> campRegistrationsCommandGateway.process(registration, false) }
                     }
