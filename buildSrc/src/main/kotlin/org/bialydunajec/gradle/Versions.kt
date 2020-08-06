@@ -13,7 +13,6 @@ object Versions {
     const val jaxbApiVersion = "2.3.0"
     const val jfairyVersion = "0.6.2"
     const val jUnitVersion = "5.3.2"
-    const val kotlinVersion = "1.3.70"
     const val ktTimeTravelerVersion = "0.1.2"
     const val mockkVersion = "1.9.3"
     const val mysqlConnectorVersion = "8.0.15"
@@ -23,7 +22,6 @@ object Versions {
     const val rxJavaVersion ="2.2.0"
     const val rxRelayVersion = "2.1.0"
     const val spekVersion = "2.0.6"
-    const val spockVersion = "1.2-groovy-2.5"
-    const val springBootVersion = "2.1.3.RELEASE"
+    const val spockVersion = "1.3-groovy-2.5"
     const val swaggerVersion = "2.9.2"
 }
