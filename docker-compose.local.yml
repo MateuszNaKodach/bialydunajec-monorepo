@@ -4,8 +4,8 @@ services:
   bialydunajec-kotlin-backend:
     build:
       args:
-        GITHUB_ACTOR: nowakprojects
-        GITHUB_TOKEN: 7950bcc7f5a900372ad642269f60a547479c3195
+        GITHUB_ACTOR: XXXX
+        GITHUB_TOKEN: YYYY
       context: .
       dockerfile: ./Dockerfile-build
     ports:
@@ -15,7 +15,7 @@ services:
       SPRING_DATASOURCE_URL: "jdbc:postgresql://bialydunajec-postgres:5432/bialydunajec-postgres-db"
       SPRING_DATASOURCE_USERNAME: bialydunajec-postgres-user
       SPRING_DATASOURCE_PASSWORD: bialydunajec-postgres-password
-      SPRING_DATA_MONGODB_URI: "mongodb://bialydunajec-mongodb-username:bialydunajec-mongodb-password@bialydunajec-mongodb:27017/bialydunajec-mongodb-db"
+      SPRING_DATA_MONGODB_URI: "mongodb://bialydunajec-mongodb:27017/bialydunajec-mongodb-db"
 
   bialydunajec-postgres:
     image: library/postgres:11
@@ -31,10 +31,6 @@ services:
 
   bialydunajec-mongodb:
     image: library/mongo:4.0
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: bialydunajec-mongodb-username
-      MONGO_INITDB_ROOT_PASSWORD: bialydunajec-mongodb-password
-      MONGO_INITDB_DATABASE: bialydunajec-mongodb-db
     ports:
       - 3346:27017
     #volumes:

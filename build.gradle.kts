@@ -48,17 +48,6 @@ allprojects {
         maven { url = uri("https://repo.spring.io/snapshot") }
         maven { url = uri("https://dl.bintray.com/arrow-kt/arrow-kt/") }
         maven { url = uri("https://dl.bintray.com/spekframework/spek") }
-        maven {
-            url = uri("https://maven.pkg.github.com/nowakprojects/kttimetraveler")
-            credentials {
-                username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_ACTOR")
-                password = project.findProperty("gpr.key") as String? ?: System.getenv("GITHUB_TOKEN")
-            }.also{
-                val username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_ACTOR")
-                val password = project.findProperty("gpr.key") as String? ?: System.getenv("GITHUB_TOKEN")
-                logger.warn("MAVEN GITHUB: username = $username, password = $password")
-            }
-        }
     }
 
     dependencies {
@@ -98,8 +87,6 @@ allprojects {
         //compile("io.arrow-kt:arrow-instances-recursion:${Versions.arrowVersion}") //optional
         //compile("io.arrow-kt:arrow-integration-retrofit-adapter:${Versions.arrowVersion}") //optional
 
-        compile("com.github.nowakprojects:kt-time-traveler-core:${Versions.ktTimeTravelerVersion}")
-
         testCompile("org.jetbrains.kotlin:kotlin-test")
         testCompile("org.spockframework:spock-core:${Versions.spockVersion}")
         testCompile("org.spockframework:spock-spring:${Versions.spockVersion}")
@@ -111,7 +98,6 @@ allprojects {
         testCompile("org.spekframework.spek2:spek-dsl-jvm:${Versions.spekVersion}")
         testRuntime("org.spekframework.spek2:spek-runner-junit5:${Versions.spekVersion}")
         testCompile("com.willowtreeapps.assertk:assertk-jvm:${Versions.assertkVersion}")
-        testCompile("com.github.nowakprojects:kt-time-traveler-test:${Versions.ktTimeTravelerVersion}")
         testCompile("com.tngtech.archunit:archunit-junit5-api:${Versions.archUnitVersion}")
         testRuntime("com.tngtech.archunit:archunit-junit5-engine:${Versions.archUnitVersion}")
         testImplementation("io.mockk:mockk:${Versions.mockkVersion}")
@@ -169,7 +155,9 @@ dependencies {
     //Fake data generator
     compile("com.devskiller:jfairy:${Versions.jfairyVersion}")
 
-    runtime("com.h2database:h2")
+    if (!project.hasProperty("release")) {
+        runtime("com.h2database:h2")
+    }
     runtime("mysql:mysql-connector-java:${Versions.mysqlConnectorVersion}")
     runtime("org.postgresql:postgresql:${Versions.postgresqlConnectorVersion}")
 
@@ -177,8 +165,4 @@ dependencies {
     compileOnly("org.springframework.boot:spring-boot-configuration-processor")
     testCompile("org.springframework.boot:spring-boot-starter-test")
     testCompile("io.projectreactor:reactor-test")
-
-    if (!project.hasProperty("release")) {
-        runtime("de.flapdoodle.embed:de.flapdoodle.embed.mongo")
-    }
 }

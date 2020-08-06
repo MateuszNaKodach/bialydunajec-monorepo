@@ -1,18 +1,29 @@
 # Biały Dunajec - Kotlin backend
 
+<p align="center">
+  <img src="/.github/images/BialyDunajecDevelopers.jpg">
+</p>
+
 ![Development Environment Deploy](https://github.com/nowakprojects/bialydunajec-kotlin-backend/workflows/Build%20Spring%20Boot%20JAR%20for%20bialydunajec-kotlin-backend%20&%20deploy%20on%20development%20environment/badge.svg?branch=develop)
 
 ![Staging Environment Deploy](https://github.com/nowakprojects/bialydunajec-kotlin-backend/workflows/Build%20Spring%20Boot%20JAR%20for%20bialydunajec-kotlin-backend/badge.svg?branch=staging)
 
 ![Production Environment Deploy](https://github.com/nowakprojects/bialydunajec-kotlin-backend/workflows/Build%20Spring%20Boot%20JAR%20for%20bialydunajec-kotlin-backend%20&%20deploy%20on%20production%20environment/badge.svg)
 
-Całościowa dokumentacja:
-https://app.gitbook.com/@bialydunajec/s/developers
-Jeśli nie masz do niej dostępu, a chcesz pomóc w projekcie napisz do @nowakprojects.
 
-## Uruchomienie lokalne
+## Uruchomienie lokalne - Docker Compose (bez instalacji Javy - zalecane)
 
+1. Zainstaluj docker oraz docker-compose i uruchom dockera.
+2. Wywołaj polecenie `docker-compose -f docker-compose.local.yml up`.
 
+Dzięki temu będą możliwe następujące połączenia:
+- Aplikacja Spring (backend): `localhost:3344`
+- Baza danych PostgreSQL: `localhost:3345`
+- Baza danych MongoDB: `localhost:3346`
+
+UWAGA! Jeśli zmienisz coś w kodzie,to konieczne będzie wykonanie polecenia `docker-compose -f docker-compose.local.yml build`
+
+## Uruchomienie lokalne - instalacja Javy
 
 1. **Zainstaluj JDK \(wersja 11\)** odpowiednie dla Twojego systemu: [https://www.oracle.com/technetwork/java/javase/downloads/jdk11-downloads-5066655.html](https://www.oracle.com/technetwork/java/javase/downloads/jdk11-downloads-5066655.html)
 2. **Zainstaluj środowisko programistyczne dla Java.** Obecnie najlepszy wybór to IntelliJ IDEA \(wersja Community, lub Enterprise - jeśli jesteś studentem, to masz ją za darmo\).

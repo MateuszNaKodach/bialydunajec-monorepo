@@ -42,11 +42,11 @@ include(
     "bialydunajec-users:domain",
     "bialydunajec-users:infrastructure",
     "bialydunajec-users:messages",
-    "bialydunajec-camp-bus:application",
+   /* "bialydunajec-camp-bus:application",
     "bialydunajec-camp-bus:presentation",
     "bialydunajec-camp-bus:domain",
     "bialydunajec-camp-bus:infrastructure",
-    "bialydunajec-camp-bus:messages",
+    "bialydunajec-camp-bus:messages",*/
     "bialydunajec-rx-bus",
     "bialydunajec-gallery",
     "bialydunajec-gallery:application",

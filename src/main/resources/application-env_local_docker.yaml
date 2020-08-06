@@ -7,7 +7,14 @@ spring:
   mail:
     username: dev.zapisy@bialydunajec.org
     password: XXXXXX
-
+  datasource:
+    initialization-mode: always
+    continue-on-error: true
+    platform: mysql
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
 bialydunajec:
   oauth2:
     clients:
