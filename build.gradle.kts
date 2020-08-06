@@ -147,10 +147,7 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-webflux")
     compile("com.fasterxml.jackson.module:jackson-module-kotlin")
     compile("com.github.ulisesbocchio:jasypt-spring-boot-starter:${Versions.jasyptVersion}")
-
-    //Swagger 2 - REST Api documentation
-    compile("io.springfox:springfox-swagger2:${Versions.swaggerVersion}")
-    compile("io.springfox:springfox-swagger-ui:${Versions.swaggerVersion}")
+    compile("io.springfox:springfox-boot-starter:${Versions.swaggerVersion}")
 
     //Fake data generator
     compile("com.devskiller:jfairy:${Versions.jfairyVersion}")

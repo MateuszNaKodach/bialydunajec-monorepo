@@ -18,6 +18,7 @@
 
 Dzięki temu będą możliwe następujące połączenia:
 - Aplikacja Spring (backend): `localhost:3344`
+- Swagger (dokumentacja REST API): `localhost:3344/swagger-ui/index.html`
 - Baza danych PostgreSQL: `localhost:3345`
 - Baza danych MongoDB: `localhost:3346`
 

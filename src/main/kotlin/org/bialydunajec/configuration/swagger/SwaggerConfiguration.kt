@@ -16,7 +16,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2
 import java.util.*
 
 @Configuration
-@EnableSwagger2
 internal class SwaggerConfiguration {
 
     /*private val globalOperationHeaders: List<Parameter>
