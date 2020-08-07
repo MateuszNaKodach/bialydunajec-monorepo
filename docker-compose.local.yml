@@ -7,7 +7,7 @@ services:
         GITHUB_ACTOR: XXXX
         GITHUB_TOKEN: YYYY
       context: .
-      dockerfile: ./Dockerfile-build
+      dockerfile: Dockerfile-clean_build
     ports:
       - 3344:3344
     environment:
@@ -16,6 +16,7 @@ services:
       SPRING_DATASOURCE_USERNAME: bialydunajec-postgres-user
       SPRING_DATASOURCE_PASSWORD: bialydunajec-postgres-password
       SPRING_DATA_MONGODB_URI: "mongodb://bialydunajec-mongodb:27017/bialydunajec-mongodb-db"
+      GITHUB_ACTOR: test_env_variable
 
   bialydunajec-postgres:
     image: library/postgres:11

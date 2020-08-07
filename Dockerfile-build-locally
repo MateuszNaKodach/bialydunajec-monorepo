@@ -5,7 +5,7 @@ ARG GITHUB_TOKEN
 ENV GITHUB_ACTOR = ${GITHUB_ACTOR}
 ENV GITHUB_TOKEN = ${GITHUB_TOKEN}
 
-ADD . .
+VOLUME .
 
 RUN ./gradlew -Prelease build --stacktrace
 
