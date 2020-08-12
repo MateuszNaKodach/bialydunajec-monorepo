@@ -5,10 +5,6 @@ ARG GITHUB_TOKEN
 ENV GITHUB_ACTOR = ${GITHUB_ACTOR}
 ENV GITHUB_TOKEN = ${GITHUB_TOKEN}
 
-VOLUME .
+VOLUME /app
 
-RUN ./gradlew -Prelease build --stacktrace
-
-VOLUME /tmp
-
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/bialydunajec-backend.jar"]
+RUN ./app/gradlew -Prelease build --stacktrace
