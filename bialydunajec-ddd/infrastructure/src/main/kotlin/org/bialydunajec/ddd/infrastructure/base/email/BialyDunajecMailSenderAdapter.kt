@@ -5,10 +5,8 @@ import org.bialydunajec.ddd.application.base.email.EmailMessageSenderPort
 import org.bialydunajec.ddd.application.base.external.command.ExternalCommand
 import org.bialydunajec.ddd.application.base.external.command.ExternalCommandBus
 import org.bialydunajec.email.messages.command.EmailMessageExternalCommand
-import org.springframework.stereotype.Component
 
-@Component
-internal class BialyDunajecMailSenderAdapter(private val externalCommandBus: ExternalCommandBus) : EmailMessageSenderPort {
+class BialyDunajecMailSenderAdapter(private val externalCommandBus: ExternalCommandBus) : EmailMessageSenderPort {
 
     override fun sendEmailMessage(message: SimpleEmailMessage) {
         with(message) {

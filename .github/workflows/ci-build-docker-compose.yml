@@ -7,7 +7,6 @@ on:
       - staging
       - develop
       - heroku
-      - feature/#133_modularmonolith
 
 jobs:
   build:
