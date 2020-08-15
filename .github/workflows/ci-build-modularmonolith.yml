@@ -1,9 +1,8 @@
-name: "Build Spring Boot JAR for bialydunajec-kotlin-backend & deploy on development environment"
+name: "Build MODULAR MONOLITH Spring Boot JAR for bialydunajec-kotlin-backend"
 
 on:
   push:
     branches:
-      - develop
       - feature/#133_modularmonolith
 
 jobs:
