@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - develop
+      - feature/#133_modularmonolith
 
 jobs:
   build-jar:
@@ -38,25 +39,25 @@ jobs:
           name: bialydunajec-backend.jar
           path: ./build/libs/bialydunajec-backend.jar
 
-  push-docker-image:
-    needs: build-jar
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/download-artifact@v2
-        with:
-          name: bialydunajec-backend.jar
-          path: ./build/libs/bialydunajec-backend.jar
-      - name: Push docker image to GitHub Packages
-        uses: docker/build-push-action@v1
-        with:
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-          registry: docker.pkg.github.com
-          repository: nowakprojects/bialydunajec-kotlin-backend/bialydunajec-backend
-          tag_with_ref: true
-          tag_with_sha: true
-          add_git_labels: true
+#  push-docker-image:
+#    needs: build-jar
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - uses: actions/download-artifact@v2
+#        with:
+#          name: bialydunajec-backend.jar
+#          path: ./build/libs/bialydunajec-backend.jar
+#      - name: Push docker image to GitHub Packages
+#        uses: docker/build-push-action@v1
+#        with:
+#          username: ${{ github.actor }}
+#          password: ${{ secrets.GITHUB_TOKEN }}
+#          registry: docker.pkg.github.com
+#          repository: nowakprojects/bialydunajec-kotlin-backend/bialydunajec-backend
+#          tag_with_ref: true
+#          tag_with_sha: true
+#          add_git_labels: true
 
 #    - name: Deploy application
 #      uses: appleboy/scp-action@master
