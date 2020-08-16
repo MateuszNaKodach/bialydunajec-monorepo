@@ -15,5 +15,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+    - name: Change directory to backend
+      run: cd backend
     - name: Validate if docker-compose.local.yaml can run
       run: docker-compose -f docker-compose.local.yml --log-level INFO up -d

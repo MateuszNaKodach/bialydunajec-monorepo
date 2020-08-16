@@ -6,7 +6,7 @@ services:
       args:
         GITHUB_ACTOR: XXXX
         GITHUB_TOKEN: YYYY
-      context: .
+      context: ..
       dockerfile: Dockerfile-clean_build
     ports:
       - 3344:3344
