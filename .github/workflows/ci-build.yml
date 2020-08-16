@@ -38,4 +38,4 @@ jobs:
       name: Upload artifact
       with:
         name: bialydunajec-backend.jar
-        path: .backend/build/libs/bialydunajec-backend.jar
+        path: ./backend/build/libs/bialydunajec-backend.jar
