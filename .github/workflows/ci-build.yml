@@ -25,17 +25,13 @@ jobs:
       with:
         java-version: 1.8
     - name: Run tests with Gradle
-      uses: eskatos/gradle-command-action@v1.3.2
+      run: ./gradlew -Prelease test
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        arguments: -p backend -Prelease test
     - name: Build with Gradle
-      uses: eskatos/gradle-command-action@v1.3.2
+      run: ./gradlew -Prelease build -x test
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        arguments: -p backend -Prelease build -x test
     - name: Change artifact name
       run:  cp build/libs/bialydunajec-backend* build/libs/bialydunajec-backend.jar
     - uses: actions/upload-artifact@v1
