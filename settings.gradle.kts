@@ -48,11 +48,6 @@ include(
     "bialydunajec-camp-bus:infrastructure",
     "bialydunajec-camp-bus:messages",*/
     "bialydunajec-rx-bus",
-    "bialydunajec-gallery:application",
-    "bialydunajec-gallery:presentation",
-    "bialydunajec-gallery:domain",
-    "bialydunajec-gallery:infrastructure",
-    "bialydunajec-gallery:messages",
     /*"bialydunajec-faq",
     "bialydunajec-faq:application",
     "bialydunajec-faq:presentation",
@@ -70,3 +65,5 @@ rootProject.children.forEach { p ->
         module.name = p.name + "-" + module.name
     }
 }
+
+rootDir
