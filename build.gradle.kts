@@ -51,23 +51,23 @@ allprojects {
     }
 
     dependencies {
-        compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-        compile("org.jetbrains.kotlin:kotlin-reflect")
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+        implementation("org.jetbrains.kotlin:kotlin-reflect")
 
         //JAVA 9 integration
-        compile("javax.xml.bind:jaxb-api:${Versions.jaxbApiVersion}")
-        compile("javax.activation:activation:1.1")
-        compile("org.glassfish.jaxb:jaxb-runtime:2.3.0")
+        implementation("javax.xml.bind:jaxb-api:${Versions.jaxbApiVersion}")
+        implementation("javax.activation:activation:1.1")
+        implementation("org.glassfish.jaxb:jaxb-runtime:2.3.0")
 
-        compile("org.springframework.boot:spring-boot-starter-validation")
+        implementation("org.springframework.boot:spring-boot-starter-validation")
 
         //Kotlin Arrow
-        compile("io.arrow-kt:arrow-core:${Versions.arrowVersion}")
-        compile("io.arrow-kt:arrow-syntax:${Versions.arrowVersion}")
-        compile("io.arrow-kt:arrow-typeclasses:${Versions.arrowVersion}")
-        compile("io.arrow-kt:arrow-data:${Versions.arrowVersion}")
-        compile("io.arrow-kt:arrow-instances-core:${Versions.arrowVersion}")
-        compile("io.arrow-kt:arrow-instances-data:${Versions.arrowVersion}")
+        implementation("io.arrow-kt:arrow-core:${Versions.arrowVersion}")
+        implementation("io.arrow-kt:arrow-syntax:${Versions.arrowVersion}")
+        implementation("io.arrow-kt:arrow-typeclasses:${Versions.arrowVersion}")
+        implementation("io.arrow-kt:arrow-data:${Versions.arrowVersion}")
+        implementation("io.arrow-kt:arrow-instances-core:${Versions.arrowVersion}")
+        implementation("io.arrow-kt:arrow-instances-data:${Versions.arrowVersion}")
         //kapt("io.arrow-kt:arrow-annotations-processor:${Versions.arrowVersion}")
         //compile("io.arrow-kt:arrow-query-language:${Versions.arrowVersion}") //optional
         //compile("io.arrow-kt:arrow-free:${Versions.arrowVersion}") //optional
@@ -87,19 +87,19 @@ allprojects {
         //compile("io.arrow-kt:arrow-instances-recursion:${Versions.arrowVersion}") //optional
         //compile("io.arrow-kt:arrow-integration-retrofit-adapter:${Versions.arrowVersion}") //optional
 
-        testCompile("org.jetbrains.kotlin:kotlin-test")
-        testCompile("org.spockframework:spock-core:${Versions.spockVersion}")
-        testCompile("org.spockframework:spock-spring:${Versions.spockVersion}")
-        testCompile("org.codehaus.groovy:groovy:${Versions.groovyVersion}")
-        testCompile("org.junit.jupiter:junit-jupiter-api:${Versions.jUnitVersion}")
-        testCompile("org.junit.jupiter:junit-jupiter-params:${Versions.jUnitVersion}")
-        testRuntime("org.junit.jupiter:junit-jupiter-engine:${Versions.jUnitVersion}")
-        testCompile("org.assertj:assertj-core:${Versions.assertjVersion}")
-        testCompile("org.spekframework.spek2:spek-dsl-jvm:${Versions.spekVersion}")
-        testRuntime("org.spekframework.spek2:spek-runner-junit5:${Versions.spekVersion}")
-        testCompile("com.willowtreeapps.assertk:assertk-jvm:${Versions.assertkVersion}")
-        testCompile("com.tngtech.archunit:archunit-junit5-api:${Versions.archUnitVersion}")
-        testRuntime("com.tngtech.archunit:archunit-junit5-engine:${Versions.archUnitVersion}")
+        testImplementation("org.jetbrains.kotlin:kotlin-test")
+        testImplementation("org.spockframework:spock-core:${Versions.spockVersion}")
+        testImplementation("org.spockframework:spock-spring:${Versions.spockVersion}")
+        testImplementation("org.codehaus.groovy:groovy:${Versions.groovyVersion}")
+        testImplementation("org.junit.jupiter:junit-jupiter-api:${Versions.jUnitVersion}")
+        testImplementation("org.junit.jupiter:junit-jupiter-params:${Versions.jUnitVersion}")
+        testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${Versions.jUnitVersion}")
+        testImplementation("org.assertj:assertj-core:${Versions.assertjVersion}")
+        testImplementation("org.spekframework.spek2:spek-dsl-jvm:${Versions.spekVersion}")
+        testRuntimeOnly("org.spekframework.spek2:spek-runner-junit5:${Versions.spekVersion}")
+        testImplementation("com.willowtreeapps.assertk:assertk-jvm:${Versions.assertkVersion}")
+        testImplementation("com.tngtech.archunit:archunit-junit5-api:${Versions.archUnitVersion}")
+        testRuntimeOnly("com.tngtech.archunit:archunit-junit5-engine:${Versions.archUnitVersion}")
         testImplementation("io.mockk:mockk:${Versions.mockkVersion}")
     }
 
@@ -137,29 +137,31 @@ dependencies {
     //compile project(":bialydunajec-faq:bialydunajec-faq-presentation")
     //compile project(":bialydunajec-faq:bialydunajec-faq-infrastructure")
 
-    compile(project(":bialydunajec-gallery:bialydunajec-gallery-presentation"))
-    compile(project(":bialydunajec-gallery:bialydunajec-gallery-infrastructure"))
+    api(project(":bialydunajec-gallery:bialydunajec-gallery-presentation"))
+    api(project(":bialydunajec-gallery:bialydunajec-gallery-infrastructure"))
 
-    compile("org.springframework.boot:spring-boot-starter-data-jpa")
-    compile("org.springframework.boot:spring-boot-starter-hateoas")
-    compile("org.springframework.boot:spring-boot-starter-mail")
-    compile("org.springframework.boot:spring-boot-starter-quartz")
-    compile("org.springframework.boot:spring-boot-starter-webflux")
-    compile("com.fasterxml.jackson.module:jackson-module-kotlin")
-    compile("com.github.ulisesbocchio:jasypt-spring-boot-starter:${Versions.jasyptVersion}")
-    compile("io.springfox:springfox-boot-starter:${Versions.swaggerVersion}")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-hateoas")
+    implementation("org.springframework.boot:spring-boot-starter-mail")
+    implementation("org.springframework.boot:spring-boot-starter-quartz")
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("com.github.ulisesbocchio:jasypt-spring-boot-starter:${Versions.jasyptVersion}")
+    implementation("io.springfox:springfox-boot-starter:${Versions.swaggerVersion}")
 
     //Fake data generator
-    compile("com.devskiller:jfairy:${Versions.jfairyVersion}")
+    implementation("com.devskiller:jfairy:${Versions.jfairyVersion}")
 
     if (!project.hasProperty("release")) {
-        runtime("com.h2database:h2")
+        runtimeOnly("com.h2database:h2")
     }
-    runtime("mysql:mysql-connector-java:${Versions.mysqlConnectorVersion}")
-    runtime("org.postgresql:postgresql:${Versions.postgresqlConnectorVersion}")
+    runtimeOnly("mysql:mysql-connector-java:${Versions.mysqlConnectorVersion}")
+    runtimeOnly("org.postgresql:postgresql:${Versions.postgresqlConnectorVersion}")
 
 
     compileOnly("org.springframework.boot:spring-boot-configuration-processor")
-    testCompile("org.springframework.boot:spring-boot-starter-test")
-    testCompile("io.projectreactor:reactor-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("io.projectreactor:reactor-test")
+    runtimeOnly("org.springframework.boot:spring-boot-devtools")
+
 }

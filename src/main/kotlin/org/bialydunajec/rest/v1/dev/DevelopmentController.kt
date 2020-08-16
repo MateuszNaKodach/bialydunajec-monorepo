@@ -11,13 +11,8 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/rest-api/v1/development")
 @RestController
 internal class DevelopmentController(
-        private val dummyDatabaseInitializator: DummyDatabaseInitializator,
-        @Value("\${GITHUB_ACTOR}") private val actor: String
+        private val dummyDatabaseInitializator: DummyDatabaseInitializator
 ) {
-
-    init{
-        println("ACTOR $actor")
-    }
 
     @GetMapping("/db-init")
     fun initializeDatabaseWithDummyData() {
@@ -36,8 +31,5 @@ internal class DevelopmentController(
     fun cleanupWholeDatabase() {
 
     }
-
-    @GetMapping("/env")
-    fun env() = actor;
 
 }
