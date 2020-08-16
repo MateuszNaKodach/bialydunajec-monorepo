@@ -35,14 +35,14 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          arguments: -Prelease test
+          arguments: -p backend -Prelease test
           wrapper-directory: ./backend
       - name: Build with Gradle
         uses: eskatos/gradle-command-action@v1.3.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          arguments: -Prelease build -x test
+          arguments: -p backend -Prelease build -x test
           wrapper-directory: ./backend
       - name: Change artifact name
         run:  cp build/libs/bialydunajec-backend* build/libs/bialydunajec-backend.jar
