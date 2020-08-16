@@ -1,9 +1,9 @@
-name: "Build Spring Boot JAR for bialydunajec-kotlin-backend & deploy on heroku environment"
+name: "Build MODULAR MONOLITH Spring Boot JAR for bialydunajec-kotlin-backend"
 
 on:
   push:
     branches:
-      - heroku
+      - feature/#133_modularmonolith
 
 jobs:
   build-jar:
@@ -30,25 +30,33 @@ jobs:
         run: ./gradlew -Prelease build -x test
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: change artifact name
+      - name: Change artifact name
         run:  cp build/libs/bialydunajec-backend* build/libs/bialydunajec-backend.jar
-      - name: Push docker image to GitHub Packages
-        uses: docker/build-push-action@v1
+      - uses: actions/upload-artifact@v1
+        name: Upload artifact
         with:
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-          registry: docker.pkg.github.com
-          repository: nowakprojects/bialydunajec-kotlin-backend/bialydunajec-backend
-          tag_with_ref: true
-          tag_with_sha: true
-          add_git_labels: true
-      - name: Deploy docker image on Heroku
-        uses: akhileshns/heroku-deploy@v3.4.6
-        with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "bialydunajec-backend"
-          heroku_email: "aplikacja.bialy@gmail.com"
-          usedocker: true
+          name: bialydunajec-backend.jar
+          path: ./build/libs/bialydunajec-backend.jar
+
+#  push-docker-image:
+#    needs: build-jar
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - uses: actions/download-artifact@v2
+#        with:
+#          name: bialydunajec-backend.jar
+#          path: ./build/libs/bialydunajec-backend.jar
+#      - name: Push docker image to GitHub Packages
+#        uses: docker/build-push-action@v1
+#        with:
+#          username: ${{ github.actor }}
+#          password: ${{ secrets.GITHUB_TOKEN }}
+#          registry: docker.pkg.github.com
+#          repository: nowakprojects/bialydunajec-kotlin-backend/bialydunajec-backend
+#          tag_with_ref: true
+#          tag_with_sha: true
+#          add_git_labels: true
 
 #    - name: Deploy application
 #      uses: appleboy/scp-action@master

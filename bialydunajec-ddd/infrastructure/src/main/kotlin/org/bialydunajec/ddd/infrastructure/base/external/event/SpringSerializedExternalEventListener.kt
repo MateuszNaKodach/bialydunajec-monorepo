@@ -1,6 +1,7 @@
-package org.bialydunajec.ddd.application.base.external.event
+package org.bialydunajec.ddd.infrastructure.base.external.event
 
 import org.bialydunajec.ddd.application.base.concurrency.ProcessingSerializedQueue
+import org.bialydunajec.ddd.application.base.external.event.ExternalEvent
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.context.event.EventListener

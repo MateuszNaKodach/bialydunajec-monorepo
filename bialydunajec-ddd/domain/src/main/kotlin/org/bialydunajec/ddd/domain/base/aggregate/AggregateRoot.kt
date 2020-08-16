@@ -4,8 +4,6 @@ import org.bialydunajec.ddd.domain.base.event.DomainEvent
 import org.bialydunajec.ddd.domain.base.valueobject.Identifier
 import org.springframework.data.domain.AfterDomainEventPublication
 import org.springframework.data.domain.DomainEvents
-import java.util.ArrayList
-import java.util.Collections
 import javax.persistence.Column
 import javax.persistence.EmbeddedId
 import javax.persistence.MappedSuperclass

@@ -15,7 +15,7 @@ include(
     "bialydunajec-camp-edition:domain",
     "bialydunajec-camp-edition:infrastructure",
     "bialydunajec-camp-edition:messages",
-    /*"bialydunajec-camp-schedule",
+    /*
     "bialydunajec-camp-schedule:messages",
     "bialydunajec-camp-schedule:dto",
     "bialydunajec-camp-schedule:ddd-axon",*/
@@ -48,7 +48,6 @@ include(
     "bialydunajec-camp-bus:infrastructure",
     "bialydunajec-camp-bus:messages",*/
     "bialydunajec-rx-bus",
-    "bialydunajec-gallery",
     "bialydunajec-gallery:application",
     "bialydunajec-gallery:presentation",
     "bialydunajec-gallery:domain",

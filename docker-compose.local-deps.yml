@@ -1,0 +1,22 @@
+version: '3.1'
+
+services:
+  bialydunajec-postgres:
+    image: library/postgres:11
+    restart: always
+    ports:
+      - 6645:5432
+    environment:
+      POSTGRES_DB: bialydunajec-postgres-db
+      POSTGRES_USER: bialydunajec-postgres-user
+      POSTGRES_PASSWORD: bialydunajec-postgres-password
+    volumes:
+      - ./src/main/resources:/docker-entrypoint-initdb.d/
+    # - ../bialydunajec-data/pgdata:/var/lib/postgresql/data #keep data outside container
+
+  bialydunajec-mongodb:
+    image: library/mongo:4.0
+    ports:
+      - 6646:27017
+    #volumes:
+    #  - ../bialydunajec-data/mongodata:/data/db #keep data outside container

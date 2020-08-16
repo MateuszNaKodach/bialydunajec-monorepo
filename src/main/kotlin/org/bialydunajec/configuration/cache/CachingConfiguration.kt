@@ -1,4 +1,4 @@
-package org.bialydunajec.ddd.infrastructure.base.configuration
+package org.bialydunajec.configuration.cache
 
 import org.springframework.cache.CacheManager
 import org.springframework.cache.annotation.EnableCaching

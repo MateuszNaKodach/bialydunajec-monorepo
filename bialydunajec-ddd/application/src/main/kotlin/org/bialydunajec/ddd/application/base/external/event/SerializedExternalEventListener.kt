@@ -1,11 +1,6 @@
 package org.bialydunajec.ddd.application.base.external.event
 
 import org.bialydunajec.ddd.application.base.concurrency.ProcessingSerializedQueue
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
-import org.springframework.context.event.EventListener
-import org.springframework.transaction.annotation.Propagation
-import org.springframework.transaction.annotation.Transactional
 
 //TODO: Add logic for recording event to internal storage
 //TODO: Consider solution - one thread for one aggregate. Also one method for one aggregate type in listeners

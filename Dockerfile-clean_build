@@ -7,7 +7,10 @@ ENV GITHUB_TOKEN = ${GITHUB_TOKEN}
 
 ADD . .
 
-RUN ./gradlew -Prelease build --stacktrace
+RUN ./gradlew -Prelease clean build --stacktrace
+
+FROM openjdk:8-alpine3.9 AS stage-java-run
+COPY --from=stage-gradle-build /build/libs/bialydunajec-backend-*.jar bialydunajec-backend.jar
 
 VOLUME /tmp
 

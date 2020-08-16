@@ -1,0 +1,10 @@
+FROM openjdk:8 AS stage-gradle-build
+ARG GITHUB_ACTOR
+ARG GITHUB_TOKEN
+
+ENV GITHUB_ACTOR = ${GITHUB_ACTOR}
+ENV GITHUB_TOKEN = ${GITHUB_TOKEN}
+
+VOLUME /app
+
+RUN ./app/gradlew -Prelease build --stacktrace

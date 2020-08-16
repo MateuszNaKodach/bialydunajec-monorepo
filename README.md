@@ -11,7 +11,20 @@
 ![Production Environment Deploy](https://github.com/nowakprojects/bialydunajec-kotlin-backend/workflows/Build%20Spring%20Boot%20JAR%20for%20bialydunajec-kotlin-backend%20&%20deploy%20on%20production%20environment/badge.svg)
 
 
-## Uruchomienie lokalne - Docker Compose (bez instalacji Javy - zalecane)
+## Uruchomienie lokalne - Docker Compose (z instalajcą Javy - zalecane)
+
+1. Zainstaluj docker oraz docker-compose i uruchom dockera.
+2. Wywołaj polecenie `docker-compose -f docker-compose.local-deps.yml up`.
+3. Uruchom aplikację z wybranym profilem: `env_local_dependencies_docker`
+
+Dzięki temu będą możliwe następujące połączenia:
+- Aplikacja Spring (backend): `localhost:6655`
+- Swagger (dokumentacja REST API): `localhost:6655/swagger-ui/index.html`
+- Baza danych PostgreSQL: `localhost:6645`
+- Baza danych MongoDB: `localhost:6646`
+
+
+## Uruchomienie lokalne - Docker Compose (bez instalacji Javy)
 
 1. Zainstaluj docker oraz docker-compose i uruchom dockera.
 2. Wywołaj polecenie `docker-compose -f docker-compose.local.yml up`.
