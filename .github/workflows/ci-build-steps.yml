@@ -8,6 +8,7 @@ on:
       - develop
       - heroku
       - feature/#133_modularmonolith
+      - feature/backend-folder
 
 jobs:
   build-jar:

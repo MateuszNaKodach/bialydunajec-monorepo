@@ -16,4 +16,4 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Validate if docker-compose.local.yaml can run
-      run: docker-compose -f docker-compose.local.yml --log-level INFO up -d
+      run: docker-compose -f ./backend/docker-compose.local.yml --log-level INFO up -d

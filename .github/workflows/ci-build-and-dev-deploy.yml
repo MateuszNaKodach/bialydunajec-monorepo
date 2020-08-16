@@ -19,24 +19,30 @@ jobs:
       - name: Cache Gradle packages
         uses: actions/cache@v2
         with:
-          path: ~/.gradle/caches
+          path: ~/backend/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
       - name: Run tests with Gradle
-        run: ./gradlew -Prelease test
+        uses: eskatos/gradle-command-action@v1.3.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          arguments: -p backend -Prelease test
+          wrapper-directory: ./backend
       - name: Build with Gradle
-        run: ./gradlew -Prelease build -x test
+        uses: eskatos/gradle-command-action@v1.3.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          arguments: -p backend -Prelease build -x test
+          wrapper-directory: ./backend
       - name: Change artifact name
         run:  cp build/libs/bialydunajec-backend* build/libs/bialydunajec-backend.jar
       - uses: actions/upload-artifact@v1
-        name: Upload artifact - application jar
+        name: Upload artifact
         with:
           name: bialydunajec-backend.jar
-          path: ./build/libs/bialydunajec-backend.jar
+          path: ./backend/build/libs/bialydunajec-backend.jar
       - uses: actions/upload-artifact@v1
         name: Upload artifact - application Dockerfile
         with:
