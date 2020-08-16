@@ -9,6 +9,10 @@ on:
       - heroku
       - feature/#133_modularmonolith
 
+defaults:
+  run:
+    working-directory: backend
+
 jobs:
   build:
 
@@ -20,24 +24,22 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-    - name: Change directory to backend
-      run: cd backend
     - name: Run tests with Gradle
       uses: eskatos/gradle-command-action@v1.3.2
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        arguments: -Prelease test
+        arguments: -p backend -Prelease test
     - name: Build with Gradle
       uses: eskatos/gradle-command-action@v1.3.2
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        arguments: -Prelease build -x test
+        arguments: -p backend -Prelease build -x test
     - name: Change artifact name
       run:  cp build/libs/bialydunajec-backend* build/libs/bialydunajec-backend.jar
     - uses: actions/upload-artifact@v1
       name: Upload artifact
       with:
         name: bialydunajec-backend.jar
-        path: ./build/libs/bialydunajec-backend.jar
+        path: .backend/build/libs/bialydunajec-backend.jar
