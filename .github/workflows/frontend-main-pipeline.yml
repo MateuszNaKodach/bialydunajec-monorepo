@@ -3,7 +3,7 @@ name: "⛺ Frontend | Main Page pipeline"
 on:
   push:
     paths:
-      - '.github/**'
+      - '.github/workflows/frontend-main-pipeline.yml'
       - 'frontend-main/**'
       - '!**/README.md'
 

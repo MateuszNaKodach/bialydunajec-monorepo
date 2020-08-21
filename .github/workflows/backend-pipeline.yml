@@ -3,7 +3,7 @@ name: "🚀 Backend | Spring Boot pipeline"
 on:
   push:
     paths:
-      - '.github/**'
+      - '.github/workflows/backend-pipeline.yml'
       - 'backend/**'
       - '!**/README.md'
 
