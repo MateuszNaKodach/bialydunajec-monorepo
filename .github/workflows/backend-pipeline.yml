@@ -1,15 +1,14 @@
-name: "Build Spring Boot JAR for bialydunajec-kotlin-backend & deploy on heroku environment"
+name: "Backend pipeline 🚀"
 
 on:
   push:
     branches:
-      - heroku
+      - develop
 
 jobs:
   build-jar:
-
+    name: "Build application & ensure running from JAR"
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v1
       - name: Set up JDK 1.8
@@ -19,19 +18,54 @@ jobs:
       - name: Cache Gradle packages
         uses: actions/cache@v2
         with:
-          path: ~/.gradle/caches
+          path: ~/backend/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
       - name: Run tests with Gradle
-        run: ./gradlew -Prelease test
+        uses: eskatos/gradle-command-action@v1.3.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          arguments: -p backend -Prelease test
+          wrapper-directory: ./backend
       - name: Build with Gradle
-        run: ./gradlew -Prelease build -x test
+        uses: eskatos/gradle-command-action@v1.3.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: change artifact name
-        run:  cp build/libs/bialydunajec-backend* build/libs/bialydunajec-backend.jar
+        with:
+          arguments: -p backend -Prelease build -x test
+          wrapper-directory: ./backend
+      - name: Validate if docker-compose.local.yaml can run
+        run: |
+          cd ./backend
+          docker-compose -f docker-compose.local.yml --log-level INFO up -d
+      - name: Change artifact name
+        run:  cp ./backend/build/libs/bialydunajec-backend* ./backend/build/libs/bialydunajec-backend.jar
+      - uses: actions/upload-artifact@v1
+        name: Upload artifact bialydunajec-backend.jar
+        with:
+          name: bialydunajec-backend.jar
+          path: ./backend/build/libs/bialydunajec-backend.jar
+      - uses: actions/upload-artifact@v1
+        name: Upload artifact Dockerfile
+        with:
+          name: Dockerfile
+          path: ./backend/Dockerfile
+
+  push-docker-image:
+    name: "Push docker image to GitHub"
+    if:   github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/staging' || github.ref == 'refs/heads/master'
+    needs: build-jar
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: bialydunajec-backend.jar
+          path: ./backend/build/libs/bialydunajec-backend.jar
+      - uses: actions/download-artifact@v2
+        with:
+          name: Dockerfile
+          path: ./backend
       - name: Push docker image to GitHub Packages
         uses: docker/build-push-action@v1
         with:
@@ -39,16 +73,10 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: docker.pkg.github.com
           repository: nowakprojects/bialydunajec-kotlin-backend/bialydunajec-backend
+          path: ./backend
           tag_with_ref: true
           tag_with_sha: true
           add_git_labels: true
-      - name: Deploy docker image on Heroku
-        uses: akhileshns/heroku-deploy@v3.4.6
-        with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "bialydunajec-backend"
-          heroku_email: "aplikacja.bialy@gmail.com"
-          usedocker: true
 
 #    - name: Deploy application
 #      uses: appleboy/scp-action@master
