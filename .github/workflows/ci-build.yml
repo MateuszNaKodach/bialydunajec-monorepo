@@ -55,4 +55,4 @@ jobs:
         name: Upload artifact - application Dockerfile
         with:
           name: Dockerfile
-          path: ./Dockerfile
+          path: ./backend/Dockerfile
