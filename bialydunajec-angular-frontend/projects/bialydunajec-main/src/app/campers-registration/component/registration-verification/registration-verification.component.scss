@@ -1,0 +1,36 @@
+@import "../../../../styles/mixins/responsivness";
+
+
+.bda-registration-verification{
+  background: url('../../../../assets/images/campers-registration/camper_registration_verification_background.jpg') center/cover;
+  height: 100vh;
+  margin-top: 1px;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+
+.bda-registration-verification__card {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  background: white;
+  box-shadow: 2px 3px 8px rgba(0, 0, 0, 0.24);
+  width: 100%;
+  padding: 2rem;
+
+  @include gt-xs__screen() {
+    width: 80vw;
+    padding: 2.5rem;
+  }
+
+  @include gt-sm__screen() {
+    width: 80vw;
+    padding: 3rem;
+    border-radius: 4px;
+  }
+
+  @include gt-md__screen() {
+    width: 76rem;
+  }
+}

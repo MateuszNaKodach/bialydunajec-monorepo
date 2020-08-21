@@ -1,0 +1,59 @@
+@import "../../../../styles/mixins/responsivness";
+
+$footer-background-color: #ececec;
+
+.bda-footer_content {
+  background-color: $footer-background-color;
+  display: flex;
+  justify-content: space-between;
+  padding: 2rem;
+  flex-flow: column;
+  width: 100%;
+
+  @include gt-xs__screen() {
+    padding: 2rem 4rem;
+  }
+
+  @include gt-sm__screen() {
+    padding: 2rem 16rem;
+    flex-flow: row-reverse;
+  }
+
+  .fb-page-container,
+  bda-camp-registrations-reminder {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+
+    @include gt-sm__screen() {
+      width: 25rem;
+    }
+  }
+
+}
+
+.bda-footer_copyright {
+  height: 50px;
+  color: #8b8b8b;
+  padding: 2rem;
+  width: 100%;
+  background-color: black;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+
+  @include gt-xs__screen() {
+    padding: 2rem 4rem;
+  }
+
+  @include gt-sm__screen() {
+    padding: 2rem 16rem;
+  }
+
+  @include gt-md__screen() {
+    height: 6rem;
+  }
+}
+
+

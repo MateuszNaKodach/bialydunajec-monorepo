@@ -1,0 +1,22 @@
+<div class="ui eight steps">
+  <a
+    *ngFor="let step of steps"
+    class="step"
+    [ngClass]="{'active' : isCurrentStep(step.getStepId()), 'completed ': isStepValid(step.getStepId())}"
+  >
+    <i
+      *ngIf="step.hasIcon()"
+      [ngClass]="{'orange' : isCurrentStep(step.getStepId())}"
+      class="{{isStepInvalid(step.getStepId()) && !isCurrentStep(step.getStepId()) ? 'times circle red': step.getIcon()}} icon"></i>
+    <div class="content">
+      <div class="title">{{step.getTitle()}}</div>
+      <div *ngIf="step.hasDescription()" class="description">{{step.getDescription()}}</div>
+    </div>
+  </a>
+</div>
+
+
+<!-- STEPPER NAVIGATION:
+    (click)="onStepClicked(step)"
+    [routerLink]="['./',step.getRelativeToFormPath()]"
+    -->

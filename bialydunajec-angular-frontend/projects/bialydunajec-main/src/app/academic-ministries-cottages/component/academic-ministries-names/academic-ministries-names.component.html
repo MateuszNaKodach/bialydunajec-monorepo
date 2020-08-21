@@ -1,0 +1,8 @@
+<section fxLayout="column" *ngIf="academicMinistries$ | async as academicMinistries" >
+    <a
+      *ngFor="let academicMinistry of academicMinistries"
+      [routerLink]="['../',academicMinistry.id]"
+      routerLinkActive="link-active"
+      (click)="onAcademicMinistrySelected(academicMinistry)"
+    >{{academicMinistry.shortName}}</a>
+</section>

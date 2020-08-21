@@ -1,0 +1,73 @@
+<form
+  class="ui form"
+  [formGroup]="stepForm"
+  (submit)="onSubmitStepForm()"
+>
+  <section>
+    <bda-section-header
+      title="Koszulka"
+      description="Każdy z uczestników otrzyma koszulkę obozową. Informujemy, że ze względów organizacyjnych koszulki mogą nie być dostępne w wybranym rozmiarze i kolorze. Tabela rozmiarów jest dostępna tutaj."
+    ></bda-section-header>
+    <div>
+
+      <bda-form-input
+        [control]="color"
+        label="Kolor koszulki">
+        <ng-template let-option #colorOptionTemplate>
+          {{ option.color.name }}
+        </ng-template>
+        <sui-select
+          class="selection"
+          formControlName="color"
+          [options]="getShirtColorOptions()"
+          [optionTemplate]="colorOptionTemplate"
+          id="color-selection"
+          placeholder="Wybierz jedną z opcji"
+        #colorSelect>
+          <sui-select-option *ngFor="let option of colorSelect.filteredOptions; let i = index"
+                             [value]="option" [id]="'color'+i">
+          </sui-select-option>
+        </sui-select>
+      </bda-form-input>
+
+      <bda-form-input
+        [control]="clothType"
+        label="Rodzaj koszulki">
+        <div class="ui radio checkbox" style="display: block; margin-bottom: 0.5rem">
+          <input id="femaleClothTypeOption" type="radio" formControlName="clothType" value="FEMALE">
+          <label for="femaleClothTypeOption">Damska</label>
+        </div>
+        <div class="ui radio checkbox" style="display: block">
+          <input id="maleClothTypeOption" type="radio" formControlName="clothType" value="MALE">
+          <label for="maleClothTypeOption">Męska</label>
+        </div>
+      </bda-form-input>
+
+      <bda-form-input
+        [control]="size"
+        *ngIf="size && shirtSizeOptions.length > 0"
+        label="Rozmiar koszulki">
+        <ng-template let-option #sizeOptionTemplate>
+          {{ option.size.name }}
+        </ng-template>
+        <sui-select
+          class="selection"
+          formControlName="size"
+          id="size-selection"
+          [options]="shirtSizeOptions"
+          [optionTemplate]="sizeOptionTemplate"
+          [placeholder]="clothType.value ? 'Wybierz rozmiar koszulki' : 'Najpierw wybierz rodzaj koszulki'"
+        #sizeSelect>
+          <sui-select-option *ngFor="let option of sizeSelect.filteredOptions; let i = index"
+                             [value]="option" [id]="'size'+i">
+          </sui-select-option>
+        </sui-select>
+      </bda-form-input>
+    </div>
+  </section>
+  <bda-form-navigation-buttons
+    [config]='{left: {text: "WSTECZ", disabled: false}, right: {text: "DALEJ", disabled: false}}'
+    (clickRight)="onSubmitStepForm()"
+    (clickLeft)="onNavigateToPreviousStep()"
+  ></bda-form-navigation-buttons>
+</form>
