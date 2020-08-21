@@ -3,7 +3,7 @@ name: "💪 Frontend | Admin Panel pipeline"
 on:
   push:
     paths:
-      - './.github/**
+      - './.github/**'
       - './frontend-adminpanel/**'
       - '!**/README.md'
 
