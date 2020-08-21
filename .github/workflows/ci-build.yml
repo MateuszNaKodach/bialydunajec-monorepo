@@ -9,10 +9,6 @@ on:
       - heroku
       - feature/#133_modularmonolith
 
-defaults:
-  run:
-    working-directory: backend
-
 jobs:
   build:
 
@@ -45,7 +41,7 @@ jobs:
           arguments: -p backend -Prelease build -x test
           wrapper-directory: ./backend
       - name: Change artifact name
-        run:  cp build/libs/bialydunajec-backend* build/libs/bialydunajec-backend.jar
+        run:  cp ./backend/build/libs/bialydunajec-backend* ./backend/build/libs/bialydunajec-backend.jar
       - uses: actions/upload-artifact@v1
         name: Upload artifact
         with:
