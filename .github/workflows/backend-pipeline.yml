@@ -34,6 +34,7 @@ jobs:
           arguments: -p backend -Prelease build -x test
           wrapper-directory: ./backend
       - name: Validate if docker-compose.local.yaml can run
+        if:   github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/staging' || github.ref == 'refs/heads/master'
         run: |
           cd ./backend
           docker-compose -f docker-compose.local.yml --log-level INFO up -d
