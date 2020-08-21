@@ -1,0 +1,44 @@
+<section>
+  <div style="display: flex;">
+    <bda-admin-breadcrumbs
+      [breadcrumbs]="['Edycja Obozu','Wszystkie Edycje']"
+    ></bda-admin-breadcrumbs>
+    <button
+      style="margin-left: 2rem"
+      nz-button
+      nzType="primary"
+      [routerLink]="[campEditionRoutingPaths.newCampEdition]">Dodaj nową
+    </button>
+  </div>
+  <div class="bda-admin-camp-edition-list" *ngIf="campEditions | async as campEditionsList">
+      <div
+        *ngFor="let campEdition of campEditionsList"
+        class="bda-admin-panel-section-card">
+        <div class="bda-admin-panel-section-card-content">
+          <h2 style="font-weight: bold">{{RomanNumerals.numberToRoman(campEdition.campEditionId)}} Edycja Obozu</h2>
+          <nz-divider></nz-divider>
+          <h3>Rok {{campEdition.campEditionYear}}</h3>
+          <h3><b>Czas trwania Obozu:</b> od {{campEdition.campEditionStartDate | date:'d.MM.yyyy'}} do
+            {{campEdition.campEditionEndDate | date:'d.MM.yyyy' }}</h3>
+          <h3><b>Cena wyjazdu:</b> {{campEdition.campEditionPrice}} zł</h3>
+          <h3><b>Kwota zadatku:</b> {{campEdition.campEditionDownPaymentAmount}} zł</h3>
+        </div>
+        <div *ngIf="false" class="bda-admin-section-card-action">
+          <button nz-button nzType="primary" type="submit">Więcej</button>
+          <button nz-button
+                  class="bda-admin-section-card-action-small-button"
+                  style="margin-left: 0.5rem;"><i class="anticon anticon-edit"></i></button>
+          <button nz-button
+                  class="bda-admin-section-card-action-small-button"
+                  nz-popconfirm nzTitle="Czy jesteś pewien, że chcesz usunąć Edycję Obozu?"
+                  style="margin-left: 0.5rem;"><i class="anticon anticon-delete"></i></button>
+        </div>
+      </div>
+  </div>
+  <ng-template #emptyCampListInstructions>
+    <bda-admin-first-camp-edition-instruction></bda-admin-first-camp-edition-instruction>
+  </ng-template>
+</section>
+
+
+

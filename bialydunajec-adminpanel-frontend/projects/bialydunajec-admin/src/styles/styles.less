@@ -1,0 +1,75 @@
+/* You can add global styles to this file, and also import other style files */
+@import 'theme';
+@import 'responsivness';
+
+html, body {
+  height: 100%;
+  font-size: 0.875rem;
+}
+
+body {
+  background-color: #f6f6f6;
+}
+
+.bda-admin-panel-section-card {
+  background: white;
+  padding: 1rem;
+  overflow: hidden;
+  .gt-sm__screen({ padding: 2rem; border-radius: 4px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.24); })
+}
+
+.bda-admin-panel-section-card--preview {
+  .bda-admin-panel-section-card;
+  border: 1px solid #1890ff;
+}
+
+.bda-admin-section-card-action {
+  padding-top: 1.5rem;
+  .bda-admin-section-card-action-small-button {
+    background: lightgrey;
+
+    &:hover {
+      background: #676767;
+    }
+  }
+}
+
+input.ng-invalid.ng-dirty,
+textarea.ng-invalid.ng-dirty {
+  border: 1px solid #f5222d;
+}
+
+.ant-form-explain {
+  * {
+    color: #f5222d !important;
+  }
+}
+
+.mat-icon-button {
+  display: inline-flex !important;
+  align-items: center;
+}
+
+/*
+.ant-advanced-search-form {
+  padding: 24px;
+  background: #fbfbfb;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+}
+*/
+
+.bda-search-table-controls{
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 2rem;
+
+  .gt-sm__screen({ grid-template-columns: 1fr 1fr; });
+
+  .gt-md__screen({ grid-template-columns: 1fr 1fr 1fr; });
+  //.gt-xl__screen({ grid-template-columns: 1fr 1fr 1fr; });
+}
+
+text.label.ng-star-inserted[ngx-charts-count-up][ng-reflect-count-prefix]{
+  display: none;
+}

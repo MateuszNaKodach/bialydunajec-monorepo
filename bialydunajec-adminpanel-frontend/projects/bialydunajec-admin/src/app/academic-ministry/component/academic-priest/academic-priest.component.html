@@ -1,0 +1,24 @@
+<div class="bda-admin-academic-priest">
+  <div class="bda-admin-academic-priest__photo">
+    <img [src]="priest.photoUrl ? priest.photoUrl : 'assets/images/placeholder/placeholder_person.jpg'"
+         alt="Brak obrazu pod wskazanym url.">
+  </div>
+  <div class="bda-admin-academic-priest__content">
+    <div style="text-align: right">
+    <h3 style="font-weight: bold">{{priest.personalTitle ? priest.personalTitle.prefix+' ' :''}}{{priest.firstName}} {{priest.lastName}}{{priest.personalTitle ? ' '+priest.personalTitle.postfix :''}}</h3>
+    <h4>{{priest.emailAddress}}</h4>
+    </div>
+    <div class="bda-admin-section-card-action" style="align-self: flex-end">
+      <button nz-button nzType="primary" (click)="moreClick.emit()">Więcej</button>
+      <button nz-button
+              class="bda-admin-section-card-action-small-button"
+              (click)="editClick.emit()"
+              style="margin-left: 0.5rem;"><i class="anticon anticon-edit"></i></button>
+      <button nz-button
+              class="bda-admin-section-card-action-small-button"
+              nz-popconfirm nzTitle="Czy jesteś pewien, że chcesz usunąć tego duszpasterza?"
+              (nzOnConfirm)="deleteClick.emit()"
+              style="margin-left: 0.5rem;"><i class="anticon anticon-delete"></i></button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,59 @@
+<section>
+  <div style="display: flex; justify-content: space-between;">
+    <bda-admin-breadcrumbs
+      [breadcrumbs]="['Zapisy na Obóz','Zamówienia Koszulek']"
+    ></bda-admin-breadcrumbs>
+    <bda-admin-camp-edition-selection
+      (campEditionIdSelected)="onCampEditionIdSelected($event)"
+      [campEditionsObservable]="availableCampEditions$"></bda-admin-camp-edition-selection>
+  </div>
+  <div class="bda-shirt-orders__content">
+    <div
+      id="shirt-orders-list"
+      class="bda-admin-panel-section-card"
+      *ngIf="shirtOrders$ | async as shirtOrders">
+      <h2>Zamówione koszulki</h2>
+      <nz-divider style="margin-bottom: 0;"></nz-divider>
+      <div>
+        <nz-table
+          class="bda-camp-participant-table"
+          #shirtOrdersTable
+          [nzData]="shirtOrders"
+          [nzTotal]="shirtOrders.size"
+          [nzPageSize]="6"
+          nzNoResult="Nie zostały jeszcze złożone żadne zamówienia na koszulki wybranej Edycji Obozu.">
+          <thead>
+          <tr>
+            <th>Uczestnik</th>
+            <th>Chatka</th>
+            <th>Rozmiar koszulki</th>
+            <th>Kolor koszuki</th>
+            <th>Potwierdzone
+              <nz-tooltip
+                nzTitle="Zamówienie zostanie potwierdzone wraz z uczestnictwem w obozie.">
+                <i nz-tooltip class="anticon anticon-question-circle-o"></i>
+              </nz-tooltip>
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <ng-template ngFor let-data [ngForOf]="shirtOrdersTable.data">
+            <tr>
+              <td nz-tooltip [nzTitle]="'PESEL: ' + data.campParticipant.pesel +
+              ' E-mail: ' + data.campParticipant.emailAddress" nzPlacement="topLeft">{{data.campParticipant.firstName}} {{data.campParticipant.lastName}}</td>
+              <td>{{data.campParticipant.cottage.name}}</td>
+              <td *ngIf="data.selectedOptions.shirtType == 'MALE'">Męska {{data.selectedOptions.sizeName}}</td>
+              <td *ngIf="data.selectedOptions.shirtType == 'FEMALE'">Damska {{data.selectedOptions.sizeName}}</td>
+              <td *ngIf="data.selectedOptions.shirtType == 'UNISEX'">Unisex {{data.selectedOptions.sizeName}}</td>
+              <td>{{data.selectedOptions.colorName}}</td>
+              <td>{{data.campParticipant.participationStatus == ParticipationStatusDto.CONFIRMED_BY_CAMPER ? 'TAK' : (data.campParticipant.participationStatus == ParticipationStatusDto.CONFIRMED_BY_AUTHORIZED ? 'TAK (administracyjnie)' : 'NIE')}}</td>
+            </tr>
+          </ng-template>
+          </tbody>
+        </nz-table>
+      </div>
+
+    </div>
+  </div>
+
+</section>

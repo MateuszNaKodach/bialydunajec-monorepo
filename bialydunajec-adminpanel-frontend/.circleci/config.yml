@@ -1,0 +1,96 @@
+version: 2
+
+jobs:
+  build:
+    working_directory: ~/project
+    docker:
+      - image: circleci/node:8.9.3
+    steps:
+      - checkout
+      - run:
+          name: Show current branch
+          command: echo ${CIRCLE_BRANCH}
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-
+      - run:
+          name: Install local dependencies
+          command: npm install
+      - run:
+          name: Install Angular CLI
+          command: sudo npm install -g  --ignore-scripts @angular/cli@6.1.3
+      - save_cache:
+          key: v1-dependencies-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+      # Lint the source code
+      #- run:
+      #    name: Linting
+      #    command: npm run lint
+      # Test the source code
+      #- run:
+      #    name: Testing
+      #    command: npm run test
+      - run:
+          name: Build bialydunajec-admin
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+                ng run bialydunajec-admin:build:production
+            elif [ "${CIRCLE_BRANCH}" == "staging" ]; then
+                ng run bialydunajec-admin:build:staging
+            elif [ "${CIRCLE_BRANCH}" == "develop" ]; then
+                ng run bialydunajec-admin:build:development
+            else
+                ng build bialydunajec-admin
+            fi
+      #- store_artifacts:
+      #    path: ~/project/dist
+      # Cache the dist folder for the deploy job
+      - save_cache:
+          key: v1-dist-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - dist
+
+  deploy:
+    working_directory: ~/project
+    docker:
+      - image: circleci/node:8.9.3
+    steps:
+      - add_ssh_keys
+      - run: ssh-keyscan 31.186.82.95 >> ~/.ssh/known_hosts
+          # Restore cache from the build job which contains the
+      # dist folder that needs to be deployed
+      - restore_cache:
+          key: v1-dist-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
+      - run:
+          name: Show current branch
+          command: echo ${CIRCLE_BRANCH}
+      - run:
+          name: Deploy bialydunajec-admin
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+                ssh Bialydunajec@31.186.82.95 rm -rf /home/Bialydunajec/domains/admin.bialydunajec.org/public_html/*
+                scp -r dist/bialydunajec-admin/* Bialydunajec@31.186.82.95:/home/Bialydunajec/domains/admin.bialydunajec.org/public_html
+            elif [ "${CIRCLE_BRANCH}" == "staging" ]; then
+                ssh Bialydunajec@31.186.82.95 rm -rf /home/Bialydunajec/domains/admin.staging.bialydunajec.org/public_html/*
+                scp -r dist/bialydunajec-admin/* Bialydunajec@31.186.82.95:/home/Bialydunajec/domains/admin.staging.bialydunajec.org/public_html
+            elif [ "${CIRCLE_BRANCH}" == "develop" ]; then
+                ssh Bialydunajec@31.186.82.95 rm -rf /home/Bialydunajec/domains/admin.dev.bialydunajec.org/public_html/*
+                scp -r dist/bialydunajec-admin/* Bialydunajec@31.186.82.95:/home/Bialydunajec/domains/admin.dev.bialydunajec.org/public_html
+            fi
+
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - develop
+                - staging
+                - master

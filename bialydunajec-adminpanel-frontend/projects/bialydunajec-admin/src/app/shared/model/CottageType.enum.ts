@@ -1,0 +1,4 @@
+export enum CottageType {
+  STANDALONE = 'STANDALONE',
+  ACADEMIC_MINISTRY = 'ACADEMIC_MINISTRY'
+}

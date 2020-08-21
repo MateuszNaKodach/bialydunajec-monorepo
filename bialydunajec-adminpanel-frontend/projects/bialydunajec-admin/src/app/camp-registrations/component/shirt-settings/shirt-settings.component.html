@@ -1,0 +1,239 @@
+<section>
+  <div style="display: flex; justify-content: space-between;">
+    <bda-admin-breadcrumbs
+      [breadcrumbs]="['Zapisy na Obóz','Ustawienia Koszulek']"
+    ></bda-admin-breadcrumbs>
+    <bda-admin-camp-edition-selection
+      (campEditionIdSelected)="onCampEditionIdSelected($event)"
+      [campEditionsObservable]="availableCampEditions"></bda-admin-camp-edition-selection>
+  </div>
+  <div class="bda-admin-shirt-settings-content" *ngIf="campShirt$ | async as campShirt">
+
+    <div class="bda-admin-panel-section-card" *ngIf="false">
+      <h3>Dane ogólne</h3>
+      <nz-divider></nz-divider>
+    </div>
+
+    <div class="bda-admin-panel-section-card">
+      <h3>Dostępne kolory</h3>
+      <nz-divider></nz-divider>
+      <nz-table
+        #colorsTable
+        [nzData]="colorOptions"
+        [nzLoading]="tableIsLoading"
+        nzShowPagination="false">
+        <thead>
+        <tr>
+          <th>Nazwa</th>
+          <th>Kolor</th>
+          <th>Dostępny</th>
+          <th>Akcje</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let data of colorsTable.data">
+          <td>{{data.color.name}}</td>
+          <td>{{data.color.hexValue}}</td>
+          <td>{{data.available ? 'tak' : 'nie'}}</td>
+          <td style="display: flex; justify-content: space-between">
+            <button nz-button
+                    (click)="onClickEditColor(data)"
+                    class="bda-admin-section-card-action-small-button"
+            ><i class="anticon anticon-edit"></i></button>
+          </td>
+        </tr>
+        </tbody>
+      </nz-table>
+      <button nz-button nzType="primary" type="button" style="margin-top: 1rem;" (click)="onClickAddShirtColor()">
+        Dodaj kolor koszulki
+      </button>
+    </div>
+
+    <div class="bda-admin-panel-section-card">
+      <h3>Dostępne damskie rozmiary</h3>
+      <nz-divider></nz-divider>
+      <nz-table
+        #femaleSizesTable
+        [nzData]="femaleSizeOptions"
+        [nzLoading]="tableIsLoading"
+        nzShowPagination="false">
+        <thead>
+        <tr>
+          <th>Nazwa</th>
+          <th>Wzrost [cm]</th>
+          <th>Szerokość [cm]</th>
+          <th>Długość [cm]</th>
+          <th>Dostępny</th>
+          <th>Akcje</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let data of femaleSizesTable.data">
+          <td>{{data.size.name}}</td>
+          <td>{{data.size.height}}</td>
+          <td>{{data.size.width}}</td>
+          <td>{{data.size.length}}</td>
+          <td>{{data.available ? 'tak' : 'nie'}}</td>
+          <td style="display: flex; justify-content: space-between">
+            <button nz-button
+                    (click)="onClickEditSize(data)"
+                    class="bda-admin-section-card-action-small-button"
+            ><i class="anticon anticon-edit"></i></button>
+          </td>
+        </tr>
+        </tbody>
+      </nz-table>
+      <button nz-button nzType="primary" type="button" style="margin-top: 1rem;" (click)="onClickAddFemaleShirtSize()">
+        Dodaj damski rozmiar
+      </button>
+    </div>
+
+    <div class="bda-admin-panel-section-card">
+      <h3>Dostępne męskie rozmiary</h3>
+      <nz-divider></nz-divider>
+      <nz-table
+        #maleSizesTable
+        [nzData]="maleSizeOptions"
+        [nzLoading]="tableIsLoading"
+        nzShowPagination="false">
+        <thead>
+        <tr>
+          <th>Nazwa</th>
+          <th>Wzrost [cm]</th>
+          <th>Szerokość [cm]</th>
+          <th>Długość [cm]</th>
+          <th>Dostępny</th>
+          <th>Akcje</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let data of maleSizesTable.data">
+          <td>{{data.size.name}}</td>
+          <td>{{data.size.height}}</td>
+          <td>{{data.size.width}}</td>
+          <td>{{data.size.length}}</td>
+          <td>{{data.available ? 'tak' : 'nie'}}</td>
+          <td style="display: flex; justify-content: space-between">
+            <button nz-button
+                    class="bda-admin-section-card-action-small-button"
+                    (click)="onClickEditSize(data)"
+            ><i class="anticon anticon-edit"></i></button>
+            <!--<button nz-button
+                    class="bda-admin-section-card-action-small-button"
+                    nz-popconfirm nzTitle="Czy jesteś pewien, że chcesz usunąć ten rozmiar?"><i
+              class="anticon anticon-delete"></i></button>-->
+          </td>
+        </tr>
+        </tbody>
+      </nz-table>
+      <button nz-button nzType="primary" type="button" style="margin-top: 1rem;" (click)="onClickAddMaleShirtSize()">
+        Dodaj męski rozmiar
+      </button>
+    </div>
+
+    <nz-modal
+      [(nzVisible)]="sizeModal.isVisible"
+      [nzTitle]="sizeModal.shirtType == 'MALE' ? 'Męski rozmiar koszulki' : 'Damski rozmiar koszulki'"
+      nzOkText="Zatwierdź"
+      nzCancelText="Anuluj"
+      (nzOnOk)="sizeModal.onSubmit(campShirt.campEditionShirtId)"
+      (nzOnCancel)="sizeModal.onCancel()"
+      [nzOkLoading]="submittingInProgress"
+    >
+      <form nz-form [formGroup]="sizeModal.form">
+        <nz-form-item>
+          <nz-form-label nzFor="sizeName" nzRequired>
+            <span>Nazwa</span>
+          </nz-form-label>
+          <nz-form-control>
+            <input nz-input
+                   formControlName="name" id="sizeName" placeholder="XXL">
+            <nz-form-explain *ngIf="sizeModal.form.get('name').dirty && sizeModal.form.get('name').errors">
+              Proszę wypełnić pole.
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label nzFor="shirtSize" nzRequired>
+            <span>Wzrost [cm]</span>
+          </nz-form-label>
+          <nz-form-control>
+            <input nz-input
+                   formControlName="height" id="shirtSize" placeholder="123">
+            <nz-form-explain *ngIf="sizeModal.form.get('height').dirty && sizeModal.form.get('height').errors">
+              Proszę wypełnić pole.
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label nzFor="shirtWidth">
+            <span>Szerokość [cm]</span>
+          </nz-form-label>
+          <nz-form-control>
+            <input nz-input
+                   formControlName="width" id="shirtWidth" placeholder="123">
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label nzFor="shirtLength">
+            <span>Długość [cm]</span>
+          </nz-form-label>
+          <nz-form-control>
+            <input nz-input
+                   formControlName="length" id="shirtLength" placeholder="123">
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control>
+            <label nz-checkbox formControlName="available">
+              <span>Dostępny do zamówienia</span>
+            </label>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+    </nz-modal>
+
+
+    <nz-modal
+      [(nzVisible)]="colorModal.isVisible"
+      [nzTitle]="'Kolor koszulki'"
+      nzOkText="Zatwierdź"
+      nzCancelText="Anuluj"
+      (nzOnOk)="colorModal.onSubmit(campShirt.campEditionShirtId)"
+      (nzOnCancel)="colorModal.onCancel()"
+      [nzOkLoading]="submittingInProgress"
+    >
+      <form nz-form [formGroup]="colorModal.form">
+        <nz-form-item>
+          <nz-form-label nzFor="colorName" nzRequired>
+            <span>Nazwa</span>
+          </nz-form-label>
+          <nz-form-control>
+            <input nz-input
+                   formControlName="name" id="colorName" placeholder="czerwony">
+            <nz-form-explain *ngIf="colorModal.form.get('name').dirty && colorModal.form.get('name').errors">
+              Proszę wypełnić pole.
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label nzFor="colorHexValue">
+            <span>Kolor</span>
+          </nz-form-label>
+          <nz-form-control>
+            <input nz-input type="color" formControlName="hexValue" id="colorHexValue" #color/>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control>
+            <label nz-checkbox formControlName="available">
+              <span>Dostępny do zamówienia</span>
+            </label>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+    </nz-modal>
+
+
+  </div>
+</section>

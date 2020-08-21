@@ -1,0 +1,86 @@
+<section class="bda-admin-camp-edition-edit">
+  <div>
+    <bda-admin-breadcrumbs
+      [breadcrumbs]="['Edycja Obozu','Dodaj nową']"
+    ></bda-admin-breadcrumbs>
+  </div>
+  <div class="bda-admin-camp-edition-edit__content">
+    <div class="bda-admin-panel-section-card">
+      <form nz-form #f="ngForm" (ngSubmit)="onSubmit(f)" class="bda-admin-camp-edition-edit-form">
+        <nz-form-item>
+          <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired>Edycja Obozu</nz-form-label>
+          <nz-form-control [nzSm]="10" [nzXs]="24">
+            <input
+              type="text"
+              #campEditionInput="ngModel"
+              nz-input
+              name="campEditionRomanNumber"
+              ngModel
+              required
+              pattern="(^(?=[MDCLXVI])M*(C[MD]|D?C{0,3})(X[CL]|L?X{0,3})(I[XV]|V?I{0,3})$)">
+            <nz-form-explain *ngIf="campEditionInput.dirty && campEditionInput.errors">
+              Proszę wpisać numer edycji obozu cyframi rzymskimi.
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired>Czas trwania Obozu</nz-form-label>
+          <nz-form-control [nzSm]="10" [nzXs]="24">
+            <nz-range-picker
+              #campDurationInput="ngModel"
+              name="campEditionDuration"
+              [nzFormat]="dateFormat"
+              ngModel
+              required
+            ></nz-range-picker>
+            <nz-form-explain *ngIf="campDurationInput.dirty && campDurationInput.errors">
+              Wybierz czas trwania edycji obozu.
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired>Cena wyjazdu (zł)</nz-form-label>
+          <nz-form-control [nzSm]="10" [nzXs]="24">
+            <nz-input-number
+              #campPriceInput="ngModel"
+              name="campEditionPrice"
+              [(ngModel)]="initialPrice"
+              [nzMin]="1"
+              [nzMax]="999"
+              [nzStep]="1"></nz-input-number>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="8" [nzXs]="24">Kwota zadatku (zł)</nz-form-label>
+          <nz-form-control [nzSm]="10" [nzXs]="24">
+            <nz-input-number
+              #campPriceInput="ngModel"
+              name="downPaymentAmount"
+              [(ngModel)]="initialDownPaymentAmount"
+              [nzMin]="0"
+              [nzMax]="initialPrice - 1"
+              [nzStep]="1"></nz-input-number>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 16, offset: 8 }">
+            <button nz-button nzType="primary" [nzLoading]="submittingInProgress">Zatwierdź</button>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-alert
+            *ngIf="lastAlert"
+            [nzType]="lastAlert.type"
+            [nzMessage]="lastAlert.message"
+            [nzDescription]="lastAlert.description"
+            nzCloseable
+            nzShowIcon>
+          </nz-alert>
+        </nz-form-item>
+      </form>
+    </div>
+  </div>
+</section>

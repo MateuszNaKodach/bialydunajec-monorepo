@@ -1,0 +1,69 @@
+@import '../../../../styles/responsivness';
+
+.bda-admin-cottage-edit__form {
+  display: grid;
+  grid-template-columns: 1fr;
+
+  grid-gap: 1.5rem;
+
+  .gt-md__screen({ grid-template-columns: 1fr 1fr; });
+  .gt-xl__screen({ grid-template-columns: 1fr 1fr 1fr; });
+
+  //*{
+  //  background: red;
+  //}
+
+  .bda-admin-panel-section-card{
+    h3{
+      font-weight: bold;
+      margin: 0;
+      text-transform: uppercase;
+    }
+  }
+
+  .bda-admin-cottage-edit__logo-preview {
+    text-align: center;
+    height: 11.285rem;
+    img {
+      max-height: 100%;
+    }
+  }
+
+  .bda-admin-form-group-address-street {
+    display: flex;
+    justify-content: space-between;
+
+    .bda-admin--form-input-street {
+      flex: 12;
+      margin-right: 10px;
+    }
+
+    .bda-admin--form-input-home-number {
+      flex: 5;
+      margin-left: 10px;
+    }
+  }
+
+  .bda-admin-form-group-address-city {
+    display: flex;
+    justify-content: space-between;
+    .bda-admin-form-input-postal-code {
+      flex: 5;
+      margin-right: 10px
+    }
+
+    .bda-admin-form-input-city {
+      flex: 12;
+      margin-left: 10px;
+    }
+  }
+
+}
+
+.bda-admin-cottage-space-form{
+  display: grid;
+  justify-content: center;
+  grid-template-columns: 1fr;
+
+  .gt-md__screen({ grid-template-columns: 1fr 1fr; grid-gap: 1.5rem; });
+}

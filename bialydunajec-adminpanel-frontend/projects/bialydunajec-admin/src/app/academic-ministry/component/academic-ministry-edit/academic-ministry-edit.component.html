@@ -1,0 +1,351 @@
+<section class="bda-admin-academic-ministry-edit">
+  <div style="display: flex;">
+    <bda-admin-breadcrumbs
+      [breadcrumbs]="isEditMode ? ['Duszpasterstwa', shortNameFormControl.value ? shortNameFormControl.value : officialNameFormControl.value, 'Edytuj'] : ['Duszpasterstwa', 'Dodaj nowe']"
+    ></bda-admin-breadcrumbs>
+    <button [disabled]="isEditMode && !academicMinistryForm.dirty" style="margin-left: 2rem" nz-button nzType="primary"
+            [nzLoading]="submittingInProgress" type="submit" form="academic-ministry-form">{{isEditMode ? 'Zatwierdź wszystkie zmiany' : 'Dodaj duszpasterstwo'}}
+    </button>
+  </div>
+  <nz-form-item>
+    <bda-admin-http-response-alter [alter]="lastAlert"></bda-admin-http-response-alter>
+  </nz-form-item>
+  <div class="bda-admin-academic-ministry-edit__content">
+    <form
+      id="academic-ministry-form"
+      class="bda-admin-academic-ministry-edit__form"
+      nz-form
+      [formGroup]="academicMinistryForm"
+      (ngSubmit)="onSubmit()">
+      <div class="bda-admin-panel-section-card">
+        <h3><b>DANE OGÓLNE</b></h3>
+        <nz-divider></nz-divider>
+
+        <nz-form-item>
+          <nz-form-label nzRequired nzFor="officialName">Nazwa oficjalna</nz-form-label>
+          <nz-form-control>
+            <input nz-input formControlName="officialName" id="officialName">
+            <nz-form-explain *ngIf="officialNameFormControl.dirty && officialNameFormControl.errors">Proszę wypełnić
+              pole.
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label nzFor="shortName">
+             <span>
+            Nazwa potoczna (skrócona)
+            <nz-tooltip
+              nzTitle="To nazwa, która będzie wyświetlać się w większości miejsc na stronie, np. przy wyborze chatki do zapisów.">
+              <i nz-tooltip class="anticon anticon-question-circle-o"></i>
+            </nz-tooltip>
+          </span>
+          </nz-form-label>
+          <nz-form-control>
+            <input nz-input formControlName="shortName" id="shortName">
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label nzFor="logoImageUrl">Logo duszpasterstwa (url)</nz-form-label>
+          <nz-form-control>
+            <input nz-input formControlName="logoImageUrl" id="logoImageUrl" #imageUrlInput>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item class="bda-admin-academic-ministry-edit__logo-preview">
+          <img [src]="imageUrlInput.value ? imageUrlInput.value : 'assets/images/placeholder/placeholder_church.png'"
+               class="img-responsive"
+               alt="Brak obrazu pod wskazanym url.">
+        </nz-form-item>
+      </div>
+
+      <div class="bda-admin-panel-section-card" *ngIf="isEditMode">
+        <h3><b>DANE KONTAKTOWE</b></h3>
+        <nz-divider></nz-divider>
+        <nz-form-item>
+          <nz-form-label nzFor="emailAddress">Adres e-mail</nz-form-label>
+          <nz-form-control>
+            <input nz-input formControlName="emailAddress" id="emailAddress" type="email">
+          </nz-form-control>
+        </nz-form-item>
+
+        <h3><b>LOKALIZACJA</b></h3>
+        <nz-divider></nz-divider>
+        <div formGroupName="place">
+          <div formGroupName="address">
+
+            <div class="bda-admin-form-group-address-street">
+              <nz-form-item class="bda-admin--form-input-street">
+                <nz-form-label nzFor="street">Ulica</nz-form-label>
+                <nz-form-control>
+                  <input nz-input formControlName="street" id="street">
+                  <nz-form-explain *ngIf="streetFormControl.dirty && streetFormControl.errors">Proszę wypełnić pole.
+                  </nz-form-explain>
+                </nz-form-control>
+              </nz-form-item>
+              <nz-form-item class="bda-admin--form-input-home-number">
+                <nz-form-label nzFor="homeNumber">Nr domu</nz-form-label>
+                <nz-form-control>
+                  <input nz-input formControlName="homeNumber" id="homeNumber">
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <div class="bda-admin-form-group-address-city">
+              <nz-form-item class="bda-admin-form-input-postal-code">
+                <nz-form-label nzFor="postalCode">Kod pocztowy</nz-form-label>
+                <nz-form-control>
+                  <input nz-input formControlName="postalCode" id="postalCode">
+                </nz-form-control>
+              </nz-form-item>
+              <nz-form-item class="bda-admin-form-input-city">
+                <nz-form-label nzFor="city">Miasto</nz-form-label>
+                <nz-form-control>
+                  <input nz-input formControlName="city" id="city">
+                </nz-form-control>
+                <nz-form-explain *ngIf="cityFormControl.dirty && cityFormControl.errors">Proszę wypełnić pole.
+                </nz-form-explain>
+              </nz-form-item>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="bda-admin-panel-section-card" *ngIf="isEditMode">
+        <h3><b>OPIS DUSZPASTERSTWA</b></h3>
+        <nz-divider></nz-divider>
+        <div formGroupName="description">
+          <nz-form-item>
+            <nz-form-label nzFor="title">Tytuł</nz-form-label>
+            <nz-form-control>
+              <input nz-input formControlName="title" id="title" #descriptionTitleInput>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label nzFor="content">Treść</nz-form-label>
+            <nz-form-control>
+              <textarea formControlName="content" id="content" nz-input
+                        [nzAutosize]="{ minRows: 2, maxRows: 2 }"></textarea>
+              <nz-form-explain *ngIf="descriptionContentFormControl.dirty && descriptionContentFormControl.errors">
+                Proszę wpisać choćby krótki opis.
+              </nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <nz-form-item>
+          <nz-form-label nzFor="photoUrl">Zdjęcie duszpasterstwa (url)</nz-form-label>
+          <nz-form-control>
+            <input nz-input formControlName="photoUrl" id="photoUrl" #photoUrlInput>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item class="bda-admin-academic-ministry-edit__logo-preview">
+          <img [src]="photoUrlInput.value ? photoUrlInput.value : 'assets/images/placeholder/placeholder_church.png'"
+               class="img-responsive"
+               alt="Brak obrazu pod wskazanym url.">
+        </nz-form-item>
+
+      </div>
+
+      <div class="bda-admin-panel-section-card" *ngIf="isEditMode">
+        <h3><b>MEDIA SPOŁECZNOŚCIOWE</b></h3>
+        <nz-divider></nz-divider>
+
+        <div formGroupName="socialMedia">
+          <nz-form-item>
+            <nz-form-label nzFor="webPageUrl">Strona internetowa</nz-form-label>
+            <nz-form-control>
+              <nz-input-group nzPrefixIcon="anticon anticon-global">
+                <input type="text" nz-input formControlName="webPageUrl" placeholder="www.duszpasterstwo.pl">
+              </nz-input-group>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label nzFor="facebookPageUrl">Strona na facebooku (FanPage)</nz-form-label>
+            <nz-form-control>
+              <nz-input-group nzPrefixIcon="anticon anticon-facebook">
+                <input type="text" nz-input formControlName="facebookPageUrl"
+                       placeholder="www.facebook.com/<strona Twojego DA>">
+              </nz-input-group>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label nzFor="facebookGroupUrl">Grupa na facebooku</nz-form-label>
+            <nz-form-control>
+              <nz-input-group nzPrefixIcon="anticon anticon-facebook">
+                <input type="text" nz-input formControlName="facebookGroupUrl"
+                       placeholder="www.facebook.com/groups/<grupa Twojego DA>">
+              </nz-input-group>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label nzFor="instagramUrl">Instagram</nz-form-label>
+            <nz-form-control>
+              <nz-input-group nzPrefixIcon="anticon anticon-instagram">
+                <input type="text" nz-input formControlName="instagramUrl"
+                       placeholder="www.instagram.com/<profil Twojego DA>">
+              </nz-input-group>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label nzFor="youTubeChannelUrl">Kanał YouTube</nz-form-label>
+            <nz-form-control>
+              <nz-input-group nzPrefixIcon="anticon anticon-youtube">
+                <input type="text" nz-input formControlName="youTubeChannelUrl"
+                       placeholder="www.youtube.com/channel/<kanał Twojego DA>">
+              </nz-input-group>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+
+      <div class="bda-admin-panel-section-card" *ngIf="isEditMode">
+        <h3><b>DUSZPASTERZE</b></h3>
+        <nz-divider></nz-divider>
+        <ng-container
+          *ngIf="academicPriests$ | async as academicPriests">
+          <div
+            *ngFor="let priest of academicPriests"
+            style="margin-bottom: 1rem;">
+            <bda-admin-academic-priest
+              [priest]="priest"
+              (deleteClick)="removeAcademicPriest(priest.academicPriestId)"
+            ></bda-admin-academic-priest>
+          </div>
+        </ng-container>
+        <button nz-button nzType="primary" type="button" (click)="showPriestModal()">
+          Dodaj duszpasterza
+        </button>
+        <nz-modal
+          [(nzVisible)]="isPriestModalVisible"
+          nzTitle="Dodaj duszpasterza"
+          nzOkText="Zatwierdź"
+          nzCancelText="Anuluj"
+          (nzOnOk)="onSubmitPriestForm()"
+          (nzOnCancel)="onCancelPriestForm()"
+          [nzOkLoading]="submittingInProgress"
+        >
+          <form nz-form [formGroup]="priestModal.form" *ngIf="priestModal.isVisible">
+            <nz-form-item>
+              <nz-form-label nzFor="priestFirstName" nzRequired>
+                <span>Imię i nazwisko</span>
+              </nz-form-label>
+              <nz-form-control>
+                <div *ngIf="priestModal.showInputs; else priestNameValueView" class="bda-admin-priest-name"
+                     formGroupName="name">
+                  <ng-container formGroupName="personalTitle">
+                    <input
+                      nz-input
+                      formControlName="prefix"
+                      placeholder="o."
+                      id="priestTitlePrefix">
+                  </ng-container>
+                  <input
+                    *ngIf="priestModal.showInputs"
+                    nz-input
+                    formControlName="firstName"
+                    placeholder="Mariusz"
+                    id="priestFirstName">
+                  <input
+                    *ngIf="priestModal.showInputs"
+                    nz-input
+                    formControlName="lastName"
+                    placeholder="Simonicz"
+                    id="priestLastName">
+                  <ng-container formGroupName="personalTitle">
+                    <input
+                      *ngIf="priestModal.showInputs"
+                      nz-input
+                      formControlName="postfix"
+                      placeholder="CSSR"
+                      id="priestTitlePostfix">
+                  </ng-container>
+                </div>
+                <nz-form-explain
+                  *ngIf="priestFirstNameFormControl.dirty && priestFirstNameFormControl.errors || priestLastNameFormControl.dirty && priestLastNameFormControl.errors">
+                  Przynajmniej imię i nazwisko jest wymagane.
+                </nz-form-explain>
+              </nz-form-control>
+              <ng-template #priestNameValueView>
+                {{priestFirstNameFormControl.value == null ? 'Nie podano' : priestFirstNameFormControl.value}}
+              </ng-template>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label nzFor="priestEmailAddress">
+                <span>Adres e-mail</span>
+              </nz-form-label>
+              <nz-form-control>
+                <input *ngIf="priestModal.showInputs; else priestEmailAddressValueView" nz-input
+                       formControlName="emailAddress" id="priestEmailAddress" type="email">
+                <nz-form-explain *ngIf="priestEmailAddressFormControl.dirty && priestEmailAddressFormControl.errors">
+                  Proszę wypełnić pole.
+                </nz-form-explain>
+              </nz-form-control>
+              <ng-template #priestEmailAddressValueView>
+                <bda-admin-form-input-value [control]="priestEmailAddressFormControl"></bda-admin-form-input-value>
+              </ng-template>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label nzFor="priestPhoneNumber">
+                <span>Numer telefonu</span>
+              </nz-form-label>
+              <nz-form-control>
+                <input *ngIf="priestModal.showInputs; else priestPhoneNumberValueView" nz-input
+                       formControlName="phoneNumber" id="priestPhoneNumber">
+                <nz-form-explain *ngIf="priestPhoneNumberFormControl.dirty && priestPhoneNumberFormControl.errors">
+                  Proszę wypełnić pole.
+                </nz-form-explain>
+              </nz-form-control>
+              <ng-template #priestPhoneNumberValueView>
+                <bda-admin-form-input-value [control]="priestPhoneNumberFormControl"></bda-admin-form-input-value>
+              </ng-template>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label nzFor="priestPhoto">
+                <span>Zdjęcie (url)</span>
+              </nz-form-label>
+              <nz-form-control>
+                <input *ngIf="priestModal.showInputs" nz-input
+                       formControlName="photoUrl" id="priestPhoto">
+                <nz-form-explain *ngIf="priestPhotoUrlFormControl.dirty && priestPhotoUrlFormControl.errors">
+                  Proszę wypełnić pole.
+                </nz-form-explain>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item class="bda-admin-academic-priest__photo-preview">
+              <img
+                [src]="priestPhotoUrlFormControl.value ? priestPhotoUrlFormControl.value : 'assets/images/placeholder/placeholder_person.png'"
+                class="img-responsive"
+                alt="Brak obrazu pod wskazanym url.">
+            </nz-form-item>
+
+            <div formGroupName="description">
+              <nz-form-item>
+                <nz-form-label nzFor="priestDescriptionTitle">Opis - Tytuł</nz-form-label>
+                <nz-form-control>
+                  <input nz-input formControlName="title" id="priestDescriptionTitle">
+                </nz-form-control>
+              </nz-form-item>
+              <nz-form-item>
+                <nz-form-label nzFor="priestDescriptionContent">Opis - Treść</nz-form-label>
+                <nz-form-control>
+              <textarea
+                formControlName="content"
+                id="priestDescriptionContent"
+                nz-input
+                [nzAutosize]="{ minRows: 2, maxRows: 2 }"></textarea>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+          </form>
+        </nz-modal>
+      </div>
+    </form>
+  </div>
+
+</section>

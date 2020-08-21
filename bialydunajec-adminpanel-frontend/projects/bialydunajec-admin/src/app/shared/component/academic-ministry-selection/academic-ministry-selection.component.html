@@ -1,0 +1,12 @@
+<nz-select
+  style="width: 100%"
+  nzPlaceHolder="Wybierz duszpasterstwo"
+  nzNotFoundContent="Brak Duszpasterstw"
+  [nzDisabled]="disabled"
+  [(ngModel)]="selectedAcademicMinistryId">
+  <nz-option
+    *ngFor="let academicMinistry of availableAcademicMinistries"
+    nzLabel="{{academicMinistry.shortName ? academicMinistry.shortName : academicMinistry.officialName}}"
+    [nzValue]="academicMinistry.academicMinistryId"
+  ></nz-option>
+</nz-select>
