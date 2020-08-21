@@ -4,8 +4,7 @@ on:
   push:
     paths:
       - './frontend-adminpanel/**'
-    paths-ignore:
-      - '**/README.md'
+      - '!**/README.md'
 
 defaults:
   run:
