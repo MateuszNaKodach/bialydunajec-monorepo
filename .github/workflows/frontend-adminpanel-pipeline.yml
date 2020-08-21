@@ -1,0 +1,39 @@
+name: "💪 Frontend | Admin Panel pipeline"
+
+on:
+  push:
+    paths:
+      - './frontend-adminpanel/**'
+    paths-ignore:
+      - '**/README.md'
+
+defaults:
+  run:
+    working-directory: frontend-adminpanel
+
+jobs:
+  build-jar:
+    name: "Build application & start in docker-compose"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - name: Install local dependencies
+        run: npm install
+      - name: Install Angular CLI
+        run: npm install -g  --ignore-scripts @angular/cli@6.1.3
+      - name: Build bialydunajec-admin
+        if: github.ref != 'refs/heads/develop' || github.ref != 'refs/heads/staging' || github.ref != 'refs/heads/master'
+        run: ng build bialydunajec-admin
+      - name: Build bialydunajec-admin for production
+        if: github.ref != 'refs/heads/develop' || github.ref != 'refs/heads/staging' || github.ref != 'refs/heads/master'
+        run: ng run bialydunajec-admin:build:production
+      - name: Build bialydunajec-admin for staging
+        if: github.ref != 'refs/heads/develop' || github.ref != 'refs/heads/staging' || github.ref != 'refs/heads/master'
+        run: ng run bialydunajec-admin:build:staging
+      - name: Build bialydunajec-admin for development
+        if: github.ref != 'refs/heads/develop' || github.ref != 'refs/heads/staging' || github.ref != 'refs/heads/master'
+        run: ng run bialydunajec-admin:build:development

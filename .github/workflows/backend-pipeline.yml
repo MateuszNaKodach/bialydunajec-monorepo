@@ -1,7 +1,9 @@
-name: "🚀 Backend pipeline"
+name: "🚀 Backend | Spring Boot pipeline"
 
 on:
   push:
+    paths:
+      - './backend/**'
     paths-ignore:
       - '**/README.md'
 
