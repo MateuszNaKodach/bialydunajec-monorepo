@@ -1,15 +1,15 @@
-name: "💪 Frontend | Admin Panel pipeline"
+name: "💪 Frontend | Main Page pipeline"
 
 on:
   push:
     paths:
       - '.github/**'
-      - 'frontend-adminpanel/**'
+      - 'frontend-main/**'
       - '!**/README.md'
 
 defaults:
   run:
-    working-directory: frontend-adminpanel
+    working-directory: frontend-main
 
 jobs:
   build-jar:
@@ -24,7 +24,7 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
-      - name: Cache node modules for adminpanel
+      - name: Cache node modules for main
         uses: actions/cache@v1
         with:
           path: '**/node_modules'
@@ -38,16 +38,16 @@ jobs:
       - name: Install local dependencies
         run: npm install
       - name: Install Angular CLI
-        run: npm install -g  --ignore-scripts @angular/cli@6.1.3
-      - name: Build bialydunajec-admin
+        run: npm install -g  --ignore-scripts @angular/cli@8.1.0
+      - name: Build bialydunajec-main
         if: github.ref != 'refs/heads/develop' || github.ref != 'refs/heads/staging' || github.ref != 'refs/heads/master'
-        run: ng build bialydunajec-admin
-      - name: Build bialydunajec-admin for production
+        run: ng build bialydunajec-main
+      - name: Build bialydunajec-main for production
         if: github.ref == 'refs/heads/master'
-        run: ng run bialydunajec-admin:build:production
-      - name: Build bialydunajec-admin for staging
+        run: ng run bialydunajec-main:build:production
+      - name: Build bialydunajec-main for staging
         if: github.ref == 'refs/heads/staging'
-        run: ng run bialydunajec-admin:build:staging
-      - name: Build bialydunajec-admin for development
+        run: ng run bialydunajec-main:build:staging
+      - name: Build bialydunajec-main for development
         if: github.ref == 'refs/heads/develop'
-        run: ng run bialydunajec-admin:build:development
+        run: ng run bialydunajec-main:build:development
