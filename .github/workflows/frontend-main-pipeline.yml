@@ -1,4 +1,4 @@
-name: "💪 Frontend | Main Page pipeline"
+name: "⛺ Frontend | Main Page pipeline"
 
 on:
   push:
