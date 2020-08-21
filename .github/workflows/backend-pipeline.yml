@@ -1,13 +1,11 @@
-name: "Backend pipeline 🚀"
+name: "🚀 Backend pipeline"
 
 on:
-  push:
-    branches:
-      - develop
+  push
 
 jobs:
   build-jar:
-    name: "Build application & ensure running from JAR"
+    name: "Build application & start in docker-compose"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
