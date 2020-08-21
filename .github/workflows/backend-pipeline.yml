@@ -4,8 +4,7 @@ on:
   push:
     paths:
       - './backend/**'
-    paths-ignore:
-      - '**/README.md'
+      - '!**/README.md'
 
 jobs:
   build-jar:
