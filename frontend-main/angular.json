@@ -28,8 +28,8 @@
               "projects/bialydunajec-main/src/.htaccess"
             ],
             "styles": [
-              "projects/bialydunajec-main/src/styles/styles.scss",
-              "projects/bialydunajec-main/src/styles/semantic-ui/dist/semantic.css"
+              "projects/bialydunajec-main/src/styles/semantic-ui/dist/semantic.css",
+              "projects/bialydunajec-main/src/styles/styles.scss"
             ],
             "scripts": []
           },
