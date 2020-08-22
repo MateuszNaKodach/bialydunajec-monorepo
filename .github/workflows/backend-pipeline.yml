@@ -75,7 +75,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: docker.pkg.github.com
-          repository: nowakprojects/bialydunajec-kotlin-backend/bialydunajec-backend
+          repository: nowakprojects/bialydunajec-monorepo/bialydunajec-backend
           path: ./backend
           tag_with_ref: true
           tag_with_sha: true
