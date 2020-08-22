@@ -1,0 +1,33 @@
+<section>
+  <div style="display: flex; justify-content: space-between;">
+    <bda-admin-breadcrumbs
+      [breadcrumbs]="['Zapisy na Obóz','Chatki Obozowe']"
+    ></bda-admin-breadcrumbs>
+    <bda-admin-camp-edition-selection
+      (campEditionIdSelected)="onCampEditionIdSelected($event)"
+      [campEditionsObservable]="availableCampEditions"></bda-admin-camp-edition-selection>
+  </div>
+  <nz-form-item>
+    <nz-alert
+      *ngIf="lastAlert"
+      [nzType]="lastAlert.type"
+      [nzMessage]="lastAlert.message"
+      [nzDescription]="lastAlert.description"
+      nzCloseable
+      nzShowIcon>
+    </nz-alert>
+  </nz-form-item>
+  <div *ngIf="selectedCampRegistrations | async as campRegistrations" class="bda-admin-cottage-list-content">
+    <ng-container *ngIf="cottagesObservable | async as cottages">
+      <bda-admin-cottage-card
+        *ngFor="let cottage of cottages"
+        [cottage]="cottage"
+        (deleteConfirm)="onDeleteConfirm(cottage)"
+      ></bda-admin-cottage-card>
+    </ng-container>
+    <bda-admin-new-cottage-card
+      (submittedNewAcademicMinistryCottage)="onSubmittedNewAcademicMinistryCottage($event)"
+      (submittedNewStandaloneCottage)="onSubmittedNewStandaloneCottage($event)"
+    ></bda-admin-new-cottage-card>
+  </div>
+</section>

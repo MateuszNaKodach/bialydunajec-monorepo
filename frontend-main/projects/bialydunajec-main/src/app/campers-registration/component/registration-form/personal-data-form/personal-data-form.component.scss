@@ -1,0 +1,82 @@
+@import "../../../../../styles/mixins/responsivness";
+
+$registration-form-grid-columns-gap: 4rem;
+
+//TODO: Consider better solution!
+.field {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+}
+
+.bda-personal-data-form__section-content {
+  @include gt-sm__screen() {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: $registration-form-grid-columns-gap;
+  }
+}
+
+//TODO: Change section grid to make form placed well
+.bda-personal-data-form__education-section {
+  @include gt-sm__screen() {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: $registration-form-grid-columns-gap;
+  }
+}
+
+.bda-personal-data-form__others-section-content {
+  //width: 45%;
+}
+
+.bda-personal-data-form__section:nth-of-type(1) {
+  //padding-top: 3rem;
+}
+
+.bda-personal-data-form__section:nth-of-type(2),
+.bda-personal-data-form__section:nth-of-type(3),
+.bda-personal-data-form__section:nth-of-type(4) {
+  padding-top: 2rem;
+}
+
+.bda-agreement-checkbox {
+  margin-top: 1rem !important;
+  margin-bottom: 1rem !important;
+  padding: 1rem;
+}
+
+.bda-invalid-checkbox-field {
+  background-color: #FFD9D9;
+  border-radius: 4px;
+}
+
+.bda-form-group-address-street {
+  display: flex;
+  justify-content: space-between;
+
+  .bda-form-input-street {
+    flex: 12;
+    margin-right: 10px;
+  }
+
+  .bda-form-input-home-number {
+    flex: 5;
+    margin-left: 10px;
+  }
+}
+
+.bda-form-group-address-city {
+  display: flex;
+  justify-content: space-between;
+  .bda-form-input-postal-code {
+    flex: 5;
+    margin-right: 10px
+  }
+
+  .bda-form-input-city {
+    flex: 12;
+    margin-left: 10px;
+  }
+}
+

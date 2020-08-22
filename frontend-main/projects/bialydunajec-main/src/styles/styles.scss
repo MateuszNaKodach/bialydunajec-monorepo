@@ -1,0 +1,109 @@
+/* You can add global styles to this file, and also import other style files */
+@import "variables/fonts";
+@import "variables/dimensions";
+@import "mixins/responsivness";
+@import '~material-bottom-nav/bottom-nav';
+
+html, body {
+  font-size: $root-font-size;
+  font-family: $root-font-family;
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: #f6f6f6;
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+h2 {
+  font-size: 1.714rem;
+}
+
+h3 {
+  font-size: 1.286rem;
+}
+
+h4 {
+  font-size: 1.071rem;
+}
+
+h5 {
+  font-size: 1rem;
+}
+
+h6 {
+  font-size: 0.9286rem;
+}
+
+p {
+  font-size: 1rem;
+}
+
+a {
+  color: black;
+  font-size: 1rem;
+  &:hover {
+    color: $a-active-font-color;
+  }
+  &:active {
+    color: $a-active-font-color;
+  }
+}
+
+.bda-flex-centered-content {
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  justify-content: center;
+}
+
+.field {
+  height: 6rem;
+  margin-bottom: 1.43rem !important;
+}
+
+input, .dropdown {
+  height: 3rem;
+}
+
+.bda-page-section {
+  min-height: 80vh;
+  padding-top: 30px;
+  padding-bottom: 4rem;
+
+  @include gt-sm__screen() {
+    padding-top: $page-section-padding;
+    padding-bottom: $page-section-padding;
+  }
+}
+
+.bda-page-section-card {
+  background: white;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.24);
+  width: 100%;
+  padding: 0.75rem;
+
+  @include gt-xs__screen() {
+    padding: 1.5rem;
+  }
+
+}
+
+.bottom-nav {
+  @include bottom-nav($background-color: #f2711c, $active-color: #FFFFFF, $inactive-color: #E0E0E0, $hide-inactive-labels: true);
+
+  @include gt-md__screen() {
+    display: none;
+  }
+
+  a {
+    &:hover {
+      color: white;
+    }
+  }
+}

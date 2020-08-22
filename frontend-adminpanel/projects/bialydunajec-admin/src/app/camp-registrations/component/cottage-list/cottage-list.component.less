@@ -1,0 +1,12 @@
+@import '../../../../styles/responsivness';
+@import '../../../../styles/styles';
+@import '../../../../styles/theme';
+
+.bda-admin-cottage-list-content {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 1.5rem;
+
+  .gt-md__screen({ grid-template-columns: 1fr 1fr; });
+  .gt-xl__screen({ grid-template-columns: 1fr 1fr 1fr; });
+}

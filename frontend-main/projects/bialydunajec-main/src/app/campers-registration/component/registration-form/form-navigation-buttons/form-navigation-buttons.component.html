@@ -1,0 +1,4 @@
+<div class="bda-form-navigation__buttons">
+  <button *ngIf="config.left" type="button" class="bda-form-navigation__button ui basic button orange previous-step" [disabled]="config.left.disabled" (click)="clickLeft.emit()">{{config.left.text}}</button>
+  <button *ngIf="config.right" type="button" class="bda-form-navigation__button ui button orange outline next-step" [disabled]="config.right.disabled" (click)="clickRight.emit()">{{config.right.text}}</button>
+</div>

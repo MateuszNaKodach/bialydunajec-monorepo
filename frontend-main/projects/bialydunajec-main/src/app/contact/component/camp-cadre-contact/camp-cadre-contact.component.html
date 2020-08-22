@@ -1,0 +1,11 @@
+<section class="bda-page-section" fxLayoutAlign="center">
+  <div fxFlex.lt-lg="90%" fxFlex="800px">
+    <bda-section-header
+      title="Kontakt"
+      description="Tutaj znajdziesz dane kontaktowe do Kadry Głównej Obozu.">
+    </bda-section-header>
+    <bda-camp-cadre-member
+    *ngFor="let cadreMember of campCadreMembers"
+    [cadreMember]="cadreMember"></bda-camp-cadre-member>
+  </div>
+</section>

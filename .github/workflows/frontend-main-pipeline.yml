@@ -1,0 +1,51 @@
+name: "⛺ Frontend | Main Page pipeline"
+
+on: ['push']
+
+defaults:
+  run:
+    working-directory: frontend-main
+
+jobs:
+  build-jar:
+    name: "Build application & start in docker-compose"
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend-main
+    steps:
+      - uses: actions/checkout@v1
+      - name: Cache node modules
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Cache node modules for main
+        uses: actions/cache@v1
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.5.0'
+      - name: Install local dependencies
+        run: npm install
+      - name: Install Angular CLI
+        run: npm install -g  --ignore-scripts @angular/cli
+      - name: Build bialydunajec-main
+        if: github.ref != 'refs/heads/develop' || github.ref != 'refs/heads/staging' || github.ref != 'refs/heads/master'
+        run: ng build bialydunajec-main
+      - name: Build bialydunajec-main for production
+        if: github.ref == 'refs/heads/master'
+        run: ng run bialydunajec-main:build:production
+      - name: Build bialydunajec-main for staging
+        if: github.ref == 'refs/heads/staging'
+        run: ng run bialydunajec-main:build:staging
+      - name: Build bialydunajec-main for development
+        if: github.ref == 'refs/heads/develop'
+        run: ng run bialydunajec-main:build:development

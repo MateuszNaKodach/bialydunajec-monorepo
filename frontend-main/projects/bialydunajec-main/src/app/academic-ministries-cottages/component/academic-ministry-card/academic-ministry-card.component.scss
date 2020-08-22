@@ -1,0 +1,22 @@
+@import '../../../../styles/variables/fonts';
+@import '../../../../styles/variables/dimensions';
+
+
+.bda-academic-ministry-card {
+  width: $academic-ministry-card-width;
+  min-width: $academic-ministry-card-width;
+  height: $academic-ministry-card-height;
+}
+
+.bda-academic-ministry-card__name {
+  color: $a-active-font-color !important;
+  font-weight: 700 !important;
+}
+
+.bda-academic-ministry-card__logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  height: $academic-ministry-card-logo-height;
+}

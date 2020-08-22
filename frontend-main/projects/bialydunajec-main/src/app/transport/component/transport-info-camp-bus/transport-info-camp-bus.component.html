@@ -1,0 +1,53 @@
+<section>
+  <bda-mean-of-transport mapType="square">
+    <div class="bda-admin-transport__image">
+      <img src="assets/images/transport/transport_bus.svg">
+    </div>
+    <div class="bda-admin-transport__content"
+         style="display: flex; flex-flow: column; justify-content: center; align-items: center; padding: 3rem; height: 100%;">
+      <bda-mean-of-transport-header
+        title="Autokar Białego Dunajca"
+        description="Specjalny autokar wyjeżdżający z Wrocławia i Opola, który dostarczy Cię bezpośrednio pod Twoją chatkę."
+      ></bda-mean-of-transport-header>
+      <bda-dual-toggle-button
+        class="origin-selection-button"
+        [selected]="'left'"
+        [options]="{ left: { name: 'Wrocław'}, right: { name: 'Opole' } }"
+        (optionSelected)="selectBusFrom($event.name)"></bda-dual-toggle-button>
+      <div class="camp-bus-details">
+        <p><b>Koszt:</b> {{selectedCampBusLine.oneWayCost.toString()}} (w jedną stronę)</p>
+        <p><b>Data:</b> {{selectedCampBusLine.origin.when | date: 'dd.MM.yyyy'}}, godz:
+          {{selectedCampBusLine.origin.when |
+          date: 'hh:mm'}}</p>
+        <p><b>Zbiórka:</b> {{selectedCampBusLine.origin.address.notes}}
+          {{selectedCampBusLine.origin.address.street}} {{selectedCampBusLine.origin.address.number}},
+          {{selectedCampBusLine.origin.address.postalCode}} {{selectedCampBusLine.origin.address.city}}
+          {{selectedCampBusLine.busName}}
+        </p>
+        <p><b>Zapisy:</b> Odbywają się w formularzu zapisów na obóz. Po wypełnieniu formularza otrzymasz maila z
+          instrukcją
+          płatności.</p>
+        <p><b>Powrót:</b> zapisy na autokar powrotny odbędą się w trakcie trwania obozu.</p>
+        <p><b>Kontakt:</b> {{selectedCampBusLine.coordinatorContact.firstName}}
+          {{selectedCampBusLine.coordinatorContact.lastName}} - Koordynator Wyjazdu
+          {{selectedCampBusLine.coordinatorContact.phoneNumber}} ({{selectedCampBusLine.coordinatorContact.notes}})</p>
+      </div>
+      <div style="margin-top: 2rem;">
+        <bda-camp-sign-up-button text="ZAPISZ SIĘ NA OBÓZ!"></bda-camp-sign-up-button>
+      </div>
+    </div>
+    <agm-map
+      class="bda-admin-transport__google-map bda-camp-bus-departure-map"
+      [latitude]="selectedCampBusLine.origin.geoLocation.latitude"
+      [longitude]="selectedCampBusLine.origin.geoLocation.longitude"
+      [zoom]="13"
+    >
+      <agm-marker
+        class="bda-camp-bus-departure-marker"
+        [latitude]="selectedCampBusLine.origin.geoLocation.latitude"
+        [longitude]="selectedCampBusLine.origin.geoLocation.longitude">
+        <agm-info-window>Stąd odjeżdża nasz autokar.</agm-info-window>
+      </agm-marker>
+    </agm-map>
+  </bda-mean-of-transport>
+</section>

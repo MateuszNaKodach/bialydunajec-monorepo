@@ -1,0 +1,28 @@
+@import '../../../../styles/mixins/responsivness';
+@import '../../../../styles/variables/dimensions';
+
+.bda-academic-ministry-info{
+  width:100%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 3rem;
+
+  @include gt-sm__screen() {
+    width:900px;
+    padding: 2.5rem;
+  }
+}
+
+.bda-ministry-social-links{
+  list-style: none;
+  background-color: red;
+}
+
+.bda-details-selection-buttons{
+  width: 100%;
+
+  @include gt-xs__screen() {
+    width: 400px;
+  }
+}

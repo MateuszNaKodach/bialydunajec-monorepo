@@ -1,0 +1,221 @@
+<section>
+  <div style="display: flex; justify-content: space-between;">
+    <div style="display: flex;">
+      <bda-admin-breadcrumbs
+        [breadcrumbs]="['Zapisy na Obóz','Uczestnicy Obozu']"
+      ></bda-admin-breadcrumbs>
+      <!--<button
+        style="margin-left: 2rem;"
+        nz-button
+        nzType="primary"
+        [routerLink]="['../',campRegistrationsRoutingPaths.campParticipants, 'new']">Zapisz nową osobę
+      </button>-->
+    </div>
+    <bda-admin-camp-edition-selection
+      (campEditionIdSelected)="onCampEditionIdSelected($event)"
+      [campEditionsObservable]="availableCampEditions"></bda-admin-camp-edition-selection>
+  </div>
+  <div class="bda-admin-camp-participants__content">
+    <div id="camp-participants-stats" class="bda-admin-panel-section-card">
+      <!--<h2>Liczba uczestników na chatkę</h2>
+      <nz-divider></nz-divider>-->
+      <div style="display: flex; justify-content: space-between">
+        <h3><b>Liczba miejsc: </b>{{campCapacity}}</h3>
+        <h3 style="margin-bottom: 0;"><b>Zapisanych uczestników: </b>{{registeredCampParticipants}}</h3>
+      </div>
+      <div style="height: 100%;">
+        <ngx-charts-pie-chart
+          scheme="fire"
+          [results]="campParticipantsByCottageStats"
+          [legend]="false"
+          [explodeSlices]="true"
+          [labels]="true"
+          [doughnut]="false"
+          [gradient]="false">
+        </ngx-charts-pie-chart>
+      </div>
+    </div>
+
+    <div id="camp-participants-search" class="bda-admin-panel-section-card">
+      <h2>Wyszukiwanie uczestnika</h2>
+      <nz-divider></nz-divider>
+      <form nz-form class="ant-advanced-search-form" #f="ngForm" (ngSubmit)="onSubmitSearch(f)">
+        <div class="bda-search-table-controls">
+          <nz-form-item>
+            <nz-form-label>Imię</nz-form-label>
+            <nz-form-control>
+              <input
+                ngModel
+                #firstNameInput="ngModel"
+                name="firstName"
+                nz-input>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label>Nazwisko</nz-form-label>
+            <nz-form-control>
+              <input
+                ngModel
+                #lastNameInput="ngModel"
+                name="lastName"
+                nz-input>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label>PESEL</nz-form-label>
+            <nz-form-control>
+              <input
+                ngModel
+                #peselInput="ngModel"
+                name="pesel"
+                nz-input>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label>Adres e-mail</nz-form-label>
+            <nz-form-control>
+              <input
+                ngModel
+                #emailAddressInput="ngModel"
+                name="emailAddress"
+                nz-input>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label>Numer telefonu</nz-form-label>
+            <nz-form-control>
+              <input
+                ngModel
+                #phoneNumberInput="ngModel"
+                name="phoneNumber"
+                nz-input>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label>Chatka</nz-form-label>
+            <nz-form-control>
+              <input
+                ngModel
+                #cottageInput="ngModel"
+                name="cottage"
+                nz-input>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div style="display:flex; justify-content: space-between;">
+          <div>
+            <p *ngIf="searchingActive" style="display: inline-block; font-weight: bold">
+              Liczba znalezionych uczestników wg. podanych kryteriów wyszukiwania:
+              {{campParticipantsSearchResult.length}}</p>
+          </div>
+          <div>
+            <button nz-button [nzType]="'primary'" type="submit">Wyszukaj</button>
+            <button nz-button (click)="resetSearchResult(f)" type="button" style="margin-left: 1rem;">Resetuj</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div id="camp-participants" class="bda-admin-panel-section-card">
+      <div style="display: flex; align-items: center;">
+        <h2 style="display: inline-block; margin-right: 1rem; ">Zapisani uczestnicy obozu</h2>
+        <button
+          *ngIf="newCampParticipantRegistered"
+          nz-button class="mat-icon-button"
+          (click)="onCampRegistrationsReload()"><i class="anticon material-icons">replay</i> Zapisali się nowi
+          uczestnicy. Odśwież
+        </button>
+      </div>
+      <nz-divider style="margin-bottom: 0;"></nz-divider>
+      <nz-table
+        class="bda-camp-participant-table"
+        #basicTable
+        [nzData]="campParticipantsSearchResult"
+        [nzLoading]="tableIsLoading"
+        [nzTotal]="campParticipantsSearchResult.length"
+        [nzPageSize]="6"
+        nzNoResult="Jeszcze nikt się nie zapisał. Aktywuj zapisy i czekaj na pierwszych obozowiczów!">
+        <thead>
+        <tr>
+          <th>PESEL</th>
+          <th>Nazwisko</th>
+          <th>Imię</th>
+          <th>Chatka</th>
+          <th>E-mail</th>
+          <th>Potwierdzony</th>
+          <th>Opłacono zadatek</th>
+          <th>Opłacono udział</th>
+          <th nzShowExpand></th>
+        </tr>
+        </thead>
+        <tbody>
+        <ng-template ngFor let-data [ngForOf]="basicTable.data">
+          <tr>
+            <td>{{data.currentCamperData.personalData.pesel}}</td>
+            <td>{{data.currentCamperData.personalData.lastName}}</td>
+            <td>{{data.currentCamperData.personalData.firstName}}</td>
+            <td>{{data.currentCamperData.cottage.cottageName}}</td>
+            <td>{{data.currentCamperData.emailAddress}}</td>
+            <td>{{data.participationStatus == 'CONFIRMED_BY_CAMPER' ? 'TAK' : (data.participationStatus ==
+              'CONFIRMED_BY_AUTHORIZED' ? 'TAK (administracyjnie)' : 'NIE')}}
+            </td>
+            <td>{{data.downPaymentPaidDate ? 'TAK' : 'NIE'}}</td>
+            <td>{{data.campParticipationPaidDate ? 'TAK' : 'NIE'}}</td>
+            <td nzShowExpand [(nzExpand)]="data.expand"></td>
+          </tr>
+          <tr [nzExpand]="data.expand">
+            <td [attr.colspan]="20">
+              <div style="padding: 2rem;">
+                <h2><b>{{data.currentCamperData.personalData.firstName}}
+                  {{data.currentCamperData.personalData.lastName}}</b></h2>
+                <nz-divider></nz-divider>
+                <div class="bda-admin-camp-participant-details__content">
+                  <div *ngIf="data.currentCamperData as camperData">
+                    <p><b>PESEL:</b> {{camperData.personalData.pesel}}</p>
+                    <p><b>Imię:</b> {{camperData.personalData.firstName}}</p>
+                    <p><b>Nazwisko:</b> {{camperData.personalData.lastName}}</p>
+                    <p><b>Płeć:</b> {{camperData.personalData.gender}}</p>
+                    <p><b>Data urodzenia:</b> {{camperData.personalData.birthDate | date:'d.MM.yyyy'}}</p>
+                  </div>
+                  <div *ngIf="data.currentCamperData as camperData">
+                    <p><b>Email:</b> {{camperData.emailAddress}}</p>
+                    <p><b>Telefon:</b> {{camperData.phoneNumber}}</p>
+                    <b>Adres:</b> {{camperData.homeAddress.street +' '+ camperData.homeAddress.homeNumber + ', ' +
+                    camperData.homeAddress.postalCode + ' ' + camperData.homeAddress.city }}
+                  </div>
+                  <div *ngIf="data.currentCamperData.camperEducation as camperData">
+                    <p><b>Uczelnia:</b> {{camperData.university}}</p>
+                    <p><b>Wydział:</b> {{camperData.faculty}}</p>
+                    <p><b>Kierunek:</b> {{camperData.fieldOfStudy}}</p>
+                    <p><b>Maturzysta:</b> {{camperData.isHighSchoolRecentGraduate}}</p>
+                    <p><b>Szkoła średnia:</b> {{camperData.highSchool}}</p>
+                  </div>
+                </div>
+                <div class="bda-admin-section-card-action">
+                  <button nz-button
+                          *ngIf="data.participationStatus == 'WAITING_FOR_CONFIRM'"
+                          nzType="primary"
+                          nz-popconfirm
+                          nzTitle="Czy jesteś pewien, że chcesz potwierdzić uczestnictwo w Obozie? Uczestnik zostanie o tym poinformowany wiadomością email."
+                          type="button" (nzOnConfirm)="verifyCampParticipantRegistrationByAuthorized(data)"><i
+                    class="anticon anticon-check"></i>Potwierdź uczestnictwo
+                  </button>
+                  <!--<button nz-button
+                          style="margin-left: 0.5rem;"><i class="anticon anticon-form"></i>Zmień wprowadzone dane
+                  </button>
+                  <button nz-button
+                          style="margin-left: 0.5rem;"><i class="anticon anticon-home"></i>Przepisz do innej chatki</button>
+                  <button nz-button
+                          nz-popconfirm nzTitle="Czy jesteś pewien, że chcesz wypisać uczestnika z udziału w Obozie?"
+                          style="margin-left: 0.5rem;"><i class="anticon anticon-close"></i>Wypisz z Obozu
+                  </button>-->
+                </div>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+        </tbody>
+      </nz-table>
+    </div>
+  </div>
+</section>
