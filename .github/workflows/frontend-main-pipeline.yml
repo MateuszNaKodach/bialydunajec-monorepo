@@ -1,6 +1,11 @@
 name: "⛺ Frontend | Main Page pipeline"
 
-on: ['push']
+on:
+  push:
+    paths:
+      - '.github/workflows/frontend-main-pipeline.yml'
+      - 'frontend-main/**'
+      - '!**/README.md'
 
 defaults:
   run:
