@@ -39,9 +39,7 @@ jobs:
         run: npm install -g  --ignore-scripts @angular/cli
       - name: Build bialydunajec-main
         if: github.ref != 'refs/heads/develop' || github.ref != 'refs/heads/staging' || github.ref != 'refs/heads/master'
-        run: |
-          ls projects/bialydunajec-main/src/styles/semantic-ui/dist
-          ng build bialydunajec-main
+        run: ng build bialydunajec-main
       - name: Build bialydunajec-main for production
         if: github.ref == 'refs/heads/master'
         run: ng run bialydunajec-main:build:production
