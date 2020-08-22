@@ -1,9 +1,11 @@
-name: "🚀 Backend pipeline"
+name: "🚀 Backend | Spring Boot pipeline"
 
 on:
   push:
-    paths-ignore:
-      - '**/README.md'
+    paths:
+      - '.github/workflows/backend-pipeline.yml'
+      - 'backend/**'
+      - '!**/README.md'
 
 jobs:
   build-jar:
