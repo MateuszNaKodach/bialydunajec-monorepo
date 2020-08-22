@@ -15,6 +15,9 @@ jobs:
   build-jar:
     name: "Build application & start in docker-compose"
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend-main
     steps:
       - uses: actions/checkout@v1
       - name: Cache node modules
@@ -34,7 +37,7 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: '14.7.0'
+          node-version: '12.5.0'
       - name: Install local dependencies
         run: npm install
       - name: Install Angular CLI
