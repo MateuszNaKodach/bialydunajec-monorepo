@@ -55,4 +55,4 @@ jobs:
         name: Upload artifact frontend-adminpanel-dist
         with:
           name: frontend-adminpanel-dist
-          path: ./frontend-adminpanel/dist/**
+          path: ./frontend-adminpanel/dist
