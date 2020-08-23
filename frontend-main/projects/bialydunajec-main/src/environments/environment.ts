@@ -7,7 +7,7 @@ export const environment = {
   production: false,
   restApi: {
     baseUrl: 'http://localhost:6655',
-    clientId: 'web-angular_main-local-inside-docker-secret',
+    clientId: 'web-angular_main-local-inside-docker',
     clientSecret: 'web-angular_main-local-inside-docker-secret'
   },
   google: {
