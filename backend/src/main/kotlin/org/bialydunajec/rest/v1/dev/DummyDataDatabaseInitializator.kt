@@ -70,7 +70,7 @@ class DummyDatabaseInitializator(
                         "admin",
                         "test1234"
                 )
-        ).forEach { authorizationServerFacade.createUserCredentials(it) }
+                     ).forEach { authorizationServerFacade.createUserCredentials(it) }
 
 
         listOf(
