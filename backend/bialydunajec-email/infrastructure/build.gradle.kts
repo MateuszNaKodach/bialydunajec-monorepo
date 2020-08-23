@@ -22,6 +22,7 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
     compile("org.springframework.boot:spring-boot-starter-mail")
 
+    testRuntime("com.h2database:h2")
     runtime("mysql:mysql-connector-java")
     testCompile("org.springframework.boot:spring-boot-starter-test")
 }
