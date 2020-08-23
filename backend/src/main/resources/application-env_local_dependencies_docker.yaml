@@ -13,7 +13,7 @@ spring:
     password: bialydunajec-postgres-password
     initialization-mode: always
     continue-on-error: true
-    platform: mysql
+    platform: postgresql
   data:
     mongodb:
       uri: "mongodb://localhost:6646/bialydunajec-mongodb-db"

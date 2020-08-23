@@ -25,7 +25,6 @@ dependencies {
     compile("com.google.api-client:google-api-client:${Versions.googleApiClientVersion}")
 
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
-    runtime("com.h2database:h2")
     runtime("mysql:mysql-connector-java")
     testCompile("org.springframework.boot:spring-boot-starter-test")
 }

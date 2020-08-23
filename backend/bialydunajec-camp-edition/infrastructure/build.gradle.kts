@@ -20,7 +20,6 @@ dependencies {
     api(project(":bialydunajec-camp-edition:bialydunajec-camp-edition-presentation"))
 
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
-    runtime("com.h2database:h2")
     runtime("mysql:mysql-connector-java")
     testCompile("org.springframework.boot:spring-boot-starter-test")
 }

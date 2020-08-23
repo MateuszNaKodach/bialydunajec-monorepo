@@ -6,9 +6,9 @@ export const environment = {
   name: 'default',
   production: false,
   restApi: {
-    baseUrl: 'http://localhost:3344',
-    clientId: 'web-angular_main-local',
-    clientSecret: 'NLLMAZgKtyrEzQlpr1TI'
+    baseUrl: 'http://localhost:6655',
+    clientId: 'web-angular_main-local-inside-docker-secret',
+    clientSecret: 'web-angular_main-local-inside-docker-secret'
   },
   google: {
     reCaptcha: {

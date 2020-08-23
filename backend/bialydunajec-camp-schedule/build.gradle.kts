@@ -27,5 +27,4 @@ dependencies {
 
     testCompile("org.springframework.boot:spring-boot-starter-test")
 
-    runtime("com.h2database:h2")
 }

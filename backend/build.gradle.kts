@@ -152,9 +152,6 @@ dependencies {
     //Fake data generator
     implementation("com.devskiller:jfairy:${Versions.jfairyVersion}")
 
-    if (!project.hasProperty("release")) {
-        runtimeOnly("com.h2database:h2")
-    }
     runtimeOnly("mysql:mysql-connector-java:${Versions.mysqlConnectorVersion}")
     runtimeOnly("org.postgresql:postgresql:${Versions.postgresqlConnectorVersion}")
 
