@@ -6,7 +6,7 @@ import org.bialydunajec.ddd.domain.base.event.DomainEventBus
 /**
  * Domain event bus, which recording published events
  */
-class InMemoryDomainEventsRecorder(private val domainEventBus: DomainEventBus) : DomainEventBus by domainEventBus {
+class InMemoryDomainEventsRecorder(private val domainEventBus: DomainEventBus?) : DomainEventBus {
 
     private val _recorded: MutableList<DomainEvent<*>> = mutableListOf()
 
@@ -14,12 +14,12 @@ class InMemoryDomainEventsRecorder(private val domainEventBus: DomainEventBus) :
         get() = _recorded
 
     override fun publish(domainEvent: DomainEvent<*>) {
-        domainEventBus.publish(domainEvent)
+        domainEventBus?.publish(domainEvent)
         _recorded += domainEvent
     }
 
     override fun publishAll(domainEvents: Collection<DomainEvent<*>>) {
-        domainEventBus.publishAll(domainEvents)
+        domainEventBus?.publishAll(domainEvents)
         _recorded += domainEvents
     }
 }

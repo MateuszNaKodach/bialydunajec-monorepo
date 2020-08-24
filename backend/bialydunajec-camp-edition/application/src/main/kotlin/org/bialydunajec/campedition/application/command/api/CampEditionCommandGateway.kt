@@ -5,7 +5,6 @@ import org.bialydunajec.campedition.application.command.UpdateCampEditionDuratio
 import org.bialydunajec.ddd.application.base.command.CommandGateway
 import org.springframework.stereotype.Component
 
-@Component
 class CampEditionCommandGateway internal constructor(
         private val createCampEditionApplicationService: CreateCampEditionApplicationService,
         private val updateCampEditionDurationApplicationService: UpdateCampEditionDurationApplicationService
