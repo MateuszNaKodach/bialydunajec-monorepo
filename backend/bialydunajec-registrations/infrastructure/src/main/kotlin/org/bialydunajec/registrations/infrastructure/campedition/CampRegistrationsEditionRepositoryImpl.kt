@@ -1,5 +1,6 @@
 package org.bialydunajec.registrations.infrastructure.campedition
 
+import org.bialydunajec.ddd.domain.base.event.DomainEventBus
 import org.bialydunajec.ddd.infrastructure.base.persistence.AbstractDomainRepositoryImpl
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEdition
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
@@ -13,8 +14,9 @@ const val CAMP_REGISTRATIONS_EDITION_CACHE = "org.bialydunajec.campregistrations
 
 @Repository
 internal class CampRegistrationsEditionRepositoryImpl(
-        jpaRepository: CampRegistrationsEditionJpaRepository
-) : AbstractDomainRepositoryImpl<CampRegistrationsEdition, CampRegistrationsEditionId, CampRegistrationsEditionJpaRepository>(jpaRepository),
+        jpaRepository: CampRegistrationsEditionJpaRepository,
+        domainEventBus: DomainEventBus
+) : AbstractDomainRepositoryImpl<CampRegistrationsEdition, CampRegistrationsEditionId, CampRegistrationsEditionJpaRepository>(jpaRepository, domainEventBus),
         CampRegistrationsEditionRepository {
 
     @Cacheable(cacheNames = [CAMP_REGISTRATIONS_EDITION_CACHE], key = "{#root.methodName,#aggregateId}")

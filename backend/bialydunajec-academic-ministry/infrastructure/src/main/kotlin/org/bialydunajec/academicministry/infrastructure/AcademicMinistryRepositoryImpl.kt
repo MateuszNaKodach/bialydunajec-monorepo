@@ -3,6 +3,7 @@ package org.bialydunajec.academicministry.infrastructure
 import org.bialydunajec.academicministry.domain.AcademicMinistry
 import org.bialydunajec.academicministry.domain.AcademicMinistryId
 import org.bialydunajec.academicministry.domain.AcademicMinistryRepository
+import org.bialydunajec.ddd.domain.base.event.DomainEventBus
 import org.bialydunajec.ddd.infrastructure.base.persistence.AbstractDomainRepositoryImpl
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable
@@ -13,8 +14,9 @@ const val ACADEMIC_MINISTRY_CACHE = "org.bialydunajec.campregistrations.ACADEMIC
 
 @Repository
 internal class AcademicMinistryRepositoryImpl(
-        jpaRepository: AcademicMinistryJpaRepository
-) : AbstractDomainRepositoryImpl<AcademicMinistry, AcademicMinistryId, AcademicMinistryJpaRepository>(jpaRepository), AcademicMinistryRepository {
+        jpaRepository: AcademicMinistryJpaRepository,
+        domainEventBus: DomainEventBus
+) : AbstractDomainRepositoryImpl<AcademicMinistry, AcademicMinistryId, AcademicMinistryJpaRepository>(jpaRepository, domainEventBus), AcademicMinistryRepository {
 
     @Cacheable(cacheNames = [ACADEMIC_MINISTRY_CACHE], key = "#root.methodName")
     override fun findAll(): Collection<AcademicMinistry> = super.findAll()

@@ -1,5 +1,6 @@
 package org.bialydunajec.registrations.infrastructure.shirt
 
+import org.bialydunajec.ddd.domain.base.event.DomainEventBus
 import org.bialydunajec.ddd.infrastructure.base.persistence.AbstractDomainRepositoryImpl
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantId
 import org.bialydunajec.registrations.domain.shirt.*
@@ -12,8 +13,9 @@ const val SHIRT_ORDER_CACHE = "org.bialydunajec.campregistrations.SHIRT_ORDER_CA
 
 @Repository
 internal class ShirtOrderRepositoryImpl(
-        jpaRepository: ShirtOrderJpaRepository
-) : AbstractDomainRepositoryImpl<ShirtOrder, ShirtOrderId, ShirtOrderJpaRepository>(jpaRepository),
+        jpaRepository: ShirtOrderJpaRepository,
+        domainEventBus: DomainEventBus
+) : AbstractDomainRepositoryImpl<ShirtOrder, ShirtOrderId, ShirtOrderJpaRepository>(jpaRepository, domainEventBus),
         ShirtOrderRepository {
 
     override fun findByCampParticipantId(campParticipantId: CampParticipantId) =

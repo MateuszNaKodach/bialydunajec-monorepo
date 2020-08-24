@@ -39,7 +39,7 @@ class CampEditionController(
     //QUERY------------------------------------------------------------------------------------------------------------
     @GetMapping
     fun getAllCampEditions() =
-            campEditionQueryGateway.process(CampEditionQuery.All())
+            campEditionQueryGateway.process(CampEditionQuery.All)
                     .sortedByDescending { it.campEditionId.toInt() }
 
 

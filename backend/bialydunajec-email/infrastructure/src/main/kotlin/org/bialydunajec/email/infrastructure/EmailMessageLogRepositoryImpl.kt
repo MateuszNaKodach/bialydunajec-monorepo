@@ -1,5 +1,6 @@
 package org.bialydunajec.email.infrastructure
 
+import org.bialydunajec.ddd.domain.base.event.DomainEventBus
 import org.bialydunajec.ddd.infrastructure.base.persistence.AbstractDomainRepositoryImpl
 import org.bialydunajec.email.domain.EmailMessageLog
 import org.bialydunajec.email.domain.EmailMessageLogId
@@ -10,8 +11,9 @@ import org.springframework.stereotype.Repository
 
 @Repository
 internal class EmailMessageLogRepositoryImpl(
-        jpaRepository: EmailMessageLogJpaRepository
-) : AbstractDomainRepositoryImpl<EmailMessageLog, EmailMessageLogId, EmailMessageLogJpaRepository>(jpaRepository),
+        jpaRepository: EmailMessageLogJpaRepository,
+        domainEventBus: DomainEventBus
+) : AbstractDomainRepositoryImpl<EmailMessageLog, EmailMessageLogId, EmailMessageLogJpaRepository>(jpaRepository, domainEventBus),
         EmailMessageLogRepository {
 
 }

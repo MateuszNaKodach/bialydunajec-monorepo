@@ -2,6 +2,7 @@ package org.bialydunajec.email.infrastructure
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
+import org.bialydunajec.ddd.domain.base.event.DomainEventBus
 import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddress
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.FirstName
@@ -11,6 +12,7 @@ import org.bialydunajec.email.domain.valueobject.EmailAddressOwner
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.mockito.Mockito.mock
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.context.annotation.Bean
@@ -128,7 +130,7 @@ internal class EmailRepositorySpecification {
         lateinit var emailJpaRepository: EmailJpaRepository
 
         @Bean
-        fun emailRepository(): EmailRepository = EmailRepositoryImpl(emailJpaRepository)
+        fun emailRepository(): EmailRepository = EmailRepositoryImpl(emailJpaRepository, mock(DomainEventBus::class.java))
 
     }
 

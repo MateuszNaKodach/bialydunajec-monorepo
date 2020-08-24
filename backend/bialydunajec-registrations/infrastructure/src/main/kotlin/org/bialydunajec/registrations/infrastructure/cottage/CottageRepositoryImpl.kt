@@ -1,5 +1,6 @@
 package org.bialydunajec.registrations.infrastructure.cottage
 
+import org.bialydunajec.ddd.domain.base.event.DomainEventBus
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
 import org.bialydunajec.registrations.domain.cottage.Cottage
 import org.bialydunajec.registrations.domain.cottage.CottageId
@@ -16,8 +17,9 @@ const val COTTAGE_CACHE = "org.bialydunajec.campregistrations.COTTAGE_CACHE"
 
 @Repository
 internal class CottageRepositoryImpl(
-        jpaRepository: CottageJpaRepository
-) : AbstractDomainRepositoryImpl<Cottage, CottageId, CottageJpaRepository>(jpaRepository), CottageRepository {
+        jpaRepository: CottageJpaRepository,
+        domainEventBus: DomainEventBus
+) : AbstractDomainRepositoryImpl<Cottage, CottageId, CottageJpaRepository>(jpaRepository, domainEventBus), CottageRepository {
 
     @Cacheable(cacheNames = [COTTAGE_CACHE], key = "{#root.methodName,#campRegistrationsEditionId}")
     override fun findAllByCampRegistrationsEditionId(campRegistrationsEditionId: CampRegistrationsEditionId) =
