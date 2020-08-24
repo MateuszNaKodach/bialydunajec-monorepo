@@ -32,9 +32,9 @@ export class AcademicMinistrySelectionComponent implements OnInit, ControlValueA
 
   ngOnInit() {
     this.academicMinistriesSubscription = this.academicMinistryObservable
-      .subscribe(academicMinistry => {
-        this.availableAcademicMinistries = academicMinistry;
-      });
+        .subscribe(academicMinistries => {
+          this.availableAcademicMinistries = academicMinistries;
+        });
   }
 
   get selectedAcademicMinistryId(): string {
