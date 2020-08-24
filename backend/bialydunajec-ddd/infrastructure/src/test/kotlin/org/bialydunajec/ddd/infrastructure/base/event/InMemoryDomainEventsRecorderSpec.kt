@@ -15,7 +15,7 @@ class InMemoryDomainEventsRecorderSpec {
         val eventsRecorder = InMemoryDomainEventsRecorder(domainEventBus)
 
         assertThat(eventsRecorder.recorded).isEmpty()
-        verify { domainEventBus wasNot Called }
+        verify { domainEventBus wasNot called }
     }
 
     @Test
