@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 class InMemoryDomainEventsRecorderSpec {
 
     @Test
-    fun `When No published events | Then should not record any events`() {
+    fun `When No published events | Then should not record any events | And nothing published`() {
         val domainEventBus: DomainEventBus = anDomainEventBus()
         val eventsRecorder = InMemoryDomainEventsRecorder(domainEventBus)
 
@@ -19,7 +19,7 @@ class InMemoryDomainEventsRecorderSpec {
     }
 
     @Test
-    fun `When Published one event | Then the event should be recorded`() {
+    fun `When Published one event | Then the event should be recorded | And published`() {
         val event = anEvent()
         val domainEventBus: DomainEventBus = anDomainEventBus()
         val eventsRecorder = InMemoryDomainEventsRecorder(domainEventBus)
@@ -31,7 +31,7 @@ class InMemoryDomainEventsRecorderSpec {
     }
 
     @Test
-    fun `When Published many events | Then those event should be recorded in order`() {
+    fun `When Published many events | Then those event should be recorded in order | And published`() {
         val events = listOf(anEvent(), anEvent(), anEvent())
         val domainEventBus: DomainEventBus = anDomainEventBus()
         val eventsRecorder = InMemoryDomainEventsRecorder(domainEventBus)
@@ -39,7 +39,7 @@ class InMemoryDomainEventsRecorderSpec {
         eventsRecorder.publishAll(events)
 
         assertThat(eventsRecorder.recorded).containsExactlyElementsOf(events)
-        verify(exactly = 1) { domainEventBus.publishAll(any()) }
+        verify(exactly = 1) { domainEventBus.publishAll(events) }
     }
 
 }
