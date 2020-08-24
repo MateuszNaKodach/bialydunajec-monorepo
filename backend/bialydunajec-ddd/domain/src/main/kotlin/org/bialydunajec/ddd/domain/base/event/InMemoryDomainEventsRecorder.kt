@@ -1,7 +1,4 @@
-package org.bialydunajec.ddd.infrastructure.base.event
-
-import org.bialydunajec.ddd.domain.base.event.DomainEvent
-import org.bialydunajec.ddd.domain.base.event.DomainEventBus
+package org.bialydunajec.ddd.domain.base.event
 
 /**
  * Domain event bus, which recording published events
@@ -21,5 +18,9 @@ class InMemoryDomainEventsRecorder(private val domainEventBus: DomainEventBus?) 
     override fun publishAll(domainEvents: Collection<DomainEvent<*>>) {
         domainEventBus?.publishAll(domainEvents)
         _recorded += domainEvents
+    }
+
+    fun clearRecordedEvents(){
+        this._recorded.clear()
     }
 }

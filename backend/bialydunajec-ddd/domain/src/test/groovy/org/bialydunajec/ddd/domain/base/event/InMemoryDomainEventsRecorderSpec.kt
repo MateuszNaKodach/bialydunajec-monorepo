@@ -1,9 +1,7 @@
-package org.bialydunajec.ddd.infrastructure.base.event
+package org.bialydunajec.ddd.domain.base.event
 
 import io.mockk.*
 import org.assertj.core.api.Assertions.assertThat
-import org.bialydunajec.ddd.domain.base.event.DomainEvent
-import org.bialydunajec.ddd.domain.base.event.DomainEventBus
 import org.bialydunajec.ddd.domain.base.valueobject.AggregateId
 import org.junit.jupiter.api.Test
 

@@ -1,7 +1,6 @@
-package org.bialydunajec.ddd.infrastructure.base.persistence
+package org.bialydunajec.ddd.domain.base.persistence
 
 import org.bialydunajec.ddd.domain.base.aggregate.AggregateRoot
-import org.bialydunajec.ddd.domain.base.persistence.ReadOnlyDomainRepository
 import org.bialydunajec.ddd.domain.base.specification.Specification
 import org.bialydunajec.ddd.domain.base.valueobject.Identifier
 import java.util.concurrent.ConcurrentHashMap
