@@ -144,7 +144,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-hateoas")
     implementation("org.springframework.boot:spring-boot-starter-mail")
     implementation("org.springframework.boot:spring-boot-starter-quartz")
-    implementation("org.springframework.boot:spring-boot-starter-webflux")
+    implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("com.github.ulisesbocchio:jasypt-spring-boot-starter:${Versions.jasyptVersion}")
     implementation("io.springfox:springfox-boot-starter:${Versions.swaggerVersion}")

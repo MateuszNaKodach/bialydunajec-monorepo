@@ -22,8 +22,7 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
     compile("org.springframework.boot:spring-boot-starter-integration")
     compile("org.springframework.boot:spring-boot-starter-mail")
-    //compile("org.springframework.boot:spring-boot-starter-web")
-    compile("org.springframework.boot:spring-boot-starter-webflux")
+    compile("org.springframework.boot:spring-boot-starter-web")
     compile("com.fasterxml.jackson.module:jackson-module-kotlin")
     compile("org.springframework.kafka:spring-kafka")
 

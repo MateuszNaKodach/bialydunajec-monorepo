@@ -30,6 +30,7 @@ object Dependencies {
 
             const val SPRING_BOOT_STARTER_CACHE = "org.springframework.boot:spring-boot-starter-cache"
             const val SPRING_BOOT_STARTER_DATA_JPA = "org.springframework.boot:spring-boot-starter-data-jpa"
+            const val SPRING_BOOT_STARTER_WEB = "org.springframework.boot:spring-boot-starter-web"
             const val SPRING_BOOT_STARTER_WEB_FLUX = "org.springframework.boot:spring-boot-starter-webflux"
             const val SPRING_BOOT_STARTER_VALIDATION = "org.springframework.boot:spring-boot-starter-validation"
 
