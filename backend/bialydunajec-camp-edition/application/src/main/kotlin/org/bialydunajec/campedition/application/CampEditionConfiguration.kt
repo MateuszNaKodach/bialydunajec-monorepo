@@ -15,8 +15,8 @@ import org.springframework.context.annotation.Configuration
 internal class CampEditionConfiguration {
 
     fun campEditionModule(
-            campEditionRepository: CampEditionRepository,
             domainEventBus: DomainEventBus,
+            campEditionRepository: CampEditionRepository,
             externalCommandBus: ExternalCommandBus,
             externalEventPublisher: ExternalEventPublisher
     ): CampEditionModule {
