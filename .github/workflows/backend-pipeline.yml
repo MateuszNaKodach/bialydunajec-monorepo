@@ -20,7 +20,11 @@ jobs:
       - name: Cache Gradle packages
         uses: actions/cache@v2
         with:
-          path: ~/backend/.gradle/caches
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+            ./backend/.gradle/caches
+             ~/.m2/repository
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
       - name: Run tests with Gradle
@@ -46,11 +50,13 @@ jobs:
         run:  cp ./backend/build/libs/bialydunajec-backend* ./backend/build/libs/bialydunajec-backend.jar
       - uses: actions/upload-artifact@v1
         name: Upload artifact bialydunajec-backend.jar
+        if:   github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/staging' || github.ref == 'refs/heads/master'
         with:
           name: bialydunajec-backend.jar
           path: ./backend/build/libs/bialydunajec-backend.jar
       - uses: actions/upload-artifact@v1
         name: Upload artifact Dockerfile
+        if:   github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/staging' || github.ref == 'refs/heads/master'
         with:
           name: Dockerfile
           path: ./backend/Dockerfile
