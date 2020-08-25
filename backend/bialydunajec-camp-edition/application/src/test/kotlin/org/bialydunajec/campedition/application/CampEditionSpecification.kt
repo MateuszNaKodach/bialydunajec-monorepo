@@ -54,44 +54,7 @@ internal class CampEditionSpecification {
                     campEditionDownPaymentAmount = 99.0
             )
     )
-
-    @Nested
-    @DisplayName("Given no camp editions exist")
-    inner class GivenNoCampEditionsExists {
-
-        val campEdition35 = campEditionGivens.getValue(35)
-        val campEdition36 = campEditionGivens.getValue(36)
-        val scenario = campEditions()
-
-        @Nested
-        @DisplayName("When create first camp edition")
-        inner class WhenCreateFirstCampEdition {
-
-            @BeforeEach
-            internal fun setUp() {
-                scenario { whenExecute(campEdition35.create) }
-            }
-
-            @Test
-            fun `Then camp edition should be created`() {
-                scenario { publishedLastly(campEdition35.created) }
-            }
-
-            @Test
-            fun `Then camp edition should be searchable by id`() {
-                scenario { publishedLastly(campEdition35.created) }
-            }
-
-            @Test
-            fun `Then camp edition should be searchable with all camp editions`() {
-                scenario { resultOf({ process(CampEditionQuery.All) }) { containsOnly(campEdition35.dto) } }
-            }
-
-
-        }
-
-
-    }
+    
 
     @Test
     fun `Given none camp edition exists | When create camp edition | Then camp edition should be created`() {
