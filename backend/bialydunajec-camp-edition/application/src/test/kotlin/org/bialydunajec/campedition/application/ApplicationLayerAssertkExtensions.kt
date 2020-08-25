@@ -4,10 +4,16 @@ import assertk.Assert
 import assertk.assertThat
 import assertk.assertions.support.expected
 import assertk.assertions.support.show
+import io.mockk.Runs
+import io.mockk.every
+import io.mockk.just
+import io.mockk.mockk
 import org.bialydunajec.campedition.domain.campedition.CampEditionEvent
+import org.bialydunajec.ddd.application.base.external.event.ExternalEventPublisher
 import org.bialydunajec.ddd.application.base.query.Query
 import org.bialydunajec.ddd.application.base.query.QueryGateway
 import org.bialydunajec.ddd.domain.base.event.DomainEvent
+import org.bialydunajec.ddd.domain.base.event.DomainEventBus
 import org.bialydunajec.ddd.domain.base.event.DomainEventsRecorder
 import org.bialydunajec.ddd.domain.base.event.InMemoryDomainEventsRecorder
 import kotlin.reflect.KProperty1
@@ -121,3 +127,18 @@ fun readInstanceProperty(instance: Any, propertyName: String): Any? {
 //IntelliJ bug: move it at once to another file
 object NoEvents
 typealias noEvents = NoEvents
+
+fun anExternalEventPublisher(): ExternalEventPublisher {
+    return mockk {
+        every { send(any()) } just Runs
+        every { sendAll(any()) } just Runs
+    }
+}
+
+fun anDomainEventBus(): InMemoryDomainEventsRecorder {
+    val domainEventBus: DomainEventBus = mockk {
+        every { publish(any()) } just Runs
+        every { publishAll(any()) } just Runs
+    }
+    return InMemoryDomainEventsRecorder(domainEventBus)
+}

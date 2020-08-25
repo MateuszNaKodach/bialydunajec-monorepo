@@ -5,10 +5,6 @@ import assertk.assertions.contains
 import assertk.assertions.containsOnly
 import assertk.assertions.isEqualTo
 import assertk.assertions.isNotEmpty
-import io.mockk.Runs
-import io.mockk.every
-import io.mockk.just
-import io.mockk.mockk
 import org.bialydunajec.campedition.application.command.api.CampEditionCommand
 import org.bialydunajec.campedition.application.command.api.CampEditionCommandGateway
 import org.bialydunajec.campedition.application.query.api.CampEditionQuery
@@ -19,7 +15,6 @@ import org.bialydunajec.campedition.domain.campedition.CampEditionEvent
 import org.bialydunajec.campedition.domain.campedition.CampEditionId
 import org.bialydunajec.campedition.domain.campedition.CampEditionRepository
 import org.bialydunajec.campedition.domain.exception.CampEditionDomainRule
-import org.bialydunajec.ddd.application.base.external.event.ExternalEventPublisher
 import org.bialydunajec.ddd.domain.base.event.DomainEventBus
 import org.bialydunajec.ddd.domain.base.event.InMemoryDomainEventsRecorder
 import org.bialydunajec.ddd.domain.base.persistence.InMemoryDomainRepository
@@ -244,21 +239,6 @@ private fun campEditions(block: (CampEditionTestFixtureScope.() -> Unit)? = null
     return fixture
 }
 
-
-private fun anExternalEventPublisher(): ExternalEventPublisher {
-    return mockk {
-        every { send(any()) } just Runs
-        every { sendAll(any()) } just Runs
-    }
-}
-
-private fun anDomainEventBus(): InMemoryDomainEventsRecorder {
-    val domainEventBus: DomainEventBus = mockk {
-        every { publish(any()) } just Runs
-        every { publishAll(any()) } just Runs
-    }
-    return InMemoryDomainEventsRecorder(domainEventBus)
-}
 
 class InMemoryCampEditionRepository(domainEventBus: DomainEventBus)
     : InMemoryDomainRepository<CampEditionId, CampEdition>(domainEventBus = domainEventBus), CampEditionRepository
