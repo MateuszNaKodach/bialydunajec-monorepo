@@ -41,10 +41,12 @@ jobs:
         with:
           arguments: -p backend -Prelease build -x test
           wrapper-directory: ./backend
-      - name: Validate if docker-compose.run.yaml can run
-        run: |
-          cd ./backend
-          docker-compose -f docker-compose.run.yml --log-level INFO up -d
+# Aktualnie nic nie daje. Nie czeka na start aplikacji. Wykonac smoke check - call na REST API status.
+#      - name: Validate if docker-compose.run.yaml can run
+#        if:   github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/staging' || github.ref == 'refs/heads/master'
+#        run: |
+#          cd ./backend
+#          docker-compose -f docker-compose.run.yml --log-level INFO up -d
       - name: Change artifact name
         run:  cp ./backend/build/libs/bialydunajec-backend* ./backend/build/libs/bialydunajec-backend.jar
       - uses: actions/upload-artifact@v1
