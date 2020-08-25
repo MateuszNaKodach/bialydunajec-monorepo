@@ -5,9 +5,7 @@ import org.bialydunajec.academicministry.application.command.CreateAcademicMinis
 import org.bialydunajec.academicministry.application.command.RemoveAcademicMinistryPriestApplicationService
 import org.bialydunajec.academicministry.application.command.UpdateAcademicMinistryApplicationService
 import org.bialydunajec.ddd.application.base.command.CommandGateway
-import org.springframework.stereotype.Service
 
-@Service
 class AcademicMinistryAdminCommandGateway internal constructor(
         private val createAcademicMinistryApplicationService: CreateAcademicMinistryApplicationService,
         private val updateAcademicMinistryApplicationService: UpdateAcademicMinistryApplicationService,

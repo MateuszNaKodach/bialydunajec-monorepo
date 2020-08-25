@@ -7,10 +7,8 @@ import org.bialydunajec.academicministry.domain.valueobject.AcademicMinistrySnap
 import org.bialydunajec.academicministry.domain.exception.AcademicMinistryDomainRule
 import org.bialydunajec.ddd.application.base.ApplicationService
 import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
-import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
-@Service
 @Transactional
 internal class CreateAcademicMinistryApplicationService(
         private val academicMinistryRepository: AcademicMinistryRepository
@@ -30,7 +28,6 @@ internal class CreateAcademicMinistryApplicationService(
                     .getAggregateId()
 }
 
-@Service
 @Transactional
 internal class UpdateAcademicMinistryApplicationService(
         private val academicMinistryRepository: AcademicMinistryRepository
@@ -56,7 +53,6 @@ internal class UpdateAcademicMinistryApplicationService(
 }
 
 @Transactional
-@Service
 internal class CreateAcademicMinistryPriestApplicationService(
         private val academicMinistryRepository: AcademicMinistryRepository
 ) : ApplicationService<AcademicMinistryCommand.CreateAcademicMinistryPriest> {
@@ -81,7 +77,6 @@ internal class CreateAcademicMinistryPriestApplicationService(
 }
 
 @Transactional
-@Service
 internal class RemoveAcademicMinistryPriestApplicationService(
         private val academicMinistryRepository: AcademicMinistryRepository
 ) : ApplicationService<AcademicMinistryCommand.RemoveAcademicMinistryPriest> {

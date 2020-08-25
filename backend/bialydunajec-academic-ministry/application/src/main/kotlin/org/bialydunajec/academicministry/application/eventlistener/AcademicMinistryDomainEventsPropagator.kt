@@ -4,17 +4,15 @@ import org.bialydunajec.academicministry.domain.AcademicMinistryEvent
 import org.bialydunajec.academicministry.messages.event.AcademicMinistryExternalEvent
 import org.bialydunajec.ddd.application.base.external.event.ExternalEventPublisher
 import org.springframework.scheduling.annotation.Async
-import org.springframework.stereotype.Component
 import org.springframework.transaction.event.TransactionalEventListener
 
-@Component
-internal class AcademicMinistryDomainEventsPropagator(
+internal open class AcademicMinistryDomainEventsPropagator(
         private val externalEventBus: ExternalEventPublisher
 ) {
 
     @Async
     @TransactionalEventListener
-    fun handleDomainEvent(domainEvent: AcademicMinistryEvent.AcademicMinistryCreated) {
+    open fun handleDomainEvent(domainEvent: AcademicMinistryEvent.AcademicMinistryCreated) {
         with(domainEvent.snapshot) {
             externalEventBus.send(
                     AcademicMinistryExternalEvent.AcademicMinistryCreated(
@@ -29,7 +27,7 @@ internal class AcademicMinistryDomainEventsPropagator(
 
     @Async
     @TransactionalEventListener
-    fun handleDomainEvent(domainEvent: AcademicMinistryEvent.AcademicMinistryUpdated) {
+    open fun handleDomainEvent(domainEvent: AcademicMinistryEvent.AcademicMinistryUpdated) {
         with(domainEvent.snapshot) {
             externalEventBus.send(
                     AcademicMinistryExternalEvent.AcademicMinistryUpdated(

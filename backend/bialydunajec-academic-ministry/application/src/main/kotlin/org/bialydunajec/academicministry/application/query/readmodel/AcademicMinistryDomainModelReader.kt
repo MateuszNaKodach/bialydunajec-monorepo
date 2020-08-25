@@ -7,7 +7,6 @@ import org.bialydunajec.academicministry.domain.AcademicMinistryRepository
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 
-@Component
 @Transactional(readOnly = true)
 internal class AcademicMinistryDomainModelReader(private val repository: AcademicMinistryRepository) {
 
