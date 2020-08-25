@@ -155,11 +155,26 @@ class CampEditionGiven(
             )
 }
 
+abstract class ThenEventPublished<T>(val domainEvents: DomainEventsRecorder) {
+    fun thenNothingPublished(): T {
+        assertThat(domainEvents).publishedNone()
+        return fixtureScope()
+    }
+
+    inline infix fun <reified EventType : CampEditionEvent> thenPublishedLastly(event: EventType): T {
+        assertThat(domainEvents).publishedLastly<EventType>().equalsToDomainEvent(event)
+        return fixtureScope()
+    }
+
+    abstract fun fixtureScope(): T
+}
+
 class CampEditionTestFixtureScope(
         override val commandGateway: CampEditionCommandGateway,
-        val queryGateway: CampEditionQueryGateway,
-        val domainEvents: DomainEventsRecorder,
-) : WhenCommandExecute<CampEditionCommand, CampEditionCommandGateway, CampEditionTestFixtureExpect> {
+        override val queryGateway: CampEditionQueryGateway,
+        domainEvents: DomainEventsRecorder,
+) : WhenCommandExecute<CampEditionCommand, CampEditionCommandGateway, CampEditionTestFixtureExpect>,
+        ThenEventPublished<CampEditionTestFixtureScope>(domainEvents), ThenQueryResult<CampEditionQuery, CampEditionQueryGateway> {
 
     override val brokenRules = mutableListOf<DomainRuleViolationException>()
 
@@ -173,17 +188,9 @@ class CampEditionTestFixtureScope(
         givens.map { commandGateway.process(it.create) }
     }
 
+    override fun fixtureScope(): CampEditionTestFixtureScope = this
+
     override fun fixtureExpect() = CampEditionTestFixtureExpect(queryGateway, domainEvents)
-
-    inline infix fun <reified T : CampEditionEvent> thenPublishedLastly(event: T): CampEditionTestFixtureScope = apply {
-        assertThat(domainEvents).publishedLastly<T>().equalsToDomainEvent(event)
-    }
-
-    fun thenNothingPublished(): CampEditionTestFixtureScope = apply {
-        assertThat(domainEvents).publishedNone()
-    }
-
-    inline infix fun <reified R> thenResultOf(query: CampEditionQueryGateway.() -> R) = assertThat(query(queryGateway))
 
 }
 

@@ -97,7 +97,7 @@ allprojects {
         testImplementation("org.assertj:assertj-core:${Versions.assertjVersion}")
         testImplementation("org.spekframework.spek2:spek-dsl-jvm:${Versions.spekVersion}")
         testRuntimeOnly("org.spekframework.spek2:spek-runner-junit5:${Versions.spekVersion}")
-        testImplementation("com.willowtreeapps.assertk:assertk-jvm:${Versions.assertkVersion}")
+        implementation("com.willowtreeapps.assertk:assertk-jvm:${Versions.assertkVersion}")
         testImplementation("com.tngtech.archunit:archunit-junit5-api:${Versions.archUnitVersion}")
         testRuntimeOnly("com.tngtech.archunit:archunit-junit5-engine:${Versions.archUnitVersion}")
         testImplementation("io.mockk:mockk:${Versions.mockkVersion}")

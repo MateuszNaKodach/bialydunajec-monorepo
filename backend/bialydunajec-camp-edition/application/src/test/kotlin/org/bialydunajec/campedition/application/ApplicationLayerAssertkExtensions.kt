@@ -15,7 +15,7 @@ import org.bialydunajec.ddd.application.base.command.Command
 import org.bialydunajec.ddd.application.base.command.CommandProcessor
 import org.bialydunajec.ddd.application.base.external.event.ExternalEventPublisher
 import org.bialydunajec.ddd.application.base.query.Query
-import org.bialydunajec.ddd.application.base.query.QueryGateway
+import org.bialydunajec.ddd.application.base.query.QueryProcessor
 import org.bialydunajec.ddd.domain.base.event.DomainEvent
 import org.bialydunajec.ddd.domain.base.event.DomainEventBus
 import org.bialydunajec.ddd.domain.base.event.DomainEventsRecorder
@@ -25,7 +25,7 @@ import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolation
 import kotlin.reflect.KProperty1
 import kotlin.reflect.full.memberProperties
 
-abstract class TestFixtureExpect<QueryType: Query, QueryGatewayType: QueryGateway<QueryType>>(
+abstract class TestFixtureExpect<QueryType: Query, QueryGatewayType: QueryProcessor<QueryType>>(
         val queryGateway: QueryGatewayType,
         val domainEvents: DomainEventsRecorder,
 ) {
@@ -189,4 +189,9 @@ interface WhenCommandExecute<CommandType: Command, CommandProcessorType: Command
     }
 
     fun fixtureExpect(): T
+}
+
+interface ThenQueryResult<QueryType: Query, QueryProcessorType: QueryProcessor<QueryType>> {
+    val queryGateway: QueryProcessorType
+    fun <R> thenResultOf(query: QueryProcessorType.() -> R): Assert<R> = assertThat(query(queryGateway))
 }

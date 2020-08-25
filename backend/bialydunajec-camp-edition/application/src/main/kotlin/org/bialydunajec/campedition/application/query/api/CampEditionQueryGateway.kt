@@ -1,10 +1,9 @@
 package org.bialydunajec.campedition.application.query.api
 
 import org.bialydunajec.campedition.application.query.readmodel.CampEditionDomainModelReader
-import org.bialydunajec.ddd.application.base.query.QueryGateway
-import org.springframework.stereotype.Component
+import org.bialydunajec.ddd.application.base.query.QueryProcessor
 
-class CampEditionQueryGateway internal constructor(private val domainModelReader: CampEditionDomainModelReader) : QueryGateway<CampEditionQuery> {
+class CampEditionQueryGateway internal constructor(private val domainModelReader: CampEditionDomainModelReader) : QueryProcessor<CampEditionQuery> {
 
     override fun process(query: CampEditionQuery) = when (query) {
         is CampEditionQuery.All -> process(query)
