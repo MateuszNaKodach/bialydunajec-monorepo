@@ -44,8 +44,7 @@ jobs:
       - name: Validate if docker-compose.run.yaml can run
         run: |
           cd ./backend
-          docker-compose -f docker-compose.run.yml --log-level INFO up
-          docker-compose -f docker-compose.run.yml down
+          docker-compose -f docker-compose.run.yml --log-level INFO up -d
       - name: Change artifact name
         run:  cp ./backend/build/libs/bialydunajec-backend* ./backend/build/libs/bialydunajec-backend.jar
       - uses: actions/upload-artifact@v1
