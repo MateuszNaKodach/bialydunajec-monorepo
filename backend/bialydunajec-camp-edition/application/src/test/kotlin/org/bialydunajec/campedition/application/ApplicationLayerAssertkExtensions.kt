@@ -10,7 +10,6 @@ import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
-import org.bialydunajec.campedition.domain.campedition.CampEditionEvent
 import org.bialydunajec.ddd.application.base.command.Command
 import org.bialydunajec.ddd.application.base.command.CommandProcessor
 import org.bialydunajec.ddd.application.base.external.event.ExternalEventPublisher
@@ -30,11 +29,11 @@ abstract class TestFixtureExpect<QueryType: Query, QueryGatewayType: QueryProces
         val domainEvents: DomainEventsRecorder,
 ) {
 
-    inline infix fun <reified T : CampEditionEvent> thenExpect(event: () -> T): TestFixtureExpect<QueryType, QueryGatewayType> = apply {
+    inline infix fun <reified T : DomainEvent<*>> thenExpect(event: () -> T): TestFixtureExpect<QueryType, QueryGatewayType> = apply {
         assertThat(domainEvents).publishedOnly<T>().equalsToDomainEvent(event())
     }
 
-    inline infix fun <reified T : CampEditionEvent> thenExpect(event: T): TestFixtureExpect<QueryType, QueryGatewayType> = apply {
+    inline infix fun <reified T : DomainEvent<*>> thenExpect(event: T): TestFixtureExpect<QueryType, QueryGatewayType> = apply {
         assertThat(domainEvents).publishedLastly<T>().equalsToDomainEvent(event)
     }
 
