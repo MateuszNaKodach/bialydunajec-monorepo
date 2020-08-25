@@ -3,11 +3,11 @@ package org.bialydunajec.ddd.domain.base.event
 /**
  * Domain event bus, which recording published events
  */
-class InMemoryDomainEventsRecorder(private val domainEventBus: DomainEventBus?) : DomainEventBus {
+class InMemoryDomainEventsRecorder(private val domainEventBus: DomainEventBus?) : DomainEventBus, DomainEventsRecorder {
 
     private val _recorded: MutableList<DomainEvent<*>> = mutableListOf()
 
-    val recorded: List<DomainEvent<*>>
+    override val recorded: List<DomainEvent<*>>
         get() = _recorded
 
     override fun publish(domainEvent: DomainEvent<*>) {
@@ -20,7 +20,7 @@ class InMemoryDomainEventsRecorder(private val domainEventBus: DomainEventBus?) 
         _recorded += domainEvents
     }
 
-    fun clearRecordedEvents(){
+    override fun clearRecordedEvents(){
         this._recorded.clear()
     }
 }

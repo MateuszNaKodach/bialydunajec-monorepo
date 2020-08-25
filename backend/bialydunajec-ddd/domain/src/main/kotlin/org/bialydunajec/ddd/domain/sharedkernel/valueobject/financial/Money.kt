@@ -89,6 +89,7 @@ class Money private constructor(
     }
 
 
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -105,6 +106,10 @@ class Money private constructor(
         var result = value.hashCode()
         result = 31 * result + currency.hashCode()
         return result
+    }
+
+    override fun toString(): String {
+        return "Money(value=$value, currency=$currency)"
     }
 
 
