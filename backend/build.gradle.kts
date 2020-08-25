@@ -100,7 +100,7 @@ allprojects {
         implementation("com.willowtreeapps.assertk:assertk-jvm:${Versions.assertkVersion}")
         testImplementation("com.tngtech.archunit:archunit-junit5-api:${Versions.archUnitVersion}")
         testRuntimeOnly("com.tngtech.archunit:archunit-junit5-engine:${Versions.archUnitVersion}")
-        testImplementation("io.mockk:mockk:${Versions.mockkVersion}")
+        implementation("io.mockk:mockk:${Versions.mockkVersion}")
     }
 
 }

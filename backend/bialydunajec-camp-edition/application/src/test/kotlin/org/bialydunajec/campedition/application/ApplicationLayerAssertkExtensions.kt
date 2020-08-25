@@ -167,6 +167,7 @@ interface BrokenRulesCollector {
 
 interface WhenCommandExecute<CommandType: Command, CommandProcessorType: CommandProcessor<CommandType>, T : TestFixtureExpect<*, *>> : BrokenRulesCollector {
     val commandGateway: CommandProcessorType
+
     infix fun whenExecute(command: () -> CommandType): T {
         collectDomainException { commandGateway.process(command()) }
         return fixtureExpect()
