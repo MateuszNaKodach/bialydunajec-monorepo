@@ -25,7 +25,7 @@ jobs:
             ~/.gradle/wrapper
             ./backend/.gradle/caches
              ~/.m2/repository
-          key: ${{ runner.os }}-gradle-${{ hashFiles('./backend/**/*.gradle') }}
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
           restore-keys: ${{ runner.os }}-gradle
       - name: Run tests with Gradle
         uses: eskatos/gradle-command-action@v1.3.2
