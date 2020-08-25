@@ -16,6 +16,7 @@ import org.bialydunajec.campedition.domain.campedition.CampEditionId
 import org.bialydunajec.campedition.domain.campedition.CampEditionRepository
 import org.bialydunajec.campedition.domain.exception.CampEditionDomainRule
 import org.bialydunajec.ddd.domain.base.event.DomainEventBus
+import org.bialydunajec.ddd.domain.base.event.DomainEventsRecorder
 import org.bialydunajec.ddd.domain.base.event.InMemoryDomainEventsRecorder
 import org.bialydunajec.ddd.domain.base.persistence.InMemoryDomainRepository
 import org.bialydunajec.ddd.domain.base.validation.exception.DomainRule
@@ -161,7 +162,7 @@ class CampEditionGiven(
 class CampEditionTestFixtureScope(
         val commandGateway: CampEditionCommandGateway,
         val queryGateway: CampEditionQueryGateway,
-        val domainEvents: InMemoryDomainEventsRecorder,
+        val domainEvents: DomainEventsRecorder,
 ) {
 
     private val brokenRules = mutableListOf<DomainRuleViolationException>()
@@ -223,7 +224,7 @@ class CampEditionTestFixtureScope(
 
 class CampEditionTestFixtureExpect(
         queryGateway: CampEditionQueryGateway,
-        domainEvents: InMemoryDomainEventsRecorder,
+        domainEvents: DomainEventsRecorder,
 ): TestFixtureExpect<CampEditionQuery, CampEditionQueryGateway>(queryGateway, domainEvents)
 
 

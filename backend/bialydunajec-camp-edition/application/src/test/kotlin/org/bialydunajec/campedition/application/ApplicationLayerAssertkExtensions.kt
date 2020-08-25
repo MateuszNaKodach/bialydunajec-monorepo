@@ -21,7 +21,7 @@ import kotlin.reflect.full.memberProperties
 
 abstract class TestFixtureExpect<QueryType: Query, QueryGatewayType: QueryGateway<QueryType>>(
         val queryGateway: QueryGatewayType,
-        val domainEvents: InMemoryDomainEventsRecorder,
+        val domainEvents: DomainEventsRecorder,
 ) {
 
     inline infix fun <reified T : CampEditionEvent> thenExpect(event: () -> T): TestFixtureExpect<QueryType, QueryGatewayType> = apply {
