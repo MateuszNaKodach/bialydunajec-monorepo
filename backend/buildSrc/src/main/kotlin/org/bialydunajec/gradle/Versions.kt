@@ -4,7 +4,7 @@ object Versions {
     const val archUnitVersion = "0.9.3"
     const val arrowVersion = "0.8.2"
     const val assertjVersion = "3.16.1"
-    const val assertkVersion = "0.17"
+    const val assertkVersion = "0.22"
     const val axonFrameworkVersion = "4.0.3"
     const val googleApiClientVersion = "1.30.2"
     const val googleAuthLibraryOauth2HttpVersion = "0.16.2"

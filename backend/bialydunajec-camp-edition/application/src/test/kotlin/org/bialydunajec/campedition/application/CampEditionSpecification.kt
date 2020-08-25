@@ -20,7 +20,7 @@ internal class CampEditionSpecification {
 
     private val externalEvents = anExternalEventPublisher()
     private val domainEvents = anDomainEventBus()
-    private val repository = InMemoryCampEdition(domainEvents)
+    private val repository = InMemoryCampEditionRepository(domainEvents)
     private val configuration = CampEditionConfiguration(repository, externalEvents)
     private val commandGateway = configuration.campEditionCommandGateway()
     private val queryGateway = configuration.campEditionQueryGateway()
@@ -57,5 +57,5 @@ private fun anDomainEventBus(): InMemoryDomainEventsRecorder {
     return InMemoryDomainEventsRecorder(domainEventBus)
 }
 
-class InMemoryCampEdition(domainEventBus: DomainEventBus)
+class InMemoryCampEditionRepository(domainEventBus: DomainEventBus)
     : InMemoryDomainRepository<CampEditionId, CampEdition>(domainEventBus = domainEventBus), CampEditionRepository

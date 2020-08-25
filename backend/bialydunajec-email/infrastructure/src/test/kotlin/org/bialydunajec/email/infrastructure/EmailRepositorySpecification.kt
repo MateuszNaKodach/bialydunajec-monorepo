@@ -2,6 +2,8 @@ package org.bialydunajec.email.infrastructure
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
+import assertk.assertions.isFailure
+import assertk.assertions.isSuccess
 import org.bialydunajec.ddd.domain.base.event.DomainEventBus
 import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddress
@@ -51,7 +53,7 @@ internal class EmailRepositorySpecification {
             fun `then the email should be saved`() {
                 assertThat {
                     emailRepository.save(email)
-                }.doesNotThrowAnyException()
+                }.isSuccess()
             }
 
         }
@@ -77,13 +79,11 @@ internal class EmailRepositorySpecification {
             fun `then the email should be saved only once`() {
                 assertThat {
                     emailRepository.save(email1)
-                }.doesNotThrowAnyException()
+                }.isSuccess()
 
                 assertThat {
                     emailRepository.save(email2)
-                }.thrownError {
-                    isEqualTo(DomainRuleViolationException.of(EmailDomainRule.EMAIL_ADDRESS_CAN_BE_CATAGOLIZED_ONLY_ONCE_AT_THE_SAME_GROUP))
-                }
+                }.isFailure().isEqualTo(DomainRuleViolationException.of(EmailDomainRule.EMAIL_ADDRESS_CAN_BE_CATAGOLIZED_ONLY_ONCE_AT_THE_SAME_GROUP))
             }
 
         }
@@ -110,11 +110,11 @@ internal class EmailRepositorySpecification {
             fun `then the email should be saved to two groups`() {
                 assertThat {
                     emailRepository.save(emailInGroup1)
-                }.doesNotThrowAnyException()
+                }.isSuccess()
 
                 assertThat {
                     emailRepository.save(emailInGroup2)
-                }.doesNotThrowAnyException()
+                }.isSuccess()
             }
 
         }

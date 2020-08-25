@@ -35,7 +35,7 @@ internal class ExpectedEventStreamVersionSpecification : Spek({
                 it("Then: Event should be stored") {
                     assertThat {
                         eventStorageEngine.appendDomainEvent(EventStreamName(aggregateId.toString()), domainEvent, ExpectedEventStreamVersion.None)
-                    }.doesNotThrowAnyException()
+                    }.isSuccess()
                 }
 
             }
@@ -45,7 +45,7 @@ internal class ExpectedEventStreamVersionSpecification : Spek({
                 it("Then: Event should be stored") {
                     assertThat {
                         eventStorageEngine.appendDomainEvent(EventStreamName(aggregateId.toString()), domainEvent, ExpectedEventStreamVersion.Any)
-                    }.doesNotThrowAnyException()
+                    }.isSuccess()
                 }
 
             }
@@ -114,7 +114,7 @@ internal class ExpectedEventStreamVersionSpecification : Spek({
                                 ),
                                 ExpectedEventStreamVersion.Zero
                         )
-                    }.doesNotThrowAnyException()
+                    }.isSuccess()
                 }
 
             }
