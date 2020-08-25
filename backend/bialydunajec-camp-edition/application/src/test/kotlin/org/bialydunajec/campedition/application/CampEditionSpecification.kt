@@ -1,10 +1,8 @@
 package org.bialydunajec.campedition.application
 
 import assertk.assertThat
-import assertk.assertions.contains
 import assertk.assertions.containsOnly
 import assertk.assertions.isEqualTo
-import assertk.assertions.isNotEmpty
 import org.bialydunajec.campedition.application.command.api.CampEditionCommand
 import org.bialydunajec.campedition.application.command.api.CampEditionCommandGateway
 import org.bialydunajec.campedition.application.query.api.CampEditionQuery
@@ -17,9 +15,7 @@ import org.bialydunajec.campedition.domain.campedition.CampEditionRepository
 import org.bialydunajec.campedition.domain.exception.CampEditionDomainRule
 import org.bialydunajec.ddd.domain.base.event.DomainEventBus
 import org.bialydunajec.ddd.domain.base.event.DomainEventsRecorder
-import org.bialydunajec.ddd.domain.base.event.InMemoryDomainEventsRecorder
 import org.bialydunajec.ddd.domain.base.persistence.InMemoryDomainRepository
-import org.bialydunajec.ddd.domain.base.validation.exception.DomainRule
 import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.financial.Money
 import org.junit.jupiter.api.Test
@@ -163,23 +159,14 @@ class CampEditionTestFixtureScope(
         val commandGateway: CampEditionCommandGateway,
         val queryGateway: CampEditionQueryGateway,
         val domainEvents: DomainEventsRecorder,
-) {
+) : BrokenRulesCollector {
 
-    private val brokenRules = mutableListOf<DomainRuleViolationException>()
+    override val brokenRules = mutableListOf<DomainRuleViolationException>()
 
     operator fun invoke(block: (CampEditionTestFixtureScope.() -> Unit)): CampEditionTestFixtureScope = apply { block(this) }
 
     infix fun givenCampEditionExists(given: CampEditionGiven): CampEditionTestFixtureScope = apply {
         commandGateway.process(given.create)
-    }
-
-    private fun <R : Any> collectDomainException(block: () -> R): R? {
-        try {
-            return block()
-        } catch (domainException: DomainRuleViolationException) {
-            brokenRules.add(domainException)
-        }
-        return null
     }
 
     fun givenCampEditionsExists(vararg givens: CampEditionGiven): CampEditionTestFixtureScope = apply {
@@ -188,23 +175,25 @@ class CampEditionTestFixtureScope(
 
     infix fun whenExecute(command: () -> CampEditionCommand): CampEditionTestFixtureExpect {
         collectDomainException { commandGateway.process(command()) }
-        return CampEditionTestFixtureExpect(queryGateway, domainEvents)
+        return fixtureExpect()
     }
 
     infix fun whenExecute(command: CampEditionCommand): CampEditionTestFixtureExpect {
         collectDomainException { commandGateway.process(command) }
-        return CampEditionTestFixtureExpect(queryGateway, domainEvents)
+        return fixtureExpect()
     }
 
     fun whenCommands(vararg commands: CampEditionCommand): CampEditionTestFixtureExpect {
         commands.map { collectDomainException { commandGateway.process(it) } }
-        return CampEditionTestFixtureExpect(queryGateway, domainEvents)
+        return fixtureExpect()
     }
 
     infix fun whenCommands(command: CampEditionCommandGateway.() -> Any): CampEditionTestFixtureExpect {
         collectDomainException { command(commandGateway) }
-        return CampEditionTestFixtureExpect(queryGateway, domainEvents)
+        return fixtureExpect()
     }
+
+    fun fixtureExpect() = CampEditionTestFixtureExpect(queryGateway, domainEvents)
 
     inline infix fun <reified T : CampEditionEvent> thenPublishedLastly(event: T): CampEditionTestFixtureScope = apply {
         assertThat(domainEvents).publishedLastly<T>().equalsToDomainEvent(event)
@@ -216,10 +205,6 @@ class CampEditionTestFixtureScope(
 
     inline infix fun <reified R> thenResultOf(query: CampEditionQueryGateway.() -> R) = assertThat(query(queryGateway))
 
-    infix fun thenRuleBroken(domainRule: DomainRule)  = apply {
-        assertThat(brokenRules).isNotEmpty()
-        assertThat(brokenRules.last().violatedRules).contains(domainRule)
-    }
 }
 
 class CampEditionTestFixtureExpect(

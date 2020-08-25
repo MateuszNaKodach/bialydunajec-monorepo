@@ -2,6 +2,8 @@ package org.bialydunajec.campedition.application
 
 import assertk.Assert
 import assertk.assertThat
+import assertk.assertions.contains
+import assertk.assertions.isNotEmpty
 import assertk.assertions.support.expected
 import assertk.assertions.support.show
 import io.mockk.Runs
@@ -16,6 +18,8 @@ import org.bialydunajec.ddd.domain.base.event.DomainEvent
 import org.bialydunajec.ddd.domain.base.event.DomainEventBus
 import org.bialydunajec.ddd.domain.base.event.DomainEventsRecorder
 import org.bialydunajec.ddd.domain.base.event.InMemoryDomainEventsRecorder
+import org.bialydunajec.ddd.domain.base.validation.exception.DomainRule
+import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
 import kotlin.reflect.KProperty1
 import kotlin.reflect.full.memberProperties
 
@@ -141,4 +145,21 @@ fun anDomainEventBus(): InMemoryDomainEventsRecorder {
         every { publishAll(any()) } just Runs
     }
     return InMemoryDomainEventsRecorder(domainEventBus)
+}
+
+interface BrokenRulesCollector {
+    val brokenRules: MutableList<DomainRuleViolationException>
+    fun <R : Any> collectDomainException(block: () -> R): R? {
+        try {
+            return block()
+        } catch (domainException: DomainRuleViolationException) {
+            brokenRules.add(domainException)
+        }
+        return null
+    }
+
+    infix fun thenRuleBroken(domainRule: DomainRule)  = apply {
+        assertThat(brokenRules).isNotEmpty()
+        assertThat(brokenRules.last().violatedRules).contains(domainRule)
+    }
 }
