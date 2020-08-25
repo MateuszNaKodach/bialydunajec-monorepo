@@ -2,10 +2,10 @@ package org.bialydunajec.campedition.application
 
 import assertk.Assert
 import assertk.assertThat
+import assertk.assertions.contains
 import assertk.assertions.containsOnly
 import assertk.assertions.isEqualTo
-import assertk.assertions.isNotNull
-import assertk.assertions.isNull
+import assertk.assertions.isNotEmpty
 import assertk.assertions.support.expected
 import assertk.assertions.support.show
 import io.mockk.Runs
@@ -21,16 +21,16 @@ import org.bialydunajec.campedition.domain.campedition.CampEdition
 import org.bialydunajec.campedition.domain.campedition.CampEditionEvent
 import org.bialydunajec.campedition.domain.campedition.CampEditionId
 import org.bialydunajec.campedition.domain.campedition.CampEditionRepository
+import org.bialydunajec.campedition.domain.exception.CampEditionDomainRule
 import org.bialydunajec.ddd.application.base.external.event.ExternalEventPublisher
 import org.bialydunajec.ddd.domain.base.event.DomainEvent
 import org.bialydunajec.ddd.domain.base.event.DomainEventBus
 import org.bialydunajec.ddd.domain.base.event.DomainEventsRecorder
 import org.bialydunajec.ddd.domain.base.event.InMemoryDomainEventsRecorder
 import org.bialydunajec.ddd.domain.base.persistence.InMemoryDomainRepository
+import org.bialydunajec.ddd.domain.base.validation.exception.DomainRule
+import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.financial.Money
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.DisplayName
-import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import java.time.LocalDate
 import kotlin.reflect.KProperty1
@@ -54,7 +54,7 @@ internal class CampEditionSpecification {
                     campEditionDownPaymentAmount = 99.0
             )
     )
-    
+
 
     @Test
     fun `Given none camp edition exists | When create camp edition | Then camp edition should be created`() {
@@ -63,8 +63,8 @@ internal class CampEditionSpecification {
         campEditions {
             whenExecute(campEdition35.create) thenExpect (campEdition35.created)
 
-            resultOf({ process(CampEditionQuery.All) }) { containsOnly(campEdition35.dto) }
-            resultOf({ process(CampEditionQuery.ById(35)) }) { isEqualTo(campEdition35.dto) }
+            thenResultOf { process(CampEditionQuery.All) }.containsOnly(campEdition35.dto)
+            thenResultOf { process(CampEditionQuery.ById(35)) }.isEqualTo(campEdition35.dto)
         }
 
     }
@@ -79,9 +79,43 @@ internal class CampEditionSpecification {
 
             whenExecute(campEdition36.create) thenExpect (campEdition36.created)
 
-            resultOf({ process(CampEditionQuery.All) }) { containsOnly(campEdition35.dto, campEdition36.dto) }
-            resultOf({ process(CampEditionQuery.ById(35)) }) { isEqualTo(campEdition35.dto) }
-            resultOf({ process(CampEditionQuery.ById(36)) }) { isEqualTo(campEdition36.dto) }
+            thenResultOf { process(CampEditionQuery.All) }.containsOnly(campEdition35.dto, campEdition36.dto)
+            thenResultOf { process(CampEditionQuery.ById(35)) }.isEqualTo(campEdition35.dto)
+            thenResultOf { process(CampEditionQuery.ById(36)) }.isEqualTo(campEdition36.dto)
+        }
+
+    }
+
+    @Test
+    fun `Given camp edition exists | When update the camp edition duration | Then the camp edition duration should be updated`() {
+        val campEdition35 = campEditionGivens.getValue(35)
+        val newStartDate = LocalDate.of(2017, 9, 5)
+        val newEndDate = LocalDate.of(2017, 9, 10)
+
+        campEditions {
+            givenCampEditionExists(campEdition35)
+
+            whenExecute(campEdition35.updateDuration(newStartDate, newEndDate))
+
+            thenPublishedLastly(campEdition35.updated(newStartDate, newEndDate))
+            val updated35campEdition = campEdition35.updatedDto(newStartDate, newEndDate)
+            thenResultOf { process(CampEditionQuery.All) }.containsOnly(updated35campEdition)
+            thenResultOf { process(CampEditionQuery.ById(35)) }.isEqualTo(updated35campEdition)
+        }
+
+    }
+
+    @Test
+    fun `Given camp edition doesn't exists | When try to update not existing camp edition | Then update should fail`() {
+        val campEdition35 = campEditionGivens.getValue(35)
+        val newStartDate = LocalDate.of(2017, 9, 5)
+        val newEndDate = LocalDate.of(2017, 9, 10)
+
+        campEditions {
+            whenExecute(campEdition35.updateDuration(newStartDate, newEndDate))
+
+            thenRuleBroken(CampEditionDomainRule.CAMP_EDITION_TO_UPDATE_MUST_EXISTS)
+            thenNothingPublished()
         }
 
     }
@@ -119,6 +153,21 @@ class CampEditionGiven(
             campEditionDownPaymentAmount = campEditionDownPaymentAmount
     )
 
+    fun updateDuration(start: LocalDate, end: LocalDate): CampEditionCommand.UpdateCampEditionDuration =
+            CampEditionCommand.UpdateCampEditionDuration(CampEditionId(campEditionNumber), start, end)
+
+    fun updated(start: LocalDate, end: LocalDate): CampEditionEvent.CampEditionDurationUpdated =
+            CampEditionEvent.CampEditionDurationUpdated(CampEditionId(campEditionNumber), start, end)
+
+    fun updatedDto(start: LocalDate, end: LocalDate): CampEditionDto =
+            CampEditionDto(
+                    campEditionId = campEditionNumber.toString(),
+                    campEditionStartDate = start,
+                    campEditionEndDate = end,
+                    campEditionYear = start.year,
+                    campEditionPrice = campEditionPrice,
+                    campEditionDownPaymentAmount = campEditionDownPaymentAmount
+            )
 }
 
 class CampEditionTestFixtureScope(
@@ -127,10 +176,21 @@ class CampEditionTestFixtureScope(
         val domainEvents: InMemoryDomainEventsRecorder,
 ) {
 
+    private val brokenRules = mutableListOf<DomainRuleViolationException>()
+
     operator fun invoke(block: (CampEditionTestFixtureScope.() -> Unit)): CampEditionTestFixtureScope = apply { block(this) }
 
     infix fun givenCampEditionExists(given: CampEditionGiven): CampEditionTestFixtureScope = apply {
         commandGateway.process(given.create)
+    }
+
+    private fun <R : Any> collectDomainException(block: () -> R): R? {
+        try {
+            return block()
+        } catch (domainException: DomainRuleViolationException) {
+            brokenRules.add(domainException)
+        }
+        return null
     }
 
     fun givenCampEditionsExists(vararg givens: CampEditionGiven): CampEditionTestFixtureScope = apply {
@@ -138,31 +198,38 @@ class CampEditionTestFixtureScope(
     }
 
     infix fun whenExecute(command: () -> CampEditionCommand): CampEditionTestFixtureExpect {
-        commandGateway.process(command())
+        collectDomainException { commandGateway.process(command()) }
         return CampEditionTestFixtureExpect(queryGateway, domainEvents)
     }
 
     infix fun whenExecute(command: CampEditionCommand): CampEditionTestFixtureExpect {
-        commandGateway.process(command)
+        collectDomainException { commandGateway.process(command) }
         return CampEditionTestFixtureExpect(queryGateway, domainEvents)
     }
 
     fun whenCommands(vararg commands: CampEditionCommand): CampEditionTestFixtureExpect {
-        commands.map { commandGateway.process(it) }
+        commands.map { collectDomainException { commandGateway.process(it) } }
         return CampEditionTestFixtureExpect(queryGateway, domainEvents)
     }
 
     infix fun whenCommands(command: CampEditionCommandGateway.() -> Any): CampEditionTestFixtureExpect {
-        command(commandGateway)
+        collectDomainException { command(commandGateway) }
         return CampEditionTestFixtureExpect(queryGateway, domainEvents)
     }
 
-    inline infix fun <reified T : CampEditionEvent> publishedLastly(event: T): CampEditionTestFixtureScope = apply {
+    inline infix fun <reified T : CampEditionEvent> thenPublishedLastly(event: T): CampEditionTestFixtureScope = apply {
         assertThat(domainEvents).publishedLastly<T>().equalsToDomainEvent(event)
     }
 
-    inline fun <reified R> resultOf(query: CampEditionQueryGateway.() -> R, assertions: Assert<R>.() -> Unit): CampEditionTestFixtureScope = apply {
-        assertions(assertThat(query(queryGateway)))
+    fun thenNothingPublished(): CampEditionTestFixtureScope = apply {
+        assertThat(domainEvents).publishedNone()
+    }
+
+    inline infix fun <reified R> thenResultOf(query: CampEditionQueryGateway.() -> R) = assertThat(query(queryGateway))
+
+    infix fun thenRuleBroken(domainRule: DomainRule)  = apply {
+        assertThat(brokenRules).isNotEmpty()
+        assertThat(brokenRules.last().violatedRules).contains(domainRule)
     }
 }
 
