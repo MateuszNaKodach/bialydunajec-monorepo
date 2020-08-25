@@ -13,6 +13,7 @@ import org.bialydunajec.campedition.domain.campedition.CampEditionEvent
 import org.bialydunajec.campedition.domain.campedition.CampEditionId
 import org.bialydunajec.campedition.domain.campedition.CampEditionRepository
 import org.bialydunajec.campedition.domain.exception.CampEditionDomainRule
+import org.bialydunajec.ddd.application.base.testing.*
 import org.bialydunajec.ddd.domain.base.event.DomainEventBus
 import org.bialydunajec.ddd.domain.base.event.DomainEventsRecorder
 import org.bialydunajec.ddd.domain.base.persistence.InMemoryDomainRepository

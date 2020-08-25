@@ -20,11 +20,13 @@ dependencies {
     api(project(":bialydunajec-ddd:bialydunajec-ddd-dto"))
 
 
-    compile("io.reactivex.rxjava2:rxjava:${Versions.rxJavaVersion}")
-    compile("io.reactivex.rxjava2:rxkotlin:${Versions.rxJavaVersion}")
+    implementation("io.reactivex.rxjava2:rxjava:${Versions.rxJavaVersion}")
+    implementation("io.reactivex.rxjava2:rxkotlin:${Versions.rxJavaVersion}")
 
-    compile("org.springframework.boot:spring-boot-starter-validation")
-    compile("org.springframework.boot:spring-boot-starter-cache")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation("org.springframework.boot:spring-boot-starter-cache")
 
-    testCompile("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    implementation("com.willowtreeapps.assertk:assertk-jvm:${Versions.assertkVersion}")
+    implementation("io.mockk:mockk:${Versions.mockkVersion}")
 }

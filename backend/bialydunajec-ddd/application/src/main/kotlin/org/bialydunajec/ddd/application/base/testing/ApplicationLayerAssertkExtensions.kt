@@ -1,4 +1,4 @@
-package org.bialydunajec.campedition.application
+package org.bialydunajec.ddd.application.base.testing
 
 import assertk.Assert
 import assertk.assertThat
