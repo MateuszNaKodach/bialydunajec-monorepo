@@ -156,10 +156,10 @@ class CampEditionGiven(
 }
 
 class CampEditionTestFixtureScope(
-        val commandGateway: CampEditionCommandGateway,
+        override val commandGateway: CampEditionCommandGateway,
         val queryGateway: CampEditionQueryGateway,
         val domainEvents: DomainEventsRecorder,
-) : BrokenRulesCollector {
+) : WhenCommandExecute<CampEditionCommand, CampEditionCommandGateway, CampEditionTestFixtureExpect> {
 
     override val brokenRules = mutableListOf<DomainRuleViolationException>()
 
@@ -173,27 +173,7 @@ class CampEditionTestFixtureScope(
         givens.map { commandGateway.process(it.create) }
     }
 
-    infix fun whenExecute(command: () -> CampEditionCommand): CampEditionTestFixtureExpect {
-        collectDomainException { commandGateway.process(command()) }
-        return fixtureExpect()
-    }
-
-    infix fun whenExecute(command: CampEditionCommand): CampEditionTestFixtureExpect {
-        collectDomainException { commandGateway.process(command) }
-        return fixtureExpect()
-    }
-
-    fun whenCommands(vararg commands: CampEditionCommand): CampEditionTestFixtureExpect {
-        commands.map { collectDomainException { commandGateway.process(it) } }
-        return fixtureExpect()
-    }
-
-    infix fun whenCommands(command: CampEditionCommandGateway.() -> Any): CampEditionTestFixtureExpect {
-        collectDomainException { command(commandGateway) }
-        return fixtureExpect()
-    }
-
-    fun fixtureExpect() = CampEditionTestFixtureExpect(queryGateway, domainEvents)
+    override fun fixtureExpect() = CampEditionTestFixtureExpect(queryGateway, domainEvents)
 
     inline infix fun <reified T : CampEditionEvent> thenPublishedLastly(event: T): CampEditionTestFixtureScope = apply {
         assertThat(domainEvents).publishedLastly<T>().equalsToDomainEvent(event)
@@ -210,7 +190,7 @@ class CampEditionTestFixtureScope(
 class CampEditionTestFixtureExpect(
         queryGateway: CampEditionQueryGateway,
         domainEvents: DomainEventsRecorder,
-): TestFixtureExpect<CampEditionQuery, CampEditionQueryGateway>(queryGateway, domainEvents)
+) : TestFixtureExpect<CampEditionQuery, CampEditionQueryGateway>(queryGateway, domainEvents)
 
 
 private fun campEditions(block: (CampEditionTestFixtureScope.() -> Unit)? = null): CampEditionTestFixtureScope {

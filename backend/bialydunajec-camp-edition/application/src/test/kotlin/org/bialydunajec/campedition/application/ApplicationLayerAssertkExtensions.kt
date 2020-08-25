@@ -11,6 +11,8 @@ import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
 import org.bialydunajec.campedition.domain.campedition.CampEditionEvent
+import org.bialydunajec.ddd.application.base.command.Command
+import org.bialydunajec.ddd.application.base.command.CommandProcessor
 import org.bialydunajec.ddd.application.base.external.event.ExternalEventPublisher
 import org.bialydunajec.ddd.application.base.query.Query
 import org.bialydunajec.ddd.application.base.query.QueryGateway
@@ -149,7 +151,7 @@ fun anDomainEventBus(): InMemoryDomainEventsRecorder {
 
 interface BrokenRulesCollector {
     val brokenRules: MutableList<DomainRuleViolationException>
-    fun <R : Any> collectDomainException(block: () -> R): R? {
+    fun <R : Any> collectDomainException(block: () -> R?): R? {
         try {
             return block()
         } catch (domainException: DomainRuleViolationException) {
@@ -162,4 +164,29 @@ interface BrokenRulesCollector {
         assertThat(brokenRules).isNotEmpty()
         assertThat(brokenRules.last().violatedRules).contains(domainRule)
     }
+}
+
+interface WhenCommandExecute<CommandType: Command, CommandProcessorType: CommandProcessor<CommandType>, T : TestFixtureExpect<*, *>> : BrokenRulesCollector {
+    val commandGateway: CommandProcessorType
+    infix fun whenExecute(command: () -> CommandType): T {
+        collectDomainException { commandGateway.process(command()) }
+        return fixtureExpect()
+    }
+
+    infix fun whenExecute(command: CommandType): T {
+        collectDomainException { commandGateway.process(command) }
+        return fixtureExpect()
+    }
+
+    fun whenCommands(vararg commands: CommandType): T {
+        commands.map { collectDomainException { commandGateway.process(it) } }
+        return fixtureExpect()
+    }
+
+    infix fun whenCommands(command: CommandProcessorType.() -> Any): T {
+        collectDomainException { command(commandGateway) }
+        return fixtureExpect()
+    }
+
+    fun fixtureExpect(): T
 }
