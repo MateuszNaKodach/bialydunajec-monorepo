@@ -3,9 +3,7 @@ package org.bialydunajec.academicministry.application.query.api
 import org.bialydunajec.academicministry.application.dto.AcademicMinistryDto
 import org.bialydunajec.academicministry.application.dto.toDto
 import org.bialydunajec.academicministry.application.query.readmodel.AcademicMinistryDomainModelReader
-import org.springframework.stereotype.Service
 
-@Service
 class AcademicMinistryAdminQueryGateway internal constructor(
         private val domainModelReader: AcademicMinistryDomainModelReader
 ) {

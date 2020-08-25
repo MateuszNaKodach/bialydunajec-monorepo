@@ -4,7 +4,6 @@ import org.bialydunajec.academicministry.application.query.api.AcademicMinistryQ
 import org.bialydunajec.academicministry.application.query.api.AcademicPriestQuery
 import org.bialydunajec.academicministry.domain.AcademicMinistryId
 import org.bialydunajec.academicministry.domain.AcademicMinistryRepository
-import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 
 @Transactional(readOnly = true)
