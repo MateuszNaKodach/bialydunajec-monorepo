@@ -1,3 +1,3 @@
-FROM gradle:5.4-jdk12
+FROM gradle:6.5-jdk8
 WORKDIR /app
 EXPOSE 6655 5005
