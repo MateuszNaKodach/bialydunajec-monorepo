@@ -16,6 +16,7 @@ internal class CreateAcademicMinistryApplicationService(
 
     override fun execute(command: AcademicMinistryCommand.CreateAcademicMinistry) =
             AcademicMinistry(
+                    academicMinistryId = command.academicMinistryId,
                     officialName = command.officialName,
                     shortName = command.shortName,
                     logoImageUrl = command.logoImageUrl,
@@ -23,9 +24,8 @@ internal class CreateAcademicMinistryApplicationService(
                     socialMedia = command.socialMedia,
                     emailAddress = command.emailAddress,
                     photoUrl = command.photoUrl,
-                    description = command.description)
-                    .let { academicMinistryRepository.save(it) }
-                    .getAggregateId()
+                    description = command.description
+            ).let { academicMinistryRepository.save(it) }.getAggregateId()
 }
 
 @Transactional
@@ -63,13 +63,14 @@ internal class CreateAcademicMinistryPriestApplicationService(
 
         with(command) {
             academicMinistry.addNewPriest(
-                    firstName,
-                    lastName,
-                    personalTitle,
-                    emailAddress,
-                    phoneNumber,
-                    description,
-                    photoUrl
+                    academicPriestId = academicPriestId,
+                    firstName = firstName,
+                    lastName = lastName,
+                    personalTitle = personalTitle,
+                    emailAddress = emailAddress,
+                    phoneNumber = phoneNumber,
+                    description = description,
+                    photoUrl = photoUrl
             )
         }
         academicMinistryRepository.save(academicMinistry)

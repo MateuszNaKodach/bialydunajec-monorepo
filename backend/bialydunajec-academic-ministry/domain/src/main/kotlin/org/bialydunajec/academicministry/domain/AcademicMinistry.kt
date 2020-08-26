@@ -22,6 +22,8 @@ import javax.validation.constraints.NotEmpty
 @Entity
 @Table(schema = "academic_ministry")
 class AcademicMinistry(
+        academicMinistryId: AcademicMinistryId,
+
         @NotBlank
         private var officialName: String,
 
@@ -53,7 +55,7 @@ class AcademicMinistry(
 
         @Embedded
         private var description: ExtendedDescription? = null
-) : AggregateRoot<AcademicMinistryId, AcademicMinistryEvent>(AcademicMinistryId()), Versioned {
+) : AggregateRoot<AcademicMinistryId, AcademicMinistryEvent>(academicMinistryId), Versioned {
 
     @Version
     private var version: Long? = null
@@ -82,6 +84,7 @@ class AcademicMinistry(
     }
 
     fun addNewPriest(
+            academicPriestId: AcademicPriestId,
             firstName: FirstName,
             lastName: LastName,
             personalTitle: PersonalTitle?,
@@ -90,25 +93,33 @@ class AcademicMinistry(
             description: ExtendedDescription?,
             photoUrl: Url?
     ) {
-        priests.add(
-                AcademicPriest(
-                        firstName,
-                        lastName,
-                        personalTitle,
-                        emailAddress,
-                        phoneNumber,
-                        description,
-                        photoUrl
-                )
+        val academicPriest = AcademicPriest(
+                academicPriestId,
+                firstName,
+                lastName,
+                personalTitle,
+                emailAddress,
+                phoneNumber,
+                description,
+                photoUrl
         )
+        priests.add(academicPriest)
+        registerEvent(AcademicMinistryEvent.AcademicMinistryPriestAssigned(academicMinistryId = getAggregateId(), snapshot = academicPriest.getSnapshot()))
     }
 
     fun updatePriest(priestId: AcademicPriestId, priest: AcademicPriestSnapshot) {
-        priests.find { it.getAcademicPriestId() == priestId }?.updateWith(priest)
+        val updated = priests.find { it.getAcademicPriestId() == priestId }?.updateWith(priest) ?: false
+        if(updated){
+            registerEvent(AcademicMinistryEvent.AcademicMinistryPriestUpdated(academicMinistryId = getAggregateId(), snapshot = priest))
+        }
     }
 
     fun removePriest(priestId: AcademicPriestId) {
-        priests.removeIf { it.getAcademicPriestId() == priestId }
+        val priest = priests.find { it.getAcademicPriestId() == priestId }
+        val removed = priests.removeIf { it.getAcademicPriestId() == priestId }
+        if(removed){
+            registerEvent(AcademicMinistryEvent.AcademicMinistryPriestUnassigned(academicMinistryId = getAggregateId(), snapshot = priest!!.getSnapshot()))
+        }
     }
 
     fun getOfficialName() = officialName

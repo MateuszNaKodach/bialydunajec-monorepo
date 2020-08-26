@@ -16,6 +16,7 @@ import org.bialydunajec.ddd.domain.sharedkernel.valueobject.notes.ExtendedDescri
 
 sealed class AcademicMinistryCommand : Command {
     data class CreateAcademicMinistry constructor(
+            val academicMinistryId: AcademicMinistryId = AcademicMinistryId(),
             val officialName: String,
             val shortName: String?,
             val logoImageUrl: Url?,
@@ -43,6 +44,7 @@ sealed class AcademicMinistryCommand : Command {
     ) : AcademicMinistryCommand()
 
     data class CreateAcademicMinistryPriest(
+            val academicPriestId: AcademicPriestId = AcademicPriestId(),
             val academicMinistryId: AcademicMinistryId,
             val firstName: FirstName,
             val lastName: LastName,

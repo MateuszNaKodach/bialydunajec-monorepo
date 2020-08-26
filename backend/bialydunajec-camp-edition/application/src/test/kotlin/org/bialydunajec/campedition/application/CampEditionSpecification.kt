@@ -21,25 +21,8 @@ import org.bialydunajec.ddd.domain.sharedkernel.valueobject.financial.Money
 import org.junit.jupiter.api.Test
 import java.time.LocalDate
 
-internal class CampEditionSpecification {
 
-    private val campEditionGivens = mapOf(
-            35 to CampEditionGiven(
-                    campEditionNumber = 35,
-                    campEditionStartDate = LocalDate.of(2018, 9, 2),
-                    campEditionEndDate = LocalDate.of(2018, 9, 16),
-                    campEditionPrice = 399.0,
-                    campEditionDownPaymentAmount = 99.0
-            ),
-            36 to CampEditionGiven(
-                    campEditionNumber = 36,
-                    campEditionStartDate = LocalDate.of(2019, 9, 2),
-                    campEditionEndDate = LocalDate.of(2019, 9, 16),
-                    campEditionPrice = 419.0,
-                    campEditionDownPaymentAmount = 99.0
-            )
-    )
-
+private class CampEditionSpecification {
 
     @Test
     fun `Given none camp edition exists | When create camp edition | Then camp edition should be created`() {
@@ -107,7 +90,24 @@ internal class CampEditionSpecification {
 
 }
 
-class CampEditionGiven(
+private val campEditionGivens = mapOf(
+        35 to CampEditionGiven(
+                campEditionNumber = 35,
+                campEditionStartDate = LocalDate.of(2018, 9, 2),
+                campEditionEndDate = LocalDate.of(2018, 9, 16),
+                campEditionPrice = 399.0,
+                campEditionDownPaymentAmount = 99.0
+        ),
+        36 to CampEditionGiven(
+                campEditionNumber = 36,
+                campEditionStartDate = LocalDate.of(2019, 9, 2),
+                campEditionEndDate = LocalDate.of(2019, 9, 16),
+                campEditionPrice = 419.0,
+                campEditionDownPaymentAmount = 99.0
+        )
+)
+
+private class CampEditionGiven(
         val campEditionNumber: Int,
         val campEditionStartDate: LocalDate,
         val campEditionEndDate: LocalDate,
@@ -155,37 +155,6 @@ class CampEditionGiven(
             )
 }
 
-class CampEditionTestFixtureScope(
-        override val commandGateway: CampEditionCommandGateway,
-        override val queryGateway: CampEditionQueryGateway,
-        domainEvents: DomainEventsRecorder,
-) : WhenCommandExecute<CampEditionCommand, CampEditionCommandGateway, CampEditionTestFixtureExpect>,
-        ThenEventPublished<CampEditionTestFixtureScope>(domainEvents), ThenQueryResult<CampEditionQuery, CampEditionQueryGateway> {
-
-    override val brokenRules = mutableListOf<DomainRuleViolationException>()
-
-    operator fun invoke(block: (CampEditionTestFixtureScope.() -> Unit)): CampEditionTestFixtureScope = apply { block(this) }
-
-    infix fun givenCampEditionExists(given: CampEditionGiven): CampEditionTestFixtureScope = apply {
-        commandGateway.process(given.create)
-    }
-
-    fun givenCampEditionsExists(vararg givens: CampEditionGiven): CampEditionTestFixtureScope = apply {
-        givens.map { commandGateway.process(it.create) }
-    }
-
-    override fun fixtureScope(): CampEditionTestFixtureScope = this
-
-    override fun fixtureExpect() = CampEditionTestFixtureExpect(queryGateway, domainEvents)
-
-}
-
-class CampEditionTestFixtureExpect(
-        queryGateway: CampEditionQueryGateway,
-        domainEvents: DomainEventsRecorder,
-) : TestFixtureExpect<CampEditionQuery, CampEditionQueryGateway>(queryGateway, domainEvents)
-
-
 private fun campEditions(block: (CampEditionTestFixtureScope.() -> Unit)? = null): CampEditionTestFixtureScope {
     val externalEvents = anExternalEventPublisher()
     val domainEvents = anDomainEventBus()
@@ -198,8 +167,42 @@ private fun campEditions(block: (CampEditionTestFixtureScope.() -> Unit)? = null
     return fixture
 }
 
+private class CampEditionTestFixtureScope(
+        override val commandGateway: CampEditionCommandGateway,
+        override val queryGateway: CampEditionQueryGateway,
+        domainEvents: DomainEventsRecorder,
+) : WhenCommandExecute<CampEditionCommand, CampEditionCommandGateway, CampEditionTestFixtureExpect>,
+        ThenEventPublished<CampEditionTestFixtureScope>(domainEvents), ThenQueryResult<CampEditionQuery, CampEditionQueryGateway> {
 
-class InMemoryCampEditionRepository(domainEventBus: DomainEventBus)
+    override val brokenRules = mutableListOf<DomainRuleViolationException>()
+
+    operator fun invoke(block: (CampEditionTestFixtureScope.() -> Unit)): CampEditionTestFixtureScope = apply { block(this) }
+
+    infix fun givenCampEditionExists(given: CampEditionGiven): CampEditionTestFixtureScope = apply {
+        domainEvents.withoutRecording {
+            commandGateway.process(given.create)
+        }
+    }
+
+    fun givenCampEditionsExists(vararg givens: CampEditionGiven): CampEditionTestFixtureScope = apply {
+        domainEvents.withoutRecording {
+            givens.map { commandGateway.process(it.create) }
+        }
+    }
+
+    override fun fixtureScope(): CampEditionTestFixtureScope = this
+
+    override fun fixtureExpect() = CampEditionTestFixtureExpect(queryGateway, domainEvents)
+
+}
+
+private class CampEditionTestFixtureExpect(
+        queryGateway: CampEditionQueryGateway,
+        domainEvents: DomainEventsRecorder,
+) : TestFixtureExpect<CampEditionQuery, CampEditionQueryGateway>(queryGateway, domainEvents)
+
+
+private class InMemoryCampEditionRepository(domainEventBus: DomainEventBus)
     : InMemoryDomainRepository<CampEditionId, CampEdition>(domainEventBus = domainEventBus), CampEditionRepository
 
 

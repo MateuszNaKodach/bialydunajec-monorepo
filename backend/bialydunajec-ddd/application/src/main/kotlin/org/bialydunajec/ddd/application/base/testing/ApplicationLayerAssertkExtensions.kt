@@ -208,4 +208,6 @@ interface WhenCommandExecute<CommandType: Command, CommandProcessorType: Command
 interface ThenQueryResult<QueryType: Query, QueryProcessorType: QueryProcessor<QueryType>> {
     val queryGateway: QueryProcessorType
     fun <R> thenResultOf(query: QueryProcessorType.() -> R): Assert<R> = assertThat(query(queryGateway))
+    fun <QP: QueryProcessor<QueryType>, R> thenResultOf(gateway: QP, query: QP.() -> R): Assert<R> = assertThat(query(gateway))
+
 }

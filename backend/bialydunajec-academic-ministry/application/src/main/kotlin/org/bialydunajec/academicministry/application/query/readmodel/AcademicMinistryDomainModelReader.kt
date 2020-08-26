@@ -1,7 +1,6 @@
 package org.bialydunajec.academicministry.application.query.readmodel
 
 import org.bialydunajec.academicministry.application.query.api.AcademicMinistryQuery
-import org.bialydunajec.academicministry.application.query.api.AcademicPriestQuery
 import org.bialydunajec.academicministry.domain.AcademicMinistryId
 import org.bialydunajec.academicministry.domain.AcademicMinistryRepository
 import org.springframework.transaction.annotation.Transactional
@@ -16,7 +15,7 @@ internal class AcademicMinistryDomainModelReader(private val repository: Academi
     fun readFor(query: AcademicMinistryQuery.ById) =
             repository.findById(AcademicMinistryId(query.academicMinistryId))?.getSnapshot()
 
-    fun readFor(query: AcademicPriestQuery.AllByAcademicMinistryId) =
+    fun readFor(query: AcademicMinistryQuery.AllPriestsByAcademicMinistryId) =
             repository.findById(AcademicMinistryId(query.academicMinistryId))
                     ?.getPriestsSnapshots() ?: emptyList()
 }

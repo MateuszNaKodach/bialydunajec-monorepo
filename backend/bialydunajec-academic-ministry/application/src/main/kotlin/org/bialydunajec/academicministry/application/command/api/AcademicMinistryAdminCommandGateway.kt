@@ -5,13 +5,23 @@ import org.bialydunajec.academicministry.application.command.CreateAcademicMinis
 import org.bialydunajec.academicministry.application.command.RemoveAcademicMinistryPriestApplicationService
 import org.bialydunajec.academicministry.application.command.UpdateAcademicMinistryApplicationService
 import org.bialydunajec.ddd.application.base.command.CommandGateway
+import org.bialydunajec.ddd.application.base.command.CommandProcessor
 
 class AcademicMinistryAdminCommandGateway internal constructor(
         private val createAcademicMinistryApplicationService: CreateAcademicMinistryApplicationService,
         private val updateAcademicMinistryApplicationService: UpdateAcademicMinistryApplicationService,
         private val createAcademicMinistryPriestApplicationService: CreateAcademicMinistryPriestApplicationService,
         private val removeAcademicMinistryPriestApplicationService: RemoveAcademicMinistryPriestApplicationService
-) : CommandGateway {
+) : CommandGateway, CommandProcessor<AcademicMinistryCommand> {
+
+    override fun process(command: AcademicMinistryCommand): Any? = when(command){
+        is AcademicMinistryCommand.CreateAcademicMinistry -> process(command)
+        is AcademicMinistryCommand.UpdateAcademicMinistry -> process(command)
+        is AcademicMinistryCommand.DeactivateAcademicMinistry -> process(command)
+        is AcademicMinistryCommand.CreateAcademicMinistryPriest -> process(command)
+        is AcademicMinistryCommand.UpdateAcademicMinistryPriest -> process(command)
+        is AcademicMinistryCommand.RemoveAcademicMinistryPriest -> process(command)
+    }
 
     fun process(command: AcademicMinistryCommand.CreateAcademicMinistry) =
             createAcademicMinistryApplicationService.execute(command)

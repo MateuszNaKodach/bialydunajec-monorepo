@@ -16,6 +16,9 @@ import javax.validation.constraints.NotNull
 @Entity
 @Table(schema = "academic_ministry")
 internal class AcademicPriest(
+        @EmbeddedId
+        override val entityId: AcademicPriestId = AcademicPriestId(),
+
         @NotNull
         @Embedded
         private var firstName: FirstName,
@@ -41,13 +44,10 @@ internal class AcademicPriest(
         private var photoUrl: Url? = null
 
 ) : IdentifiedEntity<AcademicPriestId>, Versioned {
-    @EmbeddedId
-    override val entityId: AcademicPriestId = AcademicPriestId()
-
     @Version
     private var version: Long? = null
 
-    fun updateWith(snapshot: AcademicPriestSnapshot) {
+    fun updateWith(snapshot: AcademicPriestSnapshot): Boolean {
         val isUpdate = snapshot != getSnapshot()
         if (isUpdate) {
             this.firstName = snapshot.firstName
@@ -58,6 +58,7 @@ internal class AcademicPriest(
             this.description = snapshot.description
             this.photoUrl = snapshot.photoUrl
         }
+        return isUpdate
     }
 
     fun getAcademicPriestId() = entityId

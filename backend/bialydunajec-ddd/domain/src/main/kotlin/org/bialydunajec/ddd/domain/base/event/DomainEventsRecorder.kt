@@ -4,4 +4,6 @@ interface DomainEventsRecorder {
     val recorded: List<DomainEvent<*>>
 
     fun clearRecordedEvents()
+
+    fun withoutRecording(block: () -> Unit)
 }
