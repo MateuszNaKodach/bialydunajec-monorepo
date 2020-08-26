@@ -64,14 +64,14 @@ internal class AcademicMinistryAdminController(
             with(request) {
                 academicMinistryAdminCommandGateway.process(
                         AcademicMinistryCommand.CreateAcademicMinistryPriest(
-                                AcademicMinistryId(academicMinistryId),
-                                FirstName(firstName),
-                                LastName(lastName),
-                                personalTitle?.toValueObject(),
-                                emailAddress?.let { EmailAddress(it) },
-                                phoneNumber?.let { PhoneNumber(it) },
-                                description?.toValueObject(),
-                                photoUrl?.let { Url.ExternalUrl(it) }
+                                academicMinistryId = AcademicMinistryId(academicMinistryId),
+                                firstName = FirstName(firstName),
+                                lastName = LastName(lastName),
+                                personalTitle = personalTitle?.toValueObject(),
+                                emailAddress = emailAddress?.let { EmailAddress(it) },
+                                phoneNumber = phoneNumber?.let { PhoneNumber(it) },
+                                description = description?.toValueObject(),
+                                photoUrl = photoUrl?.let { Url.ExternalUrl(it) }
                         )
                 )
             }
