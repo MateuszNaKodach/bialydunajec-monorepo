@@ -1,6 +1,6 @@
 package org.bialydunajec.registrations.dto
 
-import org.bialydunajec.ddd.base.dto.ExtendedDescriptionDto
+import org.bialydunajec.ddd.dto.sharedkernel.ExtendedDescriptionDto
 
 
 class CottageBossDto(

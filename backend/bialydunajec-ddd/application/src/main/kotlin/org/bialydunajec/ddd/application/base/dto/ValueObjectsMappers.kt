@@ -1,6 +1,6 @@
 package org.bialydunajec.ddd.application.base.dto
 
-import org.bialydunajec.ddd.base.dto.*
+import org.bialydunajec.ddd.dto.sharedkernel.*
 import org.bialydunajec.ddd.domain.extensions.toStringOrNull
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.auditing.Audit
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.auditing.Auditor

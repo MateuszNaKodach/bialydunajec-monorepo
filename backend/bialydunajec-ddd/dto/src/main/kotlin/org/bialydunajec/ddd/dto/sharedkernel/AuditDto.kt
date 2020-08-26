@@ -1,4 +1,4 @@
-package org.bialydunajec.ddd.base.dto
+package org.bialydunajec.ddd.dto.sharedkernel
 
 import java.time.ZonedDateTime
 

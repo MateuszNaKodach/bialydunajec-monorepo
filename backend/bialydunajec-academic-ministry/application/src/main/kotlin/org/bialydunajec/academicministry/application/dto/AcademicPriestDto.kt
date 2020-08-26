@@ -1,6 +1,6 @@
 package org.bialydunajec.academicministry.application.dto
 
-import org.bialydunajec.ddd.base.dto.ExtendedDescriptionDto
+import org.bialydunajec.ddd.dto.sharedkernel.ExtendedDescriptionDto
 
 
 data class AcademicPriestDto(

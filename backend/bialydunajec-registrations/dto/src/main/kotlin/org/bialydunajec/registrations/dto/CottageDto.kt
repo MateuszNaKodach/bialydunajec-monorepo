@@ -1,6 +1,6 @@
 package org.bialydunajec.registrations.dto
 
-import org.bialydunajec.ddd.base.dto.PlaceDto
+import org.bialydunajec.ddd.dto.sharedkernel.PlaceDto
 
 data class CottageDto(
         val cottageId: String,

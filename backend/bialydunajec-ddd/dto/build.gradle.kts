@@ -13,6 +13,4 @@ tasks {
 
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-validation")
-
 }

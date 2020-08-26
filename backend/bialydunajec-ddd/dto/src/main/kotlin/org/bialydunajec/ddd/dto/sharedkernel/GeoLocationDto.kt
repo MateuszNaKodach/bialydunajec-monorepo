@@ -1,4 +1,4 @@
-package org.bialydunajec.ddd.base.dto
+package org.bialydunajec.ddd.dto.sharedkernel
 
 data class GeoLocationDto(
         val latitude: Double?,

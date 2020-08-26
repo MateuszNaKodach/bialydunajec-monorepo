@@ -1,6 +1,6 @@
 package org.bialydunajec.registrations.readmodel.statistics
 
-import org.bialydunajec.ddd.base.dto.GenderDto
+import org.bialydunajec.ddd.dto.sharedkernel.GenderDto
 import org.bialydunajec.registrations.dto.CamperApplicationWithCottageDto
 import org.bialydunajec.registrations.dto.CottageSpaceDto
 import org.bialydunajec.registrations.dto.ShirtTypeDto
