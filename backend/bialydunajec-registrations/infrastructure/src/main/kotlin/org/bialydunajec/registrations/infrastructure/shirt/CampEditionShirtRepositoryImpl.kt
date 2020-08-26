@@ -1,5 +1,6 @@
 package org.bialydunajec.registrations.infrastructure.shirt
 
+import org.bialydunajec.ddd.domain.base.event.DomainEventBus
 import org.bialydunajec.ddd.infrastructure.base.persistence.AbstractDomainRepositoryImpl
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEdition
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
@@ -17,8 +18,9 @@ const val CAMP_EDITION_SHIRT_CACHE = "org.bialydunajec.campregistrations.CAMP_ED
 
 @Repository
 internal class CampEditionShirtRepositoryImpl(
-        jpaRepository: CampEditionShirtJpaRepository
-) : AbstractDomainRepositoryImpl<CampEditionShirt, CampEditionShirtId, CampEditionShirtJpaRepository>(jpaRepository),
+        jpaRepository: CampEditionShirtJpaRepository,
+        domainEventBus: DomainEventBus
+) : AbstractDomainRepositoryImpl<CampEditionShirt, CampEditionShirtId, CampEditionShirtJpaRepository>(jpaRepository, domainEventBus),
         CampEditionShirtRepository, CampEditionShirtReadOnlyRepository {
 
     @Cacheable(cacheNames = [CAMP_EDITION_SHIRT_CACHE], key = "{#root.methodName,#aggregateId}")

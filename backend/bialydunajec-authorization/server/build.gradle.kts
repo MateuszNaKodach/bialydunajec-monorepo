@@ -26,7 +26,6 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-security")
     compile("org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:${Versions.oAuth2AutoconfigureVersion}")
     compile("org.springframework.boot:spring-boot-starter-web")
-    compile("org.springframework.boot:spring-boot-starter-webflux")
     compile("com.fasterxml.jackson.module:jackson-module-kotlin")
     compile("org.springframework.retry:spring-retry")
 

@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 //TODO: Add checking for overlapped camp editions by LocalDateRange!!!
-@Service
 @Transactional
 internal class CreateCampEditionApplicationService(
         private val campEditionRepository: CampEditionRepository
@@ -28,7 +27,6 @@ internal class CreateCampEditionApplicationService(
     }
 }
 
-@Service
 @Transactional
 internal class UpdateCampEditionDurationApplicationService(
         private val campEditionRepository: CampEditionRepository

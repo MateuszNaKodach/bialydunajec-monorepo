@@ -5,7 +5,6 @@ import org.bialydunajec.academicministry.application.command.api.AcademicMinistr
 import org.bialydunajec.academicministry.application.dto.toValueObject
 import org.bialydunajec.academicministry.application.query.api.AcademicMinistryQuery
 import org.bialydunajec.academicministry.application.query.api.AcademicMinistryAdminQueryGateway
-import org.bialydunajec.academicministry.application.query.api.AcademicPriestQuery
 import org.bialydunajec.academicministry.domain.AcademicMinistryId
 import org.bialydunajec.academicministry.domain.entity.AcademicPriestId
 import org.bialydunajec.academicministry.rest.v1.admin.request.CreateAcademicPriestRequest
@@ -65,14 +64,14 @@ internal class AcademicMinistryAdminController(
             with(request) {
                 academicMinistryAdminCommandGateway.process(
                         AcademicMinistryCommand.CreateAcademicMinistryPriest(
-                                AcademicMinistryId(academicMinistryId),
-                                FirstName(firstName),
-                                LastName(lastName),
-                                personalTitle?.toValueObject(),
-                                emailAddress?.let { EmailAddress(it) },
-                                phoneNumber?.let { PhoneNumber(it) },
-                                description?.toValueObject(),
-                                photoUrl?.let { Url.ExternalUrl(it) }
+                                academicMinistryId = AcademicMinistryId(academicMinistryId),
+                                firstName = FirstName(firstName),
+                                lastName = LastName(lastName),
+                                personalTitle = personalTitle?.toValueObject(),
+                                emailAddress = emailAddress?.let { EmailAddress(it) },
+                                phoneNumber = phoneNumber?.let { PhoneNumber(it) },
+                                description = description?.toValueObject(),
+                                photoUrl = photoUrl?.let { Url.ExternalUrl(it) }
                         )
                 )
             }
@@ -90,7 +89,7 @@ internal class AcademicMinistryAdminController(
     //QUERY-------------------------------------------------------------------------------------------------------------
     @GetMapping
     fun getAllAcademicMinistries() =
-            academicMinistryAdminQueryGateway.process(AcademicMinistryQuery.All())
+            academicMinistryAdminQueryGateway.process(AcademicMinistryQuery.All)
                     .sortedBy { it.getDisplayName() }
 
 
@@ -100,5 +99,5 @@ internal class AcademicMinistryAdminController(
 
     @GetMapping("/{academicMinistryId}/priest")
     fun getAllAcademicPriestByAcademicMinistryId(@PathVariable academicMinistryId: String) =
-            academicMinistryAdminQueryGateway.process(AcademicPriestQuery.AllByAcademicMinistryId(academicMinistryId))
+            academicMinistryAdminQueryGateway.process(AcademicMinistryQuery.AllPriestsByAcademicMinistryId(academicMinistryId))
 }

@@ -46,7 +46,7 @@ object EventSourcedSeatRepositorySpecification : Spek({
                 timeProvider.timeTravelTo(LocalTime.of(10, 1))
                 assertThat {
                     reserveBusSeat(repository, seatId, passengerId)
-                }.doesNotThrowAnyException()
+                }.isSuccess()
             }
 
 

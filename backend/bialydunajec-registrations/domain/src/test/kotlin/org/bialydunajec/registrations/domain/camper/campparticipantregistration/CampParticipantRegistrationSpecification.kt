@@ -2,6 +2,7 @@ package org.bialydunajec.registrations.domain.camper.campparticipantregistration
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
+import assertk.assertions.isFailure
 import assertk.assertions.isInstanceOf
 import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.PhoneNumber
@@ -57,9 +58,7 @@ internal class CampParticipantRegistrationSpecification : Spek({
                     it("Then the registration should not be cancelled once more") {
                         assertThat {
                             registration.cancelByAuthorized()
-                        }.thrownError {
-                            isInstanceOf(DomainRuleViolationException::class) //TODO: Assertion for validating violated rules
-                        }
+                        }.isFailure().isInstanceOf(DomainRuleViolationException::class)
                     }
 
                 }

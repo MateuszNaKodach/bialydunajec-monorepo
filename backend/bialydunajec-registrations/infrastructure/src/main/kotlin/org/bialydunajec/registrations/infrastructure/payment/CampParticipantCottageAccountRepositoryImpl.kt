@@ -1,5 +1,6 @@
 package org.bialydunajec.registrations.infrastructure.payment
 
+import org.bialydunajec.ddd.domain.base.event.DomainEventBus
 import org.bialydunajec.ddd.infrastructure.base.persistence.AbstractDomainRepositoryImpl
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantId
 import org.bialydunajec.registrations.domain.cottage.CottageId
@@ -12,8 +13,9 @@ import org.springframework.stereotype.Repository
 
 @Repository
 internal class CampParticipantCottageAccountRepositoryImpl(
-        jpaRepository: CampParticipantCottageAccountJpaRepository
-) : AbstractDomainRepositoryImpl<CampParticipantCottageAccount, CampParticipantCottageAccountId, CampParticipantCottageAccountJpaRepository>(jpaRepository),
+        jpaRepository: CampParticipantCottageAccountJpaRepository,
+        domainEventBus: DomainEventBus
+) : AbstractDomainRepositoryImpl<CampParticipantCottageAccount, CampParticipantCottageAccountId, CampParticipantCottageAccountJpaRepository>(jpaRepository, domainEventBus),
         CampParticipantCottageAccountRepository {
 
     override fun findByCampParticipantIdAndCottageId(campParticipantId: CampParticipantId, cottageId: CottageId) = jpaRepository.findByCampParticipantIdAndCottageId(campParticipantId, cottageId)

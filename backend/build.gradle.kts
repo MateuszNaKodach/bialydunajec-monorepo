@@ -2,11 +2,11 @@ import org.bialydunajec.gradle.Versions
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.3.70"
-    kotlin("plugin.spring") version "1.3.70"
-    kotlin("plugin.jpa") version "1.3.70"
-    id("org.springframework.boot") version "2.3.2.RELEASE"
-    id("io.spring.dependency-management") version "1.0.9.RELEASE"
+    kotlin("jvm") version "1.4.0"
+    kotlin("plugin.spring") version "1.4.0"
+    kotlin("plugin.jpa") version "1.4.0"
+    id("org.springframework.boot") version "2.3.3.RELEASE"
+    id("io.spring.dependency-management") version "1.0.10.RELEASE"
     `maven-publish`
 }
 
@@ -97,9 +97,9 @@ allprojects {
         testImplementation("org.assertj:assertj-core:${Versions.assertjVersion}")
         testImplementation("org.spekframework.spek2:spek-dsl-jvm:${Versions.spekVersion}")
         testRuntimeOnly("org.spekframework.spek2:spek-runner-junit5:${Versions.spekVersion}")
-        testImplementation("com.willowtreeapps.assertk:assertk-jvm:${Versions.assertkVersion}")
         testImplementation("com.tngtech.archunit:archunit-junit5-api:${Versions.archUnitVersion}")
         testRuntimeOnly("com.tngtech.archunit:archunit-junit5-engine:${Versions.archUnitVersion}")
+        testImplementation("com.willowtreeapps.assertk:assertk-jvm:${Versions.assertkVersion}")
         testImplementation("io.mockk:mockk:${Versions.mockkVersion}")
     }
 
@@ -144,7 +144,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-hateoas")
     implementation("org.springframework.boot:spring-boot-starter-mail")
     implementation("org.springframework.boot:spring-boot-starter-quartz")
-    implementation("org.springframework.boot:spring-boot-starter-webflux")
+    implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("com.github.ulisesbocchio:jasypt-spring-boot-starter:${Versions.jasyptVersion}")
     implementation("io.springfox:springfox-boot-starter:${Versions.swaggerVersion}")
@@ -152,9 +152,6 @@ dependencies {
     //Fake data generator
     implementation("com.devskiller:jfairy:${Versions.jfairyVersion}")
 
-    if (!project.hasProperty("release")) {
-        runtimeOnly("com.h2database:h2")
-    }
     runtimeOnly("mysql:mysql-connector-java:${Versions.mysqlConnectorVersion}")
     runtimeOnly("org.postgresql:postgresql:${Versions.postgresqlConnectorVersion}")
 

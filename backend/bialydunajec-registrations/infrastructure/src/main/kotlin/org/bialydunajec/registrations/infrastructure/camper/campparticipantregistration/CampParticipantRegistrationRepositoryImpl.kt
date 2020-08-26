@@ -1,5 +1,6 @@
 package org.bialydunajec.registrations.infrastructure.camper.campparticipantregistration
 
+import org.bialydunajec.ddd.domain.base.event.DomainEventBus
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantId
 import org.bialydunajec.ddd.infrastructure.base.persistence.AbstractDomainRepositoryImpl
 import org.bialydunajec.registrations.domain.camper.campparticipantregistration.CampParticipantRegistration
@@ -11,8 +12,9 @@ import org.springframework.stereotype.Repository
 
 @Repository
 internal class CampParticipantRegistrationRepositoryImpl(
-        jpaRepository: CampParticipantRegistrationJpaRepository
-) : AbstractDomainRepositoryImpl<CampParticipantRegistration, CampParticipantRegistrationId, CampParticipantRegistrationJpaRepository>(jpaRepository), CampParticipantRegistrationRepository {
+        jpaRepository: CampParticipantRegistrationJpaRepository,
+        domainEventBus: DomainEventBus
+) : AbstractDomainRepositoryImpl<CampParticipantRegistration, CampParticipantRegistrationId, CampParticipantRegistrationJpaRepository>(jpaRepository, domainEventBus), CampParticipantRegistrationRepository {
 
     override fun findAllByCottageId(cottageId: CottageId) =
             jpaRepository.findAllByCamperApplicationCottageId(cottageId)

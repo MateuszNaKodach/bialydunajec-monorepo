@@ -20,8 +20,12 @@ jobs:
       - name: Cache Gradle packages
         uses: actions/cache@v2
         with:
-          path: ~/backend/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+            ./backend/.gradle/caches
+             ~/.m2/repository
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
           restore-keys: ${{ runner.os }}-gradle
       - name: Run tests with Gradle
         uses: eskatos/gradle-command-action@v1.3.2
@@ -37,20 +41,23 @@ jobs:
         with:
           arguments: -p backend -Prelease build -x test
           wrapper-directory: ./backend
-      - name: Validate if docker-compose.local.yaml can run
-        if:   github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/staging' || github.ref == 'refs/heads/master'
-        run: |
-          cd ./backend
-          docker-compose -f docker-compose.local.yml --log-level INFO up -d
+# Aktualnie nic nie daje. Nie czeka na start aplikacji. Wykonac smoke check - call na REST API status.
+#      - name: Validate if docker-compose.run.yaml can run
+#        if:   github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/staging' || github.ref == 'refs/heads/master'
+#        run: |
+#          cd ./backend
+#          docker-compose -f docker-compose.run.yml --log-level INFO up -d
       - name: Change artifact name
         run:  cp ./backend/build/libs/bialydunajec-backend* ./backend/build/libs/bialydunajec-backend.jar
       - uses: actions/upload-artifact@v1
         name: Upload artifact bialydunajec-backend.jar
+        if:   github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/staging' || github.ref == 'refs/heads/master'
         with:
           name: bialydunajec-backend.jar
           path: ./backend/build/libs/bialydunajec-backend.jar
       - uses: actions/upload-artifact@v1
         name: Upload artifact Dockerfile
+        if:   github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/staging' || github.ref == 'refs/heads/master'
         with:
           name: Dockerfile
           path: ./backend/Dockerfile

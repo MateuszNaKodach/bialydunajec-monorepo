@@ -7,7 +7,6 @@ import org.bialydunajec.campedition.domain.campedition.CampEditionRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
-@Service
 @Transactional(readOnly = true)
 internal class CampEditionDomainModelReader(private val campEditionRepository: CampEditionRepository) {
 

@@ -19,7 +19,7 @@ dependencies {
     api(project(Projects.BialyDunajec.DDD.PRESENTATION))
     api(project(Projects.BialyDunajec.AcademicMinistry.APPLICATION))
 
-    compile(Dependencies.Spring.Boot.SPRING_BOOT_STARTER_WEB_FLUX)
+    compile(Dependencies.Spring.Boot.SPRING_BOOT_STARTER_WEB)
     compile(Dependencies.Jackson.JACKSON_MODULE_KOTLIN)
 
     testCompile(TestDependencies.Spring.Boot.SPRING_BOOT_STARTER_TEST)

@@ -13,14 +13,14 @@ spring:
 bialydunajec:
   oauth2:
     clients:
-      - client-id: "web-angular_main-dev"
-        client-secret: "BIyZp3vLjtbqMkSLzEGD"
+      - client-id: "web-angular_main-local-inside-docker"
+        client-secret: "web-angular_main-local-inside-docker-secret"
         authorized-grant-types: password, client_credentials, refresh_token
         access-token-validity-seconds: 7776000 # 3600 seconds = 60 minutes
         refresh-token-validity-seconds: 7776000 # 7776000 seconds = 129 600 minutes = 2 160 hours = 90 days
         scopes: allmighty
-      - client-id: "web-angular_admin-dev"
-        client-secret: "gLuRzxiAJJSL6b1wrIGw"
+      - client-id: "web-angular_admin-local-inside-docker"
+        client-secret: "web-angular_admin-local-inside-docker-secret"
         authorized-grant-types: password, client_credentials, refresh_token
         access-token-validity-seconds: 7776000 # 3600 seconds = 60 minutes
         refresh-token-validity-seconds: 7776000 # 7776000 seconds = 129 600 minutes = 2 160 hours = 90 days

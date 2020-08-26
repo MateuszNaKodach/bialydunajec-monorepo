@@ -1,5 +1,6 @@
 package org.bialydunajec.email.infrastructure
 
+import org.bialydunajec.ddd.domain.base.event.DomainEventBus
 import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
 import org.bialydunajec.ddd.infrastructure.base.persistence.AbstractDomainRepositoryImpl
 import org.bialydunajec.email.domain.Email
@@ -13,8 +14,9 @@ import org.springframework.stereotype.Repository
 
 @Repository
 internal class EmailRepositoryImpl(
-    jpaRepository: EmailJpaRepository
-) : AbstractDomainRepositoryImpl<Email, EmailId, EmailJpaRepository>(jpaRepository), EmailRepository {
+    jpaRepository: EmailJpaRepository,
+    domainEventBus: DomainEventBus
+) : AbstractDomainRepositoryImpl<Email, EmailId, EmailJpaRepository>(jpaRepository, domainEventBus), EmailRepository {
 
     override fun save(aggregateRoot: Email): Email =
         try {

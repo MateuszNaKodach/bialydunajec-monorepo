@@ -1,5 +1,6 @@
 package org.bialydunajec.registrations.infrastructure.camper.campparticipant
 
+import org.bialydunajec.ddd.domain.base.event.DomainEventBus
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.Gender
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.Pesel
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipant
@@ -21,8 +22,9 @@ const val CAMP_PARTICIPANT_CACHE = "org.bialydunajec.campregistrations.CAMP_PART
 
 @Repository
 internal class CampParticipantRepositoryImpl(
-        jpaRepository: CampParticipantJpaRepository
-) : AbstractDomainRepositoryImpl<CampParticipant, CampParticipantId, CampParticipantJpaRepository>(jpaRepository),
+        jpaRepository: CampParticipantJpaRepository,
+        domainEventBus: DomainEventBus
+) : AbstractDomainRepositoryImpl<CampParticipant, CampParticipantId, CampParticipantJpaRepository>(jpaRepository, domainEventBus),
         CampParticipantRepository, CampParticipantReadOnlyRepository {
 
     @Cacheable(cacheNames = [CAMP_PARTICIPANT_CACHE], key = "{#root.methodName}")

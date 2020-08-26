@@ -15,8 +15,7 @@ tasks {
 dependencies {
     api(project(":bialydunajec-ddd:bialydunajec-ddd-application"))
 
-    //compile("org.springframework.boot:spring-boot-starter-web")
-    compile("org.springframework.boot:spring-boot-starter-webflux")
+    compile("org.springframework.boot:spring-boot-starter-web")
     compile("com.fasterxml.jackson.module:jackson-module-kotlin")
 
     testCompile("org.springframework.boot:spring-boot-starter-test")

@@ -26,5 +26,5 @@ dependencies {
     testCompile("org.springframework.boot:spring-boot-starter-test")
     //compile("de.flapdoodle.embed:de.flapdoodle.embed.mongo")
 
-    compile("org.springframework.boot:spring-boot-starter-webflux")
+    compile("org.springframework.boot:spring-boot-starter-web")
 }

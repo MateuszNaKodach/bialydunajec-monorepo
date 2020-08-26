@@ -36,7 +36,6 @@ abstract class AggregateRoot<AggregateIdType : Identifier<*>, EventType : Domain
     /**
      * All domain events currently captured by the aggregate.
      */
-    @DomainEvents
     fun domainEvents(): Collection<EventType> {
         return domainEvents?.toList() ?: emptyList()
     }
@@ -45,8 +44,7 @@ abstract class AggregateRoot<AggregateIdType : Identifier<*>, EventType : Domain
      * Clears all domain events currently held. Usually invoked by the infrastructure in place in Spring Data
      * repositories.
      */
-    @AfterDomainEventPublication
-    protected fun clearDomainEvents() {
+    fun clearDomainEvents() {
         if(domainEvents== null){
             domainEvents = mutableListOf()
         }

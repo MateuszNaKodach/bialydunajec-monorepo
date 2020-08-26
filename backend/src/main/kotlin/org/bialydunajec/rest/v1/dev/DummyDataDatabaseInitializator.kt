@@ -70,7 +70,7 @@ class DummyDatabaseInitializator(
                         "admin",
                         "test1234"
                 )
-        ).forEach { authorizationServerFacade.createUserCredentials(it) }
+                     ).forEach { authorizationServerFacade.createUserCredentials(it) }
 
 
         listOf(
@@ -271,7 +271,7 @@ class DummyDatabaseInitializator(
                 )
         ).sortedBy { it.shortName }.forEach { academicMinistryAdminCommandGateway.process(it) }
 
-        academicMinistryQueryGateway.process(AcademicMinistryQuery.All())
+        academicMinistryQueryGateway.process(AcademicMinistryQuery.All)
                 .forEach {
                     campRegistrationsAdminCommandGateway.process(CampRegistrationsCommand.CreateAcademicMinistryCottage(36, it.academicMinistryId))
                     campRegistrationsAdminCommandGateway.process(CampRegistrationsCommand.CreateAcademicMinistryCottage(35, it.academicMinistryId))

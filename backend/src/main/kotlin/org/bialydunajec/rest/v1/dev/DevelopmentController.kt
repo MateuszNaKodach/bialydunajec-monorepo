@@ -26,7 +26,6 @@ internal class DevelopmentController(
         dummyDatabaseInitializator.registerDummyCampers()
     }
 
-
     @GetMapping("/db-cleanup")
     fun cleanupWholeDatabase() {
 

@@ -7,10 +7,8 @@ import org.bialydunajec.academicministry.domain.valueobject.AcademicMinistrySnap
 import org.bialydunajec.academicministry.domain.exception.AcademicMinistryDomainRule
 import org.bialydunajec.ddd.application.base.ApplicationService
 import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
-import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
-@Service
 @Transactional
 internal class CreateAcademicMinistryApplicationService(
         private val academicMinistryRepository: AcademicMinistryRepository
@@ -18,6 +16,7 @@ internal class CreateAcademicMinistryApplicationService(
 
     override fun execute(command: AcademicMinistryCommand.CreateAcademicMinistry) =
             AcademicMinistry(
+                    academicMinistryId = command.academicMinistryId,
                     officialName = command.officialName,
                     shortName = command.shortName,
                     logoImageUrl = command.logoImageUrl,
@@ -25,12 +24,10 @@ internal class CreateAcademicMinistryApplicationService(
                     socialMedia = command.socialMedia,
                     emailAddress = command.emailAddress,
                     photoUrl = command.photoUrl,
-                    description = command.description)
-                    .let { academicMinistryRepository.save(it) }
-                    .getAggregateId()
+                    description = command.description
+            ).let { academicMinistryRepository.save(it) }.getAggregateId()
 }
 
-@Service
 @Transactional
 internal class UpdateAcademicMinistryApplicationService(
         private val academicMinistryRepository: AcademicMinistryRepository
@@ -56,7 +53,6 @@ internal class UpdateAcademicMinistryApplicationService(
 }
 
 @Transactional
-@Service
 internal class CreateAcademicMinistryPriestApplicationService(
         private val academicMinistryRepository: AcademicMinistryRepository
 ) : ApplicationService<AcademicMinistryCommand.CreateAcademicMinistryPriest> {
@@ -67,13 +63,14 @@ internal class CreateAcademicMinistryPriestApplicationService(
 
         with(command) {
             academicMinistry.addNewPriest(
-                    firstName,
-                    lastName,
-                    personalTitle,
-                    emailAddress,
-                    phoneNumber,
-                    description,
-                    photoUrl
+                    academicPriestId = academicPriestId,
+                    firstName = firstName,
+                    lastName = lastName,
+                    personalTitle = personalTitle,
+                    emailAddress = emailAddress,
+                    phoneNumber = phoneNumber,
+                    description = description,
+                    photoUrl = photoUrl
             )
         }
         academicMinistryRepository.save(academicMinistry)
@@ -81,7 +78,6 @@ internal class CreateAcademicMinistryPriestApplicationService(
 }
 
 @Transactional
-@Service
 internal class RemoveAcademicMinistryPriestApplicationService(
         private val academicMinistryRepository: AcademicMinistryRepository
 ) : ApplicationService<AcademicMinistryCommand.RemoveAcademicMinistryPriest> {

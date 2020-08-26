@@ -26,5 +26,7 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-validation")
     compile("org.springframework.boot:spring-boot-starter-cache")
 
-    testCompile("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    implementation("com.willowtreeapps.assertk:assertk-jvm:${Versions.assertkVersion}")
+    implementation("io.mockk:mockk:${Versions.mockkVersion}")
 }
