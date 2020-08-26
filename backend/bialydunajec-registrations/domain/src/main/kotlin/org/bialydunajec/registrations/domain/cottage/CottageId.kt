@@ -1,6 +1,6 @@
 package org.bialydunajec.registrations.domain.cottage
 
-import org.bialydunajec.ddd.domain.base.valueobject.AggregateId
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.AggregateId
 import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryId
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
 import org.bialydunajec.registrations.domain.cottage.valueobject.CottageType

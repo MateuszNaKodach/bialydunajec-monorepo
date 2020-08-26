@@ -57,18 +57,18 @@
               <td *ngIf="data.type == 'CAMP_BUS_SEAT'">Autokar Obozowy</td>-->
               <td>{{data.amount}} zł</td>
               <!--<td>{{data.deadlineDate ? (data.deadlineDate | date:'d.MM.yyyy HH:mm:ss') : "Nie określono"}}</td>-->
-              <td>{{data.paid ? "TAK (" + (data.paidDate | date:'d.MM.yyyy HH:mm:ss') + ")" : "NIE"}}</td>
+              <td>{{data.isPaid ? "TAK (" + (data.paidDate | date:'d.MM.yyyy HH:mm:ss') + ")" : "NIE"}}</td>
               <td>
                 <button
-                  *ngIf="(!data.paid && data.campDownPaymentIsPaid && data.type != PaymentCommitmentType.CAMP_DOWN_PAYMENT) || (data.type == PaymentCommitmentType.CAMP_DOWN_PAYMENT && !data.paid); else payDownPaymentFirst"
+                  *ngIf="(!data.isPaid && data.campDownPaymentIsPaid && data.type != PaymentCommitmentType.CAMP_DOWN_PAYMENT) || (data.type == PaymentCommitmentType.CAMP_DOWN_PAYMENT && !data.isPaid); else payDownPaymentFirst"
                   nz-button nzType="primary" class="mat-icon-button"
                   (click)="showPayForCommitmentConfirmation(data)"><i class="material-icons">attach_money</i>Zaksięguj
                   wpłatę
                 </button>
-                <!--<button *ngIf="data.paid" nz-button nzType="default" class="mat-icon-button" style="margin-left: 1rem;"
+                <!--<button *ngIf="data.isPaid" nz-button nzType="default" class="mat-icon-button" style="margin-left: 1rem;"
                         (click)="showCancelCommitmentPaymentConfirmation(data)"><i class="material-icons">money_off</i>Usuń wpłatę</button>-->
                 <ng-template #payDownPaymentFirst>
-                  <div *ngIf="!data.paid">
+                  <div *ngIf="!data.isPaid">
                     Najpierw zaksięguj zadatek.
                   </div>
                 </ng-template>

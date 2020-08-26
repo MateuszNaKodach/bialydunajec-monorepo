@@ -5,7 +5,6 @@ import org.bialydunajec.academicministry.domain.AcademicMinistryId
 import org.bialydunajec.academicministry.domain.AcademicMinistryRepository
 import org.springframework.transaction.annotation.Transactional
 
-@Transactional(readOnly = true)
 internal class AcademicMinistryDomainModelReader(private val repository: AcademicMinistryRepository) {
 
     fun readFor(query: AcademicMinistryQuery.All) =

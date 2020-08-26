@@ -1,4 +1,4 @@
-package org.bialydunajec.ddd.domain.base.validation.exception
+package org.bialydunajec.ddd.domain.sharedkernel.exception
 
 interface DomainRule {
     fun getRuleName(): String

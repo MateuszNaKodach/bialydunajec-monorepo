@@ -5,12 +5,9 @@ import org.bialydunajec.campedition.domain.campedition.CampEdition
 import org.bialydunajec.campedition.domain.campedition.CampEditionRepository
 import org.bialydunajec.campedition.domain.exception.CampEditionDomainRule
 import org.bialydunajec.ddd.application.base.ApplicationService
-import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
-import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
+import org.bialydunajec.ddd.domain.sharedkernel.exception.DomainRuleViolationException
 
 //TODO: Add checking for overlapped camp editions by LocalDateRange!!!
-@Transactional
 internal class CreateCampEditionApplicationService(
         private val campEditionRepository: CampEditionRepository
 ) : ApplicationService<CampEditionCommand.CreateCampEdition> {
@@ -27,7 +24,6 @@ internal class CreateCampEditionApplicationService(
     }
 }
 
-@Transactional
 internal class UpdateCampEditionDurationApplicationService(
         private val campEditionRepository: CampEditionRepository
 ) : ApplicationService<CampEditionCommand.UpdateCampEditionDuration> {

@@ -1,4 +1,4 @@
-package org.bialydunajec.ddd.domain.extensions
+package org.bialydunajec.ddd.domain.sharedkernel.extensions
 
 import java.math.BigDecimal
 

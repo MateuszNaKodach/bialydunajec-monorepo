@@ -2,7 +2,7 @@ package org.bialydunajec.registrations.application.dto
 
 import org.bialydunajec.ddd.application.base.dto.toDto
 import org.bialydunajec.ddd.application.base.dto.toValueObject
-import org.bialydunajec.ddd.domain.extensions.toStringOrNull
+import org.bialydunajec.ddd.domain.sharedkernel.extensions.toStringOrNull
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.PhoneNumber
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddress
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.*

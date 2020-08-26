@@ -2,7 +2,7 @@ package org.bialydunajec.ddd.domain.base.event
 
 import io.mockk.*
 import org.assertj.core.api.Assertions.assertThat
-import org.bialydunajec.ddd.domain.base.valueobject.AggregateId
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.AggregateId
 import org.junit.jupiter.api.Test
 
 class InMemoryDomainEventsRecorderSpec {

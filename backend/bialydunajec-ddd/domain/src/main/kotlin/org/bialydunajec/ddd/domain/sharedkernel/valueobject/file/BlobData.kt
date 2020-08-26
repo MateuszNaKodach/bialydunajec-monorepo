@@ -1,7 +1,7 @@
 package org.bialydunajec.ddd.domain.sharedkernel.valueobject.file
 
 import org.apache.commons.codec.digest.DigestUtils
-import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
+import org.bialydunajec.ddd.domain.sharedkernel.exception.DomainRuleViolationException
 import org.bialydunajec.ddd.domain.sharedkernel.exception.SharedKernelDomainError
 import org.springframework.util.Base64Utils
 import javax.persistence.Embeddable

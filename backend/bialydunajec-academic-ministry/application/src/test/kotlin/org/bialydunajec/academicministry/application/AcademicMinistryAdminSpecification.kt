@@ -9,7 +9,6 @@ import org.bialydunajec.academicministry.application.command.api.AcademicMinistr
 import org.bialydunajec.academicministry.application.command.api.AcademicMinistryCommand
 import org.bialydunajec.academicministry.application.dto.AcademicMinistryDto
 import org.bialydunajec.academicministry.application.dto.AcademicMinistryNameDto
-import org.bialydunajec.academicministry.application.dto.AcademicPriestDto
 import org.bialydunajec.academicministry.application.dto.toDto
 import org.bialydunajec.academicministry.application.query.api.AcademicMinistryAdminQueryGateway
 import org.bialydunajec.academicministry.application.query.api.AcademicMinistryQuery
@@ -25,7 +24,7 @@ import org.bialydunajec.ddd.application.base.testing.*
 import org.bialydunajec.ddd.domain.base.event.DomainEventBus
 import org.bialydunajec.ddd.domain.base.event.DomainEventsRecorder
 import org.bialydunajec.ddd.domain.base.persistence.InMemoryDomainRepository
-import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
+import org.bialydunajec.ddd.domain.sharedkernel.exception.DomainRuleViolationException
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.PhoneNumber
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddress
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.FirstName

@@ -1,16 +1,14 @@
 package org.bialydunajec.registrations.domain.payment
 
-import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
+import org.bialydunajec.ddd.domain.sharedkernel.exception.DomainRuleViolationException
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.financial.Money
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionRepository
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipant
 import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule
 import org.bialydunajec.registrations.domain.payment.entity.CampDownPaymentCommitment
 import org.bialydunajec.registrations.domain.payment.entity.CampParticipationCommitment
-import org.bialydunajec.registrations.domain.payment.entity.PaymentCommitment
 import org.springframework.stereotype.Component
 
-@Component
 class CampParticipantCottageAccountFactory(
         val campRegistrationsEditionRepository: CampRegistrationsEditionRepository
 ) {

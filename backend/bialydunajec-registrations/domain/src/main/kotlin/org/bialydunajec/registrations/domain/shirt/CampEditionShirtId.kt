@@ -1,6 +1,6 @@
 package org.bialydunajec.registrations.domain.shirt
 
-import org.bialydunajec.ddd.domain.base.valueobject.AggregateId
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.AggregateId
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
 import javax.persistence.Embeddable
 

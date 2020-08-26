@@ -1,7 +1,7 @@
 package org.bialydunajec.registrations.domain.campedition.entity
 
 import org.bialydunajec.ddd.domain.base.persistence.IdentifiedEntity
-import org.bialydunajec.ddd.domain.base.validation.ValidationResult
+import org.bialydunajec.ddd.domain.sharedkernel.validation.ValidationResult
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId
 import org.bialydunajec.registrations.domain.campedition.valueobject.CampRegistrationsSnapshot
 import org.bialydunajec.registrations.domain.campedition.valueobject.RegistrationsStatus

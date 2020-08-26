@@ -101,12 +101,13 @@ internal class CampParticipantCottageAccountEventsProjection(
                 .ifPresent {
                     it.isPaid = true
                     it.paidDate = eventPayload.paidDate
+                    it.campDownPaymentIsPaid = true
                     paymentCommitmentRepository.save(it)
                 }
 
         if (eventPayload.commitmentType == PaymentCommitment.Type.CAMP_DOWN_PAYMENT.name) {
             val campParticipantPaymentCommitments = paymentCommitmentRepository.findAllByCampParticipantCampParticipantId(eventPayload.campParticipantId)
-            campParticipantPaymentCommitments.forEach {
+            campParticipantPaymentCommitments.filter { it.type != PaymentCommitment.Type.CAMP_DOWN_PAYMENT }.forEach {
                 it.campDownPaymentIsPaid = true
             }
             paymentCommitmentRepository.saveAll(campParticipantPaymentCommitments)

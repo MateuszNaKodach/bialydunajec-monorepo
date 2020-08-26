@@ -1,6 +1,6 @@
-package org.bialydunajec.ddd.domain.base.validation.exception
+package org.bialydunajec.ddd.domain.sharedkernel.exception
 
-import org.bialydunajec.ddd.domain.base.validation.ValidationResult
+import org.bialydunajec.ddd.domain.sharedkernel.validation.ValidationResult
 
 open class DomainRuleViolationException private constructor(
         val violatedRules: Set<DomainRule>,

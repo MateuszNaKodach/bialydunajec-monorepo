@@ -1,7 +1,7 @@
-package org.bialydunajec.ddd.domain.base.validation
+package org.bialydunajec.ddd.domain.sharedkernel.validation
 
-import org.bialydunajec.ddd.domain.base.validation.exception.DomainRule
-import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
+import org.bialydunajec.ddd.domain.sharedkernel.exception.DomainRule
+import org.bialydunajec.ddd.domain.sharedkernel.exception.DomainRuleViolationException
 import java.lang.RuntimeException
 
 sealed class ValidationResult {
@@ -10,23 +10,23 @@ sealed class ValidationResult {
 
     fun isValid() =
             when (this) {
-                is ValidationResult.Valid -> true
-                is ValidationResult.Invalid -> false
+                is Valid -> true
+                is Invalid -> false
             }
 
     fun isInvalid() = !isValid()
 
-    fun doIfInvalid(doIfInvalid: (ValidationResult.Invalid) -> Any) = doIf(invalid = doIfInvalid)
+    fun doIfInvalid(doIfInvalid: (Invalid) -> Any) = doIf(invalid = doIfInvalid)
 
-    fun doIfValid(doIfValid: (ValidationResult.Valid) -> Any) = doIf(valid = doIfValid)
+    fun doIfValid(doIfValid: (Valid) -> Any) = doIf(valid = doIfValid)
 
-    fun ifInvalidThrowException(exception: ((ValidationResult.Invalid) -> RuntimeException) = { DomainRuleViolationException.of(this as Invalid) }) = doIfInvalid { throw exception(it) }
+    fun ifInvalidThrowException(exception: ((Invalid) -> RuntimeException) = { DomainRuleViolationException.of(this as Invalid) }) = doIfInvalid { throw exception(it) }
 
 
-    fun doIf(valid: ((ValidationResult.Valid) -> Any)? = null, invalid: ((ValidationResult.Invalid) -> Any)? = null) {
+    fun doIf(valid: ((Valid) -> Any)? = null, invalid: ((Invalid) -> Any)? = null) {
         when (this) {
-            is ValidationResult.Valid -> if (valid != null) valid(this)
-            is ValidationResult.Invalid -> if (invalid != null) invalid(this)
+            is Valid -> if (valid != null) valid(this)
+            is Invalid -> if (invalid != null) invalid(this)
         }
     }
 

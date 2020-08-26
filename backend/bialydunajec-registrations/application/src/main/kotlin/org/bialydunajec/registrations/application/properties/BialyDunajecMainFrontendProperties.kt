@@ -1,4 +1,4 @@
-package org.bialydunajec.registrations.application.configuration.properties
+package org.bialydunajec.registrations.application.properties
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.context.annotation.Configuration

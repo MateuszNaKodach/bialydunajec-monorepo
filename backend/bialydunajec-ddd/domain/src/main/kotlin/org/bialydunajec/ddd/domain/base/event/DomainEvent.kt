@@ -1,7 +1,7 @@
 package org.bialydunajec.ddd.domain.base.event
 
-import org.bialydunajec.ddd.domain.base.valueobject.DomainEventId
-import org.bialydunajec.ddd.domain.base.valueobject.Identifier
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.DomainEventId
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.Identifier
 import java.io.Serializable
 import java.time.Instant
 

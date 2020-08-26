@@ -1,9 +1,8 @@
 package org.bialydunajec.ddd.domain.sharedkernel.valueobject.financial
 
-import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
-import org.bialydunajec.ddd.domain.base.valueobject.ValueObject
-import org.bialydunajec.ddd.domain.extensions.isNegative
-import org.bialydunajec.ddd.domain.extensions.isZero
+import org.bialydunajec.ddd.domain.sharedkernel.exception.DomainRuleViolationException
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.ValueObject
+import org.bialydunajec.ddd.domain.sharedkernel.extensions.isZero
 import org.bialydunajec.ddd.domain.sharedkernel.exception.SharedKernelDomainError
 import java.math.BigDecimal
 import java.math.RoundingMode

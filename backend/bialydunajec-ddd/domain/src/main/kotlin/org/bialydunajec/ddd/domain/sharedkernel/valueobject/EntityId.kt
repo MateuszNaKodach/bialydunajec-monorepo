@@ -1,4 +1,4 @@
-package org.bialydunajec.ddd.domain.base.valueobject
+package org.bialydunajec.ddd.domain.sharedkernel.valueobject
 
 import java.util.*
 import javax.persistence.MappedSuperclass

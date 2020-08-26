@@ -6,10 +6,9 @@ import org.bialydunajec.academicministry.domain.AcademicMinistryRepository
 import org.bialydunajec.academicministry.domain.valueobject.AcademicMinistrySnapshot
 import org.bialydunajec.academicministry.domain.exception.AcademicMinistryDomainRule
 import org.bialydunajec.ddd.application.base.ApplicationService
-import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
+import org.bialydunajec.ddd.domain.sharedkernel.exception.DomainRuleViolationException
 import org.springframework.transaction.annotation.Transactional
 
-@Transactional
 internal class CreateAcademicMinistryApplicationService(
         private val academicMinistryRepository: AcademicMinistryRepository
 ) : ApplicationService<AcademicMinistryCommand.CreateAcademicMinistry> {
@@ -28,7 +27,6 @@ internal class CreateAcademicMinistryApplicationService(
             ).let { academicMinistryRepository.save(it) }.getAggregateId()
 }
 
-@Transactional
 internal class UpdateAcademicMinistryApplicationService(
         private val academicMinistryRepository: AcademicMinistryRepository
 ) : ApplicationService<AcademicMinistryCommand.UpdateAcademicMinistry> {
@@ -52,7 +50,6 @@ internal class UpdateAcademicMinistryApplicationService(
     }
 }
 
-@Transactional
 internal class CreateAcademicMinistryPriestApplicationService(
         private val academicMinistryRepository: AcademicMinistryRepository
 ) : ApplicationService<AcademicMinistryCommand.CreateAcademicMinistryPriest> {
@@ -77,7 +74,6 @@ internal class CreateAcademicMinistryPriestApplicationService(
     }
 }
 
-@Transactional
 internal class RemoveAcademicMinistryPriestApplicationService(
         private val academicMinistryRepository: AcademicMinistryRepository
 ) : ApplicationService<AcademicMinistryCommand.RemoveAcademicMinistryPriest> {

@@ -137,7 +137,7 @@ export class PaymentsListComponent implements OnInit, OnDestroy {
         case EventType.COMMITMENT_PAID: {
           const payment = this.filteredPaymentCommitments.find(it => it.paymentCommitmentId === data.payload.paymentCommitmentId);
           payment.paidDate = data.createdDate;
-          payment.paid = true;
+          payment.isPaid = true;
           console.log('PAID', payment);
           break;
         }

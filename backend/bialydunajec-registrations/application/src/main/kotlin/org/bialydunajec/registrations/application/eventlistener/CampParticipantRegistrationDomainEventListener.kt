@@ -2,7 +2,7 @@ package org.bialydunajec.registrations.application.eventlistener
 
 import org.bialydunajec.ddd.application.base.email.EmailMessageSenderPort
 import org.bialydunajec.ddd.application.base.email.SimpleEmailMessage
-import org.bialydunajec.registrations.application.configuration.properties.BialyDunajecMainFrontendProperties
+import org.bialydunajec.registrations.application.properties.BialyDunajecMainFrontendProperties
 import org.bialydunajec.registrations.application.external.EmailCatalogizer
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantRepository
 import org.bialydunajec.registrations.domain.camper.campparticipantregistration.CampParticipantRegistrationEvent

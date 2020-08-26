@@ -4,7 +4,9 @@ import org.bialydunajec.campedition.application.command.CreateCampEditionApplica
 import org.bialydunajec.campedition.application.command.UpdateCampEditionDurationApplicationService
 import org.bialydunajec.ddd.application.base.command.CommandProcessor
 import org.bialydunajec.ddd.application.base.command.CommandGateway
+import org.springframework.transaction.annotation.Transactional
 
+@Transactional
 class CampEditionCommandGateway internal constructor(
         private val createCampEditionApplicationService: CreateCampEditionApplicationService,
         private val updateCampEditionDurationApplicationService: UpdateCampEditionDurationApplicationService

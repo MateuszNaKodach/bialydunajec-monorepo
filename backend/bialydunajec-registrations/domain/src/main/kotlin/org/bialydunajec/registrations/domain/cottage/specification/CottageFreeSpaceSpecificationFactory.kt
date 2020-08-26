@@ -5,7 +5,6 @@ import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticip
 import org.bialydunajec.registrations.domain.camper.valueobject.CamperApplication
 import org.springframework.stereotype.Component
 
-@Component
 class CottageFreeSpaceSpecificationFactory (
         private val campParticipantRepository: CampParticipantRepository
 ) {

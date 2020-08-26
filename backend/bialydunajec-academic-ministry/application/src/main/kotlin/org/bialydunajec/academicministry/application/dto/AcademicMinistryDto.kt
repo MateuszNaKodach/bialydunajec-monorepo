@@ -5,7 +5,7 @@ import org.bialydunajec.ddd.application.base.dto.toDto
 import org.bialydunajec.ddd.dto.sharedkernel.ExtendedDescriptionDto
 import org.bialydunajec.ddd.dto.sharedkernel.PlaceDto
 import org.bialydunajec.ddd.dto.sharedkernel.SocialMediaDto
-import org.bialydunajec.ddd.domain.extensions.toStringOrNull
+import org.bialydunajec.ddd.domain.sharedkernel.extensions.toStringOrNull
 
 data class AcademicMinistryDto(
         val academicMinistryId: String,

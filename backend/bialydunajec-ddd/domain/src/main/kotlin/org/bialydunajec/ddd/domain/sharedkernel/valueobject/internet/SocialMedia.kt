@@ -1,12 +1,8 @@
 package org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet
 
-import org.bialydunajec.ddd.domain.base.valueobject.ValueObject
-import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.*
-import org.hibernate.validator.constraints.URL
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.ValueObject
 import javax.persistence.Embeddable
 import javax.persistence.Embedded
-import javax.persistence.Lob
-import javax.validation.constraints.NotBlank
 
 @Embeddable
 data class SocialMedia(

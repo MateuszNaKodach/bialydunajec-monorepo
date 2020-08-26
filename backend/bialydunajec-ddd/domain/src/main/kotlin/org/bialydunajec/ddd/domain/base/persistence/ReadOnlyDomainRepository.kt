@@ -2,7 +2,7 @@ package org.bialydunajec.ddd.domain.base.persistence
 
 import org.bialydunajec.ddd.domain.base.aggregate.AggregateRoot
 import org.bialydunajec.ddd.domain.base.specification.Specification
-import org.bialydunajec.ddd.domain.base.valueobject.Identifier
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.Identifier
 
 interface ReadOnlyDomainRepository<AggregateType : AggregateRoot<*, *>, AggregateIdType : Identifier<*>> {
     fun findAll(): Collection<AggregateType>

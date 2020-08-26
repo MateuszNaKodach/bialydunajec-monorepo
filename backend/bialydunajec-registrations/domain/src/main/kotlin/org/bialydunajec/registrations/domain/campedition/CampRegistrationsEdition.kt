@@ -2,7 +2,7 @@ package org.bialydunajec.registrations.domain.campedition
 
 import org.bialydunajec.ddd.domain.base.aggregate.AggregateRoot
 import org.bialydunajec.ddd.domain.base.persistence.Versioned
-import org.bialydunajec.ddd.domain.base.validation.ValidationResult
+import org.bialydunajec.ddd.domain.sharedkernel.validation.ValidationResult
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.financial.Money
 import org.bialydunajec.registrations.domain.academicministry.CampRegistrationsAcademicMinistry
 import org.bialydunajec.registrations.domain.campedition.entity.CampRegistrations

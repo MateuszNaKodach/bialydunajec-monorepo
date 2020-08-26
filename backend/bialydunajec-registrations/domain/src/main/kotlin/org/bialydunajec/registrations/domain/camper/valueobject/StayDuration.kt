@@ -1,6 +1,6 @@
 package org.bialydunajec.registrations.domain.camper.valueobject
 
-import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
+import org.bialydunajec.ddd.domain.sharedkernel.exception.DomainRuleViolationException
 import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule.*
 import java.time.LocalDate
 import java.time.LocalTime

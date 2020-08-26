@@ -1,7 +1,7 @@
 package org.bialydunajec.email.infrastructure
 
 import org.bialydunajec.ddd.domain.base.event.DomainEventBus
-import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
+import org.bialydunajec.ddd.domain.sharedkernel.exception.DomainRuleViolationException
 import org.bialydunajec.ddd.infrastructure.base.persistence.AbstractDomainRepositoryImpl
 import org.bialydunajec.email.domain.Email
 import org.bialydunajec.email.domain.EmailDomainRule

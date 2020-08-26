@@ -1,8 +1,8 @@
 package org.bialydunajec.ddd.domain.sharedkernel.valueobject.human
 
-import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
-import org.bialydunajec.ddd.domain.base.valueobject.ValueObject
-import org.bialydunajec.ddd.domain.extensions.isEven
+import org.bialydunajec.ddd.domain.sharedkernel.exception.DomainRuleViolationException
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.ValueObject
+import org.bialydunajec.ddd.domain.sharedkernel.extensions.isEven
 import org.bialydunajec.ddd.domain.sharedkernel.exception.SharedKernelDomainError
 import org.hibernate.validator.constraints.Length
 import org.hibernate.validator.constraints.pl.PESEL

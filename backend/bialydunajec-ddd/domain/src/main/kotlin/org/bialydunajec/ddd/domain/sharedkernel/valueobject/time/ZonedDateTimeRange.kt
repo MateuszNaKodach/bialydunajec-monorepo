@@ -1,8 +1,8 @@
 package org.bialydunajec.ddd.domain.sharedkernel.valueobject.time
 
-import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
-import org.bialydunajec.ddd.domain.base.valueobject.ValueObject
-import org.bialydunajec.ddd.domain.extensions.isBetween
+import org.bialydunajec.ddd.domain.sharedkernel.exception.DomainRuleViolationException
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.ValueObject
+import org.bialydunajec.ddd.domain.sharedkernel.extensions.isBetween
 import org.bialydunajec.ddd.domain.sharedkernel.exception.SharedKernelDomainError
 import java.time.ZonedDateTime
 import javax.persistence.Embeddable

@@ -1,6 +1,6 @@
 package org.bialydunajec.registrations.domain.cottage.valueobject
 
-import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
+import org.bialydunajec.ddd.domain.sharedkernel.exception.DomainRuleViolationException
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.Gender
 import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule.*
 import javax.persistence.Embeddable

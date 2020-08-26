@@ -1,7 +1,7 @@
 package org.bialydunajec.registrations.application.eventlistener.propagator
 
 import org.bialydunajec.ddd.application.base.external.event.ExternalEventPublisher
-import org.bialydunajec.ddd.domain.extensions.toStringOrNull
+import org.bialydunajec.ddd.domain.sharedkernel.extensions.toStringOrNull
 import org.bialydunajec.registrations.application.dto.from
 import org.bialydunajec.registrations.application.dto.toDtoWithCottage
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantEvent

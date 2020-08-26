@@ -1,6 +1,6 @@
 package org.bialydunajec.ddd.domain.sharedkernel.valueobject
 
-import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
+import org.bialydunajec.ddd.domain.sharedkernel.exception.DomainRuleViolationException
 import org.bialydunajec.ddd.domain.sharedkernel.exception.SharedKernelDomainError
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.financial.Money
 import spock.lang.Ignore

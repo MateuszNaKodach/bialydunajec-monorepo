@@ -1,17 +1,13 @@
 package org.bialydunajec.registrations.application.command
 
 import org.bialydunajec.ddd.application.base.ApplicationService
-import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
+import org.bialydunajec.ddd.domain.sharedkernel.exception.DomainRuleViolationException
 import org.bialydunajec.registrations.application.command.api.CampRegistrationsCommand
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantRepository
 import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule
 import org.bialydunajec.registrations.domain.shirt.CampEditionShirtRepository
 import org.bialydunajec.registrations.domain.shirt.ShirtOrderRepository
-import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 
-@Service
-@Transactional
 internal class UpdateCampEditionShirtApplicationService(
         private val campEditionShirtRepository: CampEditionShirtRepository
 ) : ApplicationService<CampRegistrationsCommand.UpdateCampEditionShirt> {
@@ -25,8 +21,6 @@ internal class UpdateCampEditionShirtApplicationService(
 
 }
 
-@Service
-@Transactional
 internal class AddCampEditionShirtColorOptionApplicationService(
         private val campEditionShirtRepository: CampEditionShirtRepository
 ) : ApplicationService<CampRegistrationsCommand.AddCampEditionShirtColorOption> {
@@ -40,8 +34,6 @@ internal class AddCampEditionShirtColorOptionApplicationService(
 
 }
 
-@Service
-@Transactional
 internal class UpdateCampEditionShirtColorOptionApplicationService(
         private val campEditionShirtRepository: CampEditionShirtRepository
 ) : ApplicationService<CampRegistrationsCommand.UpdateCampEditionShirtColorOption> {
@@ -55,8 +47,6 @@ internal class UpdateCampEditionShirtColorOptionApplicationService(
 
 }
 
-@Service
-@Transactional
 internal class AddCampEditionShirtSizeOptionApplicationService(
         private val campEditionShirtRepository: CampEditionShirtRepository
 ) : ApplicationService<CampRegistrationsCommand.AddCampEditionShirtSizeOption> {
@@ -70,9 +60,6 @@ internal class AddCampEditionShirtSizeOptionApplicationService(
 
 }
 
-
-@Service
-@Transactional
 internal class UpdateCampEditionShirtSizeOptionApplicationService(
         private val campEditionShirtRepository: CampEditionShirtRepository
 ) : ApplicationService<CampRegistrationsCommand.UpdateCampEditionShirtSizeOption> {
@@ -86,8 +73,6 @@ internal class UpdateCampEditionShirtSizeOptionApplicationService(
 
 }
 
-@Service
-@Transactional
 internal class PlaceCampEditionShirtOrderApplicationService(
         private val campParticipantRepository: CampParticipantRepository,
         private val campEditionShirtRepository: CampEditionShirtRepository,

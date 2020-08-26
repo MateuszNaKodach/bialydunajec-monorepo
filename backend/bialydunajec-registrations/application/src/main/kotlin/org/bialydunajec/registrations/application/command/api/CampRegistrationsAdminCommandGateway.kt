@@ -2,9 +2,9 @@ package org.bialydunajec.registrations.application.command.api
 
 import org.bialydunajec.ddd.application.base.command.CommandGateway
 import org.bialydunajec.registrations.application.command.*
-import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 
-@Component
+@Transactional
 class CampRegistrationsAdminCommandGateway internal constructor(
         private val createCampRegistrationsEditionApplicationService: CreateCampRegistrationsEditionApplicationService,
         private val updateCampRegistrationsEditionDurationApplicationService: UpdateCampRegistrationsEditionDurationApplicationService,
@@ -14,14 +14,14 @@ class CampRegistrationsAdminCommandGateway internal constructor(
         private val suspendCampRegistrationsNowApplicationService: SuspendCampRegistrationsNowApplicationService,
         private val unsuspendCampRegistrationsNowApplicationService: UnsuspendCampRegistrationsNowApplicationService,
         private val createAcademicMinistryCottageApplicationService: CreateAcademicMinistryCottageApplicationService,
-        private val standaloneCottageApplicationService: CreateStandaloneCottageApplicationService,
+        private val createStandaloneCottageApplicationService: CreateStandaloneCottageApplicationService,
         private val updateCottageApplicationService: UpdateCottageApplicationService,
         private val activateCottageApplicationService: ActivateCottageApplicationService,
         private val deactivateCottageApplicationService: DeactivateCottageApplicationService,
         private val deleteCottageApplicationService: DeleteCottageApplicationService,
-        private val authorizedCampParticipantRegistrationConfirmApplicationService: VerifyCampParticipantRegistrationByAuthorizedApplicationService,
+        private val verifyCampParticipantRegistrationByAuthorizedApplicationService: VerifyCampParticipantRegistrationByAuthorizedApplicationService,
         private val unregisterCampParticipantApplicationService: UnregisterCampParticipantApplicationService,
-        private val updateCampParticipantRegistrationDataApplicationService: CorrectCampParticipantRegistrationDataApplicationService,
+        private val correctCampParticipantRegistrationDataApplicationService: CorrectCampParticipantRegistrationDataApplicationService,
         private val updateCampEditionShirtApplicationService: UpdateCampEditionShirtApplicationService,
         private val addCampEditionShirtColorOptionApplicationService: AddCampEditionShirtColorOptionApplicationService,
         private val addCampEditionShirtSizeOptionApplicationService: AddCampEditionShirtSizeOptionApplicationService,
@@ -57,7 +57,7 @@ class CampRegistrationsAdminCommandGateway internal constructor(
 
 
     fun process(command: CampRegistrationsCommand.CreateStandaloneCottage) =
-            standaloneCottageApplicationService.execute(command)
+            createStandaloneCottageApplicationService.execute(command)
 
     fun process(command: CampRegistrationsCommand.UpdateCottage) =
             updateCottageApplicationService.execute(command)
@@ -73,13 +73,13 @@ class CampRegistrationsAdminCommandGateway internal constructor(
 
 
     fun process(command: CampRegistrationsCommand.VerifyCampParticipantRegistrationCommandByAuthorized) =
-            authorizedCampParticipantRegistrationConfirmApplicationService.execute(command)
+            verifyCampParticipantRegistrationByAuthorizedApplicationService.execute(command)
 
     fun process(command: CampRegistrationsCommand.UnregisterCampParticipantByAuthorizedCommand) =
             unregisterCampParticipantApplicationService.execute(command)
 
     fun process(command: CampRegistrationsCommand.CorrectCampParticipantRegistrationDataCommand) =
-            updateCampParticipantRegistrationDataApplicationService.execute(command)
+            correctCampParticipantRegistrationDataApplicationService.execute(command)
 
     fun process(command: CampRegistrationsCommand.UpdateCampEditionShirt) =
             updateCampEditionShirtApplicationService.execute(command)

@@ -2,7 +2,7 @@ package org.bialydunajec.registrations.domain.payment
 
 import org.bialydunajec.ddd.domain.base.aggregate.AuditableAggregateRoot
 import org.bialydunajec.ddd.domain.base.persistence.Versioned
-import org.bialydunajec.ddd.domain.base.validation.ValidationResult
+import org.bialydunajec.ddd.domain.sharedkernel.validation.ValidationResult
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.financial.Money
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantId
 import org.bialydunajec.registrations.domain.cottage.CottageId

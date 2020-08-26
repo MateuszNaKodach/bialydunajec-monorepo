@@ -2,7 +2,7 @@ package org.bialydunajec.registrations.application.eventlistener
 
 import org.bialydunajec.ddd.application.base.email.EmailMessageSenderPort
 import org.bialydunajec.ddd.application.base.email.SimpleEmailMessage
-import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
+import org.bialydunajec.ddd.domain.sharedkernel.exception.DomainRuleViolationException
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.human.Gender
 import org.bialydunajec.registrations.application.external.EmailCatalogizer
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantEvent

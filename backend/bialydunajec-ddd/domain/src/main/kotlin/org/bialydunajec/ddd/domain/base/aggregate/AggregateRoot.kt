@@ -1,9 +1,7 @@
 package org.bialydunajec.ddd.domain.base.aggregate
 
 import org.bialydunajec.ddd.domain.base.event.DomainEvent
-import org.bialydunajec.ddd.domain.base.valueobject.Identifier
-import org.springframework.data.domain.AfterDomainEventPublication
-import org.springframework.data.domain.DomainEvents
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.Identifier
 import javax.persistence.Column
 import javax.persistence.EmbeddedId
 import javax.persistence.MappedSuperclass

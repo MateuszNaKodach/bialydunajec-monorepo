@@ -1,6 +1,6 @@
 package org.bialydunajec.registrations.domain.campedition
 
-import org.bialydunajec.ddd.domain.base.valueobject.AggregateId
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.AggregateId
 import javax.persistence.Embeddable
 
 @Embeddable

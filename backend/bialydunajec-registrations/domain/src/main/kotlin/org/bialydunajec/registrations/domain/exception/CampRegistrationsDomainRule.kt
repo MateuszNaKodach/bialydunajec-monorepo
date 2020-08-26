@@ -1,6 +1,6 @@
 package org.bialydunajec.registrations.domain.exception
 
-import org.bialydunajec.ddd.domain.base.validation.exception.DomainRule
+import org.bialydunajec.ddd.domain.sharedkernel.exception.DomainRule
 
 enum class CampRegistrationsDomainRule : DomainRule {
     ACADEMIC_MINISTRY_NOT_FOUND,

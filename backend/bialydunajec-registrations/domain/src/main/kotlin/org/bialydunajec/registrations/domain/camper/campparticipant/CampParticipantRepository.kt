@@ -8,9 +8,6 @@ import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticip
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantId
 import org.bialydunajec.registrations.domain.cottage.CottageId
 
-interface CampParticipantRepository : DomainRepository<CampParticipant, CampParticipantId> {
-    fun findAllByCottageId(cottageId: CottageId): Collection<CampParticipant>
-    fun countByCottageId(cottageId: CottageId): Long
-    fun countByCottageIdAndGender(cottageId: CottageId, gender: Gender): Long
+interface CampParticipantRepository : DomainRepository<CampParticipant, CampParticipantId>, CampParticipantReadOnlyRepository {
     fun existsByPeselAndCampRegistrationsEditionId(pesel: Pesel, campRegistrationsEditionId: CampRegistrationsEditionId): Boolean
 }
