@@ -55,6 +55,20 @@ abstract class TestFixtureExpect<QueryType: Query, QueryGatewayType: QueryProces
 
 }
 
+abstract class ThenEventPublished<FixtureScopeType>(val domainEvents: DomainEventsRecorder) {
+    fun thenNothingPublished(): FixtureScopeType {
+        assertThat(domainEvents).publishedNone()
+        return fixtureScope()
+    }
+
+    inline infix fun <reified T : DomainEvent<*>> thenPublishedLastly(event: T): FixtureScopeType {
+        assertThat(domainEvents).publishedLastly<T>().equalsToDomainEvent(event)
+        return fixtureScope()
+    }
+
+    abstract fun fixtureScope(): FixtureScopeType
+}
+
 inline fun <reified EventType : DomainEvent<*>> Assert<DomainEventsRecorder>.publishedLastly(): Assert<EventType> =
         published(eventRetriever = { it.last() })
 

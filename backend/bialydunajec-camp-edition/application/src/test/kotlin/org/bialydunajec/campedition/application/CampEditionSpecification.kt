@@ -1,6 +1,5 @@
 package org.bialydunajec.campedition.application
 
-import assertk.assertThat
 import assertk.assertions.containsOnly
 import assertk.assertions.isEqualTo
 import org.bialydunajec.campedition.application.command.api.CampEditionCommand
@@ -154,20 +153,6 @@ class CampEditionGiven(
                     campEditionPrice = campEditionPrice,
                     campEditionDownPaymentAmount = campEditionDownPaymentAmount
             )
-}
-
-abstract class ThenEventPublished<T>(val domainEvents: DomainEventsRecorder) {
-    fun thenNothingPublished(): T {
-        assertThat(domainEvents).publishedNone()
-        return fixtureScope()
-    }
-
-    inline infix fun <reified EventType : CampEditionEvent> thenPublishedLastly(event: EventType): T {
-        assertThat(domainEvents).publishedLastly<EventType>().equalsToDomainEvent(event)
-        return fixtureScope()
-    }
-
-    abstract fun fixtureScope(): T
 }
 
 class CampEditionTestFixtureScope(
