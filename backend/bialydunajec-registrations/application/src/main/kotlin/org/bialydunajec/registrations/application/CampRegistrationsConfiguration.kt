@@ -25,7 +25,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-internal class RegistrationsConfiguration(
+internal class CampRegistrationsConfiguration(
         private val clock: Clock,
         private val campRegistrationsEditionRepository: CampRegistrationsEditionRepository,
         private val academicMinistryRepository: AcademicMinistryRepository,

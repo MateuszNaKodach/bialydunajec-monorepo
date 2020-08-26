@@ -2,9 +2,6 @@ package org.bialydunajec.academicministry.application
 
 import assertk.Assert
 import assertk.assertThat
-import assertk.assertions.containsOnly
-import assertk.assertions.isEmpty
-import assertk.assertions.isEqualTo
 import org.bialydunajec.academicministry.application.command.api.AcademicMinistryAdminCommandGateway
 import org.bialydunajec.academicministry.application.command.api.AcademicMinistryCommand
 import org.bialydunajec.academicministry.application.dto.AcademicMinistryDto
@@ -36,124 +33,8 @@ import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.Url
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.WebPage
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.location.*
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.notes.ExtendedDescription
-import org.junit.jupiter.api.Test
 
-//TODO: W jaki sposób obsługiwać ExternalEvent? Wywolywac serwis aplikacyjny? Tlumaczyc na komende?
-private class AcademicMinistryAdminSpecification {
-
-    @Test
-    fun `When create new academic ministry | Then academic ministry should be created`() {
-        val redemptor = academicMinistryGivens.getValue("Redemptor")
-
-        administrateAcademicMinistries {
-            whenExecute(redemptor.create) thenExpect (redemptor.created)
-
-            thenResultOf { process(AcademicMinistryQuery.All) }.containsOnly(redemptor.dto)
-            thenResultOf { process(AcademicMinistryQuery.ById(redemptor.id)) }.isEqualTo(redemptor.dto)
-            thenResultOf { process(AcademicMinistryQuery.AllPriestsByAcademicMinistryId(redemptor.id)) }.isEmpty()
-        }
-    }
-
-    @Test
-    fun `Given academic ministry Redemptor exists | When create new academic ministry Maciejowka | Then academic ministry should be created`() {
-        val redemptor = academicMinistryGivens.getValue("Redemptor")
-        val maciejowka = academicMinistryGivens.getValue("Maciejowka")
-
-        administrateAcademicMinistries {
-            givenAcademicMinistryExists(redemptor)
-
-            whenExecute(maciejowka.create) thenExpect (maciejowka.created)
-
-            thenResultOf { process(AcademicMinistryQuery.All) }.containsOnly(maciejowka.dto, redemptor.dto)
-            thenResultOf { process(AcademicMinistryQuery.ById(maciejowka.id)) }.isEqualTo(maciejowka.dto)
-            thenResultOf { process(AcademicMinistryQuery.ById(redemptor.id)) }.isEqualTo(redemptor.dto)
-            thenResultOf { process(AcademicMinistryQuery.AllPriestsByAcademicMinistryId(maciejowka.id)) }.isEmpty()
-            thenResultOf { process(AcademicMinistryQuery.AllPriestsByAcademicMinistryId(redemptor.id)) }.isEmpty()
-
-            thenResultOf<Collection<AcademicMinistryNameDto>>(AcademicMinistryQuery.NamesForAll, byAdmin = false)
-                    .containsOnly(redemptor.nameDto, maciejowka.nameDto)
-        }
-    }
-
-    @Test
-    fun `Given academic ministry Redemptor exists | When assign priest to Redemptor | Then academic ministry should have one priest`() {
-        val redemptor = academicMinistryGivens.getValue("Redemptor")
-        val mariuszSimonicz = academicPriestGivens.getValue("MariuszSimonicz")(redemptor.academicMinistryId)
-
-        administrateAcademicMinistries {
-            givenAcademicMinistryExists(redemptor)
-
-            whenExecute(mariuszSimonicz.create) thenExpect (mariuszSimonicz.assigned)
-
-            thenResultOf { process(AcademicMinistryQuery.AllPriestsByAcademicMinistryId(redemptor.id)) }.containsOnly(mariuszSimonicz.dto)
-        }
-    }
-
-    @Test
-    fun `Given academic ministry Redemptor exists and has assigned priest | When assign next priest to Redemptor | Then academic ministry should have two priests`() {
-        val redemptor = academicMinistryGivens.getValue("Redemptor")
-        val mariuszSimonicz = academicPriestGivens.getValue("MariuszSimonicz")(redemptor.academicMinistryId)
-        val bartlomiejKot = academicPriestGivens.getValue("BartlomiejKot")(redemptor.academicMinistryId)
-
-        administrateAcademicMinistries {
-            givenAcademicMinistryExists(redemptor)
-            givenAcademicPriestExists(mariuszSimonicz)
-
-            whenExecute(bartlomiejKot.create) thenExpect (bartlomiejKot.assigned)
-
-            thenResultOf { process(AcademicMinistryQuery.AllPriestsByAcademicMinistryId(redemptor.id)) }.containsOnly(mariuszSimonicz.dto, bartlomiejKot.dto)
-        }
-    }
-
-    @Test
-    fun `Given academic ministry Redemptor exists and has one assigned priest | When unassign priest from Redemptor | Then academic ministry should have no priests`() {
-        val redemptor = academicMinistryGivens.getValue("Redemptor")
-        val mariuszSimonicz = academicPriestGivens.getValue("MariuszSimonicz")(redemptor.academicMinistryId)
-
-        administrateAcademicMinistries {
-            givenAcademicMinistryExists(redemptor)
-            givenAcademicPriestExists(mariuszSimonicz)
-
-            whenExecute(mariuszSimonicz.unassign) thenExpect (mariuszSimonicz.unassigned)
-
-            thenResultOf { process(AcademicMinistryQuery.AllPriestsByAcademicMinistryId(redemptor.id)) }.isEmpty()
-        }
-    }
-
-    @Test
-    fun `Given academic ministry Redemptor exists and has no assigned priest | When unassign priest from Redemptor | Then nothing should happen`() {
-        val redemptor = academicMinistryGivens.getValue("Redemptor")
-        val mariuszSimonicz = academicPriestGivens.getValue("MariuszSimonicz")(redemptor.academicMinistryId)
-
-        administrateAcademicMinistries {
-            givenAcademicMinistryExists(redemptor)
-
-            whenExecute(mariuszSimonicz.unassign) thenExpect noEvents
-
-            thenResultOf { process(AcademicMinistryQuery.AllPriestsByAcademicMinistryId(redemptor.id)) }.isEmpty()
-        }
-    }
-
-    @Test
-    fun `Given academic ministry Redemptor exists and has assigned two priest | When unassign one priest from Redemptor | Then academic ministry should have one priests`() {
-        val redemptor = academicMinistryGivens.getValue("Redemptor")
-        val mariuszSimonicz = academicPriestGivens.getValue("MariuszSimonicz")(redemptor.academicMinistryId)
-        val bartlomiejKot = academicPriestGivens.getValue("BartlomiejKot")(redemptor.academicMinistryId)
-
-        administrateAcademicMinistries {
-            givenAcademicMinistryExists(redemptor)
-            givenAcademicPriestExists(mariuszSimonicz)
-            givenAcademicPriestExists(bartlomiejKot)
-
-            whenExecute(bartlomiejKot.unassign) thenExpect (bartlomiejKot.unassigned)
-
-            thenResultOf { process(AcademicMinistryQuery.AllPriestsByAcademicMinistryId(redemptor.id)) }.containsOnly(mariuszSimonicz.dto)
-        }
-    }
-
-}
-
-private val academicMinistryGivens = mapOf(
+val academicMinistryGivens = mapOf(
         "Redemptor" to AcademicMinistryGiven(
                 officialName = "Duszpasterstwo Akademickie Redemptor",
                 shortName = "Redemptor",
@@ -198,8 +79,7 @@ private val academicMinistryGivens = mapOf(
                 description = null
         )
 )
-
-private val academicPriestGivens = mapOf<String, (AcademicMinistryId) -> AcademicPriestGiven>(
+val academicPriestGivens = mapOf<String, (AcademicMinistryId) -> AcademicPriestGiven>(
         "MariuszSimonicz" to {
             AcademicPriestGiven(
                     academicMinistryId = it,
@@ -226,7 +106,7 @@ private val academicPriestGivens = mapOf<String, (AcademicMinistryId) -> Academi
         }
 )
 
-private class AcademicPriestGiven(
+class AcademicPriestGiven(
         val academicPriestId: AcademicPriestId = AcademicPriestId(),
         val academicMinistryId: AcademicMinistryId,
         val firstName: FirstName,
@@ -269,7 +149,7 @@ private class AcademicPriestGiven(
     val dto = snapshot.toDto()
 }
 
-private class AcademicMinistryGiven(
+class AcademicMinistryGiven(
         val academicMinistryId: AcademicMinistryId = AcademicMinistryId(),
         val officialName: String,
         val shortName: String?,
@@ -315,7 +195,7 @@ private class AcademicMinistryGiven(
 
 }
 
-private fun administrateAcademicMinistries(block: (AcademicMinistryAdminTestFixtureScope.() -> Unit)? = null): AcademicMinistryAdminTestFixtureScope {
+fun administrateAcademicMinistries(block: (AcademicMinistryAdminTestFixtureScope.() -> Unit)? = null): AcademicMinistryAdminTestFixtureScope {
     val externalEvents = anExternalEventPublisher()
     val domainEvents = anDomainEventBus()
     val repository = InMemoryAcademicMinistryRepository(domainEvents)
@@ -328,7 +208,7 @@ private fun administrateAcademicMinistries(block: (AcademicMinistryAdminTestFixt
     return fixture
 }
 
-private class AcademicMinistryAdminTestFixtureScope(
+class AcademicMinistryAdminTestFixtureScope(
         override val commandGateway: AcademicMinistryAdminCommandGateway,
         override val queryGateway: AcademicMinistryAdminQueryGateway,
         domainEvents: DomainEventsRecorder,
@@ -365,11 +245,10 @@ private class AcademicMinistryAdminTestFixtureScope(
 
 }
 
-private class AcademicMinistryTestFixtureExpect(
+class AcademicMinistryTestFixtureExpect(
         queryGateway: AcademicMinistryAdminQueryGateway,
         domainEvents: DomainEventsRecorder,
 ) : TestFixtureExpect<AcademicMinistryQuery, AcademicMinistryAdminQueryGateway>(queryGateway, domainEvents)
 
-
-private class InMemoryAcademicMinistryRepository(domainEventBus: DomainEventBus)
+class InMemoryAcademicMinistryRepository(domainEventBus: DomainEventBus)
     : InMemoryDomainRepository<AcademicMinistryId, AcademicMinistry>(domainEventBus = domainEventBus), AcademicMinistryRepository
