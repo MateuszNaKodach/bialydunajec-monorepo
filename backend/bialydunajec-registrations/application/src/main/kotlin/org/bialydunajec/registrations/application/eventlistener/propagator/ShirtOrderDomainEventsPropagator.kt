@@ -9,8 +9,10 @@ import org.bialydunajec.registrations.domain.shirt.ShirtOrderEvent
 import org.bialydunajec.registrations.messages.event.ShirtOrderExternalEvent
 import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.transaction.event.TransactionalEventListener
 
+@Transactional
 @Component
 internal class ShirtOrderDomainEventsPropagator(
         private val campParticipantReadOnlyRepository: CampParticipantReadOnlyRepository,

@@ -1,8 +1,9 @@
 package org.bialydunajec.ddd.infrastructure.base
 
 import org.bialydunajec.ddd.domain.base.event.DomainEventBus
+import org.bialydunajec.ddd.infrastructure.base.event.InMemoryEventsStorage
 import org.bialydunajec.ddd.infrastructure.base.event.SpringDomainEventBus
-import org.bialydunajec.ddd.infrastructure.base.event.StoreAndForwardDomainEventBus
+import org.bialydunajec.ddd.infrastructure.base.event.storeEventsIn
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -12,6 +13,7 @@ class BaseInfrastructureConfiguration(private val applicationEventPublisher: App
 
     @Bean
     fun domainEventBus(): DomainEventBus =
-            StoreAndForwardDomainEventBus(SpringDomainEventBus(applicationEventPublisher))
+            SpringDomainEventBus(applicationEventPublisher)
+                    //.storeEventsIn(InMemoryEventsStorage())
 
 }

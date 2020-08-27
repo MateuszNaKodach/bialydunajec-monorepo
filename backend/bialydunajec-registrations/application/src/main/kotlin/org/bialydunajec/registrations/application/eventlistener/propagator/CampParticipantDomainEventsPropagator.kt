@@ -12,8 +12,10 @@ import org.bialydunajec.registrations.dto.CampParticipantDto
 import org.bialydunajec.registrations.messages.event.CampParticipantExternalEvent
 import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.transaction.event.TransactionalEventListener
 
+@Transactional
 @Component
 internal class CampParticipantDomainEventsPropagator(
     private val externalEventBus: ExternalEventPublisher,

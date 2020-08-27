@@ -29,6 +29,8 @@ open class StoreAndForwardDomainEventBus(private val delegate: DomainEventBus, p
 
 }
 
+fun DomainEventBus.storeEventsIn(eventsStorage: EventsStorage) = StoreAndForwardDomainEventBus(this, eventsStorage)
+
 interface EventsStorage {
     fun save(event: DomainEvent<*>)
     fun toPublish(): DomainEvent<*>?
