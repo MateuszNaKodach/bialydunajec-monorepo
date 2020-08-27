@@ -16,64 +16,70 @@ import org.bialydunajec.email.domain.valueobject.EmailMessage
 import org.bialydunajec.email.messages.command.EmailExternalCommand
 import org.bialydunajec.email.messages.command.EmailMessageExternalCommand
 import org.springframework.stereotype.Component
+import kotlin.reflect.KClass
 
 @Component
 internal class ExternalCommandsListener internal constructor(
-    private val emailMessageCommandGateway: EmailMessageCommandGateway,
-    private val emailCommandGateway: EmailCommandGateway,
-    externalCommandSubscriber: ExternalCommandSubscriber
+        private val emailMessageCommandGateway: EmailMessageCommandGateway,
+        private val emailCommandGateway: EmailCommandGateway,
+        private val externalCommandSubscriber: ExternalCommandSubscriber
 ) : ExternalCommandListener {
 
     init {
-        externalCommandSubscriber.subscribePayload(EmailMessageExternalCommand.SendSimpleEmailMessage::class) {
-            emailMessageCommandGateway.process(
-                EmailMessageCommand.SendEmailCommand(
+
+        mapToEmailMessageCommand<EmailMessageExternalCommand.SendSimpleEmailMessage> {
+            EmailMessageCommand.SendEmailCommand(
                     EmailMessage(
-                        EmailAddress(recipientEmailAddress),
-                        subject,
-                        content,
-                        EmailMessageLogId(trackingCode)
+                            EmailAddress(recipientEmailAddress),
+                            subject,
+                            content,
+                            EmailMessageLogId(trackingCode)
                     )
-                )
             )
         }
 
-        externalCommandSubscriber.subscribePayload(EmailExternalCommand.CatalogizeEmail::class) {
-            emailCommandGateway.process(
-                EmailCommand.CatalogizeEmail(
+        mapToEmailCommand<EmailExternalCommand.CatalogizeEmail> {
+            EmailCommand.CatalogizeEmail(
                     EmailAddress(emailAddress),
                     emailGroupId?.let { EmailGroupId(it) },
                     EmailAddressOwner(
-                        FirstName(emailOwnerName),
-                        LastName(emailOwnerLastName)
+                            FirstName(emailOwnerName),
+                            LastName(emailOwnerLastName)
                     )
-                )
             )
         }
 
-        externalCommandSubscriber.subscribePayload(EmailExternalCommand.ChangeEmailAddress::class) {
-            emailCommandGateway.process(
-                EmailCommand.ChangeEmailAddress(
+        mapToEmailCommand<EmailExternalCommand.ChangeEmailAddress> {
+            EmailCommand.ChangeEmailAddress(
                     EmailAddress(oldEmailAddress),
                     emailGroupId?.let { EmailGroupId(it) },
                     EmailAddress(newEmailAddress)
-                )
             )
         }
 
-        externalCommandSubscriber.subscribePayload(EmailExternalCommand.CorrectEmailOwner::class) {
-            emailCommandGateway.process(
-                EmailCommand.CorrectEmailOwner(
+        mapToEmailCommand<EmailExternalCommand.CorrectEmailOwner> {
+            EmailCommand.CorrectEmailOwner(
                     EmailAddress(emailAddress),
                     emailGroupId?.let { EmailGroupId(it) },
                     EmailAddressOwner(
-                        FirstName(emailOwnerName),
-                        LastName(emailOwnerLastName)
+                            FirstName(emailOwnerName),
+                            LastName(emailOwnerLastName)
                     )
-                )
             )
         }
 
+    }
+
+    private inline fun <reified PayloadType : EmailExternalCommand> mapToEmailCommand(crossinline to: PayloadType.() -> EmailCommand) {
+        externalCommandSubscriber {
+            subscribePayload(PayloadType::class) { emailCommandGateway.process(to(this)) }
+        }
+    }
+
+    private inline fun <reified PayloadType : EmailMessageExternalCommand> mapToEmailMessageCommand(crossinline to: PayloadType.() -> EmailMessageCommand) {
+        externalCommandSubscriber {
+            subscribePayload(PayloadType::class) { emailMessageCommandGateway.process(to(this)) }
+        }
     }
 
 }
