@@ -403,7 +403,7 @@ class DummyDatabaseInitializator(
         campRegistrationsAdminCommandGateway.process(CampRegistrationsCommand.StartCampRegistrationsNow(36))
     }
 
-    fun registerDummyCampers() {
+    fun registerDummyCampers(maxPerCottage: Int = 8) {
         val campShirt = campRegistrationsQueryGateway.process(CampEditionShirtQuery.ByCampRegistrationsEditionId("36"))
 
         campRegistrationsQueryGateway.process(CottageQuery.All())
@@ -411,7 +411,7 @@ class DummyDatabaseInitializator(
                 .filter { it.name != "Redemptor" }
                 .parallelStream()
                 .forEach {
-                    for (x in 0..fairy.baseProducer().randomBetween(0, 8)) {
+                    for (x in 0..fairy.baseProducer().randomBetween(0, maxPerCottage)) {
                         val person = fairy.person(*personProperties)
                         CampRegistrationsCommand.RegisterCampParticipantCommand(
                                 CampRegistrationsEditionId(36),
@@ -446,7 +446,7 @@ class DummyDatabaseInitializator(
         campRegistrationsQueryGateway.process(CottageQuery.All())
                 .find { it.name == "Redemptor" }
                 ?.let {
-                    for (x in 0..26) {
+                    for (x in 0..maxPerCottage) {
                         val person = fairy.person(*personProperties)
                         CampRegistrationsCommand.RegisterCampParticipantCommand(
                                 CampRegistrationsEditionId(36),
@@ -490,6 +490,43 @@ class DummyDatabaseInitializator(
                 "Redemptor" -> "//lh3.googleusercontent.com/PNfl1W-UPauu8Xcom5xR7J5h1xHh-Bx4x3DJhw91nsfTgwgzBq_-hRrWXiAULB53jSJiG9PHTjw3QF_J=w172-h220-rw"
                 else -> null
             }
+
+    fun registerDummyCamper(count: Int, cottage: String = "Redemptor") {
+        val campShirt = campRegistrationsQueryGateway.process(CampEditionShirtQuery.ByCampRegistrationsEditionId("36"))
+        campRegistrationsQueryGateway.process(CottageQuery.AllByCampRegistrationsEditionId("36"))
+                .find { it.name == cottage }
+                ?.let {
+                    for (x in 0 until count) {
+                        val person = fairy.person(*personProperties)
+                        CampRegistrationsCommand.RegisterCampParticipantCommand(
+                                CampRegistrationsEditionId(36),
+                                CamperApplication(
+                                        CottageId(it.cottageId),
+                                        CamperPersonalData(
+                                                FirstName(person.firstName),
+                                                LastName(person.lastName),
+                                                if (person.isMale) Gender.MALE else Gender.FEMALE,
+                                                Pesel(person.nationalIdentificationNumber)
+                                        ),
+                                        Address(Street(person.address.street), HomeNumber("${person.address.streetNumber} / ${person.address.apartmentNumber}"), CityName(person.address.city), PostalCode(person.address.postalCode)),
+                                        EmailAddress(person.email),
+                                        PhoneNumber(person.telephoneNumber),
+                                        CamperEducation(
+                                                "Politechnika Wrocławska",
+                                                "Podstawowych Problemów Techniki",
+                                                "Informatyka",
+                                                null,
+                                                fairy.baseProducer().trueOrFalse()
+                                        )
+                                ),
+                                CamperShirtOrder(
+                                        ShirtColorOptionId(campShirt!!.colorOptions.random().shirtColorOptionId),
+                                        ShirtSizeOptionId(campShirt!!.sizeOptions.random().shirtSizeOptionId)
+                                )
+                        ).let { registration -> campRegistrationsCommandGateway.process(registration, false) }
+                    }
+                }
+    }
 }
 
 

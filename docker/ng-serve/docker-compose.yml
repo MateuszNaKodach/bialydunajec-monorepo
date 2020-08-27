@@ -5,10 +5,16 @@ services:
     build:
       context: ../../
       dockerfile: ./docker/ng-serve/backend/Dockerfile
+    networks:
+      - bialydunajec-ng-serve-network
     ports:
       - 6655:3344
     environment:
       SPRING_PROFILES_ACTIVE: env_local_inside_docker
+      SPRING_DATA_MONGODB_URI: "mongodb://bialydunajec-mongodb:27017/bialydunajec-mongodb-db"
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://bialydunajec-postgres:5432/bialydunajec-postgres-db"
+      SPRING_DATASOURCE_USERNAME: "bialydunajec-postgres-user"
+      SPRING_DATASOURCE_PASSWORD: "bialydunajec-postgres-password"
     volumes:
       - "../../backend:/app"
     command: ["gradle", "bootRun"]
@@ -24,7 +30,7 @@ services:
     volumes:
       - "/app/node_modules"
       - "../../frontend-main:/app"
-    command: ["npm", "run", "start"]
+    command: ["ng","serve", "--host", "0.0.0.0"]
 
   bialydunajec-frontend-adminpanel:
     build:
@@ -37,7 +43,7 @@ services:
     volumes:
       - "/app/node_modules"
       - "../../frontend-adminpanel:/app"
-    command: ["npm", "run", "start"]
+    command: ["ng","serve", "--host", "0.0.0.0"]
 
   bialydunajec-postgres:
     image: library/postgres:11

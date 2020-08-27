@@ -16,7 +16,7 @@ internal class RxBus {
     inline fun <reified MessageType : Any> subscribe(noinline consumer: (MessageType) -> Unit) {
         val observer = publisher.ofType(MessageType::class.java)
                 .retry()
-                .observeOn(Schedulers.newThread())
+                .observeOn(Schedulers.io())
                 .subscribe(consumer)
         val disposable = disposables[consumer] ?: CompositeDisposable().apply { disposables[consumer] = this }
         disposable.add(observer)
