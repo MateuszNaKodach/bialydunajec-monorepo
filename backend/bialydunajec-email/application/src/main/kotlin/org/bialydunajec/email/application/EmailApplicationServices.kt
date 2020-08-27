@@ -1,7 +1,7 @@
 package org.bialydunajec.email.application
 
 import org.bialydunajec.ddd.application.base.ApplicationService
-import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
+import org.bialydunajec.ddd.domain.sharedkernel.exception.DomainRuleViolationException
 import org.bialydunajec.email.application.api.EmailCommand
 import org.bialydunajec.email.domain.*
 

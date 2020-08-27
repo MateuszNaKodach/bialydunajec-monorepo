@@ -1,6 +1,6 @@
 package org.bialydunajec.registrations.dto
 
-import org.bialydunajec.ddd.base.dto.AddressDto
+import org.bialydunajec.ddd.dto.sharedkernel.AddressDto
 
 
 data class CamperApplicationDto(

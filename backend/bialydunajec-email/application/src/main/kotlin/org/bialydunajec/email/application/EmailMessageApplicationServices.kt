@@ -3,7 +3,7 @@ package org.bialydunajec.email.application
 import org.bialydunajec.ddd.application.base.ApplicationService
 import org.bialydunajec.ddd.application.base.email.SimpleEmailMessage
 import org.bialydunajec.ddd.application.base.time.Clock
-import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
+import org.bialydunajec.ddd.domain.sharedkernel.exception.DomainRuleViolationException
 import org.bialydunajec.email.application.api.EmailMessageCommand
 import org.bialydunajec.email.domain.EmailMessageDomainRule
 import org.bialydunajec.email.domain.EmailMessageLog

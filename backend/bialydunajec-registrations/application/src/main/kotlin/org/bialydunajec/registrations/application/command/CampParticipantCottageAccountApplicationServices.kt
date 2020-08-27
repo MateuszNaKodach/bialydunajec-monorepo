@@ -1,16 +1,12 @@
 package org.bialydunajec.registrations.application.command
 
 import org.bialydunajec.ddd.application.base.ApplicationService
-import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
+import org.bialydunajec.ddd.domain.sharedkernel.exception.DomainRuleViolationException
 import org.bialydunajec.registrations.application.command.api.CampRegistrationsCommand
 import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule
 import org.bialydunajec.registrations.domain.payment.CampParticipantCottageAccountRepository
 import org.bialydunajec.registrations.domain.payment.valueobject.PaymentCommitmentType
-import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 
-@Service
-@Transactional
 internal class PayCommitmentAndDepositMoneyApplicationService(
         private val campParticipantCottageAccountRepository: CampParticipantCottageAccountRepository
 ) : ApplicationService<CampRegistrationsCommand.PayCommitmentAndDepositMoney> {

@@ -6,7 +6,9 @@ import org.bialydunajec.academicministry.application.command.RemoveAcademicMinis
 import org.bialydunajec.academicministry.application.command.UpdateAcademicMinistryApplicationService
 import org.bialydunajec.ddd.application.base.command.CommandGateway
 import org.bialydunajec.ddd.application.base.command.CommandProcessor
+import org.springframework.transaction.annotation.Transactional
 
+@Transactional
 class AcademicMinistryAdminCommandGateway internal constructor(
         private val createAcademicMinistryApplicationService: CreateAcademicMinistryApplicationService,
         private val updateAcademicMinistryApplicationService: UpdateAcademicMinistryApplicationService,
@@ -17,9 +19,9 @@ class AcademicMinistryAdminCommandGateway internal constructor(
     override fun process(command: AcademicMinistryCommand): Any? = when(command){
         is AcademicMinistryCommand.CreateAcademicMinistry -> process(command)
         is AcademicMinistryCommand.UpdateAcademicMinistry -> process(command)
-        is AcademicMinistryCommand.DeactivateAcademicMinistry -> process(command)
+        is AcademicMinistryCommand.DeactivateAcademicMinistry -> throw IllegalArgumentException("Command ${command::class.simpleName} not supported!")
         is AcademicMinistryCommand.CreateAcademicMinistryPriest -> process(command)
-        is AcademicMinistryCommand.UpdateAcademicMinistryPriest -> process(command)
+        is AcademicMinistryCommand.UpdateAcademicMinistryPriest -> throw IllegalArgumentException("Command ${command::class.simpleName} not supported!")
         is AcademicMinistryCommand.RemoveAcademicMinistryPriest -> process(command)
     }
 

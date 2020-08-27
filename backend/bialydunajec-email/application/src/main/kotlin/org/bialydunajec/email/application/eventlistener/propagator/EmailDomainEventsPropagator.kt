@@ -1,7 +1,7 @@
 package org.bialydunajec.email.application.eventlistener.propagator
 
 import org.bialydunajec.ddd.application.base.external.event.ExternalEventPublisher
-import org.bialydunajec.ddd.domain.extensions.toStringOrNull
+import org.bialydunajec.ddd.domain.sharedkernel.extensions.toStringOrNull
 import org.bialydunajec.email.domain.EmailEvent
 import org.bialydunajec.email.domain.EmailGroupRepository
 import org.bialydunajec.email.messages.event.EmailExternalEvent

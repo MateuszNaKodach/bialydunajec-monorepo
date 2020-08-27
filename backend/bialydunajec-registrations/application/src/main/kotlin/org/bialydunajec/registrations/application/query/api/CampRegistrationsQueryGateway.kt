@@ -3,9 +3,9 @@ package org.bialydunajec.registrations.application.query.api
 import org.bialydunajec.registrations.application.query.readmodel.CampRegistrationsDomainModelReader
 import org.bialydunajec.registrations.domain.shirt.valueobject.ShirtType
 import org.springframework.data.domain.Pageable
-import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 
-@Component
+@Transactional(readOnly = true)
 class CampRegistrationsQueryGateway internal constructor(private val domainModelReader: CampRegistrationsDomainModelReader) {
     fun process(query: CampRegistrationsEditionQuery.ById) = domainModelReader.readFor(query)
     fun process(query: CampRegistrationsEditionQuery.All) = domainModelReader.readFor(query)

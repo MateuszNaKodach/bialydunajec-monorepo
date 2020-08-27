@@ -54,3 +54,9 @@ jobs:
       - name: Build bialydunajec-main for development
         if: github.ref == 'refs/heads/develop'
         run: ng run bialydunajec-main:build:development
+      - uses: actions/upload-artifact@v1
+        name: Upload artifact frontend-adminpanel-dist
+        if:   github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/staging' || github.ref == 'refs/heads/master'
+        with:
+          name: frontend-main-dist
+          path: ./frontend-main/dist

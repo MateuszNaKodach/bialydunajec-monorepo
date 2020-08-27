@@ -19,8 +19,8 @@ import org.bialydunajec.ddd.domain.base.event.DomainEvent
 import org.bialydunajec.ddd.domain.base.event.DomainEventBus
 import org.bialydunajec.ddd.domain.base.event.DomainEventsRecorder
 import org.bialydunajec.ddd.domain.base.event.InMemoryDomainEventsRecorder
-import org.bialydunajec.ddd.domain.base.validation.exception.DomainRule
-import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
+import org.bialydunajec.ddd.domain.sharedkernel.exception.DomainRule
+import org.bialydunajec.ddd.domain.sharedkernel.exception.DomainRuleViolationException
 import kotlin.reflect.KProperty1
 import kotlin.reflect.full.memberProperties
 

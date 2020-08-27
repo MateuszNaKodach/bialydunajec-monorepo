@@ -1,0 +1,3 @@
+FROM gradle:6.5-jdk8
+WORKDIR /app
+EXPOSE 6655 5005

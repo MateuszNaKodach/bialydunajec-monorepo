@@ -1,7 +1,7 @@
 package org.bialydunajec.academicministry.domain.valueobject
 
 import org.bialydunajec.academicministry.domain.AcademicMinistryId
-import org.bialydunajec.ddd.domain.base.valueobject.ValueObject
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.ValueObject
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddress
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.SocialMedia
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.Url

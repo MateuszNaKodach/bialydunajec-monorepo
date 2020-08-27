@@ -1,13 +1,9 @@
 package org.bialydunajec.ddd.domain.sharedkernel.valueobject.time
 
-import org.bialydunajec.ddd.domain.base.valueobject.ValueObject
-import org.bialydunajec.ddd.domain.extensions.isBetween
-import java.time.Instant
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.ValueObject
+import org.bialydunajec.ddd.domain.sharedkernel.extensions.isBetween
 import java.time.LocalDate
-import java.time.LocalTime
-import java.time.ZonedDateTime
 import javax.persistence.Embeddable
-import javax.validation.constraints.Positive
 
 
 @Embeddable

@@ -1,6 +1,6 @@
 package org.bialydunajec.rest.v1
 
-import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
+import org.bialydunajec.ddd.domain.sharedkernel.exception.DomainRuleViolationException
 import org.bialydunajec.ddd.presentation.rest.v1.RestErrorDto
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

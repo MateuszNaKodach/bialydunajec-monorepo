@@ -1,7 +1,7 @@
 package org.bialydunajec.registrations.application.external.event.processor
 
 import org.bialydunajec.academicministry.messages.event.AcademicMinistryExternalEvent
-import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
+import org.bialydunajec.ddd.domain.sharedkernel.exception.DomainRuleViolationException
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.Url
 import org.bialydunajec.registrations.domain.academicministry.CampRegistrationsAcademicMinistry
 import org.bialydunajec.registrations.domain.academicministry.AcademicMinistryId

@@ -1,6 +1,6 @@
 package org.bialydunajec.email.domain
 
-import org.bialydunajec.ddd.domain.base.validation.exception.DomainRule
+import org.bialydunajec.ddd.domain.sharedkernel.exception.DomainRule
 
 enum class EmailMessageDomainRule : DomainRule {
     EMAIL_MESSAGE_TO_RESEND_MUST_EXISTS,

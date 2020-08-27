@@ -7,8 +7,8 @@ import org.bialydunajec.email.domain.valueobject.EmailMessage
 
 sealed class EmailMessageCommand : Command {
 
-    class SendEmailCommand(val emailMessage: EmailMessage) : Command
-    class ResendEmailCommand(val emailMessageLogId: EmailMessageLogId) : Command
-    class ForwardEmailCommand(val emailMessageLogId: EmailMessageLogId, val recipients: Set<EmailAddress>) : Command
+    class SendEmailCommand(val emailMessage: EmailMessage) : EmailMessageCommand()
+    class ResendEmailCommand(val emailMessageLogId: EmailMessageLogId) : EmailMessageCommand()
+    class ForwardEmailCommand(val emailMessageLogId: EmailMessageLogId, val recipients: Set<EmailAddress>) : EmailMessageCommand()
 
 }

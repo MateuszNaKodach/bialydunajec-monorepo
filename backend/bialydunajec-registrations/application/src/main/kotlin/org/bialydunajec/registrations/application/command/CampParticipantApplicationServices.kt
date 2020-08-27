@@ -2,7 +2,7 @@ package org.bialydunajec.registrations.application.command
 
 import org.bialydunajec.ddd.application.base.ApplicationService
 import org.bialydunajec.ddd.application.base.concurrency.ProcessingSerializedQueue
-import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
+import org.bialydunajec.ddd.domain.sharedkernel.exception.DomainRuleViolationException
 import org.bialydunajec.registrations.application.command.api.CampRegistrationsCommand
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantFactory
 import org.bialydunajec.registrations.domain.camper.campparticipant.CampParticipantRepository
@@ -13,11 +13,7 @@ import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRu
 import org.bialydunajec.registrations.domain.payment.CampParticipantCottageAccountRepository
 import org.bialydunajec.registrations.domain.shirt.CampEditionShirtRepository
 import org.bialydunajec.registrations.domain.shirt.ShirtOrderRepository
-import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 
-@Transactional
-@Service
 internal class CampParticipantRegistrationApplicationService(
         private val campParticipantFactory: CampParticipantFactory,
         private val campParticipantPaymentFactory: CampParticipantCottageAccountFactory,
@@ -52,8 +48,6 @@ internal class CampParticipantRegistrationApplicationService(
 
 }
 
-@Service
-@Transactional
 internal class UnregisterCampParticipantApplicationService(
         private val campParticipantRepository: CampParticipantRepository
 ) : ApplicationService<CampRegistrationsCommand.UnregisterCampParticipantByAuthorizedCommand> {
@@ -69,8 +63,6 @@ internal class UnregisterCampParticipantApplicationService(
 
 }
 
-@Service
-@Transactional
 internal class CorrectCampParticipantRegistrationDataApplicationService(
         private val campParticipantRepository: CampParticipantRepository
 ) : ApplicationService<CampRegistrationsCommand.CorrectCampParticipantRegistrationDataCommand> {

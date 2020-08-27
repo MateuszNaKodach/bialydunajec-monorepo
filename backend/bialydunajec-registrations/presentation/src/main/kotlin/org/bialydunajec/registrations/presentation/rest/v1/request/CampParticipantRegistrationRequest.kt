@@ -1,6 +1,6 @@
 package org.bialydunajec.registrations.presentation.rest.v1.request
 
-import org.bialydunajec.ddd.base.dto.AddressDto
+import org.bialydunajec.ddd.dto.sharedkernel.AddressDto
 import org.bialydunajec.registrations.dto.CamperEducationDto
 import org.bialydunajec.registrations.dto.CamperPersonalDataDto
 

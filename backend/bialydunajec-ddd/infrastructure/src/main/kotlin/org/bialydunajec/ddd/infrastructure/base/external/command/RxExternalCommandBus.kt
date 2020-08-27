@@ -47,7 +47,7 @@ class RxExternalCommandBus
         consumer: (PayloadType) -> Unit
     ) {
         commandBus.subscribeEvent<ExternalCommand<PayloadType>> {
-            if (it.getPayloadClass() == payloadClass) {
+            if (it.getPayloadClass() == payloadClass.java) {
                 consumer(it.payload)
                 log.debug("External command payload consumed by RxExternalCommandBus: $it")
             }

@@ -1,6 +1,6 @@
 package org.bialydunajec.registrations.dto
 
-import org.bialydunajec.ddd.base.dto.GenderDto
+import org.bialydunajec.ddd.dto.sharedkernel.GenderDto
 import java.time.LocalDate
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull

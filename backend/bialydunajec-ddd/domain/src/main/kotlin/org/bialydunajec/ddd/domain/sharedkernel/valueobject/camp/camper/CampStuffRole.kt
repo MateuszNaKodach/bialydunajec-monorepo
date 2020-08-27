@@ -1,6 +1,6 @@
 package org.bialydunajec.ddd.domain.sharedkernel.valueobject.camp.camper
 
-import org.bialydunajec.ddd.domain.base.valueobject.ValueObject
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.ValueObject
 
 interface CampStuffRole : ValueObject {
     fun getRoleName(): String

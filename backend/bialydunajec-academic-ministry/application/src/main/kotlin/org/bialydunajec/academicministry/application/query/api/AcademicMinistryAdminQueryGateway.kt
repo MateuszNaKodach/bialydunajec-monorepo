@@ -4,7 +4,9 @@ import org.bialydunajec.academicministry.application.dto.AcademicMinistryDto
 import org.bialydunajec.academicministry.application.dto.toDto
 import org.bialydunajec.academicministry.application.query.readmodel.AcademicMinistryDomainModelReader
 import org.bialydunajec.ddd.application.base.query.QueryProcessor
+import org.springframework.transaction.annotation.Transactional
 
+@Transactional(readOnly = true)
 class AcademicMinistryAdminQueryGateway internal constructor(
         private val domainModelReader: AcademicMinistryDomainModelReader
 ) : QueryProcessor<AcademicMinistryQuery> {

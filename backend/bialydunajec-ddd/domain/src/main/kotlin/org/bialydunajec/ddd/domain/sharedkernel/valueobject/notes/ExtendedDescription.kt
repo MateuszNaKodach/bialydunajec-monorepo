@@ -1,10 +1,9 @@
 package org.bialydunajec.ddd.domain.sharedkernel.valueobject.notes
 
-import org.bialydunajec.ddd.domain.base.valueobject.ValueObject
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.ValueObject
 import javax.persistence.Column
 import javax.persistence.Embeddable
 import javax.persistence.Lob
-import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotEmpty
 
 @Embeddable

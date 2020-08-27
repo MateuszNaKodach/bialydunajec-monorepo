@@ -1,6 +1,6 @@
 package org.bialydunajec.email.domain
 
-import org.bialydunajec.ddd.domain.base.validation.exception.DomainRule
+import org.bialydunajec.ddd.domain.sharedkernel.exception.DomainRule
 
 enum class EmailDomainRule : DomainRule {
     EMAIL_ADDRESS_TO_CHANGE_VALUE_MUST_EXISTS,

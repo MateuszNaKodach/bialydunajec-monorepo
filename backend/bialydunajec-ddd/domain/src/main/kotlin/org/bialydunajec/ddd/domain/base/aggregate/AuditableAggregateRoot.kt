@@ -2,10 +2,9 @@ package org.bialydunajec.ddd.domain.base.aggregate
 
 import org.bialydunajec.ddd.domain.base.event.DomainEvent
 import org.bialydunajec.ddd.domain.base.persistence.Auditable
-import org.bialydunajec.ddd.domain.base.valueobject.AggregateId
+import org.bialydunajec.ddd.domain.sharedkernel.valueobject.AggregateId
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.auditing.Auditor
 import org.springframework.data.annotation.CreatedBy
-import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedBy
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener

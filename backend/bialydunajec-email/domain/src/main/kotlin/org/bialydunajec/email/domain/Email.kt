@@ -2,7 +2,7 @@ package org.bialydunajec.email.domain
 
 import org.bialydunajec.ddd.domain.base.aggregate.AuditableAggregateRoot
 import org.bialydunajec.ddd.domain.base.persistence.Versioned
-import org.bialydunajec.ddd.domain.base.validation.DomainRuleChecker
+import org.bialydunajec.ddd.domain.sharedkernel.validation.DomainRuleChecker
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.contact.email.EmailAddress
 import org.bialydunajec.email.domain.valueobject.EmailAddressOwner
 import javax.persistence.*

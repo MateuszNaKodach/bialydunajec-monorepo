@@ -2,7 +2,7 @@ package org.bialydunajec.registrations.domain.shirt
 
 import org.bialydunajec.ddd.domain.base.aggregate.AuditableAggregateRoot
 import org.bialydunajec.ddd.domain.base.persistence.Versioned
-import org.bialydunajec.ddd.domain.base.validation.ValidationResult
+import org.bialydunajec.ddd.domain.sharedkernel.validation.ValidationResult
 import org.bialydunajec.ddd.domain.sharedkernel.valueobject.internet.Url
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionEvent
 import org.bialydunajec.registrations.domain.campedition.CampRegistrationsEditionId

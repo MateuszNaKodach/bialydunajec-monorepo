@@ -1,15 +1,11 @@
 package org.bialydunajec.registrations.application.command
 
 import org.bialydunajec.ddd.application.base.ApplicationService
-import org.bialydunajec.ddd.domain.base.validation.exception.DomainRuleViolationException
+import org.bialydunajec.ddd.domain.sharedkernel.exception.DomainRuleViolationException
 import org.bialydunajec.registrations.application.command.api.CampRegistrationsCommand
 import org.bialydunajec.registrations.domain.camper.campparticipantregistration.CampParticipantRegistrationRepository
 import org.bialydunajec.registrations.domain.exception.CampRegistrationsDomainRule
-import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 
-@Service
-@Transactional
 internal class VerifyCampParticipantRegistrationApplicationService(
         private val campParticipantRegistrationRepository: CampParticipantRegistrationRepository
 ) : ApplicationService<CampRegistrationsCommand.VerifyCampParticipantRegistrationCommand> {
@@ -25,8 +21,6 @@ internal class VerifyCampParticipantRegistrationApplicationService(
 
 }
 
-@Service
-@Transactional
 internal class VerifyCampParticipantRegistrationByAuthorizedApplicationService(
         private val campParticipantRegistrationRepository: CampParticipantRegistrationRepository
 ) : ApplicationService<CampRegistrationsCommand.VerifyCampParticipantRegistrationCommandByAuthorized> {

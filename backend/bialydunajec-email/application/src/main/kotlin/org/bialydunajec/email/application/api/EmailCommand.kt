@@ -12,7 +12,7 @@ sealed class EmailCommand : Command {
         val emailAddress: EmailAddress,
         val emailGroupId: EmailGroupId?,
         val emailOwner: EmailAddressOwner
-    ) : Command {
+    ) : EmailCommand() {
         val emailId: EmailId = EmailId.from(emailAddress, emailGroupId)
     }
 
@@ -20,7 +20,7 @@ sealed class EmailCommand : Command {
         val oldEmailAddress: EmailAddress,
         val emailGroupId: EmailGroupId?,
         val newEmailAddress: EmailAddress
-    ) : Command {
+    ) : EmailCommand() {
         val emailId: EmailId = EmailId.from(oldEmailAddress, emailGroupId)
     }
 
@@ -28,7 +28,7 @@ sealed class EmailCommand : Command {
         val emailAddress: EmailAddress,
         val emailGroupId: EmailGroupId?,
         val emailOwner: EmailAddressOwner
-    ) : Command {
+    ) : EmailCommand() {
         val emailId: EmailId = EmailId.from(emailAddress, emailGroupId)
     }
 }

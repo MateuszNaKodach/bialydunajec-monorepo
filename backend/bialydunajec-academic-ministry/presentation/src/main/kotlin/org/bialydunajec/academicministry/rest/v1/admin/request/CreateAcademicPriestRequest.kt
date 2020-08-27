@@ -1,7 +1,7 @@
 package org.bialydunajec.academicministry.rest.v1.admin.request
 
 import org.bialydunajec.academicministry.application.dto.PersonalTitleDto
-import org.bialydunajec.ddd.base.dto.ExtendedDescriptionDto
+import org.bialydunajec.ddd.dto.sharedkernel.ExtendedDescriptionDto
 
 internal class CreateAcademicPriestRequest(
         val firstName: String,
