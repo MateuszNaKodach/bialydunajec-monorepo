@@ -4,7 +4,7 @@ services:
   bialydunajec-backend:
     build:
       context: ../../
-      dockerfile: ./docker/ng-serve/backend/Dockerfile
+      dockerfile: ""
     networks:
       - bialydunajec-ng-serve-network
     ports:
@@ -22,7 +22,7 @@ services:
   bialydunajec-frontend-main:
     build:
       context: ../../
-      dockerfile: ./docker/ng-serve/frontend-main/Dockerfile
+      dockerfile: ""
     networks:
       - bialydunajec-ng-serve-network
     ports:
@@ -35,7 +35,7 @@ services:
   bialydunajec-frontend-adminpanel:
     build:
       context: ../../
-      dockerfile: ./docker/ng-serve/frontend-adminpanel/Dockerfile
+      dockerfile: ""
     networks:
       - bialydunajec-ng-serve-network
     ports:
