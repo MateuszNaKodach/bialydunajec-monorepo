@@ -19,23 +19,23 @@ jobs:
       run:
         working-directory: frontend-main
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v4
       - name: Cache node modules
-        uses: actions/cache@v1
+        uses: actions/cache@v4
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
       - name: Cache node modules for main
-        uses: actions/cache@v1
+        uses: actions/cache@v4
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
       - name: Use Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
           node-version: '12.5.0'
       - name: Install local dependencies
@@ -54,7 +54,7 @@ jobs:
       - name: Build bialydunajec-main for development
         if: github.ref == 'refs/heads/develop'
         run: ng run bialydunajec-main:build:development
-      - uses: actions/upload-artifact@v1
+      - uses: actions/upload-artifact@v4
         name: Upload artifact frontend-adminpanel-dist
         if:   github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/staging' || github.ref == 'refs/heads/master'
         with:
