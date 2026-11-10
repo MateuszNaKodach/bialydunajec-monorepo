@@ -73,8 +73,8 @@ the cottage account's `MoneyDeposited` and `CommitmentPaid` "with account funds"
 The registration events carry the tag `campParticipantId`, so one camper's events read as a timeline.
 
 ```bash
-docker/clarity/blueprints/blueprint.py preview camp-registrations   # what it would emit, nothing saved
-docker/clarity/blueprints/blueprint.py save camp-registrations      # define it, or a new version; with backfill
+.claude/skills/clarity/scripts/blueprint.py preview docker/clarity/blueprints/camp-registrations  # counts, nothing saved
+.claude/skills/clarity/scripts/blueprint.py save docker/clarity/blueprints/camp-registrations     # with backfill
 ```
 
 Run `save` again after `down -v`, as the blueprint lives in Clarity's store. Then see https://localhost:8080/event-blueprints

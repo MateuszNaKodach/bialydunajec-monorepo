@@ -46,6 +46,11 @@ registers at most 4 cottages at a time.
   `facebook` is the default for other profiles).
 - Gallery: `camp-gallery-provider: empty`. Mail: the `mail_log` profile logs emails instead of sending them.
 
+## Axoniq Clarity
+
+Running the app recorded by Clarity, its change capture and its business events: `docker/clarity/README.md`. How to
+work with Clarity in general (attach, capture, explore, gaps, blueprints): `.claude/skills/clarity/SKILL.md`.
+
 ## Known issues
 
 - `POST /oauth/token` with `grant_type=client_credentials` fails with a `ClassCastException` in the app's token
