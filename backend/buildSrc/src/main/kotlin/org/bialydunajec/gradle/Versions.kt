@@ -22,7 +22,7 @@ object Versions {
     const val restfbVersion = "2.12.0"
     const val rxJavaVersion ="2.2.0"
     const val rxRelayVersion = "2.1.0"
-    const val spekVersion = "2.0.6"
+    const val spekVersion = "2.0.7"
     const val spockVersion = "2.0-M3-groovy-3.0"
     const val swaggerVersion = "3.0.0"
 }
