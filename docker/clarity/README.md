@@ -56,14 +56,19 @@ curl -s --cacert /tmp/clarity-demo-ca.pem 'https://localhost:8080/api/uncovered-
 turns what it recorded into business events of the registrations, from the rows each request changed and the request
 itself. No names, e-mails, PESELs or phone numbers go into them.
 
-| Event | From |
-|---|---|
-| `CampParticipantRegistered` | `camp_participant` inserted, with the request that did it (form or dev endpoint) |
-| `CampShirtOrdered` | `shirt_order` inserted |
-| `CampParticipantRegistrationVerified` | the e-mail link's `PATCH .../verification`, status `VERIFIED_BY_CAMPER` |
-| `CampPaymentBooked` | an admin's `POST .../payment-commitment/...`: the deposit, its type, and who booked it |
-| `CampParticipantRegistrationRejected` | a registration answered with 4xx, such as a PESEL registered already |
-| `EmailSendAttempted` | `email.email_message_log` inserted, by the RxJava e-mail work outside any request |
+One event for each thing that happened for the camp, named as the app's external events where those are business
+words (`bialydunajec-registrations/messages`), not after its mechanics: a payment is one `PaymentCommitmentPaid`, not
+the cottage account's `MoneyDeposited` and `CommitmentPaid` "with account funds".
+
+| Event | The app's event | From |
+|---|---|---|
+| `CampParticipantRegistered` | `CampParticipantExternalEvent.CampParticipantRegistered` | `camp_participant` inserted, with the request that did it (form or dev endpoint) |
+| `ShirtOrderPlaced` | `ShirtOrderExternalEvent.OrderPlaced` | `shirt_order` inserted |
+| `CampParticipantRegistrationVerifiedByCamper` | `CampParticipantRegistrationEvent.VerifiedByCamper` | the e-mail link's `PATCH .../verification`, status `VERIFIED_BY_CAMPER` |
+| `CampParticipantConfirmed` | `CampParticipantExternalEvent.CampParticipantConfirmed` | the same request, `participation_status` `CONFIRMED_BY_CAMPER` |
+| `PaymentCommitmentPaid` | `MoneyDeposited` and `CommitmentPaid`, as one | an admin's payment: the commitment row set `paid`, its type, amount and who booked it |
+| `observed.CampParticipantRegistrationRejected` | none | a registration answered with 4xx, such as a PESEL registered already |
+| `EmailMessageSent`, `EmailMessageSendingFailed` | `EmailMessageLogEvent.EmailMessageSentSuccess` / `Failure` | `email.email_message_log` inserted, by the RxJava e-mail work outside any request |
 
 The registration events carry the tag `campParticipantId`, so one camper's events read as a timeline.
 
