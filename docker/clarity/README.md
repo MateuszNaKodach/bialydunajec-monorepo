@@ -50,6 +50,32 @@ curl -s --cacert /tmp/clarity-demo-ca.pem 'https://localhost:8080/api/decisions/
 curl -s --cacert /tmp/clarity-demo-ca.pem 'https://localhost:8080/api/uncovered-activity'
 ```
 
+## Business events
+
+`blueprints/camp-registrations.sql` (views) and `.events.json` (event types and tags) are an event blueprint: Clarity
+turns what it recorded into business events of the registrations, from the rows each request changed and the request
+itself. No names, e-mails, PESELs or phone numbers go into them.
+
+| Event | From |
+|---|---|
+| `CampParticipantRegistered` | `camp_participant` inserted, with the request that did it (form or dev endpoint) |
+| `CampShirtOrdered` | `shirt_order` inserted |
+| `CampParticipantRegistrationVerified` | the e-mail link's `PATCH .../verification`, status `VERIFIED_BY_CAMPER` |
+| `CampPaymentBooked` | an admin's `POST .../payment-commitment/...`: the deposit, its type, and who booked it |
+| `CampParticipantRegistrationRejected` | a registration answered with 4xx, such as a PESEL registered already |
+| `EmailSendAttempted` | `email.email_message_log` inserted, by the RxJava e-mail work outside any request |
+
+The registration events carry the tag `campParticipantId`, so one camper's events read as a timeline.
+
+```bash
+docker/clarity/blueprints/blueprint.py preview camp-registrations   # what it would emit, nothing saved
+docker/clarity/blueprints/blueprint.py save camp-registrations      # define it, or a new version; with backfill
+```
+
+Run `save` again after `down -v`, as the blueprint lives in Clarity's store. Then see https://localhost:8080/event-blueprints
+and https://localhost:8080/events. A changed column of an event view changes its type: raise its `version` in
+`.events.json` (axoniq-clarity repo, `docs/pipeline-sql.md`).
+
 ## What it does not show
 
 - Work of the RxJava event bus (`RxExternalEventBus`, `observeOn(Schedulers.io())`) runs on RxJava's threads, outside

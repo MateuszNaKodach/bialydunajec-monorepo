@@ -1,0 +1,15 @@
+[
+  {"view": "camp_participant_registered", "name": "org.bialydunajec.registrations.CampParticipantRegistered",
+   "tags": {"campParticipantId": "camp_participant_id", "cottageId": "cottage_id"}, "occurredAt": "registered_at"},
+  {"view": "camp_shirt_ordered", "name": "org.bialydunajec.registrations.CampShirtOrdered",
+   "tags": {"campParticipantId": "camp_participant_id"}, "occurredAt": "ordered_at"},
+  {"view": "camp_participant_registration_verified", "name": "org.bialydunajec.registrations.CampParticipantRegistrationVerified",
+   "tags": {"campParticipantId": "camp_participant_id", "cottageId": "cottage_id"}, "occurredAt": "verified_at"},
+  {"view": "camp_payment_booked", "name": "org.bialydunajec.registrations.CampPaymentBooked",
+   "tags": {"campParticipantId": "camp_participant_id", "cottageId": "cottage_id", "paymentType": "payment_type"},
+   "occurredAt": "booked_at"},
+  {"view": "camp_participant_registration_rejected", "name": "org.bialydunajec.registrations.CampParticipantRegistrationRejected",
+   "tags": {"httpStatus": "http_status"}, "occurredAt": "rejected_at"},
+  {"view": "email_send_attempted", "name": "org.bialydunajec.email.EmailSendAttempted",
+   "tags": {"status": "status"}, "occurredAt": "attempted_at"}
+]
