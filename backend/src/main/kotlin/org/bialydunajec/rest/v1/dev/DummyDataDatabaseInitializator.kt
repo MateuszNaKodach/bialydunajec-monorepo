@@ -42,6 +42,9 @@ import org.bialydunajec.registrations.domain.shirt.valueobject.ShirtType
 import org.springframework.stereotype.Service
 import java.time.LocalDate
 import java.util.*
+import java.util.concurrent.ForkJoinPool
+
+private const val MAX_COTTAGES_REGISTERED_IN_PARALLEL = 4
 
 @Service
 class DummyDatabaseInitializator(
@@ -406,6 +409,11 @@ class DummyDatabaseInitializator(
     fun registerDummyCampers(maxPerCottage: Int = 8) {
         val campShirt = campRegistrationsQueryGateway.process(CampEditionShirtQuery.ByCampRegistrationsEditionId("36"))
 
+        // Each registration holds a DB connection for seconds (BCrypt cost 17 on the PESEL), so the common pool
+        // (cores - 1 threads) exhausted the 10-connection Hikari pool. Keep the parallelism below the pool size.
+        val cottagesInParallel = ForkJoinPool(MAX_COTTAGES_REGISTERED_IN_PARALLEL)
+        try {
+            cottagesInParallel.submit {
         campRegistrationsQueryGateway.process(CottageQuery.All())
                 .filter { it.cottageState == "ACTIVATED" }
                 .filter { it.name != "Redemptor" }
@@ -441,9 +449,12 @@ class DummyDatabaseInitializator(
                         ).let { registration -> campRegistrationsCommandGateway.process(registration, false) }
                     }
                 }
+            }.get()
+        } finally {
+            cottagesInParallel.shutdown()
+        }
 
-
-        campRegistrationsQueryGateway.process(CottageQuery.All())
+        campRegistrationsQueryGateway.process(CottageQuery.AllByCampRegistrationsEditionId("36"))
                 .find { it.name == "Redemptor" }
                 ?.let {
                     for (x in 0..maxPerCottage) {
