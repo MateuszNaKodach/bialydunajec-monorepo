@@ -1,0 +1,31 @@
+# Overlay for the root compose.yaml: the backend runs with the Axoniq Clarity Java agent and sends what it records to
+# the Clarity demo (https://clarity:8080 on the demo's Docker network). Start the demo first; see docker/clarity/README.md.
+#   docker compose -f compose.yaml -f docker/clarity/compose.yaml up --build -d
+# The agent jar and the demo CA are mounted read-only from the demo's volumes, so nothing is copied into this repo.
+
+services:
+  bialydunajec-backend:
+    environment:
+      JAVA_TOOL_OPTIONS: -javaagent:/clarity-agent/diamond-agent.jar
+      DIAMOND_ENDPOINT: ${DIAMOND_ENDPOINT:-https://clarity:8080/api/observations}
+      DIAMOND_SERVICE_NAME: ${DIAMOND_SERVICE_NAME:-bialydunajec-backend}
+      DIAMOND_TRUSTED_CERTIFICATES: /clarity-tls/ca.pem
+    volumes:
+      - clarity-agent:/clarity-agent:ro
+      - clarity-tls:/clarity-tls:ro
+    networks:
+      - default
+      - clarity
+
+networks:
+  clarity:
+    name: ${CLARITY_DEMO:-clarity-demo}
+    external: true
+
+volumes:
+  clarity-agent:
+    name: ${CLARITY_DEMO:-clarity-demo}-agent
+    external: true
+  clarity-tls:
+    name: ${CLARITY_DEMO:-clarity-demo}-tls
+    external: true
