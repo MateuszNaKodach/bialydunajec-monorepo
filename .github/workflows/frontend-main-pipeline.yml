@@ -39,21 +39,19 @@ jobs:
         with:
           node-version: '12.5.0'
       - name: Install local dependencies
-        run: npm install
-      - name: Install Angular CLI
-        run: npm install -g  --ignore-scripts @angular/cli
+        run: npm ci
       - name: Build bialydunajec-main
         if: github.ref != 'refs/heads/develop' || github.ref != 'refs/heads/staging' || github.ref != 'refs/heads/master'
-        run: ng build bialydunajec-main
+        run: npx ng build bialydunajec-main
       - name: Build bialydunajec-main for production
         if: github.ref == 'refs/heads/master'
-        run: ng run bialydunajec-main:build:production
+        run: npx ng run bialydunajec-main:build:production
       - name: Build bialydunajec-main for staging
         if: github.ref == 'refs/heads/staging'
-        run: ng run bialydunajec-main:build:staging
+        run: npx ng run bialydunajec-main:build:staging
       - name: Build bialydunajec-main for development
         if: github.ref == 'refs/heads/develop'
-        run: ng run bialydunajec-main:build:development
+        run: npx ng run bialydunajec-main:build:development
       - uses: actions/upload-artifact@v4
         name: Upload artifact frontend-adminpanel-dist
         if:   github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/staging' || github.ref == 'refs/heads/master'
