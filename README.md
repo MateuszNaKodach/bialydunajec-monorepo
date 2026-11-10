@@ -22,6 +22,9 @@ docker compose down -v         # stop and drop the databases
 Camp news come from `bialydunajec-news/infrastructure/src/main/resources/mock-camp-news` (a few posts copied from the
 Facebook page), because local profiles have no Facebook token (`bialydunajec.camp-news-provider: mock`).
 
+To see the backend's requests in Axoniq Clarity (its demo running in Docker): `docker/clarity/run.sh up`, details in
+[docker/clarity/README.md](docker/clarity/README.md).
+
 ## Backend
 
 ![🚀 Develop Backend pipeline](https://github.com/nowakprojects/bialydunajec-kotlin-backend/workflows/%F0%9F%9A%80%20Backend%20pipeline/badge.svg?branch=develop)
