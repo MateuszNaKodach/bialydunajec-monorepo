@@ -1,28 +1,47 @@
-# Overlay for the root compose.yaml: the backend runs with the Axoniq Clarity Java agent and sends what it records to
-# the Clarity demo (https://clarity:8080 on the demo's Docker network). Start the demo first; see docker/clarity/README.md.
+# Overlay for the root compose.yaml: an Axoniq Clarity server of this app's own, and the backend recorded into it by
+# Clarity's Java agent. See docker/clarity/README.md.
 #   docker compose -f compose.yaml -f docker/clarity/compose.yaml up --build -d
-# The agent jar and the demo CA are mounted read-only from the demo's volumes, so nothing is copied into this repo.
+# It reuses what the axoniq-clarity repo's demo built once: the server image, and the agent jar and the demo CA in its
+# volumes, mounted read-only, so nothing is copied into this repo.
 
 services:
+  clarity:
+    image: ${CLARITY_IMAGE:-clarity-demo-clarity:local}
+    ports:
+      - "${CLARITY_PORT:-8080}:8080"
+    volumes:
+      - clarity-tls:/tls:ro
+      - clarity-data:/clarity/data
+      # relative to the root compose.yaml, the first file
+      - ./docker/clarity/application.properties:/clarity/config/application.properties:ro
+    healthcheck:
+      test: ["CMD", "curl", "-fsk", "-o", "/dev/null", "https://localhost:8080/"]
+      interval: 5s
+      timeout: 5s
+      retries: 60
+    logging:
+      driver: json-file
+      options:
+        max-size: 50m
+        max-file: "3"
+
   bialydunajec-backend:
     environment:
       JAVA_TOOL_OPTIONS: -javaagent:/clarity-agent/diamond-agent.jar
-      DIAMOND_ENDPOINT: ${DIAMOND_ENDPOINT:-https://clarity:8080/api/observations}
+      # the demo certificate is valid for the name clarity
+      DIAMOND_ENDPOINT: https://clarity:8080/api/observations
       DIAMOND_SERVICE_NAME: ${DIAMOND_SERVICE_NAME:-bialydunajec-backend}
       DIAMOND_TRUSTED_CERTIFICATES: /clarity-tls/ca.pem
     volumes:
       - clarity-agent:/clarity-agent:ro
       - clarity-tls:/clarity-tls:ro
-    networks:
-      - default
-      - clarity
-
-networks:
-  clarity:
-    name: ${CLARITY_DEMO:-clarity-demo}
-    external: true
+    depends_on:
+      clarity:
+        condition: service_healthy
 
 volumes:
+  # Clarity's store; docker compose down -v removes it with the app's databases
+  clarity-data:
   clarity-agent:
     name: ${CLARITY_DEMO:-clarity-demo}-agent
     external: true

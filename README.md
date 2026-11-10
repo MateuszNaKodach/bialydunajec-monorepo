@@ -22,7 +22,7 @@ docker compose down -v         # stop and drop the databases
 Camp news come from `bialydunajec-news/infrastructure/src/main/resources/mock-camp-news` (a few posts copied from the
 Facebook page), because local profiles have no Facebook token (`bialydunajec.camp-news-provider: mock`).
 
-To see the backend's requests in Axoniq Clarity (its demo running in Docker): `docker/clarity/run.sh up`, details in
+To see the backend's requests in Axoniq Clarity, on a Clarity server of the app's own: `docker/clarity/run.sh up`, details in
 [docker/clarity/README.md](docker/clarity/README.md).
 
 ## Backend
