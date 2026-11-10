@@ -1,0 +1,74 @@
+# Whole application, built from source: `docker compose up --build`
+#   frontend main:   http://localhost:4200
+#   frontend admin:  http://localhost:4201
+#   backend:         http://localhost:6655/swagger-ui/index.html (the port the frontends' environment.ts expects)
+#   PostgreSQL:      localhost:6645, MongoDB: localhost:6646
+
+services:
+  bialydunajec-backend:
+    build:
+      context: backend
+      dockerfile: Dockerfile-clean_build
+    ports:
+      - 6655:3344
+    environment:
+      SPRING_PROFILES_ACTIVE: env_local_inside_docker
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://bialydunajec-postgres:5432/bialydunajec-postgres-db"
+      SPRING_DATASOURCE_USERNAME: bialydunajec-postgres-user
+      SPRING_DATASOURCE_PASSWORD: bialydunajec-postgres-password
+      SPRING_DATA_MONGODB_URI: "mongodb://bialydunajec-mongodb:27017/bialydunajec-mongodb-db"
+    depends_on:
+      bialydunajec-postgres:
+        condition: service_healthy
+      bialydunajec-mongodb:
+        condition: service_started
+
+  # One-shot: loads sample data (and the admin / test1234 login) once, skips when the admin user already exists.
+  bialydunajec-seed:
+    image: curlimages/curl:8.11.1
+    depends_on:
+      - bialydunajec-backend
+    entrypoint: ["sh", "-c"]
+    command:
+      - |
+        until curl -sf -o /dev/null http://bialydunajec-backend:3344/swagger-ui/index.html; do echo "waiting for backend..."; sleep 3; done
+        if curl -sf -o /dev/null -u web-angular_admin-local-inside-docker:web-angular_admin-local-inside-docker-secret \
+             -d grant_type=password -d username=admin -d password=test1234 http://bialydunajec-backend:3344/oauth/token; then
+          echo "already seeded"
+        else
+          curl -sf -o /dev/null http://bialydunajec-backend:3344/rest-api/v1/development/db-init && echo "seeded, admin panel login: admin / test1234"
+        fi
+
+  bialydunajec-frontend-main:
+    build:
+      context: frontend-main
+      dockerfile: Dockerfile.main
+    ports:
+      - 4200:80
+
+  bialydunajec-frontend-adminpanel:
+    build:
+      context: frontend-adminpanel
+      dockerfile: Dockerfile.admin
+    ports:
+      - 4201:80
+
+  bialydunajec-postgres:
+    image: postgres:11
+    ports:
+      - 6645:5432
+    environment:
+      POSTGRES_DB: bialydunajec-postgres-db
+      POSTGRES_USER: bialydunajec-postgres-user
+      POSTGRES_PASSWORD: bialydunajec-postgres-password
+    volumes:
+      - ./backend/src/main/resources/schema-postgresql.sql:/docker-entrypoint-initdb.d/schema-postgresql.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U bialydunajec-postgres-user -d bialydunajec-postgres-db"]
+      interval: 2s
+      retries: 30
+
+  bialydunajec-mongodb:
+    image: mongo:4.0
+    ports:
+      - 6646:27017

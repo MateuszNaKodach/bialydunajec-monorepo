@@ -1,16 +1,19 @@
-FROM openjdk:8 AS stage-gradle-build
+# eclipse-temurin replaces the deprecated openjdk images (openjdk:8-alpine has no arm64 build)
+FROM eclipse-temurin:8-jdk AS stage-gradle-build
 ARG GITHUB_ACTOR
 ARG GITHUB_TOKEN
 
-ENV GITHUB_ACTOR = ${GITHUB_ACTOR}
-ENV GITHUB_TOKEN = ${GITHUB_TOKEN}
+ENV GITHUB_ACTOR=${GITHUB_ACTOR}
+ENV GITHUB_TOKEN=${GITHUB_TOKEN}
 
-ADD . .
+WORKDIR /app
+COPY . .
 
-RUN ./gradlew -Prelease clean build --stacktrace
+# Tests are run by the CI pipeline; here we only need the runnable jar.
+RUN ./gradlew --no-daemon -Prelease clean bootJar --stacktrace
 
-FROM openjdk:8-alpine3.9 AS stage-java-run
-COPY --from=stage-gradle-build /build/libs/bialydunajec-backend-*.jar bialydunajec-backend.jar
+FROM eclipse-temurin:8-jre AS stage-java-run
+COPY --from=stage-gradle-build /app/build/libs/bialydunajec-backend-*.jar /bialydunajec-backend.jar
 
 VOLUME /tmp
 
