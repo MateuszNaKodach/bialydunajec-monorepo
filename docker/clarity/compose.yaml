@@ -39,7 +39,34 @@ services:
       clarity:
         condition: service_healthy
 
+  # PostgreSQL 16 for change capture: the agent reads the transaction id with pg_current_xact_id_if_assigned(), which
+  # PostgreSQL 13 brought, and Clarity's Debezium reads its logical decoding over TLS. As the axoniq-clarity repo's
+  # sample/enterprise/infra/postgres/compose.yaml does.
+  bialydunajec-postgres:
+    image: postgres:16
+    # Postgres reads its key only when its own user owns it, with mode 600: copy it out of the volume first
+    entrypoint:
+      - sh
+      - -c
+      - >-
+        install -d -o postgres -m 700 /tls &&
+        install -o postgres -m 600 /clarity-tls/server-key.pem /tls/server-key.pem &&
+        install -o postgres -m 644 /clarity-tls/server.pem /tls/server.pem &&
+        exec docker-entrypoint.sh "$$0" "$$@"
+    command: ["postgres", "-c", "wal_level=logical", "-c", "max_replication_slots=10", "-c", "max_wal_senders=10",
+              "-c", "ssl=on", "-c", "ssl_cert_file=/tls/server.pem", "-c", "ssl_key_file=/tls/server-key.pem"]
+    volumes:
+      # the data directory of PostgreSQL 11 cannot be reused, so 16 gets a volume of its own
+      - postgres16-data:/var/lib/postgresql/data
+      - ./docker/clarity/postgres-init.sql:/docker-entrypoint-initdb.d/zz-clarity.sql:ro
+      - clarity-tls:/clarity-tls:ro
+    networks:
+      default:
+        # the name that the demo certificate covers, which Clarity's change capture checks
+        aliases: [postgres]
+
 volumes:
+  postgres16-data:
   # Clarity's store; docker compose down -v removes it with the app's databases
   clarity-data:
   clarity-agent:
