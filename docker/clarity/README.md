@@ -8,8 +8,10 @@ The overlay `compose.yaml` here adds an Axoniq Clarity server of this app's own,
 only this app's data, and changes the backend:
 
 - `clarity` runs the server image that the axoniq-clarity repo's demo builds (`clarity-demo-clarity:local`), with
-  `application.properties` from here: TLS with the demo certificate, no change capture. Its store is the volume
-  `clarity-data` of this Compose project.
+  `application.properties` from here: TLS with the demo certificate, and change capture of the app's PostgreSQL
+  (below). Its store is the volume `clarity-data` of this Compose project.
+- `bialydunajec-postgres` runs PostgreSQL 16, not 11, in a volume of its own (`postgres16-data`), set up for change
+  capture. The root `compose.yaml` and the other compose files keep PostgreSQL 11.
 - `JAVA_TOOL_OPTIONS=-javaagent:...` loads the agent from the demo's volume `clarity-demo-agent` (read-only);
 - the backend trusts the demo CA from the volume `clarity-demo-tls` (read-only), TLS checks stay on, and sends to
   `https://clarity:8080/api/observations`, the name the demo's certificate is valid for.
@@ -58,17 +60,29 @@ curl -s --cacert /tmp/clarity-demo-ca.pem 'https://localhost:8080/api/uncovered-
 - MongoDB (the read models and the email module) is not recorded: the agent has no MongoDB support.
 - Axon Framework is not used by the running backend (the `camp-schedule` Axon module is not in `settings.gradle.kts`).
 - No `@Scheduled` job runs in the local profiles, so there are no job decisions.
-- Change capture of this app's PostgreSQL is not set up: it needs a change of the demo server's config (below).
+- Change capture covers PostgreSQL only; MongoDB's writes are not captured.
 
-## Change capture (not set up)
+## Change capture
 
-For Clarity to link the backend's transactions to the rows they changed, as it does for the demo's `orders`:
+Clarity links each backend transaction that wrote to the rows it changed: the request's decision records a
+`reference-used` of type `database-transaction` (system `bialydunajec-postgres-db`, the transaction id), and Clarity's
+Debezium turns the same transaction into a decision of `/axoniq/debezium/bialydunajec-postgres-db` with a
+`row-changed` per row, in the same trail. How, as the axoniq-clarity repo's `sample/enterprise/infra/postgres/` does:
 
-1. The app's PostgreSQL with `wal_level=logical`, replication slots, and TLS with the demo certificate (`ssl=on`,
-   `ssl_cert_file`/`ssl_key_file` from `clarity-demo-tls`), as the axoniq-clarity repo's
-   `sample/enterprise/infra/postgres/compose.yaml` does; a user with the `REPLICATION` role.
-2. PostgreSQL 13 or later: the agent records the transaction's id with `pg_current_xact_id()`, which PostgreSQL 11,
-   used here, does not have.
-3. A `diamond.debezium.databases[0]` entry in `application.properties` here, as in the demo's
-   `demo/clarity/application.properties`, with `system` and `name` both `bialydunajec-postgres-db` (the database name in
-   the backend's JDBC URL), and a restart of Clarity.
+- PostgreSQL 16: the agent reads the transaction id with `pg_current_xact_id_if_assigned()`, which PostgreSQL 13
+  brought; on 11 a decision has no `database-transaction` reference.
+- `wal_level=logical`, replication slots, and TLS with the demo certificate: the entrypoint copies `server.pem` and
+  `server-key.pem` out of `clarity-demo-tls`, the key owned by `postgres` with mode 600. The network alias `postgres` is
+  the name the certificate covers; Clarity connects with `sslmode=verify-full`.
+- `postgres-init.sql`, run once on a new data directory: the user `diamond` with `REPLICATION` and `pg_read_all_data`,
+  and the publication `dbz_publication` for all tables, also the ones Hibernate creates later.
+- `application.properties`: `diamond.debezium.databases[0]` with `system` and `name` both `bialydunajec-postgres-db`
+  (the database name in the backend's JDBC URL), host `postgres`, slot `diamond_bialydunajec`, user `diamond`.
+
+The app's tables keep the default replica identity, so an update or delete carries the old row's key only, not its old
+values. The data of the plain run's PostgreSQL 11 is not carried over: on a new `postgres16-data` the seed loads the
+sample data again.
+
+Check it: run a writing request, such as `register-dummy-camper` above, and open its trail, or
+`curl -s --cacert /tmp/clarity-demo-ca.pem https://localhost:8080/api/decisions/<rootDecisionId>/trail`: its root
+lists the Debezium decision under `committedChanges`, with the inserted rows.
