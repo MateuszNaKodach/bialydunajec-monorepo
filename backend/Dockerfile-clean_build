@@ -1,4 +1,4 @@
-# eclipse-temurin replaces the deprecated openjdk images (openjdk:8-alpine has no arm64 build)
+# eclipse-temurin replaces the deprecated openjdk images (openjdk:8-alpine3.9 is no longer on Docker Hub)
 FROM eclipse-temurin:8-jdk AS stage-gradle-build
 ARG GITHUB_ACTOR
 ARG GITHUB_TOKEN

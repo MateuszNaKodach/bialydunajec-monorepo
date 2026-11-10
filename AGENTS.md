@@ -35,8 +35,8 @@ registers at most 4 cottages at a time.
 - Dependency versions stay as they are; the build works with the locked versions.
 - `frontend-adminpanel` builds with Node 10 on `linux/amd64`: its locked node-sass 4.9.3 supports Node 10 at most
   and ships no arm64 binary. `frontend-main` builds with Node 12 (same as CI).
-- Base images: `eclipse-temurin:8` for the backend. `openjdk:8-alpine` (no arm64) and `centos` (EOL) in the
-  older Dockerfiles do not build anymore.
+- Base images: `eclipse-temurin:8` for the backend. `openjdk:8-alpine3.9` and `centos:latest`, used by the
+  older backend Dockerfiles, are no longer on Docker Hub, so those Dockerfiles do not build.
 - `Dockerfile.main` / `Dockerfile.admin` build the apps themselves; the GitHub workflows do not use them.
 
 ## External services in local profiles
